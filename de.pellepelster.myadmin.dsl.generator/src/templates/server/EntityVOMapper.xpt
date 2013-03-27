@@ -1,0 +1,43 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entityVOMapperPackageEntity -----------------------------------------------
+«DEFINE entityVOMapperPackageEntity FOR Entity»
+	put(«fullQualifiedEntityName(this, ModelScope::server)».class, «fullQualifiedEntityName(this, ModelScope::web)».class);
+	put(«fullQualifiedEntityName(this, ModelScope::web)».class, «fullQualifiedEntityName(this, ModelScope::server)».class);
+	put(«fullQualifiedEntityName(this, ModelScope::mobile)».class, «fullQualifiedEntityName(this, ModelScope::server)».class);
+«ENDDEFINE»
+
+//- entityVOMapper ------------------------------------------------------------
+«DEFINE entityVOMapper FOR Model»
+	«FILE fullQualifiedEntityVOMapperFileName(this)»
+		package «getRootWebServicePackageName()»;
+
+		import java.util.HashMap;
+		import java.util.Map;
+		
+		public class «entityVOMapperName(this)» extends de.pellepelster.myadmin.db.util.BaseEntityVOMapper implements de.pellepelster.myadmin.db.util.IEntityVOMapper
+		{
+			@SuppressWarnings("unchecked")
+			private Map<Class<?>, Class<?>> entityVOMapper = new HashMap<Class<?>, Class<?>>()
+			{
+				private final long serialVersionUID = 1L;
+				{
+					«EXPAND entityVOMapperPackageEntity FOREACH eAllContents.typeSelect(Entity)»
+				}
+			};
+
+			protected Map<Class<?>, Class<?>> getClassMappings()
+			{
+				return entityVOMapper;
+			}
+	
+			public Class<?> getMappedClass(Class<?> clazz)
+			{
+				return entityVOMapper.get(clazz);
+			}
+			
+		}
+	«ENDFILE»
+«ENDDEFINE»

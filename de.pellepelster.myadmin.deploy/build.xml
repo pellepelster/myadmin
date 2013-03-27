@@ -1,0 +1,70 @@
+<project name="deploy" default="deploy" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<dirname property="basedir" file="${ant.file.deploy}" />
+	<property environment="env" />
+
+	<property name="base.remote.dir" value="public_html" />
+	<property name="updatesite.remote.dir" value="${base.remote.dir}/updatesite" />
+	<property name="updatesite.temp.dir" value="${basedir}/updatesite_temp" />
+	<property name="ivy.remote.dir" value="${base.remote.dir}/ivy" />
+
+	<property name="deploy.stage" value="ci" />
+	<property file="stages/${deploy.stage}.properties" />
+	<property name="ssh.key.file" value="${user.home}/.ssh/id_rsa" />
+
+	<property name="no.compile" value="" />
+
+	<target name="deploy" depends="resolve">
+
+		<path id="updatesite.file.id">
+			<fileset dir="${lib.dir}">
+				<include name="updatesite*.zip" />
+			</fileset>
+		</path>
+
+		<property name="updatesite.file" refid="updatesite.file.id" />
+		<echo message="found updatesite zip file '${updatesite.file}'" />
+
+		<delete dir="${updatesite.temp.dir}" />
+		<mkdir dir="${updatesite.temp.dir}" />
+		<unzip src="${updatesite.file}" dest="${updatesite.temp.dir}" overwrite="true" />
+
+		<sshexec host="${deploy.host}" username="${deploy.user}" keyfile="${ssh.key.file}" trust="true" command="rm -rf ${updatesite.remote.dir}/*" />
+		<scp todir="${deploy.user}@${deploy.host}:${updatesite.remote.dir}" keyfile="${ssh.key.file}" trust="true" failonerror="true">
+			<fileset dir="${updatesite.temp.dir}" />
+		</scp>
+
+		<scp todir="${deploy.user}@${deploy.host}:${ivy.remote.dir}" keyfile="${ssh.key.file}" trust="true" failonerror="true">
+			<fileset dir="${env.WORKSPACE}/ivy" />
+		</scp>
+
+	</target>
+
+	<target name="build.distros">
+
+		<taskdef name="builder" classpath="${user.home}/distbuilder/libs/at.bestsolution.releng.distrobuilder-0.0.1-SNAPSHOT.jar"	classname="at.bestsolution.releng.distrobuilder.ant.DistroBuilderTaskDef" />
+
+		<builder builddirectory="${env.WORKSPACE}" p2directorexecutable="${user.home}/distbuilder/builder/eclipse" targetdirectory="${user.home}/distbuilder/targets" staticreposdirectory="${user.home}/distbuilder/repos" distdirectory="./" version="${env.BUILD_NUMBER}">
+
+			<installunit name="org.apache.ivy.feature.feature.group" />
+			<installunit name="org.apache.ivy.eclipse.ant.feature.feature.group" />
+			<installunit name="org.apache.ivyde.feature.feature.group" />
+			<installunit name="org.apache.ivyde.eclipse.resolvevisualizer.feature.feature.group" />
+			<installunit name="org.eclipse.emf.sdk.feature.group" />
+			<installunit name="org.eclipse.emf.ecore.xcore.sdk.feature.group" />
+			<installunit name="org.eclipse.emf.compare.sdk.feature.group" />
+			<installunit name="org.eclipse.emf.mwe2.language.sdk.feature.group" />
+			<installunit name="org.eclipse.emf.mwe2.runtime.sdk.feature.group" />
+			<installunit name="org.eclipse.emf.mwe.sdk.feature.group" />
+			<installunit name="org.eclipse.xtend.sdk.feature.group" />
+			<installunit name="de.itemis.xtext.antlr.sdk.feature.group" />
+			<installunit name="org.eclipse.xtext.sdk.feature.group" />
+
+			<updatesite url="http://download.eclipse.org/releases/juno" />
+
+		</builder>
+	</target>
+
+</project>

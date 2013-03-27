@@ -1,0 +1,253 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+
+«DEFINE main FOR Model»
+	«storeGlobalVar("model_scope", ModelScope::web)»
+	
+	«info("generating vo xml schemas")»
+	
+	«EXPAND voSchema(this) FOREACH eAllContents.typeSelect(Entity)»
+	«EXPAND xsdSchemaCatalog»
+	
+«ENDDEFINE»
+
+//- xsd datatypes -------------------------------------------------------------
+«DEFINE xsdType FOR Type-»
+	«throwError("xsdType (type) '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+«DEFINE xsdType FOR Datatype-»
+	«throwError("xsdType (datatype)'" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+«DEFINE xsdType FOR DatatypeType-»«EXPAND xsdType FOR this.type»«ENDDEFINE»
+
+«DEFINE xsdType FOR EnumerationDatatype-»
+	«EXPAND xsdEnumeration(this.name, this.enumeration.enumerationValues) FOR this»
+«ENDDEFINE»
+
+«DEFINE xsdType FOR SimpleType-»«IF this.type == SimpleTypes::string-»xsd:string«ENDIF-»«IF this.type == SimpleTypes::long-»xsd:integer«ENDIF-»«IF this.type == SimpleTypes::integer-»xsd:integer«ENDIF-»«IF this.type == SimpleTypes::bigdecimal-»xsd:decimal«ENDIF-»«IF this.type == SimpleTypes::boolean-»xsd:boolean«ENDIF-»«IF this.type == SimpleTypes::reference-»unsupported type«ENDIF-»«ENDDEFINE»
+
+«DEFINE xsdType FOR TextDatatype-»xsd:string«ENDDEFINE»
+
+«DEFINE xsdType FOR BigDecimalDatatype-»xsd:decimal«ENDDEFINE»
+
+«DEFINE xsdType FOR IntegerDatatype-»xsd:integer«ENDDEFINE»
+
+«DEFINE xsdType FOR BooleanDatatype-»xsd:boolean«ENDDEFINE»
+
+«DEFINE xsdType FOR DateDatatype-»xsd:date«ENDDEFINE»
+
+«REM»
+«DEFINE xsdType FOR SimpleType»
+«ENDDEFINE»
+
+Type:
+	EntityReferenceType | DatatypeType | SimpleType | EnumerationType | SimpleMapType | MyAdminType | GenericType | JavaType | CustomType;
+«ENDREM»
+
+
+«DEFINE datatypeType(String type) FOR DatatypeType-»«EXPAND datatypeType(type) FOR this.type-»«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR Datatype»
+	«throwError("datatype '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+
+«DEFINE datatypeType(String type) FOR EnumerationDatatype-»
+	«fullQualifiedEntityName(this.enumeration)-»
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR ReferenceDatatype-»
+	«REM»«EXPAND type(type, true) FOR entity-»«ENDREM»
+«ENDDEFINE»
+
+//- xsd attributes ------------------------------------------------------------
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR Type-»
+	 <xsd:element name="«attribute.name»" type="«EXPAND xsdType FOR attribute.type»" />
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR DatatypeType-»
+	 «EXPAND xsdAttribute(entity, attribute) FOR this.type»
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR Datatype-»
+	 <xsd:element name="«attribute.name»" type="«EXPAND xsdType FOR this»" />
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EnumerationDatatype-»
+	«EXPAND xsdEnumeration(attribute.name, this.enumeration.enumerationValues) FOR this»
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EnumerationType-»
+	«EXPAND xsdEnumeration(attribute.name, this.type.enumerationValues) FOR this»
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR ReferenceDatatype-»
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EntityReferenceType-»
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		 <xsd:element name="«attribute.name»" type="«IF getEntity() != entity»«xsdQualifier(getEntity(this))»:«ENDIF»«xsdElementReferenceListWrapperName(getEntity(this))»" />
+	«ELSE»
+		 <xsd:element name="«attribute.name»" type="«IF getEntity() != entity»«xsdQualifier(getEntity(this))»:«ENDIF»«xsdTypeReferenceName(getEntity(this))»" />
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR SimpleMapType-»
+	<xsd:element name="«attribute.name»">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="EnumValue">
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="xsd:string">
+								<xsd:attribute type="xsd:string" name="enumKey"/>
+								<xsd:attribute type="xsd:string" name="enumValue"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+«ENDDEFINE»
+
+
+//- extra types ---------------------------------------------------------------
+«DEFINE extraTypes(Entity entity, EntityAttribute attribute) FOR Type-»
+«ENDDEFINE»
+
+«DEFINE extraTypes(Entity entity, EntityAttribute attribute) FOR EntityReferenceType-»
+«ENDDEFINE»
+
+«DEFINE xsdElementReferenceListWrapper FOR Entity-»
+	<xsd:complexType name="«xsdElementReferenceListWrapperName(this)»">
+		«EXPAND voMappingAnnotation(false, false, true) FOR this»
+		<xsd:sequence>
+			<xsd:element name="«xsdElementReferenceName(this)»" type="«xsdTypeReferenceName(this)»" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>	 	
+«ENDDEFINE»
+
+
+«DEFINE xsdEnumeration(String name, List[String] enumerationValues) FOR Object-»
+	 <xsd:element name="«name»">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+			«FOREACH enumerationValues AS enumaration»
+				<xsd:enumeration value="«enumaration»" />
+			«ENDFOREACH»
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+«ENDDEFINE»
+
+
+«DEFINE voSchema(Model model) FOR Entity-»
+«info("generating xsd schema for '" + entityName() + "'")»
+«FILE xsdFileName()-»<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema 
+
+	xmlns="«xsdNamespace(this)»"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:annox="http://annox.dev.java.net" 
+	xmlns:myadmin="http://annox.dev.java.net/de.pellepelster.myadmin.server.core.xml"
+	jaxb:version="2.1" 
+	jaxb:extensionBindingPrefixes="annox"
+	 
+	targetNamespace="«xsdNamespace()»"
+
+	«FOREACH getReferencedEntitiesWithoutDuplicates(attributes).reject(e|e == this) AS entity-»
+	xmlns:«xsdQualifier(entity)»="«xsdNamespace(entity)»"
+	«ENDFOREACH»
+
+	«IF extends != null»
+	xmlns:«xsdQualifier(extends)»="«xsdNamespace(extends)»"
+	«ENDIF»
+
+	elementFormDefault="unqualified">
+
+	«FOREACH getReferencedEntitiesWithoutDuplicates(attributes).reject(e|e == this) AS entity-»
+	<xsd:import namespace="«xsdNamespace(entity)»" schemaLocation="«xsdSchemaLocation(entity)»"/>
+	«ENDFOREACH»
+
+	«IF extends != null»
+	<xsd:import namespace="«xsdNamespace(extends)»" schemaLocation="«xsdSchemaLocation(extends)»"/>
+	«ENDIF»
+
+	<xsd:element name="«xsdElementListName()»">
+		<xsd:complexType>
+			«EXPAND voMappingAnnotation(true, false, false) FOR this»
+			<xsd:sequence>
+				<xsd:element name="«xsdElementName()»" type="«xsdTypeName()»" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>	 	
+	</xsd:element>
+
+	<xsd:complexType name="«xsdTypeName()»">
+
+		«EXPAND voMappingAnnotation(false, false, false) FOR this»
+	
+		«IF extends != null»
+		<xsd:complexContent>
+			<xsd:extension base="«xsdQualifier(extends)»:«xsdTypeName(extends)»">
+		«ENDIF»
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:integer"/>
+				«FOREACH attributes AS attribute»
+					«EXPAND xsdAttribute(this, attribute) FOR attribute.type»
+				«ENDFOREACH»
+			</xsd:sequence>
+		«IF extends != null»
+			</xsd:extension>
+		</xsd:complexContent>
+		«ENDIF»
+	</xsd:complexType>
+
+	«FOREACH attributes AS attribute»
+		«EXPAND extraTypes(this, attribute) FOR attribute.type»
+	«ENDFOREACH»
+
+	«EXPAND xsdElementReferenceListWrapper FOR this»
+
+	<xsd:complexType name="«xsdTypeReferenceName()»">
+		«EXPAND voMappingAnnotation(false, true, false) FOR this»
+	
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:integer"/>
+			«FOREACH attributes AS attribute»
+				«IF this.naturalKeyAttributes.contains(attribute)»
+					«EXPAND xsdAttribute(this, attribute) FOR attribute.type»
+				«ENDIF»
+			«ENDFOREACH»
+		</xsd:sequence>
+	</xsd:complexType>
+    
+</xsd:schema>
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE voMappingAnnotation(boolean isListWrapper, boolean isReference, boolean isReferenceListWrapper) FOR Entity»
+<xsd:annotation>
+	<xsd:appinfo>
+		<annox:annotate>
+			<myadmin:XmlVOMapping voClass="«fullQualifiedEntityName()»" isListWrapper="«isListWrapper»" isReference="«isReference»" isReferenceListWrapper="«isReferenceListWrapper»" />
+		</annox:annotate>
+	</xsd:appinfo>
+</xsd:annotation>
+«ENDDEFINE»
+
+«DEFINE xsdSchemaCatalog FOR Model-»
+«info("generating xsd schema catalog for '" + name + "'")»
+«FILE xsdCatalogFileName()-»
+«FOREACH eAllContents.typeSelect(Entity) AS entity»
+PUBLIC "«xsdNamespace(entity)»" "«xsdFileName(entity)-»"
+«ENDFOREACH»
+«ENDFILE»
+«ENDDEFINE»

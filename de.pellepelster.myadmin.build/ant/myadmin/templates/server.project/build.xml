@@ -1,0 +1,40 @@
+<project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="@ant.common.file@" />
+
+	<target name="post.jar">
+		<antcall target="war" />
+	</target>
+
+	<target name="war">
+
+		<mkdir dir="war"/>
+		<mkdir dir="WebContent/WEB-INF/classes"/>
+		
+		<!-- WAR -->
+		<war destfile="${build.dir}/@organisation.name@.@project.name@.war" webxml="WebContent/WEB-INF/web.xml">
+
+			<fileset dir="../@organisation.name@.@project.name@.client/war">
+				<exclude name="WEB-INF/**" />
+			</fileset>
+
+			<fileset dir="war" includes="**/*" />
+
+			<webinf dir="WebContent/WEB-INF">
+				<filename name="**/*" />
+			</webinf>
+
+			<metainf dir="WebContent/META-INF">
+				<filename name="*.*" />
+			</metainf>
+
+			<classes dir="WebContent/WEB-INF/classes">
+				<include name="**/*.*" />
+			</classes>
+
+			<!-- myadmin -->
+			<lib dir="${lib.dir}" />
+		</war>
+	</target>
+
+</project>

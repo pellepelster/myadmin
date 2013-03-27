@@ -1,0 +1,361 @@
+/**
+ * Copyright (c) 2013 Christian Pelster.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Christian Pelster - initial API and implementation
+ */
+package de.pellepelster.myadmin.tools.dictionary;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
+import de.pellepelster.myadmin.dsl.myAdminDsl.BaseDictionaryControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBigDecimalControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBooleanControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControlGroup;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryDateControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEnumerationControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Labels;
+
+/**
+ * Factory for control creation
+ * 
+ * @author pelle
+ * 
+ */
+public class ControlFactory
+{
+
+	private enum LABEL_TYPE
+	{
+		COLUM, FILTER, TOOLTP, STANDARD, EDITOR
+	}
+
+	private static ControlFactory instance;
+
+	public static String getControlName(DictionaryControl dictionaryControl)
+	{
+
+		if (dictionaryControl.getName() != null)
+		{
+			return dictionaryControl.getName();
+		}
+		else
+		{
+			DictionaryControl refControl = null;
+
+			try
+			{
+				refControl = (DictionaryControl) PropertyUtils.getProperty(dictionaryControl, "ref");
+			}
+			catch (Exception e)
+			{
+				// ignore nonexisting refs
+			}
+
+			if (refControl != null)
+			{
+				String result = getControlName(refControl);
+
+				if (result != null)
+				{
+					return result;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static ControlFactory getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new ControlFactory();
+		}
+		return instance;
+	}
+
+	private ControlFactory()
+	{
+	}
+
+	private void createDictionaryBigDecimalControl(DictionaryBigDecimalControl dictionaryBigDecimalControl, DictionaryControlVO dictionaryControlVO,
+			int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryBigDecimalControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryBigDecimalControl.getRef() != null)
+		{
+			createDictionaryBigDecimalControl(dictionaryBigDecimalControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private void createDictionaryBooleanControl(DictionaryBooleanControl dictionaryBooleanControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryBooleanControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryBooleanControl.getRef() != null)
+		{
+			createDictionaryBooleanControl(dictionaryBooleanControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private void createDictionaryControlCommon(DictionaryControl dictionaryControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+
+		if (dictionaryControl.getName() != null)
+		{
+			dictionaryControlVO.setName(dictionaryControl.getName());
+		}
+
+		if (dictionaryControl.getBaseControl() != null && dictionaryControl.getBaseControl().getEntityattribute() != null)
+		{
+			dictionaryControlVO.setAttributePath(dictionaryControl.getBaseControl().getEntityattribute().getName());
+
+			// ImportUtil.logInfo(String.format("xxx '%s'",
+			// dictionaryControlVO.getAttributeName()), logIdentiation);
+		}
+
+		// labels
+		if (dictionaryControlVO.getLabel() == null && getLabel(dictionaryControl, LABEL_TYPE.STANDARD) != null)
+		{
+			dictionaryControlVO.setLabel(getLabel(dictionaryControl, LABEL_TYPE.STANDARD));
+		}
+
+		if (dictionaryControlVO.getFilterLabel() == null && getLabel(dictionaryControl, LABEL_TYPE.FILTER) != null)
+		{
+			dictionaryControlVO.setFilterLabel(getLabel(dictionaryControl, LABEL_TYPE.FILTER));
+		}
+		//
+		// if (dictionaryControlVO.getColumnLabel() == null &&
+		// getLabel(dictionaryControl, LABEL_TYPE.COLUM) != null)
+		// {
+		// dictionaryControlVO.setColumnLabel(getLabel(dictionaryControl,
+		// LABEL_TYPE.COLUM));
+		// }
+		//
+		// if (dictionaryControlVO.getEditorLabel() == null &&
+		// getLabel(dictionaryControl, LABEL_TYPE.EDITOR) != null)
+		// {
+		// dictionaryControlVO.setEditorLabel(getLabel(dictionaryControl,
+		// LABEL_TYPE.EDITOR));
+		// }
+		//
+		// if (dictionaryControlVO.getToolTip() == null &&
+		// getLabel(dictionaryControl, LABEL_TYPE.TOOLTP) != null)
+		// {
+		// dictionaryControlVO.setToolTip(getLabel(dictionaryControl,
+		// LABEL_TYPE.TOOLTP));
+		// }
+
+		if (dictionaryControl.getBaseControl() != null)
+		{
+			BaseDictionaryControl baseDictionaryControl = dictionaryControl.getBaseControl();
+
+			if (dictionaryControlVO.getMandatory() == null && baseDictionaryControl.isMandatory())
+			{
+				dictionaryControlVO.setMandatory(baseDictionaryControl.isMandatory());
+			}
+
+		}
+	}
+
+	private void createDictionaryControlGroup(DictionaryControlGroup dictionaryControlGroup, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryControlGroup, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryControlGroup.getRef() != null)
+		{
+			createDictionaryControlGroup(dictionaryControlGroup.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	public DictionaryControlVO createDictionaryControlVO(DictionaryControl dictionaryControl, int logIdentiation)
+	{
+
+		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
+
+		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating control '%s'", getControlName(dictionaryControl)), logIdentiation);
+
+		if (dictionaryControl instanceof DictionaryTextControl)
+		{
+			createDictionaryTextControl((DictionaryTextControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryIntegerControl)
+		{
+			createDictionaryIntegerControl((DictionaryIntegerControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryBigDecimalControl)
+		{
+			createDictionaryBigDecimalControl((DictionaryBigDecimalControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryEnumerationControl)
+		{
+			createDictionaryEnumerationControl((DictionaryEnumerationControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryControlGroup)
+		{
+			createDictionaryControlGroup((DictionaryControlGroup) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryDateControl)
+		{
+			createDictionaryDateControl((DictionaryDateControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryReferenceControl)
+		{
+			createDictionaryReferenceControl((DictionaryReferenceControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else if (dictionaryControl instanceof DictionaryBooleanControl)
+		{
+			createDictionaryBooleanControl((DictionaryBooleanControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
+		else
+		{
+			throw new RuntimeException(String.format("unsupported control type '%s'", dictionaryControl.getClass().getName()));
+		}
+
+		// mandatory default and logging
+		if (dictionaryControlVO.getMandatory() == null)
+		{
+			dictionaryControlVO.setMandatory(false);
+		}
+		
+		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("mandatory: %s", dictionaryControlVO.getMandatory().toString()), logIdentiation + 1);
+
+		String labelLogMessage = "";
+		labelLogMessage += (dictionaryControlVO.getLabel() != null ? labelLogMessage = dictionaryControlVO.getLabel() : "-");
+		labelLogMessage += "/" + (dictionaryControlVO.getFilterLabel() != null ? labelLogMessage = dictionaryControlVO.getFilterLabel() : "-");
+		labelLogMessage += "/" + (dictionaryControlVO.getColumnLabel() != null ? labelLogMessage = dictionaryControlVO.getColumnLabel() : "-");
+		labelLogMessage += "/" + (dictionaryControlVO.getEditorLabel() != null ? labelLogMessage = dictionaryControlVO.getEditorLabel() : "-");
+		labelLogMessage += "/" + (dictionaryControlVO.getToolTip() != null ? labelLogMessage = dictionaryControlVO.getToolTip() : "-");
+		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("labels: %s", labelLogMessage), logIdentiation + 1);
+
+		// datatype
+		dictionaryControlVO.setDatatype(DatatypeFactory.getInstance().createDatatypeVO(dictionaryControl, logIdentiation + 1));
+
+		return dictionaryControlVO;
+	}
+
+	private void createDictionaryDateControl(DictionaryDateControl dictionaryDateControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryDateControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryDateControl.getRef() != null)
+		{
+			createDictionaryDateControl(dictionaryDateControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private void createDictionaryEnumerationControl(DictionaryEnumerationControl dictionaryEnumerationControl, DictionaryControlVO dictionaryControlVO,
+			int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryEnumerationControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryEnumerationControl.getRef() != null)
+		{
+			createDictionaryEnumerationControl(dictionaryEnumerationControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private void createDictionaryIntegerControl(DictionaryIntegerControl dictionaryIntegerControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryIntegerControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryIntegerControl.getRef() != null)
+		{
+			createDictionaryIntegerControl(dictionaryIntegerControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private void createDictionaryReferenceControl(DictionaryReferenceControl dictionaryReferenceControl, DictionaryControlVO dictionaryControlVO,
+			int logIdentiation)
+	{
+
+		if (dictionaryReferenceControl.getDictionary() != null)
+		{
+			dictionaryControlVO.setDictionary(dictionaryReferenceControl.getDictionary().getName());
+		}
+
+		createDictionaryControlCommon(dictionaryReferenceControl, dictionaryControlVO, logIdentiation + 1);
+
+		// control labels
+		for (DictionaryControl dictionaryLabelControl : dictionaryReferenceControl.getLabelcontrols())
+		{
+			dictionaryControlVO.getLabelControls().add(createDictionaryControlVO(dictionaryLabelControl, logIdentiation + 1));
+		}
+
+		if (dictionaryReferenceControl.getRef() != null)
+		{
+			createDictionaryReferenceControl(dictionaryReferenceControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+
+	}
+
+	private void createDictionaryTextControl(DictionaryTextControl dictionaryTextControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+
+		createDictionaryControlCommon(dictionaryTextControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryTextControl.getRef() != null)
+		{
+			createDictionaryTextControl(dictionaryTextControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
+	}
+
+	private String getLabel(DictionaryControl dictionaryControl, LABEL_TYPE labelType)
+	{
+		if (dictionaryControl.getBaseControl() != null && dictionaryControl.getBaseControl().getLabels() != null)
+		{
+			String label = getLabel(dictionaryControl.getBaseControl().getLabels(), labelType);
+
+			if (label == null || label.isEmpty())
+			{
+				Datatype datatype = DatatypeFactory.getDatatypeType(dictionaryControl, false);
+
+				if (datatype != null && datatype.getBaseDatatype() != null && datatype.getBaseDatatype().getLabels() != null)
+				{
+					label = getLabel(datatype.getBaseDatatype().getLabels(), labelType);
+				}
+			}
+
+			return label;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
+
+	private String getLabel(Labels labels, LABEL_TYPE labelType)
+	{
+		switch (labelType)
+		{
+			case COLUM:
+				return labels.getColumnLabel();
+			case FILTER:
+				return labels.getFilterLabel();
+			case TOOLTP:
+				return labels.getToolTip();
+			case STANDARD:
+				return labels.getLabel();
+			case EDITOR:
+				return labels.getLabel();
+			default:
+				throw new RuntimeException(String.format("unsupported labeltype '%s'", labelType));
+		}
+
+	}
+
+}

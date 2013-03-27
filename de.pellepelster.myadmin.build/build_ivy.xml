@@ -1,0 +1,53 @@
+<project name="build" default="publish">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<target name="compile" depends="create.bootstrap.ant, publish.bootstrap.ant">
+	</target>
+
+	<target name="publish.bootstrap.ant">
+	</target>
+	
+	<target name="create.bootstrap.ant">
+
+		<loadfile property="bootstrap.ivy" srcFile="ant/templates/bootstrap_ivy.xml" />
+		<stringutil string="${bootstrap.ivy}" property="bootstrap.ivy.escaped">
+			<replace regex="&gt;" replacement="&amp;gt;" />
+			<replace regex="&lt;" replacement="&amp;lt;" />
+			<replace regex="&quot;" replacement="&amp;quot;" />
+			<replace regex="\n" replacement="" />
+			<replace regex="\t" replacement="" />
+		</stringutil>
+
+		<loadfile property="bootstrap.ivy.settings" srcFile="ant/templates/bootstrap_ivysettings.xml" />
+		<stringutil string="${bootstrap.ivy.settings}" property="bootstrap.ivy.settings.escaped">
+			<replace regex="&gt;" replacement="&amp;gt;" />
+			<replace regex="&lt;" replacement="&amp;lt;" />
+			<replace regex="&quot;" replacement="&amp;quot;" />
+			<replace regex="\n" replacement="" />
+			<replace regex="\t" replacement="" />
+		</stringutil>
+		
+		<copy tofile="../de.pellepelster.myadmin.ui/src/de/pellepelster/myadmin/ui/internal/templates/MyAdminProjectBuildBootstrap.xml" overwrite="true">
+			<fileset file="ant/templates/bootstrap_MyAdminProjectBuildBootstrap.xml" />
+			
+			<filterset>
+				<filter token="bootstrap.ivy.escaped" value="${bootstrap.ivy.escaped}" />
+				<filter token="bootstrap.ivy.settings.escaped" value="${bootstrap.ivy.settings.escaped}" />
+			</filterset>
+			
+		</copy>
+
+		<copy file="../de.pellepelster.myadmin.ui/src/de/pellepelster/myadmin/ui/internal/templates/MyAdminProjectBuildBootstrap.xml" todir="../de.pellepelster.myadmin.demo.build/ant/myadmin/"  overwrite="true" />
+
+	</target>
+
+	<target name="jar" depends="version, create.bootstrap.ant, resolve, compile">
+		<zip destfile="${build.dir}/build.zip">
+			<fileset dir="ant/myadmin">
+				<include name="**/*" />
+			</fileset>
+		</zip>
+	</target>
+
+</project>

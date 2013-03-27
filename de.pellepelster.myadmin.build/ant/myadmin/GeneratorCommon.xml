@@ -1,0 +1,113 @@
+<project name="GeneratorCommon">
+
+	<macrodef name="myadmingenerate.internal">
+
+		<attribute name="workflow.file" />
+		<attribute name="pathRefId" />
+		<attribute name="modelName" />
+		<attribute name="artefactName" />
+		<attribute name="runXJC" default="yes" />
+		<attribute name="supplementaryXsds" default="" />
+
+		<sequential>
+
+			<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task" classpathref="@{pathRefId}" />
+
+			<echo message="--------------------------------------------------------------------------------" />
+			<echo message="workflow:     @{workflow.file}" />
+			<echo message="classpath:    @{pathRefId}" />
+			<echo message="modelName:    @{modelName}" />
+			<echo message="artefactName: @{artefactName}" />
+			<echo message="--------------------------------------------------------------------------------" />
+
+			<property name="gen.temp.bin.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/bin/" />
+			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
+
+			<delete dir="${gen.temp.bin.dir}" failonerror="false" />
+			<delete dir="${gen.temp.src.dir}" failonerror="false" />
+
+			<mkdir dir="${gen.temp.bin.dir}" />
+			<mkdir dir="${gen.temp.src.dir}" />
+
+			<if>
+				<equals arg1="@{runXJC}" arg2="true" />
+				<then>
+					<!-- <unzip dest="${gen.temp.src.dir}"> <fileset refid="@{supplementaryXsds}"/> </unzip> -->
+				</then>
+			</if>
+
+			<java classname="org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher" classpathref="@{pathRefId}" fork="true" failonerror="true">
+
+				<arg value="@{workflow.file}" />
+				<arg value="-p" />
+				<arg value="targetDir=${gen.temp.src.dir}" />
+				<arg value="modelName=@{modelName}" />
+
+				<!-- <jvmarg line="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=y"/> -->
+			</java>
+
+			<if>
+				<equals arg1="@{runXJC}" arg2="true" />
+				<then>
+
+					<property name="xml_catalog_hack" value="${java.io.tmpdir}/xml_catalog_hack/"/>
+					<delete dir="${xml_catalog_hack}" failonerror="false" />
+
+					<if>
+						<available file="lib/myadmin-xml-gen-jar.jar" />
+						<then>
+							<mkdir dir="${xml_catalog_hack}" />
+							<unjar dest="${xml_catalog_hack}" src="lib/myadmin-xml-gen-jar.jar" />
+						</then>
+					</if>
+
+					<xjc extension="true" destdir="${gen.temp.src.dir}"  catalog="${java.io.tmpdir}/xml_catalog_hack/myadmin.cat">
+						<arg value="-Xannotate" />
+						<schema dir="${gen.temp.src.dir}" includes="*.xsd" />
+					</xjc>
+				</then>
+			</if>
+
+			<javac debuglevel="${javac.debuglevel}" destdir="${gen.temp.bin.dir}" source="${javac.source}" target="${javac.target}">
+				<src path="${gen.temp.src.dir}" />
+				<classpath refid="@{pathRefId}" />
+			</javac>
+
+			<jar destfile="${build.dir}/@{artefactName}-gen.jar">
+				<fileset dir="${gen.temp.bin.dir}">
+					<include name="**/*" />
+				</fileset>
+				<fileset dir="${gen.temp.src.dir}">
+					<include name="**/*" />
+				</fileset>
+			</jar>
+
+			<jar destfile="${build.dir}/@{artefactName}-gen-source.jar" basedir="${gen.temp.src.dir}" />
+
+		</sequential>
+	</macrodef>
+
+	<macrodef name="myadmingenerate">
+
+		<attribute name="artefactName" />
+		<attribute name="pathRefId" />
+		<attribute name="modelName" />
+		<attribute name="supplementaryXsds" default="" />
+
+
+		<sequential>
+			<property name="gen.temp.bin.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/bin/" />
+			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
+
+			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
+
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslWebClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-web-client" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslXmlGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-xml" runxjc="true" supplementaryXsds="@{supplementaryXsds}" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslMobileClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-mobile-client" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslServerGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-server" />
+
+		</sequential>
+
+	</macrodef>
+
+</project>

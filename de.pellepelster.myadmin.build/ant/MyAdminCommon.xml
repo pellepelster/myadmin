@@ -1,0 +1,18 @@
+<project name="MyAdminCommon" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<dirname property="MyAdminCommon.basedir" file="${ant.file.MyAdminCommon}" />
+	<import file="${MyAdminCommon.basedir}/myadmin/BaseCommon.xml" />
+	
+	<property name="build.type" value="CI" />
+	<property name="build.number" value="1" />
+	<property name="revision.number" value="1" />
+
+	<target name="info">
+		<echo message="--------------------------------------------------------------------------------" />
+		<echo message="ivy.resolver.default:        ${ivy.resolver.default}" />
+		<echo message="ivy.resolver.publish:        ${ivy.resolver.publish}" />
+		<echo message="ivy.staging.repository.root: ${ivy.staging.repository.root}" />
+		<echo message="--------------------------------------------------------------------------------" />
+	</target>
+	
+</project>

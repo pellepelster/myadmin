@@ -1,0 +1,11 @@
+bin
+bin-gen
+dist
+build
+tomcat
+/jetty-temp
+/db-temp
+derby.log
+/lib
+/jetty-lib
+/test

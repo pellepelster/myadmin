@@ -1,0 +1,38 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE springclientRemoteServiceLocator FOR Model»
+«FILE fullQualifiedServiceLocatorFileName()-»
+package «getRootWebServicePackageName()»;
+
+public class «name»RemoteServiceLocator {
+
+    private static final «name»RemoteServiceLocator instance =
+        new «name»RemoteServiceLocator();
+
+    private de.pellepelster.myadmin.server.core.services.IApplicationContextProvider applicationContextProvider;
+
+    private «name»RemoteServiceLocator() {
+    }
+
+    public static «name»RemoteServiceLocator getInstance() {
+        return instance;
+    }
+
+    public final void init(
+        de.pellepelster.myadmin.server.core.services.IApplicationContextProvider applicationContextProvider) {
+        this.applicationContextProvider = applicationContextProvider;
+    }
+
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+		    public final «fullQualifiedInterfaceName(remoteService, ModelScope::web)» get«remoteService.name.toFirstUpper()»() {
+		        return («fullQualifiedInterfaceName(remoteService, ModelScope::web)») applicationContextProvider.getContext().getBean("«remoteService.name.toFirstLower()»");
+		    }
+		«ENDIF»
+	«ENDFOREACH»
+}
+
+«ENDFILE»
+«ENDDEFINE»

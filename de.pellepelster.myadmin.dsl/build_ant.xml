@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="de.pellepelster.myadmin.dsl">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+	<property file="${de.pellepelster.myadmin.dsl.location}/src/de/pellepelster/myadmin/GenerateMyAdminDsl.properties" />
+
+	<path id="de.pellepelster.myadmin.dsl.classpath">
+		<path refid="mwe.classpath" />
+		<pathelement location="${de.pellepelster.myadmin.dsl.location}/src"/>
+	</path>
+
+	<target name="init">
+		<mkdir dir="${dist.location}" />
+		<mkdir dir="${build.gen.location}" />
+		<mkdir dir="${src.gen.location}" />
+	</target>
+
+	<target name="clean">
+		<!-- <delete dir="${dist.location}" /> -->
+		<delete dir="${build.gen.location}" />
+		<delete dir="${src.gen.location}" />
+	</target>
+
+	<target name="dsl.generate">
+
+		<delete includeemptydirs="true">
+			<fileset dir="${src.gen.location}" includes="**/*" />
+		</delete>
+
+		<java classname="org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher" classpathref="de.pellepelster.myadmin.dsl.classpath" fork="true" failonerror="true">
+			<arg value="classpath:///de/pellepelster/myadmin/GenerateMyAdminDsl.mwe2"/>
+			<!-- <jvmarg line="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8787"/> -->
+		</java>
+
+	</target>
+
+	<target name="javac">
+
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${build.location}" includes="**/*" />
+		</delete>
+		
+		<mkdir dir="${build.location}"/>
+
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" source="${source}" target="${target}">
+			<src path="${src.location}" />
+			<src path="${src.gen.location}" />
+			<src path="xtend-gen" />
+			<classpath refid="de.pellepelster.myadmin.dsl.classpath" />
+		</javac>
+		
+	</target>
+
+	<target name="build.nodeps" depends="build" />
+
+	<target name="build" depends="clean, init, dsl.generate, javac, jar" />
+
+	<target name="jar">
+		<jar destfile="${dist.location}/${ant.project.name}.jar">
+
+			<fileset dir="${build.location}">
+				<include name="de/pellepelster/**"/>
+			</fileset>
+
+			<fileset dir="${src.gen.location}">
+				<include name="**/*ecore"/>
+				<include name="**/*genmodel"/>
+				<include name="**/*xmi"/>
+				<include name="**/*g"/>
+				<include name="**/*tokens"/>
+			</fileset>
+
+		</jar>
+		<jar destfile="${dist.location}/${ant.project.name}-source.jar" manifest="src/META-INF/MANIFEST.MF">
+			<fileset dir="${src.location}">
+				<include name="de/pellepelster/**"/>
+			</fileset>
+			<fileset dir="${src.gen.location}">
+				<include name="de/pellepelster/**"/>
+			</fileset>
+		</jar>
+	</target>
+
+</project>

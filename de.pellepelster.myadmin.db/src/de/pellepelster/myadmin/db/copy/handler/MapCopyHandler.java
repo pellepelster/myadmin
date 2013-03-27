@@ -1,0 +1,45 @@
+/**
+ * Copyright (c) 2013 Christian Pelster.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Christian Pelster - initial API and implementation
+ */
+package de.pellepelster.myadmin.db.copy.handler;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+import de.pellepelster.myadmin.db.copy.FieldDescriptor;
+import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
+
+public class MapCopyHandler implements IFieldCopyHandler
+{
+
+	@Override
+	public boolean check(FieldDescriptor fieldDescriptor)
+	{
+		return Map.class.isAssignableFrom(fieldDescriptor.getSourceType()) && Map.class.isAssignableFrom(fieldDescriptor.getTargetType());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void copy(FieldDescriptor fieldDescriptor, Object sourceObject, Object targetObject) throws Exception
+	{
+		HashMap<Object, Object> targetMap = new HashMap<Object, Object>();
+
+		for (Map.Entry<Object, Object> entry1 : ((Map<Object, Object>) fieldDescriptor.getSourceValue()).entrySet())
+		{
+			targetMap.put(entry1.getKey(), entry1.getValue());
+		}
+
+		PropertyUtils.setProperty(targetObject, fieldDescriptor.getFieldName(), targetMap);
+	}
+
+}

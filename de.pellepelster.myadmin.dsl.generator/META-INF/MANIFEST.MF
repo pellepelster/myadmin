@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.dsl.generator
+Bundle-Vendor: My Company
+Bundle-Version: 0.0.0.qualifier
+Bundle-SymbolicName: de.pellepelster.myadmin.dsl.generator; singleton:=true
+Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xpand;visibility:=reexport,
+ org.eclipse.xtend;visibility:=reexport,
+ org.eclipse.xtext;visibility:=reexport,
+ org.eclipse.emf.mwe.core;visibility:=reexport,
+ org.eclipse.emf.mwe.utils;visibility:=reexport,
+ org.eclipse.xtend.typesystem.emf;visibility:=reexport,
+ org.eclipse.xtext.ecore,
+ org.eclipse.emf.mwe2.language,
+ org.eclipse.emf.mwe2.launch,
+ org.eclipse.emf.mwe2.lib,
+ de.pellepelster.myadmin.dsl,
+ org.eclipse.xtext.xbase.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,0 +1,8 @@
+<project name="demo.build" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<dirname property="demo.build.imported.basedir" file="${ant.file.demo.build}" />
+	<property file="${demo.build.imported.basedir}/demo.properties" />
+
+	<import file="myadmin/MyAdminProjectCommon.xml" />
+
+</project>

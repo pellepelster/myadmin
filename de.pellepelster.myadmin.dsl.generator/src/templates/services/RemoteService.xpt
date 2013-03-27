@@ -1,0 +1,36 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- remoteService -------------------------------------------------------------
+«DEFINE remoteService FOR RemoteService»
+
+	«info("generating remote service interface '" + interfaceName() +  "'")»
+	«FILE fullQualifiedInterfaceFileName()»
+	package «fullQualifiedServicePackage()-»;
+	
+	public interface «interfaceName()» {
+		«EXPAND remoteMethod FOREACH remoteMethods»
+	}
+	«ENDFILE»
+
+«ENDDEFINE»
+
+//- remoteMethod --------------------------------------------------------------
+«DEFINE remoteMethod FOR RemoteMethod»
+	«EXPAND templates::type::Type::webVOGenericTypeDefinition FOR genericTypeDefinition» «EXPAND remoteMethodReturnType» «name.toFirstLower()»(«EXPAND remoteMethodParameter FOREACH methodParameters SEPARATOR ", "»);
+«ENDDEFINE»
+
+//- remoteMethodReturnType ----------------------------------------------------
+«DEFINE remoteMethodReturnType FOR RemoteMethod»
+	«IF returnType == null-»
+		void
+	«ELSE-»
+		«EXPAND templates::type::Type::webVOType FOR returnType-»
+	«ENDIF-»
+«ENDDEFINE»
+
+//- remoteMethodParameter -----------------------------------------------------
+«DEFINE remoteMethodParameter FOR MethodParameter-»
+	«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()-»
+«ENDDEFINE»

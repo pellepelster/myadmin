@@ -1,0 +1,54 @@
+<project name="dsl" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.gen.dir}">
+			<include name="**/*ecore"/>
+			<include name="**/*genmodel"/>
+			<include name="**/*xmi"/>
+			<include name="**/*g"/>
+			<include name="**/*tokens"/>
+		</fileset>
+	</path>
+	
+	<path id="source.jar.files">
+		<dirset dir="${src.dir}" />
+		<dirset dir="${src.gen.dir}" />
+	</path>
+
+	<path id="source.files">
+		<dirset dir="${src.dir}" />
+		<dirset dir="${src.gen.dir}" />
+		<dirset dir="xtend-gen" />
+	</path>
+
+		
+	<path id="local.lib.path.id">
+		<path refid="lib.path.id" />
+		<pathelement location="${basedir}/src"/>
+	</path>
+
+	<target name="pre.compile">
+		<antcall target="dsl.generate" />
+	</target>
+
+	<target name="dsl.generate">
+
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${src.gen.dir}" includes="**/*" />
+		</delete>
+
+		<property name="myclasspath" refid="local.lib.path.id"/>
+		
+		<java classname="org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher" classpathref="local.lib.path.id" fork="true" failonerror="true">
+			<arg value="classpath:///de/pellepelster/myadmin/GenerateMyAdminDsl.mwe2" />
+			<!-- 
+			<jvmarg line="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8787"/>
+			-->
+		</java>
+
+	</target>
+
+</project>

@@ -1,0 +1,28 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+«DEFINE main FOR Model»
+
+	«storeGlobalVar("model_scope", ModelScope::mobile)»
+	
+	«info("generating mobile vos")»
+	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
+	
+	«EXPAND templates::vo::VO::mobileVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
+
+	«info("generating mobile remote services")»
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«EXPAND services::MobileServiceImpl::mobileClientServiceImpl FOR remoteService»
+	«ENDFOREACH»
+
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«FOREACH remoteService.remoteMethods AS remoteMethod»
+			«EXPAND services::MobileServiceImpl::mobileParameterWrapper(remoteService) FOR remoteMethod»
+		«ENDFOREACH»
+	«ENDFOREACH»
+
+
+
+«ENDDEFINE»

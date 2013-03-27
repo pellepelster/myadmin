@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="de.pellepelster.myadmin.lib.project">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+
+	<target name="init">
+		<mkdir dir="scripts" />
+	</target>
+
+	<target name="clean">
+		<delete dir="scripts" />
+	</target>
+
+	<target name="build" depends="clean, init, aggregate.buildfiles" />
+
+	<target name="aggregate.buildfiles">
+		<copy todir="${de.pellepelster.myadmin.lib.project.location}/scripts">
+			<fileset dir="${de.pellepelster.myadmin.build.location}" includes="MyAdmin*" />
+		</copy>
+	</target>
+
+</project>

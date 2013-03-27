@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<display-name>@project.package@</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>@project.name.camelcase@/@project.name.camelcase@.html</welcome-file>
+	</welcome-file-list>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/log4j.properties</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:MyAdminServerSpringSecurity.xml, 
+			classpath:MyAdminServerApplicationContext-gen.xml, 
+			classpath:MyAdminServerApplicationContext.xml, 
+			classpath:@project.name.camelcase@ServerApplicationContext-gen.xml, 
+			classpath:MyAdminServerGWTServices-gen.xml, 
+			classpath:MyAdminServerInvokerServices-gen.xml, 
+			classpath:@project.name.camelcase@DB-gen.xml
+		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>de.pellepelster.myadmin.server.MyAdminPathXmlApplicationContext</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>@project.name.camelcase@</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>@project.name.camelcase@</servlet-name>
+		<url-pattern>/remote/*</url-pattern>
+	</servlet-mapping>
+	
+	<resource-ref>
+        <description>@project.name.camelcase@ Datasource</description>
+		<res-ref-name>jdbc/@project.name.camelcase@</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	
+</web-app>
+

@@ -1,0 +1,34 @@
+<ivysettings>
+
+   	<property name="ivy.local.default.root"             value="${ivy.default.ivy.user.dir}/local" override="false"/>
+	<property name="ivy.local.default.ivy.pattern"      value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" override="false"/>
+	<property name="ivy.local.default.artifact.pattern" value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" override="false"/>
+
+	<include url="${ivy.default.settings.dir}/ivysettings-public.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-shared.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-local.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-main-chain.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-default-chain.xml" />
+
+	<resolvers>
+	
+		<url name="gwt_commons">
+			<ivy pattern="http://ivy.pelle.io/repository/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://ivy.pelle.io/repository/${ivy.local.default.artifact.pattern}" />
+		</url>
+
+		<url name="myadmin_libs">
+			<ivy pattern="http://myadmin-dev/~myadmin_dependencies/ivy/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin-dev/~myadmin_dependencies/ivy/${ivy.local.default.artifact.pattern}" />
+		</url>
+
+		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
+			<resolver ref="gwt_commons" />
+			<!-- 
+			<resolver ref="myadmin_libs" />
+			 -->
+		</chain>
+
+	</resolvers>
+
+</ivysettings>

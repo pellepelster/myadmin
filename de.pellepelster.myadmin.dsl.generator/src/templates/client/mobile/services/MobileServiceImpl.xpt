@@ -1,0 +1,58 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+«EXTENSION org::eclipse::xtend::util::stdlib::counter»
+
+//- remoteService -------------------------------------------------------------
+«DEFINE mobileClientServiceImpl FOR RemoteService»
+	«info("generating mobile remote service '" + mobileClientServiceImplName() +  "'")»
+
+	«FILE fullQualifiedMobileClientServiceImplFileName()»
+	package «fullQualifiedServicePackage()-»;
+
+	public class «mobileClientServiceImplName()» {
+		«EXPAND mobileRemoteMethod(this) FOREACH remoteMethods»
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE mobileParameterWrapper(RemoteService remoteService) FOR RemoteMethod»
+	«info("generating mobile remote service parameter wrapper for service '" + remoteService.name +  "/" + this.name + "'")»
+
+	«FILE fullyQualifiedMobileParameterWrapperFileName(remoteService, this, ModelScope::mobile)»
+	package «getPackageName(remoteService, ModelScope::mobile)»;
+
+	import org.codehaus.jackson.annotate.JsonTypeInfo;
+	
+	«REM»«EXPAND templates::type::Type::webVOGenericTypeDefinition FOR genericTypeDefinition»«ENDREM»
+	@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+	public class «mobileParameterWrapperName(remoteService, this)»
+	{
+	«FOREACH methodParameters AS methodParameter»
+		«EXPAND mobileParameterWrapperParameter(counterInc(methodParameters)) FOR methodParameter»
+	«ENDFOREACH»
+	}
+	«ENDFILE»
+
+«ENDDEFINE»
+
+«DEFINE mobileParameterWrapperParameter(int order) FOR MethodParameter»
+	@de.pellepelster.myadmin.client.base.rest.ParameterOrder(order = «order»)
+	public Object «name.toFirstLower()-»;	
+«ENDDEFINE»
+
+//- remoteMethod --------------------------------------------------------------
+«DEFINE mobileRemoteMethod(RemoteService remoteService) FOR RemoteMethod»
+	public «EXPAND templates::type::Type::webVOGenericTypeDefinition FOR genericTypeDefinition» «EXPAND templates::services::RemoteService::remoteMethodReturnType» «name.toFirstLower()»(«EXPAND templates::services::RemoteService::remoteMethodParameter FOREACH methodParameters SEPARATOR ", "»)
+	{
+		«mobileParameterWrapperName(remoteService, this)» parameterWrapper = new «mobileParameterWrapperName(remoteService, this)»();
+		«FOREACH methodParameters AS methodParameter-»
+			parameterWrapper.«methodParameter.name.toFirstLower()» = «methodParameter.name.toFirstLower()»;
+		«ENDFOREACH»
+	
+	«IF returnType != null»
+		return null;
+	«ENDIF»
+	}
+«ENDDEFINE»

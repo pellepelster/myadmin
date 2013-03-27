@@ -1,0 +1,37 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+«DEFINE main FOR Model»
+
+	«storeGlobalVar("model_scope", ModelScope::web)»
+	
+	«info("generating web enumarations")»
+	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
+	
+	«info("generating web vos")»
+	«EXPAND templates::vo::VO::webVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
+
+	«info("generating remote services")»
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+			«EXPAND templates::services::RemoteService::remoteService FOR remoteService»
+			«EXPAND services::GWTRemoteService::gwtRemoteService FOR remoteService»
+			«EXPAND services::GWTRemoteService::gwtRemoteServiceAsync FOR remoteService»
+		«ENDIF»
+	«ENDFOREACH»
+
+	«info("generating gwt remote service locator")»
+	«EXPAND services::GWTRemoteServiceLocator::gwtRemoteServiceLocator FOR this»
+
+	«info("generating base client modules")»
+	«EXPAND ClientModule::baseModuleClass FOREACH eAllContents.typeSelect(ModuleDefinition)»
+	
+	«info("generating dictionary identifiers")»
+	«EXPAND DictionaryIDs::dictionaryID FOREACH eAllContents.typeSelect(Dictionary)»
+
+	«EXPAND GwtModule::clientGeneratedModuleDefinition FOR this»
+	
+
+«ENDDEFINE»

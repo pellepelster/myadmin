@@ -1,0 +1,145 @@
+/**
+ * Copyright (c) 2013 Christian Pelster.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Christian Pelster - initial API and implementation
+ */
+package de.pellepelster.myadmin.db.test.mockup.vos;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor;
+import de.pellepelster.myadmin.client.base.db.vos.BaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
+
+public class Test1VO extends BaseVO
+{
+
+	public enum TEST_ENUM_VO
+	{
+		ENUM1, ENUM2
+	}
+
+	private static final long serialVersionUID = 6869411076738783234L;
+
+	public static final IAttributeDescriptor<List<Test2VO>> TEST2S = new AttributeDescriptor<List<Test2VO>>("test2s", List.class, Test2VO.class);
+
+	public static final IAttributeDescriptor<Integer> TESTINTEGER = new AttributeDescriptor<Integer>("testInteger", Integer.class);
+
+	public static final IAttributeDescriptor<String> TESTSTRING = new AttributeDescriptor<String>("testString", String.class);
+
+	public static final IAttributeDescriptor<TEST_ENUM_VO> TESTENUM = new AttributeDescriptor<TEST_ENUM_VO>("testEnum", TEST_ENUM_VO.class);
+
+	public static IAttributeDescriptor<?>[] getFieldDescriptors()
+	{
+		return new IAttributeDescriptor[] { TEST2S, TESTINTEGER, TESTSTRING, TESTENUM };
+	}
+
+	private long id;
+
+	private List<Test2VO> test2s = new ArrayList<Test2VO>();
+
+	private TEST_ENUM_VO testEnum;;
+
+	private int testInteger;
+
+	private String testString;
+
+	/** {@inheritDoc} */
+	@Override
+	public Object cloneVO()
+	{
+		throw new RuntimeException("not implemented");
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Object get(String name)
+	{
+		throw new RuntimeException("not implemented");
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> getAttributeDescriptor(String name)
+	{
+
+		for (de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> attributeDescriptor : getFieldDescriptors())
+		{
+			if (attributeDescriptor.getAttributeName().equals(name))
+			{
+				return attributeDescriptor;
+			}
+		}
+
+		throw new RuntimeException("unsupported attribute '" + name + "'");
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long getId()
+	{
+		return id;
+	}
+
+	public List<Test2VO> getTest2s()
+	{
+		return test2s;
+	}
+
+	public TEST_ENUM_VO getTestEnum()
+	{
+		return testEnum;
+	}
+
+	public int getTestInteger()
+	{
+		return testInteger;
+	}
+
+	public String getTestString()
+	{
+		return testString;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void set(String name, Object value)
+	{
+		throw new RuntimeException("not implemented");
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
+	public void setTest2s(List<Test2VO> test2s)
+	{
+		this.test2s = test2s;
+	}
+
+	public void setTestEnum(TEST_ENUM_VO testEnum)
+	{
+		this.testEnum = testEnum;
+	}
+
+	public void setTestInteger(int testInteger)
+	{
+		this.testInteger = testInteger;
+	}
+
+	public void setTestString(String testString)
+	{
+		this.testString = testString;
+	}
+
+}

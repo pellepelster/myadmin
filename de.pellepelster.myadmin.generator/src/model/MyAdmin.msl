@@ -1,0 +1,531 @@
+project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
+	
+	package de.pellepelster.myadmin {
+
+		package datatypes {
+	
+			//- user -------------------------------------------------
+			textdatatype UserName {
+				maxLength 32
+			}
+	
+			textdatatype GroupName {
+				maxLength 32
+			}
+		}
+		
+		package entities {
+	
+			import de.pellepelster.myadmin.datatypes.*
+		 
+			package ^dictionary {
+	
+				enum DICTIONARY_CONTAINER_TYPE {
+					COMPOSITE, EDITABLE_TABLE, ASSIGNMENT_TABLE
+				}
+				
+				enum DICTIONARY_CONTROL_AGGREGATE_TYPE {
+					NONE
+				}
+	
+				enum RELATIONAL_OPERATOR {
+					EQUAL, GREATEOREQUAL, GREATER, LESS, LESSOREQUAL, LIKE, NOTEQUAL
+				}
+				
+				enum DICTIONARY_CONTROL_ALIGNMENT {
+					LEFT, CENTER, RIGHT
+				}
+				
+				enum DICTIONARY_BASETYPE {
+					Text, INTEGER, BIGDECIMAL, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
+				}
+	
+				enum DICTIONARY_TYPE {
+					SEARCH, EDITOR
+				}
+				
+				entity Client implements de.pellepelster.myadmin.db.IClient {
+					naturalkey { name }
+
+					simpletype String name  { mandatory }
+				}
+	
+				entity MyAdminPermission {
+
+					naturalkey { permissionName }
+
+					simpletype String permissionName
+				}
+	
+				entity MyAdminGroup {
+				
+					naturalkey { groupName }
+				
+					datatype GroupName groupName
+					reference MyAdminGroup* groupChildren { reverse_navigable }
+					reference MyAdminPermission* groupPermissions
+				}
+				
+				entity MyAdminUser {
+
+					naturalkey { userName }
+				
+					datatype UserName userName { mandatory }
+					simpletype String userPassword
+					
+					reference Client+ client
+					reference MyAdminGroup* userGroups
+					reference MyAdminPermission* userPermissions
+					
+				}
+
+				entity DictionaryHierarchicalNode {
+				
+					naturalkey { voClassName, voId, parentClassName, parentVOId }
+				
+					simpletype String ^label
+					simpletype String dictionaryName
+					simpletype Long voId
+					simpletype String voClassName
+					simpletype String parentClassName
+					simpletype Long parentVOId
+					simpletype Boolean hasChildren
+					reference Client+ client
+					reference DictionaryHierarchicalNode* children
+				}
+							
+				entity DictionaryDatatype {
+
+					naturalkey { name }
+
+					simpletype String name
+	
+					reference Client+ client
+	
+					enumeration DICTIONARY_BASETYPE ^baseType
+					
+					simpletype String ^label
+					simpletype String ^filterLabel
+					simpletype String ^columnLabel
+					simpletype String ^editorLabel
+					simpletype String ^toolTip			
+				
+					simpletype String ^entity
+					
+					simpletype String format
+					simpletype Integer dispPixel
+					simpletype Integer editPixel
+					map String String ^enumerationValues
+					
+					// text datatype
+					simpletype Integer ^maxLength
+					simpletype Integer ^minLength
+					simpletype String ^formatRegularExpression
+	
+					// integer/float datatype
+					simpletype Integer ^max
+					simpletype Integer ^min
+	
+					// float datatype
+					simpletype Integer ^fractionDigits
+					simpletype Integer ^totalDigits
+			
+				}
+				
+				entity DictionaryResult {
+				
+					naturalkey { name }
+				
+					reference Client+ client
+					simpletype String name
+					reference DictionaryControl~ controls
+					simpletype Integer maxResults
+					simpletype Integer pagingSize
+				}
+	
+				entity DictionaryFilter {
+
+					naturalkey { name }
+
+					reference Client+ client
+					simpletype String name
+					reference DictionaryContainer container
+				}
+	
+				entity DictionarySearch {
+
+					naturalkey { name }
+
+					reference Client+ client
+					simpletype String name
+					simpletype String ^title
+					reference DictionaryFilter* filter
+					reference DictionaryResult result
+				}
+	
+				entity DictionaryEditor {
+
+					naturalkey { name }
+
+					reference Client+ client
+					simpletype String name
+					simpletype String ^title
+					reference DictionaryContainer container
+				}
+	
+				entity DictionaryControl {
+
+					naturalkey { name }
+	
+					reference Client+ client
+				
+					simpletype String name
+					simpletype String attributePath
+					
+					simpletype String ^label
+					simpletype String ^filterLabel
+					simpletype String ^columnLabel
+					simpletype String ^editorLabel
+					simpletype String ^toolTip
+					simpletype String ^hierarchicalId
+	
+					simpletype String ^dictionary
+	
+					reference DictionaryControl~ labelControls
+					reference DictionaryControl~ groupControls
+	
+					simpletype Boolean ^mandatory
+					simpletype Boolean readOnly
+	
+					reference DictionaryDatatype+ ^datatype
+					
+					enumeration RELATIONAL_OPERATOR relationalOperator
+					enumeration DICTIONARY_CONTROL_ALIGNMENT alignment
+					enumeration DICTIONARY_CONTROL_AGGREGATE_TYPE aggregate
+					
+					simpletype Integer ^width
+	
+					simpletype Integer position
+								
+				}
+			
+				entity Dictionary {
+
+					naturalkey { name }
+
+					reference Client+ client
+					reference DictionaryEditor editor
+					simpletype String entityName
+					simpletype String ^title
+					reference DictionaryControl~ controlAggregates
+					reference DictionaryControl~ labelControls
+					simpletype String name
+					reference DictionarySearch search
+				}
+	
+				entity DictionaryContainer {
+				
+					naturalkey { name }
+				
+					simpletype String name
+				
+					reference DictionaryContainer* children
+					reference Client+ client
+					reference DictionaryControl~ controls
+				
+					enumeration DICTIONARY_CONTAINER_TYPE ^type
+					simpletype String attributePath
+					simpletype String entityName
+					
+					simpletype Integer ^columns
+					simpletype Integer ^columnspan
+					
+					simpletype String ^dictionaryName
+					
+				}
+				
+				entity Module {
+				
+					naturalkey { name }
+				
+					reference Client+ client
+					reference ModuleDefinition+ moduleDefinition
+					map String String properties
+					simpletype String ^title
+					simpletype String name
+				}
+				
+				entity ModuleDefinition
+				{
+					naturalkey { name }
+				
+					reference Client+ client
+					simpletype String name
+				}
+				
+				entity ModuleNavigation 
+				{
+					naturalkey { name }
+
+					simpletype String name
+				
+					reference ModuleNavigation* children { reverse_navigable }
+					reference Client+ client
+					reference Module+ ^module
+					simpletype String ^title
+				}		
+			}
+		}
+		
+		package services {
+	
+			import de.pellepelster.myadmin.entities.^dictionary.*
+
+			remoteservice HierachicalService {
+	
+				remotemethod getRootNodes returns reference DictionaryHierarchicalNode* {
+					simpletype String id
+				}
+
+				remotemethod getConfigurationById returns customtype "de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration" {
+					simpletype String id
+				}
+
+				remotemethod hasChildren returns simpletype Boolean {
+					simpletype String voClassName
+					simpletype Long voId
+				}
+
+				remotemethod getChildNodes returns reference DictionaryHierarchicalNode* {
+					simpletype String id
+					simpletype Long voId
+					simpletype String voClassName
+				}
+				
+				
+			
+			}
+	
+			remoteservice BaseEntityService {
+	
+				remotemethod getNewVO returns myadmintype IBaseVO {
+					simpletype String voClassName
+					map String String properties
+				}
+	
+				remotemethod <CreateVOType extends myadmintype IBaseVO> create returns generic CreateVOType {
+					generic CreateVOType vo
+				}
+	
+				remotemethod <ValidateVOType extends myadmintype IBaseVO> validate returns customtype "de.pellepelster.myadmin.client.base.db.vos.IValidationMessage" * {
+					generic ValidateVOType vo
+				}
+	
+	
+				remotemethod <ValidateAndSaveVOType extends myadmintype IBaseVO> validateAndSave returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndSaveVOType>" {
+					generic ValidateAndSaveVOType vo
+				}
+	
+				remotemethod <ValidateAndCreateVOType extends myadmintype IBaseVO> validateAndCreate returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndCreateVOType>" {
+					generic ValidateAndCreateVOType vo
+				}
+			
+				remotemethod <SaveVOType extends myadmintype IBaseVO> save returns generic SaveVOType {
+					generic SaveVOType vo
+				}
+					
+				remotemethod <FilterVOType extends myadmintype IBaseVO> filter returns generic FilterVOType* {
+					myadmintype GenericFilterVO<generic FilterVOType> genericFilterVO
+				}
+	
+				remotemethod deleteAll {
+					simpletype String voClassName
+				}
+	
+				remotemethod <DeleteVOType extends myadmintype IBaseVO> delete {
+					generic DeleteVOType vo
+				}
+	
+				remotemethod read returns myadmintype IBaseVO {
+					simpletype Long id
+					simpletype String voClassName
+				}
+			
+			}
+			
+			remoteservice DictionaryService {
+			
+				remotemethod getDictionaries returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"*
+				{
+					simpletype String* dictionaryNames
+				}
+	
+				remotemethod getDictionary returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"
+				{
+					simpletype String dictionaryName
+				}
+			}		
+	
+			remoteservice ModuleService {
+			
+				remotemethod getModulesNavigation returns reference de.pellepelster.myadmin.entities.^dictionary.ModuleNavigation*
+				{
+				}
+				
+			}		
+			
+			remoteservice UserService {
+			
+				remotemethod getCurrentUser returns reference MyAdminUser
+				{
+				}
+	
+				remotemethod changePassword  {
+					simpletype String oldPassword
+					simpletype String newPassword
+				}
+				
+			}
+		}
+		
+		package modules {
+
+			moduledefinition ModuleNavigation {
+			}
+
+			moduledefinition ModuleHierarchicalTree {
+					parameters {
+						parameter HierarchicalTreeId {
+							type String
+						} 
+					}
+			}
+
+			package ^dictionary {
+		
+				moduledefinition DictionarySearch {
+				
+					parameters {
+						parameter SearchDictionaryName {
+							type String
+						} 
+					}
+				}
+	
+				moduledefinition DictionaryEditor {
+				
+					parameters {
+					
+						parameter EditorDictionaryName {
+							type String
+						} 
+						
+						parameter Id {
+							type Long
+						} 
+						
+					}
+				}
+			}
+			
+			module UserSearch {
+				moduledefinition  de.pellepelster.myadmin.modules.^dictionary.DictionarySearch		
+				
+				parameters {
+					^dictionary.DictionarySearch.SearchDictionaryName = "MyAdminUser"
+				} 
+			}
+	
+			module GroupSearch {
+				moduledefinition de.pellepelster.myadmin.modules.^dictionary.DictionarySearch		
+				
+				parameters {
+					^dictionary.DictionarySearch.SearchDictionaryName = "MyAdminGroup"
+				} 
+			}
+			
+		}
+				
+		package dictionaries {
+			
+			dictionary MyAdminGroup {
+				
+				entity de.pellepelster.myadmin.entities.^dictionary.MyAdminGroup
+				
+				dictionarycontrols {
+					textcontrol GroupName {
+						entityattribute de.pellepelster.myadmin.entities.^dictionary.MyAdminGroup.groupName
+						label "Groupname"
+					}
+				}
+	
+				dictionarysearch MyAdminGroupFilter {
+	
+					dictionaryfilter MyAdminGroupFilter {
+						composite MyAdminGroupFilterRootComposite {
+							textcontrol ref GroupName
+						}
+					}
+					
+					dictionaryresult MyAdminGroupResult {
+						textcontrol ref GroupName
+					}
+				} 	
+			
+				dictionaryeditor MyAdminGroupEditor {
+	
+					composite MyAdminGroupEditorComposite {
+						textcontrol ref GroupName
+					}				
+				} 
+			}
+			
+			dictionary MyAdminUser {
+				
+				entity entities.^dictionary.MyAdminUser
+				
+				dictionarycontrols {
+				
+					textcontrol UserName {
+						entityattribute de.pellepelster.myadmin.entities.^dictionary.MyAdminUser.userName
+						label "Username"
+					}
+				}
+				
+				dictionarysearch UserSearch {
+				
+				
+					dictionaryfilter UserFilter {
+						composite UserFilterRootComposite {
+							textcontrol ref UserName
+						}
+					}
+					
+					dictionaryresult UserResult {
+						textcontrol ref UserName
+					}
+				}
+				
+				dictionaryeditor UserEditor {
+					
+					composite UserEditorRootComposite {
+						
+						composite UserEditorComposite1 {
+							textcontrol ref UserName { mandatory }
+						}
+						
+						assignmenttable UserGroupAssignment {
+							
+							entityattribute de.pellepelster.myadmin.entities.^dictionary.MyAdminUser.userGroups
+							dictionary MyAdminGroup
+							
+							columncontrols {
+							//	textcontrol ref  de.pellepelster.myadmin.entities.^dictionary.MyAdminGroup.groupName
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

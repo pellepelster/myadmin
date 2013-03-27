@@ -1,0 +1,31 @@
+<ivysettings>
+
+	<settings defaultResolver="bootstrap_default" />
+	
+	<include url="${ivy.default.settings.dir}/ivysettings-public.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-shared.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-local.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-main-chain.xml" />
+	<include url="${ivy.default.settings.dir}/ivysettings-default-chain.xml" />
+
+	<property name="ivy.staging.repository.root" value="${user.home}/.ivy2/local" override="false"/>
+	
+	
+	<resolvers>
+
+		<filesystem name="staging_repository">
+			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+	
+		<chain name="bootstrap_default" returnFirst="true" checkmodified="true">
+			<resolver ref="default" />
+			<resolver ref="staging_repository" />
+		</chain>
+	</resolvers>
+	
+	<triggers>
+		<ant-call target="unzip" event="post-download-artifact" filter="module=build AND type= zip" />
+	</triggers>
+	
+</ivysettings>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="de.pellepelster.myadmin.client.web">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+
+	<path id="de.pellepelster.myadmin.client.classpath">
+		<path refid="client.base.classpath" />
+		<fileset dir="${de.pellepelster.myadmin.client.core.location}/dist" includes="*.jar" excludes="*-source.jar" />
+		<fileset dir="${de.pellepelster.myadmin.client.base.location}/dist" includes="*.jar" excludes="*-source.jar" />
+		<fileset dir="${de.pellepelster.myadmin.generator.location}/dist" includes="*.jar" excludes="*-source.jar" />
+	</path>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build.location}" />
+		<mkdir dir="${dist.location}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist.location}" />
+		<delete dir="${build.location}" />
+	</target>
+
+	<target name="build" depends="init, refprojects.build, javac, jar" />
+
+	<target name="build.nodeps" depends="init, javac, jar" />
+
+	<target name="build.nodeps.test" depends="init, javac, jar">
+		<ant antfile="../de.pellepelster.myadmin.client.test/build.xml" target="build.nodeps" inheritall="false" />
+	</target>
+
+	<target name="javac">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="de.pellepelster.myadmin.client.classpath" />
+		</javac>
+	</target>
+
+	<target name="refprojects.build">
+		<ant antfile="${de.pellepelster.myadmin.client.core.location}/build.xml" inheritAll="false" />
+	</target>
+
+	<target name="jar">
+		<jar destfile="${dist.location}/${ant.project.name}.jar" basedir="${build.location}" includes="**" />
+		<jar destfile="${dist.location}/${ant.project.name}-source.jar" basedir="src/" manifest="src/META-INF/MANIFEST.MF" />
+	</target>
+
+</project>

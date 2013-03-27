@@ -1,0 +1,51 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="generator" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+		<conf name="generated" />
+ 		<conf name="test" extends="generated" />
+    </configurations>
+    
+	<publications>
+		<artifact name="generator" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="myadmin-mobile-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="myadmin-web-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="myadmin-server-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="myadmin-xml-gen" type="jar" ext="jar" conf="master,generated" />
+	</publications>
+
+	<dependencies defaultconf="compile,default->default">
+
+		<dependency name="dsl-generator" rev="latest.integration" />
+		<dependency name="client-base" rev="latest.integration" />
+		<dependency name="server-core" rev="latest.integration" />
+		<dependency name="db" rev="latest.integration" />
+
+		<dependency org="ant" name="ant" rev="1.6.5">
+			<artifact name="ant" type="jar" />
+		</dependency>
+
+		<dependency org="com.google.inject" name="guice" rev="3.0" />
+
+		<dependency org="com.sun.jaxb" name="annox" rev="0.5.1" />
+		<dependency org="com.sun.jaxb" name="jaxb-api" rev="2.6.5" />
+		<dependency org="com.sun.jaxb" name="jaxb-impl" rev="2.6.5" />
+		<dependency org="com.sun.jaxb" name="jaxb-xjc-javadoc" rev="2.6.5" />
+		<dependency org="com.sun.jaxb" name="jaxb-xjc" rev="2.6.5" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics-annotate" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics-ant" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics-runtime" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics-testing" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics-tools" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jaxb2-basics" rev="0.6.3" />
+		<dependency org="com.sun.jaxb" name="jsr173" rev="api_1.0" />
+ 		
+	</dependencies>
+
+</ivy-module>

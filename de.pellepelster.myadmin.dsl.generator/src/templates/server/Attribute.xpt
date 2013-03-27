@@ -1,0 +1,30 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entity attributeGetterSetter ----------------------------------------------
+«DEFINE entityAttributeGetterSetter(Entity entity) FOR EntityAttribute»
+
+	private «EXPAND Type::entityType FOR type-» «name.toFirstLower()»«EXPAND Type::entityTypeInitializer(entityAttributeOptions, entity) FOR type-»;
+
+	public «EXPAND Type::entityType FOR type-» get«name.toFirstUpper()»()
+	{
+		return «name.toFirstLower()»;
+	}
+
+	public void set«name.toFirstUpper()»(«EXPAND Type::entityType FOR type-» «name.toFirstLower()»)
+	{
+		this.«name.toFirstLower()» = «name.toFirstLower()»;
+	}
+«ENDDEFINE»
+
+//- entity attributeGetterSetter ----------------------------------------------
+«DEFINE entityAttributeGetterSetter FOR Entity»
+	«EXPAND templates::util::Attribute::attributeGetterSetter(fullQualifiedEntityName(), this.name) FOR this-»
+«ENDDEFINE»
+
+//- attributeGetterSetter -----------------------------------------------------
+«DEFINE entityAttributeGetterSetter(String attributeName) FOR Entity»
+	«EXPAND templates::util::Attribute::attributeGetterSetter(fullQualifiedEntityName(), attributeName) FOR this-»
+«ENDDEFINE»
+

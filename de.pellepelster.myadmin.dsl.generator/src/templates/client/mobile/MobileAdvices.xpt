@@ -1,0 +1,13 @@
+«IMPORT myAdminDsl»
+
+«EXTENSION org::eclipse::xtend::util::stdlib::crossref»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION templates::NewExtensions»
+
+«AROUND templates::vo::VO::webVOEntityClass FOR Entity»
+
+	import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+	@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+ 	«targetDef.proceed()»
+«ENDAROUND»

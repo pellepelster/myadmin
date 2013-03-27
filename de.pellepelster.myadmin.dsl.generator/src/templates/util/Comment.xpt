@@ -1,0 +1,76 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+
+«DEFINE commentFile(String filename) FOR Object»
+/**
+ * «filename»
+ *
+ * Copyright (c) 2008-2010 Christian Pelster
+ * All rights reserved.
+ *
+ * Use is subject to license terms.
+ */
+«ENDDEFINE»
+
+«DEFINE commentClassGenerated(String className) FOR Object»
+/**
+ * «className»<br>
+ * <br>
+ * <b>ATTENTION</b><br>
+ * The class {@link «className»} is a generated class. Changes will be overwritten by
+ * the next build.
+ *
+ * @author <i>MyAdmin Generator</i>
+ */
+«ENDDEFINE»
+
+«DEFINE commentClassGeneratedOnce(String comment) FOR Entity»
+/**
+ * «comment»<br>
+ * <br>
+ * <b>ATTENTION</b><br>
+ * The class {@link «entityName()»} is a generated class.
+ * Changes to this file will <b>NOT</b> be overwritten by the next build. Your
+ * changes are safe.
+ *
+ * @author <i>MyAdmin Generator</i>
+ */
+«ENDDEFINE»
+
+«DEFINE commentMethodGenerated(String methodComment) FOR Object»
+/** 
+ * <i>generated interface method</i><br>
+ * «methodComment»
+ */
+«ENDDEFINE»
+
+«DEFINE commentInheritedMethodGenerated FOR Object»
+/** {@inheritDoc} */
+@Override
+«ENDDEFINE»
+
+
+«DEFINE commentJavagetter(String classname) FOR Object»
+/**
+ * @return the {@link «classname»} to get
+ */
+«ENDDEFINE»
+
+«DEFINE commentJavasetter(String field, String classname) FOR Object»
+/**
+ *  @param «field» The {@link «classname»} to set
+ */
+«ENDDEFINE»
+
+«DEFINE commentJavafield(String classname) FOR Object»
+/** The private field for {@link «classname»}. */
+«ENDDEFINE»
+
+«DEFINE commentJavafieldFreetext(String text) FOR Object»
+/** «text» */
+«ENDDEFINE»
+
+«DEFINE commentOverride FOR Object»
+/** {@inheritDoc} */
+@Override
+«ENDDEFINE»

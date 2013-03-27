@@ -1,0 +1,58 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="server" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+		<artifact name="server" type="jar" ext="jar" conf="master" />
+		<artifact name="server-source" type="source" ext="jar" conf="sources" />
+	</publications>
+
+	<dependencies>
+
+		<dependency name="server-core" rev="latest.integration" conf="*->@" />
+
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+
+		<dependency org="net.sf.extcos" name="extcos" rev="0.3b">
+			<artifact name="extcos" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-web" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-webmvc" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-webmvc" type="jar" />
+		</dependency>
+
+		<dependency org="aopalliance" name="aopalliance" rev="1.0">
+			<artifact name="aopalliance" type="jar" />
+		</dependency>
+
+		<dependency org="aspectj" name="aspectjweaver" rev="1.5.4" />
+
+		<dependency org="javax.servlet" name="servlet-api" rev="2.5">
+			<artifact name="servlet-api" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework.security" name="spring-security-config" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-security-config" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework.security" name="spring-security-web" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-security-web" type="jar" />
+		</dependency>
+
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" />	
+
+	</dependencies>
+
+</ivy-module>

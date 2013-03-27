@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2013 Christian Pelster.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Christian Pelster - initial API and implementation
+ */
+package de.pellepelster.myadmin.client.base.modules.dictionary.model;
+
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
+
+/**
+ * Model for a filter UI
+ * 
+ * @author pelle
+ * @version $Rev$, $Date$
+ * 
+ */
+public interface IFilterModel extends IBaseModel
+{
+	/**
+	 * The composite structure describing the filter UI
+	 * 
+	 * @return
+	 */
+	ICompositeModel getCompositeModel();
+
+	/**
+	 * Fully qualified name of the VO managed by this filter
+	 * 
+	 * @return
+	 */
+	String getVOName();
+}

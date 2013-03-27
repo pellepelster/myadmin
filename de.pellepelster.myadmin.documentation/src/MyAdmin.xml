@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
+
+	<title>MyAdmin Documentation</title>
+
+	<info>
+		<title>MyAdmin Documentation</title>
+		<author>
+			<personname>Christian Pelster</personname>
+		</author>
+	</info>
+
+	<chapter>
+
+		<title>Installation</title>
+		<section>
+
+			<title>Prerequisites</title>
+			<para>
+			
+				To install MyAdmin the following dependencies have to be present:
+				
+				<orderedlist>
+					<listitem>
+						<para><ulink url="http://ant.apache.org/ivy/ivyde/">Apache IvyDE</ulink>  Updatesite: <ulink url="http://www.apache.org/dist/ant/ivyde/updatesite" /></para>
+					</listitem>
+					<listitem>
+						<para><ulink url="http://www.eclipse.org/Xtext/">Eclipse XText</ulink> Updatesite: <ulink url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" /></para>
+					</listitem>
+				</orderedlist>
+
+				<tip><para>A pre packged Eclipse version with Xtext is available at <ulink url="http://www.eclipse.org/Xtext/download.html" /></para></tip>
+				
+			</para>
+
+			<section>
+				<title>First sub section</title>
+				<para>
+
+					<procedure id="proc-Procedure_Title">
+						<title>&lt;procedure&gt; Title</title>
+						<para>Lead-in sentence</para>
+						<step>
+							<title>Step One Title</title>
+							<para>Step one info.</para>
+						</step>
+						<step>
+							<title>Step Two Title</title>
+							<para>Step two info.</para>
+						</step>
+					</procedure>
+
+				</para>
+			</section>
+			<section>
+				<title>second sub section</title>
+				<para>Subsection2</para>
+			</section>
+		</section>
+
+		<section>
+			<title>Second section in the chapter</title>
+			<para>Other random text</para>
+		</section>
+	</chapter>
+
+</book>

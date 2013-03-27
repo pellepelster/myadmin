@@ -1,0 +1,21 @@
+<project name="dsl-generator" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.dir}">
+			<include name="**/*.xpt"/>
+			<include name="**/*.ext"/>
+			<include name="**/*.mwe2"/>
+		</fileset>
+	</path>
+	
+	<path id="source.jar.files">
+		<dirset dir="${src.dir}" />
+		<fileset dir="${src.dir}">
+			<include name="**/*xpt"/>
+		</fileset>
+	</path>
+
+</project>

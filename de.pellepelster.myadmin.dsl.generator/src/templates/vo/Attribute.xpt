@@ -1,0 +1,36 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+
+//- vo attributeGetterSetter --------------------------------------------------
+«DEFINE voAttributeGetterSetter(Entity entity) FOR EntityAttribute»
+
+	«IF isTrue(entityAttributeOptions.mandatory)»
+	@de.pellepelster.myadmin.client.base.db.vos.Mandatory
+	«ENDIF»
+
+	«IF entity.naturalKeyAttributes.contains(this)»
+	@de.pellepelster.myadmin.client.base.db.vos.NaturalKey( order = «entity.naturalKeyAttributes.indexOf(this)»)
+	«ENDIF»
+
+	private «EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»«EXPAND templates::type::Type::webVOTypeInitializer(entityAttributeOptions, entity) FOR type-»;
+
+	public «EXPAND templates::type::Type::webVOType FOR type-» get«name.toFirstUpper()»()
+	{
+		return «name.toFirstLower()»;
+	}
+
+	public void set«name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»)
+	{
+		this.«name.toFirstLower()» = «name.toFirstLower()»;
+	}	
+«ENDDEFINE»
+
+//- vo attributeGetterSetter --------------------------------------------------
+«DEFINE voAttributeGetterSetter FOR Entity»
+	«EXPAND templates::util::Attribute::attributeGetterSetter(fullQualifiedEntityName(), this.name) FOR this-»
+«ENDDEFINE»
+
+//- vo attributeGetterSetter --------------------------------------------------
+«DEFINE voAttributeGetterSetter(String attributeName) FOR Entity»
+	«EXPAND templates::util::Attribute::attributeGetterSetter(fullQualifiedEntityName(), attributeName.toFirstLower()) FOR this-»
+«ENDDEFINE»

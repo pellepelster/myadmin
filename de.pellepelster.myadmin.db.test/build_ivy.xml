@@ -1,0 +1,7 @@
+<project name="db-test" default="compile">
+
+	<property name="test.suite.name" value="de.pellepelster.myadmin.db.test.DbTestSuite" />
+	
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+	
+</project>

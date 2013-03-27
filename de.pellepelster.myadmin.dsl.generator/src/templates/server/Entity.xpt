@@ -1,0 +1,245 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entity --------------------------------------------------------------------
+«DEFINE entity FOR Entity»
+
+	«IF !(entityOptions != null && entityOptions.noentity)»	
+
+		«EXPAND templates::util::Comment::commentFile("") FOR this»
+		«FILE fullQualifiedEntityFileName()»
+		package «fullQualifiedEntityPackage()»;
+	
+		«EXPAND templates::util::Comment::commentClassGenerated("") FOR this»
+	
+		@javax.persistence.Entity
+		«IF this.extends != null-»
+		«REM»
+		@javax.persistence.Inheritance(strategy = javax.persistence.InheritanceType.TABLE_PER_CLASS)
+		«ENDREM»
+		«ELSE»
+		@javax.persistence.Table(name = "«name.toLowerCase()»")
+		«ENDIF»
+		public class «name.toFirstUpper()» «IF this.extends != null-» extends «fullQualifiedEntityName(this.extends)»«ENDIF-» implements de.pellepelster.myadmin.db.IBaseEntity«IF this.interface != null-», «interface-»«ENDIF-»«IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.db.IHierarchicalEntity«ENDIF» {
+			
+			«IF this.extends == null-»
+				«EXPAND jpaIdAnnotation»
+				«EXPAND templates::util::Attribute::attributeGetterSetter("long", "id")»
+			«ENDIF»
+			
+			«IF entityOptions != null && entityOptions.hierarchical»	
+				«EXPAND hierarchicalEntity FOR this»
+			«ENDIF»
+			
+			«FOREACH attributes AS attribute»
+				«EXPAND attributeAnnotation(this, attribute) FOR attribute.type»
+				«EXPAND Attribute::entityAttributeGetterSetter(this) FOR attribute»
+			«ENDFOREACH»
+	
+			«REM»iterate through  all entities referencing this entity«ENDREM»
+			«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+				«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+					«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+						«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+	
+							«EXPAND referencedEntity(otherEntity, otherEntityReferenceType.cardinality) FOR this»
+	
+						«ENDIF-»
+					«ENDLET-»
+				«ENDFOREACH-»
+			«ENDFOREACH-»
+		}
+		«ENDFILE»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE referencedEntity(Entity otherEntity, Cardinality cardinality) FOR Entity»
+	«IF (cardinality == Cardinality::onetomany)-»
+		«IF otherEntity == this»
+			@javax.persistence.ManyToOne
+			«EXPAND Attribute::entityAttributeGetterSetter("parent") FOR otherEntity-»
+		«ELSE»
+			@javax.persistence.ManyToOne
+			«EXPAND Attribute::entityAttributeGetterSetter FOR otherEntity-»
+		«ENDIF»
+	«ENDIF-»
+«ENDDEFINE»
+
+//- id annotation--------------------------------------------------------------
+«DEFINE jpaIdAnnotation FOR Entity»
+	@javax.persistence.Id
+	@javax.persistence.Column(name = "«jpaIdName()»")
+	@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.TABLE, generator = "«jpaIdSequenceName()»")
+	@javax.persistence.SequenceGenerator(name = "«jpaIdSequenceName()»", sequenceName = "«jpaIdSequenceName()»", allocationSize = 1)	
+«ENDDEFINE»
+
+//- cascadeType --------------------------------------------------------------
+«DEFINE cascadeType FOR CascadeEntityAttributeOption»
+«REM»
+	«IF (cascadeType == CascadeType::all)-»
+		javax.persistence.CascadeType.ALL
+	«ENDIF»
+«ENDREM»
+«REM»javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.MERGE«ENDREM»
+		
+«ENDDEFINE»
+
+«DEFINE hierarchicalEntity FOR Entity»
+	private static final long serialVersionUID = -7154622529880817879L;
+
+	@javax.persistence.Column(name = "parent_id")
+	private Long parentId;
+
+	@javax.persistence.Column(name = "parent")
+	private String parentClassName;
+
+	@javax.persistence.Transient
+	private boolean hasChildren;
+
+	@javax.persistence.Transient
+	private de.pellepelster.myadmin.db.IHierarchicalEntity parent;
+
+	/** {@inheritDoc} */
+	@Override
+	public de.pellepelster.myadmin.db.IHierarchicalEntity getParent()
+	{
+		return parent;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String getParentClassName()
+	{
+		return parentClassName;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Long getParentId()
+	{
+		return parentId;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public boolean hasChildren()
+	{
+		return hasChildren;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setHasChildren(boolean hasChildren)
+	{
+		this.hasChildren = hasChildren;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParent(de.pellepelster.myadmin.db.IHierarchicalEntity parent)
+	{
+		this.parent = parent;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParentClassName(String parentClassName)
+	{
+		this.parentClassName = parentClassName;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParentId(Long parentId)
+	{
+		this.parentId = parentId;
+	}
+«ENDDEFINE»
+
+«DEFINE joinTable(Entity entity, Entity otherEntity, EntityAttribute entityAttribute) FOR Object»
+	@javax.persistence.JoinTable(name="«entityAttribute.name.toFirstLower()»_«jpaId(entity)»2«jpaId(otherEntity)»",
+	      joinColumns={ @javax.persistence.JoinColumn(name="«jpaIdName(entity)»", referencedColumnName="«jpaIdName(entity)»") },
+	      inverseJoinColumns={ @javax.persistence.JoinColumn(name="«jpaIdName(otherEntity)»", referencedColumnName="«jpaIdName(otherEntity)»") }
+	)
+
+«ENDDEFINE»
+
+//- entity annotation ---------------------------------------------------------
+«DEFINE entityAttributeAnnotation(Entity entity, EntityAttribute entityAttribute, Entity otherEntity, Cardinality cardinality, Boolean reverseNavigable) FOR Object»
+	«IF (cardinality == Cardinality::onetomany)-»
+		«IF (otherEntity == entity)-»
+
+			«IF reverseNavigable»
+				@javax.persistence.OneToMany(mappedBy = "parent")
+			«ELSE»
+				@javax.persistence.OneToMany()
+			«ENDIF»			
+
+		«ELSE»
+		
+			«IF reverseNavigable»
+				@javax.persistence.OneToMany(mappedBy = "«entity.name.toFirstLower()»")
+			«ELSE»
+				@javax.persistence.OneToMany()
+			«ENDIF»			
+			
+		«ENDIF»
+	«ELSEIF (cardinality == Cardinality::manytoone)-»
+		@javax.persistence.ManyToOne()
+	«ELSEIF (cardinality == Cardinality::manytomany)-»
+		@javax.persistence.ManyToMany()
+		«REM»
+		@javax.persistence.ManyToMany(cascade = { javax.persistence.CascadeType.REMOVE, javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.REFRESH})
+		@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    	@org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+		«ENDREM»
+		@javax.persistence.JoinTable(name = "«entityAttribute.name.toFirstLower()»_«otherEntity.name.toFirstLower()»2«entity.name.toFirstLower()»", joinColumns = @javax.persistence.JoinColumn(name = "«jpaIdName(entity)»1"), inverseJoinColumns = @javax.persistence.JoinColumn(name = "«jpaIdName(otherEntity)»2"))
+	«ELSE-»
+		@javax.persistence.OneToOne()
+	«ENDIF-»
+«ENDDEFINE»
+
+//- attribute annotation ------------------------------------------------------
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR Type»
+	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR DatatypeType»
+	«EXPAND attributeAnnotation(entity, entityAttribute, cardinality) FOR this.type»
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR ReferenceDatatype»
+	«EXPAND entityAttributeAnnotation(entity, entityAttribute, this.entity, cardinality, isTrue(entityAttribute.entityAttributeOptions.reverse_navigable)) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR Datatype»
+	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR DateDatatype»
+ 	@javax.persistence.Temporal(javax.persistence.TemporalType.DATE)
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR EnumerationDatatype»
+	@javax.persistence.Basic
+	@javax.persistence.Enumerated(javax.persistence.EnumType.STRING)
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR EntityType»
+	«EXPAND entityAttributeAnnotation(entity, entityAttribute, type, cardinality, isTrue(entityAttribute.entityAttributeOptions.reverse_navigable)) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR ReferenceDatatypeType»
+	«EXPAND entityAttributeAnnotation(entity, entityAttribute, this.type.entity, this.cardinality, isTrue(entityAttribute.entityAttributeOptions.reverse_navigable)) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR EnumerationType»
+	@javax.persistence.Basic
+	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
+	@javax.persistence.Enumerated(javax.persistence.EnumType.STRING)
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR SimpleMapType»
+	@javax.persistence.ElementCollection
+«ENDDEFINE»

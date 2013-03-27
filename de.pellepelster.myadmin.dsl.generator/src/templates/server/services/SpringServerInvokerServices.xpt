@@ -1,0 +1,35 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE springServerInvokerServices FOR Model»
+«FILE name + "ServerInvokerServices-gen.xml"-»
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	<bean name="«remoteService.name.toFirstUpper()»" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    	<property name="service" ref="«remoteService.name.toFirstLower()»"/>
+    	<property name="serviceInterface" value="«fullQualifiedInterfaceName(remoteService, ModelScope::web)»"/>
+	</bean>
+	«ENDFOREACH»
+
+	<bean id="invokerUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="order" value="20"/>
+	    <property name="mappings"> 
+			<props>
+				«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+			    <prop key="/«remoteService.name.toFirstUpper()»">«remoteService.name.toFirstUpper()»</prop>
+				«ENDFOREACH»
+			</props>
+	    </property>
+	</bean>
+
+</beans>
+«ENDFILE»
+«ENDDEFINE»

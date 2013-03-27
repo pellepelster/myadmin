@@ -1,0 +1,11 @@
+<ivysettings>
+
+	<include url="../de.pellepelster.myadmin.build/ant/ivysettings.xml" />
+
+	<resolvers>
+		<filesystem name="localjars">
+			<artifact pattern="${artifact.temp.dir}/[artifact].[ext]" />
+		</filesystem>
+	</resolvers>
+
+</ivysettings>

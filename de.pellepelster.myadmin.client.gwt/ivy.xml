@@ -1,0 +1,27 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="client-gwt" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+ 		<conf name="test" extends="default" />
+    </configurations>
+
+	<publications>
+		<artifact name="client-gwt" type="jar" ext="jar" conf="master" />
+		<artifact name="client-gwt-source" type="source" ext="jar" conf="sources" />
+	</publications>
+
+	<dependencies>
+	
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration"  />	
+
+	</dependencies>
+
+</ivy-module>

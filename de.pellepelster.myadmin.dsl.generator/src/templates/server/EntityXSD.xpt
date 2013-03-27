@@ -1,0 +1,32 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entity --------------------------------------------------------------------
+«DEFINE entityXSD FOR Entity»
+	
+«FILE fullQualifiedEntityXSDFileName()»	
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://mycompany.com/hr/schemas"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas">
+
+    <xs:element name="«name.toFirstUpper()»List">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="«name.toFirstUpper()»" type="hr:«name.toFirstUpper()»TypeType"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="«name.toFirstUpper()»Type">
+        <xs:sequence>
+			«FOREACH this.attributes AS attribute»
+	            <xs:element name="«attribute.name»" type="xs:integer"/>
+			«ENDFOREACH»    
+        </xs:sequence>                                                                   
+    </xs:complexType>
+</xs:schema>
+«ENDFILE»
+	
+«ENDDEFINE»

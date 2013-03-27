@@ -1,0 +1,28 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+
+//- attributeGetterSetter -----------------------------------------------------
+«DEFINE attributeGetterSetter(String typeName, String attributeName) FOR Object»
+	«EXPAND attributeGetterSetter(typeName, attributeName, null) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeGetterSetter(String typeName, String attributeName, String init) FOR Object»
+	private «typeName» «attributeName.toFirstLower()»  «IF init != null-»= «init»«ENDIF»;
+
+	«EXPAND attributeGetter(typeName, attributeName) FOR this»
+	«EXPAND attributeSetter(typeName, attributeName) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeGetter(String typeName, String attributeName) FOR Object»
+	public «typeName» get«attributeName.toFirstUpper()»()
+	{
+		return «attributeName.toFirstLower()»;
+	}
+«ENDDEFINE»
+
+«DEFINE attributeSetter(String typeName, String attributeName) FOR Object»
+	public void set«attributeName.toFirstUpper()»(«typeName» «attributeName.toFirstLower()»)
+	{
+		this.«attributeName.toFirstLower()» = «attributeName.toFirstLower()»;
+	}
+«ENDDEFINE»

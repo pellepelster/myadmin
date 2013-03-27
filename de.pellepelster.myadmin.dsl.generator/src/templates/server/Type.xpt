@@ -1,0 +1,31 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entity type ---------------------------------------------------------------
+«DEFINE entityType FOR Type-»
+	«EXPAND templates::type::Type::type("entity", true) FOR this-»
+«ENDDEFINE»
+
+//- entity type initializer ---------------------------------------------------
+«DEFINE entityTypeInitializer(EntityAttributeOptions entityAttributeOptions, Entity entity) FOR Type-»
+	«EXPAND templates::type::Type::typeInitializer("entity", entityAttributeOptions, entity) FOR this-»
+«ENDDEFINE»
+
+//- entity enumeration --------------------------------------------------------
+«DEFINE entityEnumeration FOR Enumeration»
+	«FILE fullQualifiedEntityFileName()»
+	package «fullQualifiedEntityPackage()-»;
+	
+	public enum «entityName()»
+	{
+	«FOREACH enumerationValues AS enumValue SEPARATOR ","-»
+		«enumValue.toUpperCase()-»
+	«ENDFOREACH-»	
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE entityType FOR SimpleTypes-»
+	«this.toString().toFirstUpper()-»
+«ENDDEFINE»

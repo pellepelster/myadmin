@@ -1,0 +1,29 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="tools-test" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<dependencies>
+
+		<dependency name="tools" rev="latest.integration" conf="*->@" />
+
+		<dependency name="server-test" rev="latest.integration" conf="*->@" />
+
+		<dependency org="junit" name="junit" rev="4.10">
+			<artifact name="junit" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-web" type="jar" />
+		</dependency>
+
+	</dependencies>
+
+</ivy-module>

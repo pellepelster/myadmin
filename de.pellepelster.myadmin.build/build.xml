@@ -1,0 +1,32 @@
+<project name="myadmin-build" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish.all">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<target name="buildlist">
+
+		<ivy:buildlist settingsref="ivy.settings" reference="build.path">
+			<fileset dir="../" includes="**/build_ivy.xml">
+				<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
+				<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
+				<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
+			</fileset>
+		</ivy:buildlist>
+	</target>
+
+	<target name="publish.all" depends="buildlist">
+
+		<antcall target="info" />
+
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="clean.all" depends="buildlist">
+		<subant target="clean" buildpathref="build.path" />
+	</target>
+
+	<target name="clean" depends="clean.all">
+		<delete dir="repository" />
+		<ivy:cleancache />
+	</target>
+
+</project>

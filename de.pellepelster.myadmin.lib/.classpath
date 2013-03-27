@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/tomcat/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/excel/jxl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ant/ant.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit/junit-4.6.jar" sourcepath="lib/junit/junit-4.6-src.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdbc/postgresql-8.3-603.jdbc4.jar"/>
+	<classpathentry kind="lib" path="lib/birt/odadesignapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/birt/engineapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/birt/modelapi.jar"/>
+	<classpathentry kind="lib" path="lib/derby/derby.jar"/>
+	<classpathentry kind="lib" path="lib/derby/derbyclient.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

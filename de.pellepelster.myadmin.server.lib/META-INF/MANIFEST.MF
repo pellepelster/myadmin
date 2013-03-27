@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.ui.lib
+Bundle-SymbolicName: de.pellepelster.myadmin.server.lib
+Bundle-Version: 0.1.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Christian Pelster
+Bundle-ClassPath: lib/aopalliance/aopalliance.jar
+Export-Package: 

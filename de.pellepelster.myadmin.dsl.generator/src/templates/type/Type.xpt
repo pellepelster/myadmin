@@ -1,0 +1,337 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- vo type -------------------------------------------------------------------
+«DEFINE webVOType FOR EntityAttribute-»
+	«EXPAND templates::type::Type::type("webvo", true) FOR this.type-»«ENDDEFINE»
+
+«DEFINE webVOType FOR Entity-»
+	«fullQualifiedEntityName(this)-»«ENDDEFINE»
+
+«DEFINE webVOType FOR Type-»
+	«EXPAND templates::type::Type::type("webvo", true) FOR this-»«ENDDEFINE»
+
+//- vo type initializer -------------------------------------------------------
+«DEFINE webVOTypeInitializer(EntityAttributeOptions entityAttributeOptions, Entity entity) FOR Type-»
+	«EXPAND templates::type::Type::typeInitializer("webvo", entityAttributeOptions, entity) FOR this-»
+«ENDDEFINE»
+
+//- vo type class -------------------------------------------------------------
+«DEFINE webVOTypeClass FOR EntityAttribute-»
+	«EXPAND templates::type::Type::type("webvo", false) FOR this.type».class
+«ENDDEFINE»
+
+«DEFINE webVOTypeClass FOR Entity-»
+	«fullQualifiedEntityName(this)-».class
+«ENDDEFINE»
+
+«DEFINE webVOTypeClass FOR Type-»
+	«EXPAND templates::type::Type::type("webvo", false) FOR this-».class
+«ENDDEFINE»
+
+
+//- vo raw type class ---------------------------------------------------------
+«DEFINE webVORawTypeClass FOR EntityAttribute-»
+	«EXPAND templates::type::Type::rawType("webvo", false) FOR this.type».class
+«ENDDEFINE»
+
+«DEFINE webVORawTypeClass FOR Entity-»
+	«fullQualifiedEntityName(this)-».class
+«ENDDEFINE»
+
+«DEFINE webVORawTypeClass FOR Type-»
+	«EXPAND templates::type::Type::rawType("webvo", false) FOR this-».class
+«ENDDEFINE»
+
+//- generic types -------------------------------------------------------------
+«DEFINE webVOGenericTypes FOR GenericTypeTypes-»
+	«IF MyAdminType.isAssignableFrom(metaType)-»
+		«EXPAND templates::type::Type::type("webvo", true) FOR (MyAdminType)this-»
+	«ELSEIF EntityType.isAssignableFrom(metaType)-»
+		«EXPAND templates::type::Type::type("webvo", true) FOR (EntityType)this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+//- generic type definition ---------------------------------------------------
+«DEFINE webVOGenericTypeDefinition FOR GenericTypeDefinition-»
+	«IF this != null-»
+		<«name-» extends «EXPAND webVOGenericTypes FOR genericType-»>
+	«ENDIF-»
+«ENDDEFINE»
+
+//- generic --------------------------------------------------------------------
+«DEFINE webVOGeneric FOR Generic-»
+	«IF GenericType.isAssignableFrom(metaType)-»
+		«((GenericType) this).genericTypeDefinition.name-»
+	«ENDIF-»
+	«IF GenericWildcardType.isAssignableFrom(metaType)-»
+		? extends «EXPAND webVOGenericTypes FOR ((GenericWildcardType) this).genericType-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE webVOType FOR SimpleTypes-»
+	«this.toString().toFirstUpper()-»
+«ENDDEFINE»
+
+//- type ----------------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR Type-»
+	«throwError("type '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR Type-»
+	«throwError("type '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+//- reference datatype type ---------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR ReferenceDatatypeType-»
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF-»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-» 	
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR ReferenceDatatypeType-»
+	«EXPAND type(type, true) FOR this.type.entity-»
+«ENDDEFINE»
+
+//- entity type ---------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR EntityType-»
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR EntityType-»
+	«EXPAND type(type, true) FOR this.type-»
+«ENDDEFINE»
+		
+//- simple type ---------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR SimpleType-»
+	«IF (cardinality == Cardinality::onetomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR SimpleType-»
+	«this.type.toString().toFirstUpper()-»
+«ENDDEFINE»
+	
+//- myadmin type --------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR MyAdminType-»		
+	«IF (cardinality == Cardinality::onetomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this»>«ENDIF»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR MyAdminType-»		
+	«EXPAND myAdminType FOR this»
+«ENDDEFINE»
+
+//- simple map type -----------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR SimpleMapType-»		
+	«EXPAND rawType(type, generics) FOR this»
+«ENDDEFINE»
+		
+«DEFINE rawType(String type, Boolean generics) FOR SimpleMapType-»		
+	«IF type.matches("webvo")-»java.util.HashMap«ENDIF-»«IF type.matches("entity")-»java.util.Map«ENDIF-»«IF generics»<«type1.toString().toFirstUpper()», «type2.toString().toFirstUpper()»>«ENDIF»
+«ENDDEFINE»
+
+//- generic type --------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR GenericType-»		
+	«IF (cardinality == Cardinality::onetomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF-»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR GenericType-»		
+	«genericTypeDefinition.name-»
+«ENDDEFINE»
+
+//- custom type -----------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR CustomType-»			
+
+	«IF (cardinality == Cardinality::onetomany)-»
+		java.util.List<«EXPAND rawType(type, generics) FOR this-»>
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR CustomType-»			
+	«EXPAND customType FOR this»
+«ENDDEFINE»
+
+//- java type -----------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR JavaType-»			
+	«EXPAND rawType(type, generics) FOR this»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR JavaType-»			
+	«EXPAND javaType FOR this»
+«ENDDEFINE»
+
+//- datatype type -------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR DatatypeType-»			
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR DatatypeType-»			
+	«EXPAND datatypeType(type) FOR this-»
+«ENDDEFINE»
+
+//- reference datatype --------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR ReferenceDatatype-»
+	«EXPAND type(type, generics) FOR this.entity»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR ReferenceDatatype-»
+	«EXPAND type(type, generics) FOR this.entity»
+«ENDDEFINE»
+
+//- entity type ---------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR Entity-»
+	«EXPAND rawType(type, generics) FOR this»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR Entity-»
+	«fullQualifiedEntityName(this)-»
+«ENDDEFINE»
+
+
+//- enumeration type  ---------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR EnumerationType-»
+	«EXPAND rawType(type, generics) FOR this-»«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR EnumerationType-»
+	«fullQualifiedEntityName(this.type)-»«ENDDEFINE»
+
+//- myAdminType ---------------------------------------------------------------
+«DEFINE myAdminType FOR MyAdminType-»
+	«IF type == MyAdminTypes::genericfiltervo-»
+		
+		«IF this.generic != null-»
+			de.pellepelster.myadmin.client.base.jpql.GenericFilterVO<«EXPAND webVOGeneric FOR generic-»>
+		«ELSE-»
+			de.pellepelster.myadmin.client.base.jpql.GenericFilterVO
+		«ENDIF-»
+		
+	«ELSEIF type == MyAdminTypes::ibasevo-»
+		de.pellepelster.myadmin.client.base.db.vos.IBaseVO
+	«ELSEIF type == MyAdminTypes::ihierarchicalvo-»
+		de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO
+	«ELSEIF type == MyAdminTypes::ibaseclientvo-»
+		de.pellepelster.myadmin.client.base.db.vos.IBaseClientVO
+	«ELSE-»
+		java.lang.Object
+	«ENDIF»
+«ENDDEFINE»
+
+//- javaType ---------------------------------------------------------------
+«DEFINE javaType FOR JavaType-»
+	«IF type == JavaTypes::class-»
+		«IF this.generic != null-»
+			java.lang.Class<«EXPAND webVOGeneric FOR generic-»>
+		«ELSE-»
+			java.lang.Class
+		«ENDIF-»
+	«ELSE-»
+		java.lang.Object
+	«ENDIF»
+«ENDDEFINE»
+
+//- javaType ---------------------------------------------------------------
+«DEFINE customType FOR CustomType»
+	«this.type»
+«ENDDEFINE»
+
+//- datatypeType --------------------------------------------------------------
+«DEFINE datatypeType(String type) FOR DatatypeType-»
+	«EXPAND datatypeType(type) FOR this.type-»
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR Datatype»
+	«throwError("type '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR TextDatatype-»
+	java.lang.String
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR IntegerDatatype-»
+	java.lang.Integer
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR BigDecimalDatatype-»
+	java.math.BigDecimal
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR BooleanDatatype-»
+	java.lang.Boolean
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR DateDatatype-»
+	java.util.Date
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR EnumerationDatatype-»
+	«fullQualifiedEntityName(this.enumeration)-»
+«ENDDEFINE»
+
+«DEFINE datatypeType(String type) FOR ReferenceDatatype-»
+	«EXPAND type(type, true) FOR entity-»
+«ENDDEFINE»
+
+//- typeInitializer -----------------------------------------------------------
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR Type-»«ENDDEFINE»
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR EntityType-»
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		«IF isTrue(entityAttributeOptions.reverse_navigable)-»
+		
+			«IF type == "webvo"»
+				«IF entity == this.type-»
+						= new de.pellepelster.myadmin.client.base.db.vos.VOArrayList<«EXPAND rawType(type, true) FOR this-»>(this, "parent")
+				«ELSE-»
+						= new de.pellepelster.myadmin.client.base.db.vos.VOArrayList<«EXPAND rawType(type, true) FOR this-»>(this, "«backReferenceName(this.type)»")
+				«ENDIF-»		
+			«ELSE»
+			= new java.util.ArrayList<«EXPAND rawType(type, true) FOR this-»>()
+			«ENDIF»
+		«ELSE-»
+			= new java.util.ArrayList<«EXPAND rawType(type, true) FOR this-»>()
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR ReferenceDatatypeType-»
+
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		«REM»
+		«IF type == "vo"»
+		= new de.pellepelster.myadmin.client.base.db.vos.VOArrayList<«EXPAND typeName(type) FOR referenceDatatype.dictionary.entity-»>(this, "")
+		«ELSE»
+		«ENDIF»
+		«ENDREM»
+		= new java.util.ArrayList<«EXPAND type(type, true) FOR this.type.entity-»>()
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR SimpleMapType-»
+	 = new java.util.HashMap<«type1.toString().toFirstUpper()», «type2.toString().toFirstUpper()»>();
+«ENDDEFINE»
+

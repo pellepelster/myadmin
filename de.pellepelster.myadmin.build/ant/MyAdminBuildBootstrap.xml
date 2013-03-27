@@ -1,0 +1,21 @@
+<project name="MyAdminBuildBootstrap" xmlns:ivy="antlib:org.apache.ivy.ant" default="bootstrap">
+
+	<dirname property="bootstrap.imported.basedir" file="${ant.file.MyAdminBuildBootstrap}" />
+
+	<property name="bootstrap.ivy.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivy.xml" />
+	<property name="bootstrap.ivy.settings.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivysettings.xml" />
+	<property name="bootstrap.lib.dir" value="${bootstrap.imported.basedir}/../lib-bootstrap" />
+
+	<target name="write.ivy.files">
+		<echo file="${bootstrap.ivy.temp.file}" message="&lt;ivy-module version='1.0'>&lt;info organisation='de.pellepelster.myadmin' module='MyAdminBuildBootstrap' status='integration' /&gt;&lt;dependencies&gt;&lt;dependency org=&quot;org.tigris.antelope&quot; name=&quot;antelopetasks&quot; rev=&quot;3.2.10&quot; /&gt;&lt;dependency org=&quot;ant-contrib&quot; name=&quot;ant-contrib&quot; rev=&quot;1.0b3&quot; /&gt;&lt;dependency org=&quot;com.jcraft&quot; name=&quot;jsch&quot; rev=&quot;0.1.48&quot; /&gt;&lt;/dependencies>&lt;/ivy-module&gt;" append="false" />
+		<echo file="${bootstrap.ivy.settings.temp.file}" message="&lt;ivysettings&gt;&lt;settings defaultResolver=&quot;bootstrap_default&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-public.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-shared.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-local.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-main-chain.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-default-chain.xml&quot; /&gt;&lt;resolvers&gt;&lt;chain name=&quot;bootstrap_default&quot; returnFirst=&quot;true&quot; checkmodified=&quot;true&quot;&gt;&lt;resolver ref=&quot;default&quot; /&gt;&lt;/chain&gt;&lt;/resolvers&gt;&lt;/ivysettings&gt;" append="false" />
+	</target>
+
+	<target name="bootstrap" depends="write.ivy.files">
+		<ivy:settings id="bootstrap.ivy.settings" file="${bootstrap.ivy.settings.temp.file}" />
+
+		<ivy:resolve settingsref="bootstrap.ivy.settings" file="${bootstrap.ivy.temp.file}" checkifchanged="true" conf="default" />
+		<ivy:retrieve settingsref="bootstrap.ivy.settings" overwriteMode="always" pattern="${bootstrap.lib.dir}/[artifact]-[type].[ext]" conf="default" />
+	</target>
+
+</project>

@@ -1,0 +1,403 @@
+grammar de.pellepelster.myadmin.dsl.MyAdminDsl with org.eclipse.xtext.common.Terminals
+
+generate myAdminDsl "http://www.pellepelster.de/myadmin/MyAdminDsl"
+
+Model:
+"project" name=ID ("schemaUrl" schemaUrl=STRING)? "{"
+
+	elements+=AbstractElement*
+
+"}"; 
+
+AbstractElement:
+	Model | PackageDeclaration | Import | Datatype | Enumeration | Entity | RemoteService | ModuleDefinition | Module | NavigationNode | Dictionary;
+
+PackageDeclaration:
+	'package' name=QualifiedName '{'
+		elements+=AbstractElement*
+	'}';
+
+enum ModelScope: server | web | mobile | client_base;
+
+Import:
+	'import' importedNamespace=QualifiedNameWithWildCard;
+
+QualifiedNameWithWildCard :
+	QualifiedName  ('.' '*')?;
+	
+QualifiedName: 
+  ID ('.' ID)*;
+
+//- entity --------------------------------------------------------------------
+
+//- types ---------------------------------------------------------------------
+
+//- entity types --------------------------------------------------------------
+
+EntityReferenceType:
+	EntityType | ReferenceDatatypeType;
+
+EntityType:
+	"reference" type=[Entity | QualifiedName ](cardinality=Cardinality)?;
+
+ReferenceDatatypeType:
+	"referencedatatype" type=[ ReferenceDatatype | QualifiedName ](cardinality=Cardinality)?;
+
+DatatypeType:
+	"datatype" type=[ Datatype | QualifiedName ](cardinality=Cardinality)?;
+
+EnumerationType:
+	"enumeration" type=[ Enumeration  | QualifiedName ];
+
+SimpleType:
+	"simpletype" type=SimpleTypes(cardinality=Cardinality)?;
+
+MyAdminType:
+	"myadmintype" type=MyAdminTypes("<"generic=Generic">")?(cardinality=Cardinality)?;
+
+enum MyAdminTypes: 
+	ibasevo = "IBaseVO" | ihierarchicalvo = "IHierarchicalVO" | ibaseclientvo = "IBaseClientVO" | genericfiltervo = "GenericFilterVO";
+
+JavaType:
+	"javatype" type=JavaTypes("<"generic=Generic">")?;
+
+CustomType:
+	"customtype" type=STRING(cardinality=Cardinality)?;
+
+enum JavaTypes: 
+	class = "Class";
+
+//- generics ------------------------------------------------------------------
+GenericType:
+	"generic" genericTypeDefinition=[ GenericTypeDefinition | QualifiedName ](cardinality=Cardinality)?;
+	
+GenericTypeTypes: EntityType | MyAdminType;	
+	
+GenericTypeDefinition: "<"name=ID "extends" genericType=GenericTypeTypes">";
+
+GenericWildcardType: "extends" genericType=GenericTypeTypes;
+
+Generic: GenericWildcardType | GenericType;  
+//- /generics -----------------------------------------------------------------
+
+SimpleMapType:
+	"map" type1=SimpleTypes type2=SimpleTypes;
+
+Enumeration: "enum" name=ID "{"
+	enumerationValues+=EnumerationValue (", " enumerationValues+=EnumerationValue)*
+"}";
+
+EnumerationValue: ID;
+	
+EntityAttribute:
+	type=Type name=ID ("{" entityAttributeOptions=EntityAttributeOptions "}")?;
+
+EntityAttributeOptions:  
+		(mandatory?="mandatory")?
+		(reverse_navigable?="reverse_navigable")?;
+
+EntityOptions:
+		(hierarchical?="hierarchical")?
+		(noentity?="noentity")?;
+
+CascadeEntityAttributeOption: cascadeType=CascadeType;
+
+enum CascadeType: 
+	merge = "cascade_merge" | persist = "cascade_persist" | refresh = "cascade_refresh" | remove = "cascade_remove" | all = "cascade_all";
+
+Type:
+	EntityReferenceType | DatatypeType | SimpleType | EnumerationType | SimpleMapType | MyAdminType | GenericType | JavaType | CustomType;
+
+enum SimpleTypes: 
+	long = "Long" | integer = "Integer" | bigdecimal = "BigDecimal" | string = "String" | boolean = "Boolean" | reference = "Reference";
+
+enum Cardinality: 
+	onetoone = "?" | onetomany = "*" | manytoone = "+" | manytomany = "~";
+
+Entity:
+	"entity" name=ID ("implements" interface=QualifiedName)? ("extends" extends=[ Entity | QualifiedName ])? "{"
+		("options {" entityOptions=EntityOptions "}")?
+		("naturalkey {" naturalKeyAttributes+=[EntityAttribute] (", " naturalKeyAttributes+=[EntityAttribute])* "}")?
+		
+		(attributes+=EntityAttribute)*
+	"}";
+
+//- navigation ----------------------------------------------------------------
+NavigationNode:
+	"navigationnode" name=ID "{"
+		("title" title=STRING)?
+		("module" module=[ Module | QualifiedName ])?
+		("dictionaryEditor" dictionaryEditor=[ DictionaryEditor | QualifiedName ])?
+		("dictionarySearch" dictionarySearch=[ DictionarySearch | QualifiedName ])?
+		(navigationNodes+=NavigationNode)*
+	"}";
+//- /navigation ---------------------------------------------------------------
+
+//- module --------------------------------------------------------------------
+Module:
+	"module" name=ID "{"
+		"moduledefinition" moduledefinition=[ ModuleDefinition | QualifiedName ]
+		("parameters {"
+			(moduleParameters+=ModuleParameter)*
+		"}")?	
+	"}";
+
+ModuleParameter: moduleDefinitionParameter=[ ModuleDefinitionParameter | QualifiedName ] "=" value=STRING;
+
+ModuleDefinition:
+	"moduledefinition" name=ID "{"
+		("parameters {"
+			(moduleDefinitionParameters+=ModuleDefinitionParameter)*
+		"}")?	
+	"}";
+
+ModuleDefinitionParameter: "parameter" name=ID "{"
+	"type" type=SimpleTypes
+"}";
+
+//- dictionary ----------------------------------------------------------------
+Dictionary:
+	"dictionary" name=ID "{"
+	
+		"entity" entity=[ Entity | QualifiedName ]
+		("title" title=STRING)?
+					
+		("dictionarycontrols" "{"
+			(dictionarycontrols+=DictionaryControl)*
+		"}")?
+		
+		("labelcontrols {"
+			(labelcontrols+=DictionaryControl)*
+		"}")?
+		
+		(dictionarysearch=DictionarySearch)?
+		(dictionaryeditor=DictionaryEditor)?
+	"}";
+
+DictionarySearch:
+	"dictionarysearch" name=ID "{"
+		("title" title=STRING)?
+		(dictionaryfilters+=DictionaryFilter)*
+		dictionaryresult=DictionaryResult
+	"}";
+
+DictionaryEditor:
+	"dictionaryeditor" name=ID "{"
+		("title" title=STRING)?
+		(containercontents+=DictionaryContainerContent)*
+	"}";
+
+DictionaryFilter:
+	"dictionaryfilter" name=ID "{"
+		(containercontents+=DictionaryContainerContent)*
+	"}";
+
+DictionaryResult:
+	"dictionaryresult" name=ID "{"
+		(resultcolumns+=DictionaryControl)*
+	"}";
+
+
+//- layout --------------------------------------------------------------------
+ColumnLayout: "layout {"
+		"columns" columns=INT
+	"}";
+
+ColumnLayoutData: "layoutdata {"
+		"columnspan" columnspan=INT
+	"}";
+//- /layout -------------------------------------------------------------------
+
+//- container -----------------------------------------------------------------
+DictionaryContainer: DictionaryComposite | DictionaryEditableTable | DictionaryAssignmentTable;
+
+DictionaryComposite:
+	"composite" name=ID "{"
+
+		(layoutdata=ColumnLayoutData)?
+		(layout=ColumnLayout)?
+
+		(containercontents+=DictionaryContainerContent)*
+	"}";
+
+DictionaryEditableTable:
+	"editabletable" name=ID "{"
+
+		("layoutdata" layoutdata=ColumnLayoutData)?
+		("layout" layout=ColumnLayout)?
+
+		(containercontents+=DictionaryContainerContent)*
+
+		"entityattribute" entityattribute=[ EntityAttribute | QualifiedName ]
+		"columncontrols {"
+			(columncontrols+=DictionaryControl)*
+		"}"
+	"}";
+
+DictionaryAssignmentTable:
+	"assignmenttable" name=ID "{"
+
+		("layoutdata" layoutdata=ColumnLayoutData)?
+		("layout" layout=ColumnLayout)?
+
+		(containercontents+=DictionaryContainerContent)*
+		"entityattribute" entityattribute=[ EntityAttribute | QualifiedName ]
+		"dictionary" dictionary=[ Dictionary | QualifiedName ]
+		"columncontrols {"
+			(columncontrols+=DictionaryControl)*
+		"}"
+	"}";
+
+DictionaryContainerContent:
+	DictionaryContainer | DictionaryControl;
+
+//- labels --------------------------------------------------------------------
+Labels:
+	("label" label=STRING)?
+	("filterLabel" filterLabel=STRING)?
+	("columnLabel" columnLabel=STRING)?
+	("editorLabel" editorLabel=STRING)?
+	("toolTip" toolTip=STRING)?;
+
+
+//- datatypes -----------------------------------------------------------------
+Datatype: 
+	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | ReferenceDatatype;
+
+BaseDictionaryDatatype:
+		labels=Labels;
+
+TextDatatype:
+	"textdatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+		"maxLength" maxLength=INT
+		("minLength" minLength=INT)?
+		("formatRegularExpression" formatRegularExpression=STRING)?
+	"}";
+
+IntegerDatatype:
+	"integerdatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+		("max" max=INT)?
+		("min" min=INT)?
+	"}";
+
+BigDecimalDatatype:
+	"bigdecimaldatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+		("max" max=INT)?
+		("min" min=INT)?
+		"fractionDigits" fractionDigits=INT
+		"totalDigits" totalDigits=INT
+	"}";
+	
+BooleanDatatype:
+	"booleandatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+	"}";
+
+DateDatatype:
+	"datedatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+	"}";
+
+EnumerationDatatype:
+	"enumdatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+		"enumeration" enumeration=[ Enumeration | QualifiedName ]
+	"}";
+
+ReferenceDatatype:
+	"referencedatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+		"entity" entity=[Entity]
+	"}";
+
+//- controls ------------------------------------------------------------------
+BaseDictionaryControl:
+		("entityattribute" entityattribute=[ EntityAttribute | QualifiedName ])?
+		labels=Labels
+		(mandatory?="mandatory")?
+		("width" width=INT)?
+		;
+
+DictionaryControl:
+	DictionaryControlGroup | DictionaryTextControl | DictionaryIntegerControl | DictionaryBigDecimalControl | DictionaryBooleanControl | DictionaryDateControl | DictionaryEnumerationControl | DictionaryReferenceControl;
+
+DictionaryControlGroup:
+	"controlgroup" ("ref" ref=[ DictionaryControlGroup | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+		(groupcontrols+=DictionaryControl)*
+	"}")?;
+
+DictionaryHierarchicalControl:
+	"hierarchicalcontrol" ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+		"hierarchicalId" hierarchicalId=STRING
+	"}")?;
+
+DictionaryTextControl:
+	"textcontrol" ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+DictionaryIntegerControl:
+	"integercontrol" ("ref" ref=[ DictionaryIntegerControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+DictionaryBigDecimalControl:
+	"bigdecimalcontrol" ("ref" ref=[ DictionaryBigDecimalControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+DictionaryBooleanControl:
+	"booleancontrol" ("ref" ref=[ DictionaryBooleanControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+DictionaryDateControl:
+	"datecontrol" ("ref" ref=[ DictionaryDateControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+DictionaryEnumerationControl:
+	"enumerationcontrol" ("ref" ref=[ DictionaryEnumerationControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+	"}")?;
+
+
+DictionaryReferenceControl:
+	"referencecontrol" ("ref" ref=[ DictionaryReferenceControl | QualifiedName ])? ((name=ID)? "{"
+		baseControl=BaseDictionaryControl
+		"dictionary" dictionary=[ Dictionary | QualifiedName ]
+		("labelcontrols {" (labelcontrols+=DictionaryControl)* "}")? 
+	"}")?;
+
+
+//- methods -------------------------------------------------------------------
+MethodParameter:
+	type=Type name=ID;
+
+RemoteMethodOptions: "";
+
+RemoteServiceOptions:
+		(nonpublic?="nonpublic")?;
+		
+RemoteMethod:
+	"remotemethod" (genericTypeDefinition=GenericTypeDefinition)? name=ID ("returns" returnType=Type)? "{"
+		("options {" remoteMethodOptions=RemoteMethodOptions "}")?
+		(methodParameters+=MethodParameter)*
+	"}";
+
+RemoteService:
+	"remoteservice" name=ID "{"
+		("options {" remoteServiceOptions=RemoteServiceOptions "}")?
+		(remoteMethods+=RemoteMethod)*
+	"}";
+
+
+//- stuff ---------------------------------------------------------------------
+  
+enum BOOLEAN: 
+	false = "false" | true = "true";

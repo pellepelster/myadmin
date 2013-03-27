@@ -1,0 +1,7 @@
+<project name="dsl-ui" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<property name="no.compile" value="" />
+
+</project>

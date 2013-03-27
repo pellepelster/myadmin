@@ -1,0 +1,27 @@
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="de.pellepelster.myadmin" module="demo.client.test"
+		status="integration"></info>
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+	</publications>
+	
+	<dependencies>
+
+		<dependency org="de.pellepelster.myadmin" name="client-web-test" rev="latest.integration" conf="*->@,sources" />
+
+		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated" />
+
+	
+	</dependencies>
+
+</ivy-module>

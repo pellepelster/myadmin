@@ -1,0 +1,247 @@
+<project name="BaseCommon" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<dirname property="BaseCommon.imported.basedir" file="${ant.file.BaseCommon}" />
+	<property file="${BaseCommon.imported.basedir}/BaseCommon.properties" />
+
+	<!-- default file locations -->
+	<property name="build.project.root.dir" value="${BaseCommon.imported.basedir}/../.." />
+	<property name="projects.root.dir" value="${build.project.root.dir}/.." />
+	<property name="build.project.ant.dir" value="${build.project.root.dir}/ant" />
+	
+	<property name="templates.dir" value="${BaseCommon.imported.basedir}/templates" />
+	<property name="bootstrap.lib.dir" value="${build.project.root.dir}/lib-bootstrap" />
+	<property name="ivy.settings.file" value="${build.project.ant.dir}/ivysettings.xml" />
+
+	<!-- ivy configuration -->
+	<ivy:settings id="ivy.settings" file="${ivy.settings.file}" />
+
+	<!-- property defaults -->
+	<property environment="env" />
+	<property name="ivy.resolver.default" value="default" />
+	<property file="${project.ant.dir}/properties/${user.name}.build.properties" />
+	<property file="${project.ant.dir}/properties/default.build.properties" />
+
+	<tstamp>
+		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
+	</tstamp>
+	
+	<mkdir dir="${build.project.ant.dir}/properties"/>
+	
+	<!-- write property file for ivy settings -->
+	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
+	    <isset property="env.WORKSPACE"/>
+	</condition>
+	
+	<!-- version configuration -->
+	<property name="version.file" value="${build.project.root.dir}/version.properties" />
+	<fail message="version file '${version.file}' is missing">
+		<condition>
+			<not>
+				<available file="${version.file}"  />
+			</not>
+		</condition>
+	</fail>
+	<property file="${version.file}" />
+	<property name="module.version" value="${module.version.major}.${module.version.minor}.${module.version.micro}" />
+
+	<!-- task and type defs -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" onerror="ignore">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+
+	<taskdef name="stringutil" classname="ise.antelope.tasks.StringUtilTask" onerror="ignore">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	
+	<condition property="no.compile">
+		<not>
+			<available file="${src.dir}" type="dir" />
+		</not>
+	</condition>
+	
+	<!-- defaults for compile/jaring -->
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.dir}" includes="**/*.xml" />
+		<fileset dir="${src.dir}" includes="**/*.properties" />
+		<fileset dir="${src.dir}" includes="**/*.css" />
+		<fileset dir="${src.dir}" includes="**/*.msl" />
+	</path>
+
+	<path id="source.jar.files">
+		<fileset dir="${src.dir}" includes="**/*.java" />
+		<fileset dir="${src.dir}" includes="**/*.xml" />
+		<fileset dir="${src.dir}" includes="**/*.png" />
+		<fileset dir="${src.dir}" includes="**/*.properties" />
+		<fileset dir="${src.dir}" includes="**/*.css" />
+		<fileset dir="${src.dir}" includes="**/*.msl" />
+	</path>
+
+	<target name="build.info">
+		<echo message="java version: ${java.version}" />
+	</target>
+
+	<path id="source.files">
+		<dirset dir="${src.dir}" />
+	</path>
+
+	<path id="lib.path.id">
+		<fileset dir="${lib.dir}" />
+	</path>
+
+	<path id="run.path.id">
+		<path refid="lib.path.id" />
+		<path location="${classes.dir}" />
+	</path>
+
+	<target name="resolve" depends="clean.lib">
+
+		<mkdir dir="${lib.dir}" />
+
+		<ivy:resolve settingsref="ivy.settings" file="${ivy.file}" checkifchanged="true" />
+		<ivy:retrieve settingsref="ivy.settings" overwriteMode="always" pattern="${lib.dir}/[artifact]-[type].[ext]" conf="compile" />
+
+	</target>
+
+	<target name="report" depends="resolve">
+		<ivy:report settingsref="ivy.settings" todir="${build.dir}" />
+	</target>
+
+	<target name="pre.compile">
+	</target>
+
+	<target name="post.compile">
+	</target>
+
+	<target name="compile" depends="resolve" unless="no.compile">
+
+		<antcall target="pre.compile" />
+
+		<mkdir dir="${classes.dir}" />
+
+		<javac destdir="${classes.dir}" classpathref="lib.path.id" debuglevel="${javac.debuglevel}" debug="${javac.debug}" target="${javac.target}" source="${javac.source}" includeAntRuntime="false">
+			<src refid="source.files" />
+		</javac>
+
+		<antcall target="post.compile" />
+
+	</target>
+
+	<target name="run" depends="version, compile">
+		<java classpathref="run.path.id" classname="${main.class.name}" />
+	</target>
+
+	<!--
+	<target name="ivy.new.version" unless="ivy.new.revision">
+		<ivy:info settingsref="ivy.settings" file="${ivy.file}" />
+		<ivy:buildnumber settingsref="ivy.settings" organisation="${ivy.organisation}" module="${ivy.module}" revision="${module.version}" defaultBuildNumber="1" />
+	</target>
+	-->
+
+	<target name="new.version">
+		<property name="ivy.new.revision.qualifier" value="${build.timestamp}" />
+		<property name="ivy.new.revision.version" value="${module.version}" />
+		<property name="ivy.new.revision" value="${ivy.new.revision.version}-${ivy.new.revision.qualifier}" />
+	</target>
+
+	<target name="version" depends="new.version">
+
+		<mkdir dir="${classes.dir}" />
+		<echo message="version=${ivy.new.revision}" file="${classes.dir}/${ant.project.name}.properties" append="false" />
+		<property file="${classes.dir}/${ant.project.name}.properties" />
+
+	</target>
+
+	<target name="pre.jar">
+	</target>
+
+	<target name="post.jar">
+	</target>
+
+	<target name="test" if="test.suite.name">
+
+		<delete dir="${test.dir}" />
+		<mkdir dir="${test.dir}" />
+
+		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
+
+			<classpath refid="lib.path.id" />
+			<classpath>
+				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
+			</classpath>
+
+			<formatter type="xml" />
+
+			<test name="${test.suite.name}" haltonfailure="yes" outfile="${test.dir}/${test.suite.name}" />
+
+		</junit>
+
+	</target>
+
+	<target name="jar" depends="version, compile" unless="no.compile">
+
+		<antcall target="pre.jar" />
+
+		<jar destfile="${jar.file}">
+			<path refid="jar.files" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Build-Version" value="${version}" />
+			</manifest>
+		</jar>
+
+		<jar destfile="${jar.source.file}">
+			<path refid="source.jar.files" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Build-Version" value="${version}" />
+			</manifest>
+		</jar>
+
+		<antcall target="post.jar" />
+
+	</target>
+
+	<target name="publish" depends="new.version, jar, test">
+		<ivy:publish settingsref="ivy.settings" artifactspattern="${build.dir}/[artifact].[ext]" resolver="${ivy.resolver.publish}" pubrevision="${version}" pubdate="${build.timestamp}" status="integration" forcedeliver="true" />
+		<echo message="project ${ant.project.name} published to ${ivy.resolver.publish} with version ${version}" />
+	</target>
+
+	<target name="clean.local">
+		<ivy:info settingsref="ivy.settings" file="${ivy.file}" />
+		<delete dir="${ivy.local.default.root}/${ivy.organisation}/${ivy.module}" />
+	</target>
+
+	<target name="clean.lib" description="--> clean the project libraries directory (dependencies)">
+		<delete includeemptydirs="true" dir="${lib.dir}" failonerror="false" />
+	</target>
+
+	<target name="clean.build">
+		<delete includeemptydirs="true" dir="${build.dir}" />
+	</target>
+
+	<target name="clean" depends="clean.build, clean.lib" description="--> clean the project" />
+
+	<target name="info">
+		<echo message="project locations" />
+		<echo message="build project: ${build.project}" />
+		<echo message="deploy project: ${deploy.project}" />
+		<echo message="client project: ${client.project}" />
+		<echo message="client test project: ${client.test.project}" />
+		<echo message="server project: ${server.project}" />
+		<echo message="server test project: ${server.test.project}" />
+		<echo message="" />
+		<echo message="projects root dir: ${projects.root.dir}" />
+	</target>
+
+</project>

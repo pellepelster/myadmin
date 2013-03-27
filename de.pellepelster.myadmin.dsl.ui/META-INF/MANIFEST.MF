@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.dsl.ui
+Bundle-Vendor: Christian Pelster
+Bundle-Version: 0.0.0.qualifier
+Bundle-SymbolicName: de.pellepelster.myadmin.dsl.ui; singleton:=true
+Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: de.pellepelster.myadmin.dsl.ui.internal.MyAdminDslActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: de.pellepelster.myadmin.dsl.ui,
+ de.pellepelster.myadmin.dsl.ui.contentassist,
+ de.pellepelster.myadmin.dsl.ui.contentassist.antlr,
+ de.pellepelster.myadmin.dsl.ui.contentassist.antlr.internal,
+ de.pellepelster.myadmin.dsl.ui.internal,
+ de.pellepelster.myadmin.dsl.ui.labeling,
+ de.pellepelster.myadmin.dsl.ui.outline,
+ de.pellepelster.myadmin.dsl.ui.quickfix
+Require-Bundle: org.eclipse.emf.edit.ui,
+ org.eclipse.xtext.ui,
+ org.apache.log4j,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui.editors,
+ org.eclipse.ui,
+ org.antlr.runtime,
+ org.eclipse.xtext.builder,
+ org.eclipse.compare,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ de.pellepelster.myadmin.dsl
+Import-Package: org.apache.log4j

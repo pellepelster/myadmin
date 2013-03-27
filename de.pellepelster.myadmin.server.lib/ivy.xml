@@ -1,0 +1,19 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="server-lib" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+	</publications>
+
+	<dependencies>
+	</dependencies>
+
+</ivy-module>

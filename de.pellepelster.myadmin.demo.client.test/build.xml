@@ -1,0 +1,5 @@
+<project name="de.pellepelster.myadmin.demo.client.test" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+
+</project>

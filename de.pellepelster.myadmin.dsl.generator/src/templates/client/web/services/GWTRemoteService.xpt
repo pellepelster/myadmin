@@ -1,0 +1,53 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- gwtRemoteService -------------------------------------------------------------
+«DEFINE gwtRemoteService FOR RemoteService»
+
+	«info("generating gwt remote service interface '" + interfaceNameGWT() +  "'")»
+	«FILE fullQualifiedInterfaceFileNameGWT()»
+	package «fullQualifiedServicePackage()»;
+	
+	public interface «interfaceNameGWT()» extends com.google.gwt.user.client.rpc.RemoteService, «fullQualifiedInterfaceName()-» {
+	}
+	«ENDFILE»
+
+«ENDDEFINE»
+
+//- gwtRemoteServiceAsync --------------------------------------------------------
+«DEFINE gwtRemoteServiceAsync FOR RemoteService»
+
+	«info("generating async gwt remote service interface '" + interfaceNameGWT() +  "'")»
+
+	«FILE fullQualifiedInterfaceFileNameGWTAsync()»
+	package «fullQualifiedServicePackage()»;
+	
+	public interface «interfaceNameGWTAsync()-» {
+		«EXPAND remoteMethodAsync FOREACH remoteMethods»
+	}
+	«ENDFILE»
+
+
+«ENDDEFINE»
+
+//- remoteMethodAsync ---------------------------------------------------------
+«DEFINE remoteMethodAsync FOR RemoteMethod»
+	«EXPAND templates::type::Type::webVOGenericTypeDefinition FOR genericTypeDefinition»
+	«IF methodParameters.size == 0-»
+	void «name.toFirstLower()»(«EXPAND asyncCallback-»);
+	«ELSE-»
+	void «name.toFirstLower()»(«EXPAND templates::services::RemoteService::remoteMethodParameter FOREACH methodParameters SEPARATOR ", "-»,«EXPAND asyncCallback-»);
+	«ENDIF-»
+
+«ENDDEFINE»
+
+//- asyncCallback -------------------------------------------------------------
+«DEFINE asyncCallback FOR RemoteMethod»
+	«IF returnType != null-»
+	com.google.gwt.user.client.rpc.AsyncCallback<«EXPAND templates::type::Type::webVOType FOR returnType-»> callback
+	«ELSE-»
+	 com.google.gwt.user.client.rpc.AsyncCallback<Void> callback
+	«ENDIF-»
+«ENDDEFINE»
+

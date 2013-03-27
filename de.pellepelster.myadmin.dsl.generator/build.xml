@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="de.pellepelster.myadmin.dsl.generator">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+		
+	<path id="de.pellepelster.myadmin.dsl.myadmin.generator.classpath">
+		<path refid="mwe.classpath" />
+		<fileset dir="${de.pellepelster.myadmin.dsl.location}/dist" includes="*.jar" excludes="*-source.jar" />
+	</path>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${dist.location}" />
+		<mkdir dir="${build.location}" />
+	</target>
+
+	<target name="clean">
+		<!-- <delete dir="${dist.location}" /> -->
+		<delete dir="${build.location}" />
+	</target>
+
+
+	<target name="build" depends="clean, init, refprojects.build, jar"/>
+
+	<target name="build.nodeps" depends="clean, init, javac, jar"/>
+
+	<target name="javac">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="de.pellepelster.myadmin.dsl.myadmin.generator.classpath" />
+		</javac>
+	</target>
+	
+	<target name="refprojects.build">
+		<ant antfile="${de.pellepelster.myadmin.dsl.location}/build.xml" target="build" inheritall="false" />
+	</target>
+
+	<target name="jar">
+		<jar destfile="${dist.location}/${ant.project.name}.jar" basedir="${src.location}" >
+			<fileset dir="${build.location}" includes="**/*" />
+		</jar>
+	</target>
+
+</project>

@@ -1,0 +1,26 @@
+<project name="generator" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+	<include file="../de.pellepelster.myadmin.build/ant/myadmin/GeneratorCommon.xml" />
+
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.dir}" includes="**/*.msl" />
+		<fileset dir="${src.dir}" includes="**/*.properties" />
+	</path>
+
+	<path id="local.lib.path.id">
+		<path refid="lib.path.id" />
+		<fileset dir="${build.dir}" includes="*.jar" />
+	</path>
+
+	<path id="xjc.classpath">
+		<path refid="lib.path.id" />
+	</path>
+
+
+	<target name="post.jar" depends="resolve">
+		<myadmingenerate modelName="MyAdmin" artefactname="myadmin" pathrefid="local.lib.path.id" />
+	</target>
+
+</project>

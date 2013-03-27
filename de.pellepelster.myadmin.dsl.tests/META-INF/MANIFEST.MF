@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.dsl.test
+Bundle-SymbolicName: de.pellepelster.myadmin.dsl.test
+Bundle-Version: 1.0.0.qualifier
+Export-Package: de.pellepelster.myadmin.dsl
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.xtext,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.ui.junit,
+ org.junit4,
+ org.eclipse.ui.workbench;resolution:=optional,
+ org.eclipse.xtext.common.types,
+ org.eclipse.xtext.xbase.junit,
+ org.eclipse.xtext.xbase,
+ de.pellepelster.myadmin.dsl.ui,
+ de.pellepelster.myadmin.dsl
+Bundle-Vendor: Christian Pelster
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.junit.runner;version="4.5.0",
+ org.junit.runner.manipulation;version="4.5.0",
+ org.junit.runner.notification;version="4.5.0",
+ org.junit.runners;version="4.5.0",
+ org.junit.runners.model;version="4.5.0",
+ org.hamcrest.core

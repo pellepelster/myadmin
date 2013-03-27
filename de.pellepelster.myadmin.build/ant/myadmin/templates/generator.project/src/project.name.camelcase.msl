@@ -1,0 +1,157 @@
+project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.name@/schema" {
+	
+	package @organisation.name@.@project.name@ {
+
+		navigationnode Navigation {
+
+	        navigationnode Entity1 {
+	                dictionarySearch dictionaries.Entity1Dictionary.Entity1Search
+	        }
+
+	        navigationnode Entity2 {
+	                dictionarySearch dictionaries.Entity2Dictionary.Entity2Search
+	        }
+	    }
+		
+		package entities {
+	
+			textdatatype StringDatatype {
+				maxLength 32
+			}
+
+			integerdatatype IntegerDatatype {
+				max 100
+				min 10
+			}
+			
+			booleandatatype BooleanDatatype
+			{
+			}
+
+			datedatatype DateDatatype
+			{
+			}
+	
+			entity Entity1 {
+			
+				naturalkey { string1 }
+			
+				datatype StringDatatype string1
+				datatype BooleanDatatype boolean1
+				datatype IntegerDatatype integer1
+				datatype Entity2Datatype entity2
+			}
+
+			entity Entity2 {
+			
+				naturalkey { string2 }
+			
+				datatype StringDatatype string2
+				datatype DateDatatype date2
+			}
+
+			referencedatatype Entity2Datatype 
+			{
+				entity Entity2
+			}
+				
+		}
+				
+		package dictionaries {
+			
+			dictionary Entity1Dictionary {
+				
+				entity entities.Entity1
+				
+				dictionarycontrols {
+					
+					textcontrol String1Control {
+						entityattribute entities.Entity1.string1
+						label "String 1"
+					}
+
+					booleancontrol Boolean1Control {
+						entityattribute entities.Entity1.boolean1
+						label "Boolean 1"
+					}
+
+					integercontrol Integer1Control {
+						entityattribute entities.Entity1.integer1
+						label "Integer 1"
+					}
+
+					referencecontrol Entity2Control 
+					{
+						entityattribute entities.Entity1.entity2
+						label "Entity 2"
+						dictionary Entity2Dictionary
+					}
+
+				}
+	
+				dictionarysearch Entity1Search {
+	
+					dictionaryfilter Entity1Filter {
+						textcontrol ref String1Control
+					}
+					
+					dictionaryresult Entity1Result {
+						textcontrol ref String1Control
+						booleancontrol ref Boolean1Control
+						integercontrol ref Integer1Control
+						referencecontrol ref Entity2Control
+					}
+				} 	
+			
+				dictionaryeditor Entity1Editor {
+					textcontrol ref String1Control
+					booleancontrol ref Boolean1Control
+					integercontrol ref Integer1Control
+					referencecontrol ref Entity2Control
+				} 
+			}
+
+			dictionary Entity2Dictionary {
+				
+				entity entities.Entity2
+				title "Entity 2"
+				
+				dictionarycontrols {
+					
+					textcontrol String2Control {
+						entityattribute entities.Entity2.string2
+						label "String 2"
+					}
+
+					datecontrol Date2Control {
+						entityattribute entities.Entity2.date2
+						label "Date 2"
+					}
+
+				}
+
+				labelcontrols {
+					textcontrol ref String2Control
+				}
+				
+	
+				dictionarysearch Entity2Search {
+	
+					dictionaryfilter Entity2Filter {
+						textcontrol ref String2Control
+					}
+					
+					dictionaryresult Entity2Result {
+						textcontrol ref String2Control
+						datecontrol ref Date2Control
+					}
+				} 	
+			
+				dictionaryeditor Entity1Editor {
+					textcontrol ref String2Control
+					datecontrol ref Date2Control
+				} 
+			}
+		}
+	}
+}

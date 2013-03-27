@@ -1,0 +1,9 @@
+bin
+bin-gen
+dist
+build
+derby.log
+reports
+/lib
+/bootstrap-lib
+/lib-bootstrap

@@ -1,0 +1,18 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE dictionaryID FOR Dictionary»
+	«info("generating dictionary id for '" + this.name + "'")»
+
+	«FILE fullQualifiedInterfaceFileName()»
+	package «fullQualifiedPackageName()»;
+	
+	public interface «interfaceName()» {
+	
+		String «name.toUpperCase()» = "«name»";
+	
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»

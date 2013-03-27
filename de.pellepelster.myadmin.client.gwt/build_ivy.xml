@@ -1,0 +1,24 @@
+<project name="client-gwt" default="compile"  xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+	
+	<target name="compile.gwt">
+
+		<mkdir dir="${lib.dir}" />
+
+		<ivy:resolve settingsref="ivy.settings" file="${ivy.file}" checkifchanged="true" />
+		<ivy:retrieve settingsref="ivy.settings" overwriteMode="always" pattern="${lib.dir}/[artifact]-[type].[ext]" conf="test" />
+
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement path="src/" />
+				<path refid="lib.path.id" />
+			</classpath>
+			<jvmarg value="-Xmx768M" />
+			<arg value="-localWorkers" />
+			<arg value="2" />
+			<arg line="de.pellepelster.myadmin.MyAdminClientGwt" />
+		</java>
+		
+	</target>
+</project>

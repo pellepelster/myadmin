@@ -1,0 +1,111 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE moduleDefinitionParameters FOR ModuleDefinition-»
+	«FOREACH this.moduleDefinitionParameters AS moduleDefinitionParameter SEPARATOR ", "-»
+		«EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type» «moduleDefinitionParameter.name.toFirstLower()-»
+	«ENDFOREACH»
+«ENDDEFINE»
+
+«DEFINE baseModuleClass FOR ModuleDefinition»
+
+	«FILE fullQualifiedBaseModuleFileName()-»
+	package «fullQualifiedModuleDefinitionPackageName()»;
+	
+	public abstract class «baseModuleName()» implements de.pellepelster.myadmin.client.base.module.IModule {
+	
+		public static final String MODULE_ID = "«name»";
+		private final de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO moduleVO;
+		private final com.google.gwt.user.client.rpc.AsyncCallback<de.pellepelster.myadmin.client.base.module.IModule> moduleCallback;
+		private java.util.Map<String, Object> parameters;
+		
+		protected com.google.gwt.user.client.rpc.AsyncCallback<de.pellepelster.myadmin.client.base.module.IModule> getModuleCallback() {
+			return moduleCallback;
+		}
+		
+		/**
+		 * Constructor for {@link Base«name.toFirstUpper()»Module}
+		 * 
+		 * @param moduleVO
+		 */
+		public Base«name.toFirstUpper()»Module(de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO moduleVO, com.google.gwt.user.client.rpc.AsyncCallback<de.pellepelster.myadmin.client.base.module.IModule> moduleCallback, java.util.Map<String, Object> parameters) {
+			this.moduleVO = moduleVO;
+			this.moduleCallback = moduleCallback;
+			this.parameters = parameters;
+		}
+	
+		«FOREACH moduleDefinitionParameters AS moduleDefinitionParameter»
+		
+		public static final String «moduleDefinitionParameter.name.toUpperCase()»_PARAMETER_ID = "«moduleDefinitionParameter.name»";
+		
+		public «EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type» get«moduleDefinitionParameter.name.toFirstUpper()»() {
+
+			if (parameters.containsKey("«moduleDefinitionParameter.name»"))
+			{
+				Object parameterValue = parameters.get("«moduleDefinitionParameter.name»");
+			
+				if (parameterValue instanceof «EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type»)
+				{
+					return («EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type») parameterValue;
+				}
+				else
+				{
+					throw new RuntimeException("parameter value type mismatch, expected '«EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type»' but got '" + parameterValue.getClass().getName() + "'");
+				}
+			}
+			else
+			{
+				String parameterValue = moduleVO.getProperties().get("«moduleDefinitionParameter.name»");
+				
+				«IF moduleDefinitionParameter.type == SimpleTypes::long»
+					return java.lang.Long.parseLong(parameterValue);
+				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::integer»
+					return java.lang.Integer.parseInt(parameterValue);		
+				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::bigdecimal»
+					return java.lang.BigDecimal.parse(parameterValue);
+				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::string»
+					return parameterValue;
+				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::boolean»
+					return java.lang.Boolean.parseBoolean(parameterValue);
+				«ENDIF»
+			}
+		}
+		
+		public boolean has«moduleDefinitionParameter.name.toFirstUpper()»() {
+			return (parameters.containsKey("«moduleDefinitionParameter.name»") || moduleVO.getProperties().containsKey("«moduleDefinitionParameter.name»"));
+		}
+
+		«ENDFOREACH»	
+
+		public static java.util.Map<String, Object> getParameterMap(«EXPAND moduleDefinitionParameters FOR this») {
+		
+			java.util.Map<String, Object> parameterMap = new java.util.HashMap<String, Object>();
+
+			«FOREACH this.moduleDefinitionParameters AS moduleDefinitionParameter-»
+				parameterMap.put(«moduleDefinitionParameter.name.toUpperCase()»_PARAMETER_ID, «moduleDefinitionParameter.name.toFirstLower()-»);
+			«ENDFOREACH»
+			
+			return parameterMap;
+		}
+
+		public boolean hasParameter(String parameterName) {
+			return (parameters.containsKey(parameterName) || moduleVO.getProperties().containsKey(parameterName));
+		}
+
+		«EXPAND templates::util::Comment::commentInheritedMethodGenerated»
+		public String getModuleName() {
+			return moduleVO.getName();
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public boolean isSingleton() {
+			return true;
+		}
+		
+		«EXPAND templates::util::Attribute::attributeGetter("java.util.Map<String, Object>", "parameters") FOR this»
+	
+	}
+	«ENDFILE»
+«ENDDEFINE»

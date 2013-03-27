@@ -1,0 +1,38 @@
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="de.pellepelster.myadmin" module="demo.client"
+		status="integration"></info>
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+	</publications>
+
+	<dependencies>
+
+		<dependency org="de.pellepelster.myadmin" name="client-gwt"
+			rev="latest.integration" conf="*->default,sources" />
+
+		<dependency name="demo.generator" rev="latest.integration"
+			conf="*->generated" />
+
+		<dependency org="commons-httpclient" name="commons-httpclient"
+			rev="3.1">
+			<artifact name="commons-httpclient" type="jar" />
+		</dependency>
+
+		<dependency org="commons-fileupload" name="commons-fileupload"
+			rev="1.2.2">
+			<artifact name="commons-fileupload" type="jar" />
+		</dependency>
+
+	</dependencies>
+
+</ivy-module>

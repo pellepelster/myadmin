@@ -1,0 +1,20 @@
+<project name="de.pellepelster.myadmin.demo.client" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+
+	<target name="pre.jar">
+
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement path="src/" />
+				<path refid="lib.path.id" />
+			</classpath>
+			<jvmarg value="-Xmx768M" />
+			<arg value="-localWorkers" />
+			<arg value="2" />
+			<arg line="de.pellepelster.myadmin.demo.Demo" />
+		</java>
+		
+	</target>
+
+</project>

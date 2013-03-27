@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.pellepelster.myadmin.feature_0.0.0.qualifier" id="de.pellepelster.myadmin.feature" version="0.0.0.qualifier" os="linux,win32" ws="gtk,win32">
+      <category name="MyAdmin"/>
+   </feature>
+   <category-def name="MyAdmin" label="MyAdmin"/>
+</site>

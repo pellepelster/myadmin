@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.pellepelster.de/myadmin/MyAdminDsl" 
+       class = "de.pellepelster.myadmin.myAdminDsl.MyAdminDslPackage"
+       genModel = "de/pellepelster/myadmin/MyAdminDsl.genmodel" /> 
+	
+  </extension>
+
+</plugin>

@@ -1,0 +1,19 @@
+<project name="gwt-test" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+
+	<target name="compile.gwt">
+
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement path="src/" />
+				<path refid="lib.path.id" />
+			</classpath>
+			<jvmarg value="-Xmx768M" />
+			<arg value="-localWorkers" />
+			<arg value="2" />
+			<arg line="de.pellepelster.myadmin.MyAdminClientGwtTest" />
+		</java>
+	</target>
+
+</project>

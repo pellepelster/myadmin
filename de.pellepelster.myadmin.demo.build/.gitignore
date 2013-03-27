@@ -1,0 +1,12 @@
+bin
+bin-gen
+dist
+build
+tomcat
+/lib
+/GeneratorCommon.xml
+/BaseCommon.properties
+/BaseCommon.xml
+/bootstrap-lib
+/scripts
+/lib-bootstrap

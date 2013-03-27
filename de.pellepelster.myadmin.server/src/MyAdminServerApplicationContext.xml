@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="entityVOMapper" class="de.pellepelster.myadmin.server.util.EntityVOMapper" />
+
+	<bean id="validator" class="de.pellepelster.myadmin.server.validators.Validator" />
+
+	<bean id="naturalKeyValidator"
+		class="de.pellepelster.myadmin.server.validators.NaturalKeyValidator" />
+
+	<bean id="mandatoryValidator"
+		class="de.pellepelster.myadmin.server.validators.MandatoryValidator" />
+
+	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
+		factory-method="getInstance" id="copyBean" />
+
+	<context:component-scan base-package="de.pellepelster.myadmin.server" />
+
+</beans>

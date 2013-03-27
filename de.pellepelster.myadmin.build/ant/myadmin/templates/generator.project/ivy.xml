@@ -1,0 +1,26 @@
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	
+	<info organisation="@organisation.name@" module="@project.name@.generator" status="integration"></info>
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+		<conf name="generated" />
+	</configurations>
+
+	<publications>
+		<artifact name="@organisation.name@.@project.name@.generator" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="@organisation.name@.@project.name@-mobile-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="@organisation.name@.@project.name@-web-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="@organisation.name@.@project.name@-server-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="@organisation.name@.@project.name@-xml-gen" type="jar" ext="jar" conf="master,generated" />
+	</publications>
+	
+	<dependencies>
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->@" />
+	</dependencies>
+
+</ivy-module>

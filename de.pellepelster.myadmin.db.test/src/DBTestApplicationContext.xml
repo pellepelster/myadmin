@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/MyAdminDB" />
+
+	<bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+    		<list>
+      			<value>classpath*:META-INF/persistence.xml</value>
+    		</list>
+  		</property>
+		<property name="persistenceUnitPostProcessors">
+			<bean class="de.pellepelster.myadmin.db.util.MergingPersistenceUnitPostProcessor">
+				<property name="targetPersistenceUnitName" value="«persistenceUnitName()»" />
+			</bean>
+		</property>
+		<property name="defaultDataSource" ref="dataSource"/>
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="entityManagerFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaAdapter" />
+		<property name="persistenceUnitName" value="DBTestPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.FlushMode">AUTO</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		id="jpaAdapter" />
+
+	<tx:annotation-driven />
+
+	<bean class="de.pellepelster.myadmin.db.daos.BaseDAOImpl" id="baseDAO" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean class="de.pellepelster.myadmin.db.daos.BaseVODAOImpl" id="baseVODAO">
+		<property name="baseDAO" ref="baseDAO" />
+	</bean>
+
+	<context:annotation-config />
+	
+	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
+		factory-method="getInstance" id="copyBean" />
+	
+
+</beans>

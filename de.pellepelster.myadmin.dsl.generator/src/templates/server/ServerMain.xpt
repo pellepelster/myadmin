@@ -1,0 +1,48 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+«DEFINE main FOR Model»
+
+	«storeGlobalVar("model_scope", ModelScope::server)»
+
+	«EXPAND Entity::entity FOREACH eAllContents.typeSelect(Entity)»
+	«EXPAND EntityXSD::entityXSD FOREACH eAllContents.typeSelect(Entity)»
+	«EXPAND Type::entityEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
+	«EXPAND EntityVOMapper::entityVOMapper»
+	«EXPAND spring::SpringDB::springDB»
+	«EXPAND spring::SpringServerApplicationContext::springServerApplicationContext»
+	«EXPAND services::SpringServerGWTServices::springServerGWTServices»
+	«EXPAND services::SpringServerInvokerServices::springServerInvokerServices»
+	«EXPAND services::SpringClientServices::springClientServices»
+	«EXPAND PersistenceXML::persistence»
+	«EXPAND services::SpringClientRemoteServiceLocator::springclientRemoteServiceLocator»
+	
+	«info("generating spring base rest services")»
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+			«EXPAND templates::server::services::SpringRestServices::springBaseRestServiceController FOR remoteService»
+		«ENDIF»
+	«ENDFOREACH»
+
+	«info("generating non public services")»
+	«storeGlobalVar("model_scope", ModelScope::web)»
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«IF isNonPublic(remoteService)»
+			«EXPAND templates::services::RemoteService::remoteService FOR remoteService»
+		«ENDIF»
+	«ENDFOREACH»
+	«storeGlobalVar("model_scope", ModelScope::server)»
+
+	«info("generating rest services")»
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+		«ENDIF»
+	«ENDFOREACH»
+
+
+	«EXPAND templates::server::services::SpringRestServices::springServerRestServices FOR this»
+		
+	
+«ENDDEFINE»

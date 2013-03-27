@@ -1,0 +1,25 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- gwtRemoteServices module definition -------------------------------------------------------------
+«DEFINE clientGeneratedModuleDefinition FOR Model»
+«FILE fullQualifiedClientGeneratedModuleDefinitionFileName()-»
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.4/distro-source/core/src/gwt-module.dtd">
+<module>
+	<inherits name="com.google.gwt.user.User" />
+
+	«REM»
+	<source path="«webModulePackageName()»" />
+	<source path="«webVOPackageName()»" />
+	<source path="«webServicePackageName()»" />
+	«ENDREM»
+
+	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«REM»<source path="«fullQualifiedPackageName(getParentEntityPackage(remoteService))»" />«ENDREM»
+	«ENDFOREACH»
+	
+</module>
+«ENDFILE»
+«ENDDEFINE»

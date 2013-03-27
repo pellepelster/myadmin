@@ -1,0 +1,71 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE springBaseRestServiceController FOR RemoteService»
+
+«info("generating spring base rest service '" + baseRestServiceControllerName() + "'")»
+
+«FILE fullyQualifiedBaseRestServiceControllerFileName()-»
+package «getPackageName()»;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import de.pellepelster.myadmin.server.core.services.RestUtil;
+«FOREACH remoteMethods AS remoteMethod-»
+import «fullyQualifiedMobileParameterWrapperName(this, remoteMethod, ModelScope::mobile)»;
+«ENDFOREACH-»
+
+@Controller
+@RequestMapping("«restServiceUrl()»")
+public class «baseRestServiceControllerName()» {
+
+	@org.springframework.beans.factory.annotation.Autowired
+	«EXPAND templates::util::Attribute::attributeGetterSetter(fullQualifiedInterfaceName(this, ModelScope::web), name) FOR this»
+
+	«EXPAND remoteMethod(this) FOREACH remoteMethods»
+}
+
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE remoteMethod(RemoteService remoteService) FOR RemoteMethod»
+
+	@RequestMapping("/«restServiceUrl()»")
+	@ResponseBody
+	public String «name»(@org.springframework.web.bind.annotation.RequestBody String jsonParameters)
+	{
+		String result = RestUtil.invokeServiceMethod(«remoteService.name.toFirstLower()», "«name»", jsonParameters, «mobileParameterWrapperName(remoteService, this)».class);
+		return result;
+	}
+«ENDDEFINE»
+
+«DEFINE springServerRestServices FOR Model»
+«FILE name + "RestServices-gen.xml"-»
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+		<mvc:annotation-driven/>
+	
+		«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+			<bean id="«remoteService.name.toFirstLower()»Rest" class="«fullyQualifiedBaseRestServiceControllerName(remoteService)»" />
+		«ENDFOREACH»
+		<!--
+	 	<context:component-scan base-package="«getFirstPackage().name».*"/>
+		-->
+		
+</beans>
+«ENDFILE»
+«ENDDEFINE»

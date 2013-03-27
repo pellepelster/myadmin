@@ -1,0 +1,21 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE fieldDescriptor FOR Object»
+	«throwError("type '" + metaType.toString() + "' not implemented")» 
+«ENDDEFINE»
+
+«DEFINE fieldDescriptor FOR EntityAttribute»
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+«ENDDEFINE»
+
+
+«DEFINE fieldDescriptor(String name) FOR Entity»
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+«ENDDEFINE»
+
+
+«DEFINE fieldDescriptorName FOR String-»FIELD_«this.toUpperCase()-»«ENDDEFINE»
+
+«DEFINE fieldDescriptorName FOR EntityAttribute-»«EXPAND fieldDescriptorName FOR name-»«ENDDEFINE»

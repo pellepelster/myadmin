@@ -1,0 +1,21 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="myadmin-feature" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+		<artifact name="updatesite" type="zip" ext="zip" />
+	</publications>
+
+	<dependencies>
+		<dependency name="dsl-ui" rev="latest.integration" conf="*->@" />
+	</dependencies>
+
+</ivy-module>

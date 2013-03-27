@@ -1,0 +1,327 @@
+«IMPORT myAdminDsl»
+
+«EXTENSION org::eclipse::xtend::util::stdlib::crossref»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION templates::NewExtensions»
+
+//- vo enumeration ------------------------------------------------------------
+«DEFINE voEnumeration FOR Enumeration»
+	«info("generating web enumeration vo '" + entityName() + "'")»
+
+	«FILE fullQualifiedEntityFileName()»
+	package «fullQualifiedEntityPackage()-»;
+	
+	public enum «entityName()»
+	{
+	«FOREACH enumerationValues AS enumValue SEPARATOR ","-»
+		«enumValue.toUpperCase()-»
+	«ENDFOREACH-»	
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+//- entityWebVO -------------------------------------------------------------
+«DEFINE webVOEntityFile FOR Entity»
+	«info("generating web entity vo '" + entityName() + "'")»
+
+	«FILE fullQualifiedEntityFileName()»
+	package «fullQualifiedEntityPackage()»;
+
+	«EXPAND webVOEntityClass("de.pellepelster.myadmin.client.base.db.vos.IBaseVO") FOR this»	
+
+	«ENDFILE»
+«ENDDEFINE»
+
+//- entityWebVO -------------------------------------------------------------
+«DEFINE mobileVOEntityFile FOR Entity»
+	«info("generating mobile entity vo '" + entityName() + "'")»
+
+	«FILE fullQualifiedEntityFileName()»
+	package «fullQualifiedEntityPackage()»;
+
+	«EXPAND webVOEntityClass("de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO") FOR this»	
+
+	«ENDFILE»
+«ENDDEFINE»
+
+//- entityWebVO -------------------------------------------------------------
+«DEFINE webVOEntityClass(String implements) FOR Entity-»
+
+	public class «entityName()» extends de.pellepelster.myadmin.client.base.db.vos.BaseVO implements «implements» «IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO«ENDIF»{
+	
+		private static final long serialVersionUID = 1L;
+
+		«EXPAND templates::util::Attribute::attributeGetterSetter("long", "id", "de.pellepelster.myadmin.client.base.db.vos.IBaseVO.NEW_VO_ID")»
+
+		«EXPAND templates::vo::FieldDescriptor::fieldDescriptor FOREACH attributes»
+
+		«IF entityOptions != null && entityOptions.hierarchical»	
+			«EXPAND hierarchicalVO FOR this»
+		«ENDIF»
+		
+    	public static de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] getFieldDescriptors() {
+			return new de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] {
+				«FOREACH attributes AS attribute SEPARATOR ','»
+					«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR attribute»					
+				«ENDFOREACH»
+
+				«REM»iterate through  all entities referencing this entity«ENDREM»
+				«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+					«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+						«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+							«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+								,
+								«IF otherEntity == this»
+									«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR backSelfReferenceName()»
+								«ELSE»
+									«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR otherAttribute»
+								«ENDIF»
+							«ENDIF-»
+						«ENDLET-»
+					«ENDFOREACH-»
+				«ENDFOREACH-»
+
+			};
+   		}
+		
+		«EXPAND genericVOGetter»
+		«EXPAND genericVOSetter»
+
+		«EXPAND templates::vo::Attribute::voAttributeGetterSetter(this) FOREACH attributes»
+
+		«REM»iterate through  all entities referencing this entity«ENDREM»
+		«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+			«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+				«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+					«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+						«IF otherEntity == this»
+							«EXPAND templates::vo::FieldDescriptor::fieldDescriptor(backSelfReferenceName()) FOR otherEntity»
+							«EXPAND templates::vo::Attribute::voAttributeGetterSetter(backSelfReferenceName()) FOR otherEntity-»
+						«ELSE»
+							«EXPAND templates::vo::FieldDescriptor::fieldDescriptor FOR otherEntity»
+							«EXPAND templates::vo::Attribute::voAttributeGetterSetter(backReferenceName(otherEntity)) FOR otherEntity-»
+						«ENDIF»
+					«ENDIF-»
+				«ENDLET-»
+			«ENDFOREACH-»
+		«ENDFOREACH-»
+		
+		«EXPAND cloneMethod FOR this»
+		«EXPAND getAttributeDescriptor FOR this»
+	}
+«ENDDEFINE»
+
+
+«DEFINE genericVOGetterForMethod FOR String»
+		if ("«this»".equals(name))
+		{
+			return get«this.toFirstUpper()»();
+		}
+«ENDDEFINE»
+
+«DEFINE cloneAttribute(EntityAttribute attribute) FOR Type»
+		newVO.«attribute.name.toFirstLower()» = this.«attribute.name.toFirstLower()»;
+«ENDDEFINE»
+
+«DEFINE hierarchicalVO FOR Entity»
+	private Long parentId;
+
+	private String parentClassName;
+
+	private boolean hasChildren;
+
+	private de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent;
+
+	/** {@inheritDoc} */
+	@Override
+	
+	public de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO getParent()
+	{
+		return parent;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String getParentClassName()
+	{
+		return parentClassName;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Long getParentId()
+	{
+		return parentId;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public boolean hasChildren()
+	{
+		return hasChildren;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setHasChildren(boolean hasChildren)
+	{
+		this.hasChildren = hasChildren;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParent(de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent)
+	{
+		this.parent = parent;
+		this.parentClassName = parent.getClass().getName();
+		this.parentId = parent.getId();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParentClassName(String parentClassName)
+	{
+		this.parentClassName = parentClassName;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void setParentId(Long parentId)
+	{
+		this.parentId = parentId;
+	}
+«ENDDEFINE»
+
+
+«DEFINE cloneAttribute(EntityAttribute attribute) FOR EntityReferenceType-»
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+		for («EXPAND templates::type::Type::rawType("webvo", false) FOR attribute.type-» listItem : this.«attribute.name.toFirstLower()-»)
+		{
+			newVO.«attribute.name.toFirstLower()».add(listItem.cloneVO());
+		}
+	«ELSE-»
+		if (this.«attribute.name.toFirstLower()» != null)
+		{		
+			newVO.«attribute.name.toFirstLower()» = this.«attribute.name.toFirstLower()».cloneVO();
+		}
+	«ENDIF-» 	
+«ENDDEFINE»
+
+«DEFINE cloneMethod FOR Entity»
+	public «entityName()» cloneVO() {
+		
+		 «entityName()» newVO = new «entityName()»();
+		 
+		 «FOREACH attributes AS attribute»
+			«EXPAND cloneAttribute(attribute) FOR attribute.type»
+		 «ENDFOREACH»
+		 
+		 return newVO;
+	}
+«ENDDEFINE»
+
+//- genericVOGetter -----------------------------------------------------------
+«DEFINE getAttributeDescriptor FOR Entity»
+	public de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> getAttributeDescriptor(String name) {
+
+		for (de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> attributeDescriptor : getFieldDescriptors()) {
+			if (attributeDescriptor.getAttributeName().equals(name)) {
+				return attributeDescriptor;
+			}
+		}
+
+		throw new RuntimeException("unsupported attribute '" + name + "'");
+	}
+
+«ENDDEFINE»
+
+//- genericVOGetter -----------------------------------------------------------
+«DEFINE genericVOGetter FOR Entity»
+	public Object get(java.lang.String name) {
+
+		«EXPAND genericVOGetterForMethod FOR "oid"»
+		
+		«EXPAND genericVOGetterForMethod FOR "id"»
+	
+		«FOREACH attributes AS attribute»
+			if ("«attribute.name»".equals(name))
+			{
+				return this.«attribute.name»;
+			}
+		«ENDFOREACH»
+		
+		«REM»iterate through  all entities referencing this entity«ENDREM»
+		«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+			«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+				«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+					«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+						«IF otherEntity == this»
+							if ("parent".equals(name))
+							{
+								return this.«otherAttribute.name»;
+							}
+						«ELSE»
+							if ("«otherAttribute.name»".equals(name))
+							{
+								return this.«otherAttribute.name»;
+							}
+						«ENDIF»
+					«ENDIF-»
+				«ENDLET-»
+			«ENDFOREACH-»
+		«ENDFOREACH-»
+		
+		throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+	}
+«ENDDEFINE»
+
+//- genericVOSetter -----------------------------------------------------------
+«DEFINE genericVOSetter FOR Entity»
+	public void set(java.lang.String name, java.lang.Object value) {
+
+		«FOREACH attributes AS attribute»
+			if ("«attribute.name»".equals(name))
+			{		
+				«IF attribute.type.metaType == EnumerationType»
+					if (value instanceof String)
+					{
+						this.«attribute.name» = «EXPAND templates::type::Type::webVOType FOR attribute.type-».valueOf((String) value);	
+					}
+					else
+					{
+						this.«attribute.name» = («EXPAND templates::type::Type::webVOType FOR attribute.type-») value;
+					}
+				«ELSE»
+					this.«attribute.name» = («EXPAND templates::type::Type::webVOType FOR attribute.type-») value;
+				«ENDIF»
+				return;
+			}
+		«ENDFOREACH»	
+
+		«REM»iterate through  all entities referencing this entity«ENDREM»
+		«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+			«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+				«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+					«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+						«IF otherEntity == this»
+
+							if ("parent".equals(name))
+							{		
+								this.parent = («EXPAND templates::type::Type::webVOType FOR otherEntity-») value;
+								return;
+							}
+						«ELSE»
+							if ("«otherAttribute.name»".equals(name))
+							{		
+								this.«otherAttribute.name» = («EXPAND templates::type::Type::webVOType FOR otherEntityReferenceType-») value;
+								return;
+							}
+						«ENDIF»
+					«ENDIF-»
+				«ENDLET-»
+			«ENDFOREACH-»
+		«ENDFOREACH-»
+
+		throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+	}
+«ENDDEFINE»

@@ -1,0 +1,25 @@
+<persistence version="1.0"  xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" >
+
+		<persistence-unit name="DBTestPersistenceUnit">
+	
+		<!--
+		<class>de.pellepelster.myadmin.db.entities.User</class>
+		<class>de.pellepelster.myadmin.db.entities.Client</class>
+		<class>de.pellepelster.myadmin.db.entities.Group</class>
+		<class>de.pellepelster.myadmin.db.entities.EntityChange</class>
+		<class>de.pellepelster.myadmin.db.entities.EntityAttributeChange</class>
+		-->
+
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test1</class>
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test2</class>
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test3</class>
+		
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.MapTest</class>
+		
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		
+	</persistence-unit>
+</persistence>

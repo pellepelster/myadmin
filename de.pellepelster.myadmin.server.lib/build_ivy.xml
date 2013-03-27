@@ -1,0 +1,18 @@
+<project name="server-lib" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="no.compile" value="no.compile=true" />
+	
+	<ivy:settings id="local.ivy.settings" file="local.ivysettings.xml" />
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+	<import file="../de.pellepelster.myadmin.build/ant/myadmin/IvyJarImport.xml" />
+
+	<target name="jars.import.shared">
+		<IvyJarImport baseArtifactDir="${basedir}\jars" targetresolver="shared" ivysettings="local.ivy.settings" />
+	</target>
+
+	<target name="jars.import.myadmin">
+		<IvyJarImport baseArtifactDir="${basedir}\jars" targetresolver="myadmin" ivysettings="ivy.settings" />
+	</target>
+
+</project>

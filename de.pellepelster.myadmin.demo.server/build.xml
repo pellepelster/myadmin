@@ -1,0 +1,40 @@
+<project name="de.pellepelster.myadmin.demo.server" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+
+	<target name="post.jar">
+		<antcall target="war" />
+	</target>
+
+	<target name="war">
+
+		<mkdir dir="war"/>
+		<mkdir dir="WebContent/WEB-INF/classes"/>
+		
+		<!-- WAR -->
+		<war destfile="${build.dir}/de.pellepelster.myadmin.demo.war" webxml="WebContent/WEB-INF/web.xml">
+
+			<fileset dir="../de.pellepelster.myadmin.demo.client/war">
+				<exclude name="WEB-INF/**" />
+			</fileset>
+
+			<fileset dir="war" includes="**/*" />
+
+			<webinf dir="WebContent/WEB-INF">
+				<filename name="**/*" />
+			</webinf>
+
+			<metainf dir="WebContent/META-INF">
+				<filename name="*.*" />
+			</metainf>
+
+			<classes dir="WebContent/WEB-INF/classes">
+				<include name="**/*.*" />
+			</classes>
+
+			<!-- myadmin -->
+			<lib dir="${lib.dir}" />
+		</war>
+	</target>
+
+</project>

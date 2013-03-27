@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="de.pellepelster.myadmin.server.test" default="build">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+
+	<path id="de.pellepelster.myadmin.server.test.classpath">
+
+		<fileset dir="${de.pellepelster.myadmin.lib.location}/junit" />
+
+		<path refid="server.base.classpath" />
+		<path refid="spring.classpath" />
+
+		<fileset dir="${de.pellepelster.myadmin.generator.location}/dist" includes="*.jar" />
+		<fileset dir="${de.pellepelster.myadmin.lib.location}/derby" includes="*.jar" />
+		<fileset dir="${de.pellepelster.myadmin.db.location}/dist" includes="*.jar" />
+		<fileset dir="${de.pellepelster.myadmin.server.location}/dist" includes="*.jar" />
+		<fileset dir="${de.pellepelster.myadmin.server.core.location}/dist" includes="*.jar" />
+
+		<fileset dir="${de.pellepelster.myadmin.client.core.location}/dist" includes="*.jar" excludes="*-source.jar" />
+		<fileset dir="${de.pellepelster.myadmin.client.base.location}/dist" includes="*.jar" excludes="*-source.jar" />
+
+	</path>
+
+	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<classpath>
+			<fileset dir="${myadmin.server.lib.location}/jaxb" includes="*.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="gen.schema">
+		<echo message="schema file: ${schema.file}" />
+		<xjc extension="true" schema="${schema.file}" destdir="c:\temp" />
+	</target>
+
+	<target name="iterate.xsds">
+
+		<property name="temp.location" value="${java.io.tmpdir}/schema" />
+		<delete dir="${temp.location}" />
+
+		<unzip dest="${temp.location}">
+			<fileset dir="${de.pellepelster.myadmin.generator.location}/dist" includes="*-xml-gen.jar" />
+		</unzip>
+
+		<foreach param="schema.file" target="gen.schema">
+			<path>
+				<fileset dir="${temp.location}/" includes="*.xsd" />
+			</path>
+		</foreach>
+
+	</target>
+
+	<target name="javac" depends="init">
+		<!--
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="de.pellepelster.myadmin.server.test.classpath" />
+		</javac>
+		-->
+	</target>
+
+	<target name="jar">
+		<jar destfile="${dist.location}/${ant.project.name}.jar">
+			<fileset dir="${build.location}" includes="**/*" />
+			<fileset dir="src/" includes="**/*.xml" />
+			<fileset dir="src/" includes="**/*.properties" />
+		</jar>
+	</target>
+
+
+	<target name="init" depends="clean">
+		<mkdir dir="${test.location}" />
+		<mkdir dir="${dist.location}" />
+		<mkdir dir="${build.location}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${test.location}" />
+		<delete dir="${dist.location}" />
+		<delete dir="${build.location}" />
+	</target>
+
+	<target name="build" depends="javac, jar, test" />
+
+	<target name="test">
+
+		<!--
+		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
+			<classpath refid="de.pellepelster.myadmin.server.test.classpath" />
+			<classpath>
+				<fileset dir="${dist.location}" />
+			</classpath>
+			
+			<formatter type="xml" />
+			
+			<test name="de.pellepelster.myadmin.server.test.MyAdminServerTestSuite" haltonfailure="yes" outfile="${test.location}/MyAdminServerTestSuite" />
+
+		</junit>
+		-->
+	</target>
+
+</project>

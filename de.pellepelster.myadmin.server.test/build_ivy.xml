@@ -1,0 +1,7 @@
+<project name="server-test" default="compile">
+	
+	<property name="test.suite.name" value="de.pellepelster.myadmin.server.test.MyAdminServerTestSuite" />
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+	
+</project>

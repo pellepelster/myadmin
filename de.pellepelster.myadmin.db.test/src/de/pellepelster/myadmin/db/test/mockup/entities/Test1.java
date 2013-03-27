@@ -1,0 +1,107 @@
+/**
+ * Copyright (c) 2013 Christian Pelster.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Christian Pelster - initial API and implementation
+ */
+package de.pellepelster.myadmin.db.test.mockup.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import de.pellepelster.myadmin.db.IBaseEntity;
+
+@Entity
+@Table(name = "test1")
+public class Test1 implements IBaseEntity
+{
+
+	public enum TEST_ENUM
+	{
+		ENUM1, ENUM2
+	}
+
+	@Id
+	@Column(name = "test1_id")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "test1_id_seq")
+	@SequenceGenerator(name = "test1_id_seq", sequenceName = "test1_id_seq", allocationSize = 1)
+	private long id;
+
+	@Column(name = "test1_testinteger")
+	private int testInteger;
+
+	@Column(name = "test1_teststring")
+	private String testString;
+
+	@javax.persistence.OneToMany()
+	@Column(name = "test1_test2s")
+	private List<Test2> test2s = new ArrayList<Test2>();
+
+	@Column(name = "test1_testenum")
+	private TEST_ENUM testEnum;
+
+	@Override
+	public long getId()
+	{
+		return id;
+	}
+
+	public List<Test2> getTest2s()
+	{
+		return test2s;
+	}
+
+	public TEST_ENUM getTestEnum()
+	{
+		return testEnum;
+	}
+
+	public int getTestInteger()
+	{
+		return testInteger;
+	}
+
+	public String getTestString()
+	{
+		return testString;
+	}
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
+	public void setTest2s(List<Test2> test2s)
+	{
+		this.test2s = test2s;
+	}
+
+	public void setTestEnum(TEST_ENUM testEnum)
+	{
+		this.testEnum = testEnum;
+	}
+
+	public void setTestInteger(int testInteger)
+	{
+		this.testInteger = testInteger;
+	}
+
+	public void setTestString(String testString)
+	{
+		this.testString = testString;
+	}
+
+}

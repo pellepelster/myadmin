@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="de.pellepelster.myadmin.server.core">
+
+	<import file="../de.pellepelster.myadmin.build/MyAdminBuild.xml" />
+
+	<target name="init" depends="clean">
+		<mkdir dir="${dist.location}" />
+		<mkdir dir="${build.location}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist.location}" />
+		<delete dir="${build.location}" />
+	</target>
+
+	<path id="de.pellepelster.myadmin.server.core.classpath">
+		<path refid="spring.classpath" />
+		<fileset dir="${de.pellepelster.myadmin.server.lib.location}/jackson" includes="*.jar" excludes="*-source.jar" />
+		<fileset dir="${de.pellepelster.myadmin.client.base.location}/dist" includes="*.jar" excludes="*-source.jar" />
+		<fileset dir="${de.pellepelster.myadmin.db.location}/dist" includes="*.jar" excludes="*-source.jar" />
+	</path>
+
+	<target name="build" depends="init, javac, jar" />
+
+	<target name="build.nodeps" depends="build" />
+
+	<target name="javac">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="de.pellepelster.myadmin.server.core.classpath" />
+		</javac>
+	</target>
+
+	<target name="jar">
+		<jar destfile="${dist.location}/${ant.project.name}.jar" basedir="${build.location}" includes="de/pellepelster/myadmin/**" />
+		<jar destfile="${dist.location}/${ant.project.name}-source.jar" basedir="src/" manifest="src/META-INF/MANIFEST.MF" />
+	</target>
+
+</project>

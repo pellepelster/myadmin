@@ -1,0 +1,8 @@
+bin
+bin-gen
+dist
+build
+src-gen/*
+!src-gen/.gitignore
+/src-gen
+/lib

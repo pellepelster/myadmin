@@ -1,0 +1,29 @@
+<project name="de.pellepelster.myadmin.demo.generator" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+	<import file="../de.pellepelster.myadmin.demo.build/ant/myadmin/GeneratorCommon.xml" />
+
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.dir}" includes="*.msl" />
+	</path>
+
+	<path id="local.lib.path.id">
+		<path refid="lib.path.id" />
+		<fileset dir="${build.dir}" includes="*.jar" />
+	</path>
+
+	<path id="xjc.classpath">
+		<fileset dir="lib">
+			<include name="*xml-gen-jar.jar"/>
+		</fileset>
+		<path refid="lib.path.id" />
+	</path>
+
+	<target name="post.jar" depends="resolve">
+		<myadmingenerate modelName="Demo" artefactname="de.pellepelster.myadmin.demo" pathrefid="local.lib.path.id" />
+	</target>
+
+</project>
+
+

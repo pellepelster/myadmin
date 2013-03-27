@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClientList xmlns="http://www.pellepelster.de/myadmin/schema/client"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="client.xsd ">
+	<Client>
+		<id>1</id>
+		<name>client1</name>
+	</Client>
+	<Client>
+		<id>2</id>
+		<name>client2</name>
+	</Client>
+</ClientList>

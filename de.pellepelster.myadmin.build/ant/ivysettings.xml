@@ -1,0 +1,36 @@
+<ivysettings>
+
+	<properties file="properties/${user.name}.build.properties" />
+	
+	<property name="ivy.staging.repository.root" value="${ivy.default.ivy.user.dir}/myadmin/" override="false" />
+
+	<include url="myadmin/ivysettings-myadmin-base.xml" />
+
+	<settings defaultResolver="${ivy.resolver.default}" />
+
+	<resolvers>
+
+		<filesystem name="myadmin_staging_repository">
+			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+
+		<filesystem name="myadmin_dependencies_local">
+			<ivy pattern="${ivy.default.ivy.user.dir}/myadmin_dependencies/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.default.ivy.user.dir}/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+
+		<chain name="myadmin_dev" returnFirst="true" checkmodified="true">
+			<resolver ref="default" />
+			<resolver ref="myadmin_dependencies_local" />
+			<resolver ref="myadmin_dependencies" />
+		</chain>
+
+		<chain name="myadmin_staging" returnFirst="true" checkmodified="true">
+			<resolver ref="myadmin_staging_repository" />
+			<resolver ref="myadmin_dev" />
+		</chain>
+
+	</resolvers>
+
+</ivysettings>

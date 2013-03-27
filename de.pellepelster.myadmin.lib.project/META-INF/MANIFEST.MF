@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.lib.project
+Bundle-SymbolicName: de.pellepelster.myadmin.lib.project
+Bundle-Version: 0.0.0.qualifier
+Bundle-Vendor: Christian Pelster
+Bundle-ClassPath: server/de.pellepelster.myadmin-server-gen.jar,
+ server/de.pellepelster.myadmin.server.core.jar,
+ server/de.pellepelster.myadmin.server.jar,
+ server/de.pellepelster.myadmin.server.test.jar,
+ client/de.pellepelster.myadmin-client-gen.jar,
+ client/de.pellepelster.myadmin.client.base.jar,
+ client/de.pellepelster.myadmin.client.core.jar,
+ client/de.pellepelster.myadmin.client.jar,
+ server/de.pellepelster.myadmin.db.jar,
+ generator/de.pellepelster.myadmin.generator.jar,
+ generator/de.pellepelster.myadmin.dsl.generator.jar,
+ generator/de.pellepelster.myadmin.dsl.jar,
+ tools/de.pellepelster.myadmin.tools.jar,
+ client/de.pellepelster.myadmin.client.web.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

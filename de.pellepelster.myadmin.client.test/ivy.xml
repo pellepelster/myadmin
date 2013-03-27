@@ -1,0 +1,23 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="client-test" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<dependencies>
+
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+
+		<dependency org="junit" name="junit" rev="4.10">
+			<artifact name="junit" type="jar" />
+		</dependency>
+
+	</dependencies>
+
+</ivy-module>

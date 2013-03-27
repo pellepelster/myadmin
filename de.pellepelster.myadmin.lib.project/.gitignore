@@ -1,0 +1,10 @@
+bin
+bin-gen
+dist
+build
+
+/tools
+/client
+/scripts
+/server
+/generator

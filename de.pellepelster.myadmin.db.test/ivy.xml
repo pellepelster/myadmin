@@ -1,0 +1,58 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="db-test" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+		<artifact name="db-test" type="jar" ext="jar" conf="master" />
+		<artifact name="db-test-source" type="source" ext="jar" conf="sources" />
+	</publications>
+
+	<dependencies>
+
+		<dependency name="db" rev="latest.integration" conf="*->@" />
+
+		<dependency org="junit" name="junit" rev="4.10">
+			<artifact name="junit" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-test" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-test" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-jdbc" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-asm" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-aop" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-tx" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-tx" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-expression" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-expression" type="jar" />
+		</dependency>
+
+		<dependency org="aopalliance" name="aopalliance" rev="1.0">
+			<artifact name="aopalliance" type="jar" />
+		</dependency>
+
+		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" />
+
+	</dependencies>
+
+</ivy-module>
