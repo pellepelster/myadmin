@@ -18,15 +18,13 @@
 		</url>
 
 		<url name="myadmin_libs">
-			<ivy pattern="http://myadmin-dev/~myadmin_dependencies/ivy/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://myadmin-dev/~myadmin_dependencies/ivy/${ivy.local.default.artifact.pattern}" />
+			<ivy pattern="http://myadmin.pelle.io/ivy/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin.pelle.io/ivy/${ivy.local.default.artifact.pattern}" />
 		</url>
 
 		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
 			<resolver ref="gwt_commons" />
-			<!-- 
 			<resolver ref="myadmin_libs" />
-			 -->
 		</chain>
 
 	</resolvers>
