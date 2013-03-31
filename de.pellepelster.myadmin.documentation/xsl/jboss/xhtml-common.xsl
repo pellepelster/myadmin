@@ -33,10 +33,10 @@
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
               standalone="no"/>
 
-  <xsl:param name="siteHref" select="'http://www.jboss.org'"/>
-  <xsl:param name="docHref" select="'http://docs.jboss.org/'"/>
-  <xsl:param name="siteLinkText" select="'JBoss.org'"/>
-  <xsl:param name="docLinkText" select="'Community Documentation'"/>
+  <xsl:param name="siteHref" select="'http://myadmin.pelle.io'"/>
+  <xsl:param name="docHref" select="'http://myadmin.pelle.io'"/>
+  <xsl:param name="siteLinkText" select="'myadmin.pelle.io'"/>
+  <xsl:param name="docLinkText" select="'MyAdmin Documentation'"/>
 
   <xsl:param name="graphicsize.extension">0</xsl:param>
 

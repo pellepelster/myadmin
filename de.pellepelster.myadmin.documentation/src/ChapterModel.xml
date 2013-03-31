@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
+
+	<title>The Model</title>
+
+	<section>
+		<title>Overview</title>
+		<para>
+			This chapter will explain the model that is essential for every MyAdmin based application. Starting with a basic 
+			model that will be extended step by step to show new features until it meets all requirements for the demo project.
+		</para>
+		
+		<formalpara>
+		  <title>Basic model sample</title>
+  
+<programlisting language="Java">
+project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
+	package de.pellepelster.myadmin.demo {
+	}
+}</programlisting>
+		</formalpara>
+
+		<para>
+			This basic (and complety useless) model only conatins the Name of the model <varname>Demo</varname>	and an empty package. The model Id (name) is typically 
+			used when referencing the model in MWE Workflows. The model also defines an empty package <varname>de.pellepelster.myadmin.demo</varname>, as this is 
+			the topmost package it will automatically be used as root package path. So for this model all generated Java artifacts will be located somewhere under
+			<emphasis>de.pellepelster.myadmin.demo.*</emphasis>.
+		</para>
+
+		<section>
+			<title>Syntax</title>
+			<para>
+
+				<itemizedlist>
+					<title>Basic syntax rules</title>
+					<listitem>
+						<para>
+							<emphasis>Model ID's</emphasis>
+							Each model element has its own unique ID, e.g. the ID for an entity is it's name, for an attribute it's the name
+							of the attribute, etc. Because nearly all elements of the model will later result in some sort of generated java
+							source code, model identifiers should comply to the rules for
+							<ulink url="http://docs.oracle.com/javase/specs/jls/se5.0/html/lexical.html#3.8">Java identifiers</ulink>, to avoid 
+							compile time problems.
+						</para>
+					</listitem>
+				</itemizedlist>
+
+			</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Datatypes</title>
+
+		<para>As type information is needed over several places in the model (for example the information that the countries name is a 
+		string is needed in the entity and the UI definition) central datatypes can be defined and referenced from the needed locations.</para>
+
+		<formalpara>
+		  <title>Simple datatype definition</title>
+
+<programlisting language="Java">
+textdatatype CountryName {
+	maxLength 32
+}
+</programlisting>
+		</formalpara>
+	
+		<para>
+			The above examples defines a text datatype of the name <emphasis>CountryName</emphasis> and restricts the maximum length of the country name to 32.	
+		</para>
+	</section>
+
+	<section>
+		<title>Entities</title>
+
+		<formalpara>
+		  <title>Simple entity sample</title>
+  
+<programlisting language="Java">
+entity Country {
+	datatype CountryName countryName
+}
+</programlisting>
+		</formalpara>
+
+		<para>
+			Entities basically consist of a name and a list of attributes, which each attribute having it's own type. The definition resembles a Java 
+			class definition with the difference that the attributes type is preceded with the keyword <emphasis>datatype</emphasis> which means that 
+			this attribute should take its type information from the datatype <emphasis>CountryName</emphasis>.
+		</para>
+
+		<formalpara>
+		  <title>Simple entity sample</title>
+  
+<programlisting language="Java">
+entity Entity1 {
+	simpletype String string1
+	simpletype Integer integer1
+}
+</programlisting>
+		</formalpara>
+
+		<para>
+			Entities basically consist of a name and a list of attributes, which each attribute having it's own type. The definition resembles a Java 
+			class definition with the difference that the attribute type is preceded with the keyword <emphasis>simpletype</emphasis> which means 
+			<emphasis>this attribute is a simple Java type having the type that is specified after the keyword simpletype</emphasis>.
+		</para>
+	</section>
+</chapter>
+

@@ -3,27 +3,35 @@
 
 	<path id="fop.classpath">
 		<fileset dir="fop/lib/" includes="*.jar" />
-		<fileset dir="fop/build/" includes="*.jar" />
 	</path>
-
-	<fileset id="src.files" dir="src" includes="MyAdmin.xml" />
-
 	<taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop" classpathref="fop.classpath" />
 
+	<path id="wst.classpath">
+		<fileset dir="wst" includes="*.jar" />
+	</path>
+	<taskdef name="xinclude" classname="org.eclipse.wst.xsl.core.internal.ant.XIncludeTask" classpathref="wst.classpath" />
+
+	
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="src.index.name" value="MyAdmin" />
+	<property name="src.index.file" value="${src.index.name}.xml" />
+	<property name="src.index.merged.file" value="${src.index.name}.xml" />
+
+	
 	<property name="docbook.xsl.dir" value="${basedir}/xsl" />
 
 	<property name="output.dir" value="${basedir}/output/" />
-	<property name="src" value="${basedir}/src" />
 	<property name="output.temp.dir" value="${basedir}/temp" />
+
+	<fileset id="src.files" dir="${output.temp.dir}" includes="${src.index.merged.file}" />
 
 	<property name="html.stylesheet" value="${docbook.xsl.dir}/jboss/xhtml-single.xsl" />
 	<property name="chunk-html.stylesheet" value="${docbook.xsl.dir}/jboss/xhtml.xsl" />
 
-	
-	
+
 	<property name="fo.stylesheet" value="${docbook.xsl.dir}/jboss/pdf.xsl" />
 	<property name="eclipse.stylesheet" value="${docbook.xsl.dir}/eclipse/eclipse.xsl" />
-	
+
 	<target name="clean" description="Cleans up generated files.">
 		<delete dir="${output.dir}" />
 		<delete dir="${output.temp.dir}" />
@@ -34,39 +42,42 @@
 		<mkdir dir="${output.temp.dir}" />
 	</target>
 
-	<!--
-      - target:  copy 
-      - Copies the images from the subdirectories to the target folder
-    -->
 	<target name="copy">
 		<echo message="Copy the images" />
 		<copy todir="${output.dir}">
-			<fileset dir="${src}">
+			<fileset dir="${src.dir}">
 				<include name="**/images/*.*" />
 			</fileset>
 		</copy>
 	</target>
 
-	<target name="build.html" depends="init" description="Generates HTML files from DocBook XML">
+	<target name="merge">
+		<xinclude in="${src.dir}/${src.index.file}" out="${output.temp.dir}/${src.index.merged.file}" />
+	</target>
+
+	<target name="build.html" depends="init, merge" description="Generates HTML files from DocBook XML">
+
 		<xslt style="${html.stylesheet}" extension=".html" basedir="${output.temp.dir}" destdir="${output.dir}">
+
 			<classpath refid="fop.classpath" />
-			
+
 			<factory name="org.apache.xalan.processor.TransformerFactoryImpl">
 				<attribute name="http://xml.apache.org/xalan/features/optimize" value="true" />
 			</factory>
-			
+
 			<fileset refid="src.files" />
 		</xslt>
 
 		<copy todir="${output.dir}">
 			<fileset dir="output-lib" includes="**/*" />
 		</copy>
-		
+
 	</target>
 
 	<target name="build.html.chunked" depends="init" description="Generates chunk HTML files from DocBook XML">
+
 		<xslt style="${html.stylesheet}" extension=".html" basedir="${output.temp.dir}" destdir="${output.dir}">
-			
+
 			<classpath refid="fop.classpath" />
 			<factory name="org.apache.xalan.processor.TransformerFactoryImpl">
 				<attribute name="http://xml.apache.org/xalan/features/optimize" value="true" />
@@ -74,14 +85,14 @@
 
 			<fileset refid="src.files" />
 		</xslt>
-		
+
 		<copy todir="${output.dir}">
 			<fileset dir="output-lib" includes="**/*" />
 		</copy>
 	</target>
 
-	<target name="build.pdf" depends="init" description="Generates HTML files from DocBook XML">
-		
+	<target name="build.pdf" depends="init, merge" description="Generates HTML files from DocBook XML">
+
 		<!-- Convert DocBook Files into FO -->
 		<xslt style="${fo.stylesheet}" extension=".fo" basedir="${output.temp.dir}" destdir="${output.temp.dir}">
 
@@ -91,17 +102,18 @@
 			</factory>
 
 			<fileset refid="src.files" />
-			
+
 			<param name="section.autolabel" expression="1" />
-			
+
 		</xslt>
-		<!-- Convert FO Files into pdf
+		
+		<!-- Convert FO Files into pdf -->
+		
 		<fop format="application/pdf" outdir="${output.dir}" relativebase="true">
 			<fileset dir="${output.temp.dir}">
 				<include name="**/*.fo" />
 			</fileset>
 		</fop>
-		 		 -->
 	</target>
 
 	<target name="build.eclipse" depends="init" description="Generates Eclipse help files from DocBook XML">
@@ -113,7 +125,7 @@
 			</factory>
 
 			<fileset refid="src.files" />
-				
+
 		</xslt>
 	</target>
 

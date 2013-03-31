@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
+
+	<title>The Demo Project</title>
+
+	<section>
+		<title>Overview</title>
+		<para>
+			To make it easier to understand how MyAdmin works, the key features will be explained by an example project,
+			whose requirements will be explained in this chapter (please bear in mind that the main purpose of the demo project
+			is to show off the features of MyAdmin, and not to serve any sensible purpose)
+		</para>
+	</section>
+
+	<section>
+		<title>Requirements</title>
+		<section>
+			<title>Authentication</title>
+			<para>
+				<itemizedlist>
+					<listitem>
+						<para>A Login Dialog with the usual Username/Password fields, and a possibility to choose a language for the
+							user
+							interface
+						</para>
+					</listitem>
+					<listitem>
+						<para>Management for users and roles</para>
+					</listitem>
+					<listitem>
+						<para>Password change dialog for the current user</para>
+					</listitem>
+				</itemizedlist>
+			</para>
+		</section>
+		<section>
+			<title>Entities (CRUD)</title>
+			<para>
+				The center of the demo project is a set of entities with all possible types of relations to another. For each
+				entity we need the possibility to search for them, create new ones, edit existing or delete them.
+			</para>
+
+			<section>
+				<title>Country</title>
+				<para>An entity demonstrating the most common datatypes if MyAdmin</para>
+				<para>
+					<table frame="all" pgwide="1">
+
+						<title>Countries attrbiutes</title>
+
+						<tgroup colsep="1" cols="3">
+							<colspec colnum="1" colname="c0" />
+							<colspec colnum="2" colname="c1" />
+							<colspec colnum="3" colname="c2" />
+							<thead>
+								<row>
+									<entry>Attribute</entry>
+									<entry>Description</entry>
+									<entry>Type</entry>
+									<entry>Mandatory</entry>
+								</row>
+							</thead>
+							<tbody>
+								<row>
+									<entry>Name</entry>
+									<entry>The name of the country</entry>
+									<entry>text</entry>
+									<entry>yes</entry>
+								</row>
+								<row>
+									<entry>Description</entry>
+									<entry>A short description of the country, for easier data entry it should be displayed as a multiline
+										texfield</entry>
+									<entry>text</entry>
+									<entry>no</entry>
+								</row>
+								<row>
+									<entry>Population</entry>
+									<entry>Number of inhabitants</entry>
+									<entry>number</entry>
+									<entry>yes</entry>
+								</row>
+								<row>
+									<entry>National Holiday</entry>
+									<entry>Date of the national holiday if available</entry>
+									<entry>date</entry>
+									<entry>no</entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</para>
+			</section>
+		</section>
+	</section>
+</chapter>
+
