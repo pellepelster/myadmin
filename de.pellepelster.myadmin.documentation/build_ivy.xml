@@ -47,7 +47,7 @@
 	</target>
 
 	<target name="merge">
-		<xinclude in="${basedir}/${src.dir}/${src.index.file}" out="${basedir}/${output.temp.dir}/${src.index.merged.file}" />
+		<xinclude in="${basedir}/${src.dir}/${src.index.file}" out="${output.temp.dir}/${src.index.merged.file}" />
 	</target>
 
 	<target name="build.html" depends="init, merge" description="Generates HTML files from DocBook XML">
