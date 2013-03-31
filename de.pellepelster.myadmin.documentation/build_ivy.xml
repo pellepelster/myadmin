@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
-<project name="de.pellepelster.myadmin.documentation" default="all">
+<project name="documentation" default="publish">
 
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
+
+	<!-- documentation tasks -->
 	<path id="fop.classpath">
 		<fileset dir="fop/lib/" includes="*.jar" />
 	</path>
@@ -12,15 +15,10 @@
 	<taskdef name="xinclude" classname="org.eclipse.wst.xsl.core.internal.ant.XIncludeTask" classpathref="wst.classpath" />
 
 	
-	<property name="src.dir" value="${basedir}/src" />
 	<property name="src.index.name" value="MyAdmin" />
 	<property name="src.index.file" value="${src.index.name}.xml" />
 	<property name="src.index.merged.file" value="${src.index.name}.xml" />
-
-	
 	<property name="docbook.xsl.dir" value="${basedir}/xsl" />
-
-	<property name="output.dir" value="${basedir}/output/" />
 	<property name="output.temp.dir" value="${basedir}/temp" />
 
 	<fileset id="src.files" dir="${output.temp.dir}" includes="${src.index.merged.file}" />
@@ -33,18 +31,15 @@
 	<property name="eclipse.stylesheet" value="${docbook.xsl.dir}/eclipse/eclipse.xsl" />
 
 	<target name="clean" description="Cleans up generated files.">
-		<delete dir="${output.dir}" />
 		<delete dir="${output.temp.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
-		<mkdir dir="${output.dir}" />
 		<mkdir dir="${output.temp.dir}" />
 	</target>
 
-	<target name="copy">
-		<echo message="Copy the images" />
-		<copy todir="${output.dir}">
+	<target name="copy.images">
+		<copy todir="${output.temp.dir}">
 			<fileset dir="${src.dir}">
 				<include name="**/images/*.*" />
 			</fileset>
@@ -57,7 +52,7 @@
 
 	<target name="build.html" depends="init, merge" description="Generates HTML files from DocBook XML">
 
-		<xslt style="${html.stylesheet}" extension=".html" basedir="${output.temp.dir}" destdir="${output.dir}">
+		<xslt style="${html.stylesheet}" extension=".html" basedir="${output.temp.dir}" destdir="${output.temp.dir}">
 
 			<classpath refid="fop.classpath" />
 
@@ -68,27 +63,10 @@
 			<fileset refid="src.files" />
 		</xslt>
 
-		<copy todir="${output.dir}">
+		<copy todir="${output.temp.dir}">
 			<fileset dir="output-lib" includes="**/*" />
 		</copy>
 
-	</target>
-
-	<target name="build.html.chunked" depends="init" description="Generates chunk HTML files from DocBook XML">
-
-		<xslt style="${html.stylesheet}" extension=".html" basedir="${output.temp.dir}" destdir="${output.dir}">
-
-			<classpath refid="fop.classpath" />
-			<factory name="org.apache.xalan.processor.TransformerFactoryImpl">
-				<attribute name="http://xml.apache.org/xalan/features/optimize" value="true" />
-			</factory>
-
-			<fileset refid="src.files" />
-		</xslt>
-
-		<copy todir="${output.dir}">
-			<fileset dir="output-lib" includes="**/*" />
-		</copy>
 	</target>
 
 	<target name="build.pdf" depends="init, merge" description="Generates HTML files from DocBook XML">
@@ -109,27 +87,22 @@
 		
 		<!-- Convert FO Files into pdf -->
 		
-		<fop format="application/pdf" outdir="${output.dir}" relativebase="true">
+		<fop format="application/pdf" outdir="${output.temp.dir}" relativebase="true">
 			<fileset dir="${output.temp.dir}">
 				<include name="**/*.fo" />
 			</fileset>
 		</fop>
 	</target>
 
-	<target name="build.eclipse" depends="init" description="Generates Eclipse help files from DocBook XML">
-		<xslt style="${eclipse.stylesheet}" basedir="${output.temp.dir}" destdir="${output.dir}">
-
-			<classpath refid="fop.classpath" />
-			<factory name="org.apache.xalan.processor.TransformerFactoryImpl">
-				<attribute name="http://xml.apache.org/xalan/features/optimize" value="true" />
-			</factory>
-
-			<fileset refid="src.files" />
-
-		</xslt>
+	<target name="compile" depends="clean.build, resolve, copy.images, build.html">
 	</target>
 
-	<target name="all" depends="copy, build.html">
+	<target name="jar" depends="version, compile" unless="no.compile">
+		<zip destfile="${build.dir}/${ant.project.name}.zip">
+			<fileset dir="${output.temp.dir}" >
+    			<include name="**/*"/>
+			</fileset>
+		</zip>
 	</target>
 
 </project>
