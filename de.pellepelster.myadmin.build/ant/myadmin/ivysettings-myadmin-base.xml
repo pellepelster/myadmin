@@ -12,19 +12,13 @@
 
 	<resolvers>
 	
-		<url name="gwt_commons">
-			<ivy pattern="http://ivy.pelle.io/repository/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://ivy.pelle.io/repository/${ivy.local.default.artifact.pattern}" />
-		</url>
-
-		<url name="myadmin_libs">
-			<ivy pattern="http://myadmin.pelle.io/ivy/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://myadmin.pelle.io/ivy/${ivy.local.default.artifact.pattern}" />
+		<url name="myadmin_dependencies_repository">
+			<ivy pattern="http://myadmin.pelle.io/ivy_repositories/myadmin_dependencies/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin.pelle.io/ivy_repositories/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
 		</url>
 
 		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
-			<resolver ref="gwt_commons" />
-			<resolver ref="myadmin_libs" />
+			<resolver ref="myadmin_dependencies_repository" />
 		</chain>
 
 	</resolvers>
