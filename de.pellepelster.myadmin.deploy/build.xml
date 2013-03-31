@@ -5,42 +5,7 @@
 	<dirname property="basedir" file="${ant.file.deploy}" />
 	<property environment="env" />
 
-	<property name="base.remote.dir" value="public_html" />
-	<property name="updatesite.remote.dir" value="${base.remote.dir}/updatesite" />
-	<property name="updatesite.temp.dir" value="${basedir}/updatesite_temp" />
-	<property name="ivy.remote.dir" value="${base.remote.dir}/ivy" />
-
-	<property name="deploy.stage" value="ci" />
-	<property file="stages/${deploy.stage}.properties" />
-	<property name="ssh.key.file" value="${user.home}/.ssh/id_rsa" />
-
 	<property name="no.compile" value="" />
-
-	<target name="deploy" depends="resolve">
-
-		<path id="updatesite.file.id">
-			<fileset dir="${lib.dir}">
-				<include name="updatesite*.zip" />
-			</fileset>
-		</path>
-
-		<property name="updatesite.file" refid="updatesite.file.id" />
-		<echo message="found updatesite zip file '${updatesite.file}'" />
-
-		<delete dir="${updatesite.temp.dir}" />
-		<mkdir dir="${updatesite.temp.dir}" />
-		<unzip src="${updatesite.file}" dest="${updatesite.temp.dir}" overwrite="true" />
-
-		<sshexec host="${deploy.host}" username="${deploy.user}" keyfile="${ssh.key.file}" trust="true" command="rm -rf ${updatesite.remote.dir}/*" />
-		<scp todir="${deploy.user}@${deploy.host}:${updatesite.remote.dir}" keyfile="${ssh.key.file}" trust="true" failonerror="true">
-			<fileset dir="${updatesite.temp.dir}" />
-		</scp>
-
-		<scp todir="${deploy.user}@${deploy.host}:${ivy.remote.dir}" keyfile="${ssh.key.file}" trust="true" failonerror="true">
-			<fileset dir="${env.WORKSPACE}/ivy" />
-		</scp>
-
-	</target>
 
 	<target name="build.distros">
 
@@ -61,9 +26,11 @@
 			<installunit name="org.eclipse.xtend.sdk.feature.group" />
 			<installunit name="de.itemis.xtext.antlr.sdk.feature.group" />
 			<installunit name="org.eclipse.xtext.sdk.feature.group" />
+			<installunit name="de.pellepelster.myadmin.feature.feature.group" />
 
 			<updatesite url="http://download.eclipse.org/releases/juno" />
-
+			<updatesite url="http://myadmin.pelle.io/myadmin_ci/updatesite/" />
+			
 		</builder>
 	</target>
 
