@@ -39,7 +39,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
+/*
     background-image:url(../images/community/title_hdr.png);
+*/
     background-repeat:no-repeat;
     border-top:1px dotted #CCCCCC;
     line-height:1.2em;
