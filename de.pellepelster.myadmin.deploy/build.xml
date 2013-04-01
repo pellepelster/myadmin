@@ -1,4 +1,4 @@
-<project name="deploy" default="deploy" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="deploy" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
 
