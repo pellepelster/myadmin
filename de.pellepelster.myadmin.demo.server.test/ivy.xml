@@ -23,7 +23,7 @@
 
 		<dependency org="de.pellepelster.myadmin" name="demo.server" rev="latest.integration" conf="*->@" />
 
-		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated" />
+		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="!runtime,*->@" />
 
 		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->*" />
 
