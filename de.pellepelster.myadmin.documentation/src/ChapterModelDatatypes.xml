@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
+
+	<title>Datatypes</title>
+
+	<para>As type information is needed over several places in the model (for example the information that the countries name is a 
+	string is needed in the entity and the UI definition) central datatypes can be defined and referenced from the needed locations.</para>
+
+	<formalpara>
+		<title>Sample datatype definition</title>
+
+		<programlisting language="Java">
+textdatatype CountryName {
+	maxLength 32
+}
+		</programlisting>
+	</formalpara>
+	
+	<para>
+		The above examples defines a text datatype of the name <literal>CountryName</literal> and restricts the maximum length of the country 
+		name to 32. The types and properties of the different dataypes are explained in the following section 	
+	</para>
+	
+	<section id="model_datatypes_text">
+		<title>Text</title>
+		<para></para>
+	</section>
+
+	<section id="model_datatypes_integer">
+		<title>Integer</title>
+		<para></para>
+	</section>
+
+	<section id="model_datatypes_bigdecimal">
+		<title>BigDecimal</title>
+		<para></para>
+	</section>
+
+	<section id="model_datatypes_boolean">
+		<title>Boolean</title>
+		<para></para>
+	</section>
+
+	<section id="model_datatypes_date">
+		<title>Date</title>
+		<para></para>
+	</section>
+
+	<section id="model_datatypes_enumeration">
+		<title>Enumeration</title>
+		<para></para>
+		
+		<formalpara>
+			<title>Enumeration datatype</title>
+			<programlisting language="Java">
+enumdatatype CountryTrafficDirection {
+	enumeration COUNTRY_TRAFFIC_DIRECTION
+}
+			</programlisting>
+		</formalpara>
+		
+		<table frame="all" pgwide="1">
+
+			<title>Enumeration properties</title>
+
+			<tgroup colsep="1" cols="2">
+				<colspec colnum="1" colname="c0" />
+				<colspec colnum="2" colname="c1" />
+				<thead>
+					<row>
+						<entry>Property</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>enumeration</entry>
+						<entry>The enumeration that is referenced by this datatype.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		
+	</section>
+
+	<section id="model_datatypes_reference">
+		<title>Reference</title>
+		<para>The reference datatype represents any entity that is available in the current model.</para>
+
+		<formalpara>
+			<title>Reference datatype</title>
+			<programlisting language="Java">
+referencedatatype CountryCapitalDatatype {
+	entity City
+}
+			</programlisting>
+		</formalpara>
+			
+		<table frame="all" pgwide="1">
+
+			<title>Reference properties</title>
+
+			<tgroup colsep="1" cols="2">
+				<colspec colnum="1" colname="c0" />
+				<colspec colnum="2" colname="c1" />
+				<thead>
+					<row>
+						<entry>Property</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>entity</entry>
+						<entry>The entity that is referenced by this datatype.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+	</section>
+		
+</section>

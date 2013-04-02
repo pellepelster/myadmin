@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
+	version="4.5" id="initial_project_setup">
+
+	<title>Initial Project Setup</title>
+
+	<para>This chapter will get you started with the initial setup of a MyAdmin based project.</para>
+
+	<section id="initial_project_setup_new_project">
+	
+		<title>Project creation</title>
+		<para>
+			To create a new project fire up the new project dialog via <menuchoice><guisubmenu>New</guisubmenu><guisubmenu>Project</guisubmenu>
+			<guimenuitem>MyAdmin</guimenuitem><guimenuitem>New MyAdmin project</guimenuitem></menuchoice>.
+			
+			The project names for our project should all start with <package>de.pellepelster.myadmin.demo</package> so in the
+			<guilabel>New Project dialog</guilabel> enter <parameter>de.pellepelster.myadmin</parameter> as <guilabel>Organisation name</guilabel>
+			and <parameter>demo</parameter> as <guilabel>project name</guilabel>. After clicking <guibutton>finish</guibutton> MyAdmin creates 
+			it basic default project structure which will be explained in the next section.
+		</para>
+		
+		<section id="building_project_layout">
+			<title>Project layout</title>
+			<para>
+				The default MyAdmin project setup consists of six different projects that are automatically created on initial project setup.
+				<!-- 
+				 . The file <filename>myadmin.properties</filename> 
+				containing all the project names is automatically created on initial project setup. The file also contains the project name
+				as well as the organisation name. -->
+			</para>
+			<section>
+				<title>Server project</title>
+				<para>
+					Contains all server code.
+					<!-- <varname>server.project</varname>   -->
+				</para>
+			</section>
+			<section>
+				<title>Server test project</title>
+				<para>
+					JUnit tests for the server as well as everything needed to set up a local web container and automatically deploy the application to it.
+					<!-- <varname>server.test.project</varname>   -->
+				</para>
+			</section>
+			<section>
+				<title>Client project</title>
+				<para>
+					Code for the client side. As the client code is later compiled using the GWT compiler it is very important to keep in mind
+					that GWT compiler only emulates a <ulink href="https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasics#DevGuideJavaCompatibility">subset of the Java runtime library</ulink>.
+					If a JRE class or method is not supported, the compiler will emit an error.
+
+				<!--  <varname>client.project</varname>  -->
+				</para>
+			</section>
+			<section>
+				<title>Client test project</title>
+				<para>
+					JUnit test for the client, for the source code the same limitations as in the client project apply.
+				<!-- <varname>client.test.project</varname>  -->
+				</para>
+			</section>
+			<section>
+				<title>Build project</title>
+				<para>
+					Ant scripts to compile and package the projects.
+				<!-- <varname>build.project</varname>   -->
+				</para>
+			</section>
+			<section>
+				<title>Deploy project</title>
+				<para>
+					Ant scripts to compile and package the projects.
+					<!-- <varname>deploy.project</varname>  -->
+				</para>
+			</section>
+		</section>
+	</section>	
+</chapter>

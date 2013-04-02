@@ -41,13 +41,14 @@
 				entity we need the possibility to search for them, create new ones, edit existing or delete them.
 			</para>
 
+			<!-- country -->
 			<section>
 				<title>Country</title>
 				<para>An entity demonstrating the most common datatypes if MyAdmin</para>
 				<para>
 					<table frame="all" pgwide="1">
 
-						<title>Countries attrbiutes</title>
+						<title>Country attributes</title>
 
 						<tgroup colsep="1" cols="3">
 							<colspec colnum="1" colname="c0" />
@@ -85,6 +86,45 @@
 									<entry>National Holiday</entry>
 									<entry>Date of the national holiday if available</entry>
 									<entry>date</entry>
+									<entry>no</entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</para>
+			</section>
+
+			<!-- city -->
+			<section>
+				<title>City</title>
+				<para>
+					<table frame="all" pgwide="1">
+
+						<title>City attributes</title>
+
+						<tgroup colsep="1" cols="3">
+							<colspec colnum="1" colname="c0" />
+							<colspec colnum="2" colname="c1" />
+							<colspec colnum="3" colname="c2" />
+							<thead>
+								<row>
+									<entry>Attribute</entry>
+									<entry>Description</entry>
+									<entry>Type</entry>
+									<entry>Mandatory</entry>
+								</row>
+							</thead>
+							<tbody>
+								<row>
+									<entry>Name</entry>
+									<entry>The name of the city</entry>
+									<entry>text</entry>
+									<entry>yes</entry>
+								</row>
+								<row>
+									<entry>Country</entry>
+									<entry>A reference the country in which the city is located</entry>
+									<entry>reference</entry>
 									<entry>no</entry>
 								</row>
 							</tbody>

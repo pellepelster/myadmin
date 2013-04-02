@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
+	version="4.5" id="building_myadmin">
+
+	<title>Building MyAdmin</title>
+
+	<section id="building_myadmin_environment_setup">
+		<title>Setting up the environment</title>
+		<para>
+			<procedure id="building_myadmin_workspace_setup">
+				<title>Workspace setup</title>
+				<step>
+					<title>Run bootstrap script</title>
+					<para>
+						Before building MyAdmin itself some dependencies are needed for the	build itself 
+						(mainly ant tasks). A bootstrap ant script is provided that will set up the 
+						environment needed to build. It is located at 
+						<filename>de.pellepelster.myadmin.build/ant/MyAdminBuildBootstrap.xml</filename> the
+						default target loads all dependencies (via Ivy). 							
+					</para>
+				</step>
+				<step>
+					<title>Set up Ivy</title>
+					<para>
+						Some dependencies are not available in any public repositories and therefore not 
+						resolvable by Ivy. A custom <filename>ivysettings.xml</filename> containing repositories 
+						for all needed dependencies is provided. To use it choose <menuchoice><guimenu>Window</guimenu>
+						<guisubmenu>Preferences</guisubmenu><guimenuitem>Ivy</guimenuitem><guimenuitem>Settings</guimenuitem>
+						</menuchoice> from the main menu bar and add <filename>${workspace_loc:de.pellepelster.myadmin.build/ant/ivysettings.xml}</filename>
+						as <label>Ivy Settings Path</label>.
+					</para>
+				</step>
+				<step>
+					<title>Get Eclipse for PDE build</title>
+					<para>
+						For building the Eclipse integration a local Eclipse distribution with Apache Ivy and XText is needed. A prepacked 
+						one is available <ulink href="http://myadmin.pelle.io/files/eclipse_pdebuild.tar.gz">here</ulink>. The MyAdmin build by default
+						expects it to be extracted under <filename><replaceable>${user.home}</replaceable>/java/eclipse_pdebuild</filename>, you can override 
+						this behaviour by providing custom build properties to the build. 
+					</para>
+				</step>
+			</procedure>
+		</para>
+	</section>
+		<section id="building_myadmin_custom_properties">
+		<title>Custom build properties</title>
+		<para>
+		To alter the default build behaviour, or provide custom locations (e..g for the Eclipse PDE build)  you can override the default 
+		build properties file located at <filename>de.pellepelster.myadmin.build/ant/properties/default.build.properties</filename> by
+		copying it to a new one and replacing the <replaceable>default</replaceable> with your local user id.  
+		</para>
+	</section>
+</chapter>
