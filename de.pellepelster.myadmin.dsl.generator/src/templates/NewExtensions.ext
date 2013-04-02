@@ -36,7 +36,7 @@ List[Entity] getReferencedEntitiesWithoutDuplicates(List[EntityReferenceType] en
 String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
 String xsdQualifier(Entity entity): entity.name.toLowerCase();
 String xsdCatalogFileName(Model model): model.name.toLowerCase() + ".cat";
-String xsdNamespaceUrl(Model model): model.schemaUrl;
+String xsdNamespaceUrl(Model model): if (model.schemaUrl != null) then model.schemaUrl else "http://" + model.name.toLowerCase();
 String xsdNamespace(Entity entity): xsdNamespaceUrl(getRootModel(entity)) + "/" + entity.name.toLowerCase();
 String xsdSchemaLocation(Entity entity): xsdFileName(entity); 
 String xsdTypeName(Entity entity): entity.name.toFirstUpper() + "Type"; 
