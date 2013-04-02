@@ -1,7 +1,5 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<property name="test.suite.name" value="trigger text execution" />
-
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 
 	<property file="build.properties" />
@@ -24,51 +22,37 @@
 	</macrodef>
 
 
-	<macrodef name="tomcat.local">
-		
-		<attribute name="action" />
-		
-		<sequential>
-			<taskdef resource="cargo.tasks">
-				<classpath>
-					<pathelement location="lib/cargo-core-uberjar-jar.jar" />
-					<pathelement location="lib/cargo-ant-jar.jar" />
-					<fileset dir="lib" includes="*jar" />
-				</classpath>
-			</taskdef>
+	<target name="run.local" depends="resolve">
 
-			<mkdir dir="tomcat" />
-			<mkdir dir="tomcat/downloads" />
-			<mkdir dir="tomcat/extracts" />
-			<mkdir dir="tomcat/logs" />
+		<taskdef resource="cargo.tasks">
+			<classpath>
+				<pathelement location="lib/cargo-core-uberjar-jar.jar" />
+				<pathelement location="lib/cargo-ant-jar.jar" />
+				<fileset dir="lib" includes="*jar" />
+			</classpath>
+		</taskdef>
 
-			<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="@{action}">
+		<mkdir dir="tomcat" />
+		<mkdir dir="tomcat/downloads" />
+		<mkdir dir="tomcat/extracts" />
+		<mkdir dir="tomcat/logs" />
 
-				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
+		<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="run">
 
-				<extraClasspath>
-					<pathelement location="lib/derby-jar.jar" />
-				</extraClasspath>
+			<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
 
-				<configuration>
-		         	<!-- <property name="cargo.logging" value="high"/> -->
-					<property name="cargo.servlet.port" value="${remote.port}" />
-					
-					<!-- <property name="cargo.jvmargs" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999 -Xnoagent -Djava.compiler=NONE" /> -->
-					<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=jdbc/Demo|cargo.datasource.username=demo|cargo.datasource.password=nonemptypassword" />
-					<deployable type="war" file="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war" />
-				</configuration>
+			<extraClasspath>
+				<pathelement location="lib/derby-jar.jar" />
+			</extraClasspath>
 
-			</cargo>
-		</sequential>
-	</macrodef>
+			<configuration>
+				<property name="cargo.servlet.port" value="8080" />
+				<property name="cargo.jvmargs" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999 -Xnoagent -Djava.compiler=NONE" />
+				<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=jdbc/Demo|cargo.datasource.username=demo|cargo.datasource.password=nonemptypassword" />
+				<deployable type="war" file="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war" />
+			</configuration>
 
-	<target name="tomcat.local.run" depends="resolve">
-		<tomcat.local action="run" />
-	</target>
-
-	<target name="tomcat.local.start" depends="resolve">
-		<tomcat.local action="start" />
+		</cargo>
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
@@ -77,33 +61,6 @@
 		<dictionaryimporter classpathref="lib.path.id" modelfile="classpath:Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
 
 	</target>
-
-	<target name="test" depends="test.selenium.local">
-	</target>
-
-	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
-
-		<mkdir dir="${test.dir}"/>
-		
-		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
-
-			<classpath refid="lib.path.id" />
-			
-			<classpath>
-				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-			</classpath>
-
-			<sysproperty key="screenshot.dir" value="${test.dir}"/>
-			<sysproperty key="selenium.base.url" value="${remote.url}"/>
-
-			<formatter type="xml" />
-
-			<test name="de.pellepelster.myadmin.demo.server.SeleniumTests" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
-
-		</junit>
-
-	</target>
-	
 
 	<target name="start.client">
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>

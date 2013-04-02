@@ -74,8 +74,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				totalDigits 10
 			}
 			
-			enumdatatype CountryDrive {
-				enumeration COUNTRY_DRIVE
+			enumdatatype CountryTrafficDirection {
+				enumeration COUNTRY_TRAFFIC_DIRECTION
 			}
 	
 			//- city -------------------------------------------------
@@ -121,7 +121,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			import datatypes.*
 	 		import MyAdmin.de.pellepelster.myadmin.entities.^dictionary.*
 
-			enum COUNTRY_DRIVE {
+			enum COUNTRY_TRAFFIC_DIRECTION {
 			 	LEFT, RIGHT
 			}
 
@@ -153,7 +153,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				datatype CountryEU countryEU
 				datatype CountryFormation countryFormation
 				datatype CountryArea countryArea
-				datatype CountryDrive countryDrive
+				datatype CountryTrafficDirection countryTrafficDirection
 			}
 	
 			entity Region
@@ -479,8 +479,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 						label "Area"
 					}
 					
-					enumerationcontrol CountryDrive {
-						entityattribute countryDrive
+					enumerationcontrol CountryTrafficDirection {
+						entityattribute countryTrafficDirection
 						label "Drives on the"
 					}				
 				
@@ -533,7 +533,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 							integercontrol ref CountryPopulation
 							booleancontrol ref CountryEU
 							bigdecimalcontrol ref CountryArea
-							enumerationcontrol ref CountryDrive
+							enumerationcontrol ref CountryTrafficDirection
 		
 						}		
 					}						
