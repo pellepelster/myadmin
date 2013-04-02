@@ -20,6 +20,11 @@
 	<property file="${build.project.ant.dir}/properties/${user.name}.build.properties" />
 	<property file="${build.project.ant.dir}/properties/default.build.properties" />
 
+	<!-- write property file for ivy settings -->
+	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
+		<isset property="env.WORKSPACE"/>
+	</condition>
+	
 	<tstamp>
 		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
 	</tstamp>
