@@ -17,20 +17,12 @@
 
 	<!-- property defaults -->
 	<property environment="env" />
-	<property name="ivy.resolver.default" value="default" />
-	<property file="${project.ant.dir}/properties/${user.name}.build.properties" />
-	<property file="${project.ant.dir}/properties/default.build.properties" />
+	<property file="${build.project.ant.dir}/properties/${user.name}.build.properties" />
+	<property file="${build.project.ant.dir}/properties/default.build.properties" />
 
 	<tstamp>
 		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
 	</tstamp>
-	
-	<mkdir dir="${build.project.ant.dir}/properties"/>
-	
-	<!-- write property file for ivy settings -->
-	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
-	    <isset property="env.WORKSPACE"/>
-	</condition>
 	
 	<!-- version configuration -->
 	<property name="version.file" value="${build.project.root.dir}/version.properties" />

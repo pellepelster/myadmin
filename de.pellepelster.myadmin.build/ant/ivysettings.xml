@@ -1,5 +1,6 @@
 <ivysettings>
 
+	<properties file="properties/default.build.properties" />
 	<properties file="properties/${user.name}.build.properties" />
 	
 	<property name="ivy.staging.repository.root" value="${ivy.default.ivy.user.dir}/myadmin/" override="false" />

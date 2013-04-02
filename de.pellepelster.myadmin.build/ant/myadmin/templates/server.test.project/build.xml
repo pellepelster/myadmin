@@ -21,7 +21,6 @@
 		</sequential>
 	</macrodef>
 
-
 	<target name="run.local" depends="resolve">
 
 		<taskdef resource="cargo.tasks">
