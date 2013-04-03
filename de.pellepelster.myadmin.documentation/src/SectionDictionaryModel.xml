@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
+	version="4.5">
+
+	<title>Dictionary</title>
+
+	<para>
+		The dictionary represents the UI description. Each <literal>dictionary</literal> relates to a single value object 
+		(see <xref linkend="model_value_objects" />) and contains a <literal>dictionarysearch</literal>
+		definition describing a UI to search for Value Objects and a <literal>dictionaryeditor</literal> definition describing 
+		a UI to create new and edit already existing ValueObjects.
+	</para>
+
+	<para>
+
+		<figure id="figureDictionaryOverview">
+			<title>Dictionary Overview</title>
+			
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/modelDictionaryOverview_small.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<para>Dictionary Overview</para>
+				</textobject>
+			</mediaobject>
+		</figure>
+	</para>
+
+	<section id="model_dictionary_controls">
+		<title>Controls</title>
+		<para>Similar to the way the central dataypes are managed, each dictionary can hold a central set of control definitions so
+		you can just reference the central definitons where nedded (filter, result, editor, ...) instead of defining the control again 
+		and again.</para>
+		
+		<formalpara>
+			<title>Sample control definiton</title>
+			<programlisting language="Java">
+textcontrol CountryName {
+	entityattribute countryName
+	label "Name"
+	mandatory
+}
+			</programlisting>
+		</formalpara>		
+		<para>Defines a text control with the label <literal>Name</literal> that has to be filled (<literal>mandatory</literal>)
+		The data that is entered into the control will be written to the attribute <literal>countryName</literal> of the value object 
+		that is connected with the dictionary that the control model resides in (presumably the country value object).
+		</para>
+		
+		<formalpara>
+			<title>Sample Control definiton with reference</title>
+			<programlisting language="Java">
+textcontrol CountryName {
+	entityattribute countryName
+	label "Name"
+	mandatory
+}
+
+[...]
+
+dictionaryresult CountryResult {
+	textcontrol ref CountryName
+}
+			</programlisting>
+		</formalpara>		
+		<para>The already defined control is used within a dictionary result definition.
+		</para>
+
+		<formalpara>
+			<title>Sample Control definiton with reference and overriding</title>
+			<programlisting language="Java">
+textcontrol CountryName {
+	entityattribute countryName
+	label "Name"
+	mandatory
+}
+
+[...]
+
+dictionaryresult CountryResult {
+	textcontrol ref CountryName {
+		label "New Name"
+	}
+}
+			</programlisting>
+		</formalpara>		
+		<para>The already defined control is used within a dictionary result definition overriding the label from the central 
+		definition
+		</para>
+		
+		
+	</section>
+
+	<section id="model_dictionary_label_controls">
+		<title>Label Controls</title>
+		<para></para>
+	</section>
+
+	<section id="model_dictionary_search">
+		<title>Dictionary Search</title>
+		<para></para>
+
+		<section id="model_dictionary_filter">
+			<title>Dictionary Filter</title>
+			<para></para>
+		</section>
+
+		<section id="model_dictionary_result">
+			<title>Dictionary Result</title>
+			<para></para>
+		</section>
+
+	</section>
+
+	<section id="model_dictionary_editor">
+		<title>Dictioanry Editor</title>
+		<para></para>
+	</section>
+
+</section>

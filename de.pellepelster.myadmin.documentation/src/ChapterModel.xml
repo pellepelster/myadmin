@@ -52,9 +52,9 @@ project Demo {
 	</section>
 
 
-	<xi:include href="ChapterModelDatatypes.xml" />
+	<xi:include href="SectionModelDatatypes.xml" />
 
-	<section>
+	<section id="model_entities">
 		<title>Entities</title>
 
 		<formalpara>
@@ -70,8 +70,51 @@ entity Country {
 		<para>
 			Entities basically consist of a name and a list of attributes, with each attribute having it's own type. The definition resembles a Java 
 			class definition with the difference that the attributes type is preceded with the keyword <literal>datatype</literal> meaning that 
-			this attribute should take its type information from the datatype <literal>CountryName</literal>.
+			this attribute should take its type information from the datatype <literal>CountryName</literal>. The resulting java class will look 
+			something like this: 
 		</para>
+		
+		<formalpara>
+			<title>Generated code example</title>
+  
+			<programlisting language="Java">
+@javax.persistence.Entity
+@javax.persistence.Table(name = "country")
+public class Country implements de.pellepelster.myadmin.db.IBaseEntity {
+
+		@javax.persistence.Id
+		@javax.persistence.Column(name = "country_id")
+		@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.TABLE, generator = "country_id_seq")
+		@javax.persistence.SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
+		private long id;
+		
+		public long getId() {
+			return id;
+		}
+		
+		public void setId(long id) {
+			this.id = id;
+		}
+		
+		@javax.persistence.Column(name = "country_countryname")
+		private java.lang.String countryName;
+		
+		public java.lang.String getCountryName() {
+			return countryName;
+		}
+		
+		public void setCountryName(java.lang.String countryName) {
+			this.countryName = countryName;
+		}
+}
+			</programlisting>
+		</formalpara>
+
+		<para>
+			If you only need an entity without a UI without the overhead of defining datatypes you can use the keyword <literal>simpletype</literal> 
+			followed by the needed type
+		</para>
+
 
 		<formalpara>
 			<title>Entity without datatypes</title>
@@ -85,8 +128,7 @@ entity Entity1 {
 		</formalpara>
 
 		<para>
-			If you only need an entity without a UI without the overhead of defining datatypes you can use the keyword <literal>simpletype</literal> 
-			followed by one of the following types:
+			The generated result will be the same as with datatype. The following simpletypes are available:
 			
 			<itemizedlist>
 				<listitem>
@@ -111,7 +153,12 @@ entity Entity1 {
 		</para>
 	</section>
 	
-	<section>
+	<section id="model_value_objects">
+		<title>Value Objects</title>
+		<para></para>
+	</section>
+	
+	<section id="model_enumerations">
 		<title>Enumerations</title>
 		<para>
 			Enumerations are defined the exact the same way as in Java.
@@ -127,6 +174,8 @@ enum COUNTRY_TRAFFIC_DIRECTION {
 			</formalpara>
 		</para>
 	</section>
-	
+
+	<xi:include href="SectionDictionaryModel.xml" />
+
 </chapter>
 
