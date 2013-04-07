@@ -284,4 +284,22 @@ public class BaseVODAOTest extends BaseDBTest
 		Assert.assertEquals("xxx", test1VOResult.getTestString());
 	}
 
+	@Test
+	public void testMapDelete()
+	{
+		Test1VO test1VO = new Test1VO();
+		test1VO.setTestString("xxx");
+		test1VO.getMap().put("a", "a");
+
+		getBaseVODAO().create(test1VO);
+
+		GenericFilterVO<Test1VO> genericFilterVO = new GenericFilterVO<Test1VO>(Test1VO.class);
+		List<Test1VO> result = getBaseVODAO().filter(genericFilterVO);
+
+		Assert.assertEquals(1, result.size());
+		Test1VO test1VOResult = result.get(0);
+		Assert.assertEquals("a", test1VOResult.getMap().get("a"));
+
+		getBaseVODAO().deleteAll(Test1VO.class);
+	}
 }

@@ -73,22 +73,22 @@ public class Test2VO extends BaseVO
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public Test1VO getTest1()
 	{
-		return test1;
+		return this.test1;
 	}
 
 	public Test3VO getTest3()
 	{
-		return test3;
+		return this.test3;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	/** {@inheritDoc} */

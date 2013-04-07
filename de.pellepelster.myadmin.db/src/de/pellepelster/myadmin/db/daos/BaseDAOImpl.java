@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
@@ -49,6 +49,7 @@ import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject;
+import de.pellepelster.myadmin.db.util.BeanUtil;
 
 /**
  * Implementation for {@link IBaseDAO}
@@ -78,7 +79,7 @@ public class BaseDAOImpl implements IBaseDAO
 		String jpql = aggregateQuery.getJPQL();
 		LOG.debug(String.format("jpql '%s'", jpql));
 
-		Query query = entityManager.createQuery(jpql);
+		Query query = this.entityManager.createQuery(jpql);
 
 		long result = (Long) query.getSingleResult();
 
@@ -126,32 +127,40 @@ public class BaseDAOImpl implements IBaseDAO
 	{
 		LOG.debug(String.format("deleting entity '%s' with id '%d'", entity.getClass().getName(), entity.getId()));
 
-		T entityToDelete = entityManager.merge(entity);
-		entityManager.remove(entityToDelete);
+		T entityToDelete = this.entityManager.merge(entity);
+		this.entityManager.remove(entityToDelete);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void deleteAll(Class<? extends IBaseEntity> entityClass)
 	{
 		LOG.debug(String.format("deleting all '%s' entities", entityClass.getName()));
 
-		DeleteQuery deleteQuery = new DeleteQuery(entityClass);
-
-		if (IBaseClientEntity.class.isAssignableFrom(entityClass))
+		if (BeanUtil.hasAnnotatedAttribute1(entityClass, ElementCollection.class))
 		{
-			deleteQuery.addWhereCondition(getClientConditionalExpression(entityClass));
+			for (Object entity : getAll(entityClass))
+			{
+				this.entityManager.remove(entity);
+			}
 		}
-
-		Query query = entityManager.createQuery(deleteQuery.getJPQL());
-		for (NamedParameterExpressionObject namedParameter : deleteQuery.getNamedParameters())
+		else
 		{
-			query.setParameter(namedParameter.getName(), namedParameter.getObject());
+			DeleteQuery deleteQuery = new DeleteQuery(entityClass);
+
+			if (IBaseClientEntity.class.isAssignableFrom(entityClass))
+			{
+				deleteQuery.addWhereCondition(getClientConditionalExpression(entityClass));
+			}
+
+			Query query = this.entityManager.createQuery(deleteQuery.getJPQL());
+			for (NamedParameterExpressionObject namedParameter : deleteQuery.getNamedParameters())
+			{
+				query.setParameter(namedParameter.getName(), namedParameter.getObject());
+			}
+
+			query.executeUpdate();
 		}
-
-		query.executeUpdate();
-
 	}
 
 	/** {@inheritDoc} */
@@ -198,7 +207,7 @@ public class BaseDAOImpl implements IBaseDAO
 
 		List<T> result = new ArrayList<T>();
 
-		Query query = entityManager.createQuery(jpql);
+		Query query = this.entityManager.createQuery(jpql);
 		for (NamedParameterExpressionObject namedParameter : selectQuery.getNamedParameters())
 		{
 			query.setParameter(namedParameter.getName(), namedParameter.getObject());
@@ -254,7 +263,7 @@ public class BaseDAOImpl implements IBaseDAO
 		countQuery.addWhereConditions(conditionalExpressions);
 
 		String queryJPQL = countQuery.getJPQL();
-		Query query = entityManager.createQuery(queryJPQL);
+		Query query = this.entityManager.createQuery(queryJPQL);
 		for (NamedParameterExpressionObject namedParameter : countQuery.getNamedParameters())
 		{
 			query.setParameter(namedParameter.getName(), namedParameter.getObject());
@@ -337,7 +346,7 @@ public class BaseDAOImpl implements IBaseDAO
 	public <T extends IBaseEntity> T read(long id, Class<T> entityClass)
 	{
 
-		T entity = entityManager.find(entityClass, id);
+		T entity = this.entityManager.find(entityClass, id);
 
 		if (entity instanceof IBaseClientEntity)
 		{
@@ -392,7 +401,7 @@ public class BaseDAOImpl implements IBaseDAO
 			}
 			else
 			{
-				infoEntity.setUpdateUser(UNKNOWN_USERNAME);
+				infoEntity.setUpdateUser(this.UNKNOWN_USERNAME);
 			}
 
 			infoEntity.setUpdateDate(new Date());
@@ -408,7 +417,7 @@ public class BaseDAOImpl implements IBaseDAO
 	{
 		try
 		{
-			T mergedEntity = entityManager.merge(entity);
+			T mergedEntity = this.entityManager.merge(entity);
 			visited.put(entity, mergedEntity);
 
 			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(mergedEntity)).entrySet())

@@ -12,7 +12,9 @@
 package de.pellepelster.myadmin.db.test.mockup.entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,30 +55,43 @@ public class Test1 implements IBaseEntity
 	@Column(name = "test1_testenum")
 	private TEST_ENUM testEnum;
 
+	@javax.persistence.ElementCollection
+	private Map<String, String> map = new HashMap<String, String>();
+
+	public Map<String, String> getMap()
+	{
+		return this.map;
+	}
+
+	public void setMap(Map<String, String> map)
+	{
+		this.map = map;
+	}
+
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public List<Test2> getTest2s()
 	{
-		return test2s;
+		return this.test2s;
 	}
 
 	public TEST_ENUM getTestEnum()
 	{
-		return testEnum;
+		return this.testEnum;
 	}
 
 	public int getTestInteger()
 	{
-		return testInteger;
+		return this.testInteger;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	public void setId(long id)

@@ -12,7 +12,9 @@
 package de.pellepelster.myadmin.db.test.mockup.vos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.BaseVO;
@@ -36,10 +38,14 @@ public class Test1VO extends BaseVO
 
 	public static final IAttributeDescriptor<TEST_ENUM_VO> TESTENUM = new AttributeDescriptor<TEST_ENUM_VO>("testEnum", TEST_ENUM_VO.class);
 
+	public static final IAttributeDescriptor<String> MAP = new AttributeDescriptor<String>("map", Map.class);
+
 	public static IAttributeDescriptor<?>[] getFieldDescriptors()
 	{
-		return new IAttributeDescriptor[] { TEST2S, TESTINTEGER, TESTSTRING, TESTENUM };
+		return new IAttributeDescriptor[] { TEST2S, TESTINTEGER, TESTSTRING, TESTENUM, MAP };
 	}
+
+	private Map<String, String> map = new HashMap<String, String>();
 
 	private long id;
 
@@ -85,27 +91,27 @@ public class Test1VO extends BaseVO
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public List<Test2VO> getTest2s()
 	{
-		return test2s;
+		return this.test2s;
 	}
 
 	public TEST_ENUM_VO getTestEnum()
 	{
-		return testEnum;
+		return this.testEnum;
 	}
 
 	public int getTestInteger()
 	{
-		return testInteger;
+		return this.testInteger;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	/** {@inheritDoc} */
@@ -120,6 +126,16 @@ public class Test1VO extends BaseVO
 	public void setId(long id)
 	{
 		this.id = id;
+	}
+
+	public Map<String, String> getMap()
+	{
+		return this.map;
+	}
+
+	public void setMap(Map<String, String> map)
+	{
+		this.map = map;
 	}
 
 	public void setTest2s(List<Test2VO> test2s)

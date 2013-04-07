@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.db.test;
 
 import java.util.UUID;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.junit.BeforeClass;
@@ -49,11 +50,24 @@ public abstract class BaseDBTest extends AbstractTransactionalJUnit4SpringContex
 	}
 
 	@Autowired
+	private EntityManagerFactory entityManagerFactory;
+
+	public EntityManagerFactory getEntityManagerFactory()
+	{
+		return this.entityManagerFactory;
+	}
+
+	public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory)
+	{
+		this.entityManagerFactory = entityManagerFactory;
+	}
+
+	@Autowired
 	private IBaseVODAO baseVODAO;
 
 	public IBaseVODAO getBaseVODAO()
 	{
-		return baseVODAO;
+		return this.baseVODAO;
 	}
 
 	public void setBaseVODAO(IBaseVODAO baseVODAO)
