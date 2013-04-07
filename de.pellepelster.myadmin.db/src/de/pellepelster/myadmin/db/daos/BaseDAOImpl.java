@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -44,12 +43,10 @@ import de.pellepelster.myadmin.db.IUser;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery.AGGREGATE_TYPE;
 import de.pellepelster.myadmin.db.jpql.CountQuery;
-import de.pellepelster.myadmin.db.jpql.DeleteQuery;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject;
-import de.pellepelster.myadmin.db.util.BeanUtil;
 
 /**
  * Implementation for {@link IBaseDAO}
@@ -137,30 +134,36 @@ public class BaseDAOImpl implements IBaseDAO
 	{
 		LOG.debug(String.format("deleting all '%s' entities", entityClass.getName()));
 
-		if (BeanUtil.hasAnnotatedAttribute1(entityClass, ElementCollection.class))
+		for (Object entity : getAll(entityClass))
 		{
-			for (Object entity : getAll(entityClass))
-			{
-				this.entityManager.remove(entity);
-			}
+			this.entityManager.remove(entity);
 		}
-		else
-		{
-			DeleteQuery deleteQuery = new DeleteQuery(entityClass);
 
-			if (IBaseClientEntity.class.isAssignableFrom(entityClass))
-			{
-				deleteQuery.addWhereCondition(getClientConditionalExpression(entityClass));
-			}
+		// @see https://github.com/pellepelster/myadmin/issues/8
 
-			Query query = this.entityManager.createQuery(deleteQuery.getJPQL());
-			for (NamedParameterExpressionObject namedParameter : deleteQuery.getNamedParameters())
-			{
-				query.setParameter(namedParameter.getName(), namedParameter.getObject());
-			}
-
-			query.executeUpdate();
-		}
+		// if (BeanUtil.hasAnnotatedAttribute1(entityClass,
+		// ElementCollection.class))
+		// {
+		// }
+		// else
+		// {
+		// DeleteQuery deleteQuery = new DeleteQuery(entityClass);
+		//
+		// if (IBaseClientEntity.class.isAssignableFrom(entityClass))
+		// {
+		// deleteQuery.addWhereCondition(getClientConditionalExpression(entityClass));
+		// }
+		//
+		// Query query = this.entityManager.createQuery(deleteQuery.getJPQL());
+		// for (NamedParameterExpressionObject namedParameter :
+		// deleteQuery.getNamedParameters())
+		// {
+		// query.setParameter(namedParameter.getName(),
+		// namedParameter.getObject());
+		// }
+		//
+		// query.executeUpdate();
+		// }
 	}
 
 	/** {@inheritDoc} */
