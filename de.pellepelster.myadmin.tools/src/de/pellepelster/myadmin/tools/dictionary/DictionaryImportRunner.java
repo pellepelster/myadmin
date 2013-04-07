@@ -125,7 +125,7 @@ public class DictionaryImportRunner
 	private void createDictionaries(int logIdentiation)
 	{
 
-		List<Dictionary> dictionaries = filter(model, Dictionary.class);
+		List<Dictionary> dictionaries = filter(this.model, Dictionary.class);
 
 		ToolUtils.logInfo(LOGGER, String.format("importing %d dictionaries", dictionaries.size()), logIdentiation);
 
@@ -195,7 +195,7 @@ public class DictionaryImportRunner
 			// - /search --------------------------------------------------
 
 			ToolUtils.logInfo(LOGGER, String.format("persisting dictionary '%s'", dictionaryVO.getName()), logIdentiation);
-			baseEntityService.create(dictionaryVO);
+			this.baseEntityService.create(dictionaryVO);
 
 		}
 	}
@@ -207,12 +207,12 @@ public class DictionaryImportRunner
 		ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
 		moduleDefinitionVO.setName(moduleDefinition.getName());
 
-		moduleDefinitionVOs.put(moduleDefinition.getName(), baseEntityService.create(moduleDefinitionVO));
+		this.moduleDefinitionVOs.put(moduleDefinition.getName(), this.baseEntityService.create(moduleDefinitionVO));
 	}
 
 	private void createModuleDefinitions(int logIdentiation)
 	{
-		List<ModuleDefinition> moduleDefinitions = filter(model, ModuleDefinition.class);
+		List<ModuleDefinition> moduleDefinitions = filter(this.model, ModuleDefinition.class);
 
 		ToolUtils.logInfo(LOGGER, String.format("importing %d module definitions", moduleDefinitions.size()), logIdentiation);
 
@@ -228,12 +228,12 @@ public class DictionaryImportRunner
 
 		ToolUtils.logInfo(LOGGER, String.format("importing modules"), logIdentation);
 
-		for (Module module : filter(model, Module.class))
+		for (Module module : filter(this.model, Module.class))
 		{
 			ModuleVO moduleVO = new ModuleVO();
 			moduleVO.setName(module.getName());
 
-			moduleVO.setModuleDefinition(moduleDefinitionVOs.get(module.getModuledefinition().getName()));
+			moduleVO.setModuleDefinition(this.moduleDefinitionVOs.get(module.getModuledefinition().getName()));
 
 			ToolUtils.logInfo(LOGGER, String.format("importing module '%s'", moduleVO.getName()), logIdentation);
 
@@ -247,7 +247,7 @@ public class DictionaryImportRunner
 				moduleVO.getProperties().put(moduleParameter.getModuleDefinitionParameter().getName(), moduleParameter.getValue());
 			}
 
-			moduleVOs.put(moduleVO.getName(), baseEntityService.create(moduleVO));
+			this.moduleVOs.put(moduleVO.getName(), this.baseEntityService.create(moduleVO));
 		}
 
 	}
@@ -269,36 +269,36 @@ public class DictionaryImportRunner
 			}
 		};
 
-		createNavigationTree(filter(model, NavigationNode.class, filter), navigationVOList, logIdentation + 1);
+		createNavigationTree(filter(this.model, NavigationNode.class, filter), navigationVOList, logIdentation + 1);
 
 		for (ModuleNavigationVO moduleNavigationVO : navigationVOList)
 		{
-			baseEntityService.create(moduleNavigationVO);
+			this.baseEntityService.create(moduleNavigationVO);
 		}
 
 	}
 
 	private ModuleVO getOrCreateFakeModuleVO(String moduleDefinitionId, String moduleId, String moduleProperty, String moduleValue)
 	{
-		if (!moduleDefinitionVOs.containsKey(moduleDefinitionId))
+		if (!this.moduleDefinitionVOs.containsKey(moduleDefinitionId))
 		{
 			ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
 			moduleDefinitionVO.setName(moduleDefinitionId);
-			moduleDefinitionVOs.put(moduleDefinitionId, baseEntityService.create(moduleDefinitionVO));
+			this.moduleDefinitionVOs.put(moduleDefinitionId, this.baseEntityService.create(moduleDefinitionVO));
 		}
 
-		ModuleDefinitionVO moduleDefinitionVO = moduleDefinitionVOs.get(moduleDefinitionId);
+		ModuleDefinitionVO moduleDefinitionVO = this.moduleDefinitionVOs.get(moduleDefinitionId);
 
-		if (!moduleVOs.containsKey(moduleId))
+		if (!this.moduleVOs.containsKey(moduleId))
 		{
 			ModuleVO moduleVO = new ModuleVO();
 			moduleVO.setName(moduleId);
 			moduleVO.setModuleDefinition(moduleDefinitionVO);
 			moduleVO.getProperties().put(moduleProperty, moduleValue);
-			moduleVOs.put(moduleId, baseEntityService.create(moduleVO));
+			this.moduleVOs.put(moduleId, this.baseEntityService.create(moduleVO));
 		}
 
-		ModuleVO moduleVO = moduleVOs.get(moduleId);
+		ModuleVO moduleVO = this.moduleVOs.get(moduleId);
 
 		return moduleVO;
 	}
@@ -333,9 +333,9 @@ public class DictionaryImportRunner
 				moduleNavigationVO.setTitle(navigationNode.getTitle());
 			}
 
-			if (navigationNode.getModule() != null && moduleVOs.containsKey((navigationNode.getModule().getName())))
+			if (navigationNode.getModule() != null && this.moduleVOs.containsKey((navigationNode.getModule().getName())))
 			{
-				moduleNavigationVO.setModule(moduleVOs.get(navigationNode.getModule().getName()));
+				moduleNavigationVO.setModule(this.moduleVOs.get(navigationNode.getModule().getName()));
 			}
 
 			if (navigationNode.getDictionaryEditor() != null)
@@ -419,7 +419,7 @@ public class DictionaryImportRunner
 
 	public Model getModel()
 	{
-		return model;
+		return this.model;
 	}
 
 	private void initDictionaryTables(int logIdentation)
@@ -428,14 +428,14 @@ public class DictionaryImportRunner
 		ToolUtils.logInfo(LOGGER, "initializing dictionary tables", logIdentation);
 
 		// - remove all existing dictionaries -----------------------------
-		baseEntityService.deleteAll(DictionaryVO.class.getName());
-		baseEntityService.deleteAll(DictionarySearchVO.class.getName());
-		baseEntityService.deleteAll(DictionaryFilterVO.class.getName());
-		baseEntityService.deleteAll(DictionaryResultVO.class.getName());
-		baseEntityService.deleteAll(DictionaryEditorVO.class.getName());
-		baseEntityService.deleteAll(DictionaryContainerVO.class.getName());
-		baseEntityService.deleteAll(DictionaryControlVO.class.getName());
-		baseEntityService.deleteAll(DictionaryDatatypeVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
+		this.baseEntityService.deleteAll(DictionarySearchVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryFilterVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryResultVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryEditorVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryContainerVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryDatatypeVO.class.getName());
 	}
 
 	private void initModel()
@@ -448,10 +448,10 @@ public class DictionaryImportRunner
 			ResourceSet resourceSet = new ResourceSetImpl();
 			loadModelResources(resourceSet);
 
-			ToolUtils.logInfo(LOGGER, String.format("loading model file '%s'", modelResource.getURI().toString()), 0);
-			Resource resource = resourceSet.getResource(URI.createURI(modelResource.getURI().toString()), true);
+			ToolUtils.logInfo(LOGGER, String.format("loading model file '%s'", this.modelResource.getURI().toString()), 0);
+			Resource resource = resourceSet.getResource(URI.createURI(this.modelResource.getURI().toString()), true);
 
-			model = (Model) resource.getContents().get(0);
+			this.model = (Model) resource.getContents().get(0);
 		}
 		catch (Exception e)
 		{
@@ -467,9 +467,9 @@ public class DictionaryImportRunner
 
 		ToolUtils.logInfo(LOGGER, "initializing module tables", logIdentation);
 
-		baseEntityService.deleteAll(ModuleNavigationVO.class.getName());
-		baseEntityService.deleteAll(ModuleVO.class.getName());
-		baseEntityService.deleteAll(ModuleDefinitionVO.class.getName());
+		this.baseEntityService.deleteAll(ModuleNavigationVO.class.getName());
+		this.baseEntityService.deleteAll(ModuleVO.class.getName());
+		this.baseEntityService.deleteAll(ModuleDefinitionVO.class.getName());
 	}
 
 	private void loadModelResources(ResourceSet resourceSet)
@@ -477,7 +477,7 @@ public class DictionaryImportRunner
 		try
 		{
 
-			for (org.springframework.core.io.Resource modelResource : modelResources)
+			for (org.springframework.core.io.Resource modelResource : this.modelResources)
 			{
 				Resource myAdminResource = resourceSet.createResource(URI.createURI(modelResource.getURI().toString()));
 				myAdminResource.load(modelResource.getInputStream(), resourceSet.getLoadOptions());

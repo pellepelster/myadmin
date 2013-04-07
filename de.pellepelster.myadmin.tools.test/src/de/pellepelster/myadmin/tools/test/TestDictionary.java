@@ -24,12 +24,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.server.test.AbstractMyAdminTest;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public class TestDictionaryImportRunner extends AbstractMyAdminTest
+public class TestDictionary extends AbstractMyAdminTest
 {
 
 	private static DictionaryImportRunner dictionaryImportRunner;
@@ -42,12 +44,12 @@ public class TestDictionaryImportRunner extends AbstractMyAdminTest
 
 	public IBaseEntityService getBaseEntityService()
 	{
-		return baseEntityService;
+		return this.baseEntityService;
 	}
 
 	public IDictionaryService getDictionaryService()
 	{
-		return dictionaryService;
+		return this.dictionaryService;
 	}
 
 	@Before
@@ -75,7 +77,7 @@ public class TestDictionaryImportRunner extends AbstractMyAdminTest
 			throw new RuntimeException(e);
 		}
 
-		dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, modelResources, modelResource);
+		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 
@@ -90,9 +92,27 @@ public class TestDictionaryImportRunner extends AbstractMyAdminTest
 	}
 
 	@Test
-	public void testTestDictionary1()
+	public void testTestGetDictionary1()
 	{
-		IDictionaryModel dictionaryModel = dictionaryService.getDictionary("TestDictionary1");
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 		Assert.assertEquals("TestDictionary1", dictionaryModel.getName());
+
+		Assert.assertEquals("TestDictionary1Title", dictionaryModel.getTitle());
+	}
+
+	@Test
+	public void testTestGetDictionary1TexControl1()
+	{
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
+
+		IBaseControlModel baseControlModel = dictionaryModel.getLabelControls().get(0);
+		Assert.assertTrue(baseControlModel instanceof ITextControlModel);
+
+		ITextControlModel textControlModel = (ITextControlModel) baseControlModel;
+
+		Assert.assertEquals("textDataType1", textControlModel.getAttributePath());
+		Assert.assertEquals("TextControl1", textControlModel.getFilterLabel());
+		Assert.assertEquals("TextControl1", textControlModel.getColumnLabel());
+		Assert.assertEquals("TextControl1", textControlModel.getEditorLabel());
 	}
 }

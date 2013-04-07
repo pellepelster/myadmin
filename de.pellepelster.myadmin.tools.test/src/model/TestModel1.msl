@@ -30,18 +30,18 @@ project MyAdminDemo {
 			dictionary TestDictionary1 {
 			
 				entity TestEntity1
-				title "TestDictionary1"
+				title "TestDictionary1Title"
 				
 				dictionarycontrols {
 				
-					textcontrol TextDataType1Control {
+					textcontrol TextControl1 {
 						entityattribute textDataType1
-						label "TextDataType1"
+						label "TextControl1"
 					}
 				}
 				
 				labelcontrols {
-					textcontrol ref TextDataType1Control
+					textcontrol ref TextControl1
 				}
 				
 			
@@ -50,13 +50,15 @@ project MyAdminDemo {
 					dictionaryfilter TestDictionary1Filter {
 	
 						composite Composite1 {
-							textcontrol ref TextDataType1Control
+							textcontrol ref TextControl1 {
+								label "TextControl1Filter"
+							}
 						}
 						
 					}
 	
 					dictionaryresult TestDictionary1Result {
-						textcontrol ref TextDataType1Control
+						textcontrol ref TextControl1
 					}
 	
 				}
@@ -70,7 +72,7 @@ project MyAdminDemo {
 						}
 						
 						composite Composite3 {
-							textcontrol ref TextDataType1Control
+							textcontrol ref TextControl1
 						}		
 					}						
 				}
