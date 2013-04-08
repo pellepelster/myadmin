@@ -49,10 +49,8 @@ project MyAdminDemo {
 					
 					dictionaryfilter TestDictionary1Filter {
 	
-						composite Composite1 {
-							textcontrol ref TextControl1 {
-								label "TextControl1Filter"
-							}
+						textcontrol ref TextControl1 {
+							label "TextControl1Filter"
 						}
 						
 					}
@@ -64,17 +62,7 @@ project MyAdminDemo {
 				}
 				
 				dictionaryeditor TestDictionary1Editor {
-		
-					composite Composite2 {
-	
-						layout {
-							columns 1
-						}
-						
-						composite Composite3 {
-							textcontrol ref TextControl1
-						}		
-					}						
+					textcontrol ref TextControl1
 				}
 			}
 		}
