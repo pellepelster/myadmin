@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.base.messages;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 
 /**
  * Representation for an validation error message
@@ -49,13 +50,13 @@ public class ValidationMessage implements IValidationMessage, Serializable
 		this.context = context;
 	}
 
-	// public ValidationMessage(IMessage message, String context)
-	// {
-	// super();
-	// this.severity = message.getSeverity();
-	// this.code = message.getCode();
-	// this.message = message.getMessage();
-	// }
+	public ValidationMessage(IMessage message, String context, Object... messageTokens)
+	{
+		super();
+		this.severity = message.getSeverity();
+		this.code = message.getCode();
+		this.message = MessageFormat.format(message.getMessage(), messageTokens);
+	}
 
 	@Override
 	public String getCode()

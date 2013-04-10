@@ -37,30 +37,30 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	public void initTestData()
 	{
 
-		baseEntityService.deleteAll(ModuleNavigationVO.class.getName());
+		this.baseEntityService.deleteAll(ModuleNavigationVO.class.getName());
 
 		ModuleDefinitionVO moduleDefinition1 = new ModuleDefinitionVO();
 		moduleDefinition1.setName("moduledefinition1");
-		moduleDefinition1 = baseEntityService.create(moduleDefinition1);
+		moduleDefinition1 = this.baseEntityService.create(moduleDefinition1);
 
 		ModuleDefinitionVO moduleDefinition2 = new ModuleDefinitionVO();
 		moduleDefinition2.setName("moduledefinition2");
-		moduleDefinition2 = baseEntityService.create(moduleDefinition2);
+		moduleDefinition2 = this.baseEntityService.create(moduleDefinition2);
 
 		ModuleVO module1 = new ModuleVO();
 		module1.setName("module1");
 		module1.setModuleDefinition(moduleDefinition1);
-		module1 = baseEntityService.create(module1);
+		module1 = this.baseEntityService.create(module1);
 
 		ModuleVO module2 = new ModuleVO();
 		module2.setName("module2");
 		module2.setModuleDefinition(moduleDefinition2);
-		module2 = baseEntityService.create(module2);
+		module2 = this.baseEntityService.create(module2);
 
 		ModuleNavigationVO navVO1 = new ModuleNavigationVO();
 		navVO1.setTitle("nav1");
 		navVO1.setModule(module1);
-		navVO1 = baseEntityService.create(navVO1);
+		navVO1 = this.baseEntityService.create(navVO1);
 
 		ModuleNavigationVO navVO2 = new ModuleNavigationVO();
 		navVO2.setTitle("nav2");
@@ -68,7 +68,7 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 
 		navVO2.setParent(navVO1);
 		navVO1.getChildren().add(navVO2);
-		navVO2 = baseEntityService.create(navVO2);
+		navVO2 = this.baseEntityService.create(navVO2);
 
 	}
 
@@ -82,7 +82,7 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	{
 		ModuleDefinitionVO moduleDefinition1 = new ModuleDefinitionVO();
 		moduleDefinition1.setName("moduledefinition1");
-		moduleDefinition1 = baseEntityService.create(moduleDefinition1);
+		moduleDefinition1 = this.baseEntityService.create(moduleDefinition1);
 
 		Assert.assertTrue(IBaseVO.NEW_VO_ID != moduleDefinition1.getId());
 
@@ -98,7 +98,7 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 		genericFilterVO.addCriteria(ModuleNavigationVO.FIELD_PARENT.getAttributeName(), null);
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE.getAttributeName());
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
-		List<ModuleNavigationVO> result = baseEntityService.filter(genericFilterVO);
+		List<ModuleNavigationVO> result = this.baseEntityService.filter(genericFilterVO);
 
 		Assert.assertEquals(1, result.size());
 
@@ -115,7 +115,7 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 		GenericFilterVO<ModuleNavigationVO> genericFilterVO1 = new GenericFilterVO<ModuleNavigationVO>(ModuleNavigationVO.class.getName());
 		genericFilterVO1.addCriteria(ModuleNavigationVO.FIELD_PARENT.getAttributeName(), null);
 
-		List<ModuleNavigationVO> result = baseEntityService.filter(genericFilterVO1);
+		List<ModuleNavigationVO> result = this.baseEntityService.filter(genericFilterVO1);
 
 		Assert.assertEquals(1, result.size());
 
@@ -129,7 +129,7 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	{
 		MyAdminUserVO user = new MyAdminUserVO();
 
-		Result<MyAdminUserVO> result1 = baseEntityService.validateAndSave(user);
+		Result<MyAdminUserVO> result1 = this.baseEntityService.validateAndSave(user);
 		Assert.assertEquals(1, result1.getValidationMessages().size());
 
 	}
@@ -139,13 +139,13 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	{
 		ModuleDefinitionVO moduleDefinition1 = new ModuleDefinitionVO();
 		moduleDefinition1.setName("moduledefinition123");
-		Result<ModuleDefinitionVO> result1 = baseEntityService.validateAndSave(moduleDefinition1);
+		Result<ModuleDefinitionVO> result1 = this.baseEntityService.validateAndSave(moduleDefinition1);
 		Assert.assertEquals(0, result1.getValidationMessages().size());
 
 		ModuleDefinitionVO moduleDefinition2 = new ModuleDefinitionVO();
 		moduleDefinition2.setName("moduledefinition123");
 
-		Result<ModuleDefinitionVO> result2 = baseEntityService.validateAndSave(moduleDefinition2);
+		Result<ModuleDefinitionVO> result2 = this.baseEntityService.validateAndSave(moduleDefinition2);
 		Assert.assertEquals(1, result2.getValidationMessages().size());
 		Assert.assertTrue(result2.getValidationMessages().get(0).getMessage().toLowerCase().contains("duplicate"));
 	}
@@ -155,10 +155,11 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	{
 		ModuleDefinitionVO moduleDefinition1 = new ModuleDefinitionVO();
 		moduleDefinition1.setName("moduledefinition1");
-		Result<ModuleDefinitionVO> result = baseEntityService.validateAndSave(moduleDefinition1);
+		Result<ModuleDefinitionVO> result = this.baseEntityService.validateAndSave(moduleDefinition1);
 
 		Assert.assertEquals(1, result.getValidationMessages().size());
-		Assert.assertTrue(result.getValidationMessages().get(0).getMessage().toLowerCase().contains("duplicate"));
+		Assert.assertEquals("Duplicate value \"moduledefinition1\" for attribute \"name\" at entity \"ModuleDefinitionVO\"", result.getValidationMessages()
+				.get(0).getMessage());
 	}
 
 }

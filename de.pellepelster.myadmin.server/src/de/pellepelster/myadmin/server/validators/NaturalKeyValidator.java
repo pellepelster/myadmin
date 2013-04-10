@@ -21,11 +21,9 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.NaturalKey;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.db.IBaseVODAO;
-import de.pellepelster.myadmin.server.Messages;
 
 /**
  * Checks all {@link IBaseVO} derived Vo's whether they contain values in
@@ -69,13 +67,11 @@ public class NaturalKeyValidator implements IValidator
 
 			if (filterResult.size() > 1 || (filterResult.size() == 1 && filterResult.get(0).getOid() != vo.getOid()))
 			{
-				result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, NaturalKeyValidator.class.getName(), Messages.getString(
-						"validator.duplicatekey.message", vo.getClass().getName(), attributeDescriptor.getAttributeName(),
-						vo.get(attributeDescriptor.getAttributeName())), attributeDescriptor.getAttributeName()));
+				result.add(new ValidationMessage(ValidatorMessages.NATURAL_KEY, attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor
+						.getAttributeName()), attributeDescriptor.getAttributeName(), vo.getClass().getSimpleName()));
 			}
 		}
 
 		return result;
 	}
-
 }
