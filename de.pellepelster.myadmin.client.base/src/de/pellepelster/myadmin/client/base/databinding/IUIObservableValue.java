@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.client.base.databinding;
 
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 
 public interface IUIObservableValue extends IObservableValue
 {

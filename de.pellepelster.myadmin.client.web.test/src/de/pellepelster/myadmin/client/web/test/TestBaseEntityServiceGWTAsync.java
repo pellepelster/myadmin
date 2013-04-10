@@ -22,14 +22,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
-import de.pellepelster.myadmin.client.base.db.vos.ValidationMessage;
 import de.pellepelster.myadmin.client.base.jpql.EntityVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.jpql.IConditionalExpressionVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.EntityExpressionObjectVO;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -494,10 +494,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1() != null && test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage();
-				validationMessage.setValidationSatus(VALIDATION_STATUS.ERROR);
-				validationMessage.setMessageText("error");
-				validationMessage.setContext("string1");
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "string1");
 				result.getValidationMessages().add(validationMessage);
 			}
 			else
@@ -555,10 +552,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage();
-				validationMessage.setValidationSatus(VALIDATION_STATUS.ERROR);
-				validationMessage.setMessageText("error");
-				validationMessage.setContext("string1");
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "string1");
 				result.getValidationMessages().add(validationMessage);
 			}
 			test1vos.set((int) test1vo.getId(), test1vo);

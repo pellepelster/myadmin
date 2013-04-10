@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 
 public class Validator implements IValidator
 {

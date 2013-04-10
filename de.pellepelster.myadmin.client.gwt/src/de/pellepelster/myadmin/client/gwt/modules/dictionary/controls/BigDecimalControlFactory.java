@@ -18,10 +18,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
-import de.pellepelster.myadmin.client.base.db.vos.ValidationMessage;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
@@ -64,7 +64,8 @@ public class BigDecimalControlFactory extends BaseControlFactory<IBigDecimalCont
 					}
 					catch (NumberFormatException e)
 					{
-						return resultListHelper(new ValidationMessage(VALIDATION_STATUS.ERROR, MyAdmin.MESSAGES.floatValidationError(value.toString())));
+						return resultListHelper(new ValidationMessage(IMessage.SEVERITY.ERROR, BigDecimalControlFactory.class.getName(),
+								MyAdmin.MESSAGES.floatValidationError(value.toString())));
 					}
 				}
 			}

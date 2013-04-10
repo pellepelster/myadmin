@@ -20,8 +20,8 @@ import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 
 /**
  * Represents a binding between two {@link IObservableValue}s. The bindings
@@ -46,12 +46,12 @@ public class Binding
 
 	public IObservableValue getModelObservableValue()
 	{
-		return modelObservableValue;
+		return this.modelObservableValue;
 	}
 
 	public IUIObservableValue getUiObservableValue()
 	{
-		return uiObservableValue;
+		return this.uiObservableValue;
 	}
 
 	public Binding(IObservableValue modelObservableValue, IUIObservableValue uiObservableValue, DatabindingVOWrapper databindingVOWrapper)
@@ -75,7 +75,7 @@ public class Binding
 
 			private void updateUI()
 			{
-				Binding.this.uiObservableValue.setValidationMessages(validationMessages);
+				Binding.this.uiObservableValue.setValidationMessages(Binding.this.validationMessages);
 			}
 
 			@Override
@@ -161,12 +161,12 @@ public class Binding
 
 	public void addValidationListener(IValidationListener validationListener)
 	{
-		validationListeners.add(validationListener);
+		this.validationListeners.add(validationListener);
 	}
 
 	private void fireValidationListeners(ValueChangeEvent valueChangeEvent)
 	{
-		for (IValidationListener validationListener : validationListeners)
+		for (IValidationListener validationListener : this.validationListeners)
 		{
 			validationListener.afterValidate(valueChangeEvent);
 		}
@@ -174,12 +174,12 @@ public class Binding
 
 	public List<IValidationMessage> getValidationMessages()
 	{
-		return validationMessages;
+		return this.validationMessages;
 	}
 
-	public VALIDATION_STATUS getValidationStatus()
+	public IMessage.SEVERITY getSeverity()
 	{
-		return ValidationUtils.getValidationStatus(validationMessages);
+		return ValidationUtils.getSeverity(this.validationMessages);
 	}
 
 	public void setValidators(List<IValidator> validators)
@@ -191,12 +191,12 @@ public class Binding
 	private void validate(Object value)
 	{
 		getValidationMessages().clear();
-		getValidationMessages().addAll(ValidationUtils.validate(validators, value, uiObservableValue.getModel()));
+		getValidationMessages().addAll(ValidationUtils.validate(this.validators, value, this.uiObservableValue.getModel()));
 	}
 
 	public void validateAndUpdate()
 	{
-		validateAndUpdate(modelObservableValue.getModel().getAttributePath(), uiObservableValue.getContent());
+		validateAndUpdate(this.modelObservableValue.getModel().getAttributePath(), this.uiObservableValue.getContent());
 	}
 
 	private void validateAndUpdate(ValueChangeEvent valueChangeEvent)
@@ -210,9 +210,9 @@ public class Binding
 	{
 		validate(attributeValue);
 
-		if (getValidationStatus() == VALIDATION_STATUS.OK)
+		if (!ValidationUtils.hasError(getSeverity()))
 		{
-			Object value = TypeHelper.convert(uiObservableValue.getContentType(), attributeValue);
+			Object value = TypeHelper.convert(this.uiObservableValue.getContentType(), attributeValue);
 
 			if (Binding.this.modelObservableValue.getModel().getAttributePath().equals(attributePath))
 			{
@@ -220,7 +220,7 @@ public class Binding
 			}
 			else
 			{
-				databindingVOWrapper.set(attributePath, value);
+				this.databindingVOWrapper.set(attributePath, value);
 			}
 		}
 	}

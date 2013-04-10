@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+
 public class Result<VOType extends IBaseVO> implements Serializable
 {
 	private static final long serialVersionUID = 2971295762387189829L;

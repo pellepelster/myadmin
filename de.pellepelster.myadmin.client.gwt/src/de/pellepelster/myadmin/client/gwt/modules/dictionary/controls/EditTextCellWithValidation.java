@@ -33,8 +33,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
@@ -101,9 +100,8 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 		SafeStylesBuilder styles = new SafeStylesBuilder();
 		List<IValidationMessage> validationMessages = viewData.getValidationMessages();
-		VALIDATION_STATUS validationStatus = ValidationUtils.getValidationStatus(validationMessages);
 
-		if (validationStatus != VALIDATION_STATUS.OK)
+		if (ValidationUtils.hasError(validationMessages))
 		{
 			styles.appendTrustedString(GwtStyles.CELL_ERROR_STYLE);
 		}

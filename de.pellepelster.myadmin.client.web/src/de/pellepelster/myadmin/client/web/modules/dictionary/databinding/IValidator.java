@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 
 /**

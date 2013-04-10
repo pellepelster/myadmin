@@ -14,8 +14,8 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 
 /**
@@ -67,22 +67,46 @@ public final class ValidationUtils
 	 * @param validationMessages
 	 * @return
 	 */
-	public static VALIDATION_STATUS getValidationStatus(List<IValidationMessage> validationMessages)
+	public static IMessage.SEVERITY getSeverity(List<IValidationMessage> validationMessages)
 	{
+		IMessage.SEVERITY severity = IMessage.SEVERITY.NONE;
 
 		for (IValidationMessage validationMessage : validationMessages)
 		{
-			if (validationMessage.getStatus() != VALIDATION_STATUS.OK)
+			if (validationMessage.getSeverity().getOrder() > severity.getOrder())
 			{
-				return validationMessage.getStatus();
+				severity = validationMessage.getSeverity();
 			}
 		}
 
-		return VALIDATION_STATUS.OK;
+		return severity;
+	}
+
+	public static boolean hasError(IMessage.SEVERITY severity)
+	{
+		return severity.getOrder() >= IMessage.SEVERITY.ERROR.getOrder();
+	}
+
+	public static boolean hasError(IValidationMessage validationMessage)
+	{
+		return hasError(validationMessage.getSeverity());
 	}
 
 	private ValidationUtils()
 	{
+	}
+
+	public static boolean hasError(List<IValidationMessage> validationMessages)
+	{
+		for (IValidationMessage validationMessage : validationMessages)
+		{
+			if (ValidationUtils.hasError(validationMessage))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

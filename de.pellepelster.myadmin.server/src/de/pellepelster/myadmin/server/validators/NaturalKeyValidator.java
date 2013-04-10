@@ -18,12 +18,12 @@ import javax.annotation.Resource;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
 import de.pellepelster.myadmin.client.base.db.vos.NaturalKey;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
-import de.pellepelster.myadmin.client.base.db.vos.ValidationMessage;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.server.Messages;
 
@@ -65,12 +65,13 @@ public class NaturalKeyValidator implements IValidator
 			GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(vo.getClass(),
 					attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor.getAttributeName()));
 
-			List<IBaseVO> filterResult = baseVODAO.filter(genericFilterVO);
+			List<IBaseVO> filterResult = this.baseVODAO.filter(genericFilterVO);
 
 			if (filterResult.size() > 1 || (filterResult.size() == 1 && filterResult.get(0).getOid() != vo.getOid()))
 			{
-				result.add(new ValidationMessage(VALIDATION_STATUS.ERROR, Messages.getString("validator.duplicatekey.message", vo.getClass().getName(),
-						attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor.getAttributeName())), attributeDescriptor.getAttributeName()));
+				result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, NaturalKeyValidator.class.getName(), Messages.getString(
+						"validator.duplicatekey.message", vo.getClass().getName(), attributeDescriptor.getAttributeName(),
+						vo.get(attributeDescriptor.getAttributeName())), attributeDescriptor.getAttributeName()));
 			}
 		}
 

@@ -21,7 +21,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
 
 public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewData<T>>

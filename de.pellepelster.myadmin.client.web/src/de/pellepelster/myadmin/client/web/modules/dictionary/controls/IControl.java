@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
 /**

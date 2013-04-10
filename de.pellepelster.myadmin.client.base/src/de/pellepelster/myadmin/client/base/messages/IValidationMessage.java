@@ -9,15 +9,15 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.validators;
+package de.pellepelster.myadmin.client.base.messages;
 
-import java.util.List;
-
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-
-public interface IValidator
+/**
+ * Represents a validation result
+ * 
+ * @author pelle
+ * 
+ */
+public interface IValidationMessage extends IMessage
 {
-	boolean canValidate(Object o);
-
-	List<IValidationMessage> validate(Object o);
+	String getContext();
 }

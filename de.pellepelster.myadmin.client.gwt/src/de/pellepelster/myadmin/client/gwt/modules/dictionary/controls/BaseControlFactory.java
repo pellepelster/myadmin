@@ -24,8 +24,7 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
@@ -103,7 +102,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 					ViewData<String> viewData = (ViewData<String>) editTextCell.getViewData(key);
 
-					if (validationMessages != null && ValidationUtils.getValidationStatus(validationMessages) != VALIDATION_STATUS.OK)
+					if (validationMessages != null && ValidationUtils.hasError(validationMessages))
 					{
 						viewData.setValidationMessages(validationMessages);
 						// dataGrid.redraw();

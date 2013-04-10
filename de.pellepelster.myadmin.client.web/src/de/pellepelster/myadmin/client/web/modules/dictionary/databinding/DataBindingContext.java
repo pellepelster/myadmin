@@ -20,8 +20,7 @@ import com.google.gwt.event.shared.EventBus;
 import de.pellepelster.myadmin.client.base.databinding.IObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.DatabindingContextEvent;
 
 /**
@@ -47,7 +46,7 @@ public class DataBindingContext
 	public void addValidationMessages(List<IValidationMessage> validationMessagesToAdd)
 	{
 
-		for (Binding binding : bindings)
+		for (Binding binding : this.bindings)
 		{
 			List<IValidationMessage> validationMessagesToAddForBinding = new ArrayList<IValidationMessage>();
 
@@ -65,7 +64,7 @@ public class DataBindingContext
 
 	public Binding createBinding(final IObservableValue modelObservableValue, final IUIObservableValue uiObservableValue)
 	{
-		final Binding binding = new Binding(modelObservableValue, uiObservableValue, databindingVOWrapper);
+		final Binding binding = new Binding(modelObservableValue, uiObservableValue, this.databindingVOWrapper);
 
 		binding.addValidationListener(new IValidationListener()
 		{
@@ -75,18 +74,18 @@ public class DataBindingContext
 			{
 				removeValidationMessagesForAttributePath(valueChangeEvent.getAttributePath());
 
-				eventBus.fireEvent(new DatabindingContextEvent());
+				DataBindingContext.this.eventBus.fireEvent(new DatabindingContextEvent());
 			}
 		});
 
-		bindings.add(binding);
+		this.bindings.add(binding);
 
 		return binding;
 	}
 
 	public void validateAndUpdate()
 	{
-		for (Binding binding : bindings)
+		for (Binding binding : this.bindings)
 		{
 			binding.validateAndUpdate();
 		}
@@ -94,9 +93,9 @@ public class DataBindingContext
 
 	public boolean hasErrors()
 	{
-		for (Binding binding : bindings)
+		for (Binding binding : this.bindings)
 		{
-			if (binding.getValidationStatus() != VALIDATION_STATUS.OK)
+			if (ValidationUtils.hasError(binding.getSeverity()))
 			{
 				return true;
 			}
@@ -107,7 +106,7 @@ public class DataBindingContext
 
 	public void removeValidationMessagesForAttributePath(String attributePath)
 	{
-		for (Binding binding : bindings)
+		for (Binding binding : this.bindings)
 		{
 			for (Iterator<IValidationMessage> iterator = binding.getValidationMessages().iterator(); iterator.hasNext();)
 			{

@@ -17,10 +17,10 @@ import java.util.List;
 import de.pellepelster.gwt.commons.client.util.XPathUtil;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
 import de.pellepelster.myadmin.client.base.db.vos.Mandatory;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
-import de.pellepelster.myadmin.client.base.db.vos.ValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.Messages;
 
@@ -51,8 +51,9 @@ public class MandatoryValidator implements IValidator
 			{
 				if (vo.get(attributeDescriptor.getAttributeName()) == null)
 				{
-					result.add(new ValidationMessage(VALIDATION_STATUS.ERROR, Messages.getString("validator.mandatory.message", vo.getClass().getName(),
-							attributeDescriptor.getAttributeName()), XPathUtil.combine(parentPath, attributeDescriptor.getAttributeName())));
+					result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, MandatoryValidator.class.getName(), Messages.getString(
+							"validator.mandatory.message", vo.getClass().getName(), attributeDescriptor.getAttributeName()), XPathUtil.combine(parentPath,
+							attributeDescriptor.getAttributeName())));
 				}
 			}
 			else
@@ -62,8 +63,9 @@ public class MandatoryValidator implements IValidator
 
 				if (list.isEmpty())
 				{
-					result.add(new ValidationMessage(VALIDATION_STATUS.ERROR, Messages.getString("validator.mandatory.list.message", vo.getClass().getName(),
-							attributeDescriptor.getAttributeName()), attributeDescriptor.getAttributeName()));
+					result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, MandatoryValidator.class.getName(), Messages.getString(
+							"validator.mandatory.list.message", vo.getClass().getName(), attributeDescriptor.getAttributeName()), attributeDescriptor
+							.getAttributeName()));
 				}
 			}
 		}

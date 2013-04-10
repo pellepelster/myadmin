@@ -14,9 +14,9 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.databinding.valida
 import java.util.ArrayList;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
-import de.pellepelster.myadmin.client.base.db.vos.VALIDATION_STATUS;
-import de.pellepelster.myadmin.client.base.db.vos.ValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -36,7 +36,8 @@ public class MandatoryValidator extends BaseValidator
 		{
 			IBaseControlModel baseControlModel = (IBaseControlModel) databindingAwareModel;
 
-			return resultListHelper(new ValidationMessage(VALIDATION_STATUS.ERROR, MyAdmin.MESSAGES.mandatoryMessage(baseControlModel.getEditorLabel())));
+			return resultListHelper(new ValidationMessage(IMessage.SEVERITY.ERROR, MandatoryValidator.class.getName(),
+					MyAdmin.MESSAGES.mandatoryMessage(baseControlModel.getEditorLabel())));
 		}
 		else
 		{

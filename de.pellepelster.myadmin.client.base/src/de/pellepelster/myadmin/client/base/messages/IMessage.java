@@ -9,18 +9,39 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.client.base.db.vos;
+package de.pellepelster.myadmin.client.base.messages;
 
 /**
- * Represents a validation result
+ * Represents system message
  * 
  * @author pelle
  * 
  */
-public interface IValidationMessage
+public interface IMessage
 {
+	enum SEVERITY
+	{
+		ERROR(3), WARNING(2), INFO(1), NONE(0);
 
-	String getContext();
+		private int order;
+
+		private SEVERITY(int order)
+		{
+			this.order = order;
+		}
+
+		public int getOrder()
+		{
+			return order;
+		}
+	}
+
+	/**
+	 * Returns the validation code text for this message
+	 * 
+	 * @return
+	 */
+	String getCode();
 
 	/**
 	 * Returns the validation status text for this message
@@ -30,9 +51,10 @@ public interface IValidationMessage
 	String getMessage();
 
 	/**
-	 * Returns the validation status for this message
+	 * Returns the severity status for this message
 	 * 
 	 * @return
 	 */
-	VALIDATION_STATUS getStatus();
+	SEVERITY getSeverity();
+
 }

@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.databinding.valida
 import java.util.Arrays;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IValidationMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
 public abstract class BaseValidator implements IValidator

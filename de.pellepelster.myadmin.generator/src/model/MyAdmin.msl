@@ -317,7 +317,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					generic CreateVOType vo
 				}
 	
-				remotemethod <ValidateVOType extends myadmintype IBaseVO> validate returns customtype "de.pellepelster.myadmin.client.base.db.vos.IValidationMessage" * {
+				remotemethod <ValidateVOType extends myadmintype IBaseVO> validate returns customtype "de.pellepelster.myadmin.client.base.messages.IValidationMessage" * {
 					generic ValidateVOType vo
 				}
 	
