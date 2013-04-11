@@ -5,10 +5,10 @@
 «DEFINE dictionaryID FOR Dictionary»
 	«info("generating dictionary id for '" + this.name + "'")»
 
-	«FILE fullQualifiedInterfaceFileName()»
+	«FILE fullQualifiedDictionaryIDsInterfaceFileName()»
 	package «fullQualifiedPackageName()»;
 	
-	public interface «interfaceName()» {
+	public interface «dictionaryIDsInterfaceName()» {
 	
 		String «name.toUpperCase()» = "«name»";
 	

@@ -1,0 +1,16 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE hookRegistration FOR Dictionary»
+	«info("generating hook registration for '" + this.name + "'")»
+
+	«FILE fullQualifiedHookRegistrationClassFileName()»
+	package «fullQualifiedPackageName()»;
+	
+	public class «hookRegistrationClassName()» {
+	
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»

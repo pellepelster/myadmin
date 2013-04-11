@@ -79,9 +79,14 @@ boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOpt
 
 //- dictionary ids ------------------------------------------------------------
 String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);
-String interfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryIDs";
-String fullQualifiedInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + interfaceName(dictionary);
-String fullQualifiedInterfaceFileName(Dictionary dictionary) : fullQualifiedInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';
+String dictionaryIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryIDs";
+String fullQualifiedDictionaryIDsInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryIDsInterfaceName(dictionary);
+String fullQualifiedDictionaryIDsInterfaceFileName(Dictionary dictionary) : fullQualifiedDictionaryIDsInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';
+
+//- hook registrations --------------------------------------------------------
+String hookRegistrationClassName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "HookRegistration";
+String fullQualifiedHookRegistrationClassName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + hookRegistrationClassName(dictionary);
+String fullQualifiedHookRegistrationClassFileName(Dictionary dictionary) : fullQualifiedHookRegistrationClassName(dictionary).replaceAll('\\.', '/') + '.java';
 
 
 String interfaceName(RemoteService remoteService) : 'I' + serviceName(remoteService);
