@@ -52,7 +52,8 @@ public class DataBindingContext
 
 			for (IValidationMessage validationMessageToAdd : validationMessagesToAdd)
 			{
-				if (validationMessageToAdd.getContext().startsWith(binding.getUiObservableValue().getModel().getAttributePath()))
+				if (ValidationUtils.getAttributeContext(validationMessageToAdd) != null
+						&& ValidationUtils.getAttributeContext(validationMessageToAdd).startsWith(binding.getUiObservableValue().getModel().getAttributePath()))
 				{
 					validationMessagesToAddForBinding.add(validationMessageToAdd);
 				}
@@ -112,7 +113,8 @@ public class DataBindingContext
 			{
 				IValidationMessage validationMessage = iterator.next();
 
-				if (validationMessage.getContext() != null && validationMessage.getContext().startsWith(attributePath))
+				if (ValidationUtils.getAttributeContext(validationMessage) != null
+						&& ValidationUtils.getAttributeContext(validationMessage).startsWith(attributePath))
 				{
 					iterator.remove();
 				}

@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.base.messages;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
@@ -32,7 +33,7 @@ public class ValidationMessage implements IValidationMessage, Serializable
 
 	private SEVERITY severity;
 
-	private String context;
+	private Map<String, Object> context;
 
 	private ValidationMessage()
 	{
@@ -43,7 +44,7 @@ public class ValidationMessage implements IValidationMessage, Serializable
 		this(severity, code, message, null);
 	}
 
-	public ValidationMessage(SEVERITY severity, String code, String message, String context)
+	public ValidationMessage(SEVERITY severity, String code, String message, Map<String, Object> context)
 	{
 		this.severity = severity;
 		this.code = code;
@@ -51,12 +52,9 @@ public class ValidationMessage implements IValidationMessage, Serializable
 		this.context = context;
 	}
 
-	public ValidationMessage(IMessage message, String context, Object... messageTokens)
+	public ValidationMessage(IMessage message, Map<String, Object> context)
 	{
-		super();
-		this.severity = message.getSeverity();
-		this.code = message.getCode();
-		this.message = MessageFormat.format(message.getMessage(), messageTokens);
+		this(message.getSeverity(), message.getCode(), MessageFormat.format(message.getMessage(), context), context);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class ValidationMessage implements IValidationMessage, Serializable
 	}
 
 	@Override
-	public String getContext()
+	public Map<String, Object> getContext()
 	{
 		return this.context;
 	}

@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.base.messages;
 
+import java.util.Map;
+
 /**
  * Represents a validation result
  * 
@@ -19,5 +21,11 @@ package de.pellepelster.myadmin.client.base.messages;
  */
 public interface IValidationMessage extends IMessage
 {
-	String getContext();
+	final static String ATTRIBUTE_CONTEXT_KEY = "attribute";
+
+	final static String VOCLASS_CONTEXT_KEY = "voClass";
+
+	final static String VALUE_CONTEXT_KEY = "value";
+
+	Map<String, Object> getContext();
 }

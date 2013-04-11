@@ -51,10 +51,16 @@ public class Collections
 
 	public static HashMap<String, Object> getMap(String key1, Object value1)
 	{
-		return getMap(key1, value1, null, null);
+		return getMap(key1, value1, null, null, null, null);
 	}
 
 	public static HashMap<String, Object> getMap(String key1, Object value1, String key2, Object value2)
+	{
+		return getMap(key1, value1, key2, value2, null, null);
+	}
+
+	// no varargs in gwt sadyl
+	public static HashMap<String, Object> getMap(String key1, Object value1, String key2, Object value2, String key3, Object value3)
 	{
 		HashMap<String, Object> result = new HashMap<String, Object>();
 
@@ -66,6 +72,11 @@ public class Collections
 		if (key2 != null)
 		{
 			result.put(key2, value2);
+		}
+
+		if (key3 != null)
+		{
+			result.put(key3, value3);
 		}
 
 		return result;

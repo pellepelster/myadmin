@@ -109,4 +109,9 @@ public final class ValidationUtils
 		return false;
 	}
 
+	public static String getAttributeContext(IValidationMessage validationMessage)
+	{
+		return String.valueOf(validationMessage.getContext().get(IValidationMessage.ATTRIBUTE_CONTEXT_KEY));
+	}
+
 }

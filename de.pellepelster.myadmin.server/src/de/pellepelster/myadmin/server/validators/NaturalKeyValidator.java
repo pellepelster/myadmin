@@ -23,6 +23,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
+import de.pellepelster.myadmin.client.base.util.Collections;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 
 /**
@@ -67,8 +68,9 @@ public class NaturalKeyValidator implements IValidator
 
 			if (filterResult.size() > 1 || (filterResult.size() == 1 && filterResult.get(0).getOid() != vo.getOid()))
 			{
-				result.add(new ValidationMessage(ValidatorMessages.NATURAL_KEY, attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor
-						.getAttributeName()), attributeDescriptor.getAttributeName(), vo.getClass().getSimpleName()));
+				result.add(new ValidationMessage(ValidatorMessages.NATURAL_KEY, Collections.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY,
+						attributeDescriptor.getAttributeName(), IValidationMessage.VALUE_CONTEXT_KEY, vo.get(attributeDescriptor.getAttributeName()),
+						IValidationMessage.VOCLASS_CONTEXT_KEY, vo.getClass().getSimpleName())));
 			}
 		}
 

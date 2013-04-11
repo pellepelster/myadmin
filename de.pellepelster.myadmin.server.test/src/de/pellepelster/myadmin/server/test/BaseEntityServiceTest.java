@@ -22,6 +22,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -132,9 +133,9 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 
 		Result<MyAdminUserVO> result1 = this.baseEntityService.validateAndSave(user);
 		Assert.assertEquals(1, result1.getValidationMessages().size());
-		
+
 		Assert.assertEquals(1, result1.getValidationMessages().size());
-		Assert.assertEquals(IMessage.SEVERITY.ERROR,  result1.getValidationMessages().get(0).getSeverity());
+		Assert.assertEquals(IMessage.SEVERITY.ERROR, result1.getValidationMessages().get(0).getSeverity());
 		Assert.assertEquals("Attribute \"userName\" should not be null for entity \"MyAdminUserVO\"", result1.getValidationMessages().get(0).getMessage());
 
 	}
@@ -164,6 +165,8 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 
 		Assert.assertEquals(1, result.getValidationMessages().size());
 		Assert.assertEquals(IMessage.SEVERITY.ERROR, result.getValidationMessages().get(0).getSeverity());
+		Assert.assertEquals(ModuleDefinitionVO.FIELD_NAME.getAttributeName(),
+				result.getValidationMessages().get(0).getContext().get(IValidationMessage.ATTRIBUTE_CONTEXT_KEY));
 		Assert.assertEquals("Duplicate value \"moduledefinition1\" for attribute \"name\" at entity \"ModuleDefinitionVO\"", result.getValidationMessages()
 				.get(0).getMessage());
 	}

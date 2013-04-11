@@ -30,6 +30,7 @@ import de.pellepelster.myadmin.client.base.jpql.expressions.EntityExpressionObje
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
+import de.pellepelster.myadmin.client.base.util.Collections;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -60,7 +61,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		for (int i = 0; i < 100; i++)
 		{
 			Test3VO test3VO = getTest3VO(i, "string" + i);
-			test3vos.add(test3VO);
+			this.test3vos.add(test3VO);
 		}
 
 		for (int i = 0; i < 50; i++)
@@ -73,14 +74,14 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 				test1VO.getTest2VOs().add(getTest2VO(n, "string" + n, n));
 			}
 
-			test1vos.add(test1VO);
+			this.test1vos.add(test1VO);
 		}
 
 		for (int i = 0; i < 50; i++)
 		{
 
 			Test2VO test2VO = getTest2VO(i, "string" + i, i);
-			test2vos.add(test2VO);
+			this.test2vos.add(test2VO);
 		}
 
 	}
@@ -157,13 +158,13 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			{
 
 				int index = Integer.parseInt(getCriteria(genericFilterVO.getEntity(), Test1VO.FIELD_ID).toString());
-				callback.onSuccess((List<FilterVOType>) getResultList(test1vos.get(index)));
+				callback.onSuccess((List<FilterVOType>) getResultList(this.test1vos.get(index)));
 
 				return;
 			}
 			else
 			{
-				callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, test1vos));
+				callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, this.test1vos));
 
 				return;
 			}
@@ -176,13 +177,13 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			{
 
 				int index = Integer.parseInt(getCriteria(genericFilterVO.getEntity(), Test2VO.FIELD_ID).toString());
-				callback.onSuccess((List<FilterVOType>) getResultList(test2vos.get(index)));
+				callback.onSuccess((List<FilterVOType>) getResultList(this.test2vos.get(index)));
 
 				return;
 			}
 			else
 			{
-				callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, test2vos));
+				callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, this.test2vos));
 
 				return;
 			}
@@ -190,7 +191,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 		if (genericFilterVO.getVOClassName().equals(Test3VO.class.getName()))
 		{
-			callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, test3vos));
+			callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, this.test3vos));
 			return;
 		}
 
@@ -395,7 +396,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		test1vo.setDate1(new Date());
 		test1vo.setBoolean1((integer % 2 == 0));
 
-		test1vo.setTest3VO(test3vos.get((int) id));
+		test1vo.setTest3VO(this.test3vos.get((int) id));
 
 		return test1vo;
 	}
@@ -410,7 +411,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		test2vo.setBigDecimal2(new BigDecimal(integer + 0.1 * integer));
 		test2vo.setDate2(new Date());
 		test2vo.setBoolean2((integer % 2 == 0));
-		test2vo.setTest3VO(test3vos.get((int) id));
+		test2vo.setTest3VO(this.test3vos.get((int) id));
 
 		return test2vo;
 	}
@@ -494,12 +495,13 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1() != null && test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "string1");
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", Collections.getMap(
+						IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));
 				result.getValidationMessages().add(validationMessage);
 			}
 			else
 			{
-				test1vos.add(test1vo);
+				this.test1vos.add(test1vo);
 			}
 
 			callback.onSuccess((Result<ValidateAndCreateVOType>) result);
@@ -552,10 +554,11 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "string1");
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", Collections.getMap(
+						IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));
 				result.getValidationMessages().add(validationMessage);
 			}
-			test1vos.set((int) test1vo.getId(), test1vo);
+			this.test1vos.set((int) test1vo.getId(), test1vo);
 
 			callback.onSuccess((Result<ValidateAndSaveVOType>) result);
 		}
