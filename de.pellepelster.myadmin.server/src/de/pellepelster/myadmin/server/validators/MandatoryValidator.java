@@ -47,13 +47,14 @@ public class MandatoryValidator implements IValidator
 
 		for (IAttributeDescriptor<?> attributeDescriptor : new AnnotationIterator(vo.getClass(), Mandatory.class))
 		{
+
+			String fullAttributePath = XPathUtil.combine(parentPath, attributeDescriptor.getAttributeName());
+
 			if (attributeDescriptor.getListAttributeType() == null)
 			{
 				if (vo.get(attributeDescriptor.getAttributeName()) == null)
 				{
-					result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, MandatoryValidator.class.getName(), Messages.getString(
-							"validator.mandatory.message", vo.getClass().getName(), attributeDescriptor.getAttributeName()), XPathUtil.combine(parentPath,
-							attributeDescriptor.getAttributeName())));
+					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_ATTRIBUTE, fullAttributePath, fullAttributePath, vo.getClass().getSimpleName()));
 				}
 			}
 			else
@@ -63,9 +64,7 @@ public class MandatoryValidator implements IValidator
 
 				if (list.isEmpty())
 				{
-					result.add(new ValidationMessage(IMessage.SEVERITY.ERROR, MandatoryValidator.class.getName(), Messages.getString(
-							"validator.mandatory.list.message", vo.getClass().getName(), attributeDescriptor.getAttributeName()), attributeDescriptor
-							.getAttributeName()));
+					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_LIST, fullAttributePath, fullAttributePath, vo.getClass().getSimpleName()));
 				}
 			}
 		}
