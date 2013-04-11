@@ -12,7 +12,8 @@
 package de.pellepelster.myadmin.client.base.messages;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
+
+import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
 /**
  * Representation for an validation error message
