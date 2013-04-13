@@ -113,7 +113,7 @@ public class IntegerControl extends TextBox implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages);
+		gwtControlHelper.setValidationMessages(validationMessages, integerControlModel);
 	}
 
 }

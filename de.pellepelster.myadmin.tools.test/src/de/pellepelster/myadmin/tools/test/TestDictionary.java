@@ -101,7 +101,7 @@ public class TestDictionary extends AbstractMyAdminTest
 	}
 
 	@Test
-	public void testTestGetDictionary1TexControl1()
+	public void testDictionary1TextControl1()
 	{
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 
@@ -122,6 +122,15 @@ public class TestDictionary extends AbstractMyAdminTest
 		Assert.assertEquals("TextControl1Filter", filterTextControlModel.getFilterLabel());
 		Assert.assertEquals("TextControl1Filter", filterTextControlModel.getColumnLabel());
 		Assert.assertEquals("TextControl1Filter", filterTextControlModel.getEditorLabel());
-
 	}
+
+	@Test
+	public void testDictionary1()
+	{
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
+
+		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getLabel());
+		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getPluralLabel());
+	}
+
 }

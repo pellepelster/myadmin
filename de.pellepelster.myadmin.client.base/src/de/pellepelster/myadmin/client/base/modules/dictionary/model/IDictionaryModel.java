@@ -57,6 +57,20 @@ public interface IDictionaryModel extends IBaseModel
 	String getTitle();
 
 	/**
+	 * Returns the label
+	 * 
+	 * @return
+	 */
+	String getLabel();
+
+	/**
+	 * Returns the plural label
+	 * 
+	 * @return
+	 */
+	String getPluralLabel();
+
+	/**
 	 * Fully qualified name of the VO managed by this dictionary
 	 * 
 	 * @return

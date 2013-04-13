@@ -25,6 +25,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabinding
 public interface IBaseControlModel extends IBaseModel, IDatabindingAwareModel
 {
 
+	static final String EDITOR_LABEL_MESSAGE_KEY = "dictionaryControlEditorLabel";
+
 	static final int DEFAULT_WIDTH_HINT = 16;
 
 	/**

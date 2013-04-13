@@ -23,7 +23,7 @@ import com.google.gwt.view.client.TreeViewModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
-import de.pellepelster.myadmin.client.base.util.Collections;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalNodeInfo.HierarchicalNodeCallback;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
@@ -83,7 +83,7 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 					if (dictionaryHierarchicalNodeVO.getVoId() == null)
 					{
-						HashMap<String, Object> parameters = Collections.getMap(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName(),
+						HashMap<String, Object> parameters = CollectionUtils.getMap(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName(),
 								dictionaryHierarchicalNodeVO.getParentClassName(), IHierarchicalVO.FIELD_PARENT_ID.getAttributeName(),
 								dictionaryHierarchicalNodeVO.getParentVOId());
 

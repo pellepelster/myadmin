@@ -35,7 +35,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabinding
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.util.Collections;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -109,7 +109,7 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 	private void fireValueChanges()
 	{
 
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTableModel.getAttributePath(), Collections.copyToArrayList(dataProvider.getList()));
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTableModel.getAttributePath(), CollectionUtils.copyToArrayList(dataProvider.getList()));
 		for (IValueChangeListener valueChangeListener : valueChangeListeners)
 		{
 			valueChangeListener.handleValueChange(valueChangeEvent);

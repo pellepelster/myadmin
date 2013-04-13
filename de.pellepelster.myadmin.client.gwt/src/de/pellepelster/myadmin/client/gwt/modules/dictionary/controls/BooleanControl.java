@@ -28,6 +28,7 @@ public class BooleanControl extends CheckBox implements IControl<Widget>
 {
 
 	private final IBooleanControlModel booleanControlModel;
+
 	private final ControlHelper gwtControlHelper;
 
 	public BooleanControl(IBooleanControlModel booleanControlModel)
@@ -115,7 +116,7 @@ public class BooleanControl extends CheckBox implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages);
+		gwtControlHelper.setValidationMessages(validationMessages, booleanControlModel);
 	}
 
 }

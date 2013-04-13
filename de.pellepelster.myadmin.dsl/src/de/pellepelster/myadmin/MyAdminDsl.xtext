@@ -161,6 +161,9 @@ Dictionary:
 	
 		"entity" entity=[ Entity | QualifiedName ]
 		("title" title=STRING)?
+		
+		("label" label=STRING)?
+		("pluralLabel" pluralLabel=STRING)?
 					
 		("dictionarycontrols" "{"
 			(dictionarycontrols+=DictionaryControl)*

@@ -53,18 +53,18 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	public DictionaryModel(DictionaryVO dictionaryVO)
 	{
 		super(null);
-		voName = dictionaryVO.getEntityName();
+		this.voName = dictionaryVO.getEntityName();
 		this.dictionaryVO = dictionaryVO;
 
 		if (dictionaryVO.getSearch() != null)
 		{
-			searchModel = new SearchModel(this, dictionaryVO.getSearch(), voName);
+			this.searchModel = new SearchModel(this, dictionaryVO.getSearch(), this.voName);
 		}
-		editorModel = new EditorModel(this, dictionaryVO.getEditor(), voName);
+		this.editorModel = new EditorModel(this, dictionaryVO.getEditor(), this.voName);
 
 		for (DictionaryControlVO controlVO : dictionaryVO.getLabelControls())
 		{
-			labelControls.add(ControlModelFactory.getControlModel(this, controlVO));
+			this.labelControls.add(ControlModelFactory.getControlModel(this, controlVO));
 		}
 	}
 
@@ -72,37 +72,37 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	@Override
 	public IEditorModel getEditorModel()
 	{
-		return editorModel;
+		return this.editorModel;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public List<IBaseControlModel> getLabelControls()
 	{
-		return labelControls;
+		return this.labelControls;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getName()
 	{
-		return dictionaryVO.getName();
+		return this.dictionaryVO.getName();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ISearchModel getSearchModel()
 	{
-		return searchModel;
+		return this.searchModel;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getTitle()
 	{
-		if (dictionaryVO.getTitle() != null && !dictionaryVO.getTitle().isEmpty())
+		if (this.dictionaryVO.getTitle() != null && !this.dictionaryVO.getTitle().isEmpty())
 		{
-			return dictionaryVO.getTitle();
+			return this.dictionaryVO.getTitle();
 		}
 		else
 		{
@@ -114,7 +114,33 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	@Override
 	public String getVOName()
 	{
-		return voName;
+		return this.voName;
+	}
+
+	@Override
+	public String getLabel()
+	{
+		if (this.dictionaryVO.getLabel() != null)
+		{
+			return this.dictionaryVO.getLabel();
+		}
+		else
+		{
+			return getTitle();
+		}
+	}
+
+	@Override
+	public String getPluralLabel()
+	{
+		if (this.dictionaryVO.getPluralLabel() != null)
+		{
+			return this.dictionaryVO.getPluralLabel();
+		}
+		else
+		{
+			return getLabel();
+		}
 	}
 
 }

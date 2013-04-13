@@ -51,6 +51,13 @@ public interface IMessage
 	String getMessage();
 
 	/**
+	 * Returns a human readable error message
+	 * 
+	 * @return
+	 */
+	String getHumanMessage();
+
+	/**
 	 * Returns the severity status for this message
 	 * 
 	 * @return

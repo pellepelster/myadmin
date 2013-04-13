@@ -32,7 +32,9 @@ public class ControlHelper
 {
 
 	private final UIObject uiObject;
+
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
+
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
 	public ControlHelper(final Widget widget, final IBaseControlModel baseControlModel, boolean addValueChangeListener, final Class<?> targetClass)
@@ -90,7 +92,7 @@ public class ControlHelper
 		validationMessages.clear();
 	}
 
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
+	public void setValidationMessages(List<IValidationMessage> validationMessages, IBaseControlModel baseControlModel)
 	{
 		this.validationMessages = validationMessages;
 
@@ -102,7 +104,7 @@ public class ControlHelper
 		else
 		{
 			uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
-			uiObject.setTitle(ValidationUtils.getValidationMessageString(validationMessages));
+			uiObject.setTitle(ValidationUtils.getValidationMessageString(validationMessages, baseControlModel));
 		}
 	}
 }

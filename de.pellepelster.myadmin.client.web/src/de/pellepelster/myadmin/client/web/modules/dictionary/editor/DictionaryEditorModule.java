@@ -328,7 +328,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			};
 
 			MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-					.getNewVO(dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.Collections.copyMap(getParameters()), newVOCallback);
+					.getNewVO(dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(getParameters()), newVOCallback);
 		}
 	}
 

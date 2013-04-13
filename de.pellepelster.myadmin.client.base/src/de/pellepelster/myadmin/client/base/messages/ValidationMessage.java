@@ -29,6 +29,8 @@ public class ValidationMessage implements IValidationMessage, Serializable
 
 	private String message;
 
+	private String humanMessage;
+
 	private String code;
 
 	private SEVERITY severity;
@@ -39,22 +41,28 @@ public class ValidationMessage implements IValidationMessage, Serializable
 	{
 	}
 
-	public ValidationMessage(SEVERITY severity, String code, String message)
+	public ValidationMessage(SEVERITY severity, String code, String message, String humanMessage)
 	{
-		this(severity, code, message, null);
+		this(severity, code, message, humanMessage, null);
 	}
 
-	public ValidationMessage(SEVERITY severity, String code, String message, Map<String, Object> context)
+	public ValidationMessage(SEVERITY severity, String code, String message)
+	{
+		this(severity, code, message, null, null);
+	}
+
+	public ValidationMessage(SEVERITY severity, String code, String message, String humanMessage, Map<String, Object> context)
 	{
 		this.severity = severity;
 		this.code = code;
 		this.message = message;
 		this.context = context;
+		this.humanMessage = humanMessage;
 	}
 
 	public ValidationMessage(IMessage message, Map<String, Object> context)
 	{
-		this(message.getSeverity(), message.getCode(), MessageFormat.format(message.getMessage(), context), context);
+		this(message.getSeverity(), message.getCode(), message.getMessage(), message.getHumanMessage(), context);
 	}
 
 	@Override
@@ -66,7 +74,20 @@ public class ValidationMessage implements IValidationMessage, Serializable
 	@Override
 	public String getMessage()
 	{
-		return this.message;
+		return MessageFormat.format(this.message, this.context);
+	}
+
+	@Override
+	public String getHumanMessage()
+	{
+		if (this.humanMessage != null)
+		{
+			return MessageFormat.format(this.humanMessage, this.context);
+		}
+		else
+		{
+			return MessageFormat.format(this.message, this.context);
+		}
 	}
 
 	@Override

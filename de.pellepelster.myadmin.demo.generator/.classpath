@@ -4,9 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.demo.generator&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="build/de.pellepelster.myadmin.demo-mobile-client-gen.jar"/>
-	<classpathentry kind="lib" path="build/de.pellepelster.myadmin.demo-server-gen.jar"/>
-	<classpathentry kind="lib" path="build/de.pellepelster.myadmin.demo-web-client-gen.jar"/>
-	<classpathentry kind="lib" path="build/de.pellepelster.myadmin.demo-xml-gen.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-mobile-client-gen.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-server-gen.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-web-client-gen.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-xml-gen.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

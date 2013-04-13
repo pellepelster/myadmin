@@ -17,6 +17,9 @@ import java.util.List;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
+import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
 /**
  * Utilities for validator handling
@@ -33,7 +36,7 @@ public final class ValidationUtils
 	 * @param validationMessages
 	 * @return
 	 */
-	public static String getValidationMessageString(List<IValidationMessage> validationMessages)
+	public static String getValidationMessageString(List<IValidationMessage> validationMessages, IBaseControlModel baseControlModel)
 	{
 
 		String result = "";
@@ -41,7 +44,9 @@ public final class ValidationUtils
 
 		for (IValidationMessage validationMessage : validationMessages)
 		{
-			result += delimiter + validationMessage.getMessage();
+			result += delimiter
+					+ MessageFormat.format(validationMessage.getHumanMessage(),
+							CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControlModel.getEditorLabel()));
 			delimiter = "\r\n";
 		}
 

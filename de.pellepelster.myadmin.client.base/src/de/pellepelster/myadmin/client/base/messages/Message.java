@@ -25,27 +25,32 @@ public class Message implements IMessage, Serializable
 	private static final long serialVersionUID = -8385373403323580526L;
 
 	private SEVERITY severity;
+
 	private String code;
-	private String messageText;
+
+	private String message;
+
+	private String humanMessage;
 
 	private Message()
 	{
 		super();
 	}
 
-	public Message(SEVERITY severity, String code, String messageText)
+	public Message(SEVERITY severity, String code, String message, String humanMessage)
 	{
 		super();
 		this.severity = severity;
 		this.code = code;
-		this.messageText = messageText;
+		this.message = message;
+		this.humanMessage = humanMessage;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getMessage()
 	{
-		return this.messageText;
+		return this.message;
 	}
 
 	/** {@inheritDoc} */
@@ -60,6 +65,12 @@ public class Message implements IMessage, Serializable
 	public String getCode()
 	{
 		return this.code;
+	}
+
+	@Override
+	public String getHumanMessage()
+	{
+		return this.humanMessage;
 	}
 
 }

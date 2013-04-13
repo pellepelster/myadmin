@@ -28,8 +28,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
 
 public class BigDecimalControl extends TextBox implements IControl<Widget>
 {
-
 	private final IBigDecimalControlModel bigDecimalControlModel;
+
 	private final ControlHelper gwtControlHelper;
 
 	public BigDecimalControl(IBigDecimalControlModel bigDecimalControlModel)
@@ -135,7 +135,7 @@ public class BigDecimalControl extends TextBox implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages);
+		gwtControlHelper.setValidationMessages(validationMessages, bigDecimalControlModel);
 	}
 
 }

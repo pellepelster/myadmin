@@ -42,6 +42,8 @@ public class DictionaryFactory
 		dictionaryVO.setName(dictionary.getName());
 		dictionaryVO.setEntityName(fullQualifiedEntityName);
 		dictionaryVO.setTitle(dictionary.getTitle());
+		dictionaryVO.setLabel(dictionary.getLabel());
+		dictionaryVO.setPluralLabel(dictionary.getPluralLabel());
 
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating dictionary labels"), logIdentiation + 1);
 

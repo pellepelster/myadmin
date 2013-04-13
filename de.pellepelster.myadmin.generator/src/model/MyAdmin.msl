@@ -217,6 +217,8 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					reference DictionaryEditor editor
 					simpletype String entityName
 					simpletype String ^title
+					simpletype String ^label
+					simpletype String ^pluralLabel
 					reference DictionaryControl~ controlAggregates
 					reference DictionaryControl~ labelControls
 					simpletype String name

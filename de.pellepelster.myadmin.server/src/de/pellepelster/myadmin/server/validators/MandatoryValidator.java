@@ -20,7 +20,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Mandatory;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
-import de.pellepelster.myadmin.client.base.util.Collections;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 
 public class MandatoryValidator implements IValidator
@@ -53,7 +53,7 @@ public class MandatoryValidator implements IValidator
 			{
 				if (vo.get(attributeDescriptor.getAttributeName()) == null)
 				{
-					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_ATTRIBUTE, Collections.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY,
+					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_ATTRIBUTE, CollectionUtils.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY,
 							fullAttributePath, IValidationMessage.VOCLASS_CONTEXT_KEY, vo.getClass().getSimpleName())));
 				}
 			}
@@ -64,7 +64,7 @@ public class MandatoryValidator implements IValidator
 
 				if (list.isEmpty())
 				{
-					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_LIST, Collections.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY,
+					result.add(new ValidationMessage(ValidatorMessages.MANDATORY_LIST, CollectionUtils.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY,
 							fullAttributePath, IValidationMessage.VOCLASS_CONTEXT_KEY, vo.getClass().getSimpleName())));
 				}
 			}

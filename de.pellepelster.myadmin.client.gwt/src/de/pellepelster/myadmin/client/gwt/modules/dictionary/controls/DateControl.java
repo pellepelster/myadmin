@@ -33,6 +33,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 {
 
 	private final IDateControlModel dateControlModel;
+
 	private final ControlHelper gwtControlHelper;
 
 	public DateControl(final IDateControlModel dateControlModel)
@@ -134,7 +135,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages);
+		gwtControlHelper.setValidationMessages(validationMessages, dateControlModel);
 	}
 
 }

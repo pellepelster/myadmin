@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Collections
+public class CollectionUtils
 {
 	public static <T> List<T> copyToArrayList(List<T> fromList)
 	{

@@ -30,7 +30,7 @@ import de.pellepelster.myadmin.client.base.jpql.expressions.EntityExpressionObje
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
-import de.pellepelster.myadmin.client.base.util.Collections;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -495,7 +495,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1() != null && test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", Collections.getMap(
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "error", CollectionUtils.getMap(
 						IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));
 				result.getValidationMessages().add(validationMessage);
 			}
@@ -554,7 +554,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 			if (test1vo.getString1().contains("error"))
 			{
-				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", Collections.getMap(
+				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "error", CollectionUtils.getMap(
 						IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));
 				result.getValidationMessages().add(validationMessage);
 			}
