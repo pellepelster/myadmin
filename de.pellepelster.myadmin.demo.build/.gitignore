@@ -11,3 +11,4 @@ tomcat
 /scripts
 /lib-bootstrap
 /test
+derby.log

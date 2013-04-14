@@ -17,13 +17,10 @@ import java.io.File;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.JUnit4;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -42,98 +39,94 @@ public class SeleniumTests
 	@Before
 	public void setUp() throws Exception
 	{
-		driver = new FirefoxDriver();
-		
+		this.driver = new FirefoxDriver();
+
 		if (System.getProperty("selenium.base.url") == null)
 		{
 			fail("selenium.base.url not set");
 		}
 		else
 		{
-			baseUrl = System.getProperty("selenium.base.url");
+			this.baseUrl = System.getProperty("selenium.base.url");
 		}
 
-		
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	private void createCountry(String countryName) throws Exception
 	{
 		// open country search
-		driver.findElement(By.xpath("//div[text() = \"Country\"]")).click();
+		this.driver.findElement(By.xpath("//div[text() = \"Country\"]")).click();
 
 		waitForElementById("gwt-debug-DictionarySearch-Country-DictionaryCreate");
 
 		// open country Editor
-		driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionaryCreate")).click();
-		waitForElementById("gwt-debug-Country-null-Composite2-Composite3-CountryName");
+		this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionaryCreate")).click();
+		waitForElementById("gwt-debug-Country-RootComposite-Composite2-Composite3-CountryName");
 
 		// enter country name
-		driver.findElement(By.id("gwt-debug-Country-null-Composite2-Composite3-CountryName")).clear();
-		driver.findElement(By.id("gwt-debug-Country-null-Composite2-Composite3-CountryName")).sendKeys(countryName);
-		
+		this.driver.findElement(By.id("gwt-debug-Country-RootComposite-Composite2-Composite3-CountryName")).clear();
+		this.driver.findElement(By.id("gwt-debug-Country-RootComposite-Composite2-Composite3-CountryName")).sendKeys(countryName);
+
 		// save
-		driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionarySave")).click();
-		waitForElementByXpath("//div[text() = \"CountryEditor "+ countryName + "\"]");
-		
+		this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionarySave")).click();
+		waitForElementByXpath("//div[text() = \"CountryEditor " + countryName + "\"]");
 
 		// back to search
-		driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionaryBack")).click();
+		this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionaryBack")).click();
 		waitForElementById("gwt-debug-DictionarySearch-Country-DictionarySearch");
 
 		// execute search
-		driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionarySearch")).click();
+		this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionarySearch")).click();
 		waitForElementByXpath("//div[text() = \"" + countryName + "\"]");
-		
+
 	}
 
-	
 	@Test
 	public void testCreateCountry() throws Exception
 	{
-		driver.get(baseUrl + "/de.pellepelster.myadmin.demo/Demo/Demo.html");
-		
+		this.driver.get(this.baseUrl + "/de.pellepelster.myadmin.demo/Demo/Demo.html");
+
 		waitForElementByXpath("//div[text() = \"Masterdata\"]");
 
-		driver.findElement(By.xpath("//div[text() = \"Masterdata\"]/preceding::div[1]/img")).click();
-		driver.findElement(By.xpath("//div[text() = \"Address\"]/preceding::div[1]/img")).click();
+		this.driver.findElement(By.xpath("//div[text() = \"Masterdata\"]/preceding::div[1]/img")).click();
+		this.driver.findElement(By.xpath("//div[text() = \"Address\"]/preceding::div[1]/img")).click();
 
 		for (int i = 1; i <= 5; i++)
 		{
 			createCountry(String.format("Germany %d", i));
 		}
-		
+
 		if (System.getProperty("screenshot.dir") != null)
 		{
-			File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+			File screenshotFile = ((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(screenshotFile, new File(System.getProperty("screenshot.dir"), "createCountries.png"));
 		}
-
 
 	}
 
 	@After
 	public void tearDown() throws Exception
 	{
-		driver.quit();
-		String verificationErrorString = verificationErrors.toString();
+		this.driver.quit();
+		String verificationErrorString = this.verificationErrors.toString();
 		if (!"".equals(verificationErrorString))
 		{
 			fail(verificationErrorString);
 		}
 	}
 
-	private void  waitForElementById(String id)
+	private void waitForElementById(String id)
 	{
 		waitForElement(By.id(id));
 	}
 
-	private void  waitForElementByXpath(String xpath)
+	private void waitForElementByXpath(String xpath)
 	{
 		waitForElement(By.xpath(xpath));
 	}
 
-	private void  waitForElement(By by)
+	private void waitForElement(By by)
 	{
 		try
 		{
@@ -142,14 +135,14 @@ public class SeleniumTests
 				if (second >= 10)
 				{
 					fail(String.format("timeout waiting for '%s'", by.toString()));
-					
+
 				}
 
 				if (isElementPresent(by))
 				{
 					return;
 				}
-				
+
 				Thread.sleep(1000);
 			}
 		}
@@ -159,12 +152,11 @@ public class SeleniumTests
 		}
 	}
 
-
 	private boolean isElementPresent(By by)
 	{
 		try
 		{
-			driver.findElement(by);
+			this.driver.findElement(by);
 			return true;
 		}
 		catch (NoSuchElementException e)
@@ -177,8 +169,8 @@ public class SeleniumTests
 	{
 		try
 		{
-			Alert alert = driver.switchTo().alert();
-			if (acceptNextAlert)
+			Alert alert = this.driver.switchTo().alert();
+			if (this.acceptNextAlert)
 			{
 				alert.accept();
 			}
@@ -190,7 +182,7 @@ public class SeleniumTests
 		}
 		finally
 		{
-			acceptNextAlert = true;
+			this.acceptNextAlert = true;
 		}
 	}
 

@@ -66,6 +66,8 @@ public class DictionaryFactory
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating editor '%s'", dictionaryEditorVO.getName()), logIdentiation);
 
 		DictionaryContainerVO editorRootCompositeVO = new DictionaryContainerVO();
+		editorRootCompositeVO.setName("RootComposite");
+
 		ContainerFactory.getInstance().createContainer(editorRootCompositeVO, dictionaryEditor.getContainercontents(), logIdentiation + 1);
 
 		dictionaryEditorVO.setContainer(editorRootCompositeVO);
