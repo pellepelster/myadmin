@@ -159,16 +159,18 @@
 
 	</target>
 
-	<target name="pre.jar">
+	<target name="pre.test">
 	</target>
 
-	<target name="post.jar">
+	<target name="post.test">
 	</target>
-
+		
 	<target name="test" if="test.suite.name">
 
 		<delete dir="${test.dir}" />
 		<mkdir dir="${test.dir}" />
+
+		<antcall target="pre.test" />
 
 		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
 
@@ -183,8 +185,16 @@
 
 		</junit>
 
+		<antcall target="post.test" />
+
 	</target>
 
+	<target name="pre.jar">
+	</target>
+
+	<target name="post.jar">
+	</target>
+	
 	<target name="jar" depends="version, compile" unless="no.compile">
 
 		<antcall target="pre.jar" />

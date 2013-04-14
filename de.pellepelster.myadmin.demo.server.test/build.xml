@@ -1,6 +1,6 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<property name="test.suite.name" value="trigger text execution" />
+	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.DemoTestsuite" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 
@@ -78,7 +78,7 @@
 
 	</target>
 
-	<target name="test" depends="test.selenium.local">
+	<target name="post.test" depends="test.selenium.local">
 	</target>
 
 	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
@@ -98,7 +98,7 @@
 
 			<formatter type="xml" />
 
-			<test name="de.pellepelster.myadmin.demo.server.SeleniumTests" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
+			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
 
 		</junit>
 

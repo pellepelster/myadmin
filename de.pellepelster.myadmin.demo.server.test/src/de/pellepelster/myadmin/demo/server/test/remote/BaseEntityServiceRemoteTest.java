@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server.old;
+package de.pellepelster.myadmin.demo.server.test.remote;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
-import de.pellepelster.myadmin.demo.server.ApplicationContextProvider;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public final class BaseEntityServiceRemoteTest extends TestCase

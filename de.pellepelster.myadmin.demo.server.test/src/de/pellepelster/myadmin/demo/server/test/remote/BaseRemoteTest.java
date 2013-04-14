@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.remote;
 
 import junit.framework.TestCase;
 

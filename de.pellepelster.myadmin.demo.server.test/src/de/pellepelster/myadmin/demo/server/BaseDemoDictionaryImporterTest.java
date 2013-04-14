@@ -35,12 +35,12 @@ public abstract class BaseDemoDictionaryImporterTest extends BaseDemoDBTest
 
 	public IBaseEntityService getBaseEntityService()
 	{
-		return baseEntityService;
+		return this.baseEntityService;
 	}
 
 	public IDictionaryService getDictionaryService()
 	{
-		return dictionaryService;
+		return this.dictionaryService;
 	}
 
 	@Before
@@ -58,7 +58,7 @@ public abstract class BaseDemoDictionaryImporterTest extends BaseDemoDBTest
 				modelResources.add(resource);
 			}
 
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath:model/MyAdminDemo.msl"))
+			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath:Demo.msl"))
 			{
 				modelResource = resource;
 			}
@@ -68,7 +68,7 @@ public abstract class BaseDemoDictionaryImporterTest extends BaseDemoDBTest
 			throw new RuntimeException(e);
 		}
 
-		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, modelResources, modelResource);
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 

@@ -31,7 +31,7 @@ import de.pellepelster.myadmin.db.IBaseVODAO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(locations = { "classpath:/MyAdminServerApplicationContext-gen.xml", "classpath:/MyAdminDemoTestApplicationContext.xml",
-		"classpath:/MyAdminDemoServerApplicationContext-gen.xml", "classpath:/MyAdminServerApplicationContext.xml", "classpath:/MyAdminDemoDB-gen.xml" })
+		"classpath:/DemoServerApplicationContext-gen.xml", "classpath:/MyAdminServerApplicationContext.xml", "classpath:/DemoDB-gen.xml" })
 public abstract class BaseDemoDBTest extends AbstractTransactionalJUnit4SpringContextTests
 {
 
@@ -49,7 +49,7 @@ public abstract class BaseDemoDBTest extends AbstractTransactionalJUnit4SpringCo
 		DataSource ds = new SingleConnectionDataSource("org.apache.derby.jdbc.EmbeddedDriver", String.format("jdbc:derby:%s/myadmin_%s;create=true", tempDir,
 				UUID.randomUUID().toString()), "myadmin", "", true);
 
-		builder.bind("java:comp/env/jdbc/MyAdminDemo", ds);
+		builder.bind("java:comp/env/jdbc/Demo", ds);
 
 	}
 
