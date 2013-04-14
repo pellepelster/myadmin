@@ -7,8 +7,15 @@
 
 	«FILE fullQualifiedHookRegistrationClassFileName()»
 	package «fullQualifiedPackageName()»;
+
+	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;	
+
+	public abstract class «hookRegistrationClassName()» {
 	
-	public class «hookRegistrationClassName()» {
+		public static void setEditorSaveHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IEditorSaveHook editorSaveHook)
+		{
+			ClientHookRegistry.getInstance().setEditorSaveHook("«this.name»", editorSaveHook); 
+		}
 	
 	}
 	«ENDFILE»

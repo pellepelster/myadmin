@@ -29,7 +29,10 @@
 	«EXPAND ClientModule::baseModuleClass FOREACH eAllContents.typeSelect(ModuleDefinition)»
 	
 	«info("generating dictionary identifiers")»
-	«EXPAND DictionaryIDs::dictionaryID FOREACH eAllContents.typeSelect(Dictionary)»
+	«EXPAND dictionary::DictionaryIDs::dictionaryID FOREACH eAllContents.typeSelect(Dictionary)»
+
+	«info("generating dictionary hook registrations")»
+	«EXPAND dictionary::Hooks::hookRegistration FOREACH eAllContents.typeSelect(Dictionary)»
 
 	«EXPAND GwtModule::clientGeneratedModuleDefinition FOR this»
 	

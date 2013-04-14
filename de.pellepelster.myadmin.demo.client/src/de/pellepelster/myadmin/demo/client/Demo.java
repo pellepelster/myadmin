@@ -13,12 +13,15 @@ package de.pellepelster.myadmin.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IEditorSaveHook;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.demo.client.web.dictionaries.CountryHookRegistration;
 
 public class Demo implements EntryPoint
 {
@@ -26,6 +29,15 @@ public class Demo implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
+		CountryHookRegistration.setEditorSaveHook(new IEditorSaveHook()
+		{
+
+			@Override
+			public void onSave(AsyncCallback<Void> asyncCallback)
+			{
+				asyncCallback.onSuccess(null);
+			}
+		});
 
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PX);
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);

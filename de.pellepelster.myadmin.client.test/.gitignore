@@ -5,3 +5,5 @@ build
 
 /test
 /lib
+/gwt-unitCache
+/war
