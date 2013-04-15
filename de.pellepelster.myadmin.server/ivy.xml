@@ -51,7 +51,9 @@
 			<artifact name="spring-security-web" type="jar" />
 		</dependency>
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" />	
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration">
+			<exclude name="gwt-dev" />
+		</dependency>	
 
 	</dependencies>
 

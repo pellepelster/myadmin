@@ -20,8 +20,8 @@
 	
 		<dependency name="client-web" rev="latest.integration" conf="*->@" />
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration"  />	
-
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" />	
+		
 	</dependencies>
 
 </ivy-module>

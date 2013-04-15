@@ -23,6 +23,8 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_CONTROL_ALIGNMENTVO;
+import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -169,6 +171,14 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 				result.getValidationMessages().get(0).getContext().get(IValidationMessage.ATTRIBUTE_CONTEXT_KEY));
 		Assert.assertEquals("Duplicate value \"moduledefinition1\" for attribute \"name\" at entity \"ModuleDefinitionVO\"", result.getValidationMessages()
 				.get(0).getMessage());
+	}
+
+	@Test
+	public void testGenericSetterEnumeration()
+	{
+		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
+		dictionaryControlVO.set(DictionaryControlVO.FIELD_ALIGNMENT.getAttributeName(), DICTIONARY_CONTROL_ALIGNMENTVO.LEFT.toString());
+		Assert.assertEquals(DICTIONARY_CONTROL_ALIGNMENTVO.LEFT, dictionaryControlVO.getAlignment());
 	}
 
 }

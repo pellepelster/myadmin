@@ -18,9 +18,9 @@
 	<dependencies>
 	
 		<dependency name="client-gwt" rev="latest.integration" conf="*->@,sources" />
+
 		<dependency name="client-web-test" rev="latest.integration" conf="*->@,sources" />
 
-		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.0" transitive="false" conf="*->default" />
-	</dependencies>
+ 	</dependencies>
 
 </ivy-module>

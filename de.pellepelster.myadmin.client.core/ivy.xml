@@ -22,8 +22,6 @@
 		
 		<dependency name="generator" rev="latest.integration" conf="*->@" />
 
-		<dependency org="com.google.guava" name="guava-gwt" rev="14.0.1" />
-
 	</dependencies>
 
 </ivy-module>
