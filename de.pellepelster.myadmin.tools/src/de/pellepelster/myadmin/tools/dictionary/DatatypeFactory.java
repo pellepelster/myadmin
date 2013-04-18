@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_BASETYPEVO;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BigDecimalDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BooleanDatatype;
@@ -107,14 +107,14 @@ public class DatatypeFactory
 	private void createBigDecimalDatatype(BigDecimalDatatype bigDecimalDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
 
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.BIGDECIMAL);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.BIGDECIMAL);
 		datatypeVO.setTotalDigits(bigDecimalDatatype.getTotalDigits());
 		datatypeVO.setFractionDigits(bigDecimalDatatype.getFractionDigits());
 	}
 
 	private void createBooleanDatatype(BooleanDatatype booleanDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.BOOLEAN);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.BOOLEAN);
 	}
 
 	public DictionaryDatatypeVO createDatatypeVO(DictionaryControl dictionaryControl, int logIdentiation)
@@ -162,14 +162,14 @@ public class DatatypeFactory
 
 	private void createDateDatatype(DateDatatype dateDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.DATE);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.DATE);
 	}
 
 	private void createEnumerationDatatype(EnumerationDatatype enumerationDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
 
 		// - enumeration -----------------------------------------------
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.ENUMERATION);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.ENUMERATION);
 
 		datatypeVO.setEntity(enumerationDatatype.getEnumeration().getName());
 		for (String enumerationValue : enumerationDatatype.getEnumeration().getEnumerationValues())
@@ -180,18 +180,18 @@ public class DatatypeFactory
 
 	private void createIntegerDatatype(IntegerDatatype integerDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.INTEGER);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.INTEGER);
 	}
 
 	private void createReferenceDatatype(ReferenceDatatype referenceDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.REFERENCE);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.REFERENCE);
 		datatypeVO.setEntity(referenceDatatype.getEntity().getName());
 	}
 
 	private void createTextDatatype(TextDatatype textDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
-		datatypeVO.setBaseType(DICTIONARY_BASETYPEVO.TEXT);
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.TEXT);
 		datatypeVO.setMaxLength(textDatatype.getMaxLength());
 	}
 }

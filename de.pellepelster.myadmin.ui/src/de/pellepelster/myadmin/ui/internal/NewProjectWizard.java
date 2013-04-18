@@ -156,6 +156,10 @@ public class NewProjectWizard extends Wizard implements INewWizard
 										.getFullPath(), null, true));
 
 						classpathEntries.add(JavaCore.newLibraryEntry(
+								project.getFile(String.format("build/%s.%s-client-base-gen.jar", organization, projectName)).getFullPath(),
+								project.getFile(String.format("build/%s.%s-client-base-gen-source.jar", organization, projectName)).getFullPath(), null, true));
+
+						classpathEntries.add(JavaCore.newLibraryEntry(
 								project.getFile(String.format("build/%s.%s-web-client-gen.jar", organization, projectName)).getFullPath(),
 								project.getFile(String.format("build/%s.%s-web-client-gen-source.jar", organization, projectName)).getFullPath(), null, true));
 

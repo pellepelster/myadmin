@@ -30,7 +30,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_CONTAINER_TYPEVO;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
@@ -182,7 +182,7 @@ public class DictionaryImportRunner
 					dictionarySearchVO.getFilter().add(dictionaryFilterVO);
 
 					DictionaryContainerVO filterRootCompositeVO = new DictionaryContainerVO();
-					filterRootCompositeVO.setType(DICTIONARY_CONTAINER_TYPEVO.COMPOSITE);
+					filterRootCompositeVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 
 					ContainerFactory.getInstance().createContainer(filterRootCompositeVO, dictionaryfilter.getContainercontents(), logIdentiation + 1);
 

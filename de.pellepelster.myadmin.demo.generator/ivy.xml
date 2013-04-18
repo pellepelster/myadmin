@@ -15,6 +15,7 @@
 		<artifact name="de.pellepelster.myadmin.demo.generator" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="de.pellepelster.myadmin.demo-mobile-client-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="de.pellepelster.myadmin.demo-web-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="de.pellepelster.myadmin.demo-client-base-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="de.pellepelster.myadmin.demo-server-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="de.pellepelster.myadmin.demo-xml-gen" type="jar" ext="jar" conf="master,generated" />
 	</publications>

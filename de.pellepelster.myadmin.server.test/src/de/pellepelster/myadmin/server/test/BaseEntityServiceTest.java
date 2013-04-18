@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_CONTROL_ALIGNMENTVO;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTROL_ALIGNMENT;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
@@ -177,8 +177,8 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 	public void testGenericSetterEnumeration()
 	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
-		dictionaryControlVO.set(DictionaryControlVO.FIELD_ALIGNMENT.getAttributeName(), DICTIONARY_CONTROL_ALIGNMENTVO.LEFT.toString());
-		Assert.assertEquals(DICTIONARY_CONTROL_ALIGNMENTVO.LEFT, dictionaryControlVO.getAlignment());
+		dictionaryControlVO.set(DictionaryControlVO.FIELD_ALIGNMENT.getAttributeName(), DICTIONARY_CONTROL_ALIGNMENT.LEFT.toString());
+		Assert.assertEquals(DICTIONARY_CONTROL_ALIGNMENT.LEFT, dictionaryControlVO.getAlignment());
 	}
 
 }

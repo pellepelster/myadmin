@@ -9,7 +9,6 @@
 
 	«EXPAND Entity::entity FOREACH eAllContents.typeSelect(Entity)»
 	«EXPAND EntityXSD::entityXSD FOREACH eAllContents.typeSelect(Entity)»
-	«EXPAND Type::entityEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
 	«EXPAND EntityVOMapper::entityVOMapper»
 	«EXPAND spring::SpringDB::springDB»
 	«EXPAND spring::SpringServerApplicationContext::springServerApplicationContext»

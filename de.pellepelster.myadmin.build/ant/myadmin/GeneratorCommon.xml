@@ -101,6 +101,7 @@
 
 			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
 
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslClientBaseGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-client-base" />
 			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslWebClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-web-client" />
 			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslXmlGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-xml" runxjc="true" supplementaryXsds="@{supplementaryXsds}" />
 			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslMobileClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-mobile-client" />

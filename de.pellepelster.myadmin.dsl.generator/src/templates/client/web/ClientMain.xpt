@@ -7,9 +7,6 @@
 
 	«storeGlobalVar("model_scope", ModelScope::web)»
 	
-	«info("generating web enumarations")»
-	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
-	
 	«info("generating web vos")»
 	«EXPAND templates::vo::VO::webVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
 

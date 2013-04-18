@@ -17,10 +17,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.DictionaryModel;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_BASETYPEVO;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_CONTAINER_TYPEVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
@@ -61,7 +61,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		dictionaryDatatypeVO.setFractionDigits(2);
 		dictionaryDatatypeVO.setTotalDigits(2);
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.BIGDECIMAL);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.BIGDECIMAL);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -80,7 +80,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.BOOLEAN);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.BOOLEAN);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -99,7 +99,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.DATE);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.DATE);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -161,12 +161,12 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			// REFERENCE, COMBOBOX
 
 			DictionaryContainerVO controlsContainerVO = new DictionaryContainerVO();
-			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.COMPOSITE);
+			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 			controlsContainerVO.getControls().addAll(dictionaryControl1VOs);
 
 			DictionaryContainerVO editableTable = new DictionaryContainerVO();
 			editableTable.setAttributePath("test2VOs");
-			editableTable.setType(DICTIONARY_CONTAINER_TYPEVO.EDITABLE_TABLE);
+			editableTable.setType(DICTIONARY_CONTAINER_TYPE.EDITABLE_TABLE);
 			editableTable.getControls().addAll(dictionaryControl2VOs);
 			editableTable.setEntityName(Test2VO.class.getName());
 
@@ -217,7 +217,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryControl1VOs.add(getEnumerationControl1("EnumerationControl", "enumeration2"));
 
 			DictionaryContainerVO controlsContainerVO = new DictionaryContainerVO();
-			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.COMPOSITE);
+			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 			controlsContainerVO.getControls().addAll(dictionaryControl1VOs);
 
 			DictionaryVO dictionaryVO = new DictionaryVO();
@@ -259,7 +259,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryControl1VOs.add(text3Control);
 
 			DictionaryContainerVO controlsContainerVO = new DictionaryContainerVO();
-			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.COMPOSITE);
+			controlsContainerVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 			controlsContainerVO.getControls().addAll(dictionaryControl1VOs);
 
 			DictionaryVO dictionaryVO = new DictionaryVO();
@@ -343,7 +343,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.HIERARCHICAL);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.HIERARCHICAL);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -384,7 +384,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		dictionaryDatatypeVO.getEnumerationValues().put(Test1VO.ENUM1.ENUM1_VALUE2.toString(), Test1VO.ENUM1.ENUM1_VALUE2.toString());
 		dictionaryDatatypeVO.getEnumerationValues().put(Test1VO.ENUM1.ENUM1_VALUE3.toString(), Test1VO.ENUM1.ENUM1_VALUE3.toString());
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.ENUMERATION);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.ENUMERATION);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -407,7 +407,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		dictionaryDatatypeVO.getEnumerationValues().put(Test2VO.ENUM2.ENUM2_VALUE2.toString(), Test2VO.ENUM2.ENUM2_VALUE2.toString());
 		dictionaryDatatypeVO.getEnumerationValues().put(Test2VO.ENUM2.ENUM2_VALUE3.toString(), Test2VO.ENUM2.ENUM2_VALUE3.toString());
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.ENUMERATION);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.ENUMERATION);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -426,7 +426,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.INTEGER);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.INTEGER);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -445,7 +445,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.REFERENCE);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.REFERENCE);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -464,7 +464,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.TEXT);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.TEXT);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;
@@ -483,7 +483,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
-		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPEVO.TIMESTAMP);
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.TIMESTAMP);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;

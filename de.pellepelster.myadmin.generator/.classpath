@@ -8,6 +8,7 @@
 	<classpathentry exported="true" kind="lib" path="build/myadmin-web-client-gen.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/myadmin-xml-gen.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/generator.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/myadmin-client-base-gen.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

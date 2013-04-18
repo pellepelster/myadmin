@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.tools.dictionary;
 
 import org.eclipse.emf.common.util.EList;
 
-import de.pellepelster.myadmin.client.web.entities.dictionary.DICTIONARY_CONTAINER_TYPEVO;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.dsl.generator.Extensions;
@@ -96,7 +96,7 @@ public class ContainerFactory
 
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating assignment table '%s'", dictionaryAssignmentTable.getName()), logIdentiation);
 
-		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.ASSIGNMENT_TABLE);
+		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.ASSIGNMENT_TABLE);
 		dictionaryContainerVO.setAttributePath(dictionaryAssignmentTable.getEntityattribute().getName());
 		dictionaryContainerVO.setDictionaryName(dictionaryAssignmentTable.getDictionary().getName());
 
@@ -110,7 +110,7 @@ public class ContainerFactory
 
 	private void createDictionaryComposite(DictionaryComposite dictionaryComposite, DictionaryContainerVO dictionaryContainerVO, int logIdentiation)
 	{
-		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.COMPOSITE);
+		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating composite '%s'", dictionaryComposite.getName()), logIdentiation);
 
@@ -159,7 +159,7 @@ public class ContainerFactory
 
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating editable table '%s'", dictionaryEditableTable.getName()), logIdentiation);
 
-		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPEVO.EDITABLE_TABLE);
+		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.EDITABLE_TABLE);
 		dictionaryContainerVO.setAttributePath(dictionaryEditableTable.getEntityattribute().getName());
 
 		Entity entity = getEntity(dictionaryEditableTable.getEntityattribute());

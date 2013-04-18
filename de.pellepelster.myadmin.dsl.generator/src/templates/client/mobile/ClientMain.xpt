@@ -7,9 +7,6 @@
 
 	«storeGlobalVar("model_scope", ModelScope::mobile)»
 	
-	«info("generating mobile vos")»
-	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
-	
 	«EXPAND templates::vo::VO::mobileVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
 
 	«info("generating mobile remote services")»

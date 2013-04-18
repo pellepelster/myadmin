@@ -1,0 +1,13 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+«DEFINE main FOR Model»
+
+	«storeGlobalVar("model_scope", ModelScope::client_base)»
+	
+	«info("generating enumarations")»
+	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
+
+«ENDDEFINE»

@@ -15,6 +15,7 @@
 		<artifact name="@organisation.name@.@project.name@.generator" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="@organisation.name@.@project.name@-mobile-client-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="@organisation.name@.@project.name@-web-client-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="@organisation.name@.@project.name@-client-base-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="@organisation.name@.@project.name@-server-gen" type="jar" ext="jar" conf="master,generated" />
 		<artifact name="@organisation.name@.@project.name@-xml-gen" type="jar" ext="jar" conf="master,generated" />
 	</publications>

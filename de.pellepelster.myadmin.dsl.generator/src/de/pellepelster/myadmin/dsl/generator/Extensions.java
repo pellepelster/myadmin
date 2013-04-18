@@ -97,7 +97,7 @@ public class Extensions
 		}
 		else if (eObject instanceof Enumeration)
 		{
-			return toFirstUpper(((Enumeration) eObject).getName()) + postfix;
+			return toFirstUpper(((Enumeration) eObject).getName());
 		}
 		else
 		{
@@ -107,7 +107,14 @@ public class Extensions
 
 	public static String fullQualifiedEntityName(EObject eObject)
 	{
-		return fullQualifiedEntityName(eObject, getModelScope());
+		if (eObject instanceof Enumeration)
+		{
+			return fullQualifiedEntityName(eObject, ModelScope.CLIENT_BASE);
+		}
+		else
+		{
+			return fullQualifiedEntityName(eObject, getModelScope());
+		}
 	}
 
 	public static String fullQualifiedEntityName(EObject eObject, ModelScope modelScope)
