@@ -49,77 +49,80 @@ public class GenericFilterVO<VOType extends IBaseVO> implements Serializable, IA
 
 	public GenericFilterVO(String voClassName)
 	{
-		entityVO = new EntityVO(voClassName);
+		this.entityVO = new EntityVO(voClassName);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public AssociationVO addAssociation(IAttributeDescriptor<?> attributeDescriptor)
 	{
-		return entityVO.addAssociation(attributeDescriptor.getAttributeName());
+		return this.entityVO.addAssociation(attributeDescriptor.getAttributeName());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public AssociationVO addAssociation(String field)
 	{
-		return entityVO.addAssociation(field);
+		return this.entityVO.addAssociation(field);
 	}
 
-	public void addCriteria(IAttributeDescriptor<?> attributeDescriptor, Object value)
+	/** {@inheritDoc} */
+	public GenericFilterVO<VOType> addCriteria(IAttributeDescriptor<?> attributeDescriptor, Object value)
 	{
-		entityVO.addCriteria(attributeDescriptor.getAttributeName(), value);
+		this.entityVO.addCriteria(attributeDescriptor.getAttributeName(), value);
+
+		return this;
 	}
 
 	public void addCriteria(IConditionalExpressionVO conditionalExpressionVO)
 	{
-		entityVO.addCriteria(conditionalExpressionVO);
+		this.entityVO.addCriteria(conditionalExpressionVO);
 	}
 
 	public void addCriteria(List<IConditionalExpressionVO> conditionalExpressionVOs)
 	{
-		entityVO.addCriteria(conditionalExpressionVOs);
+		this.entityVO.addCriteria(conditionalExpressionVOs);
 	}
 
 	public void addCriteria(String field, Object value)
 	{
-		entityVO.addCriteria(field, value);
+		this.entityVO.addCriteria(field, value);
 	}
 
 	public void addCriteria(String field, Object value, RelationalOperator relationalOperator)
 	{
-		entityVO.addCriteria(field, value, relationalOperator);
+		this.entityVO.addCriteria(field, value, relationalOperator);
 	}
 
 	public void addOrderBy(String field, ORDER_DIRECTION orderDirection)
 	{
-		entityVO.addOrderBy(field, orderDirection);
+		this.entityVO.addOrderBy(field, orderDirection);
 	}
 
 	public void clearOrderBy()
 	{
-		entityVO.getOrderBy().clear();
+		this.entityVO.getOrderBy().clear();
 
 	}
 
 	public EntityVO getEntity()
 	{
-		return entityVO;
+		return this.entityVO;
 	}
 
 	public int getFirstResult()
 	{
-		return firstResult;
+		return this.firstResult;
 	}
 
 	public int getMaxResults()
 	{
-		return maxResults;
+		return this.maxResults;
 	}
 
 	public String getVOClassName()
 	{
-		return entityVO.getVoClassName();
+		return this.entityVO.getVoClassName();
 	}
 
 	public void setFirstResult(int firstResult)
@@ -134,7 +137,7 @@ public class GenericFilterVO<VOType extends IBaseVO> implements Serializable, IA
 
 	public LogicalOperatorVO getLogicalOperator()
 	{
-		return logicalOperator;
+		return this.logicalOperator;
 	}
 
 	public void setLogicalOperator(LogicalOperatorVO logicalOperator)
