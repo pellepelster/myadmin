@@ -20,7 +20,6 @@
 			<installunit name="org.eclipse.emf.sdk.feature.group" />
 			<installunit name="org.eclipse.emf.ecore.xcore.sdk.feature.group" />
 			<installunit name="org.eclipse.emf.compare.sdk.feature.group" />
-			<installunit name="org.eclipse.emf.mwe2.language.sdk.feature.group" />
 			<installunit name="org.eclipse.emf.mwe2.runtime.sdk.feature.group" />
 			<installunit name="org.eclipse.emf.mwe.sdk.feature.group" />
 			<installunit name="org.eclipse.xtend.sdk.feature.group" />
