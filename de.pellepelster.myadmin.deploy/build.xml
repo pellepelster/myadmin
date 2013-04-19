@@ -24,7 +24,6 @@
 			<installunit name="org.eclipse.emf.mwe2.runtime.sdk.feature.group" />
 			<installunit name="org.eclipse.emf.mwe.sdk.feature.group" />
 			<installunit name="org.eclipse.xtend.sdk.feature.group" />
-			<installunit name="de.itemis.xtext.antlr.sdk.feature.group" />
 			<installunit name="org.eclipse.xtext.sdk.feature.group" />
 			<installunit name="de.pellepelster.myadmin.feature.feature.group" />
 
