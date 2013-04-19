@@ -8,7 +8,6 @@ Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.generator,
- de.itemis.xtext.antlr,
  org.apache.commons.logging,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.emf.mwe.utils,
