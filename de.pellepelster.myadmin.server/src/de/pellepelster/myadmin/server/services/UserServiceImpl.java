@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements IUserService
 		try
 		{
 			MyAdminUserVO user = (MyAdminUserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			MyAdminUserVO userVO = baseVODAO.read(user.getId(), MyAdminUserVO.class);
+			MyAdminUserVO userVO = this.baseVODAO.read(user.getId(), MyAdminUserVO.class);
 
 			return userVO;
 		}
@@ -58,5 +59,21 @@ public class UserServiceImpl implements IUserService
 	public void setBaseVODAO(IBaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
+	}
+
+	@Override
+	public Boolean userNameExists(String username)
+	{
+		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, username)) > 0;
+	}
+
+	@Override
+	public void registerUser(String username, String email)
+	{
+		MyAdminUserVO myAdminUser = new MyAdminUserVO();
+		myAdminUser.setUserName(username);
+		myAdminUser.setUserMail(email);
+
+		this.baseVODAO.create(myAdminUser);
 	}
 }

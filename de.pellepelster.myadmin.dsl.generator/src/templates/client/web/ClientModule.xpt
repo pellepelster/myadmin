@@ -57,18 +57,7 @@
 			else
 			{
 				String parameterValue = moduleVO.getProperties().get("«moduleDefinitionParameter.name»");
-				
-				«IF moduleDefinitionParameter.type == SimpleTypes::long»
-					return java.lang.Long.parseLong(parameterValue);
-				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::integer»
-					return java.lang.Integer.parseInt(parameterValue);		
-				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::bigdecimal»
-					return java.lang.BigDecimal.parse(parameterValue);
-				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::string»
-					return parameterValue;
-				«ELSEIF moduleDefinitionParameter.type == SimpleTypes::boolean»
-					return java.lang.Boolean.parseBoolean(parameterValue);
-				«ENDIF»
+				return «EXPAND templates::type::Type::parseSimpleTypeFromString("parameterValue") FOR moduleDefinitionParameter.type»;
 			}
 		}
 		

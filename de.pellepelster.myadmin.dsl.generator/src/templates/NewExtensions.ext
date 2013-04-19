@@ -105,9 +105,9 @@ String fullQualifiedInterfaceFileNameGWT(RemoteService remoteService) : fullQual
 String fullQualifiedInterfaceFileNameGWTAsync(RemoteService remoteService) : fullQualifiedInterfaceNameGWTAsync(remoteService).replaceAll('\\.', '/') + '.java';
 
 //- rest services -------------------------------------------------------------
-String restServiceUrl(RemoteService remoteService) : "/rest/" + remoteService.name;
+String restServiceUrl(RemoteService remoteService) : "/rest/" + remoteService.name.toLowerCase();
 String restServiceUrl(RemoteService remoteService, RemoteMethod remoteMethod) : restServiceUrl(remoteService) + "/" + restServiceUrl(remoteMethod);
-String restServiceUrl(RemoteMethod remoteMethod) : remoteMethod.name;
+String restServiceUrl(RemoteMethod remoteMethod) : remoteMethod.name.toLowerCase();
 
 String baseRestServiceControllerName(RemoteService remoteService) : remoteService.name.toFirstUpper() + "RestServiceController";
 String fullyQualifiedBaseRestServiceControllerName(RemoteService remoteService) : getPackageName(remoteService) + "." + baseRestServiceControllerName(remoteService);

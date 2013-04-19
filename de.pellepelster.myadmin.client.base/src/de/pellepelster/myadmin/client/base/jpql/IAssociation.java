@@ -15,7 +15,6 @@ import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 
 public interface IAssociation
 {
-
 	IAssociation addAssociation(IAttributeDescriptor<?> attributeDescriptor);
 
 	IAssociation addAssociation(String field);

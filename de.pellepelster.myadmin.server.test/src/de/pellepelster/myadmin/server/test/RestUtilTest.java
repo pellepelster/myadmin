@@ -14,24 +14,31 @@ package de.pellepelster.myadmin.server.test;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
+import de.pellepelster.myadmin.server.core.services.RestUtil;
 import de.pellepelster.myadmin.server.test.restvos.ObjectA;
 import de.pellepelster.myadmin.server.test.restvos.ObjectB;
 import de.pellepelster.myadmin.server.test.restvos.ObjectC;
 
 public class RestUtilTest extends AbstractMyAdminTest
 {
+	@Autowired
+	protected IUserService userService;
+
+	public void setUserService(IUserService userService)
+	{
+		this.userService = userService;
+	}
 
 	@Test
 	public void baseJacksonTest()
 	{
 		try
 		{
-
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			ObjectA objectA = new ObjectA();
@@ -60,15 +67,10 @@ public class RestUtilTest extends AbstractMyAdminTest
 		}
 	}
 
-	public IBaseVODAO getBaseVODAO()
+	@Test
+	public void testInvokeServiceMethodSimple()
 	{
-		return baseVODAO;
-	}
-
-	@Override
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
-	{
-		this.baseVODAO = baseVODAO;
+		Assert.assertEquals("false", RestUtil.invokeServiceMethod(this.userService, "userNameExists", new Object[] { "peter" }));
 	}
 
 	@Test
@@ -100,31 +102,34 @@ public class RestUtilTest extends AbstractMyAdminTest
 		}
 	}
 
-	public void testRestTemplate()
-	{
-		RestTemplate restTemplate = new RestTemplate();
-		String url = "http://localhost:8080/de.pellepelster.myadmin.demo/remote/rest/BaseEntityService/create";
-
-		try
-		{
-
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.enableDefaultTyping();
-
-			DictionaryMobileVO dictionaryMobileVO = new DictionaryMobileVO();
-			dictionaryMobileVO.setEntityName("xxx");
-
-			BaseEntityServiceCreateMobileParameterWrapper c = new BaseEntityServiceCreateMobileParameterWrapper();
-			c.vo = dictionaryMobileVO;
-
-			String jsonParameters = objectMapper.writeValueAsString(c);
-
-			String result = restTemplate.postForObject(url, jsonParameters, String.class);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+	// public void testRestTemplate()
+	// {
+	// RestTemplate restTemplate = new RestTemplate();
+	// String url =
+	// "http://localhost:8080/de.pellepelster.myadmin.demo/remote/rest/BaseEntityService/create";
+	//
+	// try
+	// {
+	//
+	// ObjectMapper objectMapper = new ObjectMapper();
+	// objectMapper.enableDefaultTyping();
+	//
+	// DictionaryMobileVO dictionaryMobileVO = new DictionaryMobileVO();
+	// dictionaryMobileVO.setEntityName("xxx");
+	//
+	// BaseEntityServiceCreateMobileParameterWrapper c = new
+	// BaseEntityServiceCreateMobileParameterWrapper();
+	// c.vo = dictionaryMobileVO;
+	//
+	// String jsonParameters = objectMapper.writeValueAsString(c);
+	//
+	// String result = restTemplate.postForObject(url, jsonParameters,
+	// String.class);
+	// }
+	// catch (Exception e)
+	// {
+	// throw new RuntimeException(e);
+	// }
+	// }
 
 }

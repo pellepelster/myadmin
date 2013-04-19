@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.server.core.services;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import org.apache.commons.beanutils.MethodUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
@@ -90,7 +91,6 @@ public final class RestUtil
 	 */
 	public static <T> String invokeServiceMethod(Object service, String methodName, String jsonParameters, Class<T> parametersClass)
 	{
-
 		try
 		{
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -107,11 +107,9 @@ public final class RestUtil
 				T parameterWrapper = objectMapper.readValue(jsonParameters.getBytes(), parametersClass);
 
 				// rely on correctly generated ParameterOrder annotations
-				// starting
-				// at 1
+				// starting at 1
 				for (Field field : fields)
 				{
-
 					ParameterOrder parameterOrder = field.getAnnotation(ParameterOrder.class);
 
 					Object parameter = field.get(parameterWrapper);
@@ -139,6 +137,26 @@ public final class RestUtil
 		{
 			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
 		}
+	}
+
+	public static String invokeServiceMethod(Object service, String methodName, Object[] parameters)
+	{
+		try
+		{
+			Object result = MethodUtils.invokeExactMethod(service, methodName, parameters);
+
+			if (result != null)
+			{
+				return result.toString();
+			}
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
+		}
+
+		return null;
+
 	}
 
 	/**

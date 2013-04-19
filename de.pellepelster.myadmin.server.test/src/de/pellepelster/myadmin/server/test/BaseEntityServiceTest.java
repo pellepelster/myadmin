@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
+import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTROL_ALIGNMENT;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTROL_ALIGNMENT;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
@@ -73,7 +73,6 @@ public final class BaseEntityServiceTest extends AbstractMyAdminTest
 		navVO2.setParent(navVO1);
 		navVO1.getChildren().add(navVO2);
 		navVO2 = this.baseEntityService.create(navVO2);
-
 	}
 
 	public void setBaseEntityService(IBaseEntityService baseEntityService)

@@ -335,3 +335,18 @@
 	 = new java.util.HashMap<«type1.toString().toFirstUpper()», «type2.toString().toFirstUpper()»>();
 «ENDDEFINE»
 
+«DEFINE parseSimpleTypeFromString(String parameterName) FOR SimpleTypes-»
+	«IF this == SimpleTypes::long-»
+		java.lang.Long.parseLong(«parameterName»)
+	«ELSEIF this == SimpleTypes::integer»
+		java.lang.Integer.parseInt(«parameterName»)		
+	«ELSEIF this == SimpleTypes::bigdecimal»
+		java.lang.BigDecimal.parse(«parameterName»)
+	«ELSEIF this == SimpleTypes::string»
+		String.valueOf(«parameterName»)
+	«ELSEIF this == SimpleTypes::boolean»
+		java.lang.Boolean.parseBoolean(«parameterName»)
+	«ELSE»
+		«throwError("unsupported simple type '" + this.toString() + "'")»
+	«ENDIF-»
+«ENDDEFINE»

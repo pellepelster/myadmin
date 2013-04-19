@@ -6,11 +6,15 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 	
 			//- user -------------------------------------------------
 			textdatatype UserName {
-				maxLength 32
+				maxLength 64
 			}
-	
+
+			textdatatype UserMail {
+				maxLength 256
+			}
+				
 			textdatatype GroupName {
-				maxLength 32
+				maxLength 64
 			}
 		}
 		
@@ -71,6 +75,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					naturalkey { userName }
 				
 					datatype UserName userName { mandatory }
+					datatype UserMail userMail
 					simpletype String userPassword
 					
 					reference Client+ client
@@ -303,8 +308,6 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					simpletype Long voId
 					simpletype String voClassName
 				}
-				
-				
 			
 			}
 	
@@ -382,9 +385,18 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				{
 				}
 	
-				remotemethod changePassword  {
+				remotemethod changePassword {
 					simpletype String oldPassword
 					simpletype String newPassword
+				}
+
+				remotemethod userNameExists returns simpletype Boolean {
+					simpletype String username
+				}
+
+				remotemethod registerUser {
+					simpletype String username
+					simpletype String email
 				}
 				
 			}
