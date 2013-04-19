@@ -67,11 +67,9 @@ public class GenericFilterVO<VOType extends IBaseVO> implements Serializable, IA
 	}
 
 	/** {@inheritDoc} */
-	public GenericFilterVO<VOType> addCriteria(IAttributeDescriptor<?> attributeDescriptor, Object value)
+	public void addCriteria(IAttributeDescriptor<?> attributeDescriptor, Object value)
 	{
 		this.entityVO.addCriteria(attributeDescriptor.getAttributeName(), value);
-
-		return this;
 	}
 
 	public void addCriteria(IConditionalExpressionVO conditionalExpressionVO)

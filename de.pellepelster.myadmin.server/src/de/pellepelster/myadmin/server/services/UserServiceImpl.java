@@ -64,7 +64,7 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public Boolean userNameExists(String username)
 	{
-		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, username)) > 0;
+		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class, MyAdminUserVO.FIELD_USERNAME, username)) > 0;
 	}
 
 	@Override
