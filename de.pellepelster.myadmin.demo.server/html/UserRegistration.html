@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Register</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="css/jquery.jgrowl.css" type="text/css"/>
+		<link href="css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="css/bootstrap.css" rel="stylesheet">
+    
+		<style type="text/css">
+		
+			body {
+				padding-top: 40px;
+				padding-bottom: 40px;
+				background-color: #f5f5f5;
+			}
+
+			.form-signin {
+				max-width: 300px;
+				padding: 19px 29px 29px;
+				margin: 0 auto 20px;
+				background-color: #fff;
+				border: 1px solid #e5e5e5;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+				-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+				box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			}
+			
+			.form-signin .form-signin-heading,
+			.form-signin .checkbox {
+				margin-bottom: 10px;
+			}
+			
+			.form-signin input[type="text"],
+			.form-signin input[type="password"] {
+				font-size: 16px;
+				height: auto;
+				margin-bottom: 15px;
+				padding: 7px 9px;
+			}
+
+		</style>
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+
+		<div class="container">
+
+			<form class="form-signin">
+				<h2 class="form-signin-heading">Register</h2>
+				<input type="text" id="username" class="form-error input-block-level" placeholder="Username">
+				<input type="text" class="input-block-level" placeholder="Email address">
+				<button class="btn btn-large btn-primary" type="submit">Register</button>
+			</form>
+
+		</div> 
+
+		<script src="js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery.jgrowl.js"></script>
+
+		<script>
+
+			$(document).ready(function() {
+
+				var rootUrl = "remote/rest/userservice";
+
+				$('#username').keyup(function () {
+
+					var t = this; 
+
+					if (this.value != this.lastValue) {
+
+						if (this.timer) {
+							clearTimeout(this.timer);
+						}
+
+						this.timer = setTimeout(function () {
+							$.ajax({
+							url: rootUrl + "/usernameexists/" + $('#username').val(),
+							dataType: 'json',
+							type: 'get',
+							success: function (result) {
+								if (result) {
+									$.jGrowl("Username already taken");
+									$("#username").css( "background-color", "#ff8080" );
+								}
+								else
+								{
+									$("#username").css( "background-color", "" );
+								}
+							}
+							});
+						}, 200);
+
+						this.lastValue = this.value;
+					}
+				});
+			});
+
+		</script>
+
+		<script src="js/bootstrap-transition.js"></script>
+		<script src="js/bootstrap-alert.js"></script>
+		<script src="js/bootstrap-modal.js"></script>
+		<script src="js/bootstrap-dropdown.js"></script>
+		<script src="js/bootstrap-scrollspy.js"></script>
+		<script src="js/bootstrap-tab.js"></script>
+		<script src="js/bootstrap-tooltip.js"></script>
+		<script src="js/bootstrap-popover.js"></script>
+		<script src="js/bootstrap-button.js"></script>
+		<script src="js/bootstrap-collapse.js"></script>
+		<script src="js/bootstrap-carousel.js"></script>
+		<script src="js/bootstrap-typeahead.js"></script>
+
+	</body>
+</html>
