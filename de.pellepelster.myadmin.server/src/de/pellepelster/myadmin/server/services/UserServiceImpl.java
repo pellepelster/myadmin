@@ -68,12 +68,21 @@ public class UserServiceImpl implements IUserService
 	}
 
 	@Override
-	public void registerUser(String username, String email)
+	public Boolean registerUser(String username, String email)
 	{
-		MyAdminUserVO myAdminUser = new MyAdminUserVO();
-		myAdminUser.setUserName(username);
-		myAdminUser.setUserMail(email);
+		if (userNameExists(username))
+		{
+			return false;
+		}
+		else
+		{
+			MyAdminUserVO myAdminUser = new MyAdminUserVO();
+			myAdminUser.setUserName(username);
+			myAdminUser.setUserMail(email);
 
-		this.baseVODAO.create(myAdminUser);
+			this.baseVODAO.create(myAdminUser);
+
+			return true;
+		}
 	}
 }

@@ -101,35 +101,4 @@ public class RestUtilTest extends AbstractMyAdminTest
 			throw new RuntimeException(e);
 		}
 	}
-
-	// public void testRestTemplate()
-	// {
-	// RestTemplate restTemplate = new RestTemplate();
-	// String url =
-	// "http://localhost:8080/de.pellepelster.myadmin.demo/remote/rest/BaseEntityService/create";
-	//
-	// try
-	// {
-	//
-	// ObjectMapper objectMapper = new ObjectMapper();
-	// objectMapper.enableDefaultTyping();
-	//
-	// DictionaryMobileVO dictionaryMobileVO = new DictionaryMobileVO();
-	// dictionaryMobileVO.setEntityName("xxx");
-	//
-	// BaseEntityServiceCreateMobileParameterWrapper c = new
-	// BaseEntityServiceCreateMobileParameterWrapper();
-	// c.vo = dictionaryMobileVO;
-	//
-	// String jsonParameters = objectMapper.writeValueAsString(c);
-	//
-	// String result = restTemplate.postForObject(url, jsonParameters,
-	// String.class);
-	// }
-	// catch (Exception e)
-	// {
-	// throw new RuntimeException(e);
-	// }
-	// }
-
 }

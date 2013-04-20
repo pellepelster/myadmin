@@ -19,7 +19,7 @@
 	      <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 	        <property name="serviceUrl">
 	          <value>
-	            http://${remote.server}:${remote.port}/${remote.path}/«remoteService.name.toFirstUpper()»
+	            http://${remote.server}:${remote.port}/${remote.path}/remote/«remoteService.name.toFirstUpper()»
 	          </value>
 	        </property>
 	        <property name="serviceInterface">

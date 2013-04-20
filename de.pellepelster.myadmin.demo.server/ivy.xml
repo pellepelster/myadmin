@@ -21,7 +21,7 @@
 		 	<exclude org="com.google.gwt"  />
 		 </dependency>
 		 
- 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="master->generated" />
+ 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated" />
 		
 		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-asm" type="jar" />
@@ -31,6 +31,10 @@
 			<artifact name="spring-aop" type="jar" />
 		</dependency>
 
+		<dependency org="org.springframework" name="spring-orm" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-orm" type="jar" />
+		</dependency>
+		
 		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-jdbc" type="jar" />
 		</dependency>

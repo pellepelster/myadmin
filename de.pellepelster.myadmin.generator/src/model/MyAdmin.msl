@@ -394,7 +394,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					simpletype String username
 				}
 
-				remotemethod registerUser {
+				remotemethod registerUser returns simpletype Boolean {
 					simpletype String username
 					simpletype String email
 				}

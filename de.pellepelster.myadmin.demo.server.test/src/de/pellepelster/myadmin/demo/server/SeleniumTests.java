@@ -28,28 +28,22 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class SeleniumTests
+public class SeleniumTests extends BaseRemoteTest
 {
 
 	private WebDriver driver;
-	private String baseUrl;
+
 	private boolean acceptNextAlert = true;
+
 	private StringBuffer verificationErrors = new StringBuffer();
 
+	@Override
 	@Before
 	public void setUp() throws Exception
 	{
+		super.setUp();
+
 		this.driver = new FirefoxDriver();
-
-		if (System.getProperty("selenium.base.url") == null)
-		{
-			fail("selenium.base.url not set");
-		}
-		else
-		{
-			this.baseUrl = System.getProperty("selenium.base.url");
-		}
-
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
@@ -85,7 +79,7 @@ public class SeleniumTests
 	@Test
 	public void testCreateCountry() throws Exception
 	{
-		this.driver.get(this.baseUrl + "/de.pellepelster.myadmin.demo/Demo/Demo.html");
+		this.driver.get(getRemoteUrl() + "/Demo/Demo.html");
 
 		waitForElementByXpath("//div[text() = \"Masterdata\"]");
 

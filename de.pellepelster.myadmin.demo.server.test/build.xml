@@ -94,7 +94,7 @@
 			</classpath>
 
 			<sysproperty key="screenshot.dir" value="${test.dir}"/>
-			<sysproperty key="selenium.base.url" value="${remote.url}"/>
+			<sysproperty key="remote.url" value="${remote.url}"/>
 
 			<formatter type="xml" />
 
