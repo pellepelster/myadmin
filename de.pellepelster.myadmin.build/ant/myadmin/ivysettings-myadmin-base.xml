@@ -17,7 +17,13 @@
 			<artifact pattern="http://myadmin.pelle.io/ivy_repositories/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
 		</url>
 
+		<url name="gwt-commons">
+		    <ivy pattern="http://ivy.pelle.io/repository/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
+		    <artifact pattern="http://ivy.pelle.io/repository/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
+		</url>
+
 		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
+			<resolver ref="gwt-commons" />
 			<resolver ref="myadmin_dependencies_repository" />
 		</chain>
 

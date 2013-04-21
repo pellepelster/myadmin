@@ -58,7 +58,6 @@ import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject
 @Transactional()
 public class BaseDAOImpl implements IBaseDAO
 {
-
 	private static Logger LOG = Logger.getLogger(BaseDAOImpl.class);
 
 	@PersistenceContext

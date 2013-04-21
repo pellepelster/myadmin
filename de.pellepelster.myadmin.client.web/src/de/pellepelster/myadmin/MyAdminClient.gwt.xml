@@ -5,7 +5,8 @@
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.google.gwt.i18n.I18N"/>
 	<inherits name="de.pellepelster.myadmin.MyAdminClientCore" />
-	
+	<inherits name='de.pellepelster.gwt.commons.GwtCommons' />
+		
 	<entry-point class="de.pellepelster.myadmin.client.web.MyAdmin"/>
 	
 	<source path="client.web" />

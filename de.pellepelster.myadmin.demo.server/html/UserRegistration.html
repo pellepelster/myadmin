@@ -59,7 +59,7 @@
 			<form class="form-signin">
 				<h2 class="form-signin-heading">Register</h2>
 				<input type="text" id="username" class="form-error input-block-level" placeholder="Username">
-				<input type="text" class="input-block-level" placeholder="Email address">
+				<input type="text" id="usermail" class="input-block-level" placeholder="Email address">
 				<button class="btn btn-large btn-primary" type="submit">Register</button>
 			</form>
 
@@ -72,8 +72,8 @@
 
 			$(document).ready(function() {
 
-				var rootUrl = "remote/rest/userservice";
-
+				var rootUrl = "http://localhost:8180/de.pellepelster.myadmin.demo/remote/rest/userservice";
+	
 				$('#username').keyup(function () {
 
 					var t = this; 
@@ -85,25 +85,46 @@
 						}
 
 						this.timer = setTimeout(function () {
+						
 							$.ajax({
-							url: rootUrl + "/usernameexists/" + $('#username').val(),
-							dataType: 'json',
-							type: 'get',
-							success: function (result) {
-								if (result) {
-									$.jGrowl("Username already taken");
-									$("#username").css( "background-color", "#ff8080" );
+								url: rootUrl + "/usernameexists/" + $('#username').val(),
+								dataType: 'json',
+								type: 'get',
+								success: function (result) {
+									if (result) {
+										$.jGrowl("Username already taken");
+										$("#username").css( "background-color", "#ff8080" );
+									}
+									else
+									{
+										$("#username").css( "background-color", "" );
+									}
 								}
-								else
-								{
-									$("#username").css( "background-color", "" );
-								}
-							}
 							});
 						}, 200);
 
 						this.lastValue = this.value;
 					}
+				});
+				
+				$('#form-signin').submit(function() {
+
+					$.ajax({
+						url: rootUrl + "/registeruser/" + $('#username').val() + "/" + $('#usermail').val(),
+						dataType: 'json',
+						type: 'get',
+						success: function (result) {
+							if (result) {
+								$.jGrowl("User registered");
+							}
+							else
+							{
+								$.jGrowl("Error registering user");
+							}
+						}
+					});
+					
+					return false;
 				});
 			});
 

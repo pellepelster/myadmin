@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 
 /**
- * Implenetation for {@link IUserService}
+ * Implementation for {@link IUserService}
  * 
  * @author Christian Pelster
  * 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements IUserService
 		}
 		catch (Exception e)
 		{
-			LOG.error("error reading user", e);
+			LOG.error("error getting current user", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -70,8 +70,12 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public Boolean registerUser(String username, String email)
 	{
+		LOG.debug(String.format("register user '%s'", username));
+
 		if (userNameExists(username))
 		{
+			LOG.debug(String.format("user '%s' already exists", username));
+
 			return false;
 		}
 		else
@@ -81,6 +85,8 @@ public class UserServiceImpl implements IUserService
 			myAdminUser.setUserMail(email);
 
 			this.baseVODAO.create(myAdminUser);
+
+			LOG.debug(String.format("user '%s' registered", username));
 
 			return true;
 		}
