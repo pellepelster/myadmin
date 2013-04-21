@@ -44,6 +44,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_LONG);
 		setFormat(new DateBox.DefaultFormat(dateFormat));
+		setWidth(WidthCalculationStrategy.getPxWidth(dateFormat.getPattern().length()));
 
 		gwtControlHelper = new ControlHelper(this, dateControlModel, false, Date.class);
 

@@ -36,6 +36,9 @@ public class TextControl extends TextBox implements IControl<Widget>
 		this.textControlModel = textControlModel;
 		gwtControlHelper = new ControlHelper(this, textControlModel, true, String.class);
 		ensureDebugId(ModelUtil.getDebugId(textControlModel));
+
+		setMaxLength(textControlModel.getMaxLength());
+		setWidth(WidthCalculationStrategy.getPxWidth(textControlModel.getMaxLength()));
 	}
 
 	/** {@inheritDoc} */

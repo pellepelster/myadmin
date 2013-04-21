@@ -230,7 +230,7 @@ public class ControlFactory
 		{
 			dictionaryControlVO.setMandatory(false);
 		}
-		
+
 		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("mandatory: %s", dictionaryControlVO.getMandatory().toString()), logIdentiation + 1);
 
 		String labelLogMessage = "";
