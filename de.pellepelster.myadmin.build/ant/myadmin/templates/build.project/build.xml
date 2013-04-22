@@ -2,22 +2,52 @@
 
 	<import file="@ant.common.file@" />
 
+	<fileset dir="../" id="publish.fileset.all">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+	</fileset>
 
-	<target name="buildlist">
+	<fileset dir="../" id="publish.fileset.fast">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.client/build.xml" />
+		<exclude name="d@organisation.name@.@project.name@.*.test/build.xml" />
+	</fileset>
 
-		<ivy:buildlist settingsref="ivy.settings" reference="build.path">
-			<fileset dir="../">
-				<include name="@organisation.name@.@project.name@.*/build.xml" />
-			</fileset>
-		</ivy:buildlist>
-	</target>
+	<fileset dir="../" id="publish.fileset.fast.no.generate">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.client/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.*.test/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.generator/build.xml" />
+	</fileset>
 
-	<target name="publish.all" depends="buildlist">
+	<macrodef name="buildlist">
+		<attribute name="fileset" />
+		<sequential>
+			<ivy:buildlist settingsref="ivy.settings" reference="build.path">
+				<fileset refid="@{fileset}" />
+			</ivy:buildlist>
+		</sequential>	
+	</macrodef>
+
+	<target name="publish.all">
 		<antcall target="info" />
+		<buildlist fileset="publish.fileset.all" />
 		<subant target="publish" buildpathref="build.path" />
 	</target>
 
-	<target name="clean.all" depends="buildlist">
+	<target name="publish.fast">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="publish.fast.no.generate">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast.no.generate" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+		
+	<target name="clean.all">
+		<buildlist fileset="publish.fileset.all" />
 		<subant target="clean" buildpathref="build.path" />
 	</target>
 
