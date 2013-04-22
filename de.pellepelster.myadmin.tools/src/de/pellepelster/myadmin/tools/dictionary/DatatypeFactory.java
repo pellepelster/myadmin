@@ -16,6 +16,7 @@ import java.util.UUID;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BigDecimalDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BooleanDatatype;
@@ -26,6 +27,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EnumerationDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.IntegerDatatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
@@ -181,6 +183,33 @@ public class DatatypeFactory
 	private void createIntegerDatatype(IntegerDatatype integerDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
 		datatypeVO.setBaseType(DICTIONARY_BASETYPE.INTEGER);
+
+		// max
+		String logMessage = null;
+		if (integerDatatype.eIsSet(MyAdminDslPackage.Literals.INTEGER_DATATYPE__MAX))
+		{
+			datatypeVO.setMax(integerDatatype.getMax());
+			logMessage = String.format("max: %d", datatypeVO.getMax());
+		}
+		else
+		{
+			datatypeVO.setMax(IIntegerControlModel.MAX_DEFAULT);
+			logMessage = String.format("max: %d (default)", datatypeVO.getMax());
+		}
+		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
+
+		// min
+		if (integerDatatype.eIsSet(MyAdminDslPackage.Literals.INTEGER_DATATYPE__MIN))
+		{
+			datatypeVO.setMin(integerDatatype.getMin());
+			logMessage = String.format("min: %d", datatypeVO.getMin());
+		}
+		else
+		{
+			datatypeVO.setMin(IIntegerControlModel.Min_DEFAULT);
+			logMessage = String.format("min: %d (default)", datatypeVO.getMin());
+		}
+		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
 	}
 
 	private void createReferenceDatatype(ReferenceDatatype referenceDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)

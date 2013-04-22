@@ -23,6 +23,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 public class TextControl extends TextBox implements IControl<Widget>
 {
@@ -38,7 +39,7 @@ public class TextControl extends TextBox implements IControl<Widget>
 		ensureDebugId(ModelUtil.getDebugId(textControlModel));
 
 		setMaxLength(textControlModel.getMaxLength());
-		setWidth(WidthCalculationStrategy.getPxWidth(textControlModel.getMaxLength()));
+		setWidth(WidthCalculationStrategy.getInstance().getPxWidth(textControlModel.getMaxLength()));
 	}
 
 	/** {@inheritDoc} */

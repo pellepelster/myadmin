@@ -56,4 +56,17 @@ public class TextControlModel extends BaseControlModel implements ITextControlMo
 		return getDatatypeVO().getMinLength();
 	}
 
+	@Override
+	public Integer getWidthHint()
+	{
+		if (super.getWidthHint() != null)
+		{
+			return super.getWidthHint();
+		}
+		else
+		{
+			return getMinLength();
+		}
+	}
+
 }

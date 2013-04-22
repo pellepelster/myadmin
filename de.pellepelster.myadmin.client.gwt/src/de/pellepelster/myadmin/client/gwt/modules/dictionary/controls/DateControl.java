@@ -28,6 +28,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 public class DateControl extends DateBox implements IControl<Widget>
 {
@@ -44,7 +45,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_LONG);
 		setFormat(new DateBox.DefaultFormat(dateFormat));
-		setWidth(WidthCalculationStrategy.getPxWidth(dateFormat.getPattern().length()));
+		setWidth(WidthCalculationStrategy.getInstance().getPxWidth(dateFormat.getPattern().length(), 1.2f));
 
 		gwtControlHelper = new ControlHelper(this, dateControlModel, false, Date.class);
 

@@ -11,13 +11,34 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.layout;
 
+import de.pellepelster.gwt.commons.client.GwtCommons;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
 public final class WidthCalculationStrategy
 {
 	private static WidthCalculationStrategy instance;
-	public static final int CHAR_WIDTH = 11;
+
+	public int getWidth(int characters)
+	{
+		return getWidth(characters, 1f);
+	}
+
+	public int getWidth(int characters, float factor)
+	{
+		float width = characters * GwtCommons.getInstance().getAverageCharacterWidth();
+		return (int) Math.round(Math.ceil(width * factor));
+	}
+
+	public String getPxWidth(int characters, float factor)
+	{
+		return getWidth(characters, factor) + "px";
+	}
+
+	public String getPxWidth(int characters)
+	{
+		return getWidth(characters, 1f) + "px";
+	}
 
 	public static WidthCalculationStrategy getInstance()
 	{
@@ -37,11 +58,11 @@ public final class WidthCalculationStrategy
 	{
 		if (baseControlModel.getWidthHint() == null)
 		{
-			return IBaseControlModel.DEFAULT_WIDTH_HINT * CHAR_WIDTH;
+			return getWidth(IBaseControlModel.DEFAULT_WIDTH_HINT);
 		}
 		else
 		{
-			return baseControlModel.getWidthHint() * CHAR_WIDTH;
+			return getWidth(baseControlModel.getWidthHint());
 		}
 	}
 
