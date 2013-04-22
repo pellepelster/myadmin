@@ -2,25 +2,62 @@
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
 
-	<target name="buildlist">
+	<fileset dir="../" includes="**/build_ivy.xml" id="publish.fileset.all">
+		<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
+		<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
+		<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
+	</fileset>
 
-		<ivy:buildlist settingsref="ivy.settings" reference="build.path">
-			<fileset dir="../" includes="**/build_ivy.xml">
-				<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
-				<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
-				<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
-			</fileset>
-		</ivy:buildlist>
-	</target>
+	<fileset dir="../" includes="**/build_ivy.xml" id="publish.fileset.fast">
+		<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
+		<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
+		<exclude name="de.pellepelster.myadmin.feature/**/*" />
+		<exclude name="de.pellepelster.myadmin.*.test/**/*" />
+		<exclude name="de.pellepelster.myadmin.documentation/**/*" />
+		<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
+	</fileset>
 
-	<target name="publish.all" depends="buildlist">
+	<fileset dir="../" includes="**/build_ivy.xml" id="publish.fileset.fast.no.generate">
+		<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
+		<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
+		<exclude name="de.pellepelster.myadmin.dsl/**/*" />
+		<exclude name="de.pellepelster.myadmin.dsl.generator/**/*" />
+		<exclude name="de.pellepelster.myadmin.generator/**/*" />
+		<exclude name="de.pellepelster.myadmin.feature/**/*" />
+		<exclude name="de.pellepelster.myadmin.*.test/**/*" />
+		<exclude name="de.pellepelster.myadmin.documentation/**/*" />
+		<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
+	</fileset>
 
+	<macrodef name="buildlist">
+		<attribute name="fileset" />
+		<sequential>
+			<ivy:buildlist settingsref="ivy.settings" reference="build.path">
+				<fileset refid="@{fileset}" />
+			</ivy:buildlist>
+		</sequential>	
+	</macrodef>
+	
+	<target name="publish.all">
 		<antcall target="info" />
-
+		<buildlist fileset="publish.fileset.all" />
 		<subant target="publish" buildpathref="build.path" />
 	</target>
 
-	<target name="clean.all" depends="buildlist">
+	<target name="publish.fast">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="publish.fast.no.generate">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast.no.generate" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="clean.all">
+		<buildlist fileset="publish.fileset.all" />
 		<subant target="clean" buildpathref="build.path" />
 	</target>
 
