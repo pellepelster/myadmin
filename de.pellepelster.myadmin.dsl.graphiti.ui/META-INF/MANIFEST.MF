@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.pellepelster.myadmin.dsl.graphiti.ui
+Bundle-SymbolicName: de.pellepelster.myadmin.dsl.graphiti.ui;singleton:=true
+Bundle-Version: 0.0.0.qualifier
+Bundle-Activator: de.pellepelster.myadmin.dsl.graphiti.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.graphiti.ui,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.mm,
+ org.eclipse.graphiti.pattern,
+ org.eclipse.graphiti.ui.capabilities,
+ de.pellepelster.myadmin.dsl,
+ de.pellepelster.myadmin.dsl.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Christian Pelster

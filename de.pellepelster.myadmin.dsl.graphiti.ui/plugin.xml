@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType"
+            name="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType"
+            type="MyAdmin Model Diagram">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider"
+            id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider"
+            name="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider">
+         <diagramType
+               id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+
+</plugin>
