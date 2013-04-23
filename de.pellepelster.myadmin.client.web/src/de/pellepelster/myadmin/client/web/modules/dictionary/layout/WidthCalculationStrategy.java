@@ -27,6 +27,7 @@ public final class WidthCalculationStrategy
 	public int getWidth(int characters, float factor)
 	{
 		float width = characters * GwtCommons.getInstance().getAverageCharacterWidth();
+		
 		return (int) Math.round(Math.ceil(width * factor));
 	}
 
@@ -77,4 +78,15 @@ public final class WidthCalculationStrategy
 
 		return widht;
 	}
+
+	public String getPxWidth(IBaseControlModel baseControlModel)
+	{
+		return getPxWidth(baseControlModel.getWidthHint());
+	}
+	
+	public String getPxWidth(IBaseControlModel baseControlModel, float factor)
+	{
+		return getPxWidth(baseControlModel.getWidthHint(), factor);
+	}
+
 }

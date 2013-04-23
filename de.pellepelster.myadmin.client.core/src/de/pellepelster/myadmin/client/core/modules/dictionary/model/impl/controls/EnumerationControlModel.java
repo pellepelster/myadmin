@@ -15,6 +15,7 @@ import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 
 /**
@@ -42,6 +43,23 @@ public class EnumerationControlModel extends BaseControlModel implements IEnumar
 	public Map<String, String> getEnumeration()
 	{
 		return getDatatypeVO().getEnumerationValues();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Integer getWidthHint()
+	{
+		Integer maxLength = null;
+
+		for (String value : getEnumeration().values())
+		{
+			if (maxLength == null || value.length() > maxLength)
+			{
+				maxLength = value.length();
+			}
+		}
+
+		return ObjectUtils.firstNonNull(getWidthHintInternal(), maxLength, DEFAULT_WIDTH_HINT);
 	}
 
 }

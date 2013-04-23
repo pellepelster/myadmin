@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.contro
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
+import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 
 /**
@@ -40,43 +41,21 @@ public class BigDecimalControlModel extends BaseControlModel implements IBigDeci
 	@Override
 	public int getFractionDigits()
 	{
-		if (getDatatypeVO().getFractionDigits() != null)
-		{
-			return getDatatypeVO().getFractionDigits();
-		}
-		else
-		{
-			return FRACTION_DIGITS_DEFAULT;
-		}
+		return ObjectUtils.firstNonNull(getDatatypeVO().getFractionDigits(), FRACTION_DIGITS_DEFAULT);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int getTotalDigits()
 	{
-		if (getDatatypeVO().getTotalDigits() != null)
-		{
-			return getDatatypeVO().getTotalDigits();
-		}
-		else
-		{
-			return TOTAL_DIGITS_DEFAULT;
-		}
-
+		return ObjectUtils.firstNonNull(getDatatypeVO().getTotalDigits(), TOTAL_DIGITS_DEFAULT);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Integer getWidthHint()
 	{
-		if (super.getWidthHint() != null)
-		{
-			return super.getWidthHint();
-		}
-		else
-		{
-			return getTotalDigits() + 1;
-		}
+		return ObjectUtils.firstNonNull(getWidthHintInternal(), getTotalDigits() + 1);
 	}
 
 }

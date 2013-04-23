@@ -60,4 +60,19 @@ public class ReferenceControlModel extends BaseControlModel implements IReferenc
 		return labelControls;
 	}
 
+	@Override
+	public Integer getWidthHint()
+	{
+		int widhtHint = 0;
+		
+		for (IBaseControlModel baseControlModel : getLabelControls())
+		{
+			widhtHint += baseControlModel.getWidthHint();
+		}
+		
+		return widhtHint;
+	}
+	
+	
+
 }

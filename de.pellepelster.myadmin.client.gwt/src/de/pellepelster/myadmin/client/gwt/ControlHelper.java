@@ -27,6 +27,7 @@ import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
+import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 public class ControlHelper
 {
@@ -40,6 +41,8 @@ public class ControlHelper
 	public ControlHelper(final Widget widget, final IBaseControlModel baseControlModel, boolean addValueChangeListener, final Class<?> targetClass)
 	{
 		this.uiObject = widget;
+
+		widget.setWidth(WidthCalculationStrategy.getInstance().getPxWidth(baseControlModel));
 
 		if (widget instanceof HasValue<?>)
 		{

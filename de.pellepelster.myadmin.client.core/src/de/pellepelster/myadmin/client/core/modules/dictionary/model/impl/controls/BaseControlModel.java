@@ -47,56 +47,56 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	{
 		super(parent);
 		this.dictionaryControlVO = dictionaryControlVO;
-		width = dictionaryControlVO.getWidth();
+		this.width = dictionaryControlVO.getWidth();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getAttributePath()
 	{
-		return dictionaryControlVO.getAttributePath();
+		return this.dictionaryControlVO.getAttributePath();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getColumnLabel()
 	{
-		if (isEmpty(dictionaryControlVO.getColumnLabel()))
+		if (isEmpty(this.dictionaryControlVO.getColumnLabel()))
 		{
-			return dictionaryControlVO.getLabel();
+			return this.dictionaryControlVO.getLabel();
 		}
 		else
 		{
-			return dictionaryControlVO.getColumnLabel();
+			return this.dictionaryControlVO.getColumnLabel();
 		}
 	}
 
 	protected DictionaryControlVO getControlVO()
 	{
-		return dictionaryControlVO;
+		return this.dictionaryControlVO;
 	}
 
 	protected DictionaryDatatypeVO getDatatypeVO()
 	{
-		return dictionaryControlVO.getDatatype();
+		return this.dictionaryControlVO.getDatatype();
 	}
 
 	protected DictionaryControlVO getDictionaryControlVO()
 	{
-		return dictionaryControlVO;
+		return this.dictionaryControlVO;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getEditorLabel()
 	{
-		if (isEmpty(dictionaryControlVO.getEditorLabel()))
+		if (isEmpty(this.dictionaryControlVO.getEditorLabel()))
 		{
-			return dictionaryControlVO.getLabel();
+			return this.dictionaryControlVO.getLabel();
 		}
 		else
 		{
-			return dictionaryControlVO.getEditorLabel();
+			return this.dictionaryControlVO.getEditorLabel();
 		}
 	}
 
@@ -104,13 +104,13 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public String getFilterLabel()
 	{
-		if (isEmpty(dictionaryControlVO.getFilterLabel()))
+		if (isEmpty(this.dictionaryControlVO.getFilterLabel()))
 		{
-			return dictionaryControlVO.getLabel();
+			return this.dictionaryControlVO.getLabel();
 		}
 		else
 		{
-			return dictionaryControlVO.getFilterLabel();
+			return this.dictionaryControlVO.getFilterLabel();
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public String getName()
 	{
-		return dictionaryControlVO.getName();
+		return this.dictionaryControlVO.getName();
 	}
 
 	/** {@inheritDoc} */
@@ -132,21 +132,19 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public String getToolTip()
 	{
-		if (isEmpty(dictionaryControlVO.getToolTip()))
+		if (isEmpty(this.dictionaryControlVO.getToolTip()))
 		{
-			return dictionaryControlVO.getLabel();
+			return this.dictionaryControlVO.getLabel();
 		}
 		else
 		{
-			return dictionaryControlVO.getToolTip();
+			return this.dictionaryControlVO.getToolTip();
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public Integer getWidthHint()
+	public Integer getWidthHintInternal()
 	{
-		return width;
+		return this.width;
 	}
 
 	private boolean isEmpty(String string)
@@ -158,7 +156,7 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public boolean isMandatory()
 	{
-		return dictionaryControlVO.getMandatory();
+		return this.dictionaryControlVO.getMandatory();
 	}
 
 }

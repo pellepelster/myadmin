@@ -42,7 +42,6 @@ public class EnumerationControl extends ListBox implements IControl<Widget>
 		this.enumarationControlModel = enumarationControlModel;
 
 		ensureDebugId(ModelUtil.getDebugId(enumarationControlModel));
-
 		gwtControlHelper = new ControlHelper(this, enumarationControlModel, false, String.class);
 
 		addChangeHandler(new ChangeHandler()

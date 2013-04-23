@@ -42,6 +42,9 @@ public class ReferenceControl extends SuggestBox implements IControl<Widget>
 		super(new VOSuggestOracle(referenceControlModel));
 
 		ensureDebugId(ModelUtil.getDebugId(referenceControlModel));
+		setLimit(5);
+		this.referenceControlModel = referenceControlModel;
+		gwtControlHelper = new ControlHelper(this, referenceControlModel, false, IBaseVO.class);
 
 		addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>()
 		{
@@ -58,9 +61,6 @@ public class ReferenceControl extends SuggestBox implements IControl<Widget>
 			}
 		});
 
-		setLimit(5);
-		this.referenceControlModel = referenceControlModel;
-		gwtControlHelper = new ControlHelper(this, referenceControlModel, false, IBaseVO.class);
 	}
 
 	/** {@inheritDoc} */

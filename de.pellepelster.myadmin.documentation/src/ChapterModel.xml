@@ -177,5 +177,7 @@ enum COUNTRY_TRAFFIC_DIRECTION {
 
 	<xi:include href="SectionDictionaryModel.xml" />
 
+	<xi:include href="SectionServiceModel.xml" />
+
 </chapter>
 

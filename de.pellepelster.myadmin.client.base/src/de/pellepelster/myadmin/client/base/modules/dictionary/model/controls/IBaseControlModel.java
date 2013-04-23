@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
+import com.google.common.base.Optional;
+
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;

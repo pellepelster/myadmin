@@ -16,7 +16,6 @@ import java.util.UUID;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BigDecimalDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BooleanDatatype;
@@ -190,26 +189,16 @@ public class DatatypeFactory
 		{
 			datatypeVO.setMax(integerDatatype.getMax());
 			logMessage = String.format("max: %d", datatypeVO.getMax());
+			ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
 		}
-		else
-		{
-			datatypeVO.setMax(IIntegerControlModel.MAX_DEFAULT);
-			logMessage = String.format("max: %d (default)", datatypeVO.getMax());
-		}
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
 
 		// min
 		if (integerDatatype.eIsSet(MyAdminDslPackage.Literals.INTEGER_DATATYPE__MIN))
 		{
 			datatypeVO.setMin(integerDatatype.getMin());
 			logMessage = String.format("min: %d", datatypeVO.getMin());
+			ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
 		}
-		else
-		{
-			datatypeVO.setMin(IIntegerControlModel.Min_DEFAULT);
-			logMessage = String.format("min: %d (default)", datatypeVO.getMin());
-		}
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
 	}
 
 	private void createReferenceDatatype(ReferenceDatatype referenceDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)

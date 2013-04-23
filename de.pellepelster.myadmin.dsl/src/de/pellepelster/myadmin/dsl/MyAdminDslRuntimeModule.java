@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.dsl;
 
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 
+import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 import de.pellepelster.myadmin.dsl.naming.MyAdminQualifiedNameProvider;
 
 /**

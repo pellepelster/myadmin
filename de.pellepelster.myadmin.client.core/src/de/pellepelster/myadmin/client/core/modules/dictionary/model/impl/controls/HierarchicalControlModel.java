@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.contro
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
+import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 
 /**
@@ -47,6 +48,13 @@ public class HierarchicalControlModel extends BaseControlModel implements IHiera
 	public String getAttributePath()
 	{
 		return PARENT_ATTRIBUTE_NAME;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Integer getWidthHint()
+	{
+		return ObjectUtils.firstNonNull(getWidthHintInternal(), DEFAULT_WIDTH_HINT);
 	}
 
 }

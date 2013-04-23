@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
+
+	<title>Services</title>
+
+	<para>Though there is no need to model the services you use, it will make things a lot easier if you do. For modeled services MyAdmin 
+	generates interfaces, GWT asynchronous interfaces, RemoteServiceLocators (that will make it easier to user you services) as well as 
+	Rest and XML based webservices. This chapter will explain how to model services and what you can do with the generetd artifacts.</para>
+
+	<formalpara>
+		<title>Basic service sample</title>
+  
+		<programlisting language="Java">
+remoteservice UserService {
+
+	remotemethod getCurrentUser returns reference MyAdminUser
+	{
+	}
+
+	remotemethod changePassword {
+		simpletype String oldPassword
+		simpletype String newPassword
+	}
+
+	remotemethod userNameExists returns simpletype Boolean {
+		simpletype String username
+	}
+
+	remotemethod registerUser returns simpletype Boolean {
+		simpletype String username
+		simpletype String email
+	}
+	
+}
+		</programlisting>
+	</formalpara>
+
+	<section>
+		<title>Service definition</title>
+		<para></para>
+	</section>
+
+	<section>
+		<title>Rest Service</title>
+		<para></para>
+
+		<formalpara>
+			<title>Simple rest service method</title>
+		
+			<programlisting language="Java">
+remoteservice UserService {
+
+	remotemethod changePassword {
+		simpletype String oldPassword
+		simpletype String newPassword
+	}
+	
+	remotemethod userNameExists returns simpletype Boolean {
+		simpletype String username
+	}
+
+}
+			</programlisting>
+		</formalpara>
+		
+		<para>For service methods that only refer simple types (boolean, string, date, long, ...) MyAdmin generates a rest request mapping that can be 
+		accessed via simple HTTP gets. For example the remote method <literal>userNameExists</literal> will be exposed as 
+		<varname>remote/rest/userservice/userNameExists/{username}</varname> so an HTTP GET on 
+		<varname>http://.../remote/rest/userservice/userNameExists/otto</varname> will return either <literal>true</literal> 
+		or <literal>false</literal> depending on the existence of the user named <varname>otto</varname>.</para>
+		
+	</section>
+
+	<section>
+		<title>XML Service</title>
+		<para></para>
+	</section>
+
+	<section>
+		<title>RemoteServiceLocator</title>
+		<para></para>
+	</section>
+	
+</section>

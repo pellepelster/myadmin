@@ -37,7 +37,6 @@ public class BigDecimalControl extends TextBox implements IControl<Widget>
 		this.bigDecimalControlModel = bigDecimalControlModel;
 		gwtControlHelper = new ControlHelper(this, bigDecimalControlModel, true, BigDecimal.class);
 		ensureDebugId(ModelUtil.getDebugId(bigDecimalControlModel));
-
 	}
 
 	/** {@inheritDoc} */

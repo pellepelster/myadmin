@@ -16,8 +16,6 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
@@ -28,7 +26,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 public class DateControl extends DateBox implements IControl<Widget>
 {
@@ -42,11 +39,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 		this.dateControlModel = dateControlModel;
 
 		ensureDebugId(ModelUtil.getDebugId(dateControlModel));
-
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_LONG);
-		setFormat(new DateBox.DefaultFormat(dateFormat));
-		setWidth(WidthCalculationStrategy.getInstance().getPxWidth(dateFormat.getPattern().length(), 1.2f));
-
+		setFormat(new DateBox.DefaultFormat(dateControlModel.getFormat()));
 		gwtControlHelper = new ControlHelper(this, dateControlModel, false, Date.class);
 
 		addValueChangeHandler(new ValueChangeHandler<Date>()

@@ -11,8 +11,10 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+
 /**
- * Model for a text control
+ * Date control
  * 
  * @author Christian Pelster
  * @version $Rev$, $Date$
@@ -20,4 +22,5 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
  */
 public interface IDateControlModel extends IBaseControlModel
 {
+	DateTimeFormat getFormat();
 }
