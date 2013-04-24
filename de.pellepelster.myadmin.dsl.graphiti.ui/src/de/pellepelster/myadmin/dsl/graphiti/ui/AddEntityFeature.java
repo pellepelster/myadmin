@@ -1,13 +1,16 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui;
 
-import org.eclipse.emf.ecore.EClass;
+import java.util.List;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -18,7 +21,9 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
-public class TutorialAddEClassFeature extends AbstractAddShapeFeature
+import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+
+public class AddEntityFeature extends AbstractAddShapeFeature
 {
 
 	private static final IColorConstant E_CLASS_TEXT_FOREGROUND = IColorConstant.BLACK;
@@ -27,7 +32,7 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 
 	private static final IColorConstant E_CLASS_BACKGROUND = new ColorConstant(187, 218, 247);
 
-	public TutorialAddEClassFeature(IFeatureProvider fp)
+	public AddEntityFeature(IFeatureProvider fp)
 	{
 		super(fp);
 	}
@@ -36,7 +41,7 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 	public boolean canAdd(IAddContext context)
 	{
 		// check if user wants to add a EClass
-		if (context.getNewObject() instanceof EClass)
+		if (context.getNewObject() instanceof Entity)
 		{
 			// check if user wants to add to a diagram
 			if (context.getTargetContainer() instanceof Diagram)
@@ -50,8 +55,10 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 	@Override
 	public PictogramElement add(IAddContext context)
 	{
-		EClass addedClass = (EClass) context.getNewObject();
+		Entity addedEntity = (Entity) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
+
+		List<Entity> referencedEntities = EntityUtil.getLinkedEntities(addedEntity);
 
 		// CONTAINER SHAPE WITH ROUNDED RECTANGLE
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -72,14 +79,14 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), width, height);
 
 			// if added Class has no resource we add it to the resource
-			// of the diagram
-			// in a real scenario the business model would have its own resource
-			if (addedClass.eResource() == null)
+			// of the diagram in a real scenario the business model would have
+			// its own resource
+			if (addedEntity.eResource() == null)
 			{
-				getDiagram().eResource().getContents().add(addedClass);
+				getDiagram().eResource().getContents().add(addedEntity);
 			}
 			// create link and wire it
-			link(containerShape, addedClass);
+			link(containerShape, addedEntity);
 		}
 
 		// SHAPE WITH LINE
@@ -99,7 +106,7 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 			Shape shape = peCreateService.createShape(containerShape, false);
 
 			// create and set text graphics algorithm
-			Text text = gaService.createText(shape, addedClass.getName());
+			Text text = gaService.createText(shape, addedEntity.getName());
 			text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			// vertical alignment has as default value "center"
@@ -107,7 +114,21 @@ public class TutorialAddEClassFeature extends AbstractAddShapeFeature
 			gaService.setLocationAndSize(text, 0, 0, width, 20);
 
 			// create link and wire it
-			link(shape, addedClass);
+			link(shape, addedEntity);
+		}
+
+		for (Entity entity : referencedEntities)
+		{
+			for (Shape shape : DiagramUtil.getEntityShape(targetDiagram, entity))
+			{
+				Anchor sourceAnchor = Graphiti.getPeService().getChopboxAnchor(containerShape);
+
+				Anchor targetAnchor = Graphiti.getPeService().getChopboxAnchor(shape);
+
+				AddConnectionContext context1 = new AddConnectionContext(sourceAnchor, targetAnchor);
+				context1.setNewObject(entity);
+
+			}
 		}
 
 		return containerShape;

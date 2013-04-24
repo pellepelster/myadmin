@@ -3,6 +3,19 @@
 
 <plugin>
 
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  isRoot="false"
+                  pattern="de.pellepelster.myadmin.dsl.ui.MyAdminModelNavigatorContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+	
     <extension
             point="org.eclipse.ui.editors">
         <editor
@@ -243,6 +256,23 @@
       <participant
             class="de.pellepelster.myadmin.dsl.ui.MyAdminDslExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
       </participant>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="de.pellepelster.myadmin.dsl.ui.MyAdminDslExecutableExtensionFactory:de.pellepelster.myadmin.dsl.ui.contentprovider.MyAdminModelContentProvider"
+            id="de.pellepelster.myadmin.dsl.ui.MyAdminModelNavigatorContent"
+            labelProvider="de.pellepelster.myadmin.dsl.ui.MyAdminDslExecutableExtensionFactory:de.pellepelster.myadmin.dsl.ui.labeling.MyAdminNavigatorContentLabelProvider"
+            name="MyAdmin Model"
+            priority="higher">
+         <triggerPoints>
+            <or>
+               <instanceof
+                     value="org.eclipse.core.resources.IProject">
+               </instanceof>
+            </or>
+         </triggerPoints>
+      </navigatorContent>
    </extension>
 
 </plugin>
