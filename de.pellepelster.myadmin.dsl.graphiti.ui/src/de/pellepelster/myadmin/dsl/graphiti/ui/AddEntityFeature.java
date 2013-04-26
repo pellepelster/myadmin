@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -121,16 +122,29 @@ public class AddEntityFeature extends AbstractAddShapeFeature
 		{
 			for (Shape shape : DiagramUtil.getEntityShape(targetDiagram, entity))
 			{
-				Anchor sourceAnchor = Graphiti.getPeService().getChopboxAnchor(containerShape);
+				Anchor sourceAnchor = DiagramUtil.getOrCreateChopboxAnchor(containerShape);
+				Anchor targetAnchor = DiagramUtil.getOrCreateChopboxAnchor(shape);
 
-				Anchor targetAnchor = Graphiti.getPeService().getChopboxAnchor(shape);
+				Connection connection = peCreateService.createFreeFormConnection(targetDiagram);
+				link(connection, entity);
 
-				AddConnectionContext context1 = new AddConnectionContext(sourceAnchor, targetAnchor);
-				context1.setNewObject(entity);
+				connection.setStart(sourceAnchor);
+				connection.setEnd(targetAnchor);
+
+				Polyline polyline = gaService.createPolyline(connection);
+				polyline.setBackground(manageColor(IColorConstant.BLACK));
+				polyline.setForeground(manageColor(IColorConstant.BLACK));
+				polyline.setLineWidth(5);
+
+				// add Text decorator for the reference name
+				ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator(connection, true, 0.5, true);
+				Text text = gaService.createDefaultText(targetDiagram, textDecorator);
+				// StyleUtil.setStyleForTransition(targetDiagram, text);
 
 			}
 		}
 
 		return containerShape;
 	}
+
 }

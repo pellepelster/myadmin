@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.services.Graphiti;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 
@@ -34,4 +37,22 @@ public class DiagramUtil
 
 		return shapes;
 	}
+
+	public static Anchor getOrCreateChopboxAnchor(AnchorContainer anchorContainer)
+	{
+		if (anchorContainer instanceof Anchor)
+		{
+			return (Anchor) anchorContainer;
+		}
+		else if (Graphiti.getPeService().getChopboxAnchor(anchorContainer) != null)
+		{
+			return Graphiti.getPeService().getChopboxAnchor(anchorContainer);
+		}
+		else
+		{
+			return Graphiti.getPeService().createChopboxAnchor(anchorContainer);
+
+		}
+	}
+
 }
