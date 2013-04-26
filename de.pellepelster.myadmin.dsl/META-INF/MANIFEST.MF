@@ -6,19 +6,20 @@ Bundle-Version: 0.0.0.qualifier
 Bundle-SymbolicName: de.pellepelster.myadmin.dsl; singleton:=true
 Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext,
+Require-Bundle: com.ibm.icu,
+ org.eclipse.xtext,
  org.eclipse.xtext.generator,
  org.apache.commons.logging,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.emf.mwe.utils,
  org.eclipse.emf.mwe.core,
- com.ibm.icu,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
- org.eclipse.xtext.xbase
+ org.eclipse.xtext.xbase,
+ org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl,
@@ -34,5 +35,3 @@ Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl.scoping,
  de.pellepelster.myadmin.dsl.services,
  de.pellepelster.myadmin.dsl.validation
-Import-Package: org.apache.log4j,
- org.eclipse.xtext.xbase.lib
