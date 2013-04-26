@@ -25,4 +25,3 @@ Bundle-Vendor: Christian Pelster
 Bundle-ClassPath: lib/generator-jar.jar,
  .
 Bundle-Localization: src/de/pellepelster/myadmin/ui/messages
-Export-Package: de.pellepelster.myadmin.ui

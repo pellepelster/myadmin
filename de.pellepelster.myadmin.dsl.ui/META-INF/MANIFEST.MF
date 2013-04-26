@@ -28,9 +28,5 @@ Require-Bundle: org.eclipse.emf.edit.ui,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
  de.pellepelster.myadmin.dsl,
- org.eclipse.ui.navigator,
- de.pellepelster.myadmin.ui,
- org.eclipse.jdt,
- org.eclipse.jdt.core,
  org.eclipse.jdt.ui
 Import-Package: org.apache.log4j
