@@ -27,11 +27,11 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 public class AddEntityFeature extends AbstractAddShapeFeature
 {
 
-	private static final IColorConstant E_CLASS_TEXT_FOREGROUND = IColorConstant.BLACK;
+	private static final IColorConstant ENTITY_TEXT_FOREGROUND = IColorConstant.BLACK;
 
-	private static final IColorConstant E_CLASS_FOREGROUND = new ColorConstant(98, 131, 167);
+	private static final IColorConstant ENTITY_FOREGROUND = new ColorConstant(98, 131, 167);
 
-	private static final IColorConstant E_CLASS_BACKGROUND = new ColorConstant(187, 218, 247);
+	private static final IColorConstant ENTITY_BACKGROUND = new ColorConstant(187, 218, 247);
 
 	public AddEntityFeature(IFeatureProvider fp)
 	{
@@ -63,29 +63,24 @@ public class AddEntityFeature extends AbstractAddShapeFeature
 
 		// CONTAINER SHAPE WITH ROUNDED RECTANGLE
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+
 		ContainerShape containerShape = peCreateService.createContainerShape(targetDiagram, true);
 
 		// define a default size for the shape
 		int width = 100;
 		int height = 50;
+
 		IGaService gaService = Graphiti.getGaService();
 		RoundedRectangle roundedRectangle; // need to access it later
 
 		{
 			// create and set graphics algorithm
 			roundedRectangle = gaService.createRoundedRectangle(containerShape, 5, 5);
-			roundedRectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
-			roundedRectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
+			roundedRectangle.setForeground(manageColor(ENTITY_FOREGROUND));
+			roundedRectangle.setBackground(manageColor(ENTITY_BACKGROUND));
 			roundedRectangle.setLineWidth(2);
 			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), width, height);
 
-			// if added Class has no resource we add it to the resource
-			// of the diagram in a real scenario the business model would have
-			// its own resource
-			if (addedEntity.eResource() == null)
-			{
-				getDiagram().eResource().getContents().add(addedEntity);
-			}
 			// create link and wire it
 			link(containerShape, addedEntity);
 		}
@@ -97,8 +92,10 @@ public class AddEntityFeature extends AbstractAddShapeFeature
 
 			// create and set graphics algorithm
 			Polyline polyline = gaService.createPolyline(shape, new int[] { 0, 20, width, 20 });
-			polyline.setForeground(manageColor(E_CLASS_FOREGROUND));
+			polyline.setForeground(manageColor(ENTITY_FOREGROUND));
 			polyline.setLineWidth(2);
+			// polyline.setParentGraphicsAlgorithm(containerShape.getGraphicsAlgorithm());
+			// polyline
 		}
 
 		// SHAPE WITH TEXT
@@ -108,8 +105,9 @@ public class AddEntityFeature extends AbstractAddShapeFeature
 
 			// create and set text graphics algorithm
 			Text text = gaService.createText(shape, addedEntity.getName());
-			text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
+			text.setForeground(manageColor(ENTITY_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+
 			// vertical alignment has as default value "center"
 			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
 			gaService.setLocationAndSize(text, 0, 0, width, 20);

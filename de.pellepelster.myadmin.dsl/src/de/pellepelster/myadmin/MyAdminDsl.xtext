@@ -2,6 +2,9 @@ grammar de.pellepelster.myadmin.dsl.MyAdminDsl with org.eclipse.xtext.common.Ter
 
 generate myAdminDsl "http://www.pellepelster.de/myadmin/MyAdminDsl"
 
+ModelRoot:
+	Model | PackageDeclaration;
+	
 Model:
 "project" name=ID ("schemaUrl" schemaUrl=STRING)? "{"
 
@@ -271,7 +274,8 @@ Datatype:
 	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | ReferenceDatatype;
 
 BaseDictionaryDatatype:
-		labels=Labels;
+	{BaseDictionaryDatatype}
+	(labels=Labels)?;
 
 TextDatatype:
 	"textdatatype" name=ID "{"

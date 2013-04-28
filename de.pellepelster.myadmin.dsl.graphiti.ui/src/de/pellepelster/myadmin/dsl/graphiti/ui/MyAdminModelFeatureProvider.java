@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
@@ -35,6 +37,13 @@ public class MyAdminModelFeatureProvider extends DefaultFeatureProvider
 	public ICreateFeature[] getCreateFeatures()
 	{
 		return new ICreateFeature[] { new TutorialCreateEClassFeature(this) };
+	}
+
+	@Override
+	public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context)
+	{
+		// TODO Auto-generated method stub
+		return super.getResizeShapeFeature(context);
 	}
 
 }

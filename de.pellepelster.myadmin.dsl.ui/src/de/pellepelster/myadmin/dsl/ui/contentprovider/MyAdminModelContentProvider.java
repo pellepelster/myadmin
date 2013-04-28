@@ -26,7 +26,7 @@ import org.eclipse.ui.progress.UIJob;
 
 import com.google.inject.Inject;
 
-import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
+import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
 import de.pellepelster.myadmin.dsl.ui.ModelUtil;
 import de.pellepelster.myadmin.dsl.ui.outline.MyAdminDslOutlineTreeProvider;
 
@@ -73,7 +73,7 @@ public class MyAdminModelContentProvider implements ITreeContentProvider, IResou
 
 			if (project.isAccessible())
 			{
-				List<Model> models = ModelUtil.getAllModelsForProject(project);
+				List<ModelRoot> models = ModelUtil.getAllModelsForProject(project);
 				return models.toArray();
 			}
 		}
@@ -162,7 +162,7 @@ public class MyAdminModelContentProvider implements ITreeContentProvider, IResou
 										if (MyAdminModelContentProvider.this.viewer != null
 												&& !MyAdminModelContentProvider.this.viewer.getControl().isDisposed())
 										{
-											Model model = ModelUtil.getModelFromFile(file);
+											ModelRoot model = ModelUtil.getModelFromFile(file);
 
 											if (MyAdminModelContentProvider.this.viewer instanceof StructuredViewer && model != null)
 											{

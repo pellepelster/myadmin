@@ -21,6 +21,8 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
+import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
+import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 
 public class ModelUtil
 {
@@ -28,12 +30,12 @@ public class ModelUtil
 
 	private static Logger LOG = Logger.getLogger(ModelUtil.class);
 
-	public static List<Model> getAllModelsForProject(IProject project)
+	public static List<ModelRoot> getAllModelsForProject(IProject project)
 	{
 		ResourceSet resourceSet = new ResourceSetImpl();
 
 		List<IFile> modelFiles = ModelUtil.getFilesByExtension(project, MYADMIN_MODEL_FILE_EXTENSION);
-		List<Model> models = new ArrayList<Model>();
+		List<ModelRoot> models = new ArrayList<ModelRoot>();
 
 		for (IFile modelFile : modelFiles)
 		{
@@ -55,7 +57,7 @@ public class ModelUtil
 		return filteredList;
 	}
 
-	public static Model getModelFromFile(IFile modelFile)
+	public static ModelRoot getModelFromFile(IFile modelFile)
 	{
 		ResourceSet resourceSet = new ResourceSetImpl();
 
@@ -70,13 +72,24 @@ public class ModelUtil
 			LOG.error(String.format("error creating resource for '%s'", modelResource.getURI().toString()), e);
 		}
 
-		if (modelResource.getContents().get(0) instanceof Model)
+		if (!modelResource.getContents().isEmpty())
 		{
-			return (Model) modelResource.getContents().get(0);
+			if (modelResource.getContents().get(0) instanceof Model)
+			{
+				return (Model) modelResource.getContents().get(0);
+			}
+			else if (modelResource.getContents().get(0) instanceof PackageDeclaration)
+			{
+				return (PackageDeclaration) modelResource.getContents().get(0);
+			}
+			else
+			{
+				throw new RuntimeException(String.format("unknown model root '%s'", modelResource.getContents().get(0).eClass().toString()));
+			}
 		}
 		else
 		{
-			throw new RuntimeException(String.format("file '%s' did not contain an MyAdmin model", modelFile.getLocation().toString()));
+			throw new RuntimeException(String.format("file '%s' did not contain a model", modelFile.getLocation().toString()));
 		}
 
 	}

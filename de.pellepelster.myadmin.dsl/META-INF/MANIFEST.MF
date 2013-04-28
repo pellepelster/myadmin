@@ -35,3 +35,5 @@ Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl.scoping,
  de.pellepelster.myadmin.dsl.services,
  de.pellepelster.myadmin.dsl.validation
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
