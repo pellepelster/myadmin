@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <?eclipse version="3.0"?>
+        <!--
+         Generated on Sun Apr 28 22:50:36 CEST 2013 by Spray Plugin.xtend
+         This file will be generated oinly once if it need to be regenerated, remove this file.
+         
+        -->
+        <plugin>
+		   <!-- AUTOGEN START -->
+           <!-- Potentially redefine the EDITOR EXTENSION TO ALLOW FOR OUR OWN EDITOR SUBCLASS TO BE USED. 
+           <extension
+                 point="org.eclipse.ui.editors">
+              <editor
+                  class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramEditor"
+                  contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor"
+                  default="true"
+                  extensions="diagram"
+                  icon="icons/diagram.gif"
+                  id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramEditor"
+                  matchingStrategy="org.eclipse.graphiti.ui.editor.DiagramEditorFactory$DiagramEditorMatchingStrategy"
+                  name="%_diagram_editor_name">
+               <contentTypeBinding
+                     contentTypeId="org.eclipse.graphiti.content.diagram">
+               </contentTypeBinding>
+              </editor>
+           </extension>
+           -->
+        
+          <extension
+              point="org.eclipse.graphiti.ui.diagramTypes">
+            <diagramType
+              description="This is the diagram type for the MyAdminModelDiagram diagram type"
+              id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramType"
+              name="MyAdminModelDiagram Graphiti Diagram Type"
+              type="MyAdminModelDiagram">
+            </diagramType>
+          </extension>
+        
+          <extension
+              point="org.eclipse.graphiti.ui.diagramTypeProviders">
+            <diagramTypeProvider
+              class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramTypeProvider"
+              description="This is my editor for the MyAdminModelDiagram diagram type"
+              id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramTypeProvider"
+              name="MyAdminModelDiagram editor">
+              <diagramType
+                    id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramDiagramType">
+              </diagramType>
+                <imageProvider
+                       id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramImageProvider">
+                 </imageProvider>
+            </diagramTypeProvider>
+          </extension>
+        
+           <extension
+                 point="org.eclipse.graphiti.ui.imageProviders">
+              <imageProvider
+                    class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramImageProvider"
+                       id="de.pellepelster.myadmin.dsl.spray.ui.diagram.MyAdminModelDiagramImageProvider">
+              </imageProvider>
+           </extension>
+        
+          <extension
+              point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+              <propertyContributor contributorId="MyAdminModelDiagram.PropertyContributor">
+                  <propertyCategory category="MyAdminModelDiagramCategory">
+                  </propertyCategory>
+              </propertyContributor>
+          </extension>
+        
+          <extension
+              point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+              <propertyTabs contributorId="MyAdminModelDiagram.PropertyContributor">
+                  <propertyTab label="Main" category="MyAdminModelDiagramCategory"
+                      id="MyAdminModelDiagram.main.tab">
+                  </propertyTab>
+              </propertyTabs>
+          </extension>
+        <extension
+            point="org.eclipse.ui.views.properties.tabbed.propertySections">
+            <propertySections contributorId="MyAdminModelDiagram.PropertyContributor">
+          <propertySection tab="MyAdminModelDiagram.main.tab"
+           class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.property.EntityNameSection"
+           filter="de.pellepelster.myadmin.dsl.spray.ui.property.EntityFilter"
+           id="MyAdminModelDiagram.main.tab.Entity.name">
+          </propertySection>
+          <propertySection tab="MyAdminModelDiagram.main.tab"
+           class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.property.EntityInterfaceSection"
+           filter="de.pellepelster.myadmin.dsl.spray.ui.property.EntityFilter"
+           afterSection="MyAdminModelDiagram.main.tab.Entity.name"
+           id="MyAdminModelDiagram.main.tab.Entity.interface">
+          </propertySection>
+            </propertySections>
+        </extension>
+        
+        <extension
+            point="org.eclipse.ui.views.properties.tabbed.propertySections">
+            <propertySections contributorId="MyAdminModelDiagram.PropertyContributor">
+          <propertySection tab="MyAdminModelDiagram.main.tab"
+           class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.property.ReferenceDatatypeNameSection"
+           filter="de.pellepelster.myadmin.dsl.spray.ui.property.ReferenceDatatypeFilter"
+           id="MyAdminModelDiagram.main.tab.ReferenceDatatype.name">
+          </propertySection>
+            </propertySections>
+        </extension>
+        
+        <extension
+            point="org.eclipse.ui.views.properties.tabbed.propertySections">
+            <propertySections contributorId="MyAdminModelDiagram.PropertyContributor">
+          <propertySection tab="MyAdminModelDiagram.main.tab"
+           class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.property.EntityAttributeNameSection"
+           filter="de.pellepelster.myadmin.dsl.spray.ui.property.EntityAttributeFilter"
+           id="MyAdminModelDiagram.main.tab.EntityAttribute.name">
+          </propertySection>
+            </propertySections>
+        </extension>
+        
+        <extension
+            point="org.eclipse.ui.views.properties.tabbed.propertySections">
+            <propertySections contributorId="MyAdminModelDiagram.PropertyContributor">
+          <propertySection tab="MyAdminModelDiagram.main.tab"
+           class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.property.ReferenceDatatypeTypeCardinalitySection"
+           filter="de.pellepelster.myadmin.dsl.spray.ui.property.ReferenceDatatypeTypeFilter"
+           id="MyAdminModelDiagram.main.tab.ReferenceDatatypeType.cardinality">
+          </propertySection>
+            </propertySections>
+        </extension>
+        
+    
+    
+            <extension
+                  point="org.eclipse.ui.newWizards">
+                  <category
+                     name="MyAdminModelDiagram"
+                     id="org.eclipselabs.spray.MyAdminModelDiagram">
+                     </category>
+               <wizard
+                     category="org.eclipselabs.spray.MyAdminModelDiagram"
+                     class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:org.eclipselabs.spray.runtime.graphiti.wizard.NewDiagramWizard"
+                     descriptionImage="icons/MyAdminModelDiagram-32.png"
+                     icon="icons/MyAdminModelDiagram-16.png"
+                     id="org.eclipselabs.spray.MyAdminModelDiagram.NewDiagramWizard"
+                     name="New MyAdminModelDiagram Diagram"
+                     preferredPerspectives="org.eclipse.graphiti.examples.common.perspective.GFPerspective"
+                     project="false">
+               </wizard>
+            </extension>
+            <!-- AUTOGEN END -->
+        </plugin>

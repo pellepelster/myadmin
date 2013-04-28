@@ -1,0 +1,20 @@
+/*************************************************************************************
+ *
+ * Spray styles definition
+ * 
+ * This file contains the definition of style classes using the Styles Language.
+ * Refer to http://code.google.com/a/eclipselabs.org/p/spray/ for documentation.
+ *************************************************************************************/
+
+style BusmodDefaultStyle {
+    description = "The default style of the bm diagram type." 
+    font-size = 12
+} 
+
+style BusinessClassStyle extends BusmodDefaultStyle { 
+    description = "The style for the business class." 
+    background-color = yellow
+}
+
+style FontStyle {
+}

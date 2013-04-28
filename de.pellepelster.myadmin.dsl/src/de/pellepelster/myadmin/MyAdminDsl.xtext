@@ -275,7 +275,7 @@ Datatype:
 
 BaseDictionaryDatatype:
 	{BaseDictionaryDatatype}
-	(labels=Labels)?;
+	labels=Labels;
 
 TextDatatype:
 	"textdatatype" name=ID "{"
