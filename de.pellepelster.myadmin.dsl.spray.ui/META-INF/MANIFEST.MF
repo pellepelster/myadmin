@@ -23,7 +23,9 @@ Require-Bundle: org.eclipse.ui,
  com.google.guava;bundle-version="10.0.1",
  com.google.inject;bundle-version="3.0.0",
  javax.inject;bundle-version="1.0.0",
- de.pellepelster.myadmin.dsl
+ de.pellepelster.myadmin.dsl,
+ org.eclipse.ui.ide,
+ de.pellepelster.myadmin.ui
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.eclipse.xtext.xbase.lib,

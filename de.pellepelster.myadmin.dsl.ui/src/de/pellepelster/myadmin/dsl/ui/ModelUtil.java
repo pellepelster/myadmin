@@ -39,7 +39,13 @@ public class ModelUtil
 
 		for (IFile modelFile : modelFiles)
 		{
-			models.add(getModelFromFile(modelFile));
+			ModelRoot model = getModelFromFile(modelFile);
+
+			if (model != null)
+			{
+				models.add(model);
+
+			}
 		}
 
 		return models;
@@ -87,11 +93,8 @@ public class ModelUtil
 				throw new RuntimeException(String.format("unknown model root '%s'", modelResource.getContents().get(0).eClass().toString()));
 			}
 		}
-		else
-		{
-			throw new RuntimeException(String.format("file '%s' did not contain a model", modelFile.getLocation().toString()));
-		}
 
+		return null;
 	}
 
 	public static boolean isModelFile(IFile file)

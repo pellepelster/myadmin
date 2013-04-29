@@ -7,6 +7,7 @@
  *************************************************************************************/
 
 shape EntityShape style BusinessClassStyle {
+	
     rectangle {
         compartment (
             layout = vertical

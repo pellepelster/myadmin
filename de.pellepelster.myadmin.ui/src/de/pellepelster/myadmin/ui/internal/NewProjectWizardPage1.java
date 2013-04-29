@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import de.pellepelster.myadmin.ui.Constants.PROJECT_NAME_POSTFIXES;
 import de.pellepelster.myadmin.ui.Messages;
 
 public class NewProjectWizardPage1 extends WizardPage
@@ -29,66 +30,6 @@ public class NewProjectWizardPage1 extends WizardPage
 	private Text organizationNameText;
 
 	private Text projectNameText;
-
-	enum PROJECT_NAME_POSTFIXES
-	{
-		BUILD
-		{
-			@Override
-			public String toString()
-			{
-				return "build";
-			}
-		},
-		SERVER
-		{
-			@Override
-			public String toString()
-			{
-				return "server";
-			}
-		},
-		SERVER_TEST
-		{
-			@Override
-			public String toString()
-			{
-				return "server.test";
-			}
-		},
-		CLIENT
-		{
-			@Override
-			public String toString()
-			{
-				return "client";
-			}
-		},
-		CLIENT_TEST
-		{
-			@Override
-			public String toString()
-			{
-				return "client.test";
-			}
-		},
-		DEPLOY
-		{
-			@Override
-			public String toString()
-			{
-				return "deploy";
-			}
-		},
-		GENERATOR
-		{
-			@Override
-			public String toString()
-			{
-				return "generator";
-			}
-		}
-	};
 
 	private final FocusListener focusListener = new FocusListener()
 	{
@@ -125,17 +66,17 @@ public class NewProjectWizardPage1 extends WizardPage
 		Label organizationNameLabel = new Label(composite, SWT.NONE);
 		organizationNameLabel.setText(Messages.Organization);
 
-		organizationNameText = new Text(composite, SWT.BORDER);
-		organizationNameText.setLayoutData(GridDataFactory.swtDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).create());
-		organizationNameText.addFocusListener(focusListener);
+		this.organizationNameText = new Text(composite, SWT.BORDER);
+		this.organizationNameText.setLayoutData(GridDataFactory.swtDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).create());
+		this.organizationNameText.addFocusListener(this.focusListener);
 
 		// module
 		Label projectNameLabel = new Label(composite, SWT.NONE);
 		projectNameLabel.setText(Messages.ProjectName);
 
-		projectNameText = new Text(composite, SWT.BORDER);
-		projectNameText.setLayoutData(GridDataFactory.swtDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).create());
-		projectNameText.addFocusListener(focusListener);
+		this.projectNameText = new Text(composite, SWT.BORDER);
+		this.projectNameText.setLayoutData(GridDataFactory.swtDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).create());
+		this.projectNameText.addFocusListener(this.focusListener);
 
 		setControl(composite);
 	}
@@ -179,12 +120,12 @@ public class NewProjectWizardPage1 extends WizardPage
 
 	public String getOrganizationName()
 	{
-		return organizationNameText.getText();
+		return this.organizationNameText.getText();
 	}
 
 	public String getProject()
 	{
-		return projectNameText.getText();
+		return this.projectNameText.getText();
 	}
 
 }

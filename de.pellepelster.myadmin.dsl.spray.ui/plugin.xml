@@ -130,15 +130,10 @@
     
             <extension
                   point="org.eclipse.ui.newWizards">
-                  <category
-                     name="MyAdminModelDiagram"
-                     id="org.eclipselabs.spray.MyAdminModelDiagram">
-                     </category>
                <wizard
-                     category="org.eclipselabs.spray.MyAdminModelDiagram"
-                     class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:org.eclipselabs.spray.runtime.graphiti.wizard.NewDiagramWizard"
+                     category="de.pellepelster.myadmin"
+                     class="de.pellepelster.myadmin.dsl.spray.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.spray.ui.diagram.NewDiagramWizard"
                      descriptionImage="icons/MyAdminModelDiagram-32.png"
-                     icon="icons/MyAdminModelDiagram-16.png"
                      id="org.eclipselabs.spray.MyAdminModelDiagram.NewDiagramWizard"
                      name="New MyAdminModelDiagram Diagram"
                      preferredPerspectives="org.eclipse.graphiti.examples.common.perspective.GFPerspective"
