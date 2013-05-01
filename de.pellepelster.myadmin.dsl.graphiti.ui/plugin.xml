@@ -4,21 +4,31 @@
    <extension
          point="org.eclipse.graphiti.ui.diagramTypes">
       <diagramType
-            id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType"
-            name="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType"
-            type="MyAdmin Model Diagram">
+            id="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype"
+            name="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype"
+            type="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype">
       </diagramType>
    </extension>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypeProviders">
       <diagramTypeProvider
-            class="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider"
-            id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider"
-            name="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramTypeProvider">
+            class="de.pellepelster.myadmin.dsl.graphiti.ui.ModelDiagramTypeProvider"
+            id="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtypeprovider"
+            name="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtypeprovider">
          <diagramType
-               id="de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminModelDiagramType">
+               id="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype">
          </diagramType>
       </diagramTypeProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="de.pellepelster.myadmin"
+            class="de.pellepelster.myadmin.dsl.graphiti.ui.internal.ExecutableExtensionFactory:de.pellepelster.myadmin.dsl.graphiti.ui.wizards.NewDiagramWizard"
+            id="de.pellepelster.myadmin.dsl.graphiti.ui.newmodeldiagramwizard"
+            name="New Model Diagram"
+            project="false">
+      </wizard>
    </extension>
 
 </plugin>

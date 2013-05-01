@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui;
+package de.pellepelster.myadmin.dsl.graphiti.ui.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,6 +22,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.DiagramUtil;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.EntityUtil;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 
 public class AddEntityFeature extends AbstractAddShapeFeature

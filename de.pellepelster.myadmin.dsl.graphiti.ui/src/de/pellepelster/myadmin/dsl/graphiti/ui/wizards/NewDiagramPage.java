@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.spray.ui.diagram;
+package de.pellepelster.myadmin.dsl.graphiti.ui.wizards;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -11,21 +11,15 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
-import de.pellepelster.myadmin.dsl.spray.ui.Messages;
-import de.pellepelster.myadmin.dsl.spray.ui.util.ResourceManager;
+import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.ResourceManager;
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class NewDiagramPage extends WizardPage
 {
@@ -35,10 +29,6 @@ public class NewDiagramPage extends WizardPage
 	private Text locationText;
 
 	private ISelection selection;
-
-	@Inject
-	@Named("diagramTypeId")
-	private String diagramTypeId;
 
 	/**
 	 * Create the wizard.
@@ -62,7 +52,7 @@ public class NewDiagramPage extends WizardPage
 		Composite container = new Composite(parent, SWT.NULL);
 
 		setControl(container);
-		container.setLayout(new GridLayout(3, false));
+		container.setLayout(new GridLayout(2, false));
 
 		Label locationLabel = new Label(container, SWT.NONE);
 		locationLabel.setText(Messages.Location);
@@ -72,17 +62,6 @@ public class NewDiagramPage extends WizardPage
 		locationTextGridData.widthHint = 300;
 		this.locationText.setLayoutData(locationTextGridData);
 		this.locationText.setEnabled(false);
-
-		Button button = new Button(container, SWT.PUSH);
-		button.setText(Messages.Browse);
-		button.addSelectionListener(new SelectionAdapter()
-		{
-			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
-				handleBrowse();
-			}
-		});
 
 		Label labelName = new Label(container, SWT.NONE);
 		labelName.setText(Messages.DiagramName);
@@ -97,36 +76,19 @@ public class NewDiagramPage extends WizardPage
 	private void createNameText(Composite container)
 	{
 		this.nameText = new Text(container, SWT.BORDER);
-		GridData gd_nameText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
-		gd_nameText.widthHint = 300;
-		this.nameText.setLayoutData(gd_nameText);
+		GridData nameTextGridData = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		nameTextGridData.widthHint = 300;
+		this.nameText.setEnabled(false);
+		this.nameText.setLayoutData(nameTextGridData);
 		this.nameText.addModifyListener(new ModifyListener()
 		{
 			@Override
 			public void modifyText(ModifyEvent e)
 			{
-				validateName();
+				// validateName();
 			}
 		});
-		this.nameText.setEnabled(false);
-	}
 
-	/**
-	 * Uses the standard container selection dialog to choose the new value for
-	 * the container field.
-	 */
-
-	public void handleBrowse()
-	{
-		ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, "Select new file container");
-		if (dialog.open() == ContainerSelectionDialog.OK)
-		{
-			Object[] result = dialog.getResult();
-			if (result.length == 1)
-			{
-				this.locationText.setText(((Path) result[0]).toString());
-			}
-		}
 	}
 
 	protected void updateStatus(String message)
@@ -187,20 +149,20 @@ public class NewDiagramPage extends WizardPage
 
 	protected boolean validateName()
 	{
+
+		if (getName() == null || getName().isEmpty())
+		{
+			updateStatus(Messages.ModelFileNameMustBeSpecified);
+			return false;
+		}
+
+		if (!getName().matches(MyAdminProjectUtil.FQDN_PROJECT_NAME_REGEX))
+		{
+			updateStatus(Messages.ModelFileNameFormat);
+			return false;
+		}
+
 		return true;
-		// if (getName() == null || getName().isEmpty())
-		// {
-		// updateStatus(Messages.ModelFileNameMustBeSpecified);
-		// return false;
-		// }
-		//
-		// if (!getName().matches(MyAdminProjectUtil.FQDN_PROJECT_NAME_REGEX))
-		// {
-		// updateStatus(Messages.ModelFileNameFormat);
-		// return false;
-		// }
-		//
-		// return true;
 	}
 
 	protected boolean locationValid()
