@@ -27,7 +27,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -153,7 +153,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private void getAllReferencedDictionaries(final IDictionaryModel dictionaryModel)
 	{
-		List<String> referencedDictionaryNames = ModelUtil.getReferencedDictionaryModels(dictionaryModel.getEditorModel().getCompositeModel());
+		List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel.getEditorModel().getCompositeModel());
 
 		DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new AsyncCallback<List<IDictionaryModel>>()
 		{
@@ -259,7 +259,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO<IBaseVO>(this.dictionaryModel.getVOName());
 			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, getId());
 
-			ModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel.getEditorModel().getCompositeModel());
+			DictionaryModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel.getEditorModel().getCompositeModel());
 
 			AsyncCallback<List<IBaseVO>> filterCallback = new AsyncCallback<List<IBaseVO>>()
 			{

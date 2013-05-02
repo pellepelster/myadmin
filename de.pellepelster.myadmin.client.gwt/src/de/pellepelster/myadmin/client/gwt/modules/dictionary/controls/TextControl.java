@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -35,7 +35,7 @@ public class TextControl extends TextBox implements IControl<Widget>
 		super();
 		this.textControlModel = textControlModel;
 		gwtControlHelper = new ControlHelper(this, textControlModel, true, String.class);
-		ensureDebugId(ModelUtil.getDebugId(textControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(textControlModel));
 
 		setMaxLength(textControlModel.getMaxLength());
 	}

@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -41,7 +41,7 @@ public class EnumerationControl extends ListBox implements IControl<Widget>
 
 		this.enumarationControlModel = enumarationControlModel;
 
-		ensureDebugId(ModelUtil.getDebugId(enumarationControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControlModel));
 		gwtControlHelper = new ControlHelper(this, enumarationControlModel, false, String.class);
 
 		addChangeHandler(new ChangeHandler()

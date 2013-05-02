@@ -33,7 +33,9 @@ import com.google.inject.Inject;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.ModelDiagramTypeProvider;
+import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.DiagramUtil;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
 import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class NewDiagramWizard extends Wizard implements INewWizard
@@ -93,6 +95,9 @@ public class NewDiagramWizard extends Wizard implements INewWizard
 		final Diagram diagram = PictogramsFactory.eINSTANCE.createDiagram();
 		diagram.setDiagramTypeId(ModelDiagramTypeProvider.MODEL_DIAGRAM_TYPE_ID);
 		diagram.setName(fileName);
+
+		GraphitiProperties.set(diagram, MyAdminGraphitiConstants.ORGANISATION_NAME_KEY, this.organisationName);
+		GraphitiProperties.set(diagram, MyAdminGraphitiConstants.PROJECT_NAME_KEY, this.projectName);
 
 		DiagramUtil.initializeDiagram(diagram);
 		resource.getContents().add(diagram);

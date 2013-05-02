@@ -27,7 +27,7 @@ import org.eclipse.ui.progress.UIJob;
 import com.google.inject.Inject;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
-import de.pellepelster.myadmin.dsl.ui.ModelUtil;
+import de.pellepelster.myadmin.dsl.ui.ModelUiUtil;
 import de.pellepelster.myadmin.dsl.ui.outline.MyAdminDslOutlineTreeProvider;
 
 public class MyAdminModelContentProvider implements ITreeContentProvider, IResourceChangeListener
@@ -73,7 +73,7 @@ public class MyAdminModelContentProvider implements ITreeContentProvider, IResou
 
 			if (project.isAccessible())
 			{
-				List<ModelRoot> models = ModelUtil.getAllModelsForProject(project);
+				List<ModelRoot> models = ModelUiUtil.getAllModelsForProject(project);
 				return models.toArray();
 			}
 		}
@@ -152,7 +152,7 @@ public class MyAdminModelContentProvider implements ITreeContentProvider, IResou
 						case IResource.FILE:
 							final IFile file = (IFile) resource;
 
-							if (ModelUtil.isModelFile(file))
+							if (ModelUiUtil.isModelFile(file))
 							{
 								UIJob job = new UIJob("Update Viewer") { //$NON-NLS-1$
 
@@ -162,7 +162,7 @@ public class MyAdminModelContentProvider implements ITreeContentProvider, IResou
 										if (MyAdminModelContentProvider.this.viewer != null
 												&& !MyAdminModelContentProvider.this.viewer.getControl().isDisposed())
 										{
-											ModelRoot model = ModelUtil.getModelFromFile(file);
+											ModelRoot model = ModelUiUtil.getModelFromFile(file);
 
 											if (MyAdminModelContentProvider.this.viewer instanceof StructuredViewer && model != null)
 											{

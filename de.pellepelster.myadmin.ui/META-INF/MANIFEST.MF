@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.externaltools,
  org.eclipse.ant.launching,
  org.eclipse.debug.core,
- org.eclipse.ui.console
+ org.eclipse.ui.console,
+ de.pellepelster.myadmin.ui.libs;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Christian Pelster

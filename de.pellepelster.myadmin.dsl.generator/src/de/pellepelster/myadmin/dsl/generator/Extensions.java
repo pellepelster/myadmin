@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -31,6 +30,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelScope;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
+import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 public class Extensions
 {
@@ -120,24 +120,6 @@ public class Extensions
 	public static String fullQualifiedEntityName(EObject eObject, ModelScope modelScope)
 	{
 		return getPackageName(eObject, modelScope) + "." + entityName(eObject, modelScope);
-	}
-
-	public static PackageDeclaration getFirstPackage(EList<EObject> eObjects)
-	{
-		for (EObject eObject : eObjects)
-		{
-			if (eObject instanceof PackageDeclaration)
-			{
-				return (PackageDeclaration) eObject;
-			}
-		}
-
-		return null;
-	}
-
-	public static PackageDeclaration getFirstPackageName(Model model)
-	{
-		return getFirstPackage(model.eContents());
 	}
 
 	private static ModelScope getModelScope()
@@ -264,7 +246,7 @@ public class Extensions
 
 	public static String getRootWebServicePackageName(Model model)
 	{
-		return getFirstPackage(model.eContents()).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
+		return ModelUtil.getFirstRootPackage(model).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
 	}
 
 	public static String getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService remoteService)

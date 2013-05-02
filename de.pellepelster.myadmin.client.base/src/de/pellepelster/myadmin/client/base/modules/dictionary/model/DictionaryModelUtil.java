@@ -20,7 +20,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
-public final class ModelUtil
+public final class DictionaryModelUtil
 {
 
 	public static void createReferenceContainerList(IBaseContainerModel parentContainerModel, List<String> dictionaryNames)
@@ -156,7 +156,7 @@ public final class ModelUtil
 		return debugId;
 	}
 
-	private ModelUtil()
+	private DictionaryModelUtil()
 	{
 	}
 

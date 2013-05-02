@@ -1,7 +1,6 @@
 package de.pellepelster.myadmin.dsl.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -11,30 +10,30 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.ui.PreferenceConstants;
-
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 
-public class ModelUtil
+public class ModelUiUtil
 {
 	private static final String MYADMIN_MODEL_FILE_EXTENSION = "msl";
 
-	private static Logger LOG = Logger.getLogger(ModelUtil.class);
+	public static final URIConverter uriConverter = new ExtensibleURIConverterImpl();
+
+	private static Logger LOG = Logger.getLogger(ModelUiUtil.class);
 
 	public static List<ModelRoot> getAllModelsForProject(IProject project)
 	{
 		ResourceSet resourceSet = new ResourceSetImpl();
 
-		List<IFile> modelFiles = ModelUtil.getFilesByExtension(project, MYADMIN_MODEL_FILE_EXTENSION);
+		List<IFile> modelFiles = ModelUiUtil.getFilesByExtension(project, MYADMIN_MODEL_FILE_EXTENSION);
 		List<ModelRoot> models = new ArrayList<ModelRoot>();
 
 		for (IFile modelFile : modelFiles)
@@ -52,26 +51,27 @@ public class ModelUtil
 
 	}
 
-	public static <T> List<T> selectType(Iterator<EObject> sourceList, Class<T> clazz)
+	public static ModelRoot getModelFromFile(IFile file)
 	{
-		List<T> filteredList = new ArrayList<T>();
+		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
 
-		List<EObject> l = Lists.newArrayList(sourceList);
-
-		filteredList = Lists.newArrayList(Iterators.filter(sourceList, clazz));
-
-		return filteredList;
+		return getModelFromFile(uri);
 	}
 
-	public static ModelRoot getModelFromFile(IFile modelFile)
+	public static Model getModelFromFile(URI uri)
+	{
+		return (Model) getModelRootFromFile(uri);
+	}
+
+	private static ModelRoot getModelRootFromFile(URI uri)
 	{
 		ResourceSet resourceSet = new ResourceSetImpl();
 
 		Resource modelResource = null;
 		try
 		{
-			modelResource = resourceSet.createResource(URI.createURI(modelFile.getRawLocationURI().toString()));
-			modelResource.load(modelFile.getContents(), resourceSet.getLoadOptions());
+			modelResource = resourceSet.createResource(uri);
+			modelResource.load(uriConverter.createInputStream(uri), resourceSet.getLoadOptions());
 		}
 		catch (Exception e)
 		{
@@ -95,11 +95,6 @@ public class ModelUtil
 		}
 
 		return null;
-	}
-
-	public static boolean isModelFile(IFile file)
-	{
-		return MYADMIN_MODEL_FILE_EXTENSION.equals(file.getFileExtension());
 	}
 
 	public static List<IFile> getFilesByExtension(IProject project, final String extension)
@@ -142,4 +137,10 @@ public class ModelUtil
 
 		return files;
 	}
+
+	public static boolean isModelFile(IFile file)
+	{
+		return MYADMIN_MODEL_FILE_EXTENSION.equals(file.getFileExtension());
+	}
+
 }

@@ -11,7 +11,7 @@ public class ModelDiagramTypeProvider extends AbstractDiagramTypeProvider implem
 	public ModelDiagramTypeProvider()
 	{
 		super();
-		setFeatureProvider(new MyAdminModelFeatureProvider(this));
+		setFeatureProvider(new ModelFeatureProvider(this));
 	}
 
 }

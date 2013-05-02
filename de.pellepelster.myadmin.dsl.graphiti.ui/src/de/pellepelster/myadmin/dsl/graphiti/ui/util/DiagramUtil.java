@@ -35,7 +35,6 @@ public class DiagramUtil
 						shapes.add(shape);
 					}
 				}
-
 			}
 		}
 
@@ -77,7 +76,6 @@ public class DiagramUtil
 		else
 		{
 			return Graphiti.getPeService().createChopboxAnchor(anchorContainer);
-
 		}
 	}
 

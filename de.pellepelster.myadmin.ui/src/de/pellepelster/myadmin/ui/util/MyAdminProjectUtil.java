@@ -78,4 +78,10 @@ public class MyAdminProjectUtil
 		return getPropertyOrFail(properties, Constants.BUILD_PROJECT_KEY);
 	}
 
+	public static String[] getFQDNProjectNameSegments(String fqdnProjectName)
+	{
+		String[] fqdnProjectNameSegments = new String[2];
+
+		return fqdnProjectNameSegments;
+	}
 }

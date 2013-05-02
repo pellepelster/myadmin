@@ -59,7 +59,7 @@ public class CollectionUtils
 		return getMap(key1, value1, key2, value2, null, null);
 	}
 
-	// no varargs in gwt sadyl
+	// no varargs in gwt sadly
 	public static HashMap<String, Object> getMap(String key1, Object value1, String key2, Object value2, String key3, Object value3)
 	{
 		HashMap<String, Object> result = new HashMap<String, Object>();

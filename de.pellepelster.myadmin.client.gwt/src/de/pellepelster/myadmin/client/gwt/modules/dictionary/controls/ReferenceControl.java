@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -41,7 +41,7 @@ public class ReferenceControl extends SuggestBox implements IControl<Widget>
 	{
 		super(new VOSuggestOracle(referenceControlModel));
 
-		ensureDebugId(ModelUtil.getDebugId(referenceControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControlModel));
 		setLimit(5);
 		this.referenceControlModel = referenceControlModel;
 		gwtControlHelper = new ControlHelper(this, referenceControlModel, false, IBaseVO.class);
