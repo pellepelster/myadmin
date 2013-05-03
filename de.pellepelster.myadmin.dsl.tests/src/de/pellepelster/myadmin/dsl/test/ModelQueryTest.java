@@ -17,17 +17,18 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
+import de.pellepelster.myadmin.tools.SpringModelUtils;
 
-public class ModelQueryTest extends BaseModelTest
+public class ModelQueryTest
 {
+	private Model model = SpringModelUtils.getModel("classpath:model/SingleRootPackageModel.msl");
 
 	@Test
 	public void testQueryRootPackages()
 	{
-		Model model = getModel("model/SingleRootPackageModel.msl");
 
-		Assert.assertTrue(ModelQuery.createQuery(model).getRootPackages().hasOnePackage());
+		Assert.assertTrue(ModelQuery.createQuery(this.model).getRootPackages().hasOnePackage());
 
-		Assert.assertEquals("a.b.c", ModelQuery.createQuery(model).getRootPackages().getSinglePackage().getName());
+		Assert.assertEquals("a.b.c", ModelQuery.createQuery(this.model).getRootPackages().getSinglePackage().getName());
 	}
 }

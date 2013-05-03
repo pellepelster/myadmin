@@ -9,8 +9,12 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 
 public class AttributesQuery extends BaseEObjectQuery<EntityAttribute>
 {
+	public static AttributesQuery create(Collection<EntityAttribute> entityAttributes)
+	{
+		return new AttributesQuery(entityAttributes);
+	}
 
-	public AttributesQuery(Collection<EntityAttribute> entityAttributes)
+	private AttributesQuery(Collection<EntityAttribute> entityAttributes)
 	{
 		super(entityAttributes);
 	}

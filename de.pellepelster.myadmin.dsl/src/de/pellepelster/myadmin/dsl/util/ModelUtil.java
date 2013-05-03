@@ -3,6 +3,12 @@ package de.pellepelster.myadmin.dsl.util;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
@@ -13,6 +19,8 @@ import de.pellepelster.myadmin.dsl.query.ModelQuery;
 public class ModelUtil
 {
 	private static Logger LOG = Logger.getLogger(ModelUtil.class);
+
+	private static final URIConverter uriConverter = new ExtensibleURIConverterImpl();
 
 	public static Collection<PackageDeclaration> getRootPackages(ModelRoot model)
 	{
@@ -49,6 +57,45 @@ public class ModelUtil
 		}
 
 		packageDeclaration.setName(packageName);
+	}
+
+	public static Model getModelFromFile(URI uri)
+	{
+		return (Model) getModelRootFromFile(uri);
+	}
+
+	private static ModelRoot getModelRootFromFile(URI uri)
+	{
+		ResourceSet resourceSet = new ResourceSetImpl();
+
+		Resource resource = null;
+		try
+		{
+			resource = resourceSet.createResource(uri);
+			resource.load(uriConverter.createInputStream(uri), resourceSet.getLoadOptions());
+		}
+		catch (Exception e)
+		{
+			LOG.error(String.format("error creating resource for '%s'", resource.getURI().toString()), e);
+		}
+
+		if (!resource.getContents().isEmpty())
+		{
+			if (resource.getContents().get(0) instanceof Model)
+			{
+				return (Model) resource.getContents().get(0);
+			}
+			else if (resource.getContents().get(0) instanceof PackageDeclaration)
+			{
+				return (PackageDeclaration) resource.getContents().get(0);
+			}
+			else
+			{
+				throw new RuntimeException(String.format("unknown model root '%s'", resource.getContents().get(0).eClass().toString()));
+			}
+		}
+
+		return null;
 	}
 
 }

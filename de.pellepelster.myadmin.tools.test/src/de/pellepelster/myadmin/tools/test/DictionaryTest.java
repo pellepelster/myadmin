@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.tools.test;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -21,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
@@ -29,6 +26,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITe
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.server.test.AbstractMyAdminTest;
+import de.pellepelster.myadmin.tools.SpringModelUtils;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
 public class DictionaryTest extends AbstractMyAdminTest
@@ -55,27 +53,8 @@ public class DictionaryTest extends AbstractMyAdminTest
 	@Before
 	public void initData()
 	{
-
-		PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
-		Resource modelResource = null;
-		List<Resource> modelResources = new ArrayList<Resource>();
-
-		try
-		{
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:model/*.msl"))
-			{
-				modelResources.add(resource);
-			}
-
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath:model/TestModel1.msl"))
-			{
-				modelResource = resource;
-			}
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		Resource modelResource = SpringModelUtils.getResource("classpath:model/TestModel1.msl");
+		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
 		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
 		dictionaryImportRunner.run();

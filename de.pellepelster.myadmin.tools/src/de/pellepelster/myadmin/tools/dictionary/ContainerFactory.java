@@ -94,7 +94,7 @@ public class ContainerFactory
 			int logIdentiation)
 	{
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating assignment table '%s'", dictionaryAssignmentTable.getName()), logIdentiation);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating assignment table '%s'", dictionaryAssignmentTable.getName()), logIdentiation);
 
 		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.ASSIGNMENT_TABLE);
 		dictionaryContainerVO.setAttributePath(dictionaryAssignmentTable.getEntityattribute().getName());
@@ -112,7 +112,7 @@ public class ContainerFactory
 	{
 		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating composite '%s'", dictionaryComposite.getName()), logIdentiation);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating composite '%s'", dictionaryComposite.getName()), logIdentiation);
 
 	}
 
@@ -157,7 +157,7 @@ public class ContainerFactory
 	private void createDictionaryEditableTable(DictionaryEditableTable dictionaryEditableTable, DictionaryContainerVO dictionaryContainerVO, int logIdentiation)
 	{
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating editable table '%s'", dictionaryEditableTable.getName()), logIdentiation);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating editable table '%s'", dictionaryEditableTable.getName()), logIdentiation);
 
 		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.EDITABLE_TABLE);
 		dictionaryContainerVO.setAttributePath(dictionaryEditableTable.getEntityattribute().getName());

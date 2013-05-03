@@ -165,7 +165,7 @@
 	<target name="post.test">
 	</target>
 		
-	<target name="test" if="test.suite.name">
+	<target name="test" if="test.suite.name" depends="jar">
 
 		<delete dir="${test.dir}" />
 		<mkdir dir="${test.dir}" />

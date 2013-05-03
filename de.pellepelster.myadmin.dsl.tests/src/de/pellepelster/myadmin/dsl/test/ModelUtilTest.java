@@ -17,14 +17,15 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
+import de.pellepelster.myadmin.tools.SpringModelUtils;
 
-public class ModelUtilTest extends BaseModelTest
+public class ModelUtilTest
 {
 
 	@Test
 	public void testCreateUpdateOrCreateRootPackageEmptyModel()
 	{
-		Model model = getModel("model/EmptyModel.msl");
+		Model model = SpringModelUtils.getModel("classpath:model/EmptyModel.msl");
 
 		Assert.assertFalse(ModelUtil.hasSingleRootPackage(model));
 
@@ -37,7 +38,7 @@ public class ModelUtilTest extends BaseModelTest
 	@Test
 	public void testCreateUpdateOrCreateRootPackageSingleRootPackageModel()
 	{
-		Model model = getModel("model/SingleRootPackageModel.msl");
+		Model model = SpringModelUtils.getModel("classpath:model/SingleRootPackageModel.msl");
 
 		Assert.assertTrue(ModelUtil.hasSingleRootPackage(model));
 		Assert.assertEquals("a.b.c", ModelUtil.getSingleRootPackage(model).getName());

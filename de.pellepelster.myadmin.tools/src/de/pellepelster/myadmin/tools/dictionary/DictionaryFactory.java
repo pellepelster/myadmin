@@ -35,7 +35,7 @@ public class DictionaryFactory
 
 		String fullQualifiedEntityName = Extensions.fullQualifiedEntityName(dictionary.getEntity(), ModelScope.WEB);
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating dictionary '%s' (%s)", dictionary.getName(), fullQualifiedEntityName),
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating dictionary '%s' (%s)", dictionary.getName(), fullQualifiedEntityName),
 				logIdentiation);
 
 		DictionaryVO dictionaryVO = new DictionaryVO();
@@ -45,7 +45,7 @@ public class DictionaryFactory
 		dictionaryVO.setLabel(dictionary.getLabel());
 		dictionaryVO.setPluralLabel(dictionary.getPluralLabel());
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating dictionary labels"), logIdentiation + 1);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating dictionary labels"), logIdentiation + 1);
 
 		for (DictionaryControl dictionaryControl : dictionary.getLabelcontrols())
 		{
@@ -63,7 +63,7 @@ public class DictionaryFactory
 		dictionaryEditorVO.setName(dictionaryEditor.getName());
 		dictionaryEditorVO.setTitle(dictionaryEditor.getTitle());
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating editor '%s'", dictionaryEditorVO.getName()), logIdentiation);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating editor '%s'", dictionaryEditorVO.getName()), logIdentiation);
 
 		DictionaryContainerVO editorRootCompositeVO = new DictionaryContainerVO();
 		editorRootCompositeVO.setName("RootComposite");

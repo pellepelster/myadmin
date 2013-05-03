@@ -1,4 +1,4 @@
-<project name="tools-test" default="compile">
+<project name="tools-test" default="test">
 
 	<property name="test.suite.name" value="de.pellepelster.myadmin.tools.test.MyAdminToolsTestSuite" />
 

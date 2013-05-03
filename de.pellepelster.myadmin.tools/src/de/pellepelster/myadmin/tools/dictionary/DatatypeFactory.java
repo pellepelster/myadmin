@@ -189,7 +189,7 @@ public class DatatypeFactory
 		{
 			datatypeVO.setMax(integerDatatype.getMax());
 			logMessage = String.format("max: %d", datatypeVO.getMax());
-			ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
+			ToolUtils.logInfo(DictionaryImportRunner.LOG, logMessage, logIdentiation);
 		}
 
 		// min
@@ -197,7 +197,7 @@ public class DatatypeFactory
 		{
 			datatypeVO.setMin(integerDatatype.getMin());
 			logMessage = String.format("min: %d", datatypeVO.getMin());
-			ToolUtils.logInfo(DictionaryImportRunner.LOGGER, logMessage, logIdentiation);
+			ToolUtils.logInfo(DictionaryImportRunner.LOG, logMessage, logIdentiation);
 		}
 	}
 

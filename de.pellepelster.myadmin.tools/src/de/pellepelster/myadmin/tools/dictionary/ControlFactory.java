@@ -186,7 +186,7 @@ public class ControlFactory
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("creating control '%s'", getControlName(dictionaryControl)), logIdentiation);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating control '%s'", getControlName(dictionaryControl)), logIdentiation);
 
 		if (dictionaryControl instanceof DictionaryTextControl)
 		{
@@ -231,7 +231,7 @@ public class ControlFactory
 			dictionaryControlVO.setMandatory(false);
 		}
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("mandatory: %s", dictionaryControlVO.getMandatory().toString()), logIdentiation + 1);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("mandatory: %s", dictionaryControlVO.getMandatory().toString()), logIdentiation + 1);
 
 		String labelLogMessage = "";
 		labelLogMessage += (dictionaryControlVO.getLabel() != null ? labelLogMessage = dictionaryControlVO.getLabel() : "-");
@@ -239,7 +239,7 @@ public class ControlFactory
 		labelLogMessage += "/" + (dictionaryControlVO.getColumnLabel() != null ? labelLogMessage = dictionaryControlVO.getColumnLabel() : "-");
 		labelLogMessage += "/" + (dictionaryControlVO.getEditorLabel() != null ? labelLogMessage = dictionaryControlVO.getEditorLabel() : "-");
 		labelLogMessage += "/" + (dictionaryControlVO.getToolTip() != null ? labelLogMessage = dictionaryControlVO.getToolTip() : "-");
-		ToolUtils.logInfo(DictionaryImportRunner.LOGGER, String.format("labels: %s", labelLogMessage), logIdentiation + 1);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("labels: %s", labelLogMessage), logIdentiation + 1);
 
 		// datatype
 		dictionaryControlVO.setDatatype(DatatypeFactory.getInstance().createDatatypeVO(dictionaryControl, logIdentiation + 1));

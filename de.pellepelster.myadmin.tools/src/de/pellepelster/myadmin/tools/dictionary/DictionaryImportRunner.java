@@ -19,11 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.base.Predicate;
@@ -45,7 +42,6 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEditor;
@@ -57,6 +53,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Module;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleDefinition;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleParameter;
 import de.pellepelster.myadmin.dsl.myAdminDsl.NavigationNode;
+import de.pellepelster.myadmin.tools.SpringModelUtils;
 
 public class DictionaryImportRunner
 {
@@ -87,7 +84,7 @@ public class DictionaryImportRunner
 
 	private final Map<String, ModuleDefinitionVO> moduleDefinitionVOs = new HashMap<String, ModuleDefinitionVO>();
 
-	public final static Logger LOGGER = Logger.getLogger("DictionaryImport");
+	public final static Logger LOG = Logger.getLogger("DictionaryImport");
 
 	private final IBaseEntityService baseEntityService;
 
@@ -127,7 +124,7 @@ public class DictionaryImportRunner
 
 		List<Dictionary> dictionaries = filter(this.model, Dictionary.class);
 
-		ToolUtils.logInfo(LOGGER, String.format("importing %d dictionaries", dictionaries.size()), logIdentiation);
+		ToolUtils.logInfo(LOG, String.format("importing %d dictionaries", dictionaries.size()), logIdentiation);
 
 		for (Dictionary dictionary : dictionaries)
 		{
@@ -167,7 +164,7 @@ public class DictionaryImportRunner
 					dictionaryResultVO.getControls().add(dictionaryControlVO);
 				}
 
-				ToolUtils.logInfo(LOGGER, String.format("adding dictionary result '%s'", dictionaryResultVO.getName()), logIdentiation);
+				ToolUtils.logInfo(LOG, String.format("adding dictionary result '%s'", dictionaryResultVO.getName()), logIdentiation);
 				dictionarySearchVO.setResult(dictionaryResultVO);
 				// - /result
 				// --------------------------------------------------
@@ -178,7 +175,7 @@ public class DictionaryImportRunner
 				{
 					DictionaryFilterVO dictionaryFilterVO = new DictionaryFilterVO();
 					dictionaryFilterVO.setName(dictionaryfilter.getName());
-					ToolUtils.logInfo(LOGGER, String.format("adding dictionary filter '%s'", dictionaryFilterVO.getName()), logIdentiation);
+					ToolUtils.logInfo(LOG, String.format("adding dictionary filter '%s'", dictionaryFilterVO.getName()), logIdentiation);
 					dictionarySearchVO.getFilter().add(dictionaryFilterVO);
 
 					DictionaryContainerVO filterRootCompositeVO = new DictionaryContainerVO();
@@ -194,7 +191,7 @@ public class DictionaryImportRunner
 			}
 			// - /search --------------------------------------------------
 
-			ToolUtils.logInfo(LOGGER, String.format("persisting dictionary '%s'", dictionaryVO.getName()), logIdentiation);
+			ToolUtils.logInfo(LOG, String.format("persisting dictionary '%s'", dictionaryVO.getName()), logIdentiation);
 			this.baseEntityService.create(dictionaryVO);
 
 		}
@@ -202,7 +199,7 @@ public class DictionaryImportRunner
 
 	private void createModuleDefinition(ModuleDefinition moduleDefinition, int logIdentiation)
 	{
-		ToolUtils.logInfo(LOGGER, String.format("importing module definition '%s'", moduleDefinition.getName()), logIdentiation);
+		ToolUtils.logInfo(LOG, String.format("importing module definition '%s'", moduleDefinition.getName()), logIdentiation);
 
 		ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
 		moduleDefinitionVO.setName(moduleDefinition.getName());
@@ -214,7 +211,7 @@ public class DictionaryImportRunner
 	{
 		List<ModuleDefinition> moduleDefinitions = filter(this.model, ModuleDefinition.class);
 
-		ToolUtils.logInfo(LOGGER, String.format("importing %d module definitions", moduleDefinitions.size()), logIdentiation);
+		ToolUtils.logInfo(LOG, String.format("importing %d module definitions", moduleDefinitions.size()), logIdentiation);
 
 		for (ModuleDefinition moduleDefinition : moduleDefinitions)
 		{
@@ -226,7 +223,7 @@ public class DictionaryImportRunner
 	private void createModules(int logIdentation)
 	{
 
-		ToolUtils.logInfo(LOGGER, String.format("importing modules"), logIdentation);
+		ToolUtils.logInfo(LOG, String.format("importing modules"), logIdentation);
 
 		for (Module module : filter(this.model, Module.class))
 		{
@@ -235,13 +232,13 @@ public class DictionaryImportRunner
 
 			moduleVO.setModuleDefinition(this.moduleDefinitionVOs.get(module.getModuledefinition().getName()));
 
-			ToolUtils.logInfo(LOGGER, String.format("importing module '%s'", moduleVO.getName()), logIdentation);
+			ToolUtils.logInfo(LOG, String.format("importing module '%s'", moduleVO.getName()), logIdentation);
 
 			for (ModuleParameter moduleParameter : module.getModuleParameters())
 			{
 
 				ToolUtils.logInfo(
-						LOGGER,
+						LOG,
 						String.format("setting property '%s' with value '%s'", moduleParameter.getModuleDefinitionParameter().getName(),
 								moduleParameter.getValue()), logIdentation + 1);
 				moduleVO.getProperties().put(moduleParameter.getModuleDefinitionParameter().getName(), moduleParameter.getValue());
@@ -255,7 +252,7 @@ public class DictionaryImportRunner
 	private void createNavigationTree(int logIdentation)
 	{
 
-		ToolUtils.logInfo(LOGGER, "creating navigation tree", logIdentation);
+		ToolUtils.logInfo(LOG, "creating navigation tree", logIdentation);
 
 		// - create navigation table --------------------------------------
 		List<ModuleNavigationVO> navigationVOList = new ArrayList<ModuleNavigationVO>();
@@ -319,7 +316,7 @@ public class DictionaryImportRunner
 
 		for (NavigationNode navigationNode : navigationNodes)
 		{
-			ToolUtils.logInfo(LOGGER, String.format("creating navigation node '%s'", navigationNode.getName()), logIdentation);
+			ToolUtils.logInfo(LOG, String.format("creating navigation node '%s'", navigationNode.getName()), logIdentation);
 
 			ModuleNavigationVO moduleNavigationVO = new ModuleNavigationVO();
 			parentNavigationList.add(moduleNavigationVO);
@@ -411,7 +408,7 @@ public class DictionaryImportRunner
 		dictionarySearchVO.setName(dictionarySearch.getName());
 		dictionarySearchVO.setTitle(dictionarySearch.getTitle());
 
-		ToolUtils.logInfo(LOGGER, String.format("adding dictionary search '%s'", dictionarySearchVO.getName()), logIdentiation);
+		ToolUtils.logInfo(LOG, String.format("adding dictionary search '%s'", dictionarySearchVO.getName()), logIdentiation);
 
 		return dictionarySearchVO;
 
@@ -425,7 +422,7 @@ public class DictionaryImportRunner
 	private void initDictionaryTables(int logIdentation)
 	{
 
-		ToolUtils.logInfo(LOGGER, "initializing dictionary tables", logIdentation);
+		ToolUtils.logInfo(LOG, "initializing dictionary tables", logIdentation);
 
 		// - remove all existing dictionaries -----------------------------
 		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
@@ -438,63 +435,26 @@ public class DictionaryImportRunner
 		this.baseEntityService.deleteAll(DictionaryDatatypeVO.class.getName());
 	}
 
-	private void initModel()
-	{
-		try
-		{
-			MyAdminDslStandaloneSetup.doSetup();
-
-			ResourceSet resourceSet = new ResourceSetImpl();
-			loadModelResources(resourceSet);
-
-			ToolUtils.logInfo(LOGGER, String.format("loading model file '%s'", this.modelResource.getURI().toString()), 0);
-			Resource resource = resourceSet.getResource(URI.createURI(this.modelResource.getURI().toString()), true);
-
-			this.model = (Model) resource.getContents().get(0);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
-
 	/**
 	 * Clean up module tables
 	 */
 	private void initModuleTables(int logIdentation)
 	{
 
-		ToolUtils.logInfo(LOGGER, "initializing module tables", logIdentation);
+		ToolUtils.logInfo(LOG, "initializing module tables", logIdentation);
 
 		this.baseEntityService.deleteAll(ModuleNavigationVO.class.getName());
 		this.baseEntityService.deleteAll(ModuleVO.class.getName());
 		this.baseEntityService.deleteAll(ModuleDefinitionVO.class.getName());
 	}
 
-	private void loadModelResources(ResourceSet resourceSet)
-	{
-		try
-		{
-			for (org.springframework.core.io.Resource modelResource : this.modelResources)
-			{
-				Resource myAdminResource = resourceSet.createResource(URI.createURI(modelResource.getURI().toString()));
-				myAdminResource.load(modelResource.getInputStream(), resourceSet.getLoadOptions());
-			}
-
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("error loading model resource", e);
-		}
-	}
-
 	public void run()
 	{
 		int logIdentiation = 0;
 
-		LOGGER.info(String.format("starting dictionary import"));
+		LOG.info(String.format("starting dictionary import"));
 
-		initModel();
+		this.model = SpringModelUtils.getModel(this.modelResource, this.modelResources);
 
 		// modules
 		initModuleTables(logIdentiation + 1);
