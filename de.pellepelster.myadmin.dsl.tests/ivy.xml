@@ -11,8 +11,6 @@
 	</configurations>
 
 	<publications>
-		<artifact name="tools" type="jar" ext="jar" conf="master" />
-		<artifact name="tools-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
 	<dependencies>
