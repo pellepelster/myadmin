@@ -1,0 +1,21 @@
+<ivy-module version="1.0">
+
+	<info organisation="de.pellepelster.myadmin" module="myadmin-ui-libs" status="integration" />
+
+	<configurations>
+		<conf name="default" extends="master, runtime" />
+		<conf name="master" />
+		<conf name="compile" extends="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+	</configurations>
+
+	<publications>
+	</publications>
+
+	<dependencies>
+		<dependency org="com.google.guava" name="guava" rev="13.0.1" />
+		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" />
+	</dependencies>
+
+</ivy-module>

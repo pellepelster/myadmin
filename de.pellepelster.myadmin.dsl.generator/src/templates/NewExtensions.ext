@@ -26,11 +26,11 @@ String getRootWebServicePackageName(Model model) :
 String getServiceImplementationPackageName(RemoteService remoteService) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService);
 
-PackageDeclaration getFirstPackage(Model model) :
-	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getFirstPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
+PackageDeclaration getSingleRootPackage(Model model) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getSingleRootPackage(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
 
-List[Entity] getReferencedEntitiesWithoutDuplicates(List[EntityReferenceType] entityReferenceTypes) :
-	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getReferencedEntitiesWithoutDuplicates(java.util.List);
+List[Entity] getReferencedEntitiesWithoutDuplicates(Entity entity) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getReferencedEntitiesWithoutDuplicates(de.pellepelster.myadmin.dsl.myAdminDsl.Entity);
 
 //- xsd -----------------------------------------------------------------------
 String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
@@ -172,7 +172,7 @@ String datatypeName(Datatype datatype) : datatype.name + "Datatype";
 String controlName(DictionaryControl control) : control.name + "Control";
 	
 String clientGeneratedModuleDefinitionFileName(Model model) : model.name.toFirstUpper() + "Generated.gwt.xml";	
-String fullQualifiedClientGeneratedModuleDefinitionFileName(Model model) : getFirstPackage(model).name.replaceAll('\\.', '/') + "/" + clientGeneratedModuleDefinitionFileName(model);
+String fullQualifiedClientGeneratedModuleDefinitionFileName(Model model) : getSingleRootPackage(model).name.replaceAll('\\.', '/') + "/" + clientGeneratedModuleDefinitionFileName(model);
 
 	
 	

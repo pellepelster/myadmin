@@ -1,0 +1,69 @@
+/*****	********************************************************************************
+ *
+ * Spray diagram definition
+ * 
+ * This file contains the definition of a graphical editor using the Spray Language.
+ * Refer to http://code.google.com/a/eclipselabs.org/p/spray/ for documentation.
+ *
+ * See also msldiagram.properties to configure generator properties.
+ *************************************************************************************/
+// Add import statements here
+import myAdminDsl.*
+
+diagram MyAdminModelDiagram for Model style BusinessClassStyle
+
+class Entity icon "ecore/EClass.gif" {
+	shape EntityShape {
+		name into classname
+		reference attributes into attributes
+	}
+	references {
+		^extends : connection
+	}
+	behavior {
+		create into elements palette "Shapes";
+	}
+}
+
+class ReferenceDatatype {
+    shape EntityShape {
+    	name into classname 
+    }
+    references {
+    	entity : connection;
+    }
+    behavior {
+        create into elements palette "Datatypes"
+    }    
+}
+
+class EntityAttribute alias Textattribute  {
+	shape TextShape {
+		name into name
+	}
+	behavior {
+		create palette "Properties"
+	}
+}
+
+
+class ReferenceDatatypeType {
+	shape TextShape {
+	}
+	references {
+		type : connection
+	}
+	behavior {
+		create palette "Properties"
+	}
+}
+
+//
+// Example association mapping:
+//   class Association icon "connection16.gif" {
+//     connection ArrowConnection {
+//       from source;
+//       to target;
+//     }
+//   }
+

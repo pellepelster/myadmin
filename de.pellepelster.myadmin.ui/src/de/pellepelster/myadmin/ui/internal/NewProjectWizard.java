@@ -68,11 +68,12 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
+import de.pellepelster.myadmin.ui.Constants;
 import de.pellepelster.myadmin.ui.Messages;
 
 public class NewProjectWizard extends Wizard implements INewWizard
 {
-	private final Map<NewProjectWizardPage1.PROJECT_NAME_POSTFIXES, IProject> projects = new HashMap<NewProjectWizardPage1.PROJECT_NAME_POSTFIXES, IProject>();
+	private final Map<Constants.PROJECT_NAME_POSTFIXES, IProject> projects = new HashMap<Constants.PROJECT_NAME_POSTFIXES, IProject>();
 
 	private final NewProjectWizardPage1 newProjectWizardPage1;
 
@@ -104,9 +105,9 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	}
 
-	private IProject getProject(String organization, String projectName, NewProjectWizardPage1.PROJECT_NAME_POSTFIXES projectNamePostfix)
+	private IProject getProject(String organization, String projectName, Constants.PROJECT_NAME_POSTFIXES projectNamePostfix)
 	{
-		String fullProjectName = getProjectName(organization, projectName, projectNamePostfix);
+		String fullProjectName = getProjectName(organization, projectName.toLowerCase(), projectNamePostfix);
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(fullProjectName);
 	}
 
@@ -114,7 +115,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 	{
 		try
 		{
-			for (NewProjectWizardPage1.PROJECT_NAME_POSTFIXES projectNamePostfix : NewProjectWizardPage1.PROJECT_NAME_POSTFIXES.values())
+			for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
 			{
 				IProject project = getProject(organization, projectName, projectNamePostfix);
 
@@ -144,9 +145,19 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 				IJavaProject javaProject = JavaCore.create(project);
 
+				Properties myadminProjectProperties = new Properties();
+				myadminProjectProperties.setProperty(Constants.BUILD_PROJECT_KEY,
+						String.format("%s.%s.%s", organization, projectName.toLowerCase(), Constants.PROJECT_NAME_POSTFIXES.BUILD.toString()));
+
+				OutputStream myadminProjectOutputStream = new ByteArrayOutputStream();
+				myadminProjectProperties.store(myadminProjectOutputStream, null);
+
 				switch (projectNamePostfix)
 				{
 					case GENERATOR:
+
+						write(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME,
+								new ByteArrayInputStream(myadminProjectOutputStream.toString().getBytes()), monitor);
 
 						addProjectNature(project, "org.eclipse.xtext.ui.shared.xtextNature", monitor);
 
@@ -188,14 +199,14 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			}
 
 			// build project
-			final IProject buildProject = this.projects.get(NewProjectWizardPage1.PROJECT_NAME_POSTFIXES.BUILD);
+			final IProject buildProject = this.projects.get(Constants.PROJECT_NAME_POSTFIXES.BUILD);
 
 			// ant bootstrap files
-			IFolder baseAntFolder = buildProject.getFolder(BASE_ANT_PATH);
+			IFolder baseAntFolder = buildProject.getFolder(Constants.BASE_ANT_PATH);
 			baseAntFolder.create(true, true, monitor);
-			final IFolder myadminAntFolder = baseAntFolder.getFolder(MYADMIN_ANT_PATH);
+			final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
 			myadminAntFolder.create(true, true, monitor);
-			write(myadminAntFolder, PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
+			write(myadminAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
 
 			// version properties
 			Properties versionProperties = new Properties();
@@ -204,13 +215,13 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			versionProperties.setProperty("module.version.micro", "1");
 			OutputStream versionOutputStream = new ByteArrayOutputStream();
 			versionProperties.store(versionOutputStream, null);
-			write(buildProject, VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()), monitor);
+			write(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()), monitor);
 
 			// myadmin properties
 			Properties myadminProperties = new Properties();
-			myadminProperties.setProperty("organisation.name", organization);
-			myadminProperties.setProperty("project.name", projectName.toLowerCase());
-			myadminProperties.setProperty("build.project", "${organisation.name}.${project.name}.build");
+			myadminProperties.setProperty(Constants.ORGANISATION_NAME_KEY, organization);
+			myadminProperties.setProperty(Constants.PROJECT_NAME_KEY, projectName.toLowerCase());
+			myadminProperties.setProperty(Constants.BUILD_PROJECT_KEY, "${organisation.name}.${project.name}.build");
 			myadminProperties.setProperty("client.project", "${organisation.name}.${project.name}.client");
 			myadminProperties.setProperty("client.test.project", "${organisation.name}.${project.name}.client.test");
 			myadminProperties.setProperty("server.project", "${organisation.name}.${project.name}.server");
@@ -219,7 +230,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			OutputStream myadminOutputStream = new ByteArrayOutputStream();
 			myadminProperties.store(myadminOutputStream, null);
 
-			write(buildProject, MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()), monitor);
+			write(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()), monitor);
 
 			Job job = new Job(Messages.InitializingProjects)
 			{
@@ -228,13 +239,13 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				{
 					try
 					{
-						runAnt(myadminAntFolder.getFile(PROJECT_BOOTSTRAP_ANT_FILENAME), monitor);
+						runAnt(myadminAntFolder.getFile(Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor);
 						refreshProjects(monitor);
 
 						runAnt(buildProject.getFile("build.xml"), monitor);
 						refreshProjects(monitor);
 
-						for (NewProjectWizardPage1.PROJECT_NAME_POSTFIXES projectNamePostfix : NewProjectWizardPage1.PROJECT_NAME_POSTFIXES.values())
+						for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
 						{
 							IProject project = getProject(organization, projectName, projectNamePostfix);
 							IJavaProject javaProject = JavaCore.create(project);
@@ -278,7 +289,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	}
 
-	private String getProjectName(String organization, String projectName, NewProjectWizardPage1.PROJECT_NAME_POSTFIXES projectNamePostfix)
+	private String getProjectName(String organization, String projectName, Constants.PROJECT_NAME_POSTFIXES projectNamePostfix)
 	{
 		return String.format("%s.%s.%s", organization, projectName, projectNamePostfix.toString());
 	}
@@ -355,20 +366,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	private InputStream openProjectBootstrapAnt()
 	{
-		return getClass().getResourceAsStream(String.format("%s/%s", TEMPLATES_PATH, PROJECT_BOOTSTRAP_ANT_FILENAME));
+		return getClass().getResourceAsStream(String.format("%s/%s", Constants.TEMPLATES_PATH, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME));
 	}
-
-	private static final String TEMPLATES_PATH = "templates";
-
-	private static final String PROJECT_BOOTSTRAP_ANT_FILENAME = "MyAdminProjectBuildBootstrap.xml";
-
-	private static final String VERSION_PROPERTIES_FILENAME = "version.properties";
-
-	private static final String MYADMIN_PROPERTIES_FILENAME = "myadmin.properties";
-
-	private static final String BASE_ANT_PATH = "ant";
-
-	private static final String MYADMIN_ANT_PATH = "myadmin";
 
 	private void write(IContainer container, String fileName, InputStream stream, IProgressMonitor monitor)
 	{

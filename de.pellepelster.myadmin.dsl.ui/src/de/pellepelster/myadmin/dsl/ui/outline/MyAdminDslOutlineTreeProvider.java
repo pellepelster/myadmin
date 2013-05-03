@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.dsl.ui.outline;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
 
 /**
@@ -19,5 +20,4 @@ import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
  */
 public class MyAdminDslOutlineTreeProvider extends DefaultOutlineTreeProvider
 {
-
 }

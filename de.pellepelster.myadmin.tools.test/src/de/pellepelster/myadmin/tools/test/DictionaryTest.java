@@ -31,7 +31,7 @@ import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.server.test.AbstractMyAdminTest;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public class TestDictionary extends AbstractMyAdminTest
+public class DictionaryTest extends AbstractMyAdminTest
 {
 
 	private static DictionaryImportRunner dictionaryImportRunner;

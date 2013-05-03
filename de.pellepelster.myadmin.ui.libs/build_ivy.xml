@@ -1,0 +1,7 @@
+<project name="myadmin-ui-libs" default="compile">
+
+	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
+
+	<property name="no.compile" value="" />
+
+</project>

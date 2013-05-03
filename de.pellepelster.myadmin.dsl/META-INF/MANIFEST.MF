@@ -32,6 +32,8 @@ Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl.parseTreeConstruction,
  de.pellepelster.myadmin.dsl.parser.antlr,
  de.pellepelster.myadmin.dsl.parser.antlr.internal,
+ de.pellepelster.myadmin.dsl.query,
  de.pellepelster.myadmin.dsl.scoping,
  de.pellepelster.myadmin.dsl.services,
+ de.pellepelster.myadmin.dsl.util,
  de.pellepelster.myadmin.dsl.validation

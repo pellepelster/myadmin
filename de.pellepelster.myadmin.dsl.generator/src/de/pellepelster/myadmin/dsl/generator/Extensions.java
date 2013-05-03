@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -24,13 +23,12 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Enumeration;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelScope;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
-import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
+import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
+import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 public class Extensions
 {
@@ -122,24 +120,6 @@ public class Extensions
 		return getPackageName(eObject, modelScope) + "." + entityName(eObject, modelScope);
 	}
 
-	public static PackageDeclaration getFirstPackage(EList<EObject> eObjects)
-	{
-		for (EObject eObject : eObjects)
-		{
-			if (eObject instanceof PackageDeclaration)
-			{
-				return (PackageDeclaration) eObject;
-			}
-		}
-
-		return null;
-	}
-
-	public static PackageDeclaration getFirstPackageName(Model model)
-	{
-		return getFirstPackage(model.eContents());
-	}
-
 	private static ModelScope getModelScope()
 	{
 		Object modelScope = org.eclipse.xtend.util.stdlib.GlobalVarExtensions.getGlobalVar("model_scope");
@@ -223,32 +203,9 @@ public class Extensions
 		return packageName;
 	}
 
-	public static List<Entity> getReferencedEntitiesWithoutDuplicates(List<EntityAttribute> entityAttributes)
+	public static List<Entity> getReferencedEntitiesWithoutDuplicates(Entity entity)
 	{
-		List<Entity> result = new ArrayList<Entity>();
-
-		for (EntityAttribute entityAttribute : entityAttributes)
-		{
-			if (entityAttribute.getType() instanceof ReferenceDatatypeType)
-			{
-				ReferenceDatatypeType referenceDatatypeType = (ReferenceDatatypeType) entityAttribute.getType();
-				if (!result.contains(referenceDatatypeType.getType().getEntity()))
-				{
-					result.add(referenceDatatypeType.getType().getEntity());
-				}
-			}
-
-			if (entityAttribute.getType() instanceof EntityType)
-			{
-				EntityType entityType = (EntityType) entityAttribute.getType();
-				if (!result.contains(entityType.getType()))
-				{
-					result.add(entityType.getType());
-				}
-			}
-		}
-
-		return result;
+		return EntityModelUtil.getLinkedEntitiesWithoutDuplicates(entity);
 	}
 
 	public static Model getRootModel(EObject eObject)
@@ -264,7 +221,12 @@ public class Extensions
 
 	public static String getRootWebServicePackageName(Model model)
 	{
-		return getFirstPackage(model.eContents()).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
+		return ModelUtil.getSingleRootPackage(model).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
+	}
+
+	public static PackageDeclaration getSingleRootPackage(Model model)
+	{
+		return ModelUtil.getSingleRootPackage(model);
 	}
 
 	public static String getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService remoteService)

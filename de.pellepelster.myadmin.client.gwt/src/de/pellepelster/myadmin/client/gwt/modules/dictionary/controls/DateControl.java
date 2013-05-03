@@ -21,7 +21,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -38,7 +38,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 	{
 		this.dateControlModel = dateControlModel;
 
-		ensureDebugId(ModelUtil.getDebugId(dateControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(dateControlModel));
 		setFormat(new DateBox.DefaultFormat(dateControlModel.getFormat()));
 		gwtControlHelper = new ControlHelper(this, dateControlModel, false, Date.class);
 

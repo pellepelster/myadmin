@@ -442,7 +442,6 @@ public class DictionaryImportRunner
 	{
 		try
 		{
-
 			MyAdminDslStandaloneSetup.doSetup();
 
 			ResourceSet resourceSet = new ResourceSetImpl();
@@ -476,12 +475,10 @@ public class DictionaryImportRunner
 	{
 		try
 		{
-
 			for (org.springframework.core.io.Resource modelResource : this.modelResources)
 			{
 				Resource myAdminResource = resourceSet.createResource(URI.createURI(modelResource.getURI().toString()));
 				myAdminResource.load(modelResource.getInputStream(), resourceSet.getLoadOptions());
-
 			}
 
 		}

@@ -2,6 +2,9 @@ grammar de.pellepelster.myadmin.dsl.MyAdminDsl with org.eclipse.xtext.common.Ter
 
 generate myAdminDsl "http://www.pellepelster.de/myadmin/MyAdminDsl"
 
+ModelRoot:
+	Model | PackageDeclaration;
+	
 Model:
 "project" name=ID ("schemaUrl" schemaUrl=STRING)? "{"
 
@@ -92,13 +95,15 @@ EnumerationValue: ID;
 EntityAttribute:
 	type=Type name=ID ("{" entityAttributeOptions=EntityAttributeOptions "}")?;
 
-EntityAttributeOptions:  
-		(mandatory?="mandatory")?
-		(reverse_navigable?="reverse_navigable")?;
+EntityAttributeOptions:
+	{EntityAttributeOptions}
+	(mandatory?="mandatory")?
+	(reverse_navigable?="reverse_navigable")?;
 
 EntityOptions:
-		(hierarchical?="hierarchical")?
-		(noentity?="noentity")?;
+	{EntityOptions}
+	(hierarchical?="hierarchical")?
+	(noentity?="noentity")?;
 
 CascadeEntityAttributeOption: cascadeType=CascadeType;
 
@@ -256,6 +261,7 @@ DictionaryContainerContent:
 
 //- labels --------------------------------------------------------------------
 Labels:
+	{Labels}
 	("label" label=STRING)?
 	("filterLabel" filterLabel=STRING)?
 	("columnLabel" columnLabel=STRING)?
@@ -268,7 +274,8 @@ Datatype:
 	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | ReferenceDatatype;
 
 BaseDictionaryDatatype:
-		labels=Labels;
+	{BaseDictionaryDatatype}
+	labels=Labels;
 
 TextDatatype:
 	"textdatatype" name=ID "{"
@@ -328,49 +335,58 @@ DictionaryControl:
 	DictionaryControlGroup | DictionaryTextControl | DictionaryIntegerControl | DictionaryBigDecimalControl | DictionaryBooleanControl | DictionaryDateControl | DictionaryEnumerationControl | DictionaryReferenceControl;
 
 DictionaryControlGroup:
+	{DictionaryControlGroup}
 	"controlgroup" ("ref" ref=[ DictionaryControlGroup | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 		(groupcontrols+=DictionaryControl)*
 	"}")?;
 
 DictionaryHierarchicalControl:
+	{DictionaryHierarchicalControl}
 	"hierarchicalcontrol" ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 		"hierarchicalId" hierarchicalId=STRING
 	"}")?;
 
 DictionaryTextControl:
+	{DictionaryTextControl}
 	"textcontrol" ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryIntegerControl:
+	{DictionaryIntegerControl}
 	"integercontrol" ("ref" ref=[ DictionaryIntegerControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryBigDecimalControl:
+	{DictionaryBigDecimalControl}
 	"bigdecimalcontrol" ("ref" ref=[ DictionaryBigDecimalControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryBooleanControl:
+	{DictionaryBooleanControl}
 	"booleancontrol" ("ref" ref=[ DictionaryBooleanControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryDateControl:
+	{DictionaryDateControl}
 	"datecontrol" ("ref" ref=[ DictionaryDateControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryEnumerationControl:
+	{DictionaryEnumerationControl}
 	"enumerationcontrol" ("ref" ref=[ DictionaryEnumerationControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 
 DictionaryReferenceControl:
+	{DictionaryReferenceControl}
 	"referencecontrol" ("ref" ref=[ DictionaryReferenceControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 		"dictionary" dictionary=[ Dictionary | QualifiedName ]
@@ -385,7 +401,8 @@ MethodParameter:
 RemoteMethodOptions: "";
 
 RemoteServiceOptions:
-		(nonpublic?="nonpublic")?;
+	{RemoteServiceOptions}
+	(nonpublic?="nonpublic")?;
 		
 RemoteMethod:
 	"remotemethod" (genericTypeDefinition=GenericTypeDefinition)? name=ID ("returns" returnType=Type)? "{"

@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -36,7 +36,7 @@ public class BooleanControl extends CheckBox implements IControl<Widget>
 		this.booleanControlModel = booleanControlModel;
 
 		gwtControlHelper = new ControlHelper(this, booleanControlModel, true, Boolean.class);
-		ensureDebugId(ModelUtil.getDebugId(booleanControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(booleanControlModel));
 
 	}
 

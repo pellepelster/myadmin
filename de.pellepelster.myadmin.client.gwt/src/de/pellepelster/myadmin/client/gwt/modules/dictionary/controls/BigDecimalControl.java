@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -36,7 +36,7 @@ public class BigDecimalControl extends TextBox implements IControl<Widget>
 	{
 		this.bigDecimalControlModel = bigDecimalControlModel;
 		gwtControlHelper = new ControlHelper(this, bigDecimalControlModel, true, BigDecimal.class);
-		ensureDebugId(ModelUtil.getDebugId(bigDecimalControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControlModel));
 	}
 
 	/** {@inheritDoc} */

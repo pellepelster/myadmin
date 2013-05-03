@@ -20,7 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.layout.DictionarySearchInput;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
@@ -62,7 +62,7 @@ public class DictionarySearchModule extends BaseDictionarySearchModule
 			{
 				DictionarySearchModule.this.dictionaryModel = dictionaryModel;
 
-				List<String> referencedDictionaryNames = ModelUtil.getReferencedDictionaryModels(dictionaryModel);
+				List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel);
 
 				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new AsyncCallback<List<IDictionaryModel>>()
 				{

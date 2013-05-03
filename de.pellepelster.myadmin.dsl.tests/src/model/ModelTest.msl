@@ -1,0 +1,71 @@
+project MyAdminDemo { 
+
+	package de.pellepelster.myadmin.test {
+
+		package datatypes {
+	
+			textdatatype TextDataType1 {
+				maxLength 32
+			}
+	
+		}
+	
+		package entities {
+		
+			import datatypes.*
+		
+			entity TestEntity1
+			{
+				datatype TextDataType1 textDataType1
+			}
+	
+		}
+		
+		
+		package dictionaries {
+		
+	 		import entities.*
+	 		import entities.TestEntity1.*
+		
+			dictionary TestDictionary1 {
+			
+				entity TestEntity1
+				title "TestDictionary1Title"
+				label "Dictionary 1 Label"
+				
+				dictionarycontrols {
+				
+					textcontrol TextControl1 {
+						entityattribute textDataType1
+						label "TextControl1"
+					}
+				}
+				
+				labelcontrols {
+					textcontrol ref TextControl1
+				}
+				
+			
+				dictionarysearch TestDictionary1Search {
+					
+					dictionaryfilter TestDictionary1Filter {
+	
+						textcontrol ref TextControl1 {
+							label "TextControl1Filter"
+						}
+						
+					}
+	
+					dictionaryresult TestDictionary1Result {
+						textcontrol ref TextControl1
+					}
+	
+				}
+				
+				dictionaryeditor TestDictionary1Editor {
+					textcontrol ref TextControl1
+				}
+			}
+		}
+	}
+}

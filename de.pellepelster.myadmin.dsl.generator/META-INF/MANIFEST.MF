@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.pellepelster.myadmin.dsl.generator
-Bundle-Vendor: My Company
+Bundle-Vendor: Christian Pelster
 Bundle-Version: 0.0.0.qualifier
 Bundle-SymbolicName: de.pellepelster.myadmin.dsl.generator; singleton:=true
 Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
