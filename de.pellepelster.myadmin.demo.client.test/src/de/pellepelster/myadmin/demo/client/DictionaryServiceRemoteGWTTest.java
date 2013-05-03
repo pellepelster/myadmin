@@ -12,10 +12,6 @@
 package de.pellepelster.myadmin.demo.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.web.MyAdmin;
 
 public class DictionaryServiceRemoteGWTTest extends GWTTestCase
 {
@@ -31,22 +27,23 @@ public class DictionaryServiceRemoteGWTTest extends GWTTestCase
 	{
 		delayTestFinish(2000);
 
-		MyAdmin.getInstance().getRemoteServiceLocator().getDictionaryService().getDictionary("Country", new AsyncCallback<IDictionaryModel>()
-		{
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				caught.toString();
-			}
-
-			@Override
-			public void onSuccess(IDictionaryModel result)
-			{
-				result.toString();
-
-			}
-		});
+		// MyAdmin.getInstance().getRemoteServiceLocator().getDictionaryService().getDictionary("Country",
+		// new AsyncCallback<IDictionaryModel>()
+		// {
+		//
+		// @Override
+		// public void onFailure(Throwable caught)
+		// {
+		// caught.toString();
+		// }
+		//
+		// @Override
+		// public void onSuccess(IDictionaryModel result)
+		// {
+		// result.toString();
+		//
+		// }
+		// });
 
 		// IBaseEntityServiceGWTAsync baseEntityService =
 		// GWT.create(IBaseEntityServiceGWT.class);

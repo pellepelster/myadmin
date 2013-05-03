@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
@@ -47,7 +48,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryImporterTest
 		ITextControlModel textControlModel = (ITextControlModel) countryDictionaryModel.getEditorModel().getCompositeModel().getChildren().get(0).getChildren()
 				.get(0).getControls().get(0);
 
-		Assert.assertEquals("Country-RootComposite-Composite2-Composite3-CountryName", ModelUtil.getDebugId(textControlModel));
+		Assert.assertEquals("Country-RootComposite-Composite2-Composite3-CountryName", DictionaryModelUtil.getDebugId(textControlModel));
 	}
 
 	@Test
