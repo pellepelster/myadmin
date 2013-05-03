@@ -44,6 +44,7 @@
 				<exclude name="de.pellepelster.myadmin.*/bin/**"/>
 				<include name="de.pellepelster.myadmin.ui/**" />
 				<include name="de.pellepelster.myadmin.lib.project/**" />
+				<include name="de.pellepelster.myadmin.ui.libs/**" />
 				<include name="de.pellepelster.myadmin.dsl/**" />
 				<include name="de.pellepelster.myadmin.dsl.ui/**" />
 				<include name="de.pellepelster.myadmin.dsl.generator/**" />

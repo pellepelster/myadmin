@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.ui.util;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
 
@@ -10,7 +11,27 @@ import de.pellepelster.myadmin.ui.Constants;
 public class MyAdminProjectUtil
 {
 
-	public static final String FQDN_PROJECT_NAME_REGEX = "([a-zA-Z_][a-zA-Z\\d_]*\\.)+[A-Z][a-zA-Z\\d_]*";
+	private static final String FQDN_PROJECT_NAME_REGEX = "([a-zA-Z_][a-zA-Z\\d_]*\\.)+([a-zA-Z][A-Za-zA-Z\\d_]*)";
+
+	private static Pattern FQDN_PROJECT_NAME_PATTERN = Pattern.compile(FQDN_PROJECT_NAME_REGEX);
+	
+	public static boolean isValidFQDNProjectName(String fqdnProjectName)
+	{
+		return fqdnProjectName != null && FQDN_PROJECT_NAME_PATTERN.matcher(fqdnProjectName).matches();
+	}
+
+	public static String[] splitFQDNProjectName(String fqdnProjectName)
+	{
+		String[] projectNameSegments = new String[2];
+
+		if (isValidFQDNProjectName(fqdnProjectName))
+		{
+			projectNameSegments[0] = fqdnProjectName.substring(0, fqdnProjectName.lastIndexOf("."));
+			projectNameSegments[1] = fqdnProjectName.substring(fqdnProjectName.lastIndexOf(".")+1);
+		}
+		
+		return projectNameSegments;
+	}
 
 	public static Properties getMyAdminProjectProperties(IProject project)
 	{
@@ -78,10 +99,4 @@ public class MyAdminProjectUtil
 		return getPropertyOrFail(properties, Constants.BUILD_PROJECT_KEY);
 	}
 
-	public static String[] getFQDNProjectNameSegments(String fqdnProjectName)
-	{
-		String[] fqdnProjectNameSegments = new String[2];
-
-		return fqdnProjectNameSegments;
-	}
 }

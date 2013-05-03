@@ -12,16 +12,15 @@ public class MyAdminUiTest
 	@Test
 	public void testFqdnprojectName()
 	{
-		String regEx = MyAdminProjectUtil.FQDN_PROJECT_NAME_REGEX;
-
-		Assert.assertTrue("a.b.c.d.Efg".matches(regEx));
-		Assert.assertTrue("a.E1".matches(regEx));
-		Assert.assertTrue("dsads.dede.Dede".matches(regEx));
-		Assert.assertFalse("a.a.e".matches(regEx));
-		Assert.assertFalse("a.a".matches(regEx));
-		Assert.assertFalse("aaa".matches(regEx));
-		Assert.assertFalse("AAA".matches(regEx));
-
+		Assert.assertTrue(MyAdminProjectUtil.isValidFQDNProjectName("a.b.c.d"));
+		Assert.assertTrue(MyAdminProjectUtil.isValidFQDNProjectName("a.b.c.D"));
+		Assert.assertTrue(MyAdminProjectUtil.isValidFQDNProjectName("a.b"));
+		Assert.assertTrue(MyAdminProjectUtil.isValidFQDNProjectName("a.b.c1"));
+		Assert.assertFalse(MyAdminProjectUtil.isValidFQDNProjectName("a"));
+		Assert.assertFalse(MyAdminProjectUtil.isValidFQDNProjectName(".a.b."));
+		Assert.assertFalse(MyAdminProjectUtil.isValidFQDNProjectName("a.b."));
+		Assert.assertFalse(MyAdminProjectUtil.isValidFQDNProjectName("a.b.1"));
+		Assert.assertFalse(MyAdminProjectUtil.isValidFQDNProjectName(".a.b."));
 	}
 
 }

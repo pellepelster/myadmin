@@ -80,7 +80,7 @@ public class «baseRestServiceControllerName()» {
 		-->
 		
 		<!--
-	 	<context:component-scan base-package="«getFirstPackage().name».*"/>
+	 	<context:component-scan base-package="«getSingleRootPackage().name».*"/>
 		-->
 		
 </beans>

@@ -1,0 +1,56 @@
+project Project1 {
+	
+	package entities {
+	
+		textdatatype StringDatatype {
+			maxLength 32
+		}
+
+		integerdatatype IntegerDatatype {
+			max 100
+			min 10
+		}
+		
+		booleandatatype BooleanDatatype
+		{
+		}
+
+		datedatatype DateDatatype
+		{
+		}
+
+		entity Entity1 {
+		
+			datatype StringDatatype string1
+			datatype BooleanDatatype boolean1
+			datatype IntegerDatatype integer1
+			
+			datatype Entity2Datatype entity2
+			reference Entity3 entity3
+			referencedatatype Entity4Datatype entity4 
+		}
+
+		entity Entity2 {
+			datatype StringDatatype string2
+			datatype DateDatatype date2
+		}
+
+		entity Entity3 {
+			datatype StringDatatype string3
+		}
+
+		entity Entity4 {
+			datatype StringDatatype string4
+		}
+
+		referencedatatype Entity4Datatype 
+		{
+			entity Entity4
+		}
+
+		referencedatatype Entity2Datatype 
+		{
+			entity Entity2
+		}
+	}
+}

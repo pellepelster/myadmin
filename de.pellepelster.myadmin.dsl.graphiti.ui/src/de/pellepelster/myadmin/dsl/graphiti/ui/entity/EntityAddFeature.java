@@ -19,25 +19,19 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.DiagramUtil;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.EntityUtil;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.EntityShapeUtil;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
 
 public class EntityAddFeature extends AbstractAddShapeFeature
 {
 
 	public static final String ENTITY_HEADER_LINE_ID = "entity.header.line";
-
-	private static final IColorConstant ENTITY_TEXT_FOREGROUND = IColorConstant.BLACK;
-
-	private static final IColorConstant ENTITY_FOREGROUND = new ColorConstant(98, 131, 167);
-
-	private static final IColorConstant ENTITY_BACKGROUND = new ColorConstant(187, 218, 247);
 
 	public EntityAddFeature(IFeatureProvider fp)
 	{
@@ -70,7 +64,7 @@ public class EntityAddFeature extends AbstractAddShapeFeature
 		Entity addedEntity = (Entity) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 
-		List<Entity> referencedEntities = EntityUtil.getLinkedEntities(addedEntity);
+		List<Entity> referencedEntities = EntityModelUtil.getLinkedEntities(addedEntity);
 
 		// CONTAINER SHAPE WITH ROUNDED RECTANGLE
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -87,8 +81,8 @@ public class EntityAddFeature extends AbstractAddShapeFeature
 		{
 			// create and set graphics algorithm
 			roundedRectangle = gaService.createRoundedRectangle(containerShape, 5, 5);
-			roundedRectangle.setForeground(manageColor(ENTITY_FOREGROUND));
-			roundedRectangle.setBackground(manageColor(ENTITY_BACKGROUND));
+			roundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.ENTITY_FOREGROUND));
+			roundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.ENTITY_BACKGROUND));
 			roundedRectangle.setLineWidth(2);
 			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), width, height);
 
@@ -101,7 +95,7 @@ public class EntityAddFeature extends AbstractAddShapeFeature
 			Shape shape = peCreateService.createShape(containerShape, false);
 
 			Polyline polyline = gaService.createPolyline(shape, getHeaderLinePoints(roundedRectangle));
-			polyline.setForeground(manageColor(ENTITY_FOREGROUND));
+			polyline.setForeground(manageColor(MyAdminGraphitiConstants.ENTITY_FOREGROUND));
 			polyline.setLineWidth(2);
 			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ENTITY_HEADER_LINE_ID);
 		}
@@ -113,7 +107,7 @@ public class EntityAddFeature extends AbstractAddShapeFeature
 
 			// create and set text graphics algorithm
 			Text text = gaService.createText(shape, addedEntity.getName());
-			text.setForeground(manageColor(ENTITY_TEXT_FOREGROUND));
+			text.setForeground(manageColor(MyAdminGraphitiConstants.ENTITY_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 
 			// vertical alignment has as default value "center"
@@ -126,7 +120,7 @@ public class EntityAddFeature extends AbstractAddShapeFeature
 
 		for (Entity entity : referencedEntities)
 		{
-			for (Shape shape : DiagramUtil.getEntityShape(targetDiagram, entity))
+			for (Shape shape : EntityShapeUtil.getEntityShape(targetDiagram, entity))
 			{
 				Anchor sourceAnchor = DiagramUtil.getOrCreateChopboxAnchor(containerShape);
 				Anchor targetAnchor = DiagramUtil.getOrCreateChopboxAnchor(shape);

@@ -67,30 +67,30 @@ public class ModelUiUtil
 	{
 		ResourceSet resourceSet = new ResourceSetImpl();
 
-		Resource modelResource = null;
+		Resource resource = null;
 		try
 		{
-			modelResource = resourceSet.createResource(uri);
-			modelResource.load(uriConverter.createInputStream(uri), resourceSet.getLoadOptions());
+			resource = resourceSet.createResource(uri);
+			resource.load(uriConverter.createInputStream(uri), resourceSet.getLoadOptions());
 		}
 		catch (Exception e)
 		{
-			LOG.error(String.format("error creating resource for '%s'", modelResource.getURI().toString()), e);
+			LOG.error(String.format("error creating resource for '%s'", resource.getURI().toString()), e);
 		}
 
-		if (!modelResource.getContents().isEmpty())
+		if (!resource.getContents().isEmpty())
 		{
-			if (modelResource.getContents().get(0) instanceof Model)
+			if (resource.getContents().get(0) instanceof Model)
 			{
-				return (Model) modelResource.getContents().get(0);
+				return (Model) resource.getContents().get(0);
 			}
-			else if (modelResource.getContents().get(0) instanceof PackageDeclaration)
+			else if (resource.getContents().get(0) instanceof PackageDeclaration)
 			{
-				return (PackageDeclaration) modelResource.getContents().get(0);
+				return (PackageDeclaration) resource.getContents().get(0);
 			}
 			else
 			{
-				throw new RuntimeException(String.format("unknown model root '%s'", modelResource.getContents().get(0).eClass().toString()));
+				throw new RuntimeException(String.format("unknown model root '%s'", resource.getContents().get(0).eClass().toString()));
 			}
 		}
 

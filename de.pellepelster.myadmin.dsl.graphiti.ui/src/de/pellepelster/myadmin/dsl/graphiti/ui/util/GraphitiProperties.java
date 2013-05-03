@@ -12,7 +12,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -84,15 +83,16 @@ public class GraphitiProperties
 		return result;
 	}
 
-	public static List<Shape> getShapesByElementId(ContainerShape containerShape)
+	public static List<Shape> getShapes(ContainerShape containerShape)
 	{
 		List<Shape> shapes = new ArrayList<Shape>();
-		getShapesByElementId(containerShape, shapes);
+
+		getShapes(containerShape, shapes);
 
 		return shapes;
 	}
 
-	public static List<Shape> getShapesByElementId(ContainerShape containerShape, List<Shape> shapes)
+	public static List<Shape> getShapes(ContainerShape containerShape, List<Shape> shapes)
 	{
 		for (Shape shape : containerShape.getChildren())
 		{
@@ -100,31 +100,17 @@ public class GraphitiProperties
 
 			if (shape instanceof ContainerShape)
 			{
-				shapes.addAll(getShapesByElementId((ContainerShape) shape));
+				shapes.addAll(getShapes((ContainerShape) shape));
 			}
 		}
 
 		return shapes;
 	}
-	
+
 	public static List<Polyline> getPolylines(ContainerShape containerShape)
 	{
-		List<Shape> shapes = getShapesByElementId(containerShape);
-
-		List<Polyline> polylines = Lists.transform(shapes, new Function<Shape, Polyline>()
-		{
-			@Override
-			public Polyline apply(Shape shape)
-			{
-				if (shape.getGraphicsAlgorithm() instanceof Polyline)
-				{
-					return (Polyline) shape.getGraphicsAlgorithm();
-				}
-				
-				return null;
-			}
-		});
-		
+		List<Shape> shapes = getShapes(containerShape);
+		List<Polyline> polylines = Lists.transform(shapes, FunctionGaTypeSelect.getFunction(Polyline.class));
 		return polylines;
 	}
 
@@ -144,7 +130,7 @@ public class GraphitiProperties
 	public static Polyline getPolylineById(ContainerShape containerShape, final String elementId)
 	{
 		Collection<Polyline> polylines = getPolylinesById(containerShape, elementId);
-		
+
 		if (polylines.size() == 1)
 		{
 			return polylines.iterator().next();

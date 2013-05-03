@@ -156,7 +156,7 @@ public class NewDiagramPage extends WizardPage
 			return false;
 		}
 
-		if (!getName().matches(MyAdminProjectUtil.FQDN_PROJECT_NAME_REGEX))
+		if (MyAdminProjectUtil.isValidFQDNProjectName(getName()))
 		{
 			updateStatus(Messages.ModelFileNameFormat);
 			return false;

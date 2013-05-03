@@ -163,7 +163,7 @@ Type:
 	 
 	targetNamespace="«xsdNamespace()»"
 
-	«FOREACH getReferencedEntitiesWithoutDuplicates(attributes).reject(e|e == this) AS entity-»
+	«FOREACH getReferencedEntitiesWithoutDuplicates(this).reject(e|e == this) AS entity-»
 	xmlns:«xsdQualifier(entity)»="«xsdNamespace(entity)»"
 	«ENDFOREACH»
 
@@ -173,7 +173,7 @@ Type:
 
 	elementFormDefault="unqualified">
 
-	«FOREACH getReferencedEntitiesWithoutDuplicates(attributes).reject(e|e == this) AS entity-»
+	«FOREACH getReferencedEntitiesWithoutDuplicates(this).reject(e|e == this) AS entity-»
 	<xsd:import namespace="«xsdNamespace(entity)»" schemaLocation="«xsdSchemaLocation(entity)»"/>
 	«ENDFOREACH»
 

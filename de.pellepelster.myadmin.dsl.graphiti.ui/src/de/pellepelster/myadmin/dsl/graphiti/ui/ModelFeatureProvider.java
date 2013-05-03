@@ -44,9 +44,9 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 	public ILayoutFeature getLayoutFeature(ILayoutContext context)
 	{
 		PictogramElement pictogramElement = context.getPictogramElement();
-		Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+		Object businessObject = getBusinessObjectForPictogramElement(pictogramElement);
 
-		if (bo instanceof Entity)
+		if (businessObject instanceof Entity)
 		{
 			return new EntityLayoutFeature(this);
 		}

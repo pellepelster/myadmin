@@ -14,20 +14,16 @@ package de.pellepelster.myadmin.dsl.test;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import junit.framework.Assert;
-
 import org.eclipse.emf.common.util.URI;
-import org.junit.Test;
 import org.osgi.framework.Bundle;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.ui.ModelUiUtil;
-import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
-public class ModelTest
+public class BaseModelTest
 {
 
-	public Model getModel(String model)
+	protected Model getModel(String model)
 	{
 		Bundle bundle = Activator.getDefault().getBundle();
 		URL fileURL = bundle.getResource(model);
@@ -42,14 +38,4 @@ public class ModelTest
 		}
 	}
 
-	@Test
-	public void testModel()
-	{
-		Model model = getModel("model/EmptyModel.msl");
-		Assert.assertFalse(ModelUtil.hasRootPackage(model));
-
-		ModelUtil.createRootPackage(model, "a.b.c");
-
-		Assert.assertTrue(ModelUtil.hasRootPackage(model));
-	}
 }
