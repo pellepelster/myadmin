@@ -1,0 +1,7 @@
+project PackagesModel { 
+
+	package a.b {
+		package c.d {
+		}
+	}
+}

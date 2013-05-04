@@ -24,7 +24,22 @@ public class BaseEObjectQuery<T extends EObject>
 
 	public Collection<T> getList()
 	{
-		return eObjects;
+		return this.eObjects;
+	}
+
+	public boolean hasExactlyOne()
+	{
+		return getList().size() == 1;
+	}
+
+	public T getSinglePackage()
+	{
+		if (!hasExactlyOne())
+		{
+			throw new RuntimeException(String.format("found %d but expected expected one", getList().size()));
+		}
+
+		return getList().iterator().next();
 	}
 
 	protected <K extends EObject> Collection<K> transform(EStructuralFeature eStructuralFeature, Class<K> typeClass)

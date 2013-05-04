@@ -1,4 +1,4 @@
-project MyAdminDemo { 
+project ModelTest { 
 
 	package de.pellepelster.myadmin.test {
 

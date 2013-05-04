@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
-import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
 
@@ -24,7 +23,7 @@ public class ModelUtil
 
 	public static Collection<PackageDeclaration> getRootPackages(ModelRoot model)
 	{
-		return ModelQuery.createQuery(model).getRootPackages().getPackages();
+		return ModelQuery.createQuery(model).getRootPackages().getList();
 	}
 
 	public static PackageDeclaration getSingleRootPackage(Model model)
@@ -34,30 +33,34 @@ public class ModelUtil
 
 	public static boolean hasSingleRootPackage(ModelRoot model)
 	{
-		return ModelQuery.createQuery(model).getRootPackages().hasOnePackage();
+		return ModelQuery.createQuery(model).getRootPackages().hasExactlyOne();
 	}
 
-	public static void createUpdateOrCreateRootPackage(Model model, String packageName)
-	{
-		PackageDeclaration packageDeclaration;
-		Collection<PackageDeclaration> rootPackages = getRootPackages(model);
-
-		if (rootPackages.isEmpty())
-		{
-			packageDeclaration = MyAdminDslFactory.eINSTANCE.createPackageDeclaration();
-			model.getElements().add(packageDeclaration);
-		}
-		else if (rootPackages.size() == 1)
-		{
-			packageDeclaration = rootPackages.iterator().next();
-		}
-		else
-		{
-			throw new RuntimeException(String.format("more than one or no root package found for model '%s'", model.getName()));
-		}
-
-		packageDeclaration.setName(packageName);
-	}
+	// public static void createUpdateOrCreateRootPackage(Model model, String
+	// packageName)
+	// {
+	// PackageDeclaration packageDeclaration;
+	// Collection<PackageDeclaration> rootPackages = getRootPackages(model);
+	//
+	// if (rootPackages.isEmpty())
+	// {
+	// packageDeclaration =
+	// MyAdminDslFactory.eINSTANCE.createPackageDeclaration();
+	// model.getElements().add(packageDeclaration);
+	// }
+	// else if (rootPackages.size() == 1)
+	// {
+	// packageDeclaration = rootPackages.iterator().next();
+	// }
+	// else
+	// {
+	// throw new
+	// RuntimeException(String.format("more than one or no root package found for model '%s'",
+	// model.getName()));
+	// }
+	//
+	// packageDeclaration.setName(packageName);
+	// }
 
 	public static Model getModelFromFile(URI uri)
 	{

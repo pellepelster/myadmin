@@ -1,4 +1,4 @@
-project EmptyModel { 
-	package a.b.c {
+project SingleRootPackageModel { 
+	package a.b {
 	}
 }

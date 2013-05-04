@@ -10,6 +10,8 @@ import com.google.inject.Inject;
 import de.pellepelster.myadmin.dsl.graphiti.ui.ModelDiagramModelService;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
+import de.pellepelster.myadmin.dsl.query.ModelQuery;
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class EntityCreateFeature extends AbstractCreateFeature
 {
@@ -23,9 +25,8 @@ public class EntityCreateFeature extends AbstractCreateFeature
 
 	public EntityCreateFeature(IFeatureProvider fp)
 	{
-		// set name and description of the creation feature
 		super(fp, "Entity", "Create Entity");
-		modelService = ModelDiagramModelService.getModelService(fp.getDiagramTypeProvider());
+		this.modelService = ModelDiagramModelService.getModelService(fp.getDiagramTypeProvider());
 	}
 
 	@Override
@@ -49,10 +50,14 @@ public class EntityCreateFeature extends AbstractCreateFeature
 		Entity newEntity = MyAdminDslFactory.eINSTANCE.createEntity();
 		newEntity.setName(newClassName);
 
-		modelService.getModel().getElements().add(newEntity);
+		Diagram diagram = (Diagram) context.getTargetContainer();
 
-        //getFeatureProvider().getDirectEditingInfo().setActive(true);
-		
+		String[] e = MyAdminProjectUtil.splitFQDNProjectName(diagram.getName());
+
+		ModelQuery.createQuery(this.modelService.getModel()).getPackageByName(e[0]).getElements().add(newEntity);
+
+		// getFeatureProvider().getDirectEditingInfo().setActive(true);
+
 		addGraphicalRepresentation(context, newEntity);
 
 		return new Object[] { newEntity };

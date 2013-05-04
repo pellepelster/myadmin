@@ -19,7 +19,8 @@ Require-Bundle: com.ibm.icu,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase,
- org.apache.log4j
+ org.apache.log4j,
+ de.pellepelster.myadmin.ui.libs
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl,

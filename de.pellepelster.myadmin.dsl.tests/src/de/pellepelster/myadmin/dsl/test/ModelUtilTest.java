@@ -11,42 +11,7 @@
  */
 package de.pellepelster.myadmin.dsl.test;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
-import de.pellepelster.myadmin.dsl.util.ModelUtil;
-import de.pellepelster.myadmin.tools.SpringModelUtils;
 
 public class ModelUtilTest
 {
-
-	@Test
-	public void testCreateUpdateOrCreateRootPackageEmptyModel()
-	{
-		Model model = SpringModelUtils.getModel("classpath:model/EmptyModel.msl");
-
-		Assert.assertFalse(ModelUtil.hasSingleRootPackage(model));
-
-		ModelUtil.createUpdateOrCreateRootPackage(model, "a.b.c");
-
-		Assert.assertTrue(ModelUtil.hasSingleRootPackage(model));
-		Assert.assertEquals("a.b.c", ModelUtil.getSingleRootPackage(model).getName());
-	}
-
-	@Test
-	public void testCreateUpdateOrCreateRootPackageSingleRootPackageModel()
-	{
-		Model model = SpringModelUtils.getModel("classpath:model/SingleRootPackageModel.msl");
-
-		Assert.assertTrue(ModelUtil.hasSingleRootPackage(model));
-		Assert.assertEquals("a.b.c", ModelUtil.getSingleRootPackage(model).getName());
-
-		ModelUtil.createUpdateOrCreateRootPackage(model, "x.x.x");
-
-		Assert.assertTrue(ModelUtil.hasSingleRootPackage(model));
-		Assert.assertEquals("x.x.x", ModelUtil.getSingleRootPackage(model).getName());
-	}
-
 }
