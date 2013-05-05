@@ -7,6 +7,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseClassCreateFeature;
+import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 
@@ -24,19 +25,12 @@ public class EntityCreateFeature extends BaseClassCreateFeature
 	}
 
 	@Override
-	public Object[] create(ICreateContext context)
+	public AbstractElement createInternal(ICreateContext context, String className)
 	{
-		// ask user for EClass name
-		String newClassName = "abc"; // ExampleUtil.askString(TITLE,
-										// USER_QUESTION, "");
-		if (newClassName == null || newClassName.trim().length() == 0)
-		{
-			return EMPTY;
-		}
-
 		Entity newEntity = MyAdminDslFactory.eINSTANCE.createEntity();
-		newEntity.setName(newClassName);
+		newEntity.setName(className);
 
-		return baseCreate(context, newEntity);
+		return newEntity;
 	}
+
 }

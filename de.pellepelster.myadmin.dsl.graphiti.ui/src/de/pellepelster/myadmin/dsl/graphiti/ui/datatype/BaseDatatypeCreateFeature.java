@@ -21,21 +21,4 @@ public abstract class BaseDatatypeCreateFeature<T extends Datatype> extends Base
 		return CreateContextQuery.create(context).targetContainerIs(Diagram.class).result();
 	}
 
-	public abstract T createDataTypeInternal(ICreateContext context, String name);
-
-	@Override
-	public Object[] create(ICreateContext context)
-	{
-		// ask user for EClass name
-		String newClassName = "abc"; // ExampleUtil.askString(TITLE,
-										// USER_QUESTION, "");
-		if (newClassName == null || newClassName.trim().length() == 0)
-		{
-			return EMPTY;
-		}
-
-		T newDatatype = createDataTypeInternal(context, newClassName);
-
-		return baseCreate(context, newDatatype);
-	}
 }

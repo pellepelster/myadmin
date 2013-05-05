@@ -8,6 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import com.google.inject.Inject;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.ModelDiagramModelService;
 import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
@@ -39,14 +40,28 @@ public abstract class BaseClassCreateFeature extends AbstractCreateFeature
 		return ModelQuery.createQuery(getModelService().getModel()).getAndCreatePackageByName(projectNameSegments[0]);
 	}
 
-	public Object[] baseCreate(ICreateContext context, AbstractElement abstractElement)
+	@Override
+	public Object[] create(ICreateContext context)
 	{
+		String newClassName = String.format("%s%s", Messages.New, getName());
+
+		if (newClassName == null || newClassName.trim().length() == 0)
+		{
+			return EMPTY;
+		}
+
+		AbstractElement abstractElement = createInternal(context, newClassName);
+
 		getPackage(context).getElements().add(abstractElement);
 		getFeatureProvider().getDirectEditingInfo().setActive(true);
 
 		addGraphicalRepresentation(context, abstractElement);
 
+		getFeatureProvider().getDirectEditingInfo().setActive(true);
+
 		return new Object[] { abstractElement };
 	}
+
+	public abstract AbstractElement createInternal(ICreateContext context, String className);
 
 }

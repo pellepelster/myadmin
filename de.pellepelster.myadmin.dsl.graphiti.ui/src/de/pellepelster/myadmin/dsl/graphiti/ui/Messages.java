@@ -17,6 +17,8 @@ public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "de.pellepelster.myadmin.dsl.graphiti.ui.messages"; //$NON-NLS-1$
 
+	public static String New;
+
 	public static String ModelFileNameMustBeSpecified;
 
 	public static String ModelFileNameFormat;

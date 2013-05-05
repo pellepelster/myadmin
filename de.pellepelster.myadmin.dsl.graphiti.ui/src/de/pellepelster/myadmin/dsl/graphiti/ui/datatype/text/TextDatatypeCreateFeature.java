@@ -17,7 +17,7 @@ public class TextDatatypeCreateFeature extends BaseDatatypeCreateFeature<TextDat
 	}
 
 	@Override
-	public TextDatatype createDataTypeInternal(ICreateContext context, String name)
+	public TextDatatype createInternal(ICreateContext context, String name)
 	{
 		TextDatatype textDatatype = MyAdminDslFactory.eINSTANCE.createTextDatatype();
 		textDatatype.setName(name);

@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.util;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
@@ -22,6 +23,8 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
 
 public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAddShapeFeature
 {
+	private int HEADER_LINE_Y = 20;
+
 	private Class<T> businessObjectClass;
 
 	public BaseClassAddFeature(IFeatureProvider fp, Class<T> businessObjectClass)
@@ -34,6 +37,8 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 
 	public static final String NAME_TEXT_ID = "entity.name.text";
 
+	public static final String ATTRIBUTES_CONTAINER_ID = "attributes.container";
+
 	@Override
 	public boolean canAdd(IAddContext context)
 	{
@@ -42,26 +47,22 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 
 	private int[] getHeaderLinePoints(GraphicsAlgorithm graphicsAlgorithm)
 	{
-		return new int[] { 0, 20, graphicsAlgorithm.getWidth(), 20 };
+		return new int[] { 0, this.HEADER_LINE_Y, graphicsAlgorithm.getWidth(), this.HEADER_LINE_Y };
 	}
 
 	@SuppressWarnings("unchecked")
 	public PictogramElement addInternal(IAddContext context)
 	{
-		T addedBusinessObjecty = (T) context.getNewObject();
+		T addedBusinessObject = (T) context.getNewObject();
 
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
-
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
-
 		ContainerShape containerShape = peCreateService.createContainerShape(targetDiagram, true);
-
 		IGaService gaService = Graphiti.getGaService();
 
 		RoundedRectangle roundedRectangle; // need to access it later
 
 		{
-			// create and set graphics algorithm
 			roundedRectangle = gaService.createRoundedRectangle(containerShape, 5, 5);
 			roundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			roundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.CLASS_BACKGROUND));
@@ -69,8 +70,7 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH,
 					MyAdminGraphitiConstants.CLASS_DEFAULT_HEIGHT);
 
-			// create link and wire it
-			link(containerShape, addedBusinessObjecty);
+			link(containerShape, addedBusinessObject);
 		}
 
 		// header line
@@ -83,24 +83,39 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, HEADER_LINE_ID);
 		}
 
-		// SHAPE WITH TEXT
+		// name text
 		{
-			// create shape for text
 			Shape shape = peCreateService.createShape(containerShape, false);
 
-			// create and set text graphics algorithm
-			Text text = gaService.createText(shape, getNameText(addedBusinessObjecty));
+			Text text = gaService.createText(shape, getNameText(addedBusinessObject));
 			text.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 
-			// vertical alignment has as default value "center"
 			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
-			gaService.setLocationAndSize(text, 0, 0, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH, 20);
+			gaService.setLocationAndSize(text, 0, 0, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH, this.HEADER_LINE_Y);
 
 			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, NAME_TEXT_ID);
+			link(shape, addedBusinessObject);
 
-			// create link and wire it
-			link(shape, addedBusinessObjecty);
+			IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+			directEditingInfo.setMainPictogramElement(containerShape);
+			directEditingInfo.setPictogramElement(shape);
+			directEditingInfo.setGraphicsAlgorithm(text);
+		}
+
+		// attributes container
+		{
+			ContainerShape attributesContainerShape = peCreateService.createContainerShape(containerShape, false);
+
+			RoundedRectangle attributesRoundedRectangle = gaService.createRoundedRectangle(attributesContainerShape, 5, 5);
+			attributesRoundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
+			attributesRoundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.CLASS_ATTRIBUTES_BACKGROUND));
+			gaService.setLocationAndSize(attributesRoundedRectangle, context.getX(), this.HEADER_LINE_Y, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH,
+					MyAdminGraphitiConstants.CLASS_DEFAULT_HEIGHT);
+
+			GraphitiProperties.set(attributesContainerShape, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ATTRIBUTES_CONTAINER_ID);
+			link(attributesContainerShape, addedBusinessObject);
+
 		}
 
 		return containerShape;

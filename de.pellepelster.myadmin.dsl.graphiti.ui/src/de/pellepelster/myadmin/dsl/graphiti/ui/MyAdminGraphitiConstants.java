@@ -17,6 +17,8 @@ public interface MyAdminGraphitiConstants
 
 	static final IColorConstant CLASS_FOREGROUND = new ColorConstant(98, 131, 167);
 
+	static final IColorConstant CLASS_ATTRIBUTES_BACKGROUND = new ColorConstant(44, 100, 100);
+
 	static final IColorConstant CLASS_BACKGROUND = new ColorConstant(187, 218, 247);
 
 	static final IColorConstant PACKAGE_TEXT_FOREGROUND = CLASS_TEXT_FOREGROUND;
