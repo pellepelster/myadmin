@@ -13,21 +13,21 @@ import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
-import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 import de.pellepelster.myadmin.dsl.query.functions.FunctionTypeSelect;
 
 public class ModelQuery
 {
-	private ModelRoot model;
+	private Model model;
 
-	private ModelQuery(ModelRoot model)
+	private ModelQuery(Model model)
 	{
 		this.model = model;
 	}
 
-	public static ModelQuery createQuery(ModelRoot model)
+	public static ModelQuery createQuery(Model model)
 	{
 		return new ModelQuery(model);
 	}
@@ -73,7 +73,7 @@ public class ModelQuery
 		}
 	}
 
-	public PackageDeclaration getPackageByName(Collection<PackageDeclaration> packageDeclarations, String packageName, boolean create)
+	public PackageDeclaration getPackageByName(Model model, Collection<PackageDeclaration> packageDeclarations, String packageName, boolean create)
 	{
 		SortedMap<String, PackageDeclaration> packageHierarchy = new TreeMap<String, PackageDeclaration>();
 		createPackageHiararchy(packageDeclarations, "", packageHierarchy);
@@ -85,7 +85,6 @@ public class ModelQuery
 
 		if (create)
 		{
-
 			String tempPackageName = packageName;
 			PackageDeclaration parentPackage = null;
 
@@ -156,6 +155,12 @@ public class ModelQuery
 				}
 			}
 
+			PackageDeclaration newPackage = MyAdminDslFactory.eINSTANCE.createPackageDeclaration();
+			newPackage.setName(packageName);
+			model.getElements().add(newPackage);
+
+			return newPackage;
+
 		}
 
 		return null;
@@ -163,11 +168,11 @@ public class ModelQuery
 
 	public PackageDeclaration getPackageByName(String packageName)
 	{
-		return getPackageByName(getRootPackages().getList(), packageName, false);
+		return getPackageByName(this.model, getRootPackages().getList(), packageName, false);
 	}
 
 	public PackageDeclaration getAndCreatePackageByName(String packageName)
 	{
-		return getPackageByName(getRootPackages().getList(), packageName, true);
+		return getPackageByName(this.model, getRootPackages().getList(), packageName, true);
 	}
 }

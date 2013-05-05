@@ -13,11 +13,11 @@ public interface MyAdminGraphitiConstants
 
 	static final String PACKAGE_NAME_KEY = "package.name";
 
-	static final IColorConstant ENTITY_TEXT_FOREGROUND = IColorConstant.BLACK;
+	static final IColorConstant CLASS_TEXT_FOREGROUND = IColorConstant.BLACK;
 
-	static final IColorConstant ENTITY_FOREGROUND = new ColorConstant(98, 131, 167);
+	static final IColorConstant CLASS_FOREGROUND = new ColorConstant(98, 131, 167);
 
-	static final IColorConstant ENTITY_BACKGROUND = new ColorConstant(187, 218, 247);
+	static final IColorConstant CLASS_BACKGROUND = new ColorConstant(187, 218, 247);
 
-	static final IColorConstant PACKAGE_TEXT_FOREGROUND = ENTITY_TEXT_FOREGROUND;
+	static final IColorConstant PACKAGE_TEXT_FOREGROUND = CLASS_TEXT_FOREGROUND;
 }

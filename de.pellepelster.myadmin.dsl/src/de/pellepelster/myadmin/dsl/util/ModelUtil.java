@@ -21,7 +21,7 @@ public class ModelUtil
 
 	private static final URIConverter uriConverter = new ExtensibleURIConverterImpl();
 
-	public static Collection<PackageDeclaration> getRootPackages(ModelRoot model)
+	public static Collection<PackageDeclaration> getRootPackages(Model model)
 	{
 		return ModelQuery.createQuery(model).getRootPackages().getList();
 	}
@@ -31,7 +31,7 @@ public class ModelUtil
 		return ModelQuery.createQuery(model).getRootPackages().getSinglePackage();
 	}
 
-	public static boolean hasSingleRootPackage(ModelRoot model)
+	public static boolean hasSingleRootPackage(Model model)
 	{
 		return ModelQuery.createQuery(model).getRootPackages().hasExactlyOne();
 	}

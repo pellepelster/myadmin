@@ -1,20 +1,18 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.entity;
+package de.pellepelster.myadmin.dsl.graphiti.ui.datatype;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseClassCreateFeature;
-import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
-import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 
-public class EntityCreateFeature extends BaseClassCreateFeature
+public abstract class BaseDatatypeCreateFeature<T extends Datatype> extends BaseClassCreateFeature
 {
-	public EntityCreateFeature(IFeatureProvider fp)
+	public BaseDatatypeCreateFeature(IFeatureProvider fp, String name, String description)
 	{
-		super(fp, Messages.Entity, Messages.EntityCreate);
+		super(fp, name, description);
 	}
 
 	@Override
@@ -22,6 +20,8 @@ public class EntityCreateFeature extends BaseClassCreateFeature
 	{
 		return CreateContextQuery.create(context).targetContainerIs(Diagram.class).result();
 	}
+
+	public abstract T createDataTypeInternal(ICreateContext context, String name);
 
 	@Override
 	public Object[] create(ICreateContext context)
@@ -34,9 +34,8 @@ public class EntityCreateFeature extends BaseClassCreateFeature
 			return EMPTY;
 		}
 
-		Entity newEntity = MyAdminDslFactory.eINSTANCE.createEntity();
-		newEntity.setName(newClassName);
+		T newDatatype = createDataTypeInternal(context, newClassName);
 
-		return baseCreate(context, newEntity);
+		return baseCreate(context, newDatatype);
 	}
 }

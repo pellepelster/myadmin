@@ -47,6 +47,14 @@ public class Messages extends NLS
 
 	public static String EnterDiagramName;
 
+	public static String Entity;
+
+	public static String EntityCreate;
+
+	public static String TextDatatype;
+
+	public static String TextDatatypeCreate;
+
 	static
 	{
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

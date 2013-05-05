@@ -63,4 +63,14 @@ public class ModelQueryTest
 		Assert.assertEquals("d", ModelQuery.createQuery(model).getPackageByName("a.b.c.d").getName());
 	}
 
+	@Test
+	public void testGetAndCreatePackageEmptyModel()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/EmptyModel.msl");
+
+		Assert.assertNull(ModelQuery.createQuery(model).getPackageByName("a"));
+		Assert.assertEquals("a", ModelQuery.createQuery(model).getAndCreatePackageByName("a").getName());
+		Assert.assertNotNull(ModelQuery.createQuery(model).getPackageByName("a"));
+	}
+
 }

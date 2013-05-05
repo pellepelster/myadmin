@@ -1,22 +1,9 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.eclipse.graphiti.mm.PropertyContainer;
-import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
-import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 
 public class GraphitiProperties
 {
@@ -83,62 +70,4 @@ public class GraphitiProperties
 		return result;
 	}
 
-	public static List<Shape> getShapes(ContainerShape containerShape)
-	{
-		List<Shape> shapes = new ArrayList<Shape>();
-
-		getShapes(containerShape, shapes);
-
-		return shapes;
-	}
-
-	public static List<Shape> getShapes(ContainerShape containerShape, List<Shape> shapes)
-	{
-		for (Shape shape : containerShape.getChildren())
-		{
-			shapes.add(shape);
-
-			if (shape instanceof ContainerShape)
-			{
-				shapes.addAll(getShapes((ContainerShape) shape));
-			}
-		}
-
-		return shapes;
-	}
-
-	public static List<Polyline> getPolylines(ContainerShape containerShape)
-	{
-		List<Shape> shapes = getShapes(containerShape);
-		List<Polyline> polylines = Lists.transform(shapes, FunctionGaTypeSelect.getFunction(Polyline.class));
-		return polylines;
-	}
-
-	public static Collection<Polyline> getPolylinesById(ContainerShape containerShape, final String elementId)
-	{
-		return Collections2.filter(getPolylines(containerShape), new Predicate<PropertyContainer>()
-		{
-
-			@Override
-			public boolean apply(PropertyContainer propertyContainer)
-			{
-				return elementId.equals(get(propertyContainer, MyAdminGraphitiConstants.ELEMENT_ID_KEY));
-			}
-		});
-	}
-
-	public static Polyline getPolylineById(ContainerShape containerShape, final String elementId)
-	{
-		Collection<Polyline> polylines = getPolylinesById(containerShape, elementId);
-
-		if (polylines.size() == 1)
-		{
-			return polylines.iterator().next();
-		}
-		else
-		{
-			throw new RuntimeException(String.format("more than one or no matching element found for element id '%s' on container '%s'", elementId,
-					containerShape.toString()));
-		}
-	}
 }
