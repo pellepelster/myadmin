@@ -43,6 +43,7 @@ public class BaseNameDirectEditFeature<T extends EObject> extends AbstractDirect
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getInitialValue(IDirectEditingContext context)
 	{
@@ -80,6 +81,7 @@ public class BaseNameDirectEditFeature<T extends EObject> extends AbstractDirect
 	public void setValue(String value, IDirectEditingContext context)
 	{
 		PictogramElement pe = context.getPictogramElement();
+		@SuppressWarnings("unchecked")
 		T businessObject = (T) getBusinessObjectForPictogramElement(pe);
 
 		businessObject.eSet(this.eStructuralFeature, value);

@@ -1,9 +1,10 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.datatype;
+package de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.BaseDatatypeCreateFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
 

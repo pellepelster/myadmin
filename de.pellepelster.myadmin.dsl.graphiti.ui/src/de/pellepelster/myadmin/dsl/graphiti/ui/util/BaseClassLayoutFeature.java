@@ -15,16 +15,13 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
 
 public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFeature
 {
 
 	private Class<T> businessObjectClass;
-
-	private static final int MIN_HEIGHT = 30;
-
-	private static final int MIN_WIDTH = 50;
 
 	public BaseClassLayoutFeature(IFeatureProvider fp, Class<T> businessObjectClass)
 	{
@@ -56,16 +53,16 @@ public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFea
 		GraphicsAlgorithm containerGa = containerShape.getGraphicsAlgorithm();
 
 		// height
-		if (containerGa.getHeight() < MIN_HEIGHT)
+		if (containerGa.getHeight() < MyAdminGraphitiConstants.CLASS_MIN_HEIGHT)
 		{
-			containerGa.setHeight(MIN_HEIGHT);
+			containerGa.setHeight(MyAdminGraphitiConstants.CLASS_MIN_HEIGHT);
 			anythingChanged = true;
 		}
 
 		// width
-		if (containerGa.getWidth() < MIN_WIDTH)
+		if (containerGa.getWidth() < MyAdminGraphitiConstants.CLASS_MIN_WIDTH)
 		{
-			containerGa.setWidth(MIN_WIDTH);
+			containerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
 			anythingChanged = true;
 		}
 

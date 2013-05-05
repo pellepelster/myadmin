@@ -16,8 +16,6 @@ import org.eclipse.xtext.service.AbstractGenericModule;
 
 import com.google.inject.Binder;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.ModelDiagramModelService;
-
 public class GraphitiRuntimeModule extends AbstractGenericModule
 {
 	@Override

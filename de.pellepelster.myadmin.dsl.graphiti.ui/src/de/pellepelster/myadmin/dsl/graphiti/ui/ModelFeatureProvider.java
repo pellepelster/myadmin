@@ -14,11 +14,11 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.TextDatatypeAddFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.TextDatatypeCreateFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.TextDatatypeDirectEditFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.TextDatatypeLayoutFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.TextDatatypeUpdateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeLayoutFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityDirectEditFeature;

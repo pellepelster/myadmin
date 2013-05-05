@@ -45,6 +45,7 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 		return new int[] { 0, 20, graphicsAlgorithm.getWidth(), 20 };
 	}
 
+	@SuppressWarnings("unchecked")
 	public PictogramElement addInternal(IAddContext context)
 	{
 		T addedBusinessObjecty = (T) context.getNewObject();
@@ -54,10 +55,6 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 
 		ContainerShape containerShape = peCreateService.createContainerShape(targetDiagram, true);
-
-		// define a default size for the shape
-		int width = 100;
-		int height = 50;
 
 		IGaService gaService = Graphiti.getGaService();
 
@@ -69,7 +66,8 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 			roundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			roundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.CLASS_BACKGROUND));
 			roundedRectangle.setLineWidth(2);
-			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), width, height);
+			gaService.setLocationAndSize(roundedRectangle, context.getX(), context.getY(), MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH,
+					MyAdminGraphitiConstants.CLASS_DEFAULT_HEIGHT);
 
 			// create link and wire it
 			link(containerShape, addedBusinessObjecty);
@@ -97,7 +95,7 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 
 			// vertical alignment has as default value "center"
 			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
-			gaService.setLocationAndSize(text, 0, 0, width, 20);
+			gaService.setLocationAndSize(text, 0, 0, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH, 20);
 
 			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, NAME_TEXT_ID);
 

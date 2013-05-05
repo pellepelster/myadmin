@@ -20,4 +20,13 @@ public interface MyAdminGraphitiConstants
 	static final IColorConstant CLASS_BACKGROUND = new ColorConstant(187, 218, 247);
 
 	static final IColorConstant PACKAGE_TEXT_FOREGROUND = CLASS_TEXT_FOREGROUND;
+
+	static final int CLASS_DEFAULT_WIDTH = 100;
+
+	static final int CLASS_DEFAULT_HEIGHT = 50;
+
+	static final int CLASS_MIN_HEIGHT = 30;
+
+	static final int CLASS_MIN_WIDTH = 50;
+
 }

@@ -11,9 +11,6 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 
 public class EntityAddFeature extends BaseClassAddFeature<Entity>
 {
-	public static final String ENTITY_HEADER_LINE_ID = "entity.header.line";
-
-	public static final String ENTITY_NAME_TEXT_ID = "entity.name.text";
 
 	public EntityAddFeature(IFeatureProvider fp)
 	{

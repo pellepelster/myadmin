@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.datatype;
+package de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 
