@@ -53,6 +53,10 @@ public class Messages extends NLS
 
 	public static String EntityCreate;
 
+	public static String EntityAttribute;
+
+	public static String EntityAttributeCreate;
+
 	public static String TextDatatype;
 
 	public static String TextDatatypeCreate;

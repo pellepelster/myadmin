@@ -22,6 +22,7 @@ import org.eclipse.graphiti.services.IPeService;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class ModelDiagramModelService
 {
@@ -29,7 +30,7 @@ public class ModelDiagramModelService
 	public static final String FILE_EXTENSION = "msl";
 
 	protected IPeService peService;
-	
+
 	protected IDiagramTypeProvider dtp;
 
 	private static Logger LOG = Logger.getLogger(ModelDiagramModelService.class);
@@ -61,14 +62,14 @@ public class ModelDiagramModelService
 
 	public Model getModel()
 	{
-		final Diagram diagram = dtp.getDiagram();
-		
+		final Diagram diagram = this.dtp.getDiagram();
+
 		Resource resource = diagram.eResource();
 		ResourceSet resourceSet = resource.getResourceSet();
-		EObject businessObject = (EObject) dtp.getFeatureProvider().getBusinessObjectForPictogramElement(diagram);
-		
+		EObject businessObject = (EObject) this.dtp.getFeatureProvider().getBusinessObjectForPictogramElement(diagram);
+
 		Model model = null;
-		
+
 		if (businessObject != null)
 		{
 			// If its a proxy, resolve it
@@ -92,13 +93,31 @@ public class ModelDiagramModelService
 		{
 			model = createModel();
 		}
-		
+
+		String[] projectNameSegments = MyAdminProjectUtil.splitFQDNProjectName(getFilenameWithoutExtension(model));
+		model.setName(projectNameSegments[1]);
+
 		return model;
+	}
+
+	private URI getUriWithoutExtension(EObject model)
+	{
+		URI uri = model.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+
+		return uri;
+	}
+
+	private String getFilenameWithoutExtension(EObject eObject)
+	{
+		URI uri = getUriWithoutExtension(eObject);
+		return uri.segments()[uri.segmentCount() - 1];
 	}
 
 	public Object getBusinessObject(PictogramElement pe)
 	{
-		return dtp.getFeatureProvider().getBusinessObjectForPictogramElement(dtp.getDiagram());
+		return this.dtp.getFeatureProvider().getBusinessObjectForPictogramElement(this.dtp.getDiagram());
 	}
 
 	/**
@@ -107,22 +126,24 @@ public class ModelDiagramModelService
 	 */
 	protected Model createModel()
 	{
-		final Diagram diagram = dtp.getDiagram();
-		
+		final Diagram diagram = this.dtp.getDiagram();
+
 		try
 		{
 			Model model = MyAdminDslFactory.eINSTANCE.createModel();
+
 			if (StringUtils.isEmpty(model.getName()) && !StringUtils.isEmpty(GraphitiProperties.get(diagram, MyAdminGraphitiConstants.PROJECT_NAME_KEY)))
 			{
 				model.setName(GraphitiProperties.get(diagram, MyAdminGraphitiConstants.PROJECT_NAME_KEY));
 			}
 
-			createModelResourceAndAddModel(model);
-			
-			//peService.setPropertyValue(diagram, PROPERTY_URI, EcoreUtil.getURI(model).toString());
-			
-			dtp.getFeatureProvider().link(diagram, model);
-			
+			createModelResource(model);
+
+			// peService.setPropertyValue(diagram, PROPERTY_URI,
+			// EcoreUtil.getURI(model).toString());
+
+			this.dtp.getFeatureProvider().link(diagram, model);
+
 			return model;
 		}
 		catch (Exception e)
@@ -132,30 +153,28 @@ public class ModelDiagramModelService
 		}
 	}
 
-	protected void createModelResourceAndAddModel(final Model model) throws CoreException, IOException
+	protected void createModelResource(final Model model) throws CoreException, IOException
 	{
 
-		final Diagram diagram = dtp.getDiagram();
+		final Diagram diagram = this.dtp.getDiagram();
 
-		URI uri = diagram.eResource().getURI();
-		uri = uri.trimFragment();
-		uri = uri.trimFileExtension();
-		uri = uri.appendFileExtension(FILE_EXTENSION);
+		URI modelURI = getUriWithoutExtension(diagram);
+		modelURI = modelURI.appendFileExtension(FILE_EXTENSION);
 
 		ResourceSet resourceSet = diagram.eResource().getResourceSet();
 
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+		IResource file = workspaceRoot.findMember(modelURI.toPlatformString(true));
 
 		if (file == null || !file.exists())
 		{
-			Resource resource = resourceSet.createResource(uri);
+			Resource resource = resourceSet.createResource(modelURI);
 			resource.setTrackingModification(true);
 			resource.getContents().add(model);
 		}
 		else
 		{
-			final Resource resource = resourceSet.getResource(uri, true);
+			final Resource resource = resourceSet.getResource(modelURI, true);
 			resource.getContents().add(model);
 		}
 	}

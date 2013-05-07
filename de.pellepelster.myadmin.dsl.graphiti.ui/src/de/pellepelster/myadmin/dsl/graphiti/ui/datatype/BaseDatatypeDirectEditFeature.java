@@ -2,7 +2,7 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.datatype;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseNameDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseNameDirectEditFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 

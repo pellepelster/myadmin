@@ -9,8 +9,16 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
+
 public class DiagramUtil
 {
+
+	public static String getPackageName(Diagram diagram)
+	{
+		String[] projectNameSegments = MyAdminProjectUtil.splitFQDNProjectName(diagram.getName());
+		return projectNameSegments[0];
+	}
 
 	public static void initializeDiagram(Diagram diagram)
 	{

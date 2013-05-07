@@ -5,13 +5,12 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseClassCreateFeature;
-import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 
-public class EntityCreateFeature extends BaseClassCreateFeature
+public class EntityCreateFeature extends BaseCreateFeature<Entity>
 {
 	public EntityCreateFeature(IFeatureProvider fp)
 	{
@@ -21,14 +20,15 @@ public class EntityCreateFeature extends BaseClassCreateFeature
 	@Override
 	public boolean canCreate(ICreateContext context)
 	{
-		return CreateContextQuery.create(context).targetContainerIs(Diagram.class).result();
+		return CreateContextQuery.create(context).targetContainerTypeIs(Diagram.class).result();
 	}
 
 	@Override
-	public AbstractElement createInternal(ICreateContext context, String className)
+	public Entity createAndAddToModelInternal(ICreateContext context, String className)
 	{
 		Entity newEntity = MyAdminDslFactory.eINSTANCE.createEntity();
 		newEntity.setName(className);
+		getPackage(context).getElements().add(newEntity);
 
 		return newEntity;
 	}

@@ -56,6 +56,8 @@
 			<fileset dir="../">
 				<include name="de.pellepelster.myadmin.ui/META-INF/MANIFEST.MF" />
 				<include name="de.pellepelster.myadmin.ui/plugin.xml" />
+				<include name="de.pellepelster.myadmin.ui.libs/META-INF/MANIFEST.MF" />
+				<include name="de.pellepelster.myadmin.ui.libs/plugin.xml" />
 				<include name="de.pellepelster.myadmin.dsl.ui/META-INF/MANIFEST.MF" />
 				<include name="de.pellepelster.myadmin.dsl.ui/plugin.xml" />
 				<include name="de.pellepelster.myadmin.dsl/META-INF/MANIFEST.MF" />

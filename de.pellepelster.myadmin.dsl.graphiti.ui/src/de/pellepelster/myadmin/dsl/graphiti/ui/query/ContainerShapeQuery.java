@@ -54,6 +54,25 @@ public class ContainerShapeQuery
 		}
 	}
 
+	private List<ContainerShape> getContainerShapes(ContainerShape containerShape)
+	{
+		List<ContainerShape> containerShapes = new ArrayList<ContainerShape>();
+		getContainerShapes(containerShape, containerShapes);
+		return containerShapes;
+	}
+
+	private void getContainerShapes(ContainerShape containerShape, List<ContainerShape> containerShapes)
+	{
+		for (Shape shape : containerShape.getChildren())
+		{
+			if (shape instanceof ContainerShape)
+			{
+				containerShapes.add((ContainerShape) shape);
+				getContainerShapes((ContainerShape) shape, containerShapes);
+			}
+		}
+	}
+
 	private <T> Collection<T> getGraphicsAlgorithms(ContainerShape containerShape, Class<T> clazz)
 	{
 		List<Shape> shapes = getShapes(containerShape);
@@ -61,7 +80,7 @@ public class ContainerShapeQuery
 		return Collections2.filter(gas, Predicates.notNull());
 	}
 
-	private <T extends PropertyContainer> Collection<T> getGraphicsAlgorithmsById(final String elementId, Class<T> clazz)
+	public <T extends PropertyContainer> Collection<T> getGraphicsAlgorithmsById(final String elementId, Class<T> clazz)
 	{
 		return Collections2.filter(getGraphicsAlgorithms(this.containerShape, clazz), new Predicate<PropertyContainer>()
 		{
@@ -107,6 +126,19 @@ public class ContainerShapeQuery
 	public Text getTextById(final String elementId)
 	{
 		return getGraphicsAlgorithmById(elementId, Text.class);
+	}
+
+	public Collection<ContainerShape> getContainerShapesById(final String elementId)
+	{
+		return Collections2.filter(getContainerShapes(this.containerShape), new Predicate<PropertyContainer>()
+		{
+
+			@Override
+			public boolean apply(PropertyContainer propertyContainer)
+			{
+				return elementId.equals(GraphitiProperties.get(propertyContainer, MyAdminGraphitiConstants.ELEMENT_ID_KEY));
+			}
+		});
 	}
 
 }

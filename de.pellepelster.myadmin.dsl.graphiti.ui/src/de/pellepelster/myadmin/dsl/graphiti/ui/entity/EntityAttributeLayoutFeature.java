@@ -5,9 +5,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseClassLayoutFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 
-public class EntityLayoutFeature extends BaseClassLayoutFeature<Entity>
+public class EntityAttributeLayoutFeature extends BaseClassLayoutFeature<Entity>
 {
-	public EntityLayoutFeature(IFeatureProvider fp)
+	public EntityAttributeLayoutFeature(IFeatureProvider fp)
 	{
 		super(fp, Entity.class);
 	}

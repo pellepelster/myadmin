@@ -20,11 +20,14 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectE
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeLayoutFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityLayoutFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityUpdateFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
 
 public class ModelFeatureProvider extends DefaultFeatureProvider
@@ -49,13 +52,18 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			return new TextDatatypeAddFeature(this);
 		}
 
+		if (context.getNewObject() instanceof EntityAttribute)
+		{
+			return new EntityAttributeAddFeature(this);
+		}
+
 		return super.getAddFeature(context);
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures()
 	{
-		return new ICreateFeature[] { new EntityCreateFeature(this), new TextDatatypeCreateFeature(this) };
+		return new ICreateFeature[] { new EntityCreateFeature(this), new TextDatatypeCreateFeature(this), new EntityAttributeCreateFeature(this) };
 	}
 
 	@Override

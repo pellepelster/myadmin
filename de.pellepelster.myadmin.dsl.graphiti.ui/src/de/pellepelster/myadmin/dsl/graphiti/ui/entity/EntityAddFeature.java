@@ -5,8 +5,8 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseClassAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseClassAddFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 
 public class EntityAddFeature extends BaseClassAddFeature<Entity>
@@ -20,7 +20,7 @@ public class EntityAddFeature extends BaseClassAddFeature<Entity>
 	@Override
 	public boolean canAdd(IAddContext context)
 	{
-		return AddContextQuery.create(context).newObjectTypeIs(Entity.class).targetContainerIs(Diagram.class).result();
+		return AddContextQuery.create(context).newObjectTypeIs(Entity.class).targetContainerTypeIs(Diagram.class).result();
 	}
 
 	@Override

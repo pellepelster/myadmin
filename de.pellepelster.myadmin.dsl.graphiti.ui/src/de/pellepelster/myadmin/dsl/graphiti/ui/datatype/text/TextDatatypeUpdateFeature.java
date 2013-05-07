@@ -2,7 +2,7 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.BaseClassUpdateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseClassUpdateFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
 

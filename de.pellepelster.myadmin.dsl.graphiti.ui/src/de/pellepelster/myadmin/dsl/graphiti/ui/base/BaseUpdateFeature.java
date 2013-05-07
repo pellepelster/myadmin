@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.util;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
