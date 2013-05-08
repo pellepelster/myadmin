@@ -5,15 +5,20 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
+import org.eclipse.graphiti.features.IRemoveFeature;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
+import org.eclipse.graphiti.features.context.IRemoveContext;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoResizeFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectEditFeature;
@@ -22,6 +27,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeUpdateF
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeRemoveFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityLayoutFeature;
@@ -67,6 +73,20 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 	}
 
 	@Override
+	public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context)
+	{
+		PictogramElement pictogramElement = context.getPictogramElement();
+		Object businessObject = getBusinessObjectForPictogramElement(pictogramElement);
+
+		if (businessObject instanceof EntityAttribute)
+		{
+			return new NoResizeFeature(this);
+		}
+
+		return super.getResizeShapeFeature(context);
+	}
+
+	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context)
 	{
 		PictogramElement pictogramElement = context.getPictogramElement();
@@ -102,6 +122,20 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 		}
 
 		return super.getDirectEditingFeature(context);
+	}
+
+	@Override
+	public IRemoveFeature getRemoveFeature(IRemoveContext context)
+	{
+		PictogramElement pictogramElement = context.getPictogramElement();
+		Object businessObject = getBusinessObjectForPictogramElement(pictogramElement);
+
+		if (businessObject instanceof EntityAttribute)
+		{
+			return new EntityAttributeRemoveFeature(this);
+		}
+
+		return super.getRemoveFeature(context);
 	}
 
 	@Override

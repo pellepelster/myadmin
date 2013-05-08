@@ -24,15 +24,13 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
 public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAddShapeFeature
 {
-	public final static int HEADER_LINE_Y = 25;
+	public final static int NAME_TEXT_HEIGHT = 25;
 
 	public static final String HEADER_LINE_ID = "entity.header.line";
 
 	public static final String NAME_TEXT_ID = "entity.name.text";
 
 	public static final String ENTITY_CONTAINER_ID = "entity.container";
-
-	public static final String ATTRIBUTES_SHAPE_ID = "attributes.shape";
 
 	private Class<T> businessObjectClass;
 
@@ -78,7 +76,7 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 		{
 			Shape shape = peCreateService.createShape(entityContainerShape, false);
 
-			Polyline polyline = gaService.createPolyline(shape, SizeAndLocation.create(roundedRectangle).setYAndHeight(this.HEADER_LINE_Y).getPoints());
+			Polyline polyline = gaService.createPolyline(shape, SizeAndLocation.create(roundedRectangle).setYAndHeight(this.NAME_TEXT_HEIGHT).getPoints());
 			polyline.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			polyline.setLineWidth(2);
 			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, HEADER_LINE_ID);
@@ -101,22 +99,8 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setHeight(this.HEADER_LINE_Y).setLocationAndSize(text);
+			SizeAndLocation.create(roundedRectangle).setHeight(this.NAME_TEXT_HEIGHT).setLocationAndSize(text);
 
-		}
-
-		// attributes container
-		{
-			Shape shape = peCreateService.createShape(entityContainerShape, false);
-
-			RoundedRectangle attributesRoundedRectangle = gaService.createRoundedRectangle(shape, 5, 5);
-			attributesRoundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
-			attributesRoundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.CLASS_ATTRIBUTES_BACKGROUND));
-
-			GraphitiProperties.set(attributesRoundedRectangle, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ATTRIBUTES_SHAPE_ID);
-
-			SizeAndLocation.create(0, 0, roundedRectangle.getWidth(), roundedRectangle.getHeight()).setYAndHeight(HEADER_LINE_Y)
-					.setLocationAndSize(attributesRoundedRectangle);
 		}
 
 		return entityContainerShape;

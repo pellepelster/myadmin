@@ -40,12 +40,12 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 	public PictogramElement addInternal(IAddContext context)
 	{
 		T addedBusinessObject = (T) context.getNewObject();
-		ContainerShape entityAttributesContainer = context.getTargetContainer();
+		ContainerShape entityContainer = context.getTargetContainer();
 
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		ContainerShape attributeContainerShape = peCreateService.createContainerShape(entityAttributesContainer, true);
+		ContainerShape attributeContainerShape = peCreateService.createContainerShape(entityContainer, true);
 		GraphitiProperties.set(attributeContainerShape, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ATTRIBUTE_CONTAINER_ID);
 		RoundedRectangle roundedRectangle;
 
@@ -57,9 +57,8 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			roundedRectangle.setLineWidth(2);
 			link(attributeContainerShape, addedBusinessObject);
 
-			SizeAndLocation.create(entityAttributesContainer).shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2)
-					.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT).setY(EntityAddFeature.HEADER_LINE_Y + MyAdminGraphitiConstants.MARGIN).center()
-					.setLocationAndSize(roundedRectangle);
+			SizeAndLocation.create(entityContainer).shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2).setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
+					.setY(EntityAddFeature.NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).center().setLocationAndSize(roundedRectangle);
 		}
 
 		// name text
@@ -85,6 +84,8 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			// this.HEADER_LINE_Y);
 
 		}
+
+		layoutPictogramElement(entityContainer);
 
 		return attributeContainerShape;
 	}

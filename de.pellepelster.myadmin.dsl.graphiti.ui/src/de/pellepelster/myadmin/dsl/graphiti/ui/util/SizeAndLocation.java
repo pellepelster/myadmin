@@ -158,6 +158,12 @@ public class SizeAndLocation
 		return this;
 	}
 
+	public SizeAndLocation setWidth(int width)
+	{
+		this.width = width;
+		return this;
+	}
+
 	public SizeAndLocation center()
 	{
 		if (this.parentGraphicsAlgorithm != null)

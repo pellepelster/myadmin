@@ -1,5 +1,7 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.base;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -7,11 +9,11 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
+import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IGaService;
+
+import com.google.common.collect.Iterators;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
@@ -48,67 +50,59 @@ public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFea
 	@Override
 	public boolean layout(ILayoutContext context)
 	{
-		boolean anythingChanged = false;
-		IGaService gaService = Graphiti.getGaService();
+		boolean hasChanged = false;
 
 		ContainerShape entityContainerShape = (ContainerShape) context.getPictogramElement();
-		GraphicsAlgorithm containerGa = entityContainerShape.getGraphicsAlgorithm();
-
-		// height
-		if (containerGa.getHeight() < MyAdminGraphitiConstants.CLASS_MIN_HEIGHT)
-		{
-			containerGa.setHeight(MyAdminGraphitiConstants.CLASS_MIN_HEIGHT);
-			anythingChanged = true;
-		}
-
-		// width
-		if (containerGa.getWidth() < MyAdminGraphitiConstants.CLASS_MIN_WIDTH)
-		{
-			containerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
-			anythingChanged = true;
-		}
-
-		int containerWidth = containerGa.getWidth();
+		GraphicsAlgorithm entityContainerGa = entityContainerShape.getGraphicsAlgorithm();
 
 		// scale header line
 		Polyline headerLine = ContainerShapeQuery.create(entityContainerShape).getPolylineById(BaseClassAddFeature.HEADER_LINE_ID);
-		anythingChanged = SizeAndLocation.create(containerGa).setYAndHeight(BaseClassAddFeature.HEADER_LINE_Y).updatePoints(headerLine)
-				.hasChanged(anythingChanged);
+		hasChanged = SizeAndLocation.create(entityContainerGa).setYAndHeight(BaseClassAddFeature.NAME_TEXT_HEIGHT).updatePoints(headerLine)
+				.hasChanged(hasChanged);
 
-		RoundedRectangle attributesRoundedRectangle = ContainerShapeQuery.create(entityContainerShape).getGraphicsAlgorithmById(
-				BaseClassAddFeature.ATTRIBUTES_SHAPE_ID, RoundedRectangle.class);
-		anythingChanged = SizeAndLocation.create(containerGa).setYAndShrinkHeight(BaseClassAddFeature.HEADER_LINE_Y)
-				.setLocationAndSize(attributesRoundedRectangle).hasChanged(anythingChanged);
+		// scale text
+		Text text = ContainerShapeQuery.create(entityContainerShape).getTextById(BaseClassAddFeature.NAME_TEXT_ID);
+		hasChanged = SizeAndLocation.create(entityContainerGa).setHeight(BaseClassAddFeature.NAME_TEXT_HEIGHT).setLocationAndSize(text).hasChanged(hasChanged);
 
-		int i = 0;
-		for (ContainerShape containerShape : ContainerShapeQuery.create(entityContainerShape).getContainerShapesById(
-				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID))
+		// layout entity attributes
+		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(entityContainerShape).getContainerShapesById(
+				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
+
+		int minHeight = MyAdminGraphitiConstants.CLASS_MIN_HEIGHT;
+		if (!attributeContainerShapes.isEmpty())
 		{
 
-			SizeAndLocation
-					.create(entityContainerShape)
-					.shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2)
-					.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
-					.setY(EntityAddFeature.HEADER_LINE_Y + MyAdminGraphitiConstants.MARGIN + i
-							* (MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT + MyAdminGraphitiConstants.MARGIN)).center()
-					.setLocationAndSize(containerShape.getGraphicsAlgorithm());
+			int i = 0;
+			for (ContainerShape attributeContainerShape : attributeContainerShapes)
+			{
+				hasChanged = SizeAndLocation
+						.create(entityContainerShape)
+						.shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2)
+						.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
+						.setY(EntityAddFeature.NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN + i
+								* (MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT + MyAdminGraphitiConstants.MARGIN)).center()
+						.setLocationAndSize(attributeContainerShape.getGraphicsAlgorithm()).hasChanged(hasChanged);
+				i++;
+			}
 
-			i++;
-			containerShape.toString();
+			GraphicsAlgorithm lastAttributeContainerShapeGA = Iterators.getLast(attributeContainerShapes.iterator()).getGraphicsAlgorithm();
+			minHeight = lastAttributeContainerShapeGA.getY() + lastAttributeContainerShapeGA.getHeight() + MyAdminGraphitiConstants.MARGIN;
 		}
 
-		// for (Shape shape : containerShape.getChildren())
-		// {
-		// GraphicsAlgorithm graphicsAlgorithm = shape.getGraphicsAlgorithm();
-		// IDimension size = gaService.calculateSize(graphicsAlgorithm);
-		//
-		// if (containerWidth != size.getWidth())
-		// {
-		// gaService.setWidth(graphicsAlgorithm, containerWidth);
-		// anythingChanged = true;
-		// }
-		// }
-		//
-		return anythingChanged;
+		// height
+		if (entityContainerGa.getHeight() < minHeight)
+		{
+			entityContainerGa.setHeight(minHeight);
+			hasChanged = true;
+		}
+
+		// width
+		if (entityContainerGa.getWidth() < MyAdminGraphitiConstants.CLASS_MIN_WIDTH)
+		{
+			entityContainerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
+			hasChanged = true;
+		}
+
+		return hasChanged;
 	}
 }

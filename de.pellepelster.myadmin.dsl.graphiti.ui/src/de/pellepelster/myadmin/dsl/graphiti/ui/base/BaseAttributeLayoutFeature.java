@@ -8,7 +8,6 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -73,13 +72,8 @@ public class BaseAttributeLayoutFeature<T extends EObject> extends AbstractLayou
 
 		// scale header line
 		Polyline headerLine = ContainerShapeQuery.create(containerShape).getPolylineById(BaseClassAddFeature.HEADER_LINE_ID);
-		anythingChanged = SizeAndLocation.create(containerGa).setYAndHeight(BaseClassAddFeature.HEADER_LINE_Y).updatePoints(headerLine)
+		anythingChanged = SizeAndLocation.create(containerGa).setYAndHeight(BaseClassAddFeature.NAME_TEXT_HEIGHT).updatePoints(headerLine)
 				.hasChanged(anythingChanged);
-
-		RoundedRectangle attributesRoundedRectangle = ContainerShapeQuery.create(containerShape).getGraphicsAlgorithmById(
-				BaseClassAddFeature.ATTRIBUTES_SHAPE_ID, RoundedRectangle.class);
-		anythingChanged = SizeAndLocation.create(containerGa).setYAndShrinkHeight(BaseClassAddFeature.HEADER_LINE_Y)
-				.setLocationAndSize(attributesRoundedRectangle).hasChanged(anythingChanged);
 
 		for (Shape shape : containerShape.getChildren())
 		{
