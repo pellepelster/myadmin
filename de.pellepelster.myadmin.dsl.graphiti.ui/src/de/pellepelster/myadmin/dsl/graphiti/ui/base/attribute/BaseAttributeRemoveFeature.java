@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;

@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.container;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -10,12 +10,12 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-public class BaseNameDirectEditFeature<T extends EObject> extends AbstractDirectEditingFeature
+public class BaseContainerNameDirectEditFeature<BO extends EObject> extends AbstractDirectEditingFeature
 {
-	private Class<T> businessObjectClass;
+	private Class<BO> businessObjectClass;
 	private EStructuralFeature eStructuralFeature;
 
-	public BaseNameDirectEditFeature(IFeatureProvider fp, Class<T> businessObjectClass, EStructuralFeature eStructuralFeature)
+	public BaseContainerNameDirectEditFeature(IFeatureProvider fp, Class<BO> businessObjectClass, EStructuralFeature eStructuralFeature)
 	{
 		super(fp);
 		this.businessObjectClass = businessObjectClass;
@@ -49,7 +49,7 @@ public class BaseNameDirectEditFeature<T extends EObject> extends AbstractDirect
 	{
 		PictogramElement pictogrammElement = context.getPictogramElement();
 
-		T businessObject = (T) getBusinessObjectForPictogramElement(pictogrammElement);
+		BO businessObject = (BO) getBusinessObjectForPictogramElement(pictogrammElement);
 
 		Object boValue = businessObject.eGet(this.eStructuralFeature);
 
@@ -82,7 +82,7 @@ public class BaseNameDirectEditFeature<T extends EObject> extends AbstractDirect
 	{
 		PictogramElement pe = context.getPictogramElement();
 		@SuppressWarnings("unchecked")
-		T businessObject = (T) getBusinessObjectForPictogramElement(pe);
+		BO businessObject = (BO) getBusinessObjectForPictogramElement(pe);
 
 		businessObject.eSet(this.eStructuralFeature, value);
 		updatePictogramElement(((Shape) pe).getContainer());

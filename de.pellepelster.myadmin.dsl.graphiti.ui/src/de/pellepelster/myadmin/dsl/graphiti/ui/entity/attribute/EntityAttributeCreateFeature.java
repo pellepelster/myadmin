@@ -1,10 +1,11 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.entity;
+package de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
@@ -20,7 +21,7 @@ public class EntityAttributeCreateFeature extends BaseCreateFeature<EntityAttrib
 	@Override
 	public boolean canCreate(ICreateContext context)
 	{
-		return CreateContextQuery.create(context).targetContainerElementIdIs(EntityAddFeature.ENTITY_CONTAINER_ID).result();
+		return CreateContextQuery.create(context).targetContainerElementIdIs(BaseContainerAddFeature.CONTAINER_ID).result();
 	}
 
 	@Override

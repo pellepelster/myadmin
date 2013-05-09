@@ -5,12 +5,14 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
+import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
+import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -18,6 +20,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoMoveFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoResizeFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeCreateFeature;
@@ -25,13 +28,15 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectE
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeLayoutFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeAddFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeCreateFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeRemoveFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityCreateFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityLayoutFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityNameDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityUpdateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameUpdateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeRemoveFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
@@ -113,7 +118,7 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 
 		if (businessObject instanceof Entity)
 		{
-			return new EntityDirectEditFeature(this);
+			return new EntityNameDirectEditFeature(this);
 		}
 
 		if (businessObject instanceof TextDatatype)
@@ -121,7 +126,26 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			return new TextDatatypeDirectEditFeature(this);
 		}
 
+		if (businessObject instanceof EntityAttribute)
+		{
+			return new EntityAttributeNameDirectEditFeature(this);
+		}
+
 		return super.getDirectEditingFeature(context);
+	}
+
+	@Override
+	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context)
+	{
+		PictogramElement pictogramElement = context.getPictogramElement();
+		Object businessObject = getBusinessObjectForPictogramElement(pictogramElement);
+
+		if (businessObject instanceof EntityAttribute)
+		{
+			return new NoMoveFeature(this);
+		}
+
+		return super.getMoveShapeFeature(context);
 	}
 
 	@Override
@@ -157,6 +181,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			if (bo instanceof TextDatatype)
 			{
 				return new TextDatatypeUpdateFeature(this);
+			}
+
+			if (bo instanceof EntityAttribute)
+			{
+				return new EntityAttributeNameUpdateFeature(this);
 			}
 		}
 		return super.getUpdateFeature(context);

@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.container;
 
 import java.util.Collection;
 
@@ -16,17 +16,16 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import com.google.common.collect.Iterators;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
-public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFeature
+public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayoutFeature
 {
 
 	private Class<T> businessObjectClass;
 
-	public BaseClassLayoutFeature(IFeatureProvider fp, Class<T> businessObjectClass)
+	public BaseContainerLayoutFeature(IFeatureProvider fp, Class<T> businessObjectClass)
 	{
 		super(fp);
 		this.businessObjectClass = businessObjectClass;
@@ -52,20 +51,21 @@ public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFea
 	{
 		boolean hasChanged = false;
 
-		ContainerShape entityContainerShape = (ContainerShape) context.getPictogramElement();
-		GraphicsAlgorithm entityContainerGa = entityContainerShape.getGraphicsAlgorithm();
+		ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
+		GraphicsAlgorithm containerGa = containerShape.getGraphicsAlgorithm();
 
 		// scale header line
-		Polyline headerLine = ContainerShapeQuery.create(entityContainerShape).getPolylineById(BaseClassAddFeature.HEADER_LINE_ID);
-		hasChanged = SizeAndLocation.create(entityContainerGa).setYAndHeight(BaseClassAddFeature.NAME_TEXT_HEIGHT).updatePoints(headerLine)
+		Polyline headerLine = ContainerShapeQuery.create(containerShape).getPolylineById(BaseContainerAddFeature.CONTAINER_HEADER_LINE_ID);
+		hasChanged = SizeAndLocation.create(containerGa).setYAndHeight(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT).updatePoints(headerLine)
 				.hasChanged(hasChanged);
 
 		// scale text
-		Text text = ContainerShapeQuery.create(entityContainerShape).getTextById(BaseClassAddFeature.NAME_TEXT_ID);
-		hasChanged = SizeAndLocation.create(entityContainerGa).setHeight(BaseClassAddFeature.NAME_TEXT_HEIGHT).setLocationAndSize(text).hasChanged(hasChanged);
+		Text text = ContainerShapeQuery.create(containerShape).getTextById(BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID);
+		hasChanged = SizeAndLocation.create(containerGa).setHeight(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT).setLocationAndSize(text)
+				.hasChanged(hasChanged);
 
-		// layout entity attributes
-		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(entityContainerShape).getContainerShapesById(
+		// layout attributes
+		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(containerShape).getContainerShapesById(
 				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
 
 		int minHeight = MyAdminGraphitiConstants.CLASS_MIN_HEIGHT;
@@ -76,10 +76,10 @@ public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFea
 			for (ContainerShape attributeContainerShape : attributeContainerShapes)
 			{
 				hasChanged = SizeAndLocation
-						.create(entityContainerShape)
+						.create(containerShape)
 						.shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2)
 						.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
-						.setY(EntityAddFeature.NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN + i
+						.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN + i
 								* (MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT + MyAdminGraphitiConstants.MARGIN)).center()
 						.setLocationAndSize(attributeContainerShape.getGraphicsAlgorithm()).hasChanged(hasChanged);
 				i++;
@@ -90,16 +90,16 @@ public class BaseClassLayoutFeature<T extends EObject> extends AbstractLayoutFea
 		}
 
 		// height
-		if (entityContainerGa.getHeight() < minHeight)
+		if (containerGa.getHeight() < minHeight)
 		{
-			entityContainerGa.setHeight(minHeight);
+			containerGa.setHeight(minHeight);
 			hasChanged = true;
 		}
 
 		// width
-		if (entityContainerGa.getWidth() < MyAdminGraphitiConstants.CLASS_MIN_WIDTH)
+		if (containerGa.getWidth() < MyAdminGraphitiConstants.CLASS_MIN_WIDTH)
 		{
-			entityContainerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
+			containerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
 			hasChanged = true;
 		}
 

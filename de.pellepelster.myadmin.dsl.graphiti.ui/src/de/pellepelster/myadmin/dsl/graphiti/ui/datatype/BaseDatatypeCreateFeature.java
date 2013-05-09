@@ -8,7 +8,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 
-public abstract class BaseDatatypeCreateFeature<T extends Datatype> extends BaseCreateFeature
+public abstract class BaseDatatypeCreateFeature<T extends Datatype> extends BaseCreateFeature<T>
 {
 	public BaseDatatypeCreateFeature(IFeatureProvider fp, String name, String description)
 	{

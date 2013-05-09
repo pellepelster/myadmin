@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.container;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IDirectEditingInfo;
@@ -22,19 +22,19 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
-public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAddShapeFeature
+public abstract class BaseContainerAddFeature<BO extends EObject> extends AbstractAddShapeFeature
 {
-	public final static int NAME_TEXT_HEIGHT = 25;
+	public static final int CONTAINER_NAME_TEXT_HEIGHT = 25;
 
-	public static final String HEADER_LINE_ID = "entity.header.line";
+	public static final String CONTAINER_HEADER_LINE_ID = "container.header.line";
 
-	public static final String NAME_TEXT_ID = "entity.name.text";
+	public static final String CONTAINER_NAME_TEXT_ID = "container.name.text";
 
-	public static final String ENTITY_CONTAINER_ID = "entity.container";
+	public static final String CONTAINER_ID = "container.container";
 
-	private Class<T> businessObjectClass;
+	private Class<BO> businessObjectClass;
 
-	public BaseClassAddFeature(IFeatureProvider fp, Class<T> businessObjectClass)
+	public BaseContainerAddFeature(IFeatureProvider fp, Class<BO> businessObjectClass)
 	{
 		super(fp);
 		this.businessObjectClass = businessObjectClass;
@@ -49,20 +49,20 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 	@SuppressWarnings("unchecked")
 	public PictogramElement addInternal(IAddContext context)
 	{
-		T addedBusinessObject = (T) context.getNewObject();
+		BO addedBusinessObject = (BO) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		ContainerShape entityContainerShape = peCreateService.createContainerShape(targetDiagram, true);
-		GraphitiProperties.set(entityContainerShape, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ENTITY_CONTAINER_ID);
-		link(entityContainerShape, addedBusinessObject);
+		ContainerShape containerShape = peCreateService.createContainerShape(targetDiagram, true);
+		GraphitiProperties.set(containerShape, MyAdminGraphitiConstants.ELEMENT_ID_KEY, CONTAINER_ID);
+		link(containerShape, addedBusinessObject);
 
 		RoundedRectangle roundedRectangle;
 
 		{
-			roundedRectangle = gaService.createRoundedRectangle(entityContainerShape, 5, 5);
+			roundedRectangle = gaService.createRoundedRectangle(containerShape, 5, 5);
 			roundedRectangle.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			roundedRectangle.setBackground(manageColor(MyAdminGraphitiConstants.CLASS_BACKGROUND));
 			roundedRectangle.setTransparency(MyAdminGraphitiConstants.CLASS_TRANSPARENCY);
@@ -74,38 +74,39 @@ public abstract class BaseClassAddFeature<T extends EObject> extends AbstractAdd
 
 		// header line
 		{
-			Shape shape = peCreateService.createShape(entityContainerShape, false);
+			Shape shape = peCreateService.createShape(containerShape, false);
 
-			Polyline polyline = gaService.createPolyline(shape, SizeAndLocation.create(roundedRectangle).setYAndHeight(this.NAME_TEXT_HEIGHT).getPoints());
+			Polyline polyline = gaService.createPolyline(shape, SizeAndLocation.create(roundedRectangle).setYAndHeight(this.CONTAINER_NAME_TEXT_HEIGHT)
+					.getPoints());
 			polyline.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			polyline.setLineWidth(2);
-			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, HEADER_LINE_ID);
+			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, CONTAINER_HEADER_LINE_ID);
 
 		}
 
 		// name text
 		{
-			Shape shape = peCreateService.createShape(entityContainerShape, false);
+			Shape shape = peCreateService.createShape(containerShape, false);
 
 			Text text = gaService.createText(shape, getNameText(addedBusinessObject));
 			text.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
-			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, NAME_TEXT_ID);
+			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, CONTAINER_NAME_TEXT_ID);
 			link(shape, addedBusinessObject);
 
 			IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
-			directEditingInfo.setMainPictogramElement(entityContainerShape);
+			directEditingInfo.setMainPictogramElement(containerShape);
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setHeight(this.NAME_TEXT_HEIGHT).setLocationAndSize(text);
+			SizeAndLocation.create(roundedRectangle).setHeight(this.CONTAINER_NAME_TEXT_HEIGHT).setLocationAndSize(text);
 
 		}
 
-		return entityContainerShape;
+		return containerShape;
 	}
 
-	protected abstract String getNameText(T businessObject);
+	protected abstract String getNameText(BO businessObject);
 
 }

@@ -3,10 +3,12 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.util;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 
 public class SizeAndLocation
 {
@@ -111,6 +113,13 @@ public class SizeAndLocation
 		return this;
 	}
 
+	public SizeAndLocation setHeight(Text text)
+	{
+		this.height = GraphitiUi.getUiLayoutService().calculateTextSize("x", text.getFont()).getHeight();
+		;
+		return this;
+	}
+
 	public SizeAndLocation setY(int y)
 	{
 		this.y = y;
@@ -161,6 +170,12 @@ public class SizeAndLocation
 	public SizeAndLocation setWidth(int width)
 	{
 		this.width = width;
+		return this;
+	}
+
+	public SizeAndLocation setWidthFactor(double widthFactor)
+	{
+		this.width *= widthFactor;
 		return this;
 	}
 

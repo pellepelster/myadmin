@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IDirectEditingInfo;
@@ -16,7 +16,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
@@ -58,7 +58,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			link(attributeContainerShape, addedBusinessObject);
 
 			SizeAndLocation.create(entityContainer).shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2).setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
-					.setY(EntityAddFeature.NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).center().setLocationAndSize(roundedRectangle);
+					.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).center().setLocationAndSize(roundedRectangle);
 		}
 
 		// name text
@@ -77,7 +77,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			// SizeAndLocation.createRelational(roundedRectangle).setHeight(this.HEADER_LINE_Y).setLocationAndSize(text);
+			SizeAndLocation.create(roundedRectangle).setWidthFactor(0.5).setLocationAndSize(text);
 
 			// gaService.setLocationAndSize(text, 0, 0,
 			// MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH,

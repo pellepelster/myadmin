@@ -1,10 +1,11 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.entity;
+package de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute.BaseAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 
@@ -19,7 +20,7 @@ public class EntityAttributeAddFeature extends BaseAttributeAddFeature<EntityAtt
 	@Override
 	public boolean canAdd(IAddContext context)
 	{
-		return AddContextQuery.create(context).newObjectTypeIs(EntityAttribute.class).targetContainerElementIdIs(EntityAddFeature.ENTITY_CONTAINER_ID).result();
+		return AddContextQuery.create(context).newObjectTypeIs(EntityAttribute.class).targetContainerElementIdIs(BaseContainerAddFeature.CONTAINER_ID).result();
 	}
 
 	@Override

@@ -51,8 +51,9 @@ public abstract class BaseCreateFeature<T extends EObject> extends AbstractCreat
 
 		T newElement = createAndAddToModelInternal(context, newClassName);
 
-		getFeatureProvider().getDirectEditingInfo().setActive(true);
 		addGraphicalRepresentation(context, newElement);
+
+		getFeatureProvider().getDirectEditingInfo().setActive(true);
 
 		return new Object[] { newElement };
 	}

@@ -1,29 +1,32 @@
-package de.pellepelster.myadmin.dsl.graphiti.ui.base;
+package de.pellepelster.myadmin.dsl.graphiti.ui.base.container;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
+import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseUpdateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 
-public class BaseClassUpdateFeature<T extends EObject> extends BaseUpdateFeature
+public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE extends EObject> extends BaseUpdateFeature
 {
-	private Class<T> businessObjectClass;
+	private Class<BO> businessObjectClass;
 
 	private EStructuralFeature nameStructuralFeature;
 
-	public BaseClassUpdateFeature(IFeatureProvider fp, Class<T> businessObjectClass, EStructuralFeature nameStructuralFeature)
+	public BaseContainerUpdateFeature(IFeatureProvider fp, Class<BO> businessObjectClass, EStructuralFeature nameStructuralFeature)
 	{
 		super(fp);
 		this.businessObjectClass = businessObjectClass;
@@ -58,7 +61,7 @@ public class BaseClassUpdateFeature<T extends EObject> extends BaseUpdateFeature
 			}
 		}
 
-		if (checkUpdateNeededText(context, BaseClassAddFeature.NAME_TEXT_ID, this.nameStructuralFeature))
+		if (checkUpdateNeededText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature))
 		{
 			return Reason.createTrueReason("Name is out of date");
 		}
@@ -69,28 +72,33 @@ public class BaseClassUpdateFeature<T extends EObject> extends BaseUpdateFeature
 	@Override
 	public boolean update(IUpdateContext context)
 	{
-		boolean succes = true;
+		return updateAttributes(context) && updateText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature);
+	}
 
-		ContainerShape entityContainerShape = (ContainerShape) context.getPictogramElement();
-		Entity entity = (Entity) getBusinessObjectForPictogramElement(context.getPictogramElement());
+	protected abstract List<ATTRIBUTE> getAttributes(IPictogramElementContext context);
 
-		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(entityContainerShape).getContainerShapesById(
+	private boolean updateAttributes(IUpdateContext context)
+	{
+		ContainerShape containerShape = (ContainerShape) context.getPictogramElement();
+
+		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(containerShape).getContainerShapesById(
 				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
 
-		// remove entity attributes that do not exist in model
+		// remove attributes that do not exist in model
 		Iterator<ContainerShape> it = attributeContainerShapes.iterator();
 		while (it.hasNext())
 		{
 			ContainerShape attributeContainerShape = it.next();
-			EntityAttribute entityAttribute = (EntityAttribute) getBusinessObjectForPictogramElement(attributeContainerShape);
+			@SuppressWarnings("unchecked")
+			ATTRIBUTE attribute = (ATTRIBUTE) getBusinessObjectForPictogramElement(attributeContainerShape);
 
-			if (!entity.getAttributes().contains(entityAttribute))
+			if (!getAttributes(context).contains(attribute))
 			{
 				Graphiti.getPeService().deletePictogramElement(attributeContainerShape);
 				it.remove();
 			}
 		}
 
-		return succes && updateText(context, BaseClassAddFeature.NAME_TEXT_ID, this.nameStructuralFeature);
+		return true;
 	}
 }
