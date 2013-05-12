@@ -2,7 +2,7 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.query;
 
 import org.eclipse.graphiti.features.context.IAddContext;
 
-public class AddContextQuery extends BaseContextQuery<IAddContext, AddContextQuery>
+public class AddContextQuery extends BaseTargetContextQuery<IAddContext, AddContextQuery>
 {
 	public AddContextQuery(IAddContext context)
 	{

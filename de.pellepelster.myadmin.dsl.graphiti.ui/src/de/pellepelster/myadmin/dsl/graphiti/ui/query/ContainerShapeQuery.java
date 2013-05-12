@@ -132,7 +132,6 @@ public class ContainerShapeQuery
 	{
 		return Collections2.filter(getContainerShapes(this.containerShape), new Predicate<PropertyContainer>()
 		{
-
 			@Override
 			public boolean apply(PropertyContainer propertyContainer)
 			{

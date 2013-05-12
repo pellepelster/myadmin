@@ -22,9 +22,9 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
 public abstract class BaseAttributeAddFeature<T extends EObject> extends AbstractAddShapeFeature
 {
-	public static final String NAME_TEXT_ID = "attribute.name.text";
+	public static final String ATTRIBUTE_NAME_TEXT_ID = "attribute.name.text";
 
-	public static final String TYPE_TEXT_ID = "attribute.type";
+	public static final String ATTRIBUTE_TYPE_TEXT_ID = "attribute.type";
 
 	public static final String ATTRIBUTE_CONTAINER_ID = "attribute";
 
@@ -61,7 +61,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 					.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).center().setLocationAndSize(roundedRectangle);
 		}
 
-		// name text
+		// attribute name text
 		{
 			Shape shape = peCreateService.createShape(attributeContainerShape, false);
 
@@ -69,7 +69,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			text.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
-			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, NAME_TEXT_ID);
+			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ATTRIBUTE_NAME_TEXT_ID);
 			link(shape, addedBusinessObject);
 
 			IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
@@ -78,11 +78,25 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setGraphicsAlgorithm(text);
 
 			SizeAndLocation.create(roundedRectangle).setWidthFactor(0.5).setLocationAndSize(text);
+		}
 
-			// gaService.setLocationAndSize(text, 0, 0,
-			// MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH,
-			// this.HEADER_LINE_Y);
+		// attribute type text
+		{
+			Shape shape = peCreateService.createShape(attributeContainerShape, false);
 
+			Text text = gaService.createText(shape, getTypeText(addedBusinessObject));
+			text.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_TEXT_FOREGROUND));
+			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+			text.setFont(gaService.manageDefaultFont(getDiagram(), false, true));
+			GraphitiProperties.set(text, MyAdminGraphitiConstants.ELEMENT_ID_KEY, ATTRIBUTE_TYPE_TEXT_ID);
+			link(shape, addedBusinessObject);
+
+			IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+			directEditingInfo.setMainPictogramElement(attributeContainerShape);
+			directEditingInfo.setPictogramElement(shape);
+			directEditingInfo.setGraphicsAlgorithm(text);
+
+			SizeAndLocation.create(roundedRectangle).setX(roundedRectangle.getWidth() / 2).setWidthFactor(0.5).setLocationAndSize(text);
 		}
 
 		layoutPictogramElement(entityContainer);
@@ -91,5 +105,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 	}
 
 	protected abstract String getNameText(T businessObject);
+
+	protected abstract String getTypeText(T businessObject);
 
 }

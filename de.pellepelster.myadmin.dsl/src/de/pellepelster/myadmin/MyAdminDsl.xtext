@@ -280,7 +280,7 @@ BaseDictionaryDatatype:
 TextDatatype:
 	"textdatatype" name=ID "{"
 		baseDatatype=BaseDictionaryDatatype
-		"maxLength" maxLength=INT
+		("maxLength" maxLength=INT)?
 		("minLength" minLength=INT)?
 		("formatRegularExpression" formatRegularExpression=STRING)?
 	"}";

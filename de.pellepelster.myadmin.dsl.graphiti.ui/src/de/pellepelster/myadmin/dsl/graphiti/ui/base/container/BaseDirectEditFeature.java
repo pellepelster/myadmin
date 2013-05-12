@@ -10,12 +10,12 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-public class BaseContainerNameDirectEditFeature<BO extends EObject> extends AbstractDirectEditingFeature
+public class BaseDirectEditFeature<BO extends EObject> extends AbstractDirectEditingFeature
 {
 	private Class<BO> businessObjectClass;
 	private EStructuralFeature eStructuralFeature;
 
-	public BaseContainerNameDirectEditFeature(IFeatureProvider fp, Class<BO> businessObjectClass, EStructuralFeature eStructuralFeature)
+	public BaseDirectEditFeature(IFeatureProvider fp, Class<BO> businessObjectClass, EStructuralFeature eStructuralFeature)
 	{
 		super(fp);
 		this.businessObjectClass = businessObjectClass;
@@ -48,7 +48,6 @@ public class BaseContainerNameDirectEditFeature<BO extends EObject> extends Abst
 	public String getInitialValue(IDirectEditingContext context)
 	{
 		PictogramElement pictogrammElement = context.getPictogramElement();
-
 		BO businessObject = (BO) getBusinessObjectForPictogramElement(pictogrammElement);
 
 		Object boValue = businessObject.eGet(this.eStructuralFeature);
@@ -59,8 +58,13 @@ public class BaseContainerNameDirectEditFeature<BO extends EObject> extends Abst
 		}
 		else
 		{
-			return boValue.toString();
+			return inititalValueToString(boValue);
 		}
+	}
+
+	protected String inititalValueToString(Object Value)
+	{
+		return (Value == null) ? "" : Value.toString();
 	}
 
 	@Override
@@ -81,10 +85,11 @@ public class BaseContainerNameDirectEditFeature<BO extends EObject> extends Abst
 	public void setValue(String value, IDirectEditingContext context)
 	{
 		PictogramElement pe = context.getPictogramElement();
+
 		@SuppressWarnings("unchecked")
 		BO businessObject = (BO) getBusinessObjectForPictogramElement(pe);
-
 		businessObject.eSet(this.eStructuralFeature, value);
+
 		updatePictogramElement(((Shape) pe).getContainer());
 	}
 }

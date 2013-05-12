@@ -2,11 +2,11 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.entity;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 
-import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerNameDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseDirectEditFeature;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 
-public class EntityNameDirectEditFeature extends BaseContainerNameDirectEditFeature<Entity>
+public class EntityNameDirectEditFeature extends BaseDirectEditFeature<Entity>
 {
 	public EntityNameDirectEditFeature(IFeatureProvider fp)
 	{

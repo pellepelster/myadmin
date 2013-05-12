@@ -11,15 +11,17 @@
  */
 package de.pellepelster.myadmin.dsl.validation;
 
+
 public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 {
 
 	// @Check
-	// public void checkGreetingStartsWithCapital(Greeting greeting) {
-	// if (!Character.isUpperCase(greeting.getName().charAt(0))) {
+	// public void checkGreetingStartsWithCapital(Datatype datatype)
+	// {
+	// if (!Character.isUpperCase(datatype.getName().charAt(0)))
+	// {
 	// warning("Name should start with a capital",
-	// MyDslPackage.Literals.GREETING__NAME);
+	// MyAdminDslPackage.Literals.GREETING__NAME);
 	// }
 	// }
-
 }

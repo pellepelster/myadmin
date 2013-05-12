@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -17,10 +18,11 @@ public class TextDatatypeUpdateFeature extends BaseContainerUpdateFeature<TextDa
 		super(fp, TextDatatype.class, MyAdminDslPackage.Literals.DATATYPE__NAME);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected List<TextDatatype> getAttributes(IPictogramElementContext context)
 	{
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 }

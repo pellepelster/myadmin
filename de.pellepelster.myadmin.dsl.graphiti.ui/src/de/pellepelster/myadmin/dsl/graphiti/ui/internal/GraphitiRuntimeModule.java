@@ -25,6 +25,7 @@ public class GraphitiRuntimeModule extends AbstractGenericModule
 
 		binder.bind(PictogramsPackage.class).toInstance(PictogramsPackage.eINSTANCE);
 		binder.bind(PictogramsFactory.class).toInstance(PictogramsFactory.eINSTANCE);
+
 	}
 
 	// ---------------------------------------------------------------------------------------------

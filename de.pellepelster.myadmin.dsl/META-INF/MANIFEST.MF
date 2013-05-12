@@ -20,7 +20,8 @@ Require-Bundle: com.ibm.icu,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase,
  org.apache.log4j,
- de.pellepelster.myadmin.ui.libs
+ de.pellepelster.myadmin.ui.libs,
+ org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl,
@@ -34,6 +35,8 @@ Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl.parser.antlr,
  de.pellepelster.myadmin.dsl.parser.antlr.internal,
  de.pellepelster.myadmin.dsl.query,
+ de.pellepelster.myadmin.dsl.query.functions,
+ de.pellepelster.myadmin.dsl.query.predicates,
  de.pellepelster.myadmin.dsl.scoping,
  de.pellepelster.myadmin.dsl.services,
  de.pellepelster.myadmin.dsl.util,

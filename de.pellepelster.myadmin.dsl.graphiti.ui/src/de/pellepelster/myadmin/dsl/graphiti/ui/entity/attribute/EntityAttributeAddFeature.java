@@ -8,6 +8,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute.BaseAttributeAddFe
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
+import de.pellepelster.myadmin.dsl.ui.ModelUiUtil;
 
 public class EntityAttributeAddFeature extends BaseAttributeAddFeature<EntityAttribute>
 {
@@ -33,6 +34,12 @@ public class EntityAttributeAddFeature extends BaseAttributeAddFeature<EntityAtt
 	protected String getNameText(EntityAttribute businessObject)
 	{
 		return businessObject.getName();
+	}
+
+	@Override
+	protected String getTypeText(EntityAttribute businessObject)
+	{
+		return ModelUiUtil.getLabelProvider().getText(businessObject.getType());
 	}
 
 }

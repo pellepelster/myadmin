@@ -14,9 +14,10 @@ import com.google.common.collect.Lists;
 import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
+import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
-import de.pellepelster.myadmin.dsl.query.functions.FunctionTypeSelect;
+import de.pellepelster.myadmin.dsl.query.functions.FunctionEObjectTypeSelect;
 
 public class ModelQuery
 {
@@ -27,19 +28,33 @@ public class ModelQuery
 		this.model = model;
 	}
 
-	public static ModelQuery createQuery(Model model)
+	public static ModelQuery createQuery(ModelRoot modelRoot)
 	{
-		return new ModelQuery(model);
+		if (modelRoot instanceof Model)
+		{
+			return new ModelQuery((Model) modelRoot);
+
+		}
+		else
+		{
+			throw new RuntimeException(String.format("unsupported model root '%s'", modelRoot.getClass().getName()));
+		}
 	}
 
 	public PackageQuery getRootPackages()
 	{
-		return new PackageQuery(Collections2.transform(this.model.eContents(), FunctionTypeSelect.getFunction(PackageDeclaration.class)));
+		return new PackageQuery(Collections2.transform(this.model.eContents(), FunctionEObjectTypeSelect.getFunction(PackageDeclaration.class)));
+	}
+
+	public <T> List<T> getAllByType(Class<T> type)
+	{
+		Iterator<T> entities = Iterators.transform(this.model.eAllContents(), FunctionEObjectTypeSelect.getFunction(type));
+		return Lists.newArrayList(Iterators.filter(entities, Predicates.notNull()));
 	}
 
 	public EntitiesQuery getAllEntities()
 	{
-		Iterator<Entity> entities = Iterators.transform(this.model.eAllContents(), FunctionTypeSelect.getFunction(Entity.class));
+		Iterator<Entity> entities = Iterators.transform(this.model.eAllContents(), FunctionEObjectTypeSelect.getFunction(Entity.class));
 		return new EntitiesQuery(Lists.newArrayList(Iterators.filter(entities, Predicates.notNull())));
 	}
 
@@ -50,7 +65,8 @@ public class ModelQuery
 
 	private List<PackageDeclaration> getPackages(List<AbstractElement> abstractElements)
 	{
-		Iterator<PackageDeclaration> entities = Iterators.transform(abstractElements.iterator(), FunctionTypeSelect.getFunction(PackageDeclaration.class));
+		Iterator<PackageDeclaration> entities = Iterators.transform(abstractElements.iterator(),
+				FunctionEObjectTypeSelect.getFunction(PackageDeclaration.class));
 		return Lists.newArrayList(Iterators.filter(entities, Predicates.notNull()));
 	}
 

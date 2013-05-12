@@ -31,6 +31,7 @@ public class EntityAttributeCreateFeature extends BaseCreateFeature<EntityAttrib
 
 		EntityAttribute newEntityAttribute = MyAdminDslFactory.eINSTANCE.createEntityAttribute();
 		newEntityAttribute.setName(className);
+		newEntityAttribute.setType(MyAdminDslFactory.eINSTANCE.createSimpleType());
 		entity.getAttributes().add(newEntityAttribute);
 
 		return newEntityAttribute;

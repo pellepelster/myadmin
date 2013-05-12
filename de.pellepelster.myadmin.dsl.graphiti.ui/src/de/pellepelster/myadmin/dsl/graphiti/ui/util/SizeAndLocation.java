@@ -193,4 +193,11 @@ public class SizeAndLocation
 		return this;
 	}
 
+	public SizeAndLocation setX(int x)
+	{
+		this.x = x;
+
+		return this;
+	}
+
 }

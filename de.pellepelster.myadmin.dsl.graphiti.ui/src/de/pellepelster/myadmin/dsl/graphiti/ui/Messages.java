@@ -17,6 +17,8 @@ public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "de.pellepelster.myadmin.dsl.graphiti.ui.messages"; //$NON-NLS-1$
 
+	public static String TypeIsOutOfDate;
+
 	public static String New;
 
 	public static String ModelFileNameMustBeSpecified;
@@ -60,6 +62,12 @@ public class Messages extends NLS
 	public static String TextDatatype;
 
 	public static String TextDatatypeCreate;
+
+	public static String DatatypeSelection;
+
+	public static String DatatypeSelectFromList;
+
+	public static String NameIsOutOfDate;
 
 	static
 	{

@@ -16,6 +16,9 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
 import com.google.inject.Inject;
 
+import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleType;
+import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleTypes;
+
 /**
  * Provides labels for a EObjects.
  * 
@@ -31,11 +34,22 @@ public class MyAdminDslLabelProvider extends DefaultEObjectLabelProvider
 		super(delegate);
 	}
 
-	/*
-	 * //Labels and icons can be computed like this:
-	 * 
-	 * String text(MyModel ele) { return "my "+ele.getName(); }
-	 * 
-	 * String image(MyModel ele) { return "MyModel.gif"; }
-	 */
+	@Override
+	protected Object doGetText(Object element)
+	{
+		if (element instanceof SimpleTypes)
+		{
+			SimpleTypes simpleType = (SimpleTypes) element;
+			return simpleType.getName();
+		}
+
+		if (element instanceof SimpleType)
+		{
+			SimpleType simpleType = (SimpleType) element;
+			return doGetText(simpleType.getType());
+		}
+
+		return super.doGetText(element);
+	}
+
 }

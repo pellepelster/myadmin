@@ -139,9 +139,6 @@ public class ModelDiagramModelService
 
 			createModelResource(model);
 
-			// peService.setPropertyValue(diagram, PROPERTY_URI,
-			// EcoreUtil.getURI(model).toString());
-
 			this.dtp.getFeatureProvider().link(diagram, model);
 
 			return model;

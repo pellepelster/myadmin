@@ -52,8 +52,11 @@ public class BaseAttributeLayoutFeature<T extends EObject> extends AbstractLayou
 		GraphicsAlgorithm attributeConatinerGa = attributeContainerShape.getGraphicsAlgorithm();
 
 		// attribute name
-		Text nameText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.NAME_TEXT_ID);
+		Text nameText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_NAME_TEXT_ID);
 		hasChanged = SizeAndLocation.create(attributeContainerShape).setWidthFactor(0.5).setLocationAndSize(nameText).hasChanged(hasChanged);
+
+		Text typeText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_TYPE_TEXT_ID);
+		hasChanged = SizeAndLocation.create(attributeContainerShape).setWidthFactor(0.5).setLocationAndSize(typeText).hasChanged(hasChanged);
 
 		return hasChanged;
 	}

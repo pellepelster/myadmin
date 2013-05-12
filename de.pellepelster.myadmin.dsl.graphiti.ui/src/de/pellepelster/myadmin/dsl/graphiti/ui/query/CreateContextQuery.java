@@ -2,7 +2,7 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.query;
 
 import org.eclipse.graphiti.features.context.ICreateContext;
 
-public class CreateContextQuery extends BaseContextQuery<ICreateContext, CreateContextQuery>
+public class CreateContextQuery extends BaseTargetContextQuery<ICreateContext, CreateContextQuery>
 {
 	public CreateContextQuery(ICreateContext context)
 	{

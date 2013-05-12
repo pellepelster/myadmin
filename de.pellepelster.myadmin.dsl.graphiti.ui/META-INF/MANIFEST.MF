@@ -19,7 +19,9 @@ Require-Bundle: org.eclipse.ui,
  org.apache.log4j,
  org.eclipse.core.resources,
  de.pellepelster.myadmin.ui,
- org.eclipse.xtext.ui
+ org.eclipse.xtext.ui,
+ org.eclipse.draw2d,
+ org.eclipse.gef
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Christian Pelster

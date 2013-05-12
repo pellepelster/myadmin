@@ -22,6 +22,7 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoMoveFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoResizeFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute.BaseAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectEditFeature;
@@ -37,6 +38,8 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeC
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeRemoveFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeTypeDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.query.PictogramElementQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
@@ -128,7 +131,16 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 
 		if (businessObject instanceof EntityAttribute)
 		{
-			return new EntityAttributeNameDirectEditFeature(this);
+			if (PictogramElementQuery.create(context.getPictogramElement()).gaElementIdIs(BaseAttributeAddFeature.ATTRIBUTE_NAME_TEXT_ID).result())
+			{
+				return new EntityAttributeNameDirectEditFeature(this);
+			}
+
+			if (PictogramElementQuery.create(context.getPictogramElement()).gaElementIdIs(BaseAttributeAddFeature.ATTRIBUTE_TYPE_TEXT_ID).result())
+			{
+				return new EntityAttributeTypeDirectEditFeature(this);
+			}
+
 		}
 
 		return super.getDirectEditingFeature(context);

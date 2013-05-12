@@ -8,6 +8,7 @@ import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.jface.viewers.ILabelProvider;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
 
@@ -63,22 +64,35 @@ public abstract class BaseUpdateFeature extends AbstractUpdateFeature
 		eObject.eSet(eStructuralFeature, newValue);
 	}
 
-	public boolean checkUpdateNeededText(IUpdateContext context, String textElementId, EStructuralFeature eStructuralFeature)
+	public boolean checkUpdateNeededText(IUpdateContext context, String textElementId, EStructuralFeature eStructuralFeature, ILabelProvider labelProvider)
 	{
 		String textValue = getText(context, textElementId).getValue();
 		Object eObjectValue = getStructuralFeatureFromBusinessObject(context, eStructuralFeature);
 
-		return ((textValue == null && textValue != null) || (textValue != null && !textValue.equals(eObjectValue)));
+		if (labelProvider != null)
+		{
+			eObjectValue = labelProvider.getText(eObjectValue);
+		}
+
+		return ((textValue == null && eObjectValue != null) || (textValue != null && !textValue.equals(eObjectValue)));
 	}
 
-	public boolean updateText(IUpdateContext context, String textElementId, EStructuralFeature eStructuralFeature)
+	public boolean updateText(IUpdateContext context, String textElementId, EStructuralFeature eStructuralFeature, ILabelProvider labelProvider)
 	{
 		Object eObjectValue = getStructuralFeatureFromBusinessObject(context, eStructuralFeature);
 		Text text = getText(context, textElementId);
 
 		if (text != null)
 		{
-			text.setValue(String.valueOf(eObjectValue));
+			if (labelProvider == null)
+			{
+				text.setValue(String.valueOf(eObjectValue));
+			}
+			else
+			{
+				text.setValue(labelProvider.getText(eObjectValue));
+			}
+
 			return true;
 		}
 		else

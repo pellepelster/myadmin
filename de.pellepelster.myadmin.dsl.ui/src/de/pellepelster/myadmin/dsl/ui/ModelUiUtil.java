@@ -13,8 +13,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.ui.PreferenceConstants;
+import org.eclipse.jface.viewers.ILabelProvider;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
+import de.pellepelster.myadmin.dsl.ui.internal.MyAdminDslActivator;
+import de.pellepelster.myadmin.dsl.ui.labeling.MyAdminDslLabelProvider;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 public class ModelUiUtil extends ModelUtil
@@ -96,6 +99,12 @@ public class ModelUiUtil extends ModelUtil
 	public static boolean isModelFile(IFile file)
 	{
 		return MYADMIN_MODEL_FILE_EXTENSION.equals(file.getFileExtension());
+	}
+
+	public static ILabelProvider getLabelProvider()
+	{
+		return MyAdminDslActivator.getInstance().getInjector(MyAdminDslActivator.DE_PELLEPELSTER_MYADMIN_DSL_MYADMINDSL)
+				.getInstance(MyAdminDslLabelProvider.class);
 	}
 
 }

@@ -17,8 +17,6 @@ import org.eclipse.graphiti.services.Graphiti;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
-import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 
 public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE extends EObject> extends BaseUpdateFeature
 {
@@ -45,7 +43,6 @@ public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE e
 	public IReason updateNeeded(IUpdateContext context)
 	{
 		ContainerShape entityContainerShape = (ContainerShape) context.getPictogramElement();
-		Entity entity = (Entity) getBusinessObjectForPictogramElement(context.getPictogramElement());
 
 		// layout entity attributes
 		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(entityContainerShape).getContainerShapesById(
@@ -53,15 +50,15 @@ public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE e
 
 		for (ContainerShape attributeContainerShape : attributeContainerShapes)
 		{
-			EntityAttribute entityAttribute = (EntityAttribute) getBusinessObjectForPictogramElement(attributeContainerShape);
+			ATTRIBUTE attribute = (ATTRIBUTE) getBusinessObjectForPictogramElement(attributeContainerShape);
 
-			if (!entity.getAttributes().contains(entityAttribute))
+			if (!getAttributes(context).contains(attribute))
 			{
 				return Reason.createTrueReason("Attributes out of date");
 			}
 		}
 
-		if (checkUpdateNeededText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature))
+		if (checkUpdateNeededText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature, null))
 		{
 			return Reason.createTrueReason("Name is out of date");
 		}
@@ -72,7 +69,7 @@ public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE e
 	@Override
 	public boolean update(IUpdateContext context)
 	{
-		return updateAttributes(context) && updateText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature);
+		return updateAttributes(context) && updateText(context, BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID, this.nameStructuralFeature, null);
 	}
 
 	protected abstract List<ATTRIBUTE> getAttributes(IPictogramElementContext context);

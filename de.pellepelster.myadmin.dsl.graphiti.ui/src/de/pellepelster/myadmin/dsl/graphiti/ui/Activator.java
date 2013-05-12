@@ -7,8 +7,8 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.pellepelster.myadmin.dsl.MyAdminDslRuntimeModule;
 import de.pellepelster.myadmin.dsl.graphiti.ui.internal.GraphitiRuntimeModule;
-import de.pellepelster.myadmin.dsl.graphiti.ui.internal.MyAdminModule;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -71,7 +71,7 @@ public class Activator extends AbstractUIPlugin
 
 	protected Injector createInjector()
 	{
-		return Guice.createInjector(Modules2.mixin(new GraphitiRuntimeModule(), new MyAdminModule()));
+		return Guice.createInjector(Modules2.mixin(new MyAdminDslRuntimeModule(), new GraphitiRuntimeModule()));
 	}
 
 	public final Injector getInjector()
