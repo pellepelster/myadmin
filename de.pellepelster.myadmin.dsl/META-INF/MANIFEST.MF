@@ -21,8 +21,7 @@ Require-Bundle: com.ibm.icu,
  org.eclipse.xtext.xbase,
  org.apache.log4j,
  de.pellepelster.myadmin.ui.libs,
- org.eclipse.jface,
- org.eclipse.osgi
+ org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl,
