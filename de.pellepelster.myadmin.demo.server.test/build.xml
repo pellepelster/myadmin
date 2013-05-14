@@ -44,7 +44,7 @@
 
 			<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="@{action}">
 
-				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.36/bin/apache-tomcat-6.0.36.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
+				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
 
 				<extraClasspath>
 					<pathelement location="lib/derby-jar.jar" />
