@@ -9,7 +9,10 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFe
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttributeOptions;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
+import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleType;
+import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleTypes;
 
 public class EntityAttributeCreateFeature extends BaseCreateFeature<EntityAttribute>
 {
@@ -31,7 +34,14 @@ public class EntityAttributeCreateFeature extends BaseCreateFeature<EntityAttrib
 
 		EntityAttribute newEntityAttribute = MyAdminDslFactory.eINSTANCE.createEntityAttribute();
 		newEntityAttribute.setName(className);
-		newEntityAttribute.setType(MyAdminDslFactory.eINSTANCE.createSimpleType());
+
+		SimpleType simpleType = MyAdminDslFactory.eINSTANCE.createSimpleType();
+		simpleType.setType(SimpleTypes.STRING);
+		newEntityAttribute.setType(simpleType);
+
+		EntityAttributeOptions entityAttributeOptions = MyAdminDslFactory.eINSTANCE.createEntityAttributeOptions();
+		newEntityAttribute.setEntityAttributeOptions(entityAttributeOptions);
+
 		entity.getAttributes().add(newEntityAttribute);
 
 		return newEntityAttribute;

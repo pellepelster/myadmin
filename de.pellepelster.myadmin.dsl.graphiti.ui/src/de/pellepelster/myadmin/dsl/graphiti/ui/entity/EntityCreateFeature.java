@@ -8,6 +8,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityOptions;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
 
 public class EntityCreateFeature extends BaseCreateFeature<Entity>
@@ -28,6 +29,10 @@ public class EntityCreateFeature extends BaseCreateFeature<Entity>
 	{
 		Entity newEntity = MyAdminDslFactory.eINSTANCE.createEntity();
 		newEntity.setName(className);
+
+		EntityOptions entityOptions = MyAdminDslFactory.eINSTANCE.createEntityOptions();
+		newEntity.setEntityOptions(entityOptions);
+
 		getPackage(context).getElements().add(newEntity);
 
 		return newEntity;

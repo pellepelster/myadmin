@@ -16,6 +16,8 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
 import com.google.inject.Inject;
 
+import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleTypes;
 
@@ -47,6 +49,18 @@ public class MyAdminDslLabelProvider extends DefaultEObjectLabelProvider
 		{
 			SimpleType simpleType = (SimpleType) element;
 			return doGetText(simpleType.getType());
+		}
+
+		if (element instanceof Datatype)
+		{
+			Datatype datatype = (Datatype) element;
+			return datatype.getName();
+		}
+
+		if (element instanceof DatatypeType)
+		{
+			DatatypeType datatypeType = (DatatypeType) element;
+			return doGetText(datatypeType.getType());
 		}
 
 		return super.doGetText(element);

@@ -1,5 +1,9 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.base;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -12,12 +16,31 @@ public class TypeCellEditor extends DialogCellEditor
 {
 	private IFeatureProvider featureProvider;
 
-	public static Object CURRENT_VALUE;
+	public static Map<String, Object> CURRENT_VALUE = new HashMap<String, Object>();
 
 	public TypeCellEditor(Composite parent, IFeatureProvider featureProvider)
 	{
 		super(parent);
 		this.featureProvider = featureProvider;
+	}
+
+	@Override
+	protected Object doGetValue()
+	{
+		String uuid = UUID.randomUUID().toString();
+
+		Object value = super.doGetValue();
+
+		if (!(value instanceof String))
+		{
+			CURRENT_VALUE.put(uuid, super.doGetValue());
+
+			return uuid;
+		}
+		else
+		{
+			return super.doGetValue();
+		}
 	}
 
 	@Override
@@ -32,13 +55,6 @@ public class TypeCellEditor extends DialogCellEditor
 		dialog.open();
 
 		return dialog.getFirstResult();
-	}
-
-	@Override
-	protected void doSetValue(Object value)
-	{
-		CURRENT_VALUE = value;
-		super.doSetValue(value);
 	}
 
 }
