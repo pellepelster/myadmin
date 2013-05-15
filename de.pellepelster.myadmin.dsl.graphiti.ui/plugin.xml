@@ -47,9 +47,14 @@
           contributorId="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype.PropertyContributor">
    <propertyTab
          category="MyAdmin"
-         id="myadmin.textdatatype.main.tab"
+         id="myadmin.datatype.common.tab"
          label="%Common">
     </propertyTab>
+   <propertyTab
+         category="MyAdmin"
+         id="myadmin.referencedatatype.entity.tab"
+         label="%Entity">
+   </propertyTab>
    </propertyTabs>
 </extension>
      
@@ -58,10 +63,17 @@
     <propertySections
           contributorId="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype.PropertyContributor">
         <propertySection
-              class="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeSection"
-              filter="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypePropertySectionFilter"
-              id="myadmin.textdatatype.main.section"
-              tab="myadmin.textdatatype.main.tab">
+              class="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.CommonDatatypeSection"
+              filter="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.CommonDatatypePropertySectionFilter"
+              id="myadmin.datatype.common.section"
+              tab="myadmin.datatype.common.tab">
+        </propertySection>
+        <propertySection
+              afterSection="myadmin.datatype.common.section"
+              class="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeSection"
+              filter="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypePropertySectionFilter"
+              id="myadmin.referencedatatype.entity.section"
+              tab="myadmin.referencedatatype.entity.tab">
         </propertySection>
     </propertySections>
 </extension>

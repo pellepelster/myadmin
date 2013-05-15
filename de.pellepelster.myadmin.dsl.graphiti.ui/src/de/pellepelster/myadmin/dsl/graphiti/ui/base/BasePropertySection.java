@@ -19,14 +19,16 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.Messages;
-import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
+import de.pellepelster.myadmin.dsl.ui.ModelUiUtil;
 
-public class BasePropertySection<BO extends EObject> extends GFPropertySection implements ITabbedPropertyConstants
+public abstract class BasePropertySection<BO extends EObject> extends GFPropertySection implements ITabbedPropertyConstants
 {
 	private final Class<BO> businessObjectClass;
 
@@ -44,16 +46,22 @@ public class BasePropertySection<BO extends EObject> extends GFPropertySection i
 		this.businessObjectClass = businessObjectClass;
 	}
 
-	@Override
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage)
+	private void setValueToBusinessObject(final EStructuralFeature eStructuralFeature, final Object value)
 	{
-		super.createControls(parent, tabbedPropertySheetPage);
+		if (hasBusinessObject())
+		{
+			final BO businessObject = getBusinessObject();
 
-		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		Composite composite = factory.createFlatFormComposite(parent);
-
-		addTextProperty(composite, MyAdminDslPackage.Literals.DATATYPE__NAME, Messages.Name);
-
+			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(businessObject);
+			domain.getCommandStack().execute(new RecordingCommand(domain)
+			{
+				@Override
+				public void doExecute()
+				{
+					businessObject.eSet(eStructuralFeature, value);
+				}
+			});
+		}
 	}
 
 	public void addTextProperty(Composite parent, final EStructuralFeature eStructuralFeature, String name)
@@ -72,20 +80,7 @@ public class BasePropertySection<BO extends EObject> extends GFPropertySection i
 			@Override
 			public void focusLost(FocusEvent e)
 			{
-				if (hasBusinessObject())
-				{
-					final BO businessObject = getBusinessObject();
-
-					TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(businessObject);
-					domain.getCommandStack().execute(new RecordingCommand(domain)
-					{
-						@Override
-						public void doExecute()
-						{
-							businessObject.eSet(eStructuralFeature, text.getText());
-						}
-					});
-				}
+				setValueToBusinessObject(eStructuralFeature, text.getText());
 			}
 
 			@Override
@@ -117,11 +112,68 @@ public class BasePropertySection<BO extends EObject> extends GFPropertySection i
 		});
 	}
 
+	public void addTypeSelectorProperty(Composite parent, final EStructuralFeature eStructuralFeature, String name)
+	{
+		FormData data;
+
+		final Hyperlink link = getWidgetFactory().createHyperlink(parent, Messages.None, SWT.NONE);
+		data = new FormData();
+		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+		data.right = new FormAttachment(100, 0);
+		data.top = new FormAttachment(0, VSPACE);
+		link.setLayoutData(data);
+
+		link.addHyperlinkListener(new HyperlinkAdapter()
+		{
+			@Override
+			public void linkActivated(HyperlinkEvent e)
+			{
+				EntitySelectionDialog entitySelectionDialog = new EntitySelectionDialog(PlatformUI.createDisplay().getActiveShell(), getDiagramTypeProvider()
+						.getFeatureProvider());
+
+				entitySelectionDialog.setTitle(Messages.DatatypeSelection);
+				entitySelectionDialog.setMessage(Messages.DatatypeSelectFromList);
+				entitySelectionDialog.setInitialPattern("?");
+				entitySelectionDialog.setBlockOnOpen(true);
+				entitySelectionDialog.open();
+
+				setValueToBusinessObject(eStructuralFeature, entitySelectionDialog.getFirstResult());
+			}
+		});
+
+		CLabel label = getWidgetFactory().createCLabel(parent, name);
+		data = new FormData();
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(link, -HSPACE);
+		data.top = new FormAttachment(link, 0, SWT.CENTER);
+		label.setLayoutData(data);
+
+		this.propertyRefreshHandlers.add(new IPropertyRefreshHandler<BO>()
+		{
+			@Override
+			public void onRefresh(BO businessObject)
+			{
+				Object value = businessObject.eGet(eStructuralFeature);
+
+				if (value != null)
+				{
+					link.setText(ModelUiUtil.getLabelProvider().getText(value));
+				}
+				else
+				{
+					link.setText(Messages.None);
+				}
+			}
+
+		});
+	}
+
 	public boolean hasBusinessObject()
 	{
 		return getBusinessObject() != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public BO getBusinessObject()
 	{
 		PictogramElement pe = getSelectedPictogramElement();

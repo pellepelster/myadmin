@@ -31,6 +31,8 @@ public class Messages extends NLS
 
 	public static String Error;
 
+	public static String None;
+
 	public static String DeviceTypeMustBeDpecified;
 
 	public static String DeviceTypeNameMustBeValid;
@@ -64,6 +66,10 @@ public class Messages extends NLS
 	public static String TextDatatype;
 
 	public static String TextDatatypeCreate;
+
+	public static String ReferenceDatatype;
+
+	public static String ReferenceDatatypeCreate;
 
 	public static String DatatypeSelection;
 

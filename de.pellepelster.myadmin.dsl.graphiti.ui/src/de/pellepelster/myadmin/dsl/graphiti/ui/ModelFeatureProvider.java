@@ -23,6 +23,11 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoMoveFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.NoResizeFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.attribute.BaseAttributeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeAddFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeLayoutFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.reference.ReferenceDatatypeUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeDirectEditFeature;
@@ -43,6 +48,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeT
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.PictogramElementQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
+import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
 
 public class ModelFeatureProvider extends DefaultFeatureProvider
@@ -67,6 +73,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			return new TextDatatypeAddFeature(this);
 		}
 
+		if (context.getNewObject() instanceof ReferenceDatatype)
+		{
+			return new ReferenceDatatypeAddFeature(this);
+		}
+
 		if (context.getNewObject() instanceof EntityAttribute)
 		{
 			return new EntityAttributeAddFeature(this);
@@ -78,7 +89,8 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 	@Override
 	public ICreateFeature[] getCreateFeatures()
 	{
-		return new ICreateFeature[] { new EntityCreateFeature(this), new TextDatatypeCreateFeature(this), new EntityAttributeCreateFeature(this) };
+		return new ICreateFeature[] { new EntityCreateFeature(this), new TextDatatypeCreateFeature(this), new EntityAttributeCreateFeature(this),
+				new ReferenceDatatypeCreateFeature(this) };
 	}
 
 	@Override
@@ -111,6 +123,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			return new TextDatatypeLayoutFeature(this);
 		}
 
+		if (businessObject instanceof ReferenceDatatype)
+		{
+			return new ReferenceDatatypeLayoutFeature(this);
+		}
+
 		if (businessObject instanceof EntityAttribute)
 		{
 			return new EntityAttributeLayoutFeature(this);
@@ -133,6 +150,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 		if (businessObject instanceof TextDatatype)
 		{
 			return new TextDatatypeDirectEditFeature(this);
+		}
+
+		if (businessObject instanceof ReferenceDatatype)
+		{
+			return new ReferenceDatatypeDirectEditFeature(this);
 		}
 
 		if (businessObject instanceof EntityAttribute)
@@ -199,6 +221,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 			if (bo instanceof TextDatatype)
 			{
 				return new TextDatatypeUpdateFeature(this);
+			}
+
+			if (bo instanceof ReferenceDatatype)
+			{
+				return new ReferenceDatatypeUpdateFeature(this);
 			}
 
 			if (bo instanceof EntityAttribute)
