@@ -179,6 +179,14 @@ public class SizeAndLocation
 		return this;
 	}
 
+	public SizeAndLocation setColumn(int columnCount, int column)
+	{
+		this.width = this.width / columnCount;
+		this.x = this.width * column;
+
+		return this;
+	}
+
 	public SizeAndLocation center()
 	{
 		if (this.parentGraphicsAlgorithm != null)

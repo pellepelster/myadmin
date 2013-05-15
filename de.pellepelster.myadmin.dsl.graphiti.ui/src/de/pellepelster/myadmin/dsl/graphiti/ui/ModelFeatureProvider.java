@@ -35,6 +35,7 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityNameDirectEditFeatur
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.EntityUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeCreateFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeLayoutFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameDirectEditFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeNameUpdateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeRemoveFeature;
@@ -108,6 +109,11 @@ public class ModelFeatureProvider extends DefaultFeatureProvider
 		if (businessObject instanceof TextDatatype)
 		{
 			return new TextDatatypeLayoutFeature(this);
+		}
+
+		if (businessObject instanceof EntityAttribute)
+		{
+			return new EntityAttributeLayoutFeature(this);
 		}
 
 		return super.getLayoutFeature(context);

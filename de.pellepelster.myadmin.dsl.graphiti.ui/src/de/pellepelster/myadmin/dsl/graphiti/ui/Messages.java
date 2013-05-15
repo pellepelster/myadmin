@@ -21,6 +21,8 @@ public class Messages extends NLS
 
 	public static String New;
 
+	public static String Name;
+
 	public static String ModelFileNameMustBeSpecified;
 
 	public static String ModelFileNameFormat;

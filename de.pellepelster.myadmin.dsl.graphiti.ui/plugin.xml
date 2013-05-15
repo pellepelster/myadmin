@@ -9,6 +9,7 @@
             type="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype">
       </diagramType>
    </extension>
+   
    <extension
          point="org.eclipse.graphiti.ui.diagramTypeProviders">
       <diagramTypeProvider
@@ -20,6 +21,7 @@
          </diagramType>
       </diagramTypeProvider>
    </extension>
+   
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
@@ -30,5 +32,38 @@
             project="false">
       </wizard>
    </extension>
+       
+        <extension
+    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor contributorId="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype.PropertyContributor"> 
+        <propertyCategory category="MyAdmin"> 
+        </propertyCategory> 
+    </propertyContributor> 
+</extension>
+       
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+   <propertyTabs
+          contributorId="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype.PropertyContributor">
+   <propertyTab
+         category="MyAdmin"
+         id="myadmin.textdatatype.main.tab"
+         label="%Common">
+    </propertyTab>
+   </propertyTabs>
+</extension>
+     
+<extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+          contributorId="de.pellepelster.myadmin.dsl.graphiti.ui.modeldiagramtype.PropertyContributor">
+        <propertySection
+              class="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypeSection"
+              filter="de.pellepelster.myadmin.dsl.graphiti.ui.datatype.text.TextDatatypePropertySectionFilter"
+              id="myadmin.textdatatype.main.section"
+              tab="myadmin.textdatatype.main.tab">
+        </propertySection>
+    </propertySections>
+</extension>
 
 </plugin>

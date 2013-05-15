@@ -69,6 +69,7 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
 
 		int minHeight = MyAdminGraphitiConstants.CLASS_MIN_HEIGHT;
+
 		if (!attributeContainerShapes.isEmpty())
 		{
 
@@ -101,6 +102,11 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 		{
 			containerGa.setWidth(MyAdminGraphitiConstants.CLASS_MIN_WIDTH);
 			hasChanged = true;
+		}
+
+		for (ContainerShape attributeContainerShape : attributeContainerShapes)
+		{
+			layoutPictogramElement(attributeContainerShape);
 		}
 
 		return hasChanged;

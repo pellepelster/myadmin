@@ -21,7 +21,10 @@ Require-Bundle: org.eclipse.ui,
  de.pellepelster.myadmin.ui,
  org.eclipse.xtext.ui,
  org.eclipse.draw2d,
- org.eclipse.gef
+ org.eclipse.gef,
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.emf.transaction
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Localization: src/de/pellepelster/myadmin/dsl/graphiti/ui/messages
 Bundle-Vendor: Christian Pelster

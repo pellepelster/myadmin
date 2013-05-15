@@ -11,7 +11,7 @@
  */
 package de.pellepelster.myadmin.dsl;
 
-import org.eclipse.osgi.util.NLS;
+import de.pellepelster.myadmin.dsl.util.NLS;
 
 public class Messages extends NLS
 {

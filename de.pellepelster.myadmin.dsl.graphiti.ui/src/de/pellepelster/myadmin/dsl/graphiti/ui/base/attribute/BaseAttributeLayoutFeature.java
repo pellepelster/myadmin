@@ -5,12 +5,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IGaService;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
@@ -46,17 +43,14 @@ public class BaseAttributeLayoutFeature<T extends EObject> extends AbstractLayou
 	{
 		boolean hasChanged = false;
 
-		IGaService gaService = Graphiti.getGaService();
-
 		ContainerShape attributeContainerShape = (ContainerShape) context.getPictogramElement();
-		GraphicsAlgorithm attributeConatinerGa = attributeContainerShape.getGraphicsAlgorithm();
 
 		// attribute name
 		Text nameText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_NAME_TEXT_ID);
-		hasChanged = SizeAndLocation.create(attributeContainerShape).setWidthFactor(0.5).setLocationAndSize(nameText).hasChanged(hasChanged);
+		hasChanged = SizeAndLocation.create(attributeContainerShape).setColumn(2, 0).setLocationAndSize(nameText).hasChanged(hasChanged);
 
 		Text typeText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_TYPE_TEXT_ID);
-		hasChanged = SizeAndLocation.create(attributeContainerShape).setWidthFactor(0.5).setLocationAndSize(typeText).hasChanged(hasChanged);
+		hasChanged = SizeAndLocation.create(attributeContainerShape).setColumn(2, 1).setLocationAndSize(typeText).hasChanged(hasChanged);
 
 		return hasChanged;
 	}

@@ -28,12 +28,9 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 
 	public static final String ATTRIBUTE_CONTAINER_ID = "attribute";
 
-	private Class<T> attributeClass;
-
 	public BaseAttributeAddFeature(IFeatureProvider fp, Class<T> attributeClass)
 	{
 		super(fp);
-		this.attributeClass = attributeClass;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +74,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setWidthFactor(0.5).setLocationAndSize(text);
+			SizeAndLocation.create(roundedRectangle).setColumn(2, 0).setLocationAndSize(text);
 		}
 
 		// attribute type text
@@ -96,7 +93,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setX(roundedRectangle.getWidth() / 2).setWidthFactor(0.5).setLocationAndSize(text);
+			SizeAndLocation.create(roundedRectangle).setColumn(2, 0).setLocationAndSize(text);
 		}
 
 		layoutPictogramElement(entityContainer);
