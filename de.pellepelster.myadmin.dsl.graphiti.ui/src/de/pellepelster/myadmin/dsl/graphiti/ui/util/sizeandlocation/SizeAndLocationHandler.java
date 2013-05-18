@@ -23,7 +23,7 @@ public class SizeAndLocationHandler extends BaseSizeAndLocationHandler<SizeAndLo
 
 	public static SizeAndLocationHandler createAbsolute(IAddContext context, int width, int height)
 	{
-		return new SizeAndLocationHandler(new SizeAndLocation(context.getX(), context.getY(), width, height));
+		return new SizeAndLocationHandler(new SizeAndLocation(context.getX(), context.getY(), width, height), true);
 	}
 
 	public static SizeAndLocationHandler create(SizeAndLocation sizeAndLocation)
