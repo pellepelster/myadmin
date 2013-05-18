@@ -14,9 +14,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext.xbase.junit,
  org.eclipse.xtext.xbase,
  de.pellepelster.myadmin.dsl.ui,
- de.pellepelster.myadmin.dsl
+ de.pellepelster.myadmin.dsl,
+ de.pellepelster.myadmin.dsl.graphiti.ui,
+ org.eclipse.graphiti
 Bundle-Vendor: Christian Pelster
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.junit.runner;version="4.5.0",
  org.junit.runner.manipulation;version="4.5.0",
  org.junit.runner.notification;version="4.5.0",

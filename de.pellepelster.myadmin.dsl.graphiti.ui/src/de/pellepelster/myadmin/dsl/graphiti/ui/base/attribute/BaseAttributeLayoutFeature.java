@@ -10,7 +10,6 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
 
 public class BaseAttributeLayoutFeature<T extends EObject> extends AbstractLayoutFeature
 {
@@ -47,10 +46,10 @@ public class BaseAttributeLayoutFeature<T extends EObject> extends AbstractLayou
 
 		// attribute name
 		Text nameText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_NAME_TEXT_ID);
-		hasChanged = SizeAndLocation.create(attributeContainerShape).setColumn(2, 0).setLocationAndSize(nameText).hasChanged(hasChanged);
+		hasChanged = BaseAttributeAddFeature.NAME_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(attributeContainerShape, nameText).hasChanged(hasChanged);
 
 		Text typeText = ContainerShapeQuery.create(attributeContainerShape).getTextById(BaseAttributeAddFeature.ATTRIBUTE_TYPE_TEXT_ID);
-		hasChanged = SizeAndLocation.create(attributeContainerShape).setColumn(2, 1).setLocationAndSize(typeText).hasChanged(hasChanged);
+		hasChanged = BaseAttributeAddFeature.TYPE_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(attributeContainerShape, typeText).hasChanged(hasChanged);
 
 		return hasChanged;
 	}

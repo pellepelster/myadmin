@@ -18,7 +18,7 @@ import com.google.common.collect.Iterators;
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute.EntityAttributeAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.ContainerShapeQuery;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation.SizeAndLocationHandler;
 
 public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayoutFeature
 {
@@ -56,13 +56,11 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 
 		// scale header line
 		Polyline headerLine = ContainerShapeQuery.create(containerShape).getPolylineById(BaseContainerAddFeature.CONTAINER_HEADER_LINE_ID);
-		hasChanged = SizeAndLocation.create(containerGa).setYAndHeight(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT).updatePoints(headerLine)
-				.hasChanged(hasChanged);
+		hasChanged = BaseContainerAddFeature.ENTITY_NAME_LINE_SIZE_AND_LOCATION_HANDLER.updatePoints(containerGa, headerLine).hasChanged(hasChanged);
 
 		// scale text
 		Text text = ContainerShapeQuery.create(containerShape).getTextById(BaseContainerAddFeature.CONTAINER_NAME_TEXT_ID);
-		hasChanged = SizeAndLocation.create(containerGa).setHeight(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT).setLocationAndSize(text)
-				.hasChanged(hasChanged);
+		hasChanged = BaseContainerAddFeature.ENTITY_NAME_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(containerGa, text).hasChanged(hasChanged);
 
 		// layout attributes
 		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(containerShape).getContainerShapesById(
@@ -76,13 +74,13 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 			int i = 0;
 			for (ContainerShape attributeContainerShape : attributeContainerShapes)
 			{
-				hasChanged = SizeAndLocation
+				hasChanged = SizeAndLocationHandler
 						.create(containerShape)
-						.shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2)
+						.addWidthOffset(MyAdminGraphitiConstants.MARGIN * -2)
 						.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
 						.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN + i
-								* (MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT + MyAdminGraphitiConstants.MARGIN)).center()
-						.setLocationAndSize(attributeContainerShape.getGraphicsAlgorithm()).hasChanged(hasChanged);
+								* (MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT + MyAdminGraphitiConstants.MARGIN)).centerHorizontal()
+						.setSizeAndLocation(attributeContainerShape.getGraphicsAlgorithm()).hasChanged(hasChanged);
 				i++;
 			}
 

@@ -18,15 +18,21 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseContainerAddFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation.PrecompiledSizeAndLocationHandler;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation.SizeAndLocationHandler;
 
 public abstract class BaseAttributeAddFeature<T extends EObject> extends AbstractAddShapeFeature
 {
+
 	public static final String ATTRIBUTE_NAME_TEXT_ID = "attribute.name.text";
 
 	public static final String ATTRIBUTE_TYPE_TEXT_ID = "attribute.type";
 
 	public static final String ATTRIBUTE_CONTAINER_ID = "attribute";
+
+	public static final PrecompiledSizeAndLocationHandler NAME_TEXT_SIZE_AND_LOCATION_HANDLER = PrecompiledSizeAndLocationHandler.create().setColumn(2, 0);
+
+	public static final PrecompiledSizeAndLocationHandler TYPE_TEXT_SIZE_AND_LOCATION_HANDLER = PrecompiledSizeAndLocationHandler.create().setColumn(2, 1);
 
 	public BaseAttributeAddFeature(IFeatureProvider fp, Class<T> attributeClass)
 	{
@@ -54,8 +60,10 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			roundedRectangle.setLineWidth(2);
 			link(attributeContainerShape, addedBusinessObject);
 
-			SizeAndLocation.create(entityContainer).shrinkWidth(MyAdminGraphitiConstants.MARGIN * 2).setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
-					.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).center().setLocationAndSize(roundedRectangle);
+			SizeAndLocationHandler.create(entityContainer).addWidthOffset(MyAdminGraphitiConstants.MARGIN * -2)
+					.setHeight(MyAdminGraphitiConstants.ATTRIBUTE_HEIGHT)
+					.setY(BaseContainerAddFeature.CONTAINER_NAME_TEXT_HEIGHT + MyAdminGraphitiConstants.MARGIN).centerHorizontal()
+					.setSizeAndLocation(roundedRectangle);
 		}
 
 		// attribute name text
@@ -74,7 +82,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setColumn(2, 0).setLocationAndSize(text);
+			NAME_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(roundedRectangle, text);
 		}
 
 		// attribute type text
@@ -93,7 +101,7 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setColumn(2, 0).setLocationAndSize(text);
+			TYPE_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(roundedRectangle, text);
 		}
 
 		layoutPictogramElement(entityContainer);

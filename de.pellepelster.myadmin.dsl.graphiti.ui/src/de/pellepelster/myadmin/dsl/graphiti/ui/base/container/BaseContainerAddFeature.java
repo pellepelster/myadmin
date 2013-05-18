@@ -20,10 +20,12 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.AddContextQuery;
 import de.pellepelster.myadmin.dsl.graphiti.ui.util.GraphitiProperties;
-import de.pellepelster.myadmin.dsl.graphiti.ui.util.SizeAndLocation;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation.PrecompiledSizeAndLocationHandler;
+import de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation.SizeAndLocationHandler;
 
 public abstract class BaseContainerAddFeature<BO extends EObject> extends AbstractAddShapeFeature
 {
+
 	public static final int CONTAINER_NAME_TEXT_HEIGHT = 25;
 
 	public static final String CONTAINER_HEADER_LINE_ID = "container.header.line";
@@ -31,6 +33,12 @@ public abstract class BaseContainerAddFeature<BO extends EObject> extends Abstra
 	public static final String CONTAINER_NAME_TEXT_ID = "container.name.text";
 
 	public static final String CONTAINER_ID = "container.container";
+
+	public static PrecompiledSizeAndLocationHandler ENTITY_NAME_TEXT_SIZE_AND_LOCATION_HANDLER = PrecompiledSizeAndLocationHandler.create()
+			.setHeight(CONTAINER_NAME_TEXT_HEIGHT).centerHorizontal();
+
+	public static PrecompiledSizeAndLocationHandler ENTITY_NAME_LINE_SIZE_AND_LOCATION_HANDLER = PrecompiledSizeAndLocationHandler.create().setYAndHeight(
+			CONTAINER_NAME_TEXT_HEIGHT);
 
 	private Class<BO> businessObjectClass;
 
@@ -68,16 +76,15 @@ public abstract class BaseContainerAddFeature<BO extends EObject> extends Abstra
 			roundedRectangle.setTransparency(MyAdminGraphitiConstants.CLASS_TRANSPARENCY);
 			roundedRectangle.setLineWidth(2);
 
-			SizeAndLocation.create(context, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH, MyAdminGraphitiConstants.CLASS_DEFAULT_HEIGHT).setLocationAndSize(
-					roundedRectangle);
+			SizeAndLocationHandler.createAbsolute(context, MyAdminGraphitiConstants.CLASS_DEFAULT_WIDTH, MyAdminGraphitiConstants.CLASS_DEFAULT_HEIGHT)
+					.setSizeAndLocation(roundedRectangle);
 		}
 
 		// header line
 		{
 			Shape shape = peCreateService.createShape(containerShape, false);
 
-			Polyline polyline = gaService.createPolyline(shape, SizeAndLocation.create(roundedRectangle).setYAndHeight(this.CONTAINER_NAME_TEXT_HEIGHT)
-					.getPoints());
+			Polyline polyline = gaService.createPolyline(shape, ENTITY_NAME_LINE_SIZE_AND_LOCATION_HANDLER.getPoints(roundedRectangle));
 			polyline.setForeground(manageColor(MyAdminGraphitiConstants.CLASS_FOREGROUND));
 			polyline.setLineWidth(2);
 			GraphitiProperties.set(polyline, MyAdminGraphitiConstants.ELEMENT_ID_KEY, CONTAINER_HEADER_LINE_ID);
@@ -100,8 +107,7 @@ public abstract class BaseContainerAddFeature<BO extends EObject> extends Abstra
 			directEditingInfo.setPictogramElement(shape);
 			directEditingInfo.setGraphicsAlgorithm(text);
 
-			SizeAndLocation.create(roundedRectangle).setHeight(this.CONTAINER_NAME_TEXT_HEIGHT).setLocationAndSize(text);
-
+			ENTITY_NAME_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(roundedRectangle, text);
 		}
 
 		return containerShape;
