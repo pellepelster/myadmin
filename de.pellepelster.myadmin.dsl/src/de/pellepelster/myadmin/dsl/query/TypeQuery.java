@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class TypeQuery<T extends EObject> extends BaseEObjectQuery<T>
+public class TypeQuery<T extends EObject> extends BaseEObjectCollectionQuery<T>
 {
 
 	public TypeQuery(Collection<T> eObjects)

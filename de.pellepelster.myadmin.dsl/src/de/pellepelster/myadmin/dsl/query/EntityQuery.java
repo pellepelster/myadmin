@@ -28,23 +28,23 @@ public class EntityQuery
 	{
 		List<Entity> entities = new ArrayList<Entity>();
 
-		entities.addAll(AttributesQuery.create(this.entity.getAttributes()).getTypes(EntityType.class)
+		entities.addAll(EntityAttributesQuery.create(this.entity.getAttributes()).getTypes(EntityType.class)
 				.getFeatures(MyAdminDslPackage.Literals.ENTITY_TYPE__TYPE, Entity.class));
 
-		entities.addAll(AttributesQuery.create(this.entity.getAttributes()).getTypes(ReferenceDatatypeType.class)
+		entities.addAll(EntityAttributesQuery.create(this.entity.getAttributes()).getTypes(ReferenceDatatypeType.class)
 				.getFeaturesQuery(MyAdminDslPackage.Literals.REFERENCE_DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
 				.getFeatures(MyAdminDslPackage.Literals.REFERENCE_DATATYPE__ENTITY, Entity.class));
 
-		entities.addAll(AttributesQuery.create(this.entity.getAttributes()).getTypes(DatatypeType.class)
+		entities.addAll(EntityAttributesQuery.create(this.entity.getAttributes()).getTypes(DatatypeType.class)
 				.getFeaturesQuery(MyAdminDslPackage.Literals.DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
 				.getFeatures(MyAdminDslPackage.Literals.REFERENCE_DATATYPE__ENTITY, Entity.class));
 
 		return entities;
 	}
 
-	public AttributesQuery getAttributes()
+	public EntityAttributesQuery getAttributes()
 	{
-		return AttributesQuery.create(this.entity.getAttributes());
+		return EntityAttributesQuery.create(this.entity.getAttributes());
 	}
 
 }

@@ -28,7 +28,7 @@ public class ModelQueryTest
 		Model model = SpringModelUtils.getModel("classpath:model/SingleRootPackageModel.msl");
 
 		Assert.assertTrue(ModelQuery.createQuery(model).getRootPackages().hasExactlyOne());
-		Assert.assertEquals("a.b", ModelQuery.createQuery(model).getRootPackages().getSinglePackage().getName());
+		Assert.assertEquals("a.b", ModelQuery.createQuery(model).getRootPackages().getSingleResult().getName());
 	}
 
 	@Test

@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ EntityQueryTest.class, ModelQueryTest.class })
+@SuiteClasses({ EntityQueryTest.class, ModelQueryTest.class, EntityAttributeQueryTest.class })
 public class DslTestSuite
 {
 

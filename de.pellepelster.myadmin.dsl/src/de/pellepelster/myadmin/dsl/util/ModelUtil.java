@@ -28,7 +28,7 @@ public class ModelUtil
 
 	public static PackageDeclaration getSingleRootPackage(Model model)
 	{
-		return ModelQuery.createQuery(model).getRootPackages().getSinglePackage();
+		return ModelQuery.createQuery(model).getRootPackages().getSingleResult();
 	}
 
 	public static boolean hasSingleRootPackage(Model model)

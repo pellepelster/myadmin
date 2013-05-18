@@ -6,7 +6,7 @@ import java.util.List;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 
-public class EntitiesQuery extends BaseEObjectQuery<Entity>
+public class EntitiesQuery extends BaseEObjectCollectionQuery<Entity>
 {
 	public EntitiesQuery(List<Entity> entities)
 	{

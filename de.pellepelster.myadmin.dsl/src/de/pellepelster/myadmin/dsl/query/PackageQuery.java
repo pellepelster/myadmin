@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 
-public class PackageQuery extends BaseEObjectQuery<PackageDeclaration>
+public class PackageQuery extends BaseEObjectCollectionQuery<PackageDeclaration>
 {
 	public PackageQuery(Collection<PackageDeclaration> packages)
 	{

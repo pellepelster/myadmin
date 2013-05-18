@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.DatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
@@ -76,6 +77,17 @@ public class EntityQueryTest
 				.getFeatures(MyAdminDslPackage.Literals.REFERENCE_DATATYPE__ENTITY, Entity.class);
 		Assert.assertEquals(1, entities.size());
 		Assert.assertEquals("Entity2", entities.iterator().next().getName());
+	}
+
+	@Test
+	public void testGetAttributeByName()
+	{
+		Assert.assertEquals(1, ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getList().size());
+
+		// reference Entity3 entity3
+		EntityAttribute entityAttribute = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity3")
+				.getObject();
+		Assert.assertEquals("entity3", entityAttribute.getName());
 	}
 
 	@Test
