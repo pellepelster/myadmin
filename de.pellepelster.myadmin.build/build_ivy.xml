@@ -2,7 +2,7 @@
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
 
-	<target name="compile" depends="create.bootstrap.ant, publish.bootstrap.ant">
+	<target name="compile" depends="create.bootstrap.ant, publish.bootstrap.ant, javadoc">
 	</target>
 
 	<target name="publish.bootstrap.ant">
@@ -48,6 +48,26 @@
 				<include name="**/*" />
 			</fileset>
 		</zip>
+	</target>
+
+	<target name="javadoc">
+
+		<property name="javadoc.temp.dir" value="${build.dir}/javadoc" />
+		
+		<javadoc failonerror="true" destdir="${javadoc.temp.dir}" author="true" version="true" use="true" windowtitle="MyAdmin Javadoc">
+			
+			<fileset dir="../" defaultexcludes="yes">
+				<include name="**/${src.dir}/de/pellepelster/myadmin/dsl/graphiti/ui/util/sizeandlocation/**" />
+			</fileset>
+
+			<link offline="true" href="http://download.oracle.com/javase/6/docs/api/" packagelistLoc="C:\tmp" />
+			<link href="http://developer.java.sun.com/developer/products/xml/docs/api/" />
+		</javadoc>
+		
+		<zip destfile="${build.dir}/javadoc.zip">
+			<fileset dir="${javadoc.temp.dir}" includes="**/*" />
+		</zip>
+		
 	</target>
 
 </project>

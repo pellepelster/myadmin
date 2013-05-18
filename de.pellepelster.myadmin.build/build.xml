@@ -35,9 +35,9 @@
 			<ivy:buildlist settingsref="ivy.settings" reference="build.path">
 				<fileset refid="@{fileset}" />
 			</ivy:buildlist>
-		</sequential>	
+		</sequential>
 	</macrodef>
-	
+
 	<target name="publish.all">
 		<antcall target="info" />
 		<buildlist fileset="publish.fileset.all" />
