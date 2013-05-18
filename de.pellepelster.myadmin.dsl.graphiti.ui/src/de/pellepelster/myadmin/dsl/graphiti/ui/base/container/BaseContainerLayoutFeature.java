@@ -63,8 +63,7 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 		hasChanged = BaseContainerAddFeature.ENTITY_NAME_TEXT_SIZE_AND_LOCATION_HANDLER.setSizeAndLocation(containerGa, text).hasChanged(hasChanged);
 
 		// layout attributes
-		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(containerShape).getContainerShapesById(
-				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
+		Collection<ContainerShape> attributeContainerShapes = getAttributeContainerShapes(containerShape);
 
 		int minHeight = MyAdminGraphitiConstants.CLASS_MIN_HEIGHT;
 
@@ -108,5 +107,13 @@ public class BaseContainerLayoutFeature<T extends EObject> extends AbstractLayou
 		}
 
 		return hasChanged;
+	}
+
+	protected Collection<ContainerShape> getAttributeContainerShapes(ContainerShape containerShape)
+	{
+		Collection<ContainerShape> attributeContainerShapes = ContainerShapeQuery.create(containerShape).getContainerShapesById(
+				EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
+
+		return attributeContainerShapes;
 	}
 }

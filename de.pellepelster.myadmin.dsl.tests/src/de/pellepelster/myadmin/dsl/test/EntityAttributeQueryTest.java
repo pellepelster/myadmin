@@ -33,17 +33,17 @@ public class EntityAttributeQueryTest
 
 		// reference Entity3 entity3
 		EntityAttributeQuery entityAttributeQuery = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity3");
-		Assert.assertTrue(entityAttributeQuery.isEntity());
+		Assert.assertTrue(entityAttributeQuery.hasEntity());
 		Assert.assertTrue(Entity.class.isAssignableFrom(entityAttributeQuery.getEntity().getClass()));
 
 		// referencedatatype Entity4Datatype entity4
 		entityAttributeQuery = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity4");
-		Assert.assertTrue(entityAttributeQuery.isEntity());
+		Assert.assertTrue(entityAttributeQuery.hasEntity());
 		Assert.assertTrue(Entity.class.isAssignableFrom(entityAttributeQuery.getEntity().getClass()));
 
 		// datatype Entity2Datatype entity2
 		entityAttributeQuery = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity2");
-		Assert.assertTrue(entityAttributeQuery.isEntity());
+		Assert.assertTrue(entityAttributeQuery.hasEntity());
 		Assert.assertTrue(Entity.class.isAssignableFrom(entityAttributeQuery.getEntity().getClass()));
 	}
 

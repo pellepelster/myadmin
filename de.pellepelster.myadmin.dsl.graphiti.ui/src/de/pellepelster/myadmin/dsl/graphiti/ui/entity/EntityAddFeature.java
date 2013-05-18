@@ -26,38 +26,6 @@ public class EntityAddFeature extends BaseContainerAddFeature<Entity>
 	@Override
 	public PictogramElement add(IAddContext context)
 	{
-		// for (Entity entity : referencedEntities)
-		// {
-		// for (Shape shape : EntityShapeUtil.getEntityShape(targetDiagram,
-		// entity))
-		// {
-		// Anchor sourceAnchor =
-		// DiagramUtil.getOrCreateChopboxAnchor(containerShape);
-		// Anchor targetAnchor = DiagramUtil.getOrCreateChopboxAnchor(shape);
-		//
-		// Connection connection =
-		// peCreateService.createFreeFormConnection(targetDiagram);
-		// link(connection, entity);
-		//
-		// connection.setStart(sourceAnchor);
-		// connection.setEnd(targetAnchor);
-		//
-		// Polyline polyline = gaService.createPolyline(connection);
-		// polyline.setBackground(manageColor(IColorConstant.BLACK));
-		// polyline.setForeground(manageColor(IColorConstant.BLACK));
-		// polyline.setLineWidth(5);
-		//
-		// // add Text decorator for the reference name
-		// // ConnectionDecorator textDecorator =
-		// // peCreateService.createConnectionDecorator(connection, true,
-		// // 0.5, true);
-		// // Text text = gaService.createDefaultText(targetDiagram,
-		// // textDecorator);
-		// // StyleUtil.setStyleForTransition(targetDiagram, text);
-		//
-		// }
-		// }
-
 		return addInternal(context);
 	}
 

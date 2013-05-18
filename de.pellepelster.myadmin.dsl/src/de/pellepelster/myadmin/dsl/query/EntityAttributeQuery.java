@@ -54,7 +54,7 @@ public class EntityAttributeQuery extends BaseEObjectQuery<EntityAttribute>
 		return null;
 	}
 
-	public boolean isEntity()
+	public boolean hasEntity()
 	{
 		return getEntity() != null;
 	}

@@ -47,10 +47,9 @@ public abstract class BaseCreateFeature<BO extends EObject> extends AbstractCrea
 	@Override
 	public Object[] create(ICreateContext context)
 	{
-
 		int boElementCount = ModelQuery.createQuery(getModelService().getModel()).getAllByType(this.businessObjectClass).size();
 
-		String newClassName = String.format("%s%s%d", Messages.New, getName(), boElementCount++);
+		String newClassName = String.format("%s%s%d", Messages.New, getName(), ++boElementCount);
 
 		newClassName = newClassName.replaceAll(" ", "");
 
