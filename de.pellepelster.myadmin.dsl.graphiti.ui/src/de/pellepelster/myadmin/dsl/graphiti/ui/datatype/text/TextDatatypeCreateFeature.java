@@ -15,7 +15,7 @@ public class TextDatatypeCreateFeature extends BaseDatatypeCreateFeature<TextDat
 
 	public TextDatatypeCreateFeature(IFeatureProvider fp)
 	{
-		super(fp, Messages.TextDatatype, Messages.TextDatatypeCreate);
+		super(fp, TextDatatype.class, Messages.TextDatatype, Messages.TextDatatypeCreate);
 	}
 
 	@Override

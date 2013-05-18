@@ -15,15 +15,18 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.util.DiagramUtil;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
 
-public abstract class BaseCreateFeature<T extends EObject> extends AbstractCreateFeature
+public abstract class BaseCreateFeature<BO extends EObject> extends AbstractCreateFeature
 {
 	@Inject
 	private ModelDiagramModelService modelService;
 
-	public BaseCreateFeature(IFeatureProvider fp, String name, String description)
+	private Class<BO> businessObjectClass;
+
+	public BaseCreateFeature(IFeatureProvider fp, Class<BO> businessObjectClass, String name, String description)
 	{
 		super(fp, name, description);
 		this.modelService = ModelDiagramModelService.getModelService(fp.getDiagramTypeProvider());
+		this.businessObjectClass = businessObjectClass;
 	}
 
 	protected ModelDiagramModelService getModelService()
@@ -39,17 +42,24 @@ public abstract class BaseCreateFeature<T extends EObject> extends AbstractCreat
 		return ModelQuery.createQuery(getModelService().getModel()).getAndCreatePackageByName(packageName);
 	}
 
+	public abstract BO createAndAddToModelInternal(ICreateContext context, String className);
+
 	@Override
 	public Object[] create(ICreateContext context)
 	{
-		String newClassName = String.format("%s%s", Messages.New, getName());
+
+		int boElementCount = ModelQuery.createQuery(getModelService().getModel()).getAllByType(this.businessObjectClass).size();
+
+		String newClassName = String.format("%s%s%d", Messages.New, getName(), boElementCount++);
+
+		newClassName = newClassName.replaceAll(" ", "");
 
 		if (newClassName == null || newClassName.trim().length() == 0)
 		{
 			return EMPTY;
 		}
 
-		T newElement = createAndAddToModelInternal(context, newClassName);
+		BO newElement = createAndAddToModelInternal(context, newClassName);
 
 		addGraphicalRepresentation(context, newElement);
 
@@ -57,7 +67,5 @@ public abstract class BaseCreateFeature<T extends EObject> extends AbstractCreat
 
 		return new Object[] { newElement };
 	}
-
-	public abstract T createAndAddToModelInternal(ICreateContext context, String className);
 
 }

@@ -15,7 +15,7 @@ public class EntityCreateFeature extends BaseCreateFeature<Entity>
 {
 	public EntityCreateFeature(IFeatureProvider fp)
 	{
-		super(fp, Messages.Entity, Messages.EntityCreate);
+		super(fp, Entity.class, Messages.Entity, Messages.EntityCreate);
 	}
 
 	@Override

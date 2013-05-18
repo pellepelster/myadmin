@@ -8,11 +8,11 @@ import de.pellepelster.myadmin.dsl.graphiti.ui.base.BaseCreateFeature;
 import de.pellepelster.myadmin.dsl.graphiti.ui.query.CreateContextQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 
-public abstract class BaseDatatypeCreateFeature<T extends Datatype> extends BaseCreateFeature<T>
+public abstract class BaseDatatypeCreateFeature<BO extends Datatype> extends BaseCreateFeature<BO>
 {
-	public BaseDatatypeCreateFeature(IFeatureProvider fp, String name, String description)
+	public BaseDatatypeCreateFeature(IFeatureProvider fp, Class<BO> businessObjectClass, String name, String description)
 	{
-		super(fp, name, description);
+		super(fp, businessObjectClass, name, description);
 	}
 
 	@Override

@@ -31,13 +31,13 @@ public interface MyAdminGraphitiConstants
 
 	static final double ATTRIBUTE_TRANSPARENCY = 0.5;
 
-	static final int CLASS_DEFAULT_WIDTH = 100;
+	static final int CLASS_DEFAULT_WIDTH = 200;
 
-	static final int CLASS_DEFAULT_HEIGHT = 50;
+	static final int CLASS_DEFAULT_HEIGHT = 100;
 
-	static final int CLASS_MIN_HEIGHT = 30;
+	static final int CLASS_MIN_HEIGHT = 100;
 
-	static final int CLASS_MIN_WIDTH = 50;
+	static final int CLASS_MIN_WIDTH = 200;
 
 	static final int MARGIN = 10;
 

@@ -15,7 +15,7 @@ public class ReferenceDatatypeCreateFeature extends BaseDatatypeCreateFeature<Re
 
 	public ReferenceDatatypeCreateFeature(IFeatureProvider fp)
 	{
-		super(fp, Messages.ReferenceDatatype, Messages.ReferenceDatatypeCreate);
+		super(fp, ReferenceDatatype.class, Messages.ReferenceDatatype, Messages.ReferenceDatatypeCreate);
 	}
 
 	@Override
