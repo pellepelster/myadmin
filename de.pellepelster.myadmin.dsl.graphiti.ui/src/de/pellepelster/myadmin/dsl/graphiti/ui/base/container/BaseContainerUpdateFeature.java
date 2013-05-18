@@ -39,6 +39,7 @@ public abstract class BaseContainerUpdateFeature<BO extends EObject, ATTRIBUTE e
 		return this.businessObjectClass.isAssignableFrom(bo.getClass());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public IReason updateNeeded(IUpdateContext context)
 	{

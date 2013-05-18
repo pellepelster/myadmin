@@ -28,4 +28,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Localization: src/de/pellepelster/myadmin/dsl/graphiti/ui/messages
 Bundle-Vendor: Christian Pelster
-Export-Package: de.pellepelster.myadmin.dsl.graphiti.ui.util
+Export-Package: de.pellepelster.myadmin.dsl.graphiti.ui.util,
+ de.pellepelster.myadmin.dsl.graphiti.ui.util.sizeandlocation
