@@ -28,6 +28,8 @@ public abstract class BaseAttributeAddFeature<T extends EObject> extends Abstrac
 
 	public static final String ATTRIBUTE_TYPE_TEXT_ID = "attribute.type";
 
+	public static final String ATTRIBUTE_ENTITY_LINK_ID = "attribute.entity.link";
+
 	public static final String ATTRIBUTE_CONTAINER_ID = "attribute";
 
 	public static final PrecompiledSizeAndLocationHandler NAME_TEXT_SIZE_AND_LOCATION_HANDLER = PrecompiledSizeAndLocationHandler.create().setColumn(2, 0);

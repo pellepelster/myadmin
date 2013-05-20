@@ -138,6 +138,7 @@ public abstract class BasePropertySection<BO extends EObject> extends GFProperty
 				entitySelectionDialog.open();
 
 				setValueToBusinessObject(eStructuralFeature, entitySelectionDialog.getFirstResult());
+				link.setText(ModelUiUtil.getLabelProvider().getText(entitySelectionDialog.getFirstResult()));
 			}
 		});
 

@@ -3,12 +3,14 @@ package de.pellepelster.myadmin.dsl.graphiti.ui.entity.attribute;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.platform.ICellEditorProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.TypeCellEditor;
 import de.pellepelster.myadmin.dsl.graphiti.ui.base.container.BaseDirectEditFeature;
+import de.pellepelster.myadmin.dsl.graphiti.ui.query.PictogramElementQuery;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
@@ -64,6 +66,7 @@ public class EntityAttributeTypeDirectEditFeature extends BaseDirectEditFeature<
 		{
 			throw new RuntimeException(String.format("updateEntityAttributeType not implemented for '%s'", typeObject.getClass().getName()));
 		}
+
 	}
 
 	private void updateEntityAttributeType(EntityAttribute entityAttribute, SimpleTypes simpletypes)
@@ -93,6 +96,20 @@ public class EntityAttributeTypeDirectEditFeature extends BaseDirectEditFeature<
 			TypeCellEditor.CURRENT_VALUE.remove(value);
 
 			updateEntityAttributeType(entityAttribute, typeValue);
+
+			// relayout entity container
+			Shape entityAttributeContainerShape = PictogramElementQuery.create(context.getPictogramElement()).getParenShapeWithId(
+					EntityAttributeAddFeature.ATTRIBUTE_CONTAINER_ID);
+
+			if (entityAttributeContainerShape != null)
+			{
+				layoutPictogramElement(((Shape) context.getPictogramElement()).getContainer().getContainer());
+			}
+			else
+			{
+				throw new RuntimeException("entity attribute container not found");
+			}
+
 		}
 		else
 		{

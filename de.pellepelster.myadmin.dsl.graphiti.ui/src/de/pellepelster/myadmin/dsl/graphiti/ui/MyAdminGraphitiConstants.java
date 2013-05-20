@@ -43,4 +43,6 @@ public interface MyAdminGraphitiConstants
 
 	static final int ATTRIBUTE_HEIGHT = 25;
 
+	static final IColorConstant ANCHOR_BACKGROUND = new ColorConstant(98, 131, 167);
+
 }

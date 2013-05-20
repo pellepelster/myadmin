@@ -7,6 +7,8 @@ import java.util.List;
 import org.eclipse.graphiti.mm.PropertyContainer;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
@@ -106,6 +108,23 @@ public class ContainerShapeQuery
 			throw new RuntimeException(String.format("found %d but expectedt exactly one matching element found for element id '%s' on container '%s'",
 					graphicsAlgorithms.size(), elementId, this.containerShape.toString()));
 		}
+	}
+
+	public ConnectionsQuery getOutgoingConnections()
+	{
+		Collection<Connection> connections = new ArrayList<Connection>();
+
+		for (Anchor anchor : getAnchors())
+		{
+			connections.addAll(anchor.getOutgoingConnections());
+		}
+
+		return ConnectionsQuery.create(connections);
+	}
+
+	public Collection<Anchor> getAnchors()
+	{
+		return this.containerShape.getAnchors();
 	}
 
 	public Collection<Polyline> getPolylinesById(final String elementId)

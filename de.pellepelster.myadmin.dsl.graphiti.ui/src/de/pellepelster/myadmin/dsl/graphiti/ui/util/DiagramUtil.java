@@ -1,14 +1,19 @@
 package de.pellepelster.myadmin.dsl.graphiti.ui.util;
 
+import java.util.Collection;
+
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import de.pellepelster.myadmin.dsl.graphiti.ui.MyAdminGraphitiConstants;
 import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class DiagramUtil
@@ -70,6 +75,21 @@ public class DiagramUtil
 
 	}
 
+	public static BoxRelativeAnchor getBoxRelativeAnchor(AnchorContainer anchorContainer)
+	{
+		Collection<Anchor> existingAnchors = anchorContainer.getAnchors();
+
+		for (Anchor anchor : existingAnchors)
+		{
+			if (anchor instanceof BoxRelativeAnchor)
+			{
+				return (BoxRelativeAnchor) anchor;
+			}
+		}
+
+		return null;
+	}
+
 	public static Color manageColor(Diagram diagram, IColorConstant colorConstant)
 	{
 		return Graphiti.getGaService().manageColor(diagram, colorConstant);
@@ -88,6 +108,32 @@ public class DiagramUtil
 		else
 		{
 			return Graphiti.getPeService().createChopboxAnchor(anchorContainer);
+		}
+	}
+
+	public static Anchor getOrCreateBoxRelativeAnchor(Diagram diagram, AnchorContainer anchorContainer, double relativeWidth, double relativeHeight)
+	{
+		if (anchorContainer instanceof Anchor)
+		{
+			return (Anchor) anchorContainer;
+		}
+		else if (DiagramUtil.getBoxRelativeAnchor(anchorContainer) != null)
+		{
+			return DiagramUtil.getBoxRelativeAnchor(anchorContainer);
+		}
+		else
+		{
+			BoxRelativeAnchor boxRelativeAnchor = Graphiti.getPeService().createBoxRelativeAnchor(anchorContainer);
+
+			boxRelativeAnchor.setRelativeHeight(relativeHeight);
+			boxRelativeAnchor.setRelativeWidth(relativeWidth);
+			boxRelativeAnchor.setReferencedGraphicsAlgorithm(anchorContainer.getGraphicsAlgorithm());
+
+			Ellipse ellipse = Graphiti.getGaCreateService().createEllipse(boxRelativeAnchor);
+			ellipse.setBackground(manageColor(diagram, MyAdminGraphitiConstants.ANCHOR_BACKGROUND));
+			Graphiti.getGaService().setLocationAndSize(ellipse, 0, 0, 0, 0);
+
+			return boxRelativeAnchor;
 		}
 	}
 
