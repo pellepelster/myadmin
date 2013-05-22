@@ -38,6 +38,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 	private static Logger logger = Logger.getLogger(MyAdminUserDetailsService.class);
 
 	public final static String SYSTEM_USER_NAME = "system";
+
 	public final static String SYSTEM_GROUP_NAME = "ROLE_ADMIN";
 
 	@Autowired
@@ -54,7 +55,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 		filter.addAssociation(MyAdminUserVO.FIELD_USERGROUPS);
 		filter.addCriteria(MyAdminUserVO.FIELD_USERNAME, username);
 
-		List<MyAdminUserVO> users = baseVODAO.filter(filter);
+		List<MyAdminUserVO> users = this.baseVODAO.filter(filter);
 
 		if (users.size() == 1)
 		{
@@ -62,7 +63,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 			MyAdminUserVO userVO = users.get(0);
 			logger.debug(String.format("user '%s' found", userVO.getUserName()));
 
-			return new UserVOWrapper(userVO);
+			return new MyAdminUserDetails(userVO);
 
 		}
 		else
@@ -74,7 +75,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 				GenericFilterVO<MyAdminGroupVO> groupFilter = new GenericFilterVO<MyAdminGroupVO>(MyAdminGroupVO.class);
 				groupFilter.addCriteria(MyAdminGroupVO.FIELD_GROUPNAME, SYSTEM_GROUP_NAME);
 
-				List<MyAdminGroupVO> result = baseVODAO.filter(groupFilter);
+				List<MyAdminGroupVO> result = this.baseVODAO.filter(groupFilter);
 
 				MyAdminGroupVO systemGroupVO = null;
 				if (result.isEmpty())
@@ -82,7 +83,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 
 					systemGroupVO = new MyAdminGroupVO();
 					systemGroupVO.setGroupName(SYSTEM_GROUP_NAME);
-					systemGroupVO = baseVODAO.create(systemGroupVO);
+					systemGroupVO = this.baseVODAO.create(systemGroupVO);
 
 				}
 				else
@@ -95,7 +96,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 				systemUserVO.setUserPassword(SYSTEM_USER_NAME);
 				systemUserVO.getUserGroups().add(systemGroupVO);
 
-				return new UserVOWrapper(baseVODAO.create(systemUserVO));
+				return new MyAdminUserDetails(this.baseVODAO.create(systemUserVO));
 
 			}
 			else

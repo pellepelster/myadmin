@@ -16,19 +16,20 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
+import de.pellepelster.myadmin.server.core.user.IMyAdminUserDetails;
 
-public class UserVOWrapper implements UserDetails
+public class MyAdminUserDetails implements IMyAdminUserDetails
 {
 
 	private static final long serialVersionUID = -3973295031086748470L;
+
 	private final MyAdminUserVO userVO;
 
-	public UserVOWrapper(MyAdminUserVO userVO)
+	public MyAdminUserDetails(MyAdminUserVO userVO)
 	{
 		super();
 		this.userVO = userVO;
@@ -41,9 +42,9 @@ public class UserVOWrapper implements UserDetails
 
 		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
 
-		for (MyAdminGroupVO groupVO : userVO.getUserGroups())
+		for (MyAdminGroupVO groupVO : this.userVO.getUserGroups())
 		{
-			result.add(new GrantedAuthorityImpl(groupVO.getGroupName()));
+			result.add(new SimpleGrantedAuthority(groupVO.getGroupName()));
 		}
 
 		return result;
@@ -53,14 +54,14 @@ public class UserVOWrapper implements UserDetails
 	@Override
 	public String getPassword()
 	{
-		return userVO.getUserPassword();
+		return this.userVO.getUserPassword();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getUsername()
 	{
-		return userVO.getUserName();
+		return this.userVO.getUserName();
 	}
 
 	/** {@inheritDoc} */

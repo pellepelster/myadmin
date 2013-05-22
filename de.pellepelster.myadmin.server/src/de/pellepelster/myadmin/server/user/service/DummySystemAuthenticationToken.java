@@ -19,7 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-public class DummySsystemAuthenticationWrapper implements Authentication
+public class DummySystemAuthenticationToken implements Authentication
 {
 	private static final long serialVersionUID = -2269602488488880007L;
 	private static GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(MyAdminUserDetailsService.SYSTEM_GROUP_NAME);

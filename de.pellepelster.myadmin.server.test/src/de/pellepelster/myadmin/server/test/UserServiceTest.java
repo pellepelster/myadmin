@@ -53,4 +53,16 @@ public final class UserServiceTest extends AbstractMyAdminTest
 		Assert.assertFalse(this.userService.userNameExists("xxx"));
 		Assert.assertTrue(this.userService.userNameExists("peter"));
 	}
+
+	@Test
+	public void testGetCurrentUser()
+	{
+		Assert.assertEquals(TESTUSER_NAME, this.userService.getCurrentUser().getUsername());
+	}
+
+	@Test
+	public void testChangePassword()
+	{
+		this.userService.changePassword("abc", "def");
+	}
 }

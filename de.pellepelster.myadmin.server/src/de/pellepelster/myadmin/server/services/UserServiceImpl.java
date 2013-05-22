@@ -14,12 +14,15 @@ package de.pellepelster.myadmin.server.services;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.server.core.user.IMyAdminUserDetails;
+import de.pellepelster.myadmin.server.user.service.MyAdminUserDetails;
 
 /**
  * Implementation for {@link IUserService}
@@ -35,19 +38,29 @@ public class UserServiceImpl implements IUserService
 	private final static Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
 	@Override
+	@Secured("IS_AUTHENTICATED_FULLY")
 	public void changePassword(String arg0, String arg1)
 	{
 	}
 
 	@Override
-	public MyAdminUserVO getCurrentUser()
+	public IMyAdminUserDetails getCurrentUser()
 	{
 		try
 		{
-			MyAdminUserVO user = (MyAdminUserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			MyAdminUserVO userVO = this.baseVODAO.read(user.getId(), MyAdminUserVO.class);
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			MyAdminUserDetails userDetails = null;
 
-			return userVO;
+			if (principal instanceof MyAdminUserDetails)
+			{
+				userDetails = (MyAdminUserDetails) principal;
+			}
+			else
+			{
+				throw new RuntimeException(String.format("expected '%s' but got '%s'", MyAdminUserDetails.class.getName(), principal.getClass().getName()));
+			}
+
+			return userDetails;
 		}
 		catch (Exception e)
 		{

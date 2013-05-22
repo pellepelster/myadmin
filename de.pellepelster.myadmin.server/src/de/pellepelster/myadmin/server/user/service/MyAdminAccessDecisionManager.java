@@ -12,21 +12,25 @@
 package de.pellepelster.myadmin.server.user.service;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class MyAdminAccessDecisionManager implements AccessDecisionManager
+public class MyAdminAccessDecisionManager extends AffirmativeBased
 {
 	public static final String SYSTEM_PROPERTY_DISABLE_AUTHORIZATION = "disable.authorization";
+
 	private boolean isAuthorizationDisabled = false;
 
-	public MyAdminAccessDecisionManager()
+	public MyAdminAccessDecisionManager(List<AccessDecisionVoter> decisionVoters)
 	{
-		isAuthorizationDisabled = (System.getProperty(SYSTEM_PROPERTY_DISABLE_AUTHORIZATION) != null && System.getProperty(
+		super(decisionVoters);
+		this.isAuthorizationDisabled = (System.getProperty(SYSTEM_PROPERTY_DISABLE_AUTHORIZATION) != null && System.getProperty(
 				SYSTEM_PROPERTY_DISABLE_AUTHORIZATION).equals("true"));
 	}
 
@@ -34,28 +38,28 @@ public class MyAdminAccessDecisionManager implements AccessDecisionManager
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException
 	{
-		if (isAuthorizationDisabled)
+		if (this.isAuthorizationDisabled)
 		{
 			if (SecurityContextHolder.getContext().getAuthentication() == null)
 			{
-				SecurityContextHolder.getContext().setAuthentication(new DummySsystemAuthenticationWrapper());
+				SecurityContextHolder.getContext().setAuthentication(new DummySystemAuthenticationToken());
 			}
 		}
 		else
 		{
-			throw new AccessDeniedException("Access is denied");
+			super.decide(authentication, object, configAttributes);
 		}
 	}
 
 	@Override
 	public boolean supports(Class<?> clazz)
 	{
-		return true;
+		return super.supports(clazz);
 	}
 
 	@Override
 	public boolean supports(ConfigAttribute attribute)
 	{
-		return true;
+		return super.supports(attribute);
 	}
 }

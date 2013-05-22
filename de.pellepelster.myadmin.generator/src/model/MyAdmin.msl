@@ -381,7 +381,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			
 			remoteservice UserService {
 			
-				remotemethod getCurrentUser returns reference MyAdminUser
+				remotemethod getCurrentUser returns customtype "de.pellepelster.myadmin.server.core.user.IMyAdminUserDetails"
 				{
 				}
 	
