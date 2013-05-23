@@ -20,11 +20,12 @@ import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
 import de.pellepelster.myadmin.server.core.services.RestUtil;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.server.test.restvos.ObjectA;
 import de.pellepelster.myadmin.server.test.restvos.ObjectB;
 import de.pellepelster.myadmin.server.test.restvos.ObjectC;
 
-public class RestUtilTest extends AbstractMyAdminTest
+public class RestUtilTest extends BaseMyAdminJndiContextTest
 {
 	@Autowired
 	protected IUserService userService;
@@ -88,8 +89,7 @@ public class RestUtilTest extends AbstractMyAdminTest
 			BaseEntityServiceCreateMobileParameterWrapper c = new BaseEntityServiceCreateMobileParameterWrapper();
 			c.vo = dictionaryMobileVO;
 
-			String jsonParameters = objectMapper.writeValueAsString(c);
-
+			// String jsonParameters = objectMapper.writeValueAsString(c);
 			// String result = RestUtil.invokeServiceMethod(baseVODAO, "create",
 			// jsonParameters,
 			// BaseEntityServiceCreateMobileParameterWrapper.class);

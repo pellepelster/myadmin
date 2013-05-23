@@ -25,11 +25,11 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
-import de.pellepelster.myadmin.server.test.AbstractMyAdminTest;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public class DictionaryTest extends AbstractMyAdminTest
+public class DictionaryTest extends BaseMyAdminJndiContextTest
 {
 
 	private static DictionaryImportRunner dictionaryImportRunner;

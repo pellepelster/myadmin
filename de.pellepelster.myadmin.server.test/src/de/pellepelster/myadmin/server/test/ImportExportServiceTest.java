@@ -27,8 +27,9 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.schema.client.ClientList;
 import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.XmlService;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
-public final class ImportExportServiceTest extends AbstractMyAdminTest
+public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 {
 
 	@Autowired

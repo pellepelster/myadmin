@@ -22,8 +22,9 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionarySearchMobileVO;
 import de.pellepelster.myadmin.server.services.MetaDataService;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
-public class MetaDataServiceTest extends AbstractMyAdminTest
+public class MetaDataServiceTest extends BaseMyAdminJndiContextTest
 {
 
 	@Autowired

@@ -23,9 +23,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.server.user.service.MyAdminUserDetailsService;
 
-public class UserDetailsServiceTest extends AbstractMyAdminTest
+public class UserDetailsServiceTest extends BaseMyAdminJndiContextTest
 {
 
 	@Autowired

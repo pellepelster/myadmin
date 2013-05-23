@@ -18,8 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminSecurityContextTest;
 
-public final class UserServiceTest extends AbstractMyAdminTest
+public final class UserServiceTest extends BaseMyAdminSecurityContextTest
 {
 	@Autowired
 	protected IUserService userService;

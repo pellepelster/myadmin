@@ -27,11 +27,11 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.MetaDataService;
-import de.pellepelster.myadmin.server.test.AbstractMyAdminTest;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
 import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;
 
-public class TestEntityExportImportRunner extends AbstractMyAdminTest
+public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 {
 
 	@Autowired

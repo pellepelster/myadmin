@@ -20,8 +20,9 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.db.util.CopyBean;
 import de.pellepelster.myadmin.server.entities.dictionary.Module;
 import de.pellepelster.myadmin.server.entities.dictionary.ModuleNavigation;
+import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
-public final class CopyBeanTest extends AbstractMyAdminTest
+public final class CopyBeanTest extends BaseMyAdminJndiContextTest
 {
 
 	@Test
