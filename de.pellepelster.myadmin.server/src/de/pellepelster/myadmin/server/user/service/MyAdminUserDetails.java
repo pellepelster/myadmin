@@ -17,15 +17,16 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import de.pellepelster.myadmin.client.base.user.IMyAdminUserClientDetails;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
-import de.pellepelster.myadmin.server.core.user.IMyAdminUserDetails;
 
-public class MyAdminUserDetails implements IMyAdminUserDetails
+public class MyAdminUserDetails implements IMyAdminUserClientDetails, UserDetails
 {
 
-	private static final long serialVersionUID = -3973295031086748470L;
+	private static final long serialVersionUID = -364434352279394672L;
 
 	private final MyAdminUserVO userVO;
 

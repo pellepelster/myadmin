@@ -18,10 +18,10 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
+import de.pellepelster.myadmin.client.base.user.IMyAdminUserClientDetails;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
-import de.pellepelster.myadmin.server.core.user.IMyAdminUserDetails;
 import de.pellepelster.myadmin.server.user.service.MyAdminUserDetails;
 
 /**
@@ -44,7 +44,7 @@ public class UserServiceImpl implements IUserService
 	}
 
 	@Override
-	public IMyAdminUserDetails getCurrentUser()
+	public IMyAdminUserClientDetails getCurrentUser()
 	{
 		try
 		{
