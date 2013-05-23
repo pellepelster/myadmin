@@ -8,6 +8,20 @@
 	<property name="db.temp.location" value="${basedir}/db-temp" />
 	<property name="jetty.lib.dir" value="${basedir}/jetty-lib" />
 
+	<if>
+	  <and>
+	  	<equals arg1="true" arg2="${authorization.disable}" />
+	  </and>
+	  <then>
+	    <property name="authorization.disable.systemproperty" value="string1" />
+	  </then>
+	  <else>
+	    <property name="authorization.disable.systemproperty" value="-Dauthorization.disable" />
+	  </else>
+	</if>
+	
+	<property name="cargo.jvmargs" value="${authorization.disable.systemproperty}" />
+	
 	<macrodef name="openInBrowser">
 		<attribute name="url" />
 		<sequential>

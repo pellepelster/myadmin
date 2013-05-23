@@ -21,17 +21,18 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import de.pellepelster.myadmin.server.SystemProperties;
+
 public class MyAdminAccessDecisionManager extends AffirmativeBased
 {
-	public static final String SYSTEM_PROPERTY_DISABLE_AUTHORIZATION = "disable.authorization";
 
 	private boolean isAuthorizationDisabled = false;
 
-	public MyAdminAccessDecisionManager(List<AccessDecisionVoter> decisionVoters)
+	public MyAdminAccessDecisionManager(@SuppressWarnings("rawtypes") List<AccessDecisionVoter> decisionVoters)
 	{
 		super(decisionVoters);
-		this.isAuthorizationDisabled = (System.getProperty(SYSTEM_PROPERTY_DISABLE_AUTHORIZATION) != null && System.getProperty(
-				SYSTEM_PROPERTY_DISABLE_AUTHORIZATION).equals("true"));
+		this.isAuthorizationDisabled = (System.getProperty(SystemProperties.AUTHORIZATION_DISABLE) != null && System.getProperty(
+				SystemProperties.AUTHORIZATION_DISABLE).equals("true"));
 	}
 
 	/** {@inheritDoc} */
@@ -42,7 +43,7 @@ public class MyAdminAccessDecisionManager extends AffirmativeBased
 		{
 			if (SecurityContextHolder.getContext().getAuthentication() == null)
 			{
-				SecurityContextHolder.getContext().setAuthentication(new DummySystemAuthenticationToken());
+				SecurityContextHolder.getContext().setAuthentication(new SystemUserAuthenticationToken());
 			}
 		}
 		else

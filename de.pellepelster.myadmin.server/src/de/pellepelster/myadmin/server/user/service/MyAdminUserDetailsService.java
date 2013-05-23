@@ -66,53 +66,48 @@ public class MyAdminUserDetailsService implements UserDetailsService
 			return new MyAdminUserDetails(userVO);
 
 		}
-		else
+		else if (users.size() == 0 && SYSTEM_USER_NAME.equals(username))
 		{
+			GenericFilterVO<MyAdminGroupVO> groupFilter = new GenericFilterVO<MyAdminGroupVO>(MyAdminGroupVO.class);
+			groupFilter.addCriteria(MyAdminGroupVO.FIELD_GROUPNAME, SYSTEM_GROUP_NAME);
 
-			if (SYSTEM_USER_NAME.equals(username))
+			List<MyAdminGroupVO> result = this.baseVODAO.filter(groupFilter);
+
+			MyAdminGroupVO systemGroupVO = null;
+			if (result.isEmpty())
 			{
 
-				GenericFilterVO<MyAdminGroupVO> groupFilter = new GenericFilterVO<MyAdminGroupVO>(MyAdminGroupVO.class);
-				groupFilter.addCriteria(MyAdminGroupVO.FIELD_GROUPNAME, SYSTEM_GROUP_NAME);
-
-				List<MyAdminGroupVO> result = this.baseVODAO.filter(groupFilter);
-
-				MyAdminGroupVO systemGroupVO = null;
-				if (result.isEmpty())
-				{
-
-					systemGroupVO = new MyAdminGroupVO();
-					systemGroupVO.setGroupName(SYSTEM_GROUP_NAME);
-					systemGroupVO = this.baseVODAO.create(systemGroupVO);
-
-				}
-				else
-				{
-					systemGroupVO = result.get(0);
-				}
-
-				MyAdminUserVO systemUserVO = new MyAdminUserVO();
-				systemUserVO.setUserName(SYSTEM_USER_NAME);
-				systemUserVO.setUserPassword(SYSTEM_USER_NAME);
-				systemUserVO.getUserGroups().add(systemGroupVO);
-
-				return new MyAdminUserDetails(this.baseVODAO.create(systemUserVO));
+				systemGroupVO = new MyAdminGroupVO();
+				systemGroupVO.setGroupName(SYSTEM_GROUP_NAME);
+				systemGroupVO = this.baseVODAO.create(systemGroupVO);
 
 			}
 			else
 			{
-				String message;
-				if (users.size() > 1)
-				{
-					message = String.format("user '%s' found more than once (%d)", username, users.size());
-				}
-				else
-				{
-					message = String.format("user '%s' not found", username);
-				}
-				logger.debug(message);
-				throw new UsernameNotFoundException(message);
+				systemGroupVO = result.get(0);
 			}
+
+			MyAdminUserVO systemUserVO = new MyAdminUserVO();
+			systemUserVO.setUserName(SYSTEM_USER_NAME);
+			systemUserVO.setUserPassword(SYSTEM_USER_NAME);
+			systemUserVO.getUserGroups().add(systemGroupVO);
+
+			return new MyAdminUserDetails(this.baseVODAO.create(systemUserVO));
+
+		}
+		else
+		{
+			String message;
+			if (users.size() > 1)
+			{
+				message = String.format("user '%s' found more than once (%d)", username, users.size());
+			}
+			else
+			{
+				message = String.format("user '%s' not found", username);
+			}
+			logger.debug(message);
+			throw new UsernameNotFoundException(message);
 		}
 
 	}

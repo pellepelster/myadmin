@@ -17,12 +17,13 @@ import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public class DummySystemAuthenticationToken implements Authentication
+public class SystemUserAuthenticationToken implements Authentication
 {
 	private static final long serialVersionUID = -2269602488488880007L;
-	private static GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(MyAdminUserDetailsService.SYSTEM_GROUP_NAME);
+
+	private static GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(MyAdminUserDetailsService.SYSTEM_GROUP_NAME);
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities()

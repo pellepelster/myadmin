@@ -3,79 +3,27 @@
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.DemoTestsuite" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-
 	<property file="build.properties" />
+	<import file="build.test.base.xml" />
 
-	<property name="jetty.temp.location" value="${basedir}/jetty-temp" />
-	<property name="db.temp.location" value="${basedir}/db-temp" />
-	<property name="jetty.lib.dir" value="${basedir}/jetty-lib" />
-
-	<macrodef name="openInBrowser">
-		<attribute name="url" />
-		<sequential>
-			<exec dir="${basedir}" os="Windows 7" executable="rundll32.exe">
-				<arg line="url.dll, FileProtocolHandler" />
-				<arg line="@{url}" />
-			</exec>
-			<exec dir="${basedir}" os="Linux" executable="xdg-open">
-				<arg line="@{url}" />
-			</exec>
-		</sequential>
-	</macrodef>
-
-
-	<macrodef name="tomcat.local">
+	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
+	<property name="jndi.name" value="jdbc/Demo"/>
 		
-		<attribute name="action" />
-		
-		<sequential>
-			<taskdef resource="cargo.tasks">
-				<classpath>
-					<pathelement location="lib/cargo-core-uberjar-jar.jar" />
-					<pathelement location="lib/cargo-ant-jar.jar" />
-					<fileset dir="lib" includes="*jar" />
-				</classpath>
-			</taskdef>
-
-			<mkdir dir="tomcat" />
-			<mkdir dir="tomcat/downloads" />
-			<mkdir dir="tomcat/extracts" />
-			<mkdir dir="tomcat/logs" />
-
-			<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="@{action}">
-
-				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
-
-				<extraClasspath>
-					<pathelement location="lib/derby-jar.jar" />
-				</extraClasspath>
-
-				<configuration>
-		         	<!-- <property name="cargo.logging" value="high"/> -->
-					<property name="cargo.servlet.port" value="${remote.port}" />
-					
-					<!-- <property name="cargo.jvmargs" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999 -Xnoagent -Djava.compiler=NONE" /> -->
-					<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=jdbc/Demo|cargo.datasource.username=demo|cargo.datasource.password=nonemptypassword" />
-					<deployable type="war" file="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war" />
-				</configuration>
-
-			</cargo>
-		</sequential>
-	</macrodef>
-
 	<target name="tomcat.local.run" depends="resolve">
-		<tomcat.local action="run" />
+		<tomcat.local action="run" cargo.jvmargs="${cargo.jvmargs}" jndi.name="${jndi.name}" />
+	</target>
+	
+	<target name="tomcat.local.run.debug" depends="resolve">
+		<tomcat.local action="run" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" jndi.name="${jndi.name}" />
 	</target>
 
 	<target name="tomcat.local.start" depends="resolve">
-		<tomcat.local action="start" />
+		<tomcat.local action="start" cargo.jvmargs="${cargo.jvmargs}" war.file="${war.file}" jndi.name="${jndi.name}" />
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
-
 		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
 		<dictionaryimporter classpathref="lib.path.id" modelfile="classpath:Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
-
 	</target>
 
 	<target name="post.test" depends="test.selenium.local">
@@ -99,11 +47,8 @@
 			<formatter type="xml" />
 
 			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
-
 		</junit>
-
 	</target>
-	
 
 	<target name="start.client">
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>

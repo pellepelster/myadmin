@@ -12,7 +12,9 @@
 
 	<beans:bean id="myAdminUserDetailsService" class="de.pellepelster.myadmin.server.user.service.MyAdminUserDetailsService" />
 
-	<beans:bean id="myAdminAuthenticationProvider" class="de.pellepelster.myadmin.server.user.service.MyAdminAuthenticationProvider" />
+	<beans:bean id="myAdminAuthenticationProvider" class="de.pellepelster.myadmin.server.user.service.MyAdminAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="myAdminUserDetailsService"/>
+	</beans:bean>
 
 	<authentication-manager>
 		<authentication-provider ref="myAdminAuthenticationProvider" />

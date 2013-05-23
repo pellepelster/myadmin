@@ -99,7 +99,6 @@ public final class ModuleHandler
 				}
 				else
 				{
-
 					// no module found, we try to use the module definition as
 					// module
 

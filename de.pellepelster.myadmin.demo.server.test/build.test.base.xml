@@ -1,0 +1,78 @@
+<project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="jetty.temp.location" value="${basedir}/jetty-temp" />
+	<property name="db.temp.location" value="${basedir}/db-temp" />
+	<property name="jetty.lib.dir" value="${basedir}/jetty-lib" />
+
+	<if>
+	  <and>
+	  	<equals arg1="true" arg2="${authorization.disable}" />
+	  </and>
+	  <then>
+	    <property name="authorization.disable.systemproperty" value="-Dauthorization.disable=true" />
+	  </then>
+	  <else>
+	    <property name="authorization.disable.systemproperty" value="" />
+	  </else>
+	</if>
+	
+	<property name="cargo.jvmargs" value="${authorization.disable.systemproperty}" />
+	
+	<macrodef name="openInBrowser">
+		<attribute name="url" />
+		<sequential>
+			<exec dir="${basedir}" os="Windows 7" executable="rundll32.exe">
+				<arg line="url.dll, FileProtocolHandler" />
+				<arg line="@{url}" />
+			</exec>
+			<exec dir="${basedir}" os="Linux" executable="xdg-open">
+				<arg line="@{url}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+
+	<macrodef name="tomcat.local">
+		
+		<attribute name="action" />
+		<attribute name="cargo.jvmargs" />
+		<attribute name="war.file" />
+		<attribute name="jndi.name"/>
+		
+		<sequential>
+			<taskdef resource="cargo.tasks">
+				<classpath>
+					<pathelement location="lib/cargo-core-uberjar-jar.jar" />
+					<pathelement location="lib/cargo-ant-jar.jar" />
+					<fileset dir="lib" includes="*jar" />
+				</classpath>
+			</taskdef>
+
+			<mkdir dir="tomcat" />
+			<mkdir dir="tomcat/downloads" />
+			<mkdir dir="tomcat/extracts" />
+			<mkdir dir="tomcat/logs" />
+
+			<echo>cargo.jvmargs: @{cargo.jvmargs}</echo>
+			
+			<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="@{action}">
+
+				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
+
+				<extraClasspath>
+					<pathelement location="lib/derby-jar.jar" />
+				</extraClasspath>
+
+				<configuration>
+					<property name="cargo.servlet.port" value="${remote.port}" />
+					
+					<property name="cargo.jvmargs" value="@{cargo.jvmargs}" />
+					<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=@{jndi.name}|cargo.datasource.username=myadmin|cargo.datasource.password=nonemptypassword" />
+					<deployable type="war" file="@{war.file}" />
+				</configuration>
+
+			</cargo>
+		</sequential>
+	</macrodef>
+
+</project>
