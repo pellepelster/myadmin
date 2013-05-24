@@ -15,4 +15,10 @@
 	<publications>
 	</publications>
 
+	<dependencies>
+
+		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="*->@" />
+
+	</dependencies>
+
 </ivy-module>

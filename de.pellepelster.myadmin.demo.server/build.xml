@@ -18,10 +18,6 @@
 				<exclude name="WEB-INF/**" />
 			</fileset>
 
-			<fileset dir="html">
-				<include  name="**/*" />
-			</fileset>
-
 			<fileset dir="war" includes="**/*" />
 
 			<webinf dir="WebContent/WEB-INF">

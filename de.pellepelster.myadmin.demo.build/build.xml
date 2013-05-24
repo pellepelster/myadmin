@@ -9,7 +9,7 @@
 	<fileset dir="../" id="publish.fileset.fast">
 		<include name="de.pellepelster.myadmin.demo.*/build.xml" />
 		<exclude name="de.pellepelster.myadmin.demo.client/build.xml" />
-		<exclude name="de.pellepelster.myadmin.demo.*.test/build.xml" />
+		<exclude name="dde.pellepelster.myadmin.demo.*.test/build.xml" />
 	</fileset>
 
 	<fileset dir="../" id="publish.fileset.fast.no.generate">

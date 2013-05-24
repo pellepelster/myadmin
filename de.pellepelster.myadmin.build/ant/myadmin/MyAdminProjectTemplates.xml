@@ -1,5 +1,7 @@
 <project name="MyAdminProjectTemplates" xmlns:ivy="antlib:org.apache.ivy.ant" default="build">
 
+	<property name="overwrite.all" value="false" />
+	
 	<dirname property="MyAdminProjectTemplates.imported.basedir" file="${ant.file.MyAdminProjectTemplates}" />
 	<import file="${MyAdminProjectTemplates.imported.basedir}/MyAdminProjectCommon.xml" />
 
@@ -39,8 +41,19 @@
 
 		<echo message="project: ${organisation.name}.${project.name}.${project.name.postifx}" />
 
-		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="false">
+		<!-- copy one time templates --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="${overwrite.all}">
 			<fileset dir="${templates.dir}/${project.name.postifx}.project" includes="**/*" />
+			<filterset refid="myadmin.tokens" />
+			<filterset>
+				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
+			</filterset>
+			<filtermapper refid="myadmin.filtermapper" />
+		</copy>
+
+		<!-- copy (and overwrite) base templates --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="true">
+			<fileset dir="${templates.dir}/${project.name.postifx}.project" includes="**/*.overwrite" />
 			<filterset refid="myadmin.tokens" />
 			<filterset>
 				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
@@ -51,6 +64,7 @@
 	</target>
 
 	<target name="build">
+		<echo>overwrite.all = ${overwrite.all}</echo>
 		<antcall target="copy.templates" />
 	</target>
 

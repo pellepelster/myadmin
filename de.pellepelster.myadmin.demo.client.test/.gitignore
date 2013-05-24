@@ -6,3 +6,5 @@ build
 /lib
 /gwt-unitCache
 /war
+/build.xml
+/ivy.xml

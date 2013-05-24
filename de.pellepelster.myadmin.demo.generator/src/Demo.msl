@@ -1,965 +1,157 @@
-project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" { 
-
+project Demo schemaUrl "http://de.pellepelster.myadmin/demo/schema" {
+	
 	package de.pellepelster.myadmin.demo {
 
-		package datatypes {
-	
-			import entities.*
+		navigationnode Navigation {
 
-			// demo dictionary 1 ----------------------------------------------
-			textdatatype TextDatatype1 {
-				maxLength 32
-			}
-			
-			integerdatatype IntegerDatatype1 {
-			}
-			
-			bigdecimaldatatype BigDecimalDatatype {
-				fractionDigits 2
-				totalDigits 4				
-			}
-			
-			datedatatype DateDatatype1 {
-			}
-			
-			booleandatatype BooleanDatatype1 {
-			}
+	        navigationnode Entity1 {
+	                dictionarySearch dictionaries.Entity1Dictionary.Entity1Search
+	        }
 
-			enum Enumeration1 { ENUM1, ENUM2, ENUM3 }
-			
-			enumdatatype EnumerationDatatype1 {
-				enumeration Enumeration1
-			}
-			
-			referencedatatype ReferenceDatatype1 {
-				entity Test2
-			}
-
-			// company --------------------------------------------------------
-			textdatatype CompanyName {
-				maxLength 32
-			}
-
-			// manager --------------------------------------------------------
-			textdatatype ManagerName {
-				maxLength 32
-			}
-
-			// employee -------------------------------------------------------
-			textdatatype EmployeeName {
-				maxLength 32
-			}
-
-	
-			//- country -------------------------------------------------
-			textdatatype CountryName {
-				maxLength 32
-			}
-			
-			textdatatype CountryDescription {
-				maxLength 32
-			}
-			
-			integerdatatype CountryPopulation {
-			}
-			
-			booleandatatype CountryEU {
-			}
-			
-			datedatatype CountryFormation {
-			}
-			
-			bigdecimaldatatype CountryArea {
-				fractionDigits 12
-				totalDigits 10
-			}
-			
-			enumdatatype CountryTrafficDirection {
-				enumeration COUNTRY_TRAFFIC_DIRECTION
-			}
-	
-			//- city -------------------------------------------------
-			textdatatype CityName {
-				maxLength 32
-			}
-			
-			textdatatype CityDescription {
-				maxLength 32
-			}
-	
-				
-			//- state -------------------------------------------------
-			textdatatype StateName {
-				maxLength 32
-			}
-			
-			textdatatype StateDescription {
-				maxLength 32
-			}
-			
-			referencedatatype StateCountry {
-				entity Country
-			}
-	
-			//- region -------------------------------------------------
-			textdatatype RegionName {
-				maxLength 32
-			}
-	
-			referencedatatype Region2Country {
-				entity Region2Country
-			}
-			
-			textdatatype Region2CountryDescription {
-				maxLength 32
-			}
-	
-		}
-	
+	        navigationnode Entity2 {
+	                dictionarySearch dictionaries.Entity2Dictionary.Entity2Search
+	        }
+	    }
+		
 		package entities {
-		
-			import datatypes.*
-	 		import MyAdmin.de.pellepelster.myadmin.entities.^dictionary.*
-
-			enum COUNTRY_TRAFFIC_DIRECTION {
-			 	LEFT, RIGHT
+	
+			textdatatype StringDatatype {
+				maxLength 32
 			}
 
-			entity Company
-			{
-				options { hierarchical }
-				datatype CompanyName companyName
-			}
-
-			entity Manager
-			{
-				options { hierarchical }
-				datatype ManagerName managerName
-			}
-
-			entity Employee
-			{
-				options { hierarchical }
-				datatype EmployeeName employeeName
+			integerdatatype IntegerDatatype {
+				max 100
+				min 10
 			}
 			
-			entity Country
+			booleandatatype BooleanDatatype
 			{
-				naturalkey { countryName }
+			}
 
-				datatype CountryName countryName
-				datatype CountryName countryDescription
-				datatype CountryPopulation countryPopulation
-				datatype CountryEU countryEU
-				datatype CountryFormation countryFormation
-				datatype CountryArea countryArea
-				datatype CountryTrafficDirection countryTrafficDirection
+			datedatatype DateDatatype
+			{
 			}
 	
-			entity Region
-			{
-				datatype RegionName regionName
-				referencedatatype Region2Country* region2Countries
-			}
-	
-			entity Region2Country
-			{
-				datatype Region2CountryDescription region2CountryDescription
-				referencedatatype StateCountry region2CountryCountry  { mandatory }
-			}
-	
-			entity State
-			{
-				datatype StateName stateName
-				datatype StateDescription stateDescription
-				referencedatatype StateCountry stateCountry
-				reference City* stateCities
-			}
-	
-			entity City
-			{
+			entity Entity1 {
 			
-				datatype CityName cityName
-				datatype CityDescription cityDescription
-			}
-	
-			entity User extends MyAdminUser
-			{
-			}
-	
-			entity Group extends MyAdminGroup
-			{
-			}
+				naturalkey { string1 }
 			
-			entity Test1 {
-				datatype TextDatatype1 textDatatype1
-				datatype IntegerDatatype1 integerDatatype1
-				datatype BigDecimalDatatype bigDecimalDatatype1
-				datatype DateDatatype1 dateDatatype1
-				datatype BooleanDatatype1 booleanDatatype1
-				datatype EnumerationDatatype1 enumerationDatatype1
-				datatype ReferenceDatatype1 referenceDatatype1
-				reference Test3* test3s 
+				datatype StringDatatype string1
+				datatype BooleanDatatype boolean1
+				datatype IntegerDatatype integer1
+				datatype Entity2Datatype entity2
 			}
 
-			entity Test2 {
-				datatype TextDatatype1 textDatatype2
-			}
-
-			entity Test3 {
-				datatype TextDatatype1 textDatatype3
-				datatype IntegerDatatype1 integerDatatype3
-				datatype BigDecimalDatatype bigDecimalDatatype3
-				datatype DateDatatype1 dateDatatype3
-				datatype BooleanDatatype1 booleanDatatype3
-				datatype EnumerationDatatype1 enumerationDatatype3
-				datatype ReferenceDatatype1 referenceDatatype3
-			}
-	
-		}
-		
-		package modules {
-		
-			import MyAdmin.de.pellepelster.myadmin.modules.^dictionary.*
-			import MyAdmin.de.pellepelster.myadmin.modules.^dictionary.DictionarySearch.*
-		
-			module StateSearch {
-				moduledefinition DictionarySearch
-				parameters {
-					SearchDictionaryName = "State"
-				} 
-			}
+			entity Entity2 {
 			
-			module CitySearch {
-				moduledefinition DictionarySearch
-				parameters {
-					SearchDictionaryName = "City"
-				} 
-			}
-	
-			module RegionSearch {
-				moduledefinition DictionarySearch
-				parameters {
-					SearchDictionaryName = "Region"
-				} 
+				naturalkey { string2 }
+			
+				datatype StringDatatype string2
+				datatype DateDatatype date2
 			}
 
-			module Dictionary1 {
-				moduledefinition DictionarySearch
-				parameters {
-					SearchDictionaryName = "Dictionary1"
-				} 
+			referencedatatype Entity2Datatype 
+			{
+				entity Entity2
 			}
-		}
-		
-		package navigation {
-		
-			import modules.*
-			import dictionaries.Country.*
-			import MyAdmin.de.pellepelster.myadmin.modules.*
-		
-			navigationnode Demo {
-				title "Demo"
 				
-				navigationnode Dictionary1 {
-					title "Dictionary1"
-					module Dictionary1
-				}
-			}	
-		
-			navigationnode Masterdata {
-				title "Masterdata"
-	
-				navigationnode Adress {
-					title "Address"
-				
-					navigationnode Country {
-						title "Country"
-						dictionarySearch CountrySearch 
-					}
-	
-					navigationnode State {
-						title "State"
-						module StateSearch 
-					}
-				
-					navigationnode City {
-						title "City"
-						module CitySearch 
-					}
-	
-					navigationnode Region {
-						title "Region"
-						module RegionSearch 
-					}
-	
-					navigationnode User {
-						title "Users"
-						module UserSearch 
-					}
-	
-					navigationnode Group {
-						title "Groups"
-						module GroupSearch 
-					}
-	
-				}
-			}
 		}
-		
+				
 		package dictionaries {
-		
-	 		import entities.*
-	 		import entities.Country.*
-	 		import entities.City.*
-	 		import entities.Employee.*
-	 		import entities.Manager.*
-	 		import entities.Company.*
-	 		import entities.State.*
-	 		import entities.Test1.*
-	 		import entities.Test2.*
-	 		import entities.Test3.*
-	 		import Country.*
-	 		import State.*
-	 		import Region2Country.*
-	 		import entities.Region.*
-	 		import entities.Region2Country.*
-	 		import datatypes.*
+			
+			dictionary Entity1Dictionary {
+				
+				entity entities.Entity1
+				
+				dictionarycontrols {
+					
+					textcontrol String1Control {
+						entityattribute entities.Entity1.string1
+						label "String 1"
+					}
 
-			dictionary Company {
-			
-				entity Company
-				title "Company"
-				
-				dictionarycontrols {
-				
-					textcontrol CompanyName {
-						entityattribute companyName
-						label "Name"
-						mandatory
+					booleancontrol Boolean1Control {
+						entityattribute entities.Entity1.boolean1
+						label "Boolean 1"
 					}
-				}
-				
-				labelcontrols {
-					textcontrol ref CompanyName
-				}
-				
-				dictionarysearch CompanySearch {
-					
-					dictionaryfilter CompanyFilter {
-						composite CompanyComposite1 {
-							textcontrol ref CompanyName
-						}
-					}
-	
-					dictionaryresult CompanyResult {
-						textcontrol ref CompanyName
-					}
-				}
-				
-				dictionaryeditor CompanyEditor {
-					composite CompanyComposite2 {
-							textcontrol ref CompanyName
-					}						
-				}
-			}
 
-			dictionary Manager {
-			
-				entity Manager
-				title "Manager"
-				
-				dictionarycontrols {
-				
-					textcontrol ManagerName {
-						entityattribute managerName
-						label "Name"
-						mandatory
+					integercontrol Integer1Control {
+						entityattribute entities.Entity1.integer1
+						label "Integer 1"
 					}
-				}
-				
-				labelcontrols {
-					textcontrol ref ManagerName
-				}
-				
-				dictionarysearch ManagerSearch {
-					
-					dictionaryfilter ManagerFilter {
-						composite ManagerComposite1 {
-							textcontrol ref ManagerName
-						}
-					}
-	
-					dictionaryresult ManagerResult {
-						textcontrol ref ManagerName
-					}
-				}
-				
-				dictionaryeditor ManagerEditor {
-					composite CompanyComposite2 {
-							textcontrol ref ManagerName
-					}						
-				}
-			}
 
-			dictionary Employee {
-			
-				entity Employee
-				title "Employee"
-				
-				dictionarycontrols {
-				
-					textcontrol EmployeeName {
-						entityattribute employeeName
-						label "Name"
-						mandatory
-					}
-				}
-				
-				labelcontrols {
-					textcontrol ref EmployeeName
-				}
-				
-				dictionarysearch EmployeeSearch {
-					
-					dictionaryfilter EmployeeFilter {
-						composite EmployeeComposite1 {
-							textcontrol ref EmployeeName
-						}
-					}
-	
-					dictionaryresult EmployeeResult {
-						textcontrol ref EmployeeName
-					}
-				}
-				
-				dictionaryeditor EmployeeEditor {
-					composite EmployeeComposite2 {
-							textcontrol ref EmployeeName
-					}						
-				}
-			}
-		
-			dictionary Country {
-			
-				entity Country
-				title "Land"
-				
-				dictionarycontrols {
-				
-					textcontrol CountryName {
-						entityattribute countryName
-						label "Name"
-						mandatory
-					}
-	
-					textcontrol CountryDescription {
-						entityattribute countryDescription
-						label "Description"
-					}
-					
-					datecontrol CountryFormation {
-						entityattribute countryFormation
-						label "Formation"
-					}
-					
-					integercontrol CountryPopulation
+					referencecontrol Entity2Control 
 					{
-						entityattribute countryPopulation
-						label "Population"
+						entityattribute entities.Entity1.entity2
+						label "Entity 2"
+						dictionary Entity2Dictionary
 					}
-	
-					booleancontrol CountryEU {
-						entityattribute countryEU
-						label "EU Member"
-					}
-					
-					bigdecimalcontrol CountryArea {
-						entityattribute countryArea
-						label "Area"
-					}
-					
-					enumerationcontrol CountryTrafficDirection {
-						entityattribute countryTrafficDirection
-						label "Drives on the"
-					}				
-				
+
 				}
+	
+				dictionarysearch Entity1Search {
+	
+					dictionaryfilter Entity1Filter {
+						textcontrol ref String1Control
+					}
+					
+					dictionaryresult Entity1Result {
+						textcontrol ref String1Control
+						booleancontrol ref Boolean1Control
+						integercontrol ref Integer1Control
+						referencecontrol ref Entity2Control
+					}
+				} 	
+			
+				dictionaryeditor Entity1Editor {
+					textcontrol ref String1Control
+					booleancontrol ref Boolean1Control
+					integercontrol ref Integer1Control
+					referencecontrol ref Entity2Control
+				} 
+			}
+
+			dictionary Entity2Dictionary {
 				
+				entity entities.Entity2
+				title "Entity 2"
+				
+				dictionarycontrols {
+					
+					textcontrol String2Control {
+						entityattribute entities.Entity2.string2
+						label "String 2"
+					}
+
+					datecontrol Date2Control {
+						entityattribute entities.Entity2.date2
+						label "Date 2"
+					}
+
+				}
+
 				labelcontrols {
-				
-					textcontrol ref CountryName
-					textcontrol ref CountryDescription
-		
+					textcontrol ref String2Control
 				}
 				
-			
-				dictionarysearch CountrySearch {
+	
+				dictionarysearch Entity2Search {
+	
+					dictionaryfilter Entity2Filter {
+						textcontrol ref String2Control
+					}
 					
-					dictionaryfilter CountryFilter {
-	
-						composite Composite1 {
-							textcontrol ref CountryName
-							textcontrol ref CountryDescription
-						}
-						
+					dictionaryresult Entity2Result {
+						textcontrol ref String2Control
+						datecontrol ref Date2Control
 					}
-	
-					dictionaryresult CountryResult {
-						textcontrol ref CountryName
-						textcontrol ref CountryDescription
-					}
-	
-				}
-				
-				dictionaryeditor CountryEditor {
-		
-					composite Composite2 {
-	
-						layout {
-							columns 2
-						}
-						
-						composite Composite3 {
-						
-							textcontrol ref CountryName
-							textcontrol ref CountryDescription
-							datecontrol ref CountryFormation
-							
-						}		
-		
-						composite Composite4 {
-						
-							integercontrol ref CountryPopulation
-							booleancontrol ref CountryEU
-							bigdecimalcontrol ref CountryArea
-							enumerationcontrol ref CountryTrafficDirection
-		
-						}		
-					}						
-				}
+				} 	
+			
+				dictionaryeditor Entity1Editor {
+					textcontrol ref String2Control
+					datecontrol ref Date2Control
+				} 
 			}
-	
-			dictionary City {
-			
-				entity City
-				title "Land"
-				
-				dictionarycontrols {
-				
-					textcontrol CityName {
-						entityattribute cityName
-						label "Name"
-						mandatory
-					}
-	
-					textcontrol CityDescription {
-						entityattribute cityDescription
-						label "Description"
-					}
-				
-				}
-				
-				labelcontrols {
-				
-					textcontrol ref CityName
-					textcontrol ref CityDescription
-		
-				}
-				
-			
-				dictionarysearch CitySearch {
-					
-					dictionaryfilter CityFilter {
-	
-						composite Composite1 {
-							textcontrol ref CityName
-							textcontrol ref CityDescription
-						}
-						
-					}
-	
-					dictionaryresult CityResult {
-						textcontrol ref CityName
-						textcontrol ref CityDescription
-					}
-	
-				}
-				
-				dictionaryeditor CityEditor {
-		
-					composite Composite2 {
-	
-						layout {
-							columns 2
-						}
-						
-						composite Composite3 {
-						
-							textcontrol ref CityName
-							textcontrol ref CityDescription
-							
-						}		
-					}						
-				}
-			}
-	
-			dictionary Region {
-			
-				entity Region
-				title "Region"
-				
-				dictionarycontrols {
-				
-					textcontrol RegionName {
-						entityattribute regionName
-						label "Name"
-					}
-				
-				}
-				
-			
-				dictionarysearch RegionSearch {
-					
-					dictionaryfilter RegionFilter {
-	
-						composite Composite5 {
-							textcontrol ref RegionName
-						}
-						
-					}
-	
-					dictionaryresult RegionResult {
-						textcontrol ref RegionName
-					}
-	
-				}
-				
-				dictionaryeditor RegionEditor {
-				
-					composite Composite6 {
-	
-						composite Composite7 {				
-							textcontrol ref RegionName
-						}
-						
-						editabletable Region2Countries {
-							entityattribute region2Countries
-							
-							columncontrols {
-								textcontrol ref Region2CountryDescription
-								referencecontrol ref Region2CountryCountry
-							}
-						}
-	
-					}		
-				}
-			}
-	
-			dictionary Region2Country {
-			
-				entity Region2Country
-				
-				dictionarycontrols {
-				
-					textcontrol Region2CountryDescription {
-						entityattribute region2CountryDescription
-						label "Beschreibung"
-					}
-	
-					referencecontrol Region2CountryCountry {
-						entityattribute region2CountryCountry
-						label "Land"
-						dictionary Country
-						labelcontrols {
-							textcontrol ref CountryName
-						}
-						
-					}
-				}
-			}
-					
-			dictionary State {
-			
-				entity State
-				title "Bundesland"
-				
-				dictionarycontrols {
-				
-					textcontrol StateName {
-						entityattribute stateName
-						label "Name"
-					}
-	
-					textcontrol StateDescription {
-						entityattribute stateDescription
-						label "Beschreibung"
-					}
-	
-					referencecontrol StateCountry {
-						entityattribute stateCountry
-						label "Land"
-						dictionary Country
-						labelcontrols {
-							textcontrol ref CountryName
-						}
-					}
-				}
-				
-				dictionarysearch StateSearch {
-					
-					dictionaryfilter StateFilter {
-						composite Composite8 {
-							textcontrol ref StateName
-							textcontrol ref StateDescription
-						}
-					}
-	
-					dictionaryresult StateResult {
-						textcontrol ref StateName
-						textcontrol ref StateDescription
-					}
-	
-				}
-				
-				dictionaryeditor StateEditor {
-					composite Composite9 {
-						textcontrol ref StateName
-						textcontrol ref StateDescription
-						referencecontrol ref StateCountry
-					}		
-				}
-			}		
-
-			dictionary Dictionary1 {
-			
-				entity Test1
-				title "Dictionary1"
-				
-				dictionarycontrols {
-				
-					textcontrol TextControl1 {
-						entityattribute textDatatype1
-						label "TextControl1"
-						mandatory
-					}
-
-					integercontrol IntegerControl1 {
-						entityattribute integerDatatype1
-						label "integerControl1"
-					}
-
-					bigdecimalcontrol BigDecimalControl1 {
-						entityattribute bigDecimalDatatype1
-						label "BigDecimalControl1"
-					}
-
-					datecontrol DateControl1 {
-						entityattribute dateDatatype1
-						label "DateControl1"
-					}
-
-					booleancontrol BooleanControl1 {
-						entityattribute booleanDatatype1
-						label "BooleanControl1"
-					}
-
-					enumerationcontrol EnumerationControl1 {
-						entityattribute enumerationDatatype1
-						label "EnumerationControl1"
-					}
-
-					referencecontrol ReferenceControl1 {
-						entityattribute referenceDatatype1
-						label "ReferenceControl1"
-						dictionary Dictionary2
-					}
-
-				}
-				
-				labelcontrols {
-					textcontrol ref TextControl1
-				}
-				
-				dictionarysearch Dictionary1Search {
-					
-					dictionaryfilter Dictionary1Filter {
-						composite Dictionary1Composite1 {
-							textcontrol ref TextControl1
-							integercontrol ref IntegerControl1
-							bigdecimalcontrol ref BigDecimalControl1
-							datecontrol ref DateControl1
-							booleancontrol ref BooleanControl1
-							enumerationcontrol ref EnumerationControl1
-							referencecontrol ref ReferenceControl1
-						}
-					}
-	
-					dictionaryresult Dictionary1Result {
-						textcontrol ref TextControl1
-						integercontrol ref IntegerControl1
-						bigdecimalcontrol ref BigDecimalControl1
-						datecontrol ref DateControl1
-						booleancontrol ref BooleanControl1
-						enumerationcontrol ref EnumerationControl1
-						referencecontrol ref ReferenceControl1
-					}
-				}
-				
-				dictionaryeditor Dictionary1Editor {
-					composite Dictionary1Composite2 {
-						composite Dictionary1Composite3 {
-							textcontrol ref TextControl1
-							integercontrol ref IntegerControl1
-							bigdecimalcontrol ref BigDecimalControl1
-							datecontrol ref DateControl1
-							booleancontrol ref BooleanControl1
-							enumerationcontrol ref EnumerationControl1
-							referencecontrol ref ReferenceControl1
-						}
-						editabletable Dictionary1EditableTable1 {
-							entityattribute test3s
-							columncontrols {
-								textcontrol ref Dictionary3.TextControl3
-								integercontrol ref Dictionary3.IntegerControl3
-								bigdecimalcontrol ref Dictionary3.BigDecimalControl3
-								datecontrol ref Dictionary3.DateControl3
-								booleancontrol ref Dictionary3.BooleanControl3
-								enumerationcontrol ref Dictionary3.EnumerationControl3
-								referencecontrol ref Dictionary3.ReferenceControl3
-							}
-						}
-					}
-				}
-			}
-
-			dictionary Dictionary2 {
-			
-				entity Test2
-				title "Dictionary2"
-				
-				dictionarycontrols {
-				
-					textcontrol TextControl2 {
-						entityattribute textDatatype2
-						label "TextControl2"
-						mandatory
-					}
-
-				}
-				
-				labelcontrols {
-					textcontrol ref TextControl2
-				}
-				
-				dictionarysearch Dictionary2Search {
-					
-					dictionaryfilter Dictionary2Filter {
-						composite Dictionary2Composite1 {
-							textcontrol ref TextControl2
-						}
-					}
-	
-					dictionaryresult Dictionary2Result {
-						textcontrol ref TextControl2
-					}
-				}
-				
-				dictionaryeditor Dictionary2Editor {
-					composite Dictionary2Composite2 {
-						textcontrol ref TextControl2
-					}
-				}
-			}
-
-			dictionary Dictionary3 {
-			
-				entity Test3
-				title "Dictionary3"
-				
-				dictionarycontrols {
-				
-					textcontrol TextControl3 {
-						entityattribute textDatatype3
-						label "TextControl3"
-						mandatory
-					}
-
-					integercontrol IntegerControl3 {
-						entityattribute integerDatatype3
-						label "integerControl3"
-					}
-
-					bigdecimalcontrol BigDecimalControl3 {
-						entityattribute bigDecimalDatatype3
-						label "BigDecimalControl3"
-					}
-
-					datecontrol DateControl3 {
-						entityattribute dateDatatype3
-						label "DateControl3"
-					}
-
-					booleancontrol BooleanControl3 {
-						entityattribute booleanDatatype3
-						label "BooleanControl3"
-					}
-
-					enumerationcontrol EnumerationControl3 {
-						entityattribute enumerationDatatype3
-						label "EnumerationControl3"
-					}
-
-					referencecontrol ReferenceControl3 {
-						entityattribute referenceDatatype3
-						label "ReferenceControl3"
-						dictionary Dictionary2
-					}
-
-				}
-				
-				labelcontrols {
-					textcontrol ref TextControl3
-				}
-				
-				dictionarysearch Dictionary1Search {
-					
-					dictionaryfilter Dictionary1Filter {
-						composite Dictionary1Composite1 {
-							textcontrol ref TextControl3
-							integercontrol ref IntegerControl3
-							bigdecimalcontrol ref BigDecimalControl3
-							datecontrol ref DateControl3
-							booleancontrol ref BooleanControl3
-							enumerationcontrol ref EnumerationControl3
-							referencecontrol ref ReferenceControl3
-						}
-					}
-	
-					dictionaryresult Dictionary1Result {
-						textcontrol ref TextControl3
-						integercontrol ref IntegerControl3
-						bigdecimalcontrol ref BigDecimalControl3
-						datecontrol ref DateControl3
-						booleancontrol ref BooleanControl3
-						enumerationcontrol ref EnumerationControl3
-						referencecontrol ref ReferenceControl3
-					}
-				}
-				
-				dictionaryeditor Dictionary1Editor {
-					composite Dictionary1Composite2 {
-						textcontrol ref TextControl3
-						integercontrol ref IntegerControl3
-						bigdecimalcontrol ref BigDecimalControl3
-						datecontrol ref DateControl3
-						booleancontrol ref BooleanControl3
-						enumerationcontrol ref EnumerationControl3
-						referencecontrol ref ReferenceControl3
-					}
-				}
-			}
-
 		}
 	}
 }

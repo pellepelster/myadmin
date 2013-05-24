@@ -14,16 +14,11 @@
 
 	<publications>
 	</publications>
-	
+
 	<dependencies>
 
-		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.0" transitive="false" />
+		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="*->@" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-web-test" rev="latest.integration" conf="*->@,sources" />
-
-		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated" />
-
-	
 	</dependencies>
 
 </ivy-module>

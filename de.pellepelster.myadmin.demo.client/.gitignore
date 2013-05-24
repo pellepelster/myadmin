@@ -4,3 +4,5 @@ dist
 build
 /lib
 /gwt-unitCache
+/build.xml
+/ivy.xml

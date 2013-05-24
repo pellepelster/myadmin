@@ -12,3 +12,5 @@ tomcat
 /lib-bootstrap
 /test
 derby.log
+/build.xml
+/ivy.xml

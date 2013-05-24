@@ -25,7 +25,7 @@
 	</resolvers>
 	
 	<triggers>
-		<ant-call target="unzip" event="post-download-artifact" filter="module=build AND type= zip" />
+		<ant-call target="unzip" event="post-download-artifact" filter="module=build AND type=zip AND artifact=build" />
 	</triggers>
 	
 </ivysettings>

@@ -10,17 +10,32 @@
 
 	<target name="write.ivy.files">
 		<echo file="${bootstrap.ivy.temp.file}" message="&lt;ivy-module version=&quot;1.0&quot;&gt;&lt;info organisation=&quot;de.pellepelster.myadmin&quot; module=&quot;MyAdminProjectBuildBootstrap&quot; status='integration' /&gt;&lt;dependencies&gt;&lt;dependency org=&quot;org.apache.ivy&quot; name=&quot;ivy&quot; rev=&quot;2.2.0&quot; /&gt;&lt;dependency name=&quot;build&quot; rev=&quot;latest.integration&quot; /&gt;&lt;/dependencies&gt;&lt;/ivy-module&gt;" append="false" />
-		<echo file="${bootstrap.ivy.settings.temp.file}" message="&lt;ivysettings&gt;&lt;settings defaultResolver=&quot;bootstrap_default&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-public.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-shared.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-local.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-main-chain.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-default-chain.xml&quot; /&gt;&lt;property name=&quot;ivy.staging.repository.root&quot; value=&quot;${user.home}/.ivy2/local&quot; override=&quot;false&quot;/&gt;&lt;resolvers&gt;&lt;filesystem name=&quot;staging_repository&quot;&gt;&lt;ivy pattern=&quot;${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}&quot; /&gt;&lt;artifact pattern=&quot;${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}&quot; /&gt;&lt;/filesystem&gt;&lt;chain name=&quot;bootstrap_default&quot; returnFirst=&quot;true&quot; checkmodified=&quot;true&quot;&gt;&lt;resolver ref=&quot;default&quot; /&gt;&lt;resolver ref=&quot;staging_repository&quot; /&gt;&lt;/chain&gt;&lt;/resolvers&gt;&lt;triggers&gt;&lt;ant-call target=&quot;unzip&quot; event=&quot;post-download-artifact&quot; filter=&quot;module=build AND type= zip&quot; /&gt;&lt;/triggers&gt;&lt;/ivysettings&gt;" append="false" />
+		<echo file="${bootstrap.ivy.settings.temp.file}" message="&lt;ivysettings&gt;&lt;settings defaultResolver=&quot;bootstrap_default&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-public.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-shared.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-local.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-main-chain.xml&quot; /&gt;&lt;include url=&quot;${ivy.default.settings.dir}/ivysettings-default-chain.xml&quot; /&gt;&lt;property name=&quot;ivy.staging.repository.root&quot; value=&quot;${user.home}/.ivy2/local&quot; override=&quot;false&quot;/&gt;&lt;resolvers&gt;&lt;filesystem name=&quot;staging_repository&quot;&gt;&lt;ivy pattern=&quot;${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}&quot; /&gt;&lt;artifact pattern=&quot;${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}&quot; /&gt;&lt;/filesystem&gt;&lt;chain name=&quot;bootstrap_default&quot; returnFirst=&quot;true&quot; checkmodified=&quot;true&quot;&gt;&lt;resolver ref=&quot;default&quot; /&gt;&lt;resolver ref=&quot;staging_repository&quot; /&gt;&lt;/chain&gt;&lt;/resolvers&gt;&lt;triggers&gt;&lt;ant-call target=&quot;unzip&quot; event=&quot;post-download-artifact&quot; filter=&quot;module=build AND type=zip AND artifact=build&quot; /&gt;&lt;/triggers&gt;&lt;/ivysettings&gt;" append="false" />
 	</target>
 
-	<target name="bootstrap" depends="write.ivy.files">
+	
+	<target name="resolve" depends="write.ivy.files">
 		<ivy:settings id="bootstrap.ivy.settings" file="${bootstrap.ivy.settings.temp.file}" />
 
 		<ivy:resolve settingsref="bootstrap.ivy.settings" file="${bootstrap.ivy.temp.file}" checkifchanged="true" conf="default" />
 		<ivy:retrieve settingsref="bootstrap.ivy.settings" overwriteMode="always" pattern="${bootstrap.lib.dir}/[artifact]-[type].[ext]" conf="default" />
 		
-		<ant antfile="MyAdminProjectTemplates.xml" />
+		<ant antfile="MyAdminProjectTemplates.xml">
+			 <property name="overwrite" value="false"/>
+		</ant>
 		
+	</target>
+
+	<target name="bootstrap" depends="resolve">
+		<ant antfile="MyAdminProjectTemplates.xml">
+			 <property name="overwrite.all" value="false"/>
+		</ant>
+	</target>
+
+	<target name="bootstrap.overwrite.all" depends="resolve">
+		<ant antfile="MyAdminProjectTemplates.xml">
+			 <property name="overwrite.all" value="true"/>
+		</ant>
 	</target>
 
 	<target name="unzip">

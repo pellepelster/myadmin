@@ -9,3 +9,7 @@ derby.log
 /lib
 /jetty-lib
 /test
+/build.properties
+/build.test.base.xml
+/build.xml
+/ivy.xml

@@ -4,3 +4,5 @@ dist
 build
 
 /lib
+/build.xml
+/ivy.xml

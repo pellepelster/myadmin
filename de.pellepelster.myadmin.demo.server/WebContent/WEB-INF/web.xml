@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
 
+	<display-name>de.pellepelster.myadmin.demo</display-name>
+	
 	<welcome-file-list>
 		<welcome-file>Demo/Demo.html</welcome-file>
 	</welcome-file-list>
@@ -20,7 +24,6 @@
 			classpath:DemoServerApplicationContext-gen.xml, 
 			classpath:MyAdminServerGWTServices-gen.xml, 
 			classpath:MyAdminServerInvokerServices-gen.xml, 
-			classpath:MyAdminRestServices-gen.xml, 
 			classpath:DemoDB-gen.xml
 		</param-value>
 	</context-param>
@@ -48,16 +51,16 @@
 		<servlet-name>Demo</servlet-name>
 		<url-pattern>/remote/*</url-pattern>
 	</servlet-mapping>
-
+	
 	<resource-ref>
-		<description>Demo Datasource</description>
+        <description>Demo Datasource</description>
 		<res-ref-name>jdbc/Demo</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
-		<res-sharing-scope>Shareable</res-sharing-scope>
+        <res-sharing-scope>Shareable</res-sharing-scope>
 	</resource-ref>
-
-	<filter>
+	
+		<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -66,6 +69,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
 </web-app>
 
