@@ -26,9 +26,9 @@ import de.pellepelster.myadmin.db.jpql.DeleteQuery;
 import de.pellepelster.myadmin.db.jpql.Join;
 import de.pellepelster.myadmin.db.jpql.Join.JOIN_TYPE;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
-import de.pellepelster.myadmin.db.test.mockup.entities.Test1;
-import de.pellepelster.myadmin.db.test.mockup.entities.Test2;
-import de.pellepelster.myadmin.db.test.mockup.vos.Test1VO;
+import de.pellepelster.myadmin.db.test.mockup.entities.DBTest1;
+import de.pellepelster.myadmin.db.test.mockup.entities.DBTest2;
+import de.pellepelster.myadmin.db.test.mockup.vos.DBTest1VO;
 
 public class JPQLTest extends TestCase
 {
@@ -37,137 +37,137 @@ public class JPQLTest extends TestCase
 	public void testAggregate()
 	{
 
-		AggregateQuery query = new AggregateQuery(Test1.class, Test1VO.TESTINTEGER, AGGREGATE_TYPE.SUM);
-		query.addWhereCondition(Test1VO.TESTSTRING, "abc");
+		AggregateQuery query = new AggregateQuery(DBTest1.class, DBTest1VO.TESTINTEGER, AGGREGATE_TYPE.SUM);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "abc");
 
-		Assert.assertEquals("SELECT SUM(x0.testInteger) FROM Test1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
+		Assert.assertEquals("SELECT SUM(x0.testInteger) FROM DBTest1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
 	}
 
 	@Test
 	public void testDeleteAll()
 	{
-		DeleteQuery query = new DeleteQuery(Test1.class);
-		Assert.assertEquals("DELETE FROM Test1 x0", query.getJPQL());
+		DeleteQuery query = new DeleteQuery(DBTest1.class);
+		Assert.assertEquals("DELETE FROM DBTest1 x0", query.getJPQL());
 	}
 
 	@Test
 	public void testDeleteByFieldString()
 	{
-		DeleteQuery query = new DeleteQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTSTRING, "abc");
-		Assert.assertEquals("DELETE FROM Test1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
+		DeleteQuery query = new DeleteQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "abc");
+		Assert.assertEquals("DELETE FROM DBTest1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
 	}
 
 	@Test
 	public void testJoin()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addJoin(Test1VO.TEST2S);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addJoin(DBTest1VO.TEST2S);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 LEFT JOIN x0.test2s x1", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 LEFT JOIN x0.test2s x1", query.getJPQL());
 	}
 
 	@Test
 	public void testJoin1()
 	{
 
-		SelectQuery query = new SelectQuery(Test1.class);
-		Join join = query.addJoin(Test1VO.TEST2S);
-		join.addJoin(JOIN_TYPE.LEFT, Test2.TEST3);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		Join join = query.addJoin(DBTest1VO.TEST2S);
+		join.addJoin(JOIN_TYPE.LEFT, DBTest2.TEST3);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 LEFT JOIN x0.test2s x1 LEFT JOIN x1.test3 x2", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 LEFT JOIN x0.test2s x1 LEFT JOIN x1.test3 x2", query.getJPQL());
 	}
 
 	@Test
 	public void testOrderByAsc()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addOrderBy(Test1VO.TESTSTRING, ORDER_DIRECTION.ASC);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addOrderBy(DBTest1VO.TESTSTRING, ORDER_DIRECTION.ASC);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 ORDER BY x0.testString", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 ORDER BY x0.testString", query.getJPQL());
 	}
 
 	@Test
 	public void testOrderByDesc()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addOrderBy(Test1VO.TESTSTRING, ORDER_DIRECTION.DESC);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addOrderBy(DBTest1VO.TESTSTRING, ORDER_DIRECTION.DESC);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 ORDER BY x0.testString DESC", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 ORDER BY x0.testString DESC", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectAll()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
+		SelectQuery query = new SelectQuery(DBTest1.class);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectCount()
 	{
 
-		CountQuery query = new CountQuery(Test1.class);
+		CountQuery query = new CountQuery(DBTest1.class);
 
-		Assert.assertEquals("SELECT COUNT(x0) FROM Test1 x0", query.getJPQL());
+		Assert.assertEquals("SELECT COUNT(x0) FROM DBTest1 x0", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldInteger()
 	{
 
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTINTEGER, 1);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTINTEGER, 1);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testInteger = 1", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testInteger = 1", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldObjectNull()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTSTRING, "aaa");
-		query.addWhereCondition(Test1VO.TESTSTRING, "bbb");
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "aaa");
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "bbb");
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testString = 'aaa' AND x0.testString = 'bbb'", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testString = 'aaa' AND x0.testString = 'bbb'", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldOr()
 	{
-		SelectQuery query = new SelectQuery(Test1.class, LogicalOperatorVO.OR);
-		query.addWhereCondition(Test1VO.TESTSTRING, "aaa");
-		query.addWhereCondition(Test1VO.TESTSTRING, "bbb");
+		SelectQuery query = new SelectQuery(DBTest1.class, LogicalOperatorVO.OR);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "aaa");
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "bbb");
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testString = 'aaa' OR x0.testString = 'bbb'", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testString = 'aaa' OR x0.testString = 'bbb'", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldStringEquals()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTSTRING, "abc");
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "abc");
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testString = 'abc'", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldStringLike()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTSTRING, "abc", RelationalOperator.LIKE);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTSTRING, "abc", RelationalOperator.LIKE);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testString LIKE '%abc%'", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testString LIKE '%abc%'", query.getJPQL());
 	}
 
 	@Test
 	public void testSelectFieldStringNamed()
 	{
-		SelectQuery query = new SelectQuery(Test1.class);
-		query.addWhereCondition(Test1VO.TESTINTEGER, 1);
+		SelectQuery query = new SelectQuery(DBTest1.class);
+		query.addWhereCondition(DBTest1VO.TESTINTEGER, 1);
 
-		Assert.assertEquals("SELECT x0 FROM Test1 x0 WHERE x0.testInteger = 1", query.getJPQL());
+		Assert.assertEquals("SELECT x0 FROM DBTest1 x0 WHERE x0.testInteger = 1", query.getJPQL());
 	}
 
 }

@@ -3,12 +3,12 @@
 	<info organisation="de.pellepelster.myadmin" module="client-core" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
- 		<conf name="test" extends="default" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -18,9 +18,9 @@
 
 	<dependencies>
 
-		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+		<dependency name="client-base" rev="latest.integration" conf="*->master" />
 		
-		<dependency name="generator" rev="latest.integration" conf="*->@" />
+		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web" />
 
 	</dependencies>
 

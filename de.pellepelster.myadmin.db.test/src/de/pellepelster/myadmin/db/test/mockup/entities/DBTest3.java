@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.db.IBaseEntity;
 
 @Entity
 @Table(name = "test3")
-public class Test3 implements IBaseEntity
+public class DBTest3 implements IBaseEntity
 {
 
 	@Id
@@ -36,7 +36,7 @@ public class Test3 implements IBaseEntity
 	private String testString;
 
 	@OneToOne
-	private Test1 test1;
+	private DBTest1 test1;
 
 	/** {@inheritDoc} */
 	@Override
@@ -45,7 +45,7 @@ public class Test3 implements IBaseEntity
 		return id;
 	}
 
-	public Test1 getTest1()
+	public DBTest1 getTest1()
 	{
 		return test1;
 	}
@@ -60,7 +60,7 @@ public class Test3 implements IBaseEntity
 		this.id = id;
 	}
 
-	public void setTest1(Test1 test1)
+	public void setTest1(DBTest1 test1)
 	{
 		this.test1 = test1;
 	}

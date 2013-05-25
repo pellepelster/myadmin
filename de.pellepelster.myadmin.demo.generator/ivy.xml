@@ -21,7 +21,7 @@
 	</publications>
 	
 	<dependencies>
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="compile->compile" />
 	</dependencies>
 
 </ivy-module>

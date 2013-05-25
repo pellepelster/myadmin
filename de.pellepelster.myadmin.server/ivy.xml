@@ -3,11 +3,12 @@
 	<info organisation="de.pellepelster.myadmin" module="server" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -15,11 +16,13 @@
 		<artifact name="server-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-		<dependency name="server-core" rev="latest.integration" conf="*->@" />
+		<dependency name="server-core" rev="latest.integration" conf="*->master" />
 
-		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+		<dependency name="client-web" rev="latest.integration" conf="*->master" />
+
+		<dependency name="generator" rev="latest.integration" conf="*->generated.server" />
 
 		<dependency org="net.sf.extcos" name="extcos" rev="0.3b">
 			<artifact name="extcos" type="jar" />

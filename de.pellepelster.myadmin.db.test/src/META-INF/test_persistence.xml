@@ -13,9 +13,9 @@
 		<class>de.pellepelster.myadmin.db.entities.EntityAttributeChange</class>
 		-->
 
-		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test1</class>
-		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test2</class>
-		<class>de.pellepelster.myadmin.db.test.mockup.entities.Test3</class>
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.DBTest1</class>
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.DBTest2</class>
+		<class>de.pellepelster.myadmin.db.test.mockup.entities.DBTest3</class>
 		
 		<class>de.pellepelster.myadmin.db.test.mockup.entities.MapTest</class>
 		

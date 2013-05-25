@@ -3,12 +3,13 @@
 	<info organisation="de.pellepelster.myadmin" module="dsl-generator" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-	</configurations>
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
+ 	</configurations>
 
     
 	<publications>
@@ -18,7 +19,9 @@
 
 	<dependencies>
 
-		<dependency name="dsl" rev="latest.integration" conf="*->@" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" />
+
+		<dependency name="dsl" rev="latest.integration" conf="*->master;compile->compile" />
 
 	</dependencies>
 

@@ -3,11 +3,12 @@
 	<info organisation="de.pellepelster.myadmin" module="dsl" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -15,18 +16,14 @@
 		<artifact name="dsl-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="compile->default">
 
-		<dependency org="commons-cli" name="commons-cli" rev="1.2" transitive="false" />
-		<dependency org="log4j" name="log4j" rev="1.2.17" transitive="false" />
-		<dependency org="commons-logging" name="commons-logging" rev="1.1.1" transitive="false" />
-		<dependency org="com.google.guava" name="guava" rev="10.0" />
-		<dependency org="com.google.inject" name="guice" rev="3.0" />
+		<dependency name="server-lib" rev="latest.integration" />
 
-		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.8.0.v20120608-0554" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.codegen" rev="2.8.0.v20120608-0554" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.common" rev="2.8.0.v20120606-0717" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.source" rev="2.8.0.v20120606-0717" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.8.0.v20120608-0554"  />
+		<dependency org="org.eclipse" name="org.eclipse.emf.codegen" rev="2.8.0.v20120608-0554"  />
+		<dependency org="org.eclipse" name="org.eclipse.emf.common" rev="2.8.0.v20120606-0717"  />
+		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.source" rev="2.8.0.v20120606-0717"  />
 		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.xmi" rev="2.8.0.v20120606-0717" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.ecore" rev="2.8.0.v20120606-0717" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.core" rev="1.2.1.v201206110920" />
@@ -54,7 +51,6 @@
 		<dependency org="de.itemis" name="antlr-generator" rev="3.2.0" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" />
 		<dependency org="com.ibm" name="com.ibm.icu" rev="4.4.2.v20110823" />
-
 		<dependency org="org.eclipse" name="osgi" rev="3.5.0.v20090520" />
 
 		<!-- <dependency org="org.antlr" name="org.antlr.generator" rev="3.2.0.v201108011202" /> <dependency org="org.antlr" name="org.antlr.runtime.source" rev="3.2.0.v201101311130" /> -->

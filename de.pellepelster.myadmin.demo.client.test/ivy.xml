@@ -19,6 +19,8 @@
 
 		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="*->@" />
 
+		<dependency org="de.pellepelster.myadmin" name="client-web-test" rev="latest.integration" conf="*->@" />
+
 	</dependencies>
 
 </ivy-module>

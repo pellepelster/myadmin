@@ -28,7 +28,7 @@ import de.pellepelster.myadmin.db.IBaseEntity;
 
 @Entity
 @Table(name = "test1")
-public class Test1 implements IBaseEntity
+public class DBTest1 implements IBaseEntity
 {
 
 	public enum TEST_ENUM
@@ -50,7 +50,7 @@ public class Test1 implements IBaseEntity
 
 	@javax.persistence.OneToMany()
 	@Column(name = "test1_test2s")
-	private List<Test2> test2s = new ArrayList<Test2>();
+	private List<DBTest2> test2s = new ArrayList<DBTest2>();
 
 	@Column(name = "test1_testenum")
 	private TEST_ENUM testEnum;
@@ -74,7 +74,7 @@ public class Test1 implements IBaseEntity
 		return this.id;
 	}
 
-	public List<Test2> getTest2s()
+	public List<DBTest2> getTest2s()
 	{
 		return this.test2s;
 	}
@@ -99,7 +99,7 @@ public class Test1 implements IBaseEntity
 		this.id = id;
 	}
 
-	public void setTest2s(List<Test2> test2s)
+	public void setTest2s(List<DBTest2> test2s)
 	{
 		this.test2s = test2s;
 	}

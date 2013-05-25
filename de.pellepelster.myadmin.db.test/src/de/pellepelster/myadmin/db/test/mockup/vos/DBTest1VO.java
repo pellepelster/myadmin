@@ -11,31 +11,49 @@
  */
 package de.pellepelster.myadmin.db.test.mockup.vos;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.BaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 
-public class Test2VO extends BaseVO
+public class DBTest1VO extends BaseVO
 {
 
-	private static final long serialVersionUID = -7944707321103683238L;
+	public enum TEST_ENUM_VO
+	{
+		ENUM1, ENUM2
+	}
 
-	public static final IAttributeDescriptor<Test1VO> TEST1 = new AttributeDescriptor<Test1VO>("test1", Test1VO.class);
+	private static final long serialVersionUID = 6869411076738783234L;
 
-	public static final IAttributeDescriptor<Test3VO> TEST3 = new AttributeDescriptor<Test3VO>("test3", Test3VO.class);
+	public static final IAttributeDescriptor<List<DBTest2VO>> TEST2S = new AttributeDescriptor<List<DBTest2VO>>("test2s", List.class, DBTest2VO.class);
+
+	public static final IAttributeDescriptor<Integer> TESTINTEGER = new AttributeDescriptor<Integer>("testInteger", Integer.class);
 
 	public static final IAttributeDescriptor<String> TESTSTRING = new AttributeDescriptor<String>("testString", String.class);
 
+	public static final IAttributeDescriptor<TEST_ENUM_VO> TESTENUM = new AttributeDescriptor<TEST_ENUM_VO>("testEnum", TEST_ENUM_VO.class);
+
+	public static final IAttributeDescriptor<String> MAP = new AttributeDescriptor<String>("map", Map.class);
+
 	public static IAttributeDescriptor<?>[] getFieldDescriptors()
 	{
-		return new IAttributeDescriptor[] { TEST1, TEST3, TESTSTRING };
+		return new IAttributeDescriptor[] { TEST2S, TESTINTEGER, TESTSTRING, TESTENUM, MAP };
 	}
+
+	private Map<String, String> map = new HashMap<String, String>();
 
 	private long id;
 
-	private Test1VO test1;
+	private List<DBTest2VO> test2s = new ArrayList<DBTest2VO>();
 
-	private Test3VO test3;
+	private TEST_ENUM_VO testEnum;;
+
+	private int testInteger;
 
 	private String testString;
 
@@ -76,14 +94,19 @@ public class Test2VO extends BaseVO
 		return this.id;
 	}
 
-	public Test1VO getTest1()
+	public List<DBTest2VO> getTest2s()
 	{
-		return this.test1;
+		return this.test2s;
 	}
 
-	public Test3VO getTest3()
+	public TEST_ENUM_VO getTestEnum()
 	{
-		return this.test3;
+		return this.testEnum;
+	}
+
+	public int getTestInteger()
+	{
+		return this.testInteger;
 	}
 
 	public String getTestString()
@@ -105,14 +128,29 @@ public class Test2VO extends BaseVO
 		this.id = id;
 	}
 
-	public void setTest1(Test1VO test1)
+	public Map<String, String> getMap()
 	{
-		this.test1 = test1;
+		return this.map;
 	}
 
-	public void setTest3(Test3VO test3)
+	public void setMap(Map<String, String> map)
 	{
-		this.test3 = test3;
+		this.map = map;
+	}
+
+	public void setTest2s(List<DBTest2VO> test2s)
+	{
+		this.test2s = test2s;
+	}
+
+	public void setTestEnum(TEST_ENUM_VO testEnum)
+	{
+		this.testEnum = testEnum;
+	}
+
+	public void setTestInteger(int testInteger)
+	{
+		this.testInteger = testInteger;
 	}
 
 	public void setTestString(String testString)

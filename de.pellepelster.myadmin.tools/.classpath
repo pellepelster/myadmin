@@ -11,5 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.dsl.generator"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.tools&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.dsl"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -36,6 +36,10 @@
 		<dependency org="org.codehaus.cargo" name="cargo-core-uberjar" rev="1.2.4" />
 		<dependency org="org.codehaus.cargo" name="cargo-ant" rev="1.2.4" />
 
+		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.31.0" />
+		<dependency org="org.seleniumhq.selenium" name="selenium-api" rev="2.31.0" />
+		<dependency org="org.seleniumhq.selenium" name="selenium-firefox-driver" rev="2.31.0" />
+
 	</dependencies>
 
 </ivy-module>

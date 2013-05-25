@@ -37,7 +37,8 @@ import com.google.common.collect.Sets;
 public class Reader extends AbstractReader
 {
 
-	protected final static Logger log = Logger.getLogger(Reader.class.getName());
+	protected final static Logger LOG = Logger.getLogger(Reader.class.getName());
+
 	protected List<String> pathes = Lists.newArrayList();
 
 	private UriFilter filter;
@@ -64,16 +65,16 @@ public class Reader extends AbstractReader
 	protected void checkConfigurationInternal(Issues issues)
 	{
 		super.checkConfigurationInternal(issues);
-		if (pathes.isEmpty())
+		if (this.pathes.isEmpty())
 		{
 			issues.addWarning("No path set, using java class path entries (useJavaClassPath='true').");
 			setUseJavaClassPath(true);
 		}
-		if (log.isDebugEnabled())
+		if (LOG.isDebugEnabled())
 		{
-			log.debug("Resource Pathes : " + pathes);
+			LOG.debug("Resource Pathes : " + this.pathes);
 		}
-		for (String path : pathes)
+		for (String path : this.pathes)
 		{
 			if (!new File(path).exists())
 				issues.addWarning("Skipping the path '" + path + "', because it does not exist.");
@@ -82,12 +83,12 @@ public class Reader extends AbstractReader
 
 	public ContainersStateFactory getContainersStateFactory()
 	{
-		return containersStateFactory;
+		return this.containersStateFactory;
 	}
 
 	public List<String> getPathes()
 	{
-		return pathes;
+		return this.pathes;
 	}
 
 	protected PathTraverser getPathTraverser()
@@ -97,7 +98,7 @@ public class Reader extends AbstractReader
 
 	public UriFilter getUriFilter()
 	{
-		return filter;
+		return this.filter;
 	}
 
 	protected void installAsAdapter(ResourceSet set, IAllContainersState containersState) throws WorkflowInterruptedException
@@ -109,7 +110,7 @@ public class Reader extends AbstractReader
 	protected void invokeInternal(WorkflowContext ctx, ProgressMonitor monitor, Issues issues)
 	{
 		ResourceSet resourceSet = getResourceSet();
-		Multimap<String, URI> uris = getPathTraverser().resolvePathes(pathes, new Predicate<URI>()
+		Multimap<String, URI> uris = getPathTraverser().resolvePathes(this.pathes, new Predicate<URI>()
 		{
 			@Override
 			public boolean apply(URI input)
@@ -122,7 +123,7 @@ public class Reader extends AbstractReader
 				return result;
 			}
 		});
-		IAllContainersState containersState = containersStateFactory.getContainersState(pathes, uris);
+		IAllContainersState containersState = this.containersStateFactory.getContainersState(this.pathes, uris);
 		installAsAdapter(resourceSet, containersState);
 		populateResourceSet(resourceSet, uris);
 		getValidator().validate(resourceSet, getRegistry(), issues);

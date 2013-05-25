@@ -21,13 +21,13 @@
 
 		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" conf="*->default" />
 
-		<dependency org="de.pellepelster.myadmin" name="demo.server" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="demo.server" rev="latest.integration"  />
 
 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="!runtime,*->@" />
 
-		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
+		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" />
 
-		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" />
 
 		<dependency org="org.springframework.security" name="spring-security-remoting" rev="3.1.0.RELEASE" transitive="false"  conf="default->*">
 			<artifact name="spring-security-remoting" type="jar" />
@@ -35,6 +35,12 @@
 		
 		<dependency org="org.codehaus.cargo" name="cargo-core-uberjar" rev="1.2.4" />
 		<dependency org="org.codehaus.cargo" name="cargo-ant" rev="1.2.4" />
+
+		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.31.0" />
+
+		<dependency org="org.seleniumhq.selenium" name="selenium-api" rev="2.31.0" />
+
+		<dependency org="org.seleniumhq.selenium" name="selenium-firefox-driver" rev="2.31.0" />
 
 	</dependencies>
 

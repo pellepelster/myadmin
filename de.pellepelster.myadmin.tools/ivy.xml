@@ -3,11 +3,12 @@
 	<info organisation="de.pellepelster.myadmin" module="tools" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -17,11 +18,11 @@
 
 	<dependencies>
 
-		<dependency name="generator" rev="latest.integration" conf="*->@" />
+		<dependency name="generator" rev="latest.integration" conf="*->generated.server" />
 		
-		<dependency name="server" rev="latest.integration" conf="*->@" />
+		<dependency name="server" rev="latest.integration" conf="*->master" />
 		
-		<dependency name="dsl-generator" rev="latest.integration" conf="*->@" />
+		<dependency name="dsl-generator" rev="latest.integration" conf="*->master;compile->compile" />
 
 		<dependency org="ant" name="ant" rev="1.6.5">
 			<artifact name="ant" type="jar" />

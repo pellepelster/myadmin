@@ -3,11 +3,12 @@
 	<info organisation="de.pellepelster.myadmin" module="server-core" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -15,21 +16,17 @@
 		<artifact name="server-core-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-		<dependency name="db" rev="latest.integration" conf="*->@" />
+		<dependency name="db" rev="latest.integration" conf="*->master" />
 
-		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+		<dependency name="client-base" rev="latest.integration" conf="*->master" />
 		
-		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-web" type="jar" />
-		</dependency>
-
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" />
 
-		<dependency org="com.google.guava" name="guava" rev="13.0.1" />
+		<dependency name="server-lib" rev="latest.integration" conf="*->master" />
 
 	</dependencies>
 

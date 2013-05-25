@@ -14,8 +14,8 @@
 	</publications>
 
 	<dependencies>
-		<dependency name="generator" rev="latest.integration" conf="*->generated" />
-		<dependency name="dsl" rev="latest.integration" conf="*->@" />
+		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web,master" />
+		<dependency name="dsl" rev="latest.integration" conf="*->master" />
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" />		
 	</dependencies>
 

@@ -22,8 +22,8 @@
 		</filesystem>
 
 		<chain name="myadmin_dev" returnFirst="true" checkmodified="true">
-			<resolver ref="default" />
 			<resolver ref="myadmin_dependencies_local" />
+			<resolver ref="default" />
 			<resolver ref="myadmin_dependencies" />
 		</chain>
 

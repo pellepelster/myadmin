@@ -15,27 +15,27 @@ import de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.BaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 
-public class Test3VO extends BaseVO
+public class DBTest2VO extends BaseVO
 {
 
-	private static final long serialVersionUID = -1511549650470779575L;
+	private static final long serialVersionUID = -7944707321103683238L;
+
+	public static final IAttributeDescriptor<DBTest1VO> TEST1 = new AttributeDescriptor<DBTest1VO>("test1", DBTest1VO.class);
+
+	public static final IAttributeDescriptor<DBTest3VO> TEST3 = new AttributeDescriptor<DBTest3VO>("test3", DBTest3VO.class);
 
 	public static final IAttributeDescriptor<String> TESTSTRING = new AttributeDescriptor<String>("testString", String.class);
 
-	public static final IAttributeDescriptor<Test1VO> TEST1 = new AttributeDescriptor<Test1VO>("test1", Test1VO.class);
-
-	public static de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] getFieldDescriptors()
+	public static IAttributeDescriptor<?>[] getFieldDescriptors()
 	{
-		return new de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] {
-
-		TESTSTRING, TEST1
-
-		};
+		return new IAttributeDescriptor[] { TEST1, TEST3, TESTSTRING };
 	}
 
 	private long id;
 
-	private Test1VO test1;
+	private DBTest1VO test1;
+
+	private DBTest3VO test3;
 
 	private String testString;
 
@@ -73,17 +73,22 @@ public class Test3VO extends BaseVO
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
-	public Test1VO getTest1()
+	public DBTest1VO getTest1()
 	{
-		return test1;
+		return this.test1;
+	}
+
+	public DBTest3VO getTest3()
+	{
+		return this.test3;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	/** {@inheritDoc} */
@@ -100,9 +105,14 @@ public class Test3VO extends BaseVO
 		this.id = id;
 	}
 
-	public void setTest1(Test1VO test1)
+	public void setTest1(DBTest1VO test1)
 	{
 		this.test1 = test1;
+	}
+
+	public void setTest3(DBTest3VO test3)
+	{
+		this.test3 = test3;
 	}
 
 	public void setTestString(String testString)

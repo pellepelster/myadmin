@@ -3,18 +3,20 @@
 	<info organisation="de.pellepelster.myadmin" module="server-test" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<dependencies>
 
-		<dependency name="server" rev="latest.integration" conf="*->@" />
+		<dependency name="server" rev="latest.integration" conf="*->master" />
 
-		<dependency name="db-test" rev="latest.integration" conf="*->@" />
+		<dependency name="db-test" rev="latest.integration" conf="*->master" />
+
 
 	</dependencies>
 

@@ -2,12 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.base"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.web"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.gwt"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.demo.client&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.demo.generator"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
