@@ -1,13 +1,15 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="db" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -15,9 +17,9 @@
 		<artifact name="db-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-   		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+   		<dependency name="client-base" rev="latest.integration" />
 	    
 		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3">
 			<artifact name="commons-beanutils-core" type="jar" />

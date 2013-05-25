@@ -1,13 +1,15 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="gwt-test" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
@@ -15,11 +17,11 @@
 		<artifact name="gwt-test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 	
-	<dependencies>
+	<dependencies defaultconf="*->default">
 	
-		<dependency name="client-gwt" rev="latest.integration" conf="*->@,sources" />
+		<dependency name="client-gwt" rev="latest.integration" conf="*->default,sources" />
 
-		<dependency name="client-web-test" rev="latest.integration" conf="*->@,sources" />
+		<dependency name="client-web-test" rev="latest.integration" conf="*->default,sources" />
 
  	</dependencies>
 

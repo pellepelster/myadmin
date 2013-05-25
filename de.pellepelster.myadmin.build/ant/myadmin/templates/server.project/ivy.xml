@@ -3,25 +3,26 @@
 	<info organisation="@organisation.name@" module="@project.name@.server" status="integration"></info>
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 	
 	<publications>
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
 		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
 
-		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->@">
+		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration">
 		 	<exclude org="com.google.gwt"  />
 		 </dependency>
 		 
- 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="master->generated" />
+ 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.server" />
 		
 		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-asm" type="jar" />

@@ -1,4 +1,5 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="client-base" status="integration" />
 
@@ -16,7 +17,7 @@
 		<artifact name="client-base-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 	
 		<dependency org="com.google.guava" name="guava-gwt" rev="14.0">
 			<exclude name="gwt-dev" />

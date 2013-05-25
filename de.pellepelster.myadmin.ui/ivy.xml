@@ -1,21 +1,23 @@
-<ivy-module version="1.0">
-
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	
 	<info organisation="de.pellepelster.myadmin" module="dsl-ui" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web,master" />
-		<dependency name="dsl" rev="latest.integration" conf="*->master" />
+		<dependency name="dsl" rev="latest.integration" />
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" />		
 	</dependencies>
 

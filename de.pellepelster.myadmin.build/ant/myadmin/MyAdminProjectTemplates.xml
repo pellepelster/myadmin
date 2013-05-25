@@ -41,9 +41,25 @@
 
 		<echo message="project: ${organisation.name}.${project.name}.${project.name.postifx}" />
 
+		<!-- copy templates (never overwrite) --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="false">
+			<fileset dir="${templates.dir}/${project.name.postifx}.project">
+				<exclude name="**/*" />
+				<include name="**/*.msl" />
+			</fileset>
+			<filterset refid="myadmin.tokens" />
+			<filterset>
+				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
+			</filterset>
+			<filtermapper refid="myadmin.filtermapper" />
+		</copy>
+
 		<!-- copy one time templates --> 
 		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="${overwrite.all}">
-			<fileset dir="${templates.dir}/${project.name.postifx}.project" includes="**/*" />
+			<fileset dir="${templates.dir}/${project.name.postifx}.project">
+				<include name="**/*" />
+				<exclude name="**/*.msl" />
+			</fileset>
 			<filterset refid="myadmin.tokens" />
 			<filterset>
 				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />

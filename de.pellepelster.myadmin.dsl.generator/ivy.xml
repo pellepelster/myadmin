@@ -1,4 +1,5 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="dsl-generator" status="integration" />
 
@@ -7,21 +8,21 @@
 		<conf name="runtime" />
 		<conf name="sources" />
 		<conf name="compile" extends="runtime" />
- 		<conf name="test" extends="compile" />
+		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
- 	</configurations>
+	</configurations>
 
-    
+
 	<publications>
 		<artifact name="dsl-generator" type="jar" ext="jar" conf="master" />
 		<artifact name="dsl-generator-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
 		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" />
 
-		<dependency name="dsl" rev="latest.integration" conf="*->master;compile->compile" />
+		<dependency name="dsl" rev="latest.integration" conf="*->default;compile->compile" />
 
 	</dependencies>
 

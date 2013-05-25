@@ -1,32 +1,30 @@
-<ivy-module version="1.0">
-
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	
 	<info organisation="de.pellepelster.myadmin" module="dsl-test" status="integration" />
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-		<dependency name="tools" rev="latest.integration" conf="*->@" />
+		<dependency name="tools" rev="latest.integration" />
 
-		<dependency name="server-test" rev="latest.integration" conf="*->@" />
+		<dependency name="server-test" rev="latest.integration" />
 
-		<dependency name="server-test" rev="latest.integration" conf="*->@" />
+		<dependency name="dsl" rev="latest.integration" />
 
 		<dependency org="junit" name="junit" rev="4.10">
 			<artifact name="junit" type="jar" />
-		</dependency>
-
-		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-web" type="jar" />
 		</dependency>
 
 	</dependencies>

@@ -1,4 +1,5 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="dsl" status="integration" />
 
@@ -16,7 +17,7 @@
 		<artifact name="dsl-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="compile->default">
+	<dependencies defaultconf="*->default">
 
 		<dependency name="server-lib" rev="latest.integration" />
 

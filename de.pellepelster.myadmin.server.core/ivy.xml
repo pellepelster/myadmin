@@ -1,4 +1,5 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="server-core" status="integration" />
 
@@ -18,15 +19,15 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="db" rev="latest.integration" conf="*->master" />
+		<dependency name="db" rev="latest.integration" />
 
-		<dependency name="client-base" rev="latest.integration" conf="*->master" />
+		<dependency name="client-base" rev="latest.integration" />
 		
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" />
 
-		<dependency name="server-lib" rev="latest.integration" conf="*->master" />
+		<dependency name="server-lib" rev="latest.integration" />
 
 	</dependencies>
 

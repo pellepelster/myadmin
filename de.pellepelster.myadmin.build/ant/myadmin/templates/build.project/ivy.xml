@@ -3,14 +3,19 @@
 	<info organisation="@organisation.name@" module="@project.name@.build" status="integration"></info>
 	
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="runtime" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 	
 	<publications>
 	</publications>
 
+
+	<dependencies defaultconf="*->default">
+	</dependencies>
+	
 </ivy-module>

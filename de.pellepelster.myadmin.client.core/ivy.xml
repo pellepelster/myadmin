@@ -1,4 +1,5 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="client-core" status="integration" />
 
@@ -16,9 +17,9 @@
 		<artifact name="client-core-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-		<dependency name="client-base" rev="latest.integration" conf="*->master" />
+		<dependency name="client-base" rev="latest.integration" />
 		
 		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web" />
 

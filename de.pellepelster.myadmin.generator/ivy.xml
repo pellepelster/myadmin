@@ -1,9 +1,10 @@
-<ivy-module version="1.0">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
 	<info organisation="de.pellepelster.myadmin" module="generator" status="integration" />
 
 	<configurations>
-		<conf name="generated.client.web" />
+		<conf name="generated.client.web" extends="generated.client.base" />
 		<conf name="generated.client.mobile" />
 		<conf name="generated.client.base" />
 		<conf name="generated.xml" />
@@ -27,11 +28,11 @@
 
 	<dependencies defaultconf="compile->default">
 
-		<dependency name="dsl-generator" rev="latest.integration" conf="*->master;compile->compile" />
-		<dependency name="client-base" rev="latest.integration" conf="*->master" />
+		<dependency name="dsl-generator" rev="latest.integration" conf="*->default;compile->compile" />
+		<dependency name="client-base" rev="latest.integration" conf="*->default" />
 
-		<dependency name="server-core" rev="latest.integration" conf="*->master" />
-		<dependency name="db" rev="latest.integration" conf="*->master" />
+		<dependency name="server-core" rev="latest.integration" conf="*->default" />
+		<dependency name="db" rev="latest.integration" conf="*->default" />
 
 		<dependency org="ant" name="ant" rev="1.6.5" >
 			<artifact name="ant" type="jar" />
