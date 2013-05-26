@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
 		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -18,6 +18,8 @@
 	<dependencies defaultconf="*->default">
 
 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" />
+
+		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->default,sources" />
 
 	</dependencies>
 

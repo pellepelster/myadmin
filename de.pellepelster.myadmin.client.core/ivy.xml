@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -17,10 +17,10 @@
 		<artifact name="client-core-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies defaultconf="compile->default">
 
-		<dependency name="client-base" rev="latest.integration" />
-		
+		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+	
 		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web" />
 
 	</dependencies>

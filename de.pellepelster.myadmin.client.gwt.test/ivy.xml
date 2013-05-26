@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -19,9 +19,9 @@
 	
 	<dependencies defaultconf="*->default">
 	
-		<dependency name="client-gwt" rev="latest.integration" conf="*->default,sources" />
+		<dependency name="client-gwt" rev="latest.integration" conf="*->@,sources" />
 
-		<dependency name="client-web-test" rev="latest.integration" conf="*->default,sources" />
+		<dependency name="client-web-test" rev="latest.integration" conf="*->@,sources" />
 
  	</dependencies>
 

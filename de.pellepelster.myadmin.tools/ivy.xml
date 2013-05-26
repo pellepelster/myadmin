@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -21,9 +21,9 @@
 
 		<dependency name="generator" rev="latest.integration" conf="*->generated.server" />
 		
-		<dependency name="server" rev="latest.integration" />
+		<dependency name="server" rev="latest.integration" conf="*->@" />
 		
-		<dependency name="dsl-generator" rev="latest.integration" conf="*->default;compile->compile" />
+		<dependency name="dsl-generator" rev="latest.integration" conf="*->@" />
 
 		<dependency org="ant" name="ant" rev="1.6.5">
 			<artifact name="ant" type="jar" />

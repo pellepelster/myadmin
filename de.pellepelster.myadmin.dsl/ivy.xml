@@ -6,8 +6,9 @@
 	<configurations>
 		<conf name="master" />
 		<conf name="runtime" />
+		<conf name="runtime.eclipse" extends="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default,runtime.eclipse" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -19,40 +20,41 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="server-lib" rev="latest.integration" />
+		<dependency name="server-lib" rev="latest.integration" conf="*->default" />
 
-		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.8.0.v20120608-0554"  />
-		<dependency org="org.eclipse" name="org.eclipse.emf.codegen" rev="2.8.0.v20120608-0554"  />
-		<dependency org="org.eclipse" name="org.eclipse.emf.common" rev="2.8.0.v20120606-0717"  />
-		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.source" rev="2.8.0.v20120606-0717"  />
-		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.xmi" rev="2.8.0.v20120606-0717" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.ecore" rev="2.8.0.v20120606-0717" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.core" rev="1.2.1.v201206110920" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.language" rev="2.3.0.v201206120758" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.launch" rev="2.3.0.v201206120758" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.lib" rev="2.3.0.v201206110920" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.runtime" rev="2.3.0.v201206110920" />
-		<dependency org="org.eclipse" name="org.eclipse.equinox.common.source" rev="3.6.100.v20120522-1841" />
-		<dependency org="org.eclipse" name="org.eclipse.equinox.common" rev="3.6.100.v20120522-1841" />
-		<dependency org="org.eclipse" name="org.eclipse.jdt.core" rev="3.8.1.v20120531-0637" />
-		<dependency org="org.eclipse" name="org.eclipse.text.source" rev="3.5.200.v20120523-1310" />
-		<dependency org="org.eclipse" name="org.eclipse.text" rev="3.5.200.v20120523-1310" />
-		<dependency org="org.eclipse" name="org.eclipse.xpand" rev="1.2.0.v201206110941" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.common.types" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase.lib" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtend" rev="1.2.0.v201206110941" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.ecore" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.generator" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.utils" rev="1.2.1.v201206110920" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.util" rev="2.3.1.v201208210947" />
-		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" />
-		<dependency org="org.antlr" name="org.antlr.runtime" rev="3.2.0.v201101311130" />
-		<dependency org="de.itemis" name="antlr-generator" rev="3.2.0" />
-		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" />
-		<dependency org="com.ibm" name="com.ibm.icu" rev="4.4.2.v20110823" />
-		<dependency org="org.eclipse" name="osgi" rev="3.5.0.v20090520" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.8.0.v20120608-0554" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.codegen" rev="2.8.0.v20120608-0554" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.common" rev="2.8.0.v20120606-0717" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.source" rev="2.8.0.v20120606-0717" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.xmi" rev="2.8.0.v20120606-0717" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.ecore" rev="2.8.0.v20120606-0717" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.core" rev="1.2.1.v201206110920" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.language" rev="2.3.0.v201206120758" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.launch" rev="2.3.0.v201206120758" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.lib" rev="2.3.0.v201206110920" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe2.runtime" rev="2.3.0.v201206110920" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.equinox.common.source" rev="3.6.100.v20120522-1841" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.equinox.common" rev="3.6.100.v20120522-1841" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.jdt.core" rev="3.8.1.v20120531-0637" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.text.source" rev="3.5.200.v20120523-1310" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.text" rev="3.5.200.v20120523-1310" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xpand" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.common.types" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase.lib" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.ecore" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.generator" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.utils" rev="1.2.1.v201206110920" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtext.util" rev="2.3.1.v201208210947" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" conf="runtime.eclipse->default" />
+		<dependency org="org.antlr" name="org.antlr.runtime" rev="3.2.0.v201101311130" conf="runtime.eclipse->default" />
+		<dependency org="de.itemis" name="antlr-generator" rev="3.2.0" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
+		<dependency org="com.ibm" name="com.ibm.icu" rev="4.4.2.v20110823" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="osgi" rev="3.5.0.v20090520" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" conf="runtime.eclipse->default" />
 
 		<!-- <dependency org="org.antlr" name="org.antlr.generator" rev="3.2.0.v201108011202" /> <dependency org="org.antlr" name="org.antlr.runtime.source" rev="3.2.0.v201101311130" /> -->
 

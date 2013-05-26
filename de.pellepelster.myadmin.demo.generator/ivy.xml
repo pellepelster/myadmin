@@ -3,25 +3,32 @@
 	<info organisation="de.pellepelster.myadmin" module="demo.generator" status="integration"></info>
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
+		<conf name="generated.client.web" extends="generated.client.base" />
+		<conf name="generated.client.mobile" />
+		<conf name="generated.client.base" />
+		<conf name="generated.xml" />
+		<conf name="generated.server" extends="generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="generated" />
+		<conf name="compile" extends="default" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
-		<artifact name="de.pellepelster.myadmin.demo.generator" type="jar" ext="jar" conf="master,generated" />
-		<artifact name="de.pellepelster.myadmin.demo-mobile-client-gen" type="jar" ext="jar" conf="master,generated" />
-		<artifact name="de.pellepelster.myadmin.demo-web-client-gen" type="jar" ext="jar" conf="master,generated" />
-		<artifact name="de.pellepelster.myadmin.demo-client-base-gen" type="jar" ext="jar" conf="master,generated" />
-		<artifact name="de.pellepelster.myadmin.demo-server-gen" type="jar" ext="jar" conf="master,generated" />
-		<artifact name="de.pellepelster.myadmin.demo-xml-gen" type="jar" ext="jar" conf="master,generated" />
+		<artifact name="de.pellepelster.myadmin.demo.generator" type="jar" ext="jar" conf="master" />
+		<artifact name="de.pellepelster.myadmin.demo-mobile-client-gen" type="jar" ext="jar" conf="master,generated.client.mobile" />
+		<artifact name="de.pellepelster.myadmin.demo-web-client-gen" type="jar" ext="jar" conf="master,generated.client.web" />
+		<artifact name="de.pellepelster.myadmin.demo-client-base-gen" type="jar" ext="jar" conf="master,generated.client.base" />
+		<artifact name="de.pellepelster.myadmin.demo-server-gen" type="jar" ext="jar" conf="master,generated.server" />
+		<artifact name="de.pellepelster.myadmin.demo-xml-gen" type="jar" ext="jar" conf="master,generated.xml" />
 	</publications>
 	
-	<dependencies>
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="compile->compile" />
+	<dependencies defaultconf="*->default">
+
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->default,compile,generated.server" />
+
 	</dependencies>
 
 </ivy-module>

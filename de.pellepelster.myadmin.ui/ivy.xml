@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -16,9 +16,11 @@
 	</publications>
 
 	<dependencies defaultconf="*->default">
+	
 		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web,master" />
-		<dependency name="dsl" rev="latest.integration" />
-		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" />		
+	
+		<dependency name="dsl" rev="latest.integration" conf="*->@" />
+	
 	</dependencies>
 
 </ivy-module>

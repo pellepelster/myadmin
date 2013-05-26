@@ -72,25 +72,25 @@ public class MetaDataService implements InitializingBean
 			if (xmlVOMapping.isListWrapper())
 			{
 				LOG.info(String.format("found list wrapper '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				voXmlListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
+				this.voXmlListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
 			}
 
 			if (!xmlVOMapping.isListWrapper() && !xmlVOMapping.isReference() && !xmlVOMapping.isReferenceListWrapper())
 			{
 				LOG.info(String.format("found xml class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				voXmlMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
+				this.voXmlMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
 			}
 
 			if (xmlVOMapping.isReferenceListWrapper())
 			{
 				LOG.info(String.format("found xml reference list wrapper class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				voXmlReferenceListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
+				this.voXmlReferenceListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
 			}
 
 			if (xmlVOMapping.isReference())
 			{
 				LOG.info(String.format("found xml reference class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				voXmlReferenceMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
+				this.voXmlReferenceMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
 			}
 
 		}
@@ -133,25 +133,25 @@ public class MetaDataService implements InitializingBean
 			{
 				LOG.info(String.format("ignoring mobile vo '%s'", voClass.getName()));
 			}
-			else if (voClass.getPackage().getName().contains(".test."))
+			else if (voClass.getPackage() != null && voClass.getPackage().getName() != null && voClass.getPackage().getName().contains(".test."))
 			{
 				LOG.info(String.format("ignoring test vo '%s'", voClass.getName()));
 			}
 			else
 			{
 				LOG.info(String.format("found '%s'", voClass.getName()));
-				voClasses.add((Class<? extends IBaseVO>) voClass);
+				this.voClasses.add((Class<? extends IBaseVO>) voClass);
 			}
 		}
-		LOG.info(String.format("%d classes found", voClasses.size()));
+		LOG.info(String.format("%d classes found", this.voClasses.size()));
 
 		DirectedGraph<Class<? extends IBaseVO>> directedGraph = new DirectedGraph<Class<? extends IBaseVO>>();
-		for (Class<? extends IBaseVO> voClass : voClasses)
+		for (Class<? extends IBaseVO> voClass : this.voClasses)
 		{
 			directedGraph.addNode(voClass);
 		}
 
-		for (Class<? extends IBaseVO> voClass : voClasses)
+		for (Class<? extends IBaseVO> voClass : this.voClasses)
 		{
 			Set<Class<? extends IBaseVO>> dependentClasses = BeanUtil.getDependentVOs(voClass);
 
@@ -164,9 +164,9 @@ public class MetaDataService implements InitializingBean
 			}
 		}
 
-		voClasses = TopologicalSort.sort(directedGraph);
+		this.voClasses = TopologicalSort.sort(directedGraph);
 
-		Collections.reverse(voClasses);
+		Collections.reverse(this.voClasses);
 	}
 
 	public Class<? extends IBaseVO> getVOClassForXmlClass(Class<?> xmlClass)
@@ -183,14 +183,14 @@ public class MetaDataService implements InitializingBean
 
 	public Class<?> getXmlClassForVOClass(Class<? extends IBaseVO> voClass)
 	{
-		return voXmlMappings.get(voClass);
+		return this.voXmlMappings.get(voClass);
 	}
 
 	public Class<?> getXmlListWrapperClassForVOClass(Class<? extends IBaseVO> voClass)
 	{
-		if (voXmlListWrapperMappings.containsKey(voClass))
+		if (this.voXmlListWrapperMappings.containsKey(voClass))
 		{
-			return voXmlListWrapperMappings.get(voClass);
+			return this.voXmlListWrapperMappings.get(voClass);
 		}
 		else
 		{
@@ -200,27 +200,27 @@ public class MetaDataService implements InitializingBean
 
 	public Class<?> getXmlReferenceClassForVOClass(Class<? extends IBaseVO> voClass)
 	{
-		return voXmlReferenceMappings.get(voClass);
+		return this.voXmlReferenceMappings.get(voClass);
 	}
 
 	public Class<?> getXmlReferenceListWrapperClassForVOClass(Class<? extends IBaseVO> voClass)
 	{
-		return voXmlReferenceListWrapperMappings.get(voClass);
+		return this.voXmlReferenceListWrapperMappings.get(voClass);
 	}
 
 	public Class<?> getXmlRootClassByElementName(String elementName)
 	{
-		return xmlRootElementClasses.get(elementName);
+		return this.xmlRootElementClasses.get(elementName);
 	}
 
 	public Collection<Class<?>> getXmlRootClasses()
 	{
-		return xmlRootElementClasses.values();
+		return this.xmlRootElementClasses.values();
 	}
 
 	public List<Class<? extends IBaseVO>> getVOClasses()
 	{
-		return voClasses;
+		return this.voClasses;
 	}
 
 }

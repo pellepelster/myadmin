@@ -7,17 +7,16 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="server" rev="latest.integration" />
+		<dependency name="server" rev="latest.integration" conf="*->@" />
 
-		<dependency name="db-test" rev="latest.integration" />
-
+		<dependency name="db-test" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 

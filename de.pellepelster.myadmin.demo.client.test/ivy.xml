@@ -1,25 +1,25 @@
-<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-	<info organisation="de.pellepelster.myadmin" module="demo.client.test"
-		status="integration"></info>
+	<info organisation="de.pellepelster.myadmin" module="demo.client.test" status="integration"></info>
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="default" />
+		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 
 	<publications>
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
-		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-web-test" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->default,sources" />
 
 	</dependencies>
 

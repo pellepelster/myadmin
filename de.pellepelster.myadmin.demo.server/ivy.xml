@@ -3,26 +3,30 @@
 	<info organisation="de.pellepelster.myadmin" module="demo.server" status="integration"></info>
 
 	<configurations>
-		<conf name="default" extends="master, runtime" />
 		<conf name="master" />
-		<conf name="compile" extends="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
+		<conf name="compile" extends="default" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
 	</configurations>
 	
 	<publications>
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="*->default">
 
 		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
 
-		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->@">
-		 	<exclude org="com.google.gwt"  />
+		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default">
+		 	<exclude name="myadmin-server-gen"  />
 		 </dependency>
 		 
- 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="master->generated" />
-		
+ 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated.server">
+		 	<exclude org="com.google.gwt"  />
+		 	<exclude name="myadmin-server-gen"  />
+		</dependency>
+				
 		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-asm" type="jar" />
 		</dependency>

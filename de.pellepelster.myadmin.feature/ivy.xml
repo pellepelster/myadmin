@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -17,7 +17,9 @@
 	</publications>
 
 	<dependencies defaultconf="*->default">
-		<dependency name="dsl-ui" rev="latest.integration" />
+		
+		<dependency name="dsl-ui" rev="latest.integration" conf="*->@" />
+
 	</dependencies>
 
 </ivy-module>

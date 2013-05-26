@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
  		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -19,9 +19,9 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="server-core" rev="latest.integration" />
+		<dependency name="server-core" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-web" rev="latest.integration"  />
+		<dependency name="client-web" rev="latest.integration" conf="*->@"  />
 
 		<dependency name="generator" rev="latest.integration" conf="*->generated.server" />
 

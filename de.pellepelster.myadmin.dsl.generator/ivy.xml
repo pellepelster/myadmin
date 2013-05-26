@@ -7,7 +7,7 @@
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
-		<conf name="compile" extends="runtime" />
+		<conf name="compile" extends="default" />
 		<conf name="test" extends="compile" />
 		<conf name="default" extends="master, runtime" />
 	</configurations>
@@ -22,7 +22,7 @@
 
 		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" />
 
-		<dependency name="dsl" rev="latest.integration" conf="*->default;compile->compile" />
+		<dependency name="dsl" rev="latest.integration" conf="*->@;compile->runtime.eclipse" />
 
 	</dependencies>
 
