@@ -22,15 +22,13 @@
 
 		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" />
 
-		<dependency org="de.pellepelster.myadmin" name="demo.server" rev="latest.integration">
-		 	<exclude name="myadmin-server-gen"  />
-		</dependency>
+		<dependency org="de.pellepelster.myadmin" name="demo.server" rev="latest.integration" />
 
-		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->master,generated.server" />	
+		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->master,generated.server" />
 
-		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />	
+		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
 
-		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />	
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />
 
 		<dependency org="org.springframework.security" name="spring-security-remoting" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-security-remoting" type="jar" />

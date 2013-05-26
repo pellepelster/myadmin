@@ -125,7 +125,7 @@ public final class TopologicalSort
 			 */
 			if (expanded.contains(node))
 				return;
-			throw new IllegalArgumentException("Graph contains a cycle.");
+			throw new IllegalArgumentException(String.format("Graph contains a cycle (%s)", node.toString()));
 		}
 
 		/* Mark that we've been here */
