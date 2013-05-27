@@ -1,6 +1,6 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<property name="test.suite.name" value="@organisation.name@.@project.name@.server.@project.name.camelcase@Testsuite" />
+	<property name="test.suite.name" value="@organisation.name@.@project.name@.server.test.@project.name.camelcase@Testsuite" />
 
 	<import file="@ant.common.file@" />
 

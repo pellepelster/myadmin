@@ -19,7 +19,7 @@
 
 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="*->@" />
 
-		<dependency org="de.pellepelster.myadmin" name="@project.name@.generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.client.web" />
 
 		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->default,sources" />
 

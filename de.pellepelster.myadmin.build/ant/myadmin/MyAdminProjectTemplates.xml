@@ -44,7 +44,6 @@
 		<!-- copy templates (never overwrite) --> 
 		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="false">
 			<fileset dir="${templates.dir}/${project.name.postifx}.project">
-				<exclude name="**/*" />
 				<include name="**/*.msl" />
 			</fileset>
 			<filterset refid="myadmin.tokens" />

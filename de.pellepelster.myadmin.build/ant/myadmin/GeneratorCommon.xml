@@ -46,8 +46,16 @@
 				<!-- <jvmarg line="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=y"/> -->
 			</java>
 
+			<fileset dir="${gen.temp.src.dir}" id="gen.temp.src.dir" />
+			<pathconvert refid="gen.temp.src.dir" property="gen.temp.src.dir.notempty" setonempty="false"/>
+
 			<if>
-				<equals arg1="@{runXJC}" arg2="true" />
+				<and>
+					<equals arg1="@{runXJC}" arg2="true" />
+					<not>
+						<isset property="gen.temp.src.dir.notempty" />
+					</not>
+				</and>
 				<then>
 
 					<property name="xml_catalog_hack" value="${java.io.tmpdir}/xml_catalog_hack/"/>
