@@ -164,9 +164,16 @@ public class MetaDataService implements InitializingBean
 			}
 		}
 
-		this.voClasses = TopologicalSort.sort(directedGraph);
+		try
+		{
+			this.voClasses = TopologicalSort.sort(directedGraph);
+			Collections.reverse(this.voClasses);
+		}
+		catch (Exception e)
+		{
+			LOG.error("error sorting vo classes", e);
+		}
 
-		Collections.reverse(this.voClasses);
 	}
 
 	public Class<? extends IBaseVO> getVOClassForXmlClass(Class<?> xmlClass)

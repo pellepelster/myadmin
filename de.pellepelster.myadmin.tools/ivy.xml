@@ -19,8 +19,6 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="generator" rev="latest.integration" conf="*->generated.server" />
-		
 		<dependency name="server" rev="latest.integration" conf="*->@" />
 		
 		<dependency name="dsl-generator" rev="latest.integration" conf="*->@" />

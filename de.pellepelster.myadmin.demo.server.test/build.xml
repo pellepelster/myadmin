@@ -5,31 +5,32 @@
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 
 	<property file="build.properties" />
+	<import file="build.test.base.xml" />
+
+	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
+	<property name="jndi.name" value="jdbc/Demo"/>
 
 	<target name="tomcat.local.run" depends="resolve">
-		<tomcat.local action="run" />
+		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
 	</target>
 	
 	<target name="tomcat.local.run.debug" depends="resolve">
-		<tomcat.local action="run" cargo.jvmargs="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
+		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
 	</target>
-	
 
 	<target name="tomcat.local.start" depends="resolve">
-		<tomcat.local action="start" />
+		<tomcat.local action="start" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
-
 		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
-		<dictionaryimporter classpathref="lib.path.id" modelfile="classpath:Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
-
+		<dictionaryimporter classpathref="lib.path.id" modelfile="classpath:Demo.msl" remotepath="${remote.path}/remote" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
 	</target>
 
-	<target name="post.test" depends="test.selenium.local">
+	<target name="start.client">
+		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
-
-
+	
 	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
 
 		<mkdir dir="${test.dir}"/>
@@ -51,9 +52,6 @@
 
 		</junit>
 	</target>
-
-	<target name="start.client">
-		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
-	</target>
+	
 
 </project>

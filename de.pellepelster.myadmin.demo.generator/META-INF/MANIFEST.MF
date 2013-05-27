@@ -15,10 +15,6 @@ Export-Package: de.pellepelster.myadmin.demo.client.base.datatypes,
  de.pellepelster.myadmin.demo.client.web.entities,
  de.pellepelster.myadmin.demo.mobile.web.entities,
  de.pellepelster.myadmin.demo.server.entities,
- de.pellepelster.myadmin.schema.client,
- de.pellepelster.myadmin.schema.myadmingroup,
- de.pellepelster.myadmin.schema.myadminpermission,
- de.pellepelster.myadmin.schema.myadminuser,
  de.pellepelster.myadmindemo.schema.city,
  de.pellepelster.myadmindemo.schema.company,
  de.pellepelster.myadmindemo.schema.country,
@@ -32,5 +28,5 @@ Export-Package: de.pellepelster.myadmin.demo.client.base.datatypes,
  de.pellepelster.myadmindemo.schema.test2,
  de.pellepelster.myadmindemo.schema.test3,
  de.pellepelster.myadmindemo.schema.user
-Require-Bundle: de.pellepelster.myadmin.generator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: de.pellepelster.myadmin.generator

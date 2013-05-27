@@ -1,82 +1,57 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<property name="test.suite.name" value="@organisation.name@.@project.name@.server.@project.name.camelcase@Testsuite" />
+
 	<import file="@ant.common.file@" />
 
 	<property file="build.properties" />
+	<import file="build.test.base.xml" />
 
-	<property name="jetty.temp.location" value="${basedir}/jetty-temp" />
-	<property name="db.temp.location" value="${basedir}/db-temp" />
-	<property name="jetty.lib.dir" value="${basedir}/jetty-lib" />
+	<property name="war.file" value="../@organisation.name@.@project.name@.server/${build.dir}/@organisation.name@.@project.name@.war"/>
+	<property name="jndi.name" value="jdbc/@project.name.camelcase@"/>
 
-	<if>
-	  <and>
-	  	<equals arg1="true" arg2="${authorization.disable}" />
-	  </and>
-	  <then>
-	    <property name="authorization.disable.systemproperty" value="string1" />
-	  </then>
-	  <else>
-	    <property name="authorization.disable.systemproperty" value="-Dauthorization.disable" />
-	  </else>
-	</if>
+	<target name="tomcat.local.run" depends="resolve">
+		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
+	</target>
 	
-	<property name="cargo.jvmargs" value="${authorization.disable.systemproperty}" />
-	
-	<macrodef name="openInBrowser">
-		<attribute name="url" />
-		<sequential>
-			<exec dir="${basedir}" os="Windows 7" executable="rundll32.exe">
-				<arg line="url.dll, FileProtocolHandler" />
-				<arg line="@{url}" />
-			</exec>
-			<exec dir="${basedir}" os="Linux" executable="xdg-open">
-				<arg line="@{url}" />
-			</exec>
-		</sequential>
-	</macrodef>
+	<target name="tomcat.local.run.debug" depends="resolve">
+		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
+	</target>
 
-	<target name="run.local" depends="resolve">
-
-		<taskdef resource="cargo.tasks">
-			<classpath>
-				<pathelement location="lib/cargo-core-uberjar-jar.jar" />
-				<pathelement location="lib/cargo-ant-jar.jar" />
-				<fileset dir="lib" includes="*jar" />
-			</classpath>
-		</taskdef>
-
-		<mkdir dir="tomcat" />
-		<mkdir dir="tomcat/downloads" />
-		<mkdir dir="tomcat/extracts" />
-		<mkdir dir="tomcat/logs" />
-
-		<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="run">
-
-			<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.zip" downloadDir="tomcat/downloads" extractDir="tomcat/server" />
-
-			<extraClasspath>
-				<pathelement location="lib/derby-jar.jar" />
-			</extraClasspath>
-
-			<configuration>
-				<property name="cargo.servlet.port" value="8080" />
-				<property name="cargo.jvmargs" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999 -Xnoagent -Djava.compiler=NONE" />
-				<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=jdbc/@project.name.camelcase@|cargo.datasource.username=@project.name@|cargo.datasource.password=nonemptypassword" />
-				<deployable type="war" file="../@organisation.name@.@project.name@.server/${build.dir}/@organisation.name@.@project.name@.war" />
-			</configuration>
-
-		</cargo>
+	<target name="tomcat.local.start" depends="resolve">
+		<tomcat.local action="start" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
-
 		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
 		<dictionaryimporter classpathref="lib.path.id" modelfile="classpath:@project.name.camelcase@.msl" remotepath="${remote.path}/remote" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
-
 	</target>
 
 	<target name="start.client">
 		<openInBrowser url="http://${remote.server}:${remote.port}/@organisation.name@.@project.name@/@project.name.camelcase@/@project.name.camelcase@.html"/>
 	</target>
+	
+	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
+
+		<mkdir dir="${test.dir}"/>
+		
+		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
+
+			<classpath refid="lib.path.id" />
+			
+			<classpath>
+				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
+			</classpath>
+
+			<sysproperty key="screenshot.dir" value="${test.dir}"/>
+			<sysproperty key="remote.url" value="${remote.url}"/>
+
+			<formatter type="xml" />
+
+			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
+
+		</junit>
+	</target>
+	
 
 </project>

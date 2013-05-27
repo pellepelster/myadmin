@@ -18,11 +18,11 @@
 
 	<publications>
 		<artifact name="de.pellepelster.myadmin.demo.generator" type="jar" ext="jar" conf="master" />
-		<artifact name="de.pellepelster.myadmin.demo-mobile-client-gen" type="jar" ext="jar" conf="master,generated.client.mobile" />
-		<artifact name="de.pellepelster.myadmin.demo-web-client-gen" type="jar" ext="jar" conf="master,generated.client.web" />
-		<artifact name="de.pellepelster.myadmin.demo-client-base-gen" type="jar" ext="jar" conf="master,generated.client.base" />
-		<artifact name="de.pellepelster.myadmin.demo-server-gen" type="jar" ext="jar" conf="master,generated.server" />
-		<artifact name="de.pellepelster.myadmin.demo-xml-gen" type="jar" ext="jar" conf="master,generated.xml" />
+		<artifact name="de.pellepelster.myadmin.demo-mobile-client-gen" type="jar" ext="jar" conf="generated.client.mobile" />
+		<artifact name="de.pellepelster.myadmin.demo-web-client-gen" type="jar" ext="jar" conf="generated.client.web" />
+		<artifact name="de.pellepelster.myadmin.demo-client-base-gen" type="jar" ext="jar" conf="generated.client.base" />
+		<artifact name="de.pellepelster.myadmin.demo-server-gen" type="jar" ext="jar" conf="generated.server" />
+		<artifact name="de.pellepelster.myadmin.demo-xml-gen" type="jar" ext="jar" conf="generated.xml" />
 	</publications>
 	
 	<dependencies defaultconf="*->default">

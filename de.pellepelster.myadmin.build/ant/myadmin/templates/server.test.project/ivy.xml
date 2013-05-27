@@ -16,19 +16,19 @@
 
 	<dependencies defaultconf="*->default">
 
+		<dependency org="@organisation.name@" name="@project.name@.server" rev="latest.integration" conf="*->@" />
+
+		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->default,generated.server" />
+
+		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
+
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />
+
 		<dependency org="org.mortbay.jetty" name="jetty-ant" rev="7.6.0.RC5">
 			<artifact name="jetty-ant" type="jar" />
 		</dependency>
 
 		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" />
-
-		<dependency org="@organisation.name@" name="@project.name@.server" rev="latest.integration" />
-
-		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->master,generated.server" />
-
-		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
-
-		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />
 
 		<dependency org="org.springframework.security" name="spring-security-remoting" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-security-remoting" type="jar" />

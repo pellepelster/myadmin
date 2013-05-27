@@ -16,13 +16,13 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
+ 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.server" />
 
 		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default">
 		 	<exclude org="com.google.gwt"  />
 		 </dependency>
-		 
- 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.server" />
+
+		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
 		
 		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-asm" type="jar" />

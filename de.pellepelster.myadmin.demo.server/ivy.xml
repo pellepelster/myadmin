@@ -16,17 +16,14 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
+ 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated.server" />
 
 		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default">
-		 	<exclude name="myadmin-server-gen"  />
-		 </dependency>
-		 
- 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated.server">
 		 	<exclude org="com.google.gwt"  />
-		 	<exclude name="myadmin-server-gen"  />
-		</dependency>
-				
+		 </dependency>
+
+		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.0" transitive="false" />
+		
 		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-asm" type="jar" />
 		</dependency>

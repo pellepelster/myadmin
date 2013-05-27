@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.demo.server.test&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.demo.server"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.demo.client"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

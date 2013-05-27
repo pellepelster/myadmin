@@ -17,7 +17,9 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" />
+		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="*->@" />
+
+		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated.client.web" />
 
 		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->default,sources" />
 
