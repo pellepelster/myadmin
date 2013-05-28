@@ -6,10 +6,20 @@
 
 	<resolvers>
 
+		<filesystem name="demo_staging_repository">
+			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+		
 		<chain name="demo_default" returnFirst="true" checkmodified="true">
 			<resolver ref="default" />
 		</chain>
 
+		<chain name="demo_release" returnFirst="true" checkmodified="true">
+			<resolver ref="demo_staging_repository" />
+			<resolver ref="default" />
+		</chain>
+		
 	</resolvers>
 
 </ivysettings>
