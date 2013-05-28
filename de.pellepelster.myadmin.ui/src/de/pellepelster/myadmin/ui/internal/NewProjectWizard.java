@@ -217,9 +217,19 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 			// client project
 			IJavaProject clientProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.CLIENT);
-			IProjectDescription projectDescription = clientProject.getProject().getDescription();
-			projectDescription.setDynamicReferences(new IProject[] { generatorProject.getProject() });
-			clientProject.getProject().setDescription(projectDescription, monitor);
+			setProjectReferences(clientProject, monitor, generatorProject);
+
+			// client test project
+			IJavaProject clientTestProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.CLIENT_TEST);
+			setProjectReferences(clientTestProject, monitor, clientProject);
+
+			// server project
+			IJavaProject serverProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.SERVER);
+			setProjectReferences(serverProject, monitor, generatorProject);
+
+			// client test project
+			IJavaProject serverTestProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.SERVER_TEST);
+			setProjectReferences(serverTestProject, monitor, serverProject);
 
 			Job job = new Job(Messages.InitializingProjects)
 			{
@@ -258,6 +268,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 							refreshProjects(monitor);
 						}
+
 					}
 					catch (Exception coreException)
 					{
@@ -374,14 +385,19 @@ public class NewProjectWizard extends Wizard implements INewWizard
 		}
 	}
 
-	private void setProjectReferences(IProject project, IProject... projects)
+	private void setProjectReferences(IJavaProject project, IProgressMonitor monitor, IJavaProject... projectReferences)
 	{
 		try
 		{
-			IProjectDescription projectDescription = project.getDescription();
-			projectDescription.setReferencedProjects(projects);
+			List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>(Arrays.asList(project.getRawClasspath()));
 
-			project.setDescription(projectDescription, null);
+			for (IJavaProject projectReference : projectReferences)
+			{
+				IClasspathEntry classpathEntry = JavaCore.newProjectEntry(projectReference.getProject().getFullPath());
+				classpathEntries.add(classpathEntry);
+			}
+
+			project.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[] {}), monitor);
 		}
 		catch (CoreException e)
 		{
