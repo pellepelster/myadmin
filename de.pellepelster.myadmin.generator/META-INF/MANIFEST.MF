@@ -4,10 +4,10 @@ Bundle-Name: de.pellepelster.myadmin.generator
 Bundle-SymbolicName: de.pellepelster.myadmin.generator
 Bundle-Version: 0.0.0.qualifier
 Bundle-ClassPath: generator.jar,
+ build/myadmin-xml-gen.jar,
  build/myadmin-mobile-client-gen.jar,
  build/myadmin-server-gen.jar,
  build/myadmin-web-client-gen.jar,
- build/myadmin-xml-gen.jar,
  build/generator.jar,
  .
 Export-Package: de.pellepelster.myadmin,

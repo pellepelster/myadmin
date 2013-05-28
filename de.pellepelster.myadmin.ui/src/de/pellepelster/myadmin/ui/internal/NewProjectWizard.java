@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.ui.internal;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -69,11 +70,15 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import de.pellepelster.myadmin.ui.Constants;
+import de.pellepelster.myadmin.ui.Constants.PROJECT_NAME_POSTFIXES;
 import de.pellepelster.myadmin.ui.Messages;
 
 public class NewProjectWizard extends Wizard implements INewWizard
 {
+
 	private final Map<Constants.PROJECT_NAME_POSTFIXES, IProject> projects = new HashMap<Constants.PROJECT_NAME_POSTFIXES, IProject>();
+
+	private final Map<Constants.PROJECT_NAME_POSTFIXES, IJavaProject> javaProjects = new HashMap<Constants.PROJECT_NAME_POSTFIXES, IJavaProject>();
 
 	private final NewProjectWizardPage1 newProjectWizardPage1;
 
@@ -113,12 +118,14 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	private void createProjects(final String organization, final String projectName, final IProgressMonitor monitor)
 	{
+
 		try
 		{
+
 			for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
 			{
-				IProject project = getProject(organization, projectName, projectNamePostfix);
 
+				IProject project = getProject(organization, projectName, projectNamePostfix);
 				this.projects.put(projectNamePostfix, project);
 
 				project.create(monitor);
@@ -144,6 +151,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				addProjectNature(project, JavaCore.NATURE_ID, monitor);
 
 				IJavaProject javaProject = JavaCore.create(project);
+				this.javaProjects.put(projectNamePostfix, javaProject);
 
 				Properties myadminProjectProperties = new Properties();
 				myadminProjectProperties.setProperty(Constants.BUILD_PROJECT_KEY,
@@ -154,6 +162,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 				switch (projectNamePostfix)
 				{
+					case CLIENT:
+						break;
 					case GENERATOR:
 
 						write(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME,
@@ -200,37 +210,16 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 			// build project
 			final IProject buildProject = this.projects.get(Constants.PROJECT_NAME_POSTFIXES.BUILD);
+			final IFolder myadminAntFolder = initBuildProject(buildProject, organization, projectName, monitor);
 
-			// ant bootstrap files
-			IFolder baseAntFolder = buildProject.getFolder(Constants.BASE_ANT_PATH);
-			baseAntFolder.create(true, true, monitor);
-			final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
-			myadminAntFolder.create(true, true, monitor);
-			write(myadminAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
+			// generator project
+			IJavaProject generatorProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.GENERATOR);
 
-			// version properties
-			Properties versionProperties = new Properties();
-			versionProperties.setProperty("module.version.major", "0");
-			versionProperties.setProperty("module.version.minor", "0");
-			versionProperties.setProperty("module.version.micro", "1");
-			OutputStream versionOutputStream = new ByteArrayOutputStream();
-			versionProperties.store(versionOutputStream, null);
-			write(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()), monitor);
-
-			// myadmin properties
-			Properties myadminProperties = new Properties();
-			myadminProperties.setProperty(Constants.ORGANISATION_NAME_KEY, organization);
-			myadminProperties.setProperty(Constants.PROJECT_NAME_KEY, projectName.toLowerCase());
-			myadminProperties.setProperty(Constants.BUILD_PROJECT_KEY, "${organisation.name}.${project.name}.build");
-			myadminProperties.setProperty("client.project", "${organisation.name}.${project.name}.client");
-			myadminProperties.setProperty("client.test.project", "${organisation.name}.${project.name}.client.test");
-			myadminProperties.setProperty("server.project", "${organisation.name}.${project.name}.server");
-			myadminProperties.setProperty("server.test.project", "${organisation.name}.${project.name}.server.test");
-			myadminProperties.setProperty("deploy.project", "${organisation.name}.${project.name}.deploy");
-			OutputStream myadminOutputStream = new ByteArrayOutputStream();
-			myadminProperties.store(myadminOutputStream, null);
-
-			write(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()), monitor);
+			// client project
+			IJavaProject clientProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.CLIENT);
+			IProjectDescription projectDescription = clientProject.getProject().getDescription();
+			projectDescription.setDynamicReferences(new IProject[] { generatorProject.getProject() });
+			clientProject.getProject().setDescription(projectDescription, monitor);
 
 			Job job = new Job(Messages.InitializingProjects)
 			{
@@ -287,6 +276,42 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	private IFolder initBuildProject(final IProject buildProject, final String organization, final String projectName, final IProgressMonitor monitor)
+			throws CoreException, IOException
+	{
+		// ant bootstrap files
+		IFolder baseAntFolder = buildProject.getFolder(Constants.BASE_ANT_PATH);
+		baseAntFolder.create(true, true, monitor);
+		final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
+		myadminAntFolder.create(true, true, monitor);
+		write(myadminAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
+
+		// version properties
+		Properties versionProperties = new Properties();
+		versionProperties.setProperty("module.version.major", "0");
+		versionProperties.setProperty("module.version.minor", "0");
+		versionProperties.setProperty("module.version.micro", "1");
+		OutputStream versionOutputStream = new ByteArrayOutputStream();
+		versionProperties.store(versionOutputStream, null);
+		write(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()), monitor);
+
+		// myadmin properties
+		Properties myadminProperties = new Properties();
+		myadminProperties.setProperty(Constants.ORGANISATION_NAME_KEY, organization);
+		myadminProperties.setProperty(Constants.PROJECT_NAME_KEY, projectName.toLowerCase());
+		myadminProperties.setProperty(Constants.BUILD_PROJECT_KEY, "${organisation.name}.${project.name}.build");
+		myadminProperties.setProperty("client.project", "${organisation.name}.${project.name}.client");
+		myadminProperties.setProperty("client.test.project", "${organisation.name}.${project.name}.client.test");
+		myadminProperties.setProperty("server.project", "${organisation.name}.${project.name}.server");
+		myadminProperties.setProperty("server.test.project", "${organisation.name}.${project.name}.server.test");
+		myadminProperties.setProperty("deploy.project", "${organisation.name}.${project.name}.deploy");
+		OutputStream myadminOutputStream = new ByteArrayOutputStream();
+		myadminProperties.store(myadminOutputStream, null);
+
+		write(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()), monitor);
+		return myadminAntFolder;
 	}
 
 	private String getProjectName(String organization, String projectName, Constants.PROJECT_NAME_POSTFIXES projectNamePostfix)
