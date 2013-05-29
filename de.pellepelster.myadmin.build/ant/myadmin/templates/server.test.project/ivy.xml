@@ -24,6 +24,8 @@
 
 		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />
 
+		<dependency org="de.pellepelster.myadmin" name="dsl" rev="latest.integration" conf="runtime->runtime.eclipse" />
+
 		<dependency org="org.mortbay.jetty" name="jetty-ant" rev="7.6.0.RC5">
 			<artifact name="jetty-ant" type="jar" />
 		</dependency>

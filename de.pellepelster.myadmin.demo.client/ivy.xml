@@ -17,11 +17,11 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="demo.generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency name="demo.generator" rev="latest.integration" conf="compile->generated.client.web" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->default,sources" />
+		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="compile->default,sources;runtime->runtime" />
 
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="compile->generated.client.web" />
 
 		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.0"/>
 

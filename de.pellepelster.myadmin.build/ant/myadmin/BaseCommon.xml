@@ -106,7 +106,7 @@
 		<mkdir dir="${lib.dir}" />
 
 		<ivy:resolve settingsref="ivy.settings" file="${ivy.file}" checkifchanged="true" />
-		<ivy:retrieve settingsref="ivy.settings" overwriteMode="always" pattern="${lib.dir}/[artifact]-[type].[ext]" conf="compile" />
+		<ivy:retrieve settingsref="ivy.settings" overwriteMode="always" pattern="${lib.dir}/[artifact]-[type].[ext]" conf="${ivy.conf}" />
 
 	</target>
 

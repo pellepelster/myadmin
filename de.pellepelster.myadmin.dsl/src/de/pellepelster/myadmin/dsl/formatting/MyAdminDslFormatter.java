@@ -39,8 +39,8 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
 		{
 			c.setLinewrap().after(pair.getFirst());
-			c.setLinewrap().before(pair.getSecond());
 			c.setLinewrap(2).after(pair.getSecond());
+			c.setIndentation(pair.getFirst(), pair.getSecond());
 		}
 
 		for (Keyword comma : f.findKeywords(","))
@@ -48,19 +48,5 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 			c.setNoSpace().before(comma);
 		}
 
-		c.setIndentation(f.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2(), f.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
-		c.setIndentation(f.getModelAccess().getLeftCurlyBracketKeyword_3(), f.getModelAccess().getRightCurlyBracketKeyword_5());
-		c.setIndentation(f.getEntityAccess().getLeftCurlyBracketKeyword_4(), f.getEntityAccess().getRightCurlyBracketKeyword_8());
-		c.setIndentation(f.getDictionaryAccess().getLeftCurlyBracketKeyword_2(), f.getDictionaryAccess().getRightCurlyBracketKeyword_12());
-
-		// c.setLinewrap().after(f.getDictionarySearchAccess().getLeftCurlyBracketKeyword_2());
-
-		// It's usually a good idea to activate the following three statements.
-		// They will add and preserve newlines around comments
-		// c.setLinewrap(0, 1,
-		// 2).before(getGrammarAccess().getSL_COMMENTRule());
-		// c.setLinewrap(0, 1,
-		// 2).before(getGrammarAccess().getML_COMMENTRule());
-		// c.setLinewrap(0, 1, 1).after(getGrammarAccess().getML_COMMENTRule());
 	}
 }

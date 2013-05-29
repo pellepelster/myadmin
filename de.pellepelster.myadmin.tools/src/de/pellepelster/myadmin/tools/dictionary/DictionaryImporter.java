@@ -49,12 +49,12 @@ public class DictionaryImporter extends BaseToolAntTask
 	{
 		logger.trace("createClasspath() - start");
 
-		if (classpath == null)
+		if (this.classpath == null)
 		{
-			classpath = new Path(getProject());
+			this.classpath = new Path(getProject());
 		}
 
-		return classpath.createPath();
+		return this.classpath.createPath();
 	}
 
 	/** {@inheritDoc} */
@@ -67,20 +67,20 @@ public class DictionaryImporter extends BaseToolAntTask
 		Resource modelResource = null;
 		List<Resource> modelResources = new ArrayList<Resource>();
 
-		if (classpath != null)
+		if (this.classpath != null)
 		{
-			AntClassLoader antClassLoader = new AntClassLoader(getProject(), classpath);
+			AntClassLoader antClassLoader = new AntClassLoader(getProject(), this.classpath);
 			pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver(antClassLoader);
 		}
 
 		try
 		{
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:model/*.msl"))
+			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:**/*.msl"))
 			{
 				modelResources.add(resource);
 			}
 
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources(modelfile))
+			for (Resource resource : pathMatchingResourcePatternResolver.getResources(this.modelfile))
 			{
 				modelResource = resource;
 			}
@@ -127,7 +127,7 @@ public class DictionaryImporter extends BaseToolAntTask
 	 */
 	public String getModelfile()
 	{
-		return modelfile;
+		return this.modelfile;
 	}
 
 	/**
