@@ -17,7 +17,7 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="@project.name@.generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency name="@project.name@.generator" rev="latest.integration" conf="compile->generated.client.web" />
 
 		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->default,sources" />
 

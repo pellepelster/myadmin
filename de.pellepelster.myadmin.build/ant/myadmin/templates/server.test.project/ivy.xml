@@ -16,9 +16,9 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="@organisation.name@" name="@project.name@.server" rev="latest.integration" conf="*->@" />
+		<dependency org="@organisation.name@" name="@project.name@.server" rev="latest.integration" conf="compile->@" />
 
-		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->default,generated.server" />
+		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="compile->default,generated.server" />
 
 		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
 
