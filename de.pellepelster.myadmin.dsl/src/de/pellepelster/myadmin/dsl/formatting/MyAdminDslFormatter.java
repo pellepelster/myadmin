@@ -11,10 +11,10 @@
  */
 package de.pellepelster.myadmin.dsl.formatting;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
-import org.eclipse.xtext.util.Pair;
 
 import de.pellepelster.myadmin.dsl.services.MyAdminDslGrammarAccess;
 
@@ -27,26 +27,58 @@ import de.pellepelster.myadmin.dsl.services.MyAdminDslGrammarAccess;
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an
  * example
  */
-public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
-{
+public class MyAdminDslFormatter extends AbstractDeclarativeFormatter {
 
 	@Override
-	protected void configureFormatting(FormattingConfig c)
-	{
-		MyAdminDslGrammarAccess f = (MyAdminDslGrammarAccess) getGrammarAccess();
+	protected void configureFormatting(FormattingConfig c) {
+		MyAdminDslGrammarAccess m = (MyAdminDslGrammarAccess) getGrammarAccess();
 		c.setAutoLinewrap(160);
 
-		for (Pair<Keyword, Keyword> pair : f.findKeywordPairs("{", "}"))
-		{
-			c.setLinewrap().after(pair.getFirst());
-			c.setLinewrap(2).after(pair.getSecond());
-			c.setIndentation(pair.getFirst(), pair.getSecond());
-		}
+		// for (Pair<Keyword, Keyword> pair : m.findKeywordPairs("{", "}"))
+		// {
+		// c.setLinewrap().after(pair.getFirst());
+		// c.setLinewrap(2).after(pair.getSecond());
+		// c.setIndentation(pair.getFirst(), pair.getSecond());
+		// }
 
-		for (Keyword comma : f.findKeywords(","))
-		{
+		// model/entity/package
+		setBlockFormatting(c, m.getModelAccess().getLeftCurlyBracketKeyword_3(), m.getModelAccess().getRightCurlyBracketKeyword_5());
+		setBlockFormatting(c, m.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2(), m.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getEntityAccess().getLeftCurlyBracketKeyword_4(), m.getEntityAccess().getRightCurlyBracketKeyword_8());
+
+		/**
+		 * TextDatatype IntegerDatatype BigDecimalDatatype BooleanDatatype
+		 * DateDatatype EnumerationDatatype ReferenceDatatype;
+		 */
+		setBlockFormatting(c, m.getTextDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getTextDatatypeAccess().getRightCurlyBracketKeyword_7());
+		setBlockFormatting(c, m.getIntegerDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getIntegerDatatypeAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getBigDecimalDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBigDecimalDatatypeAccess().getRightCurlyBracketKeyword_10());
+		setBlockFormatting(c, m.getBooleanDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBooleanDatatypeAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getDateDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getDateDatatypeAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getEnumerationDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getEnumerationDatatypeAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess().getRightCurlyBracketKeyword_6());
+
+		// dictionary
+		setBlockFormatting(c, m.getDictionaryAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryAccess().getRightCurlyBracketKeyword_12());
+
+		setBlockFormatting(c, m.getDictionaryEditorAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryEditorAccess().getRightCurlyBracketKeyword_5());
+		setBlockFormatting(c, m.getDictionarySearchAccess().getLeftCurlyBracketKeyword_2(), m.getDictionarySearchAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getDictionaryResultAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryResultAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getDictionaryFilterAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryFilterAccess().getRightCurlyBracketKeyword_4());
+
+		setBlockFormatting(c, m.getDictionaryCompositeAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryCompositeAccess().getRightCurlyBracketKeyword_6());
+
+		for (Keyword comma : m.findKeywords(",")) {
 			c.setNoSpace().before(comma);
 		}
 
+	}
+
+	private void setBlockFormatting(FormattingConfig c, EObject start, EObject end) {
+		c.setLinewrap(1, 1, 2).after(start);
+		c.setIndentationIncrement().after(start);
+		c.setIndentationDecrement().before(end);
+		c.setLinewrap(1, 1, 2).before(end);
+		c.setLinewrap(1, 2, 2).after(end);
 	}
 }
