@@ -39,40 +39,45 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class ModuleNavigationModuleUI extends
-		BaseModuleUI<ModuleNavigationModule> {
+public class ModuleNavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
+{
 
-	private static class NavigationTreeModel implements TreeViewModel {
+	private static class NavigationTreeModel implements TreeViewModel
+	{
 
 		private final List<ModuleNavigationVO> navigationTree = new ArrayList<ModuleNavigationVO>();
 		private final SingleSelectionModel<ModuleNavigationVO> selectionModel = new SingleSelectionModel<ModuleNavigationVO>();
 		private ListDataProvider<ModuleNavigationVO> rootDataProvider;
 
-		public NavigationTreeModel() {
-			selectionModel.addSelectionChangeHandler(new Handler() {
+		public NavigationTreeModel()
+		{
+			selectionModel.addSelectionChangeHandler(new Handler()
+			{
 
 				/** {@inheritDoc} */
 				@Override
-				public void onSelectionChange(SelectionChangeEvent event) {
-					if (selectionModel.getSelectedObject() != null
-							&& selectionModel.getSelectedObject().getModule() != null) {
-						ModuleHandler.getInstance().startModule(
-								selectionModel.getSelectedObject().getModule()
-										.getName());
+				public void onSelectionChange(SelectionChangeEvent event)
+				{
+					if (selectionModel.getSelectedObject() != null && selectionModel.getSelectedObject().getModule() != null)
+					{
+						ModuleHandler.getInstance().startModule(selectionModel.getSelectedObject().getModule().getName());
 					}
 
 				}
 			});
 		}
 
-		private Cell<ModuleNavigationVO> getCell() {
+		private Cell<ModuleNavigationVO> getCell()
+		{
 
-			Cell<ModuleNavigationVO> cell = new AbstractCell<ModuleNavigationVO>() {
+			Cell<ModuleNavigationVO> cell = new AbstractCell<ModuleNavigationVO>()
+			{
 				/** {@inheritDoc} */
 				@Override
-				public void render(Context context, ModuleNavigationVO value,
-						SafeHtmlBuilder sb) {
-					if (value != null) {
+				public void render(Context context, ModuleNavigationVO value, SafeHtmlBuilder sb)
+				{
+					if (value != null)
+					{
 						sb.appendEscaped(value.getTitle());
 					}
 				}
@@ -87,19 +92,19 @@ public class ModuleNavigationModuleUI extends
 		 * value.
 		 */
 		@Override
-		public <T> NodeInfo<?> getNodeInfo(T value) {
+		public <T> NodeInfo<?> getNodeInfo(T value)
+		{
 
-			if (value == null) {
-				rootDataProvider = new ListDataProvider<ModuleNavigationVO>(
-						navigationTree);
-				return new DefaultNodeInfo<ModuleNavigationVO>(
-						rootDataProvider, getCell(), selectionModel, null);
+			if (value == null)
+			{
+				rootDataProvider = new ListDataProvider<ModuleNavigationVO>(navigationTree);
+				return new DefaultNodeInfo<ModuleNavigationVO>(rootDataProvider, getCell(), selectionModel, null);
 
-			} else if (value instanceof ModuleNavigationVO) {
-				ListDataProvider<ModuleNavigationVO> dataProvider = new ListDataProvider<ModuleNavigationVO>(
-						((ModuleNavigationVO) value).getChildren());
-				return new DefaultNodeInfo<ModuleNavigationVO>(dataProvider,
-						getCell(), selectionModel, null);
+			}
+			else if (value instanceof ModuleNavigationVO)
+			{
+				ListDataProvider<ModuleNavigationVO> dataProvider = new ListDataProvider<ModuleNavigationVO>(((ModuleNavigationVO) value).getChildren());
+				return new DefaultNodeInfo<ModuleNavigationVO>(dataProvider, getCell(), selectionModel, null);
 			}
 
 			return null;
@@ -107,14 +112,15 @@ public class ModuleNavigationModuleUI extends
 
 		/** {@inheritDoc} */
 		@Override
-		public boolean isLeaf(Object value) {
-			return (value instanceof ModuleNavigationVO && ((ModuleNavigationVO) value)
-					.getChildren().isEmpty());
+		public boolean isLeaf(Object value)
+		{
+			return (value instanceof ModuleNavigationVO && ((ModuleNavigationVO) value).getChildren().isEmpty());
 		}
 
-		public void setNavigationTreeModel(
-				List<ModuleNavigationVO> navigationTree) {
-			if (rootDataProvider != null) {
+		public void setNavigationTreeModel(List<ModuleNavigationVO> navigationTree)
+		{
+			if (rootDataProvider != null)
+			{
 				rootDataProvider.getList().clear();
 				rootDataProvider.getList().addAll(navigationTree);
 			}
@@ -127,7 +133,8 @@ public class ModuleNavigationModuleUI extends
 	/**
 	 * @param module
 	 */
-	public ModuleNavigationModuleUI(ModuleNavigationModule module) {
+	public ModuleNavigationModuleUI(ModuleNavigationModule module)
+	{
 		super(module);
 
 		verticalPanel = new VerticalPanel();
@@ -137,15 +144,17 @@ public class ModuleNavigationModuleUI extends
 		CellTree cellTree = new CellTree(navigationTreeModel, null);
 		verticalPanel.add(cellTree);
 
-		module.getNavigationTreeContent(new AsyncCallback<List<ModuleNavigationVO>>() {
+		module.getNavigationTreeContent(new AsyncCallback<List<ModuleNavigationVO>>()
+		{
 			@Override
-			public void onFailure(Throwable caught) {
-				throw new RuntimeException("error refreshing navigation tree",
-						caught);
+			public void onFailure(Throwable caught)
+			{
+				throw new RuntimeException("error refreshing navigation tree", caught);
 			}
 
 			@Override
-			public void onSuccess(List<ModuleNavigationVO> result) {
+			public void onSuccess(List<ModuleNavigationVO> result)
+			{
 				navigationTreeModel.setNavigationTreeModel(result);
 			}
 		});
@@ -153,12 +162,14 @@ public class ModuleNavigationModuleUI extends
 
 	/** {@inheritDoc} */
 	@Override
-	public Panel getContainer() {
+	public Panel getContainer()
+	{
 		return verticalPanel;
 	}
 
 	@Override
-	public String getTitle() {
+	public String getTitle()
+	{
 		return MyAdmin.MESSAGES.navigationTitle();
 	}
 

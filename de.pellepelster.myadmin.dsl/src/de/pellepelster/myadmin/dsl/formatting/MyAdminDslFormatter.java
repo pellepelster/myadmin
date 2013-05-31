@@ -27,10 +27,17 @@ import de.pellepelster.myadmin.dsl.services.MyAdminDslGrammarAccess;
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an
  * example
  */
-public class MyAdminDslFormatter extends AbstractDeclarativeFormatter {
+public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
+{
+	final int MIN_WRAPS = 1;
+
+	final int DEFAULT_WRAPS = 2;
+
+	final int MAX_WRAPS = 2;
 
 	@Override
-	protected void configureFormatting(FormattingConfig c) {
+	protected void configureFormatting(FormattingConfig c)
+	{
 		MyAdminDslGrammarAccess m = (MyAdminDslGrammarAccess) getGrammarAccess();
 		c.setAutoLinewrap(160);
 
@@ -58,27 +65,39 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter {
 		setBlockFormatting(c, m.getEnumerationDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getEnumerationDatatypeAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess().getRightCurlyBracketKeyword_6());
 
+		// navigation
+		setBlockFormatting(c, m.getNavigationNodeAccess().getLeftCurlyBracketKeyword_2(), m.getNavigationNodeAccess().getRightCurlyBracketKeyword_8());
+
 		// dictionary
 		setBlockFormatting(c, m.getDictionaryAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryAccess().getRightCurlyBracketKeyword_12());
+
+		// dictionary controls
+		setBlockFormatting(c, m.getDictionaryAccess().getLeftCurlyBracketKeyword_8_1(), m.getDictionaryAccess().getRightCurlyBracketKeyword_8_3());
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(
+				m.getDictionaryAccess().getDictionarycontrolsDictionaryControlParserRuleCall_8_2_0());
+
+		// dictionary entity
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(m.getDictionaryAccess().getEntityAssignment_4());
 
 		setBlockFormatting(c, m.getDictionaryEditorAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryEditorAccess().getRightCurlyBracketKeyword_5());
 		setBlockFormatting(c, m.getDictionarySearchAccess().getLeftCurlyBracketKeyword_2(), m.getDictionarySearchAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryResultAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryResultAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getDictionaryFilterAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryFilterAccess().getRightCurlyBracketKeyword_4());
-
 		setBlockFormatting(c, m.getDictionaryCompositeAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryCompositeAccess().getRightCurlyBracketKeyword_6());
 
-		for (Keyword comma : m.findKeywords(",")) {
+		for (Keyword comma : m.findKeywords(","))
+		{
 			c.setNoSpace().before(comma);
 		}
 
 	}
 
-	private void setBlockFormatting(FormattingConfig c, EObject start, EObject end) {
-		c.setLinewrap(1, 1, 2).after(start);
+	private void setBlockFormatting(FormattingConfig c, EObject start, EObject end)
+	{
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(start);
 		c.setIndentationIncrement().after(start);
 		c.setIndentationDecrement().before(end);
-		c.setLinewrap(1, 1, 2).before(end);
-		c.setLinewrap(1, 2, 2).after(end);
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).before(end);
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(end);
 	}
 }
