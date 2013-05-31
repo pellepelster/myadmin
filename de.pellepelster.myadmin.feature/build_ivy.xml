@@ -48,7 +48,6 @@
 				<include name="de.pellepelster.myadmin.dsl/**" />
 				<include name="de.pellepelster.myadmin.dsl.ui/**" />
 				<include name="de.pellepelster.myadmin.dsl.generator/**" />
-				<include name="de.pellepelster.myadmin.generator/**" />
 			</fileset>
 		</copy>
 		<echo>replace 0.0.0.qualifier' with ${artefact.suffix}</echo>
@@ -64,8 +63,6 @@
 				<include name="de.pellepelster.myadmin.dsl/plugin.xml" />
 				<include name="de.pellepelster.myadmin.dsl.generator/META-INF/MANIFEST.MF" />
 				<include name="de.pellepelster.myadmin.dsl.generator/plugin.xml" />
-				<include name="de.pellepelster.myadmin.generator/META-INF/MANIFEST.MF" />
-				<include name="de.pellepelster.myadmin.generator/plugin.xml" />
 				<include name="de.pellepelster.myadmin.lib.project/META-INF/MANIFEST.MF" />
 				<include name="de.pellepelster.myadmin.lib.project/plugin.xml" />
 				<include name="de.pellepelster.myadmin.feature/META-INF/MANIFEST.MF" />

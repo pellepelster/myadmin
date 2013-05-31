@@ -10,6 +10,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server.core"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.server.test&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.generator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

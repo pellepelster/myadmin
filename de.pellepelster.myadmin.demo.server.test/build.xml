@@ -1,7 +1,7 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.test.DemoTestsuite" />
-
+	
 	<property file="build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
@@ -25,7 +25,7 @@
 
 	<target name="import.dictionary" depends="resolve">
 		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
-		<dictionaryimporter classpathref="lib.path.id" modelfile="file:${basedir}/../de.pellepelster.myadmin.demo.generator/src/Demo" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
+		<dictionaryimporter classpathref="lib.path.id" modelfile="file:${basedir}/../de.pellepelster.myadmin.demo.generator/src/Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
 	</target>
 
 	<target name="start.client">

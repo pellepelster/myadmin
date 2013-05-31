@@ -19,7 +19,7 @@
 
 	<dependencies defaultconf="*->default">
 	
-		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+		<dependency name="client-web" rev="latest.integration" conf="*->@,sources" />
 
 		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" />	
 		
