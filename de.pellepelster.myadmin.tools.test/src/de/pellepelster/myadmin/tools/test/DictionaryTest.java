@@ -23,6 +23,7 @@ import org.springframework.core.io.Resource;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.query.DictionaryModelQuery;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
@@ -80,20 +81,34 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
-	public void testDictionary1TextControl1()
+	public void testDictionary1TextControl1Defaults()
 	{
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 
+		ITextControlModel textControlModel = DictionaryModelQuery.create(dictionaryModel).getControls()
+				.getControlModelByName("TextControl1Defaults", ITextControlModel.class);
+
+		Assert.assertEquals(IBaseControlModel.MAX_LENGTH_DEFAULT, textControlModel.getMaxLength());
+		Assert.assertEquals("TextControl1Defaults", textControlModel.getColumnLabel());
+		Assert.assertEquals("TextControl1Defaults", textControlModel.getEditorLabel());
+		Assert.assertEquals("TextControl1Defaults", textControlModel.getFilterLabel());
+	}
+
+	@Test
+	public void testDictionaryTextControl1()
+	{
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 		IBaseControlModel baseControlModel = dictionaryModel.getLabelControls().get(0);
 		Assert.assertTrue(baseControlModel instanceof ITextControlModel);
+
 		ITextControlModel textControlModel = (ITextControlModel) baseControlModel;
 
 		Assert.assertEquals("textDataType1", textControlModel.getAttributePath());
 		Assert.assertEquals("TextControl1", textControlModel.getFilterLabel());
 		Assert.assertEquals("TextControl1", textControlModel.getColumnLabel());
 		Assert.assertEquals("TextControl1", textControlModel.getEditorLabel());
+
 		Assert.assertNotNull(textControlModel.getMaxLength());
-		Assert.assertTrue(textControlModel.getMaxLength().equals(32));
 
 		IBaseControlModel baseFilterControlModel = dictionaryModel.getSearchModel().getFilterModel().get(0).getCompositeModel().getControls().get(0);
 		Assert.assertTrue(baseFilterControlModel instanceof ITextControlModel);

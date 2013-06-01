@@ -61,14 +61,7 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public String getColumnLabel()
 	{
-		if (isEmpty(this.dictionaryControlVO.getColumnLabel()))
-		{
-			return this.dictionaryControlVO.getLabel();
-		}
-		else
-		{
-			return this.dictionaryControlVO.getColumnLabel();
-		}
+		return getFirstString(this.dictionaryControlVO.getColumnLabel(), this.dictionaryControlVO.getLabel(), this.dictionaryControlVO.getName());
 	}
 
 	protected DictionaryControlVO getControlVO()
@@ -86,32 +79,43 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 		return this.dictionaryControlVO;
 	}
 
+	private boolean isEmpty(String string)
+	{
+		return string == null || string.trim().isEmpty();
+	}
+
+	private String getFirstString(String string1, String string2, String string3)
+	{
+		if (!isEmpty(string1))
+		{
+			return string1;
+		}
+
+		if (!isEmpty(string2))
+		{
+			return string2;
+		}
+
+		if (!isEmpty(string3))
+		{
+			return string3;
+		}
+
+		return null;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String getEditorLabel()
 	{
-		if (isEmpty(this.dictionaryControlVO.getEditorLabel()))
-		{
-			return this.dictionaryControlVO.getLabel();
-		}
-		else
-		{
-			return this.dictionaryControlVO.getEditorLabel();
-		}
+		return getFirstString(this.dictionaryControlVO.getEditorLabel(), this.dictionaryControlVO.getLabel(), this.dictionaryControlVO.getName());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getFilterLabel()
 	{
-		if (isEmpty(this.dictionaryControlVO.getFilterLabel()))
-		{
-			return this.dictionaryControlVO.getLabel();
-		}
-		else
-		{
-			return this.dictionaryControlVO.getFilterLabel();
-		}
+		return getFirstString(this.dictionaryControlVO.getFilterLabel(), this.dictionaryControlVO.getLabel(), this.dictionaryControlVO.getName());
 	}
 
 	/** {@inheritDoc} */
@@ -145,11 +149,6 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	public Integer getWidthHintInternal()
 	{
 		return this.width;
-	}
-
-	private boolean isEmpty(String string)
-	{
-		return string == null || string.trim().isEmpty();
 	}
 
 	/** {@inheritDoc} */

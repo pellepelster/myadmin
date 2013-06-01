@@ -33,13 +33,13 @@ public interface ITextControlModel extends IBaseControlModel
 	 * 
 	 * @return
 	 */
-	Integer getMaxLength();
+	int getMaxLength();
 
 	/**
 	 * Returns the minimum text length
 	 * 
 	 * @return
 	 */
-	Integer getMinLength();
+	int getMinLength();
 
 }

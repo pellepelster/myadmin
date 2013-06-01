@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
-import com.google.common.base.Optional;
-
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
@@ -30,6 +28,8 @@ public interface IBaseControlModel extends IBaseModel, IDatabindingAwareModel
 	static final String EDITOR_LABEL_MESSAGE_KEY = "dictionaryControlEditorLabel";
 
 	static final int DEFAULT_WIDTH_HINT = 16;
+
+	static final int MAX_LENGTH_DEFAULT = DEFAULT_WIDTH_HINT;
 
 	/**
 	 * Label for column header

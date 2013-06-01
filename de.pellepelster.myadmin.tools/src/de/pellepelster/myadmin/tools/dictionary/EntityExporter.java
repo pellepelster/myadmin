@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.tools.dictionary;
 
-import java.io.File;
-
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,7 +50,7 @@ public class EntityExporter extends BaseToolAntTask
 		// ImportExportService importExportService = null; // =
 		// MyAdminRemoteServiceLocator.getInstance().get.getBaseEntityService();
 
-		File exportDir = new File(System.getProperty("java.io.tempdir"));
+		// File exportDir = new File(System.getProperty("java.io.tempdir"));
 
 		// EntityExportRunner entityExportRunner = new
 		// EntityExportRunner(importExportService, exportDir);

@@ -5,7 +5,9 @@ project MyAdminDemo {
 		package datatypes {
 	
 			textdatatype TextDataType1 {
-				maxLength 32
+			}
+
+			textdatatype TextDataType1Defaults {
 			}
 	
 		}
@@ -17,6 +19,7 @@ project MyAdminDemo {
 			entity TestEntity1
 			{
 				datatype TextDataType1 textDataType1
+				datatype TextDataType1Defaults textDataType1Defaults
 			}
 	
 		}
@@ -34,7 +37,11 @@ project MyAdminDemo {
 				label "Dictionary 1 Label"
 				
 				dictionarycontrols {
-				
+
+					textcontrol TextControl1Defaults {
+						entityattribute textDataType1Defaults
+					}
+
 					textcontrol TextControl1 {
 						entityattribute textDataType1
 						label "TextControl1"
@@ -43,6 +50,7 @@ project MyAdminDemo {
 				
 				labelcontrols {
 					textcontrol ref TextControl1
+					textcontrol ref TextControl1Defaults
 				}
 				
 			
@@ -52,6 +60,9 @@ project MyAdminDemo {
 	
 						textcontrol ref TextControl1 {
 							label "TextControl1Filter"
+						}
+
+						textcontrol ref TextControl1Defaults {
 						}
 						
 					}

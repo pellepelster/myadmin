@@ -45,14 +45,14 @@ public class TextControlModel extends BaseControlModel implements ITextControlMo
 
 	/** {@inheritDoc} */
 	@Override
-	public Integer getMaxLength()
+	public int getMaxLength()
 	{
 		return getDatatypeVO().getMaxLength();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Integer getMinLength()
+	public int getMinLength()
 	{
 		return getDatatypeVO().getMinLength();
 	}
