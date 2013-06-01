@@ -53,17 +53,40 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		setBlockFormatting(c, m.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2(), m.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getEntityAccess().getLeftCurlyBracketKeyword_4(), m.getEntityAccess().getRightCurlyBracketKeyword_8());
 
-		/**
-		 * TextDatatype IntegerDatatype BigDecimalDatatype BooleanDatatype
-		 * DateDatatype EnumerationDatatype ReferenceDatatype;
-		 */
+		// text
 		setBlockFormatting(c, m.getTextDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getTextDatatypeAccess().getRightCurlyBracketKeyword_7());
+		setBlockFormatting(c, m.getDictionaryTextControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryTextControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// integer
 		setBlockFormatting(c, m.getIntegerDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getIntegerDatatypeAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getDictionaryIntegerControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryIntegerControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// bigdecimal
 		setBlockFormatting(c, m.getBigDecimalDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBigDecimalDatatypeAccess().getRightCurlyBracketKeyword_10());
+		setBlockFormatting(c, m.getDictionaryBigDecimalControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryBigDecimalControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// boolean
 		setBlockFormatting(c, m.getBooleanDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBooleanDatatypeAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getDictionaryBooleanControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryBooleanControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// date
 		setBlockFormatting(c, m.getDateDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getDateDatatypeAccess().getRightCurlyBracketKeyword_4());
+		setBlockFormatting(c, m.getDictionaryDateControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryDateControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// enumaration
 		setBlockFormatting(c, m.getEnumerationDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getEnumerationDatatypeAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getDictionaryEnumerationControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryEnumerationControlAccess()
+				.getRightCurlyBracketKeyword_3_3());
+
+		// reference
 		setBlockFormatting(c, m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess().getRightCurlyBracketKeyword_6());
+		setBlockFormatting(c, m.getDictionaryReferenceControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryReferenceControlAccess()
+				.getRightCurlyBracketKeyword_3_6());
 
 		// navigation
 		setBlockFormatting(c, m.getNavigationNodeAccess().getLeftCurlyBracketKeyword_2(), m.getNavigationNodeAccess().getRightCurlyBracketKeyword_8());
