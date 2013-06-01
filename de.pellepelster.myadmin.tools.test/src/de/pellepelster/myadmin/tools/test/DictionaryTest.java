@@ -84,14 +84,16 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	{
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 
-		IBaseControlModel baseLabelControlModel = dictionaryModel.getLabelControls().get(0);
-		Assert.assertTrue(baseLabelControlModel instanceof ITextControlModel);
-		ITextControlModel labelTextControlModel = (ITextControlModel) baseLabelControlModel;
+		IBaseControlModel baseControlModel = dictionaryModel.getLabelControls().get(0);
+		Assert.assertTrue(baseControlModel instanceof ITextControlModel);
+		ITextControlModel textControlModel = (ITextControlModel) baseControlModel;
 
-		Assert.assertEquals("textDataType1", labelTextControlModel.getAttributePath());
-		Assert.assertEquals("TextControl1", labelTextControlModel.getFilterLabel());
-		Assert.assertEquals("TextControl1", labelTextControlModel.getColumnLabel());
-		Assert.assertEquals("TextControl1", labelTextControlModel.getEditorLabel());
+		Assert.assertEquals("textDataType1", textControlModel.getAttributePath());
+		Assert.assertEquals("TextControl1", textControlModel.getFilterLabel());
+		Assert.assertEquals("TextControl1", textControlModel.getColumnLabel());
+		Assert.assertEquals("TextControl1", textControlModel.getEditorLabel());
+		Assert.assertNotNull(textControlModel.getMaxLength());
+		Assert.assertTrue(textControlModel.getMaxLength().equals(32));
 
 		IBaseControlModel baseFilterControlModel = dictionaryModel.getSearchModel().getFilterModel().get(0).getCompositeModel().getControls().get(0);
 		Assert.assertTrue(baseFilterControlModel instanceof ITextControlModel);

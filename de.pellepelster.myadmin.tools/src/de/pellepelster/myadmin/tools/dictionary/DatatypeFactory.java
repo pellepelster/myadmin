@@ -16,6 +16,8 @@ import java.util.UUID;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BigDecimalDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BooleanDatatype;
@@ -121,9 +123,10 @@ public class DatatypeFactory
 	public DictionaryDatatypeVO createDatatypeVO(DictionaryControl dictionaryControl, int logIdentiation)
 	{
 		DictionaryDatatypeVO datatypeVO = new DictionaryDatatypeVO();
-		datatypeVO.setName(UUID.randomUUID().toString());
 
 		Datatype datatype = getDatatypeType(dictionaryControl, true);
+
+		datatypeVO.setName(ObjectUtils.firstNonNull(datatype.getName(), UUID.randomUUID()).toString());
 
 		if (datatype instanceof EnumerationDatatype)
 		{
@@ -207,9 +210,21 @@ public class DatatypeFactory
 		datatypeVO.setEntity(referenceDatatype.getEntity().getName());
 	}
 
+	private int getDefault(Integer integer, int defaultInteger)
+	{
+		if (integer == null || integer == 0)
+		{
+			return defaultInteger;
+		}
+		else
+		{
+			return integer;
+		}
+	}
+
 	private void createTextDatatype(TextDatatype textDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
 		datatypeVO.setBaseType(DICTIONARY_BASETYPE.TEXT);
-		datatypeVO.setMaxLength(textDatatype.getMaxLength());
+		datatypeVO.setMaxLength(getDefault(textDatatype.getMaxLength(), IBaseControlModel.MAX_LENGTH_DEFAULT));
 	}
 }

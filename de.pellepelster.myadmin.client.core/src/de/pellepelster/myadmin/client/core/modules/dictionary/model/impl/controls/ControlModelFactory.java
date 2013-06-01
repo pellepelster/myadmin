@@ -49,9 +49,10 @@ public class ControlModelFactory
 				return new ReferenceControlModel(parent, controlVO);
 			case HIERARCHICAL:
 				return new HierarchicalControlModel(parent, controlVO);
+			default:
+				throw new RuntimeException("unsupported basetype '" + controlVO.getDatatype().getBaseType().toString() + "'");
 		}
 
-		throw new RuntimeException("unsupported basetype '" + controlVO.getDatatype().getBaseType().toString() + "'");
 	}
 
 	public static List<IBaseControlModel> getControlModel(IBaseModel parent, List<DictionaryControlVO> controlVOs)
