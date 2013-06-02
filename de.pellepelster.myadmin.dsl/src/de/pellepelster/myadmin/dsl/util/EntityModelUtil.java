@@ -23,45 +23,47 @@ public class EntityModelUtil
 		return getLinkedEntities(entity, true);
 	}
 
+	public static Entity getEntity(EntityAttribute entityAttribute)
+	{
+		if (entityAttribute.getType() instanceof EntityType)
+		{
+			EntityType entityReferenceType = (EntityType) entityAttribute.getType();
+
+			return entityReferenceType.getType();
+		}
+		else if (entityAttribute.getType() instanceof ReferenceDatatypeType)
+		{
+			ReferenceDatatypeType referenceDatatypeType = (ReferenceDatatypeType) entityAttribute.getType();
+
+			return referenceDatatypeType.getType().getEntity();
+		}
+		else if (entityAttribute.getType() instanceof DatatypeType)
+		{
+			DatatypeType datatypeType = (DatatypeType) entityAttribute.getType();
+
+			if (datatypeType.getType() instanceof ReferenceDatatype)
+			{
+				ReferenceDatatype referenceDatatype = (ReferenceDatatype) datatypeType.getType();
+
+				return referenceDatatype.getEntity();
+
+			}
+		}
+
+		return null;
+	}
+
 	private static List<Entity> getLinkedEntities(Entity entity, boolean withDuplicates)
 	{
 		List<Entity> referencedEntities = new ArrayList<Entity>();
 
 		for (EntityAttribute entityAttribute : entity.getAttributes())
 		{
-			if (entityAttribute.getType() instanceof EntityType)
+			Entity entityAttributeEntity = getEntity(entityAttribute);
+
+			if (entityAttributeEntity != null && (withDuplicates || !referencedEntities.contains(entityAttributeEntity)))
 			{
-				EntityType entityReferenceType = (EntityType) entityAttribute.getType();
-
-				if (withDuplicates || !referencedEntities.contains(entityReferenceType.getType()))
-				{
-					referencedEntities.add(entityReferenceType.getType());
-				}
-			}
-			else if (entityAttribute.getType() instanceof ReferenceDatatypeType)
-			{
-				ReferenceDatatypeType referenceDatatypeType = (ReferenceDatatypeType) entityAttribute.getType();
-
-				if (withDuplicates || !referencedEntities.contains(referenceDatatypeType.getType().getEntity()))
-				{
-					referencedEntities.add(referenceDatatypeType.getType().getEntity());
-				}
-
-			}
-			else if (entityAttribute.getType() instanceof DatatypeType)
-			{
-				DatatypeType datatypeType = (DatatypeType) entityAttribute.getType();
-
-				if (datatypeType.getType() instanceof ReferenceDatatype)
-				{
-					ReferenceDatatype referenceDatatype = (ReferenceDatatype) datatypeType.getType();
-
-					if (withDuplicates || !referencedEntities.contains(referenceDatatype.getEntity()))
-					{
-						referencedEntities.add(referenceDatatype.getEntity());
-					}
-
-				}
+				referencedEntities.add(entityAttributeEntity);
 			}
 		}
 

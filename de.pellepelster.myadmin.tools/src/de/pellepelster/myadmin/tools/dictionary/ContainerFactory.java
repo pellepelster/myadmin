@@ -26,11 +26,8 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryContainerContent;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEditableTable;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityReferenceType;
-import de.pellepelster.myadmin.dsl.myAdminDsl.EntityType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelScope;
-import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
+import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
 
 /**
  * Factory for container creation
@@ -60,8 +57,9 @@ public class ContainerFactory
 	{
 		createContainer(parentDictionaryContainerVO, parentDictionaryContainer.getContainercontents(), logIdentiation);
 	}
-	
-	public void createContainer(DictionaryContainerVO parentDictionaryContainerVO,  EList<DictionaryContainerContent>  dictionaryContainerContents, int logIdentiation)
+
+	public void createContainer(DictionaryContainerVO parentDictionaryContainerVO, EList<DictionaryContainerContent> dictionaryContainerContents,
+			int logIdentiation)
 	{
 
 		for (DictionaryContainerContent dictionaryContainerContent : dictionaryContainerContents)
@@ -162,7 +160,7 @@ public class ContainerFactory
 		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.EDITABLE_TABLE);
 		dictionaryContainerVO.setAttributePath(dictionaryEditableTable.getEntityattribute().getName());
 
-		Entity entity = getEntity(dictionaryEditableTable.getEntityattribute());
+		Entity entity = EntityModelUtil.getEntity(dictionaryEditableTable.getEntityattribute());
 		String fullQualifiedVoName = Extensions.fullQualifiedEntityName(entity, ModelScope.WEB);
 		dictionaryContainerVO.setEntityName(fullQualifiedVoName);
 
@@ -171,29 +169,6 @@ public class ContainerFactory
 			DictionaryControlVO dictionaryControlVO = ControlFactory.getInstance().createDictionaryControlVO(dictionaryControl, logIdentiation + 1);
 			dictionaryContainerVO.getControls().add(dictionaryControlVO);
 		}
-	}
-
-	private Entity getEntity(EntityAttribute entityAttribute)
-	{
-		if (entityAttribute.getType() instanceof EntityReferenceType)
-		{
-			EntityReferenceType entityReferenceType = (EntityReferenceType) entityAttribute.getType();
-
-			if (entityReferenceType instanceof EntityType)
-			{
-				EntityType entityType = (EntityType) entityReferenceType;
-				return entityType.getType();
-			}
-			else if (entityReferenceType instanceof ReferenceDatatypeType)
-			{
-				ReferenceDatatypeType referenceDatatypeType = (ReferenceDatatypeType) entityReferenceType;
-
-				return referenceDatatypeType.getType().getEntity();
-			}
-		}
-
-		throw new RuntimeException(String.format("no entity associated with entity attribute '%s' of type '%s'", entityAttribute.getName(), entityAttribute
-				.getClass().getName()));
 	}
 
 }
