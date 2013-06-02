@@ -52,7 +52,13 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 	@Override
 	public IControl<Widget> createControl(IReferenceControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
-		return new ReferenceControl(controlModel);
+		switch (controlModel.getControlType())
+		{
+			case DROPDOWN:
+				return new ReferenceDropdownControl(controlModel);
+			default:
+				return new ReferenceTextControl(controlModel);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -72,14 +78,18 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 
 		if (editable)
 		{
-			final SuggestCellControl<IBaseVO> editTextCell = new SuggestCellControl<IBaseVO>(controlModel, new VOSuggestOracle(controlModel),
-					new IValueHandler<IBaseVO>()
+			final BaseCellControl<IBaseVO> editTextCell;
+
+			switch (controlModel.getControlType())
+			{
+				default:
+					editTextCell = new SuggestCellControl<IBaseVO>(controlModel, new VOSuggestOracle(controlModel), new IValueHandler<IBaseVO>()
 					{
 
 						@Override
 						public String format(IBaseVO value)
 						{
-							return DictionaryUtil.getLabel(controlModel, value, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+							return DictionaryUtil.getLabel(controlModel, value, "");
 						}
 
 						@Override
@@ -88,6 +98,8 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 							return null;
 						}
 					});
+					break;
+			}
 
 			column = new Column<IBaseVO, IBaseVO>(editTextCell)
 			{
@@ -104,11 +116,7 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 				@Override
 				public void update(int index, IBaseVO vo, IBaseVO value)
 				{
-					// MyAdminSuggestion myAdminSuggestion = (MyAdminSuggestion)
-					// event.getSelectedItem();
 					vo.set(controlModel.getAttributePath(), value);
-
-					// listDataProvider.refresh();
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);

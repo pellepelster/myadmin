@@ -30,14 +30,14 @@ import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
 
-public class ReferenceControl extends SuggestBox implements IControl<Widget>
+public class ReferenceTextControl extends SuggestBox implements IControl<Widget>
 {
 
 	private IBaseVO vo;
 	private final IReferenceControlModel referenceControlModel;
 	private final ControlHelper gwtControlHelper;
 
-	public ReferenceControl(final IReferenceControlModel referenceControlModel)
+	public ReferenceTextControl(final IReferenceControlModel referenceControlModel)
 	{
 		super(new VOSuggestOracle(referenceControlModel));
 

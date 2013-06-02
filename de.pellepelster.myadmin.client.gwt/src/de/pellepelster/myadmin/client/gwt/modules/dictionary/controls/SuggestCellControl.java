@@ -32,7 +32,6 @@ import com.google.gwt.safehtml.client.SafeHtmlTemplates.Template;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
-import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -42,8 +41,10 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 
+@SuppressWarnings("unused")
 public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 {
+
 	private class SuggestCellSuggestBox extends SuggestBox
 	{
 		private final int absoluteLeft;
@@ -170,7 +171,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 	public SuggestCellControl(IReferenceControlModel referenceControlModel, SuggestOracle suggestOracle, IValueHandler<T> valueFormatter)
 	{
-		this(referenceControlModel, SimpleSafeHtmlRenderer.getInstance(), suggestOracle, valueFormatter);
+		this(referenceControlModel, ControlHtmlRenderer.getInstance(), suggestOracle, valueFormatter);
 	}
 
 	private void cancel(Context context, Element parent, T value)
@@ -203,6 +204,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 	private void commit(T value, Context context, Element parent, ValueUpdater<T> valueUpdater)
 	{
+
 		ViewData<T> viewData = getAndInitViewData(context);
 		viewData.setValue(value);
 		viewData.setEditing(false);
@@ -239,6 +241,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 				}
 			}
 		});
+
 		parent.replaceChild(suggestBox.getElement(), input);
 
 		setFocus(parent);
@@ -282,7 +285,15 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 			}
 			else if (keyCode == KeyCodes.KEY_ENTER)
 			{
-				commit(viewData.getValue(), context, parent, valueUpdater);
+				if (!suggestBox.isSuggestionListShowing())
+				{
+					if (suggestBox.getText() == null || suggestBox.getText().isEmpty())
+					{
+						viewData.setValue(null);
+					}
+
+					commit(viewData.getValue(), context, parent, valueUpdater);
+				}
 			}
 			else
 			{
@@ -295,8 +306,9 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 			if (Element.is(eventTarget))
 			{
 				Element target = Element.as(eventTarget);
-				if ("input".equals(target.getTagName().toLowerCase()))
+				if ("input".equals(target.getTagName().toLowerCase()) && !suggestBox.isSuggestionListShowing())
 				{
+
 					commit(viewData.getValue(), context, parent, valueUpdater);
 				}
 			}

@@ -11,13 +11,22 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
+import java.util.List;
+
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ListBox;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
 public class ControlUtil
 {
@@ -44,6 +53,8 @@ public class ControlUtil
 					label += MyAdmin.MESSAGES.mandatoryMarker();
 				}
 				break;
+			default:
+				break;
 		}
 
 		return label;
@@ -68,6 +79,49 @@ public class ControlUtil
 	public static void removeFirstEditMarker(IBaseVO vo, IBaseControlModel baseControlModel)
 	{
 		vo.getData().remove(baseControlModel.getName());
+	}
+
+	public static void populateListBox(final IReferenceControlModel referenceControlModel, final ListBox listBox)
+	{
+		DictionaryModelProvider.getDictionaryModel(referenceControlModel.getDictionaryName(), new AsyncCallback<IDictionaryModel>()
+		{
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				throw new RuntimeException("error loading cached  dictionary '" + referenceControlModel.getDictionaryName() + "'");
+			}
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			public void onSuccess(final IDictionaryModel dictionaryModel)
+			{
+				@SuppressWarnings("unchecked")
+				GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO(dictionaryModel.getVOName());
+
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<IBaseVO>>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						throw new RuntimeException("error loading reference  content for '" + referenceControlModel.getName() + "'");
+					}
+
+					@Override
+					public void onSuccess(List<IBaseVO> result)
+					{
+						listBox.addItem("");
+
+						for (IBaseVO vo : result)
+						{
+							listBox.addItem(DictionaryUtil.getLabel(referenceControlModel, vo));
+						}
+					}
+				});
+			}
+		});
+
 	}
 
 }
