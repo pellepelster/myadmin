@@ -317,6 +317,10 @@ EnumerationDatatype:
 		"enumeration" enumeration=[ Enumeration | QualifiedName ]
 	"}";
 
+
+enum ControlType: 
+	text = "text" | dropdown = "dropdown";
+
 ReferenceDatatype:
 	"referencedatatype" name=ID "{"
 		baseDatatype=BaseDictionaryDatatype
@@ -390,6 +394,7 @@ DictionaryReferenceControl:
 	"referencecontrol" ("ref" ref=[ DictionaryReferenceControl | QualifiedName ])? ((name=ID)? "{"
 		baseControl=BaseDictionaryControl
 		"dictionary" dictionary=[ Dictionary | QualifiedName ]
+		("controlType" controlType=ControlType)?
 		("labelcontrols {" (labelcontrols+=DictionaryControl)* "}")? 
 	"}")?;
 

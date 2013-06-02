@@ -22,5 +22,10 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseLookupC
  */
 public interface IReferenceControlModel extends IBaseLookupControlModel
 {
+	enum CONTROL_TYPE
+	{
+		TEXT, DROPDOWN
+	}
 
+	CONTROL_TYPE getControlType();
 }

@@ -30,7 +30,7 @@ public class ReferenceControlModel extends BaseControlModel implements IReferenc
 {
 
 	private static final long serialVersionUID = -1129427988759796790L;
-	
+
 	private String dictionaryName;
 	private List<IBaseControlModel> labelControls = new ArrayList<IBaseControlModel>();
 
@@ -42,37 +42,47 @@ public class ReferenceControlModel extends BaseControlModel implements IReferenc
 	{
 		super(parent, dictionaryControlVO);
 
-		dictionaryName = dictionaryControlVO.getDictionary();
-		labelControls = ControlModelFactory.getControlModel(parent, dictionaryControlVO.getLabelControls());
+		this.dictionaryName = dictionaryControlVO.getDictionary();
+		this.labelControls = ControlModelFactory.getControlModel(parent, dictionaryControlVO.getLabelControls());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getDictionaryName()
 	{
-		return dictionaryName;
+		return this.dictionaryName;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public List<IBaseControlModel> getLabelControls()
 	{
-		return labelControls;
+		return this.labelControls;
 	}
 
 	@Override
 	public Integer getWidthHint()
 	{
 		int widhtHint = 0;
-		
+
 		for (IBaseControlModel baseControlModel : getLabelControls())
 		{
 			widhtHint += baseControlModel.getWidthHint();
 		}
-		
+
 		return widhtHint;
 	}
-	
-	
+
+	@Override
+	public CONTROL_TYPE getControlType()
+	{
+		switch (getDictionaryControlVO().getControlType())
+		{
+			case DROPDOWN:
+				return CONTROL_TYPE.DROPDOWN;
+			default:
+				return CONTROL_TYPE.TEXT;
+		}
+	}
 
 }

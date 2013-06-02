@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.tools.dictionary;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BaseDictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
@@ -285,6 +286,17 @@ public class ControlFactory
 		if (dictionaryReferenceControl.getDictionary() != null)
 		{
 			dictionaryControlVO.setDictionary(dictionaryReferenceControl.getDictionary().getName());
+		}
+
+		switch (dictionaryReferenceControl.getControlType())
+		{
+			case DROPDOWN:
+				dictionaryControlVO.setControlType(CONTROL_TYPE.DROPDOWN);
+				break;
+			default:
+				dictionaryControlVO.setControlType(CONTROL_TYPE.TEXT);
+				break;
+
 		}
 
 		createDictionaryControlCommon(dictionaryReferenceControl, dictionaryControlVO, logIdentiation + 1);
