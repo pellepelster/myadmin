@@ -39,6 +39,10 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				enum DICTIONARY_CONTROL_ALIGNMENT {
 					LEFT, CENTER, RIGHT
 				}
+
+				enum CONTROL_TYPE {
+					TEXT, DROPDOWN
+				}
 				
 				enum DICTIONARY_BASETYPE {
 					Text, INTEGER, BIGDECIMAL, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
@@ -177,7 +181,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					simpletype String ^title
 					reference DictionaryContainer container
 				}
-	
+				
 				entity DictionaryControl {
 
 					naturalkey { name }
@@ -207,9 +211,11 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					enumeration RELATIONAL_OPERATOR relationalOperator
 					enumeration DICTIONARY_CONTROL_ALIGNMENT alignment
 					enumeration DICTIONARY_CONTROL_AGGREGATE_TYPE aggregate
+
+					enumeration CONTROL_TYPE ^controlType
 					
+
 					simpletype Integer ^width
-	
 					simpletype Integer position
 								
 				}
@@ -408,11 +414,11 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			}
 
 			moduledefinition ModuleHierarchicalTree {
-					parameters {
-						parameter HierarchicalTreeId {
-							type String
-						} 
-					}
+				parameters {
+					parameter HierarchicalTreeId {
+						type String
+					} 
+				}
 			}
 
 			package ^dictionary {
@@ -476,9 +482,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				dictionarysearch MyAdminGroupFilter {
 	
 					dictionaryfilter MyAdminGroupFilter {
-						composite MyAdminGroupFilterRootComposite {
-							textcontrol ref GroupName
-						}
+						textcontrol ref GroupName
 					}
 					
 					dictionaryresult MyAdminGroupResult {
@@ -487,10 +491,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				} 	
 			
 				dictionaryeditor MyAdminGroupEditor {
-	
-					composite MyAdminGroupEditorComposite {
-						textcontrol ref GroupName
-					}				
+					textcontrol ref GroupName
 				} 
 			}
 			
@@ -510,9 +511,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				
 				
 					dictionaryfilter UserFilter {
-						composite UserFilterRootComposite {
-							textcontrol ref UserName
-						}
+						textcontrol ref UserName
 					}
 					
 					dictionaryresult UserResult {
@@ -524,9 +523,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					
 					composite UserEditorRootComposite {
 						
-						composite UserEditorComposite1 {
-							textcontrol ref UserName { mandatory }
-						}
+						textcontrol ref UserName { mandatory }
 						
 						assignmenttable UserGroupAssignment {
 							

@@ -41,17 +41,12 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		MyAdminDslGrammarAccess m = (MyAdminDslGrammarAccess) getGrammarAccess();
 		c.setAutoLinewrap(160);
 
-		// for (Pair<Keyword, Keyword> pair : m.findKeywordPairs("{", "}"))
-		// {
-		// c.setLinewrap().after(pair.getFirst());
-		// c.setLinewrap(2).after(pair.getSecond());
-		// c.setIndentation(pair.getFirst(), pair.getSecond());
-		// }
-
 		// model/entity/package
 		setBlockFormatting(c, m.getModelAccess().getLeftCurlyBracketKeyword_3(), m.getModelAccess().getRightCurlyBracketKeyword_5());
 		setBlockFormatting(c, m.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2(), m.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getEntityAccess().getLeftCurlyBracketKeyword_4(), m.getEntityAccess().getRightCurlyBracketKeyword_8());
+
+		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(m.getEntityAccess().getRightCurlyBracketKeyword_6_3());
 
 		// text
 		setBlockFormatting(c, m.getTextDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getTextDatatypeAccess().getRightCurlyBracketKeyword_7());
@@ -86,7 +81,7 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		// reference
 		setBlockFormatting(c, m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryReferenceControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryReferenceControlAccess()
-				.getRightCurlyBracketKeyword_3_6());
+				.getRightCurlyBracketKeyword_3_7());
 
 		// navigation
 		setBlockFormatting(c, m.getNavigationNodeAccess().getLeftCurlyBracketKeyword_2(), m.getNavigationNodeAccess().getRightCurlyBracketKeyword_8());
