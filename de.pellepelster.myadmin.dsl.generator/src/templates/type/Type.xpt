@@ -298,10 +298,20 @@
 //- typeInitializer -----------------------------------------------------------
 «DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR Type-»«ENDDEFINE»
 
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR DatatypeType-»
+	«EXPAND typeInitializer(type, entityAttributeOptions, entity, this.cardinality) FOR this.type»
+«ENDDEFINE»
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity, Cardinality cardinality) FOR Datatype-»
+«ENDDEFINE»
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity, Cardinality cardinality) FOR ReferenceDatatype-»
+	«EXPAND typeInitializer(type, entityAttributeOptions, entity, cardinality) FOR this.entity»
+«ENDDEFINE»
+
 «DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR EntityType-»
 	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
 		«IF isTrue(entityAttributeOptions.reverse_navigable)-»
-		
 			«IF type == "webvo"»
 				«IF entity == this.type-»
 						= new de.pellepelster.myadmin.client.base.db.vos.VOArrayList<«EXPAND rawType(type, true) FOR this-»>(this, "parent")
@@ -319,6 +329,10 @@
 
 
 «DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity) FOR ReferenceDatatypeType-»
+	«EXPAND typeInitializer(type, entityAttributeOptions, entity, this.cardinality) FOR this.type.entity»
+«ENDDEFINE»
+
+«DEFINE typeInitializer(String type, EntityAttributeOptions entityAttributeOptions, Entity entity, Cardinality cardinality) FOR Entity-»
 
 	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
 		«REM»
@@ -327,7 +341,7 @@
 		«ELSE»
 		«ENDIF»
 		«ENDREM»
-		= new java.util.ArrayList<«EXPAND type(type, true) FOR this.type.entity-»>()
+		= new java.util.ArrayList<«EXPAND type(type, true) FOR this-»>()
 	«ENDIF-»
 «ENDDEFINE»
 
