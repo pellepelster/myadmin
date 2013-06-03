@@ -26,17 +26,18 @@ import de.pellepelster.myadmin.demo.client.web.dictionaries.CompanyDictionaryIDs
 import de.pellepelster.myadmin.demo.client.web.dictionaries.ManagerDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
+import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 
-public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
-{
+public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest {
 	@Autowired
 	private IHierachicalService hierachicalService;
 
 	@Before
 	@Override
-	public void initData()
-	{
+	public void initData() {
 		super.initData();
+
+		MyAdminDslStandaloneSetup.doSetup();
 
 		CompanyVO companyVO1 = new CompanyVO();
 		companyVO1.setCompanyName("xxx");
@@ -57,14 +58,12 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
 		getBaseEntityService().create(managerVO2);
 	}
 
-	public void setHierachicalService(IHierachicalService hierachicalService)
-	{
+	public void setHierachicalService(IHierachicalService hierachicalService) {
 		this.hierachicalService = hierachicalService;
 	}
 
 	@Test
-	public void testGetChildren()
-	{
+	public void testGetChildren() {
 		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
 
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
@@ -79,15 +78,13 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
 	}
 
 	@Test
-	public void testGetHierarchicalConfiguration()
-	{
+	public void testGetHierarchicalConfiguration() {
 		HierarchicalConfiguration hierarchicalConfiguration = hierachicalService.getConfigurationById("Test");
 		Assert.assertEquals("Test", hierarchicalConfiguration.getId());
 	}
 
 	@Test
-	public void testGetRootNodes()
-	{
+	public void testGetRootNodes() {
 		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
 
 		Assert.assertEquals(2, rootNodes.size());
@@ -99,8 +96,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
 	}
 
 	@Test
-	public void testVODecorator()
-	{
+	public void testVODecorator() {
 		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
 

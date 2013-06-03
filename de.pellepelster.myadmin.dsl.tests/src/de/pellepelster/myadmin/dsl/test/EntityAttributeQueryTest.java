@@ -13,8 +13,10 @@ package de.pellepelster.myadmin.dsl.test;
 
 import junit.framework.Assert;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
@@ -22,13 +24,16 @@ import de.pellepelster.myadmin.dsl.query.EntityAttributeQuery;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
-public class EntityAttributeQueryTest
-{
+public class EntityAttributeQueryTest {
 	private Model model = SpringModelUtils.getModel("classpath:model/EntityModel.msl");
 
+	@BeforeClass
+	public static void init() {
+		MyAdminDslStandaloneSetup.doSetup();
+	}
+
 	@Test
-	public void testGetAttributesByType()
-	{
+	public void testGetAttributesByType() {
 		Assert.assertEquals(1, ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getList().size());
 
 		// reference Entity3 entity3
@@ -48,8 +53,7 @@ public class EntityAttributeQueryTest
 	}
 
 	@Test
-	public void testGetAttributesType()
-	{
+	public void testGetAttributesType() {
 		Assert.assertEquals(1, ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getList().size());
 
 		// reference Entity3 entity3

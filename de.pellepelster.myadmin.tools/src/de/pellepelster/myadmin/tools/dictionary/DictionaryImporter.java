@@ -96,16 +96,8 @@ public class DictionaryImporter extends BaseToolAntTask {
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 		IBaseEntityService baseEntityService = MyAdminRemoteServiceLocator.getInstance().getBaseEntityService();
 
-		try {
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:**/*.msl")) {
-				System.out.println(resource.getFilename());
-			}
-
-			DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, modelResources, modelResource);
-			dictionaryImportRunner.run();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, modelResources, modelResource);
+		dictionaryImportRunner.run();
 	}
 
 	/**
