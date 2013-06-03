@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
+import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
@@ -31,6 +32,7 @@ import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.Region2CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
+import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public final class DemoBaseEntityServiceTest extends BaseDemoDBTest
@@ -80,7 +82,6 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest
 	@Test
 	public void testCountry()
 	{
-
 		GenericFilterVO genericFilterVO = new GenericFilterVO(CountryVO.class.getName());
 		List<IBaseVO> result = this.baseEntityService.filter(genericFilterVO);
 
@@ -91,13 +92,9 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest
 	@Test
 	public void testCountry1()
 	{
-
 		GenericFilterVO<?> filter = new GenericFilterVO(CountryVO.class);
-
 		List<CountryVO> result = (List<CountryVO>) this.baseEntityService.filter(filter);
-
 		assertEquals(1, result.size());
-
 	}
 
 	@Test
@@ -187,6 +184,20 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest
 		StateVO state1 = (StateVO) this.baseEntityService.read(result.get(0).getId(), StateVO.class.getName());
 
 		assertNotNull(state1.getStateCountry());
+	}
+
+	@Test
+	public void testCreateUser()
+	{
+		UserVO userVO = new UserVO();
+		userVO.setUserName("xxx");
+		this.baseEntityService.create(userVO);
+
+		List<UserVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(UserVO.class, UserVO.FIELD_USERNAME, "xxx"));
+
+		assertEquals(1, result.size());
+		assertEquals("xxx", result.get(0).getUserName());
+		assertEquals("xxx", result.get(0).get(UserVO.FIELD_USERNAME.getAttributeName()));
 	}
 
 	@Test

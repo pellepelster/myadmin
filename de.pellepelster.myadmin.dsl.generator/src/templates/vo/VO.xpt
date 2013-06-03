@@ -47,7 +47,7 @@
 //- entityWebVO -------------------------------------------------------------
 «DEFINE webVOEntityClass(String implements) FOR Entity-»
 
-	public class «entityName()» extends de.pellepelster.myadmin.client.base.db.vos.BaseVO implements «implements» «IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO«ENDIF»{
+	public class «entityName()» extends «IF this.extends != null-»«fullQualifiedEntityName(this.extends)»«ELSE»de.pellepelster.myadmin.client.base.db.vos.BaseVO«ENDIF-» implements «implements» «IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO«ENDIF»{
 	
 		private static final long serialVersionUID = 1L;
 
@@ -271,7 +271,12 @@
 			«ENDFOREACH-»
 		«ENDFOREACH-»
 		
-		throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+		«IF this.extends != null-»
+			return super.get(name);
+		«ELSE»
+			throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+		«ENDIF»
+		
 	}
 «ENDDEFINE»
 
@@ -321,7 +326,12 @@
 				«ENDLET-»
 			«ENDFOREACH-»
 		«ENDFOREACH-»
+		
+		«IF this.extends != null-»
+			super.set(name, value);
+		«ELSE»
+			throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+		«ENDIF»
 
-		throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
 	}
 «ENDDEFINE»
