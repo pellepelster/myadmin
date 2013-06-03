@@ -119,14 +119,7 @@ public final class DictionaryUtil
 		}
 		else
 		{
-			String label = getLabel(dictionaryModel.getLabelControls(), vo);
-
-			if (label == null || label.isEmpty())
-			{
-				label = Long.toString(vo.getId());
-			}
-
-			title += " " + label;
+			title += " " + getLabel(dictionaryModel.getLabelControls(), vo, Long.toString(vo.getId()));
 		}
 
 		if (voWrapper.isDirty())
@@ -143,11 +136,11 @@ public final class DictionaryUtil
 		return getLabel(referenceControlModel, vo, "");
 	}
 
-	public static String getLabel(IHierarchicalControlModel hierarchicalControlModel, IHierarchicalVO vo)
+	public static String getLabel(IHierarchicalControlModel hierarchicalControlModel, IHierarchicalVO vo, String defaultLabel)
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModelForClass(vo.getClass());
 
-		return getLabel(dictionaryModel.getLabelControls(), vo, "");
+		return getLabel(dictionaryModel.getLabelControls(), vo, defaultLabel);
 	}
 
 	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo, String defaultLabel)
@@ -160,11 +153,6 @@ public final class DictionaryUtil
 		}
 
 		return DictionaryUtil.getLabel(labelControlModels, vo, defaultLabel);
-	}
-
-	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo)
-	{
-		return getLabel(baseControlModels, vo, "");
 	}
 
 	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo, String defaultLabel)

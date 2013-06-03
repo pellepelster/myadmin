@@ -101,7 +101,14 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 			if (content instanceof IHierarchicalVO)
 			{
 				hierarchicalVO = (IHierarchicalVO) content;
-				setText(DictionaryUtil.getLabel(hierachicalControlModel, hierarchicalVO));
+
+				String defaultLabel = "<none>";
+				if (hierarchicalVO != null)
+				{
+					defaultLabel = hierarchicalVO.toString();
+				}
+
+				setText(DictionaryUtil.getLabel(hierachicalControlModel, hierarchicalVO, defaultLabel));
 			}
 			else
 			{
