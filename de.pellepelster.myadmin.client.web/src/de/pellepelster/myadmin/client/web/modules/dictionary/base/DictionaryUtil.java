@@ -133,7 +133,14 @@ public final class DictionaryUtil
 
 	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo)
 	{
-		return getLabel(referenceControlModel, vo, "");
+		String defaultLabel = "<none>";
+
+		if (vo != null)
+		{
+			defaultLabel = vo.toString();
+		}
+
+		return getLabel(referenceControlModel, vo, defaultLabel);
 	}
 
 	public static String getLabel(IHierarchicalControlModel hierarchicalControlModel, IHierarchicalVO vo, String defaultLabel)
@@ -158,7 +165,7 @@ public final class DictionaryUtil
 	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo, String defaultLabel)
 	{
 
-		String label = defaultLabel;
+		String label = null;
 		String delimiter = "";
 
 		if (vo != null)
@@ -181,7 +188,7 @@ public final class DictionaryUtil
 			}
 		}
 
-		return label;
+		return (label == null) ? defaultLabel : label;
 
 	}
 

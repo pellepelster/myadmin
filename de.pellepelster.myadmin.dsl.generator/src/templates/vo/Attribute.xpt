@@ -21,8 +21,51 @@
 
 	public void set«name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»)
 	{
-		this.«name.toFirstLower()» = «name.toFirstLower()»;
+		«EXPAND assignVariable(name) FOR this.type»
 	}	
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR Type»
+	this.«name.toFirstLower()» = «name.toFirstLower()»;
+«ENDDEFINE»
+
+«DEFINE assignList(String name, Cardinality cardinality) FOR Type»
+
+	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
+	this.«name.toFirstLower()».clear();
+	java.util.Collections.copy(«name.toFirstLower()», this.«name.toFirstLower()»);
+	«ELSE-»
+		this.«name.toFirstLower()» = «name.toFirstLower()»;
+	«ENDIF-»
+	
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR EntityReferenceType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR EntityType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR ReferenceDatatypeType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR DatatypeType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR MyAdminType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR CustomType»
+	«EXPAND assignList(name, cardinality) FOR this»
+«ENDDEFINE»
+
+«DEFINE assignVariable(String name) FOR SimpleType»
+	«EXPAND assignList(name, cardinality) FOR this»
 «ENDDEFINE»
 
 //- vo attributeGetterSetter --------------------------------------------------

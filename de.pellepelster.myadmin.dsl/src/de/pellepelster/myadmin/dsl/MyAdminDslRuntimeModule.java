@@ -12,20 +12,27 @@
 package de.pellepelster.myadmin.dsl;
 
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.validation.INamesAreUniqueValidationHelper;
 
-import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslFactory;
+import com.google.inject.Binder;
+
 import de.pellepelster.myadmin.dsl.naming.MyAdminQualifiedNameProvider;
+import de.pellepelster.myadmin.dsl.validation.MyAdminNamesAreUniqueValidationHelper;
 
 /**
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
-public class MyAdminDslRuntimeModule extends de.pellepelster.myadmin.dsl.AbstractMyAdminDslRuntimeModule
-{
+public class MyAdminDslRuntimeModule extends de.pellepelster.myadmin.dsl.AbstractMyAdminDslRuntimeModule {
 
 	@Override
-	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider()
-	{
+	public void configure(Binder binder) {
+		super.configure(binder);
+		binder.bind(INamesAreUniqueValidationHelper.class).to(MyAdminNamesAreUniqueValidationHelper.class);
+	}
+
+	@Override
+	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return MyAdminQualifiedNameProvider.class;
 	}
 

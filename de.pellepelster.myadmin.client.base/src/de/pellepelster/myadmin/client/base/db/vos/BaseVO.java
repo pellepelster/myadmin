@@ -24,7 +24,7 @@ public abstract class BaseVO implements IBaseVO
 	public BaseVO()
 	{
 		super();
-		oid = UUID.uuid().hashCode();
+		this.oid = UUID.uuid().hashCode();
 	}
 
 	private transient Map<String, Object> data = new HashMap<String, Object>();
@@ -32,7 +32,7 @@ public abstract class BaseVO implements IBaseVO
 	@Override
 	public Map<String, Object> getData()
 	{
-		return data;
+		return this.data;
 	}
 
 	/** {@inheritDoc} */
@@ -58,7 +58,7 @@ public abstract class BaseVO implements IBaseVO
 	{
 		if (isNew())
 		{
-			return oid;
+			return this.oid;
 		}
 		else
 		{
@@ -85,5 +85,11 @@ public abstract class BaseVO implements IBaseVO
 	public void setOid(long oid)
 	{
 		this.oid = oid;
+	}
+
+	@Override
+	public String toString()
+	{
+		return getClass().getName() + "(id: " + getOid() + ")";
 	}
 }

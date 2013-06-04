@@ -29,11 +29,17 @@ import de.pellepelster.myadmin.dsl.services.MyAdminDslGrammarAccess;
  */
 public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 {
-	final int MIN_WRAPS = 1;
+	final int BLOCK_MIN_WRAPS = 1;
 
-	final int DEFAULT_WRAPS = 2;
+	final int BLOCK_DEFAULT_WRAPS = 2;
 
-	final int MAX_WRAPS = 2;
+	final int BLOCK_MAX_WRAPS = 2;
+
+	final int LINE_MIN_WRAPS = 1;
+
+	final int LINE_DEFAULT_WRAPS = 1;
+
+	final int LINE_MAX_WRAPS = 2;
 
 	@Override
 	protected void configureFormatting(FormattingConfig c)
@@ -41,47 +47,59 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		MyAdminDslGrammarAccess m = (MyAdminDslGrammarAccess) getGrammarAccess();
 		c.setAutoLinewrap(160);
 
+		// formatting for comments
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).before(m.getSL_COMMENTRule());
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).before(m.getML_COMMENTRule());
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(m.getML_COMMENTRule());
+
 		// model/entity/package
 		setBlockFormatting(c, m.getModelAccess().getLeftCurlyBracketKeyword_3(), m.getModelAccess().getRightCurlyBracketKeyword_5());
 		setBlockFormatting(c, m.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2(), m.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getEntityAccess().getLeftCurlyBracketKeyword_4(), m.getEntityAccess().getRightCurlyBracketKeyword_8());
 
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(m.getEntityAccess().getRightCurlyBracketKeyword_6_3());
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(m.getEntityAccess().getRightCurlyBracketKeyword_6_3());
 
 		// text
 		setBlockFormatting(c, m.getTextDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getTextDatatypeAccess().getRightCurlyBracketKeyword_7());
 		setBlockFormatting(c, m.getDictionaryTextControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryTextControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryTextControlAccess().getRule());
 
 		// integer
 		setBlockFormatting(c, m.getIntegerDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getIntegerDatatypeAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryIntegerControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryIntegerControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryIntegerControlAccess().getRule());
 
 		// bigdecimal
 		setBlockFormatting(c, m.getBigDecimalDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBigDecimalDatatypeAccess().getRightCurlyBracketKeyword_10());
 		setBlockFormatting(c, m.getDictionaryBigDecimalControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryBigDecimalControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryBigDecimalControlAccess().getRule());
 
 		// boolean
 		setBlockFormatting(c, m.getBooleanDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBooleanDatatypeAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getDictionaryBooleanControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryBooleanControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryBooleanControlAccess().getRule());
 
 		// date
 		setBlockFormatting(c, m.getDateDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getDateDatatypeAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getDictionaryDateControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryDateControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryDateControlAccess().getRule());
 
-		// enumaration
+		// enumeration
 		setBlockFormatting(c, m.getEnumerationDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getEnumerationDatatypeAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryEnumerationControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryEnumerationControlAccess()
 				.getRightCurlyBracketKeyword_3_3());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryEnumerationControlAccess().getRule());
 
 		// reference
 		setBlockFormatting(c, m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryReferenceControlAccess().getLeftCurlyBracketKeyword_3_1(), m.getDictionaryReferenceControlAccess()
 				.getRightCurlyBracketKeyword_3_7());
+		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryReferenceControlAccess().getRule());
 
 		// navigation
 		setBlockFormatting(c, m.getNavigationNodeAccess().getLeftCurlyBracketKeyword_2(), m.getNavigationNodeAccess().getRightCurlyBracketKeyword_8());
@@ -91,17 +109,33 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 
 		// dictionary controls
 		setBlockFormatting(c, m.getDictionaryAccess().getLeftCurlyBracketKeyword_8_1(), m.getDictionaryAccess().getRightCurlyBracketKeyword_8_3());
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(
 				m.getDictionaryAccess().getDictionarycontrolsDictionaryControlParserRuleCall_8_2_0());
+		setBlockFormatting(c, m.getDictionaryAccess().getLabelcontrolsKeyword_9_0(), m.getDictionaryAccess().getRightCurlyBracketKeyword_9_2());
+		// c.setLinewrap(this.LINE_MAX_WRAPS, this.LINE_DEFAULT_WRAPS,
+		// this.LINE_MAX_WRAPS).after(m.getDictionaryAccess().getLabelcontrolsAssignment_9_1());
+
+		// dictionary composite
+		setBlockFormatting(c, m.getDictionaryCompositeAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryCompositeAccess().getRightCurlyBracketKeyword_6());
+
+		// editable table
+		setBlockFormatting(c, m.getDictionaryEditableTableAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryEditableTableAccess()
+				.getRightCurlyBracketKeyword_11());
+		setBlockFormatting(c, m.getDictionaryEditableTableAccess().getColumncontrolsKeyword_8(), m.getDictionaryEditableTableAccess()
+				.getRightCurlyBracketKeyword_10());
+		c.setLinewrap(this.LINE_MAX_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(
+				m.getDictionaryEditableTableAccess().getEntityattributeAssignment_7());
+		// c.setLinewrap(this.LINE_MAX_WRAPS, this.LINE_DEFAULT_WRAPS,
+		// this.LINE_MAX_WRAPS).after(
+		// m.getDictionaryEditableTableAccess().getColumncontrolsAssignment_9());
 
 		// dictionary entity
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(m.getDictionaryAccess().getEntityAssignment_4());
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(m.getDictionaryAccess().getEntityAssignment_4());
 
 		setBlockFormatting(c, m.getDictionaryEditorAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryEditorAccess().getRightCurlyBracketKeyword_5());
 		setBlockFormatting(c, m.getDictionarySearchAccess().getLeftCurlyBracketKeyword_2(), m.getDictionarySearchAccess().getRightCurlyBracketKeyword_6());
 		setBlockFormatting(c, m.getDictionaryResultAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryResultAccess().getRightCurlyBracketKeyword_4());
 		setBlockFormatting(c, m.getDictionaryFilterAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryFilterAccess().getRightCurlyBracketKeyword_4());
-		setBlockFormatting(c, m.getDictionaryCompositeAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryCompositeAccess().getRightCurlyBracketKeyword_6());
 
 		for (Keyword comma : m.findKeywords(","))
 		{
@@ -112,10 +146,10 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 
 	private void setBlockFormatting(FormattingConfig c, EObject start, EObject end)
 	{
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(start);
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(start);
 		c.setIndentationIncrement().after(start);
 		c.setIndentationDecrement().before(end);
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).before(end);
-		c.setLinewrap(this.MIN_WRAPS, this.DEFAULT_WRAPS, this.MAX_WRAPS).after(end);
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).before(end);
+		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(end);
 	}
 }

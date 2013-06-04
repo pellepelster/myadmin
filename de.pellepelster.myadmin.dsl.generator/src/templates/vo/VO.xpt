@@ -290,14 +290,15 @@
 				«IF attribute.type.metaType == EnumerationType»
 					if (value instanceof String)
 					{
-						this.«attribute.name» = «EXPAND templates::type::Type::webVOType FOR attribute.type-».valueOf((String) value);	
+						set«attribute.name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR attribute.type-».valueOf((String) value));
+							
 					}
 					else
 					{
-						this.«attribute.name» = («EXPAND templates::type::Type::webVOType FOR attribute.type-») value;
+						set«attribute.name.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR attribute.type-») value);
 					}
 				«ELSE»
-					this.«attribute.name» = («EXPAND templates::type::Type::webVOType FOR attribute.type-») value;
+					set«attribute.name.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR attribute.type-») value);
 				«ENDIF»
 				return;
 			}

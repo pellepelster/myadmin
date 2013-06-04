@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.server.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -179,6 +180,22 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.set(DictionaryControlVO.FIELD_ALIGNMENT.getAttributeName(), DICTIONARY_CONTROL_ALIGNMENT.LEFT.toString());
 		Assert.assertEquals(DICTIONARY_CONTROL_ALIGNMENT.LEFT, dictionaryControlVO.getAlignment());
+	}
+
+	@Test
+	public void testListSetter()
+	{
+
+		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
+
+		List<DictionaryControlVO> oldList = dictionaryControlVO.getGroupControls();
+
+		dictionaryControlVO.setGroupControls(new ArrayList<DictionaryControlVO>());
+
+		List<DictionaryControlVO> newList = dictionaryControlVO.getGroupControls();
+
+		Assert.assertTrue(oldList == newList);
+		Assert.assertArrayEquals(oldList.toArray(), newList.toArray());
 	}
 
 }
