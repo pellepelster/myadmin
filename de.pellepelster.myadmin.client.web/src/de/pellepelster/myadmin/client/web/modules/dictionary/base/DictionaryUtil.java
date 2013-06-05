@@ -172,6 +172,10 @@ public final class DictionaryUtil
 		{
 			for (IBaseControlModel baseControlModel : baseControlModels)
 			{
+				if (label == null)
+				{
+					label = "";
+				}
 				try
 				{
 					String controlLabel = ControlContentPresenter.getControlContent(baseControlModel, vo.get(baseControlModel.getAttributePath()));

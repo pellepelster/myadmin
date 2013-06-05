@@ -45,67 +45,67 @@ public class ConditionalExpressionVO implements Serializable, IConditionalExpres
 
 	public ConditionalExpressionVO(String field, Object value, RelationalOperator relop)
 	{
-		expressionObject1 = new EntityExpressionObjectVO(field);
-		logicalOperator = LogicalOperatorVO.AND;
+		this.expressionObject1 = new EntityExpressionObjectVO(field);
+		this.logicalOperator = LogicalOperatorVO.AND;
 
 		if (value == null)
 		{
-			expressionObject2 = new NullExpressionObjectVO();
-			relationalOperator = RelationalOperator.IS;
+			this.expressionObject2 = new NullExpressionObjectVO();
+			this.relationalOperator = RelationalOperator.IS;
 		}
 		else if (value instanceof IBaseVO)
 		{
-			expressionObject2 = new NamedParameterExpressionObjectVO(field, (IBaseVO) value);
-			relationalOperator = relop;
+			this.expressionObject2 = new NamedParameterExpressionObjectVO(field, (IBaseVO) value);
+			this.relationalOperator = relop;
 		}
 		else if (value instanceof String)
 		{
-			expressionObject2 = new StringExpressionObjectVO((String) value);
-			relationalOperator = relop;
+			this.expressionObject2 = new StringExpressionObjectVO((String) value);
+			this.relationalOperator = relop;
 		}
 		else if (value instanceof Integer)
 		{
-			expressionObject2 = new IntegerExpressionObjectVO((Integer) value);
-			relationalOperator = relop;
+			this.expressionObject2 = new IntegerExpressionObjectVO((Integer) value);
+			this.relationalOperator = relop;
 		}
 		else if (value instanceof Timestamp)
 		{
-			expressionObject2 = new TimestampExpressionObjectVO((Timestamp) value);
-			relationalOperator = relop;
+			this.expressionObject2 = new TimestampExpressionObjectVO((Timestamp) value);
+			this.relationalOperator = relop;
 		}
 		else if (value instanceof Long)
 		{
-			expressionObject2 = new LongExpressionObjectVO((Long) value);
-			relationalOperator = relop;
+			this.expressionObject2 = new LongExpressionObjectVO((Long) value);
+			this.relationalOperator = relop;
 		}
 		else
 		{
-			throw new RuntimeException("unsupported value object type");
+			throw new RuntimeException("unsupported value object type '" + value.getClass().getName() + "'");
 		}
 	}
 
 	@Override
 	public IExpressionObjectVO getExpressionObject1()
 	{
-		return expressionObject1;
+		return this.expressionObject1;
 	}
 
 	@Override
 	public IExpressionObjectVO getExpressionObject2()
 	{
-		return expressionObject2;
+		return this.expressionObject2;
 	}
 
 	@Override
 	public LogicalOperatorVO getLogicalOperator()
 	{
-		return logicalOperator;
+		return this.logicalOperator;
 	}
 
 	@Override
 	public RelationalOperator getRelationalOperator()
 	{
-		return relationalOperator;
+		return this.relationalOperator;
 	}
 
 	public void setExpressionObject1(IExpressionObjectVO expressionObject1)
@@ -131,7 +131,7 @@ public class ConditionalExpressionVO implements Serializable, IConditionalExpres
 	@Override
 	public String toString()
 	{
-		return expressionObject1.toString() + ' ' + relationalOperator.toString() + ' ' + expressionObject2.toString();
+		return this.expressionObject1.toString() + ' ' + this.relationalOperator.toString() + ' ' + this.expressionObject2.toString();
 	}
 
 }
