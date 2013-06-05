@@ -89,7 +89,7 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 						@Override
 						public String format(IBaseVO value)
 						{
-							return DictionaryUtil.getLabel(controlModel, value);
+							return DictionaryUtil.getLabel(controlModel, value, "");
 						}
 
 						@Override
