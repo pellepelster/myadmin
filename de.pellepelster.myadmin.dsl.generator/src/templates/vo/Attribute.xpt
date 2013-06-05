@@ -4,21 +4,17 @@
 //- vo attributeGetterSetter --------------------------------------------------
 «DEFINE voAttributeGetterSetter(Entity entity) FOR EntityAttribute»
 
-	«IF isTrue(entityAttributeOptions.mandatory)»
-	@de.pellepelster.myadmin.client.base.db.vos.Mandatory
-	«ENDIF»
-
-	«IF entity.naturalKeyAttributes.contains(this)»
-	@de.pellepelster.myadmin.client.base.db.vos.NaturalKey( order = «entity.naturalKeyAttributes.indexOf(this)»)
-	«ENDIF»
-
+	«IF isTrue(entityAttributeOptions.mandatory)-»@de.pellepelster.myadmin.client.base.db.vos.Mandatory«ENDIF-»
+	«IF entity.naturalKeyAttributes.contains(this)»@de.pellepelster.myadmin.client.base.db.vos.NaturalKey( order = «entity.naturalKeyAttributes.indexOf(this)»)«ENDIF-»
 	private «EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»«EXPAND templates::type::Type::webVOTypeInitializer(entityAttributeOptions, entity) FOR type-»;
 
+ 	«EXPAND templates::util::Comment::getterComment FOR this-»
 	public «EXPAND templates::type::Type::webVOType FOR type-» get«name.toFirstUpper()»()
 	{
 		return «name.toFirstLower()»;
 	}
 
+ 	«EXPAND templates::util::Comment::setterComment FOR this-»
 	public void set«name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»)
 	{
 		«EXPAND assignVariable(name) FOR this.type»
@@ -32,8 +28,13 @@
 «DEFINE assignList(String name, Cardinality cardinality) FOR Type»
 
 	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
-	this.«name.toFirstLower()».clear();
-	java.util.Collections.copy(«name.toFirstLower()», this.«name.toFirstLower()»);
+	if (this.«name.toFirstLower()» != «name.toFirstLower()»)
+	{
+		java.util.List temp = new java.util.ArrayList();
+		temp.addAll(«name.toFirstLower()»);
+		this.«name.toFirstLower()».clear();
+		this.«name.toFirstLower()».addAll(temp);
+	}
 	«ELSE-»
 		this.«name.toFirstLower()» = «name.toFirstLower()»;
 	«ENDIF-»

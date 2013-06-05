@@ -74,3 +74,23 @@
 /** {@inheritDoc} */
 @Override
 «ENDDEFINE»
+
+«DEFINE getterComment FOR EntityAttribute»
+/**
+ * Getter for entity attribute «this.name»
+ *
+ * model information
+ * type: «this.type.toString()»<br />
+ */
+«ENDDEFINE»
+
+«DEFINE setterComment FOR EntityAttribute»
+/**
+ * Setter for entity attribute «this.name»
+ *
+ * model information
+ * type: «this.type.toString()»<br />
+ *
+ * @param «this.name» value to set
+ */
+«ENDDEFINE»

@@ -82,10 +82,11 @@ public abstract class BaseCopyBean
 
 	public void addFieldCopyHandler(IFieldCopyHandler fieldCopyHandler)
 	{
-		fieldCopyHandlers.add(fieldCopyHandler);
+		this.fieldCopyHandlers.add(fieldCopyHandler);
 	}
 
-	private Object copyObject(Object sourceObject, Class<?> destClass, Map<Object, Object> visited, Map<Class<?>, List<String>> classLoadAssociations, List<String> attributesToOmit)
+	private Object copyObject(Object sourceObject, Class<?> destClass, Map<Object, Object> visited, Map<Class<?>, List<String>> classLoadAssociations,
+			List<String> attributesToOmit)
 	{
 		List<String> loadAssociations = null;
 
@@ -126,17 +127,16 @@ public abstract class BaseCopyBean
 					{
 						continue;
 					}
-					
-					for (IFieldCopyHandler fieldCopyHandler : fieldCopyHandlers)
+
+					for (IFieldCopyHandler fieldCopyHandler : this.fieldCopyHandlers)
 					{
 						if (fieldCopyHandler.check(fieldDescriptor))
 						{
 							fieldCopyHandler.copy(fieldDescriptor, sourceObject, targetObject);
-							
+
 							break;
 						}
 					}
-
 
 					// collection
 					if (List.class.isAssignableFrom(fieldDescriptor.getSourceType()) && List.class.isAssignableFrom(fieldDescriptor.getTargetType()))
@@ -170,12 +170,12 @@ public abstract class BaseCopyBean
 								}
 							}
 
-							PropertyUtils.setProperty(targetObject, fieldDescriptor.getFieldName(), targetList);
+							// PropertyUtils.setProperty(targetObject,
+							// fieldDescriptor.getFieldName(), targetList);
 						}
 
 						continue;
 					}
-
 
 					// source und target typ-mapped stimmen ueberein
 					Class<?> mappedType = getMappedTargetType(fieldDescriptor.getTargetType());
@@ -193,7 +193,8 @@ public abstract class BaseCopyBean
 							}
 							else
 							{
-								object = copyObject(fieldDescriptor.getSourceValue(), fieldDescriptor.getTargetType(), visited, classLoadAssociations, attributesToOmit);
+								object = copyObject(fieldDescriptor.getSourceValue(), fieldDescriptor.getTargetType(), visited, classLoadAssociations,
+										attributesToOmit);
 								visited.put(fieldDescriptor.getSourceValue(), object);
 							}
 
@@ -217,11 +218,11 @@ public abstract class BaseCopyBean
 	{
 		return null;
 	}
-	
+
 	public Object copyObject(Object sourceObject, Map<Class<?>, List<String>> classLoadAssociations)
 	{
-		return copyObject(sourceObject, getMappedTargetType(sourceObject.getClass()), new HashMap<Object, Object>(),
-				classLoadAssociations, new ArrayList<String>());
+		return copyObject(sourceObject, getMappedTargetType(sourceObject.getClass()), new HashMap<Object, Object>(), classLoadAssociations,
+				new ArrayList<String>());
 	}
 
 }

@@ -73,38 +73,35 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 
 		DictionaryControlVO control1 = new DictionaryControlVO();
 		control1.setName("control1");
-		control1 = baseEntityService.create(control1);
+		control1 = this.baseEntityService.create(control1);
 
 		DictionaryControlVO control2 = new DictionaryControlVO();
 		control2.setName("control2");
-		control2 = baseEntityService.create(control2);
+		control2 = this.baseEntityService.create(control2);
 
 		dictionary1.getControlAggregates().add(control1);
 		dictionary1.getControlAggregates().add(control2);
 
-		dictionary1 = baseEntityService.create(dictionary1);
+		dictionary1 = this.baseEntityService.create(dictionary1);
 
-		String clientXml = importExportService.exportVO(ClientVO.class);
-		String dictionaryXml = importExportService.exportVO(DictionaryVO.class);
-		String controlsXml = importExportService.exportVO(DictionaryControlVO.class);
+		String clientXml = this.importExportService.exportVO(ClientVO.class);
+		String dictionaryXml = this.importExportService.exportVO(DictionaryVO.class);
+		String controlsXml = this.importExportService.exportVO(DictionaryControlVO.class);
 
-		dictionary1.getControlAggregates().clear();
-		dictionary1 = baseEntityService.save(dictionary1);
+		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
+		this.baseEntityService.deleteAll(ClientVO.class.getName());
+		Assert.assertEquals(0, this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class)).size());
 
-		baseEntityService.deleteAll(DictionaryVO.class.getName());
-		baseEntityService.deleteAll(DictionaryControlVO.class.getName());
-		baseEntityService.deleteAll(ClientVO.class.getName());
-		Assert.assertEquals(0, baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class)).size());
+		this.importExportService.importVO(clientXml);
+		this.importExportService.importVO(controlsXml);
+		this.importExportService.importVO(dictionaryXml);
 
-		importExportService.importVO(clientXml);
-		importExportService.importVO(controlsXml);
-		importExportService.importVO(dictionaryXml);
-
-		List<ClientVO> clientResult = baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class));
+		List<ClientVO> clientResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class));
 		Assert.assertEquals(1, clientResult.size());
 		Assert.assertEquals(client1.getName(), clientResult.get(0).getName());
 
-		List<DictionaryVO> dictionaryResult = baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class));
+		List<DictionaryVO> dictionaryResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class));
 		Assert.assertEquals(1, dictionaryResult.size());
 		Assert.assertEquals(dictionary1.getName(), dictionaryResult.get(0).getName());
 		Assert.assertEquals(client1.getName(), dictionaryResult.get(0).getClient().getName());
@@ -117,7 +114,7 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 	{
 		String clientsXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ClientList><Client><name>client1</name></Client></ClientList>";
 
-		Assert.assertEquals(ClientList.class, xmlService.detectXmlClass(clientsXmlString));
+		Assert.assertEquals(ClientList.class, this.xmlService.detectXmlClass(clientsXmlString));
 	}
 
 }
