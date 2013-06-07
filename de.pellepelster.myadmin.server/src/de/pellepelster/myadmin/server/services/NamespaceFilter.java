@@ -29,9 +29,15 @@ public class NamespaceFilter extends XMLFilterImpl
 		super();
 
 		if (addNamespace)
+		{
 			this.usedNamespaceUri = namespaceUri;
+
+		}
 		else
+		{
 			this.usedNamespaceUri = "";
+		}
+
 		this.addNamespace = addNamespace;
 	}
 
@@ -39,7 +45,7 @@ public class NamespaceFilter extends XMLFilterImpl
 	public void startDocument() throws SAXException
 	{
 		super.startDocument();
-		if (addNamespace)
+		if (this.addNamespace)
 		{
 			startControlledPrefixMapping();
 		}
@@ -63,14 +69,12 @@ public class NamespaceFilter extends XMLFilterImpl
 	public void startPrefixMapping(String prefix, String url) throws SAXException
 	{
 
-		if (addNamespace)
+		if (this.addNamespace)
 		{
 			this.startControlledPrefixMapping();
 		}
 		else
 		{
-			// Remove the namespace, i.e. don´t call startPrefixMapping for
-			// parent!
 		}
 
 	}
