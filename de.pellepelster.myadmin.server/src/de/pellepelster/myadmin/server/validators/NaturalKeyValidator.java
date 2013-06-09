@@ -61,8 +61,8 @@ public class NaturalKeyValidator implements IValidator
 		for (IAttributeDescriptor<?> attributeDescriptor : new AnnotationIterator(vo.getClass(), NaturalKey.class))
 		{
 			@SuppressWarnings("unchecked")
-			GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(vo.getClass(),
-					attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor.getAttributeName()));
+			GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(vo.getClass())
+					.addCriteria(attributeDescriptor, vo.get(attributeDescriptor.getAttributeName())).getGenericFilter();
 
 			List<IBaseVO> filterResult = this.baseVODAO.filter(genericFilterVO);
 

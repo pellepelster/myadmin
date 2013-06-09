@@ -76,7 +76,8 @@ public final class ModuleHandler
 	public void startModule(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
 	{
 
-		GenericFilterVO<ModuleVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleVO.class, ModuleVO.FIELD_NAME, moduleName);
+		GenericFilterVO<ModuleVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, moduleName)
+				.getGenericFilter();
 		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
 
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleVO>>()
@@ -102,8 +103,8 @@ public final class ModuleHandler
 					// no module found, we try to use the module definition as
 					// module
 
-					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class,
-							ModuleDefinitionVO.FIELD_NAME, moduleName);
+					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class)
+							.addCriteria(ModuleDefinitionVO.FIELD_NAME, moduleName).getGenericFilter();
 
 					MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
 							.filter(genericFilterVO, new AsyncCallback<List<ModuleDefinitionVO>>()

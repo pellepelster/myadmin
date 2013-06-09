@@ -50,15 +50,15 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 
 		createExportData();
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(importExportService, metaDataService, tempDir);
+		EntityExportRunner entityExportRunner = new EntityExportRunner(this.importExportService, this.metaDataService, tempDir);
 		entityExportRunner.run();
 
 		deleteData();
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(importExportService, metaDataService, tempDir);
+		EntityImportRunner entityImportRunner = new EntityImportRunner(this.importExportService, this.metaDataService, tempDir);
 		entityImportRunner.run();
 
-		List<DictionaryVO> dictionaryVOs = baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class));
+		List<DictionaryVO> dictionaryVOs = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class).getGenericFilter());
 		Assert.assertEquals(1, dictionaryVOs.size());
 
 		DictionaryVO dictionaryVO = dictionaryVOs.get(0);
@@ -68,20 +68,20 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 
 	private void deleteData()
 	{
-		baseEntityService.deleteAll(DictionaryVO.class.getName());
-		baseEntityService.deleteAll(DictionaryEditorVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
+		this.baseEntityService.deleteAll(DictionaryEditorVO.class.getName());
 	}
 
 	private void createExportData()
 	{
 		DictionaryEditorVO dictionaryEditorVO = new DictionaryEditorVO();
 		dictionaryEditorVO.setName("Editor1");
-		dictionaryEditorVO = baseEntityService.create(dictionaryEditorVO);
+		dictionaryEditorVO = this.baseEntityService.create(dictionaryEditorVO);
 
 		DictionaryVO dictionaryVO = new DictionaryVO();
 		dictionaryVO.setName("Dictionary1");
 		dictionaryVO.setEditor(dictionaryEditorVO);
-		baseEntityService.create(dictionaryVO);
+		this.baseEntityService.create(dictionaryVO);
 	}
 
 	public void setImportExportService(ImportExportService importExportService)

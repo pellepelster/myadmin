@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public abstract class BaseDemoDictionaryImporterTest extends BaseDemoDBTest
+public abstract class BaseDemoDictionaryImporterTest extends BaseDemoTest
 {
 
 	@Autowired

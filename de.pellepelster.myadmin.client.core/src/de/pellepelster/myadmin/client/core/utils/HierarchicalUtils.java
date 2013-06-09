@@ -30,7 +30,7 @@ public class HierarchicalUtils
 		{
 			String parentVOClassName = parameters.get(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName());
 			Long parentVOID = Long.parseLong(parameters.get(IHierarchicalVO.FIELD_PARENT_ID.getAttributeName()));
-			GenericFilterVO<IBaseVO> genericFilterVO = GenericFilterFactory.createGenericFilter(parentVOClassName);
+			GenericFilterVO<IBaseVO> genericFilterVO = GenericFilterFactory.createGenericFilter(parentVOClassName).getGenericFilter();
 			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, parentVOID);
 
 			List<IBaseVO> result = baseEntityService.filter(genericFilterVO);

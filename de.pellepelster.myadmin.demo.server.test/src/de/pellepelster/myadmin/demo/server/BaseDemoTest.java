@@ -11,76 +11,20 @@
  */
 package de.pellepelster.myadmin.demo.server;
 
-import java.util.UUID;
-
-import javax.sql.DataSource;
-
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.server.test.base.BaseJndiContextTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-@ContextConfiguration(locations = { "classpath:/MyAdminServerApplicationContext-gen.xml", "classpath:/MyAdminDemoTestApplicationContext.xml",
-		"classpath:/DemoServerApplicationContext-gen.xml", "classpath:/MyAdminServerApplicationContext.xml", "classpath:/DemoDB-gen.xml" })
-public abstract class BaseDemoDBTest extends AbstractTransactionalJUnit4SpringContextTests
+@ContextConfiguration(locations = { "classpath:/MyAdminDemoTestApplicationContext.xml", "classpath:/DemoServerApplicationContext-gen.xml",
+		"classpath:/DemoDB-gen.xml" })
+public abstract class BaseDemoTest extends BaseJndiContextTest
 {
 
-	public static final String TESTCLIENT_NAME = "testclient";
-	public static final String TESTUSER_NAME = "testuser";
-
-	@SuppressWarnings("deprecation")
 	@BeforeClass
 	public static void initJndi() throws Exception
 	{
-
-		final SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
-		String tempDir = System.getProperty("java.io.tmpdir") + "/ram";
-
-		DataSource ds = new SingleConnectionDataSource("org.apache.derby.jdbc.EmbeddedDriver", String.format("jdbc:derby:%s/myadmin_%s;create=true", tempDir,
-				UUID.randomUUID().toString()), "myadmin", "", true);
-
-		builder.bind("java:comp/env/jdbc/Demo", ds);
-
+		initJndi("MyAdminDemo");
 	}
 
-	@Autowired
-	protected IBaseVODAO baseVODAO;
-
-	@Before
-	public void initSecurityContext()
-	{
-
-		// Client client = new Client();
-		// client.setName(TESTCLIENT_NAME);
-		//
-		// User user = new User();
-		// user.setClient(client);
-		// user.setName(TESTUSER_NAME);
-		//
-		// UsernamePasswordAuthenticationToken upat = new
-		// UsernamePasswordAuthenticationToken(user, "password");
-		// MockAuthenticationManager mam = new MockAuthenticationManager(true);
-		// Authentication auth = mam.authenticate(upat);
-		// SecurityContextHolder.getContext().setAuthentication(auth);
-		//
-		// User user1 = (User)
-		// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		// Assert.assertEquals(user1.getClient(), user.getClient());
-
-	}
-
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
-	{
-		this.baseVODAO = baseVODAO;
-	}
 }

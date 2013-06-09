@@ -91,17 +91,17 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
 		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
 		this.baseEntityService.deleteAll(ClientVO.class.getName());
-		Assert.assertEquals(0, this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class)).size());
+		Assert.assertEquals(0, this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class).getGenericFilter()).size());
 
 		this.importExportService.importVO(clientXml);
 		this.importExportService.importVO(controlsXml);
 		this.importExportService.importVO(dictionaryXml);
 
-		List<ClientVO> clientResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class));
+		List<ClientVO> clientResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class).getGenericFilter());
 		Assert.assertEquals(1, clientResult.size());
 		Assert.assertEquals(client1.getName(), clientResult.get(0).getName());
 
-		List<DictionaryVO> dictionaryResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class));
+		List<DictionaryVO> dictionaryResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class).getGenericFilter());
 		Assert.assertEquals(1, dictionaryResult.size());
 		Assert.assertEquals(dictionary1.getName(), dictionaryResult.get(0).getName());
 		Assert.assertEquals(client1.getName(), dictionaryResult.get(0).getClient().getName());

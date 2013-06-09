@@ -28,13 +28,15 @@ import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 
-public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest {
+public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
+{
 	@Autowired
 	private IHierachicalService hierachicalService;
 
 	@Before
 	@Override
-	public void initData() {
+	public void initData()
+	{
 		super.initData();
 
 		MyAdminDslStandaloneSetup.doSetup();
@@ -58,18 +60,20 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest {
 		getBaseEntityService().create(managerVO2);
 	}
 
-	public void setHierachicalService(IHierachicalService hierachicalService) {
+	public void setHierachicalService(IHierachicalService hierachicalService)
+	{
 		this.hierachicalService = hierachicalService;
 	}
 
 	@Test
-	public void testGetChildren() {
-		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
+	public void testGetChildren()
+	{
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
 
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
 		Assert.assertEquals(true, rootNode1.getHasChildren());
 
-		List<DictionaryHierarchicalNodeVO> childNodes = hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
+		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
 
 		Assert.assertEquals(1, childNodes.size());
 		Assert.assertEquals("aaa", childNodes.get(0).getLabel());
@@ -78,14 +82,16 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest {
 	}
 
 	@Test
-	public void testGetHierarchicalConfiguration() {
-		HierarchicalConfiguration hierarchicalConfiguration = hierachicalService.getConfigurationById("Test");
+	public void testGetHierarchicalConfiguration()
+	{
+		HierarchicalConfiguration hierarchicalConfiguration = this.hierachicalService.getConfigurationById("Test");
 		Assert.assertEquals("Test", hierarchicalConfiguration.getId());
 	}
 
 	@Test
-	public void testGetRootNodes() {
-		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
+	public void testGetRootNodes()
+	{
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
 
 		Assert.assertEquals(2, rootNodes.size());
 
@@ -96,20 +102,22 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest {
 	}
 
 	@Test
-	public void testVODecorator() {
-		List<DictionaryHierarchicalNodeVO> rootNodes = hierachicalService.getRootNodes("Test");
+	public void testVODecorator()
+	{
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
 
-		List<DictionaryHierarchicalNodeVO> childNodes = hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
+		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
 
 		Assert.assertEquals(1, childNodes.size());
 
-		List<ManagerVO> managers = baseVODAO.filter(GenericFilterFactory.createGenericFilter(ManagerVO.class, ManagerVO.FIELD_ID, childNodes.get(0).getVoId()));
+		List<ManagerVO> managers = this.baseVODAO.filter(GenericFilterFactory.createGenericFilter(ManagerVO.class)
+				.addCriteria(ManagerVO.FIELD_ID, childNodes.get(0).getVoId()).getGenericFilter());
 		Assert.assertEquals(1, managers.size());
 		Assert.assertEquals("xxx", managers.get(0).getParent().get("companyName"));
 		Assert.assertEquals(false, managers.get(0).hasChildren());
 
-		List<CompanyVO> companies = baseVODAO.filter(GenericFilterFactory.createGenericFilter(CompanyVO.class));
+		List<CompanyVO> companies = this.baseVODAO.filter(GenericFilterFactory.createGenericFilter(CompanyVO.class).getGenericFilter());
 		Assert.assertEquals(2, companies.size());
 		Assert.assertEquals(true, companies.get(0).hasChildren());
 		Assert.assertEquals(true, companies.get(1).hasChildren());

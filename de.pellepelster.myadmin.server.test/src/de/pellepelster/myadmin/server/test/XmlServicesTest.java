@@ -55,7 +55,7 @@ public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testGetVOClassForXmlClass()
 	{
-		Assert.assertEquals(ClientVO.class, xmlService.getVOClassForXmlClass(ClientType.class));
+		Assert.assertEquals(ClientVO.class, this.xmlService.getVOClassForXmlClass(ClientType.class));
 	}
 
 	@Test
@@ -63,14 +63,15 @@ public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 	{
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ClientTest.xml");
 
-		xmlService.importXml(ClientList.class, inputStream);
+		this.xmlService.importXml(ClientList.class, inputStream);
 
-		List<ClientVO> result = baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class, ClientVO.FIELD_NAME, "client1"));
+		List<ClientVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class)
+				.addCriteria(ClientVO.FIELD_NAME, "client1").getGenericFilter());
 		Assert.assertEquals(2, result.size());
-		
+
 		Assert.assertEquals("client1", result.get(0).getName());
 		Assert.assertEquals(1, result.get(0).getId());
-		
+
 		Assert.assertEquals("client2", result.get(1).getName());
 		Assert.assertEquals(2, result.get(1).getId());
 	}

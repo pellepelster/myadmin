@@ -78,7 +78,7 @@ public class XmlReferenceCopyHandler implements IFieldCopyHandler
 	private Object getByNaturalKey(Class<? extends IBaseVO> voClass, Object source)
 	{
 		@SuppressWarnings("unchecked")
-		GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(voClass);
+		GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(voClass).getGenericFilter();
 
 		for (FieldDescriptor naturalKeyFieldDescriptor : new FieldIterator(source))
 		{
@@ -88,7 +88,7 @@ public class XmlReferenceCopyHandler implements IFieldCopyHandler
 			}
 		}
 
-		List<IBaseVO> vos = baseEntityService.filter(genericFilterVO);
+		List<IBaseVO> vos = this.baseEntityService.filter(genericFilterVO);
 
 		if (vos.size() == 1)
 		{

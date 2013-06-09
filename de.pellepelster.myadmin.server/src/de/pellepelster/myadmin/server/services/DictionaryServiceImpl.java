@@ -96,7 +96,8 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT
 	private DictionaryVO getDictionaryInternal(String dictionaryName)
 	{
 
-		GenericFilterVO<DictionaryVO> genericFilterVO = GenericFilterFactory.createGenericFilter(DictionaryVO.class, DictionaryVO.FIELD_NAME, dictionaryName);
+		GenericFilterVO<DictionaryVO> genericFilterVO = GenericFilterFactory.createGenericFilter(DictionaryVO.class)
+				.addCriteria(DictionaryVO.FIELD_NAME, dictionaryName).getGenericFilter();
 
 		addControlAssociations(genericFilterVO.addAssociation(DictionaryVO.FIELD_CONTROLAGGREGATES));
 		addControlAssociations(genericFilterVO.addAssociation(DictionaryVO.FIELD_LABELCONTROLS));
@@ -110,7 +111,7 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT
 		AssociationVO dictionaryFilter = dictionarySearch.addAssociation(DictionarySearchVO.FIELD_FILTER);
 		addContainerAssociations(dictionaryFilter, DictionaryFilterVO.FIELD_CONTAINER);
 
-		List<DictionaryVO> result = baseVODAO.filter(genericFilterVO);
+		List<DictionaryVO> result = this.baseVODAO.filter(genericFilterVO);
 
 		if (result.size() == 1)
 		{

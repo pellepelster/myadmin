@@ -324,7 +324,7 @@ enum ControlType:
 ReferenceDatatype:
 	"referencedatatype" name=ID "{"
 		baseDatatype=BaseDictionaryDatatype
-		"entity" entity=[Entity]
+		"entity" entity=[ Entity | QualifiedName ]
 	"}";
 
 //- controls ------------------------------------------------------------------

@@ -229,9 +229,8 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 
 		for (Class<? extends IHierarchicalVO> hierarchicalClass : this.hierarchicalClasses)
 		{
-			GenericFilterVO<? extends IHierarchicalVO> childrenFilter = GenericFilterFactory.createGenericFilter(hierarchicalClass);
-			childrenFilter.addCriteria(IHierarchicalVO.FIELD_PARENT_CLASSNAME, voClassName);
-			childrenFilter.addCriteria(IHierarchicalVO.FIELD_PARENT_ID, voId);
+			GenericFilterVO<? extends IHierarchicalVO> childrenFilter = GenericFilterFactory.createGenericFilter(hierarchicalClass)
+					.addCriteria(IHierarchicalVO.FIELD_PARENT_CLASSNAME, voClassName).addCriteria(IHierarchicalVO.FIELD_PARENT_ID, voId).getGenericFilter();
 
 			count += this.baseVODAO.getCount(childrenFilter);
 		}

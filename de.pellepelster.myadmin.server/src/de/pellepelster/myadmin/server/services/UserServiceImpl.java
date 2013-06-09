@@ -74,34 +74,56 @@ public class UserServiceImpl implements IUserService
 		this.baseVODAO = baseVODAO;
 	}
 
-	@Override
-	public Boolean userNameExists(String username)
+	public Boolean userNameExistsInternal(String username)
 	{
-		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class, MyAdminUserVO.FIELD_USERNAME, username)) > 0;
+		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, username)
+				.getGenericFilter()) > 0;
 	}
 
 	@Override
-	public Boolean registerUser(String username, String email)
+	public Boolean userNameExists(String username)
 	{
-		LOG.debug(String.format("register user '%s'", username));
-
-		if (userNameExists(username))
+		if (userNameExistsInternal(username))
 		{
-			LOG.debug(String.format("user '%s' already exists", username));
+			LOG.debug(String.format("user name '%s' exists", username));
+
+			return true;
+		}
+		else
+		{
+			LOG.debug(String.format("user name '%s' dost not exist", username));
 
 			return false;
+		}
+	}
+
+	@Override
+	public MyAdminUserVO registerUser(String userName, String userEmail)
+	{
+		LOG.debug(String.format("register user '%s'", userName));
+
+		if (userNameExists(userName))
+		{
+			return null;
 		}
 		else
 		{
 			MyAdminUserVO myAdminUser = new MyAdminUserVO();
-			myAdminUser.setUserName(username);
-			myAdminUser.setUserMail(email);
+			myAdminUser.setUserName(userName);
+			myAdminUser.setUserMail(userEmail);
 
-			this.baseVODAO.create(myAdminUser);
+			myAdminUser = this.baseVODAO.create(myAdminUser);
 
-			LOG.debug(String.format("user '%s' registered", username));
+			LOG.debug(String.format("user '%s' registered", userName));
 
-			return true;
+			return myAdminUser;
 		}
+	}
+
+	@Override
+	public MyAdminUserVO getUserByName(String userName)
+	{
+		return this.baseVODAO.read(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, userName)
+				.getGenericFilter());
 	}
 }

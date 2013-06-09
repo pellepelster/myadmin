@@ -55,7 +55,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 		List<IConditionalExpression> conditionalExpressions = ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria());
 
-		return baseDAO.aggregate(conditionalExpressions, entityClass, field, aggregateType);
+		return this.baseDAO.aggregate(conditionalExpressions, entityClass, field, aggregateType);
 	}
 
 	private IBaseVO convertEntiyToVO(IBaseEntity entity, Map<Class<?>, List<String>> classLoadAssociations)
@@ -73,7 +73,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
-		IBaseEntity res = baseDAO.create(entity);
+		IBaseEntity res = this.baseDAO.create(entity);
 
 		T result = (T) convertEntiyToVO(res, null);
 
@@ -82,7 +82,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 	private void decorateVO(IBaseVO vo)
 	{
-		for (IVODaoDecorator voDaoDecorator : voDaoDecorators)
+		for (IVODaoDecorator voDaoDecorator : this.voDaoDecorators)
 		{
 			if (voDaoDecorator.supports(vo.getClass()))
 			{
@@ -97,7 +97,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
 
-		baseDAO.delete(entity);
+		this.baseDAO.delete(entity);
 	}
 
 	/** {@inheritDoc} */
@@ -106,7 +106,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 	public void deleteAll(Class<? extends IBaseVO> voClass)
 	{
 		Class<? extends IBaseEntity> entityClass = (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
-		baseDAO.deleteAll(entityClass);
+		this.baseDAO.deleteAll(entityClass);
 	}
 
 	/** {@inheritDoc} */
@@ -123,7 +123,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 		DBUtil.addFirstLevelIBaseVOAttributes(voClass, classLoadAssociations);
 
 		List<T> result = new ArrayList<T>();
-		for (IBaseEntity baseEntity : baseDAO.filter(selectQuery, genericFilterVO.getFirstResult(), genericFilterVO.getMaxResults()))
+		for (IBaseEntity baseEntity : this.baseDAO.filter(selectQuery, genericFilterVO.getFirstResult(), genericFilterVO.getMaxResults()))
 		{
 			T vo = (T) convertEntiyToVO(baseEntity, classLoadAssociations);
 			decorateVO(vo);
@@ -141,7 +141,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(voClass);
 
 		List<T> result = new ArrayList<T>();
-		for (IBaseEntity baseEntity : baseDAO.getAll(entityClass))
+		for (IBaseEntity baseEntity : this.baseDAO.getAll(entityClass))
 		{
 			result.add((T) convertEntiyToVO(baseEntity, new HashMap<Class<?>, List<String>>()));
 		}
@@ -155,7 +155,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(voClass);
 
-		return baseDAO.getCount(entityClass, new ArrayList<IConditionalExpression>());
+		return this.baseDAO.getCount(entityClass, new ArrayList<IConditionalExpression>());
 	}
 
 	/** {@inheritDoc} */
@@ -164,12 +164,12 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
 
-		return baseDAO.getCount(entityClass, ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria()));
+		return this.baseDAO.getCount(entityClass, ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria()));
 	}
 
 	public List<IVODaoDecorator> getVoDaoDecorators()
 	{
-		return voDaoDecorators;
+		return this.voDaoDecorators;
 	}
 
 	/** {@inheritDoc} */
@@ -178,12 +178,18 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		List<T> result = filter(genericFilterVO);
 
-		if (result.size() != 1)
+		if (result.size() == 0)
+		{
+			return null;
+		}
+		else if (result.size() > 1)
 		{
 			throw new RuntimeException(String.format("expected a single result but got %d", result.size()));
 		}
-
-		return result.get(0);
+		else
+		{
+			return result.get(0);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -217,7 +223,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(voClass));
 
-		IBaseEntity result = baseDAO.save(entity);
+		IBaseEntity result = this.baseDAO.save(entity);
 		return (T) convertEntiyToVO(result, null);
 	}
 

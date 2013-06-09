@@ -24,6 +24,10 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 		 
 			package ^dictionary {
 	
+				referencedatatype MyAdminUser {
+					entity MyAdmin.de.pellepelster.myadmin.entities.^dictionary.MyAdminUser
+				}
+	
 				enum DICTIONARY_CONTAINER_TYPE {
 					COMPOSITE, EDITABLE_TABLE, ASSIGNMENT_TABLE
 				}
@@ -397,12 +401,16 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				}
 
 				remotemethod userNameExists returns simpletype Boolean {
-					simpletype String username
+					simpletype String userName
 				}
 
-				remotemethod registerUser returns simpletype Boolean {
-					simpletype String username
-					simpletype String email
+				remotemethod registerUser returns reference entities.^dictionary.MyAdminUser {
+					simpletype String userName
+					simpletype String userMail
+				}
+				
+				remotemethod getUserByName returns reference entities.^dictionary.MyAdminUser {
+					simpletype String userName
 				}
 				
 			}

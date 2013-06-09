@@ -37,10 +37,10 @@ public class ImportExportService
 	public <T extends IBaseVO> String exportVO(Class<T> voClass)
 	{
 		LOG.info(String.format("exporting all '%s' vos", voClass.getName()));
-		List<T> result = baseEntityService.filter(GenericFilterFactory.createGenericFilter(voClass));
+		List<T> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(voClass).getGenericFilter());
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		xmlService.export(voClass, result, outputStream);
+		this.xmlService.export(voClass, result, outputStream);
 
 		return new String(outputStream.toByteArray());
 
@@ -48,12 +48,12 @@ public class ImportExportService
 
 	public void importVO(String xmlString)
 	{
-		Class<?> xmlClass = xmlService.detectXmlClass(xmlString);
+		Class<?> xmlClass = this.xmlService.detectXmlClass(xmlString);
 
 		LOG.info(String.format("importing '%s' vos", xmlClass));
 
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
 
-		xmlService.importXml(xmlClass, inputStream);
+		this.xmlService.importXml(xmlClass, inputStream);
 	}
 }

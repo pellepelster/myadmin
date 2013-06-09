@@ -41,6 +41,13 @@ public final class UserServiceTest extends BaseMyAdminSecurityContextTest
 	}
 
 	@Test
+	public void testGetUserByName()
+	{
+		MyAdminUserVO myAdminUserVO = this.userService.getUserByName("peter");
+		Assert.assertEquals("peter", myAdminUserVO.getUserName());
+	}
+
+	@Test
 	public void testCreateUser()
 	{
 		Assert.assertFalse(this.userService.userNameExists("horst"));

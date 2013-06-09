@@ -35,13 +35,15 @@ import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
+public final class DemoBaseEntityServiceTest extends BaseDemoTest
+{
 
 	@Autowired
 	private IBaseEntityService baseEntityService;
 
 	@Before
-	public void initData() {
+	public void initData()
+	{
 		this.baseEntityService.deleteAll(CityVO.class.getName());
 		this.baseEntityService.deleteAll(StateVO.class.getName());
 		this.baseEntityService.deleteAll(CountryVO.class.getName());
@@ -72,12 +74,14 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 
 	}
 
-	public void setBaseEntityService(IBaseEntityService baseEntityService) {
+	public void setBaseEntityService(IBaseEntityService baseEntityService)
+	{
 		this.baseEntityService = baseEntityService;
 	}
 
 	@Test
-	public void testCountry() {
+	public void testCountry()
+	{
 		GenericFilterVO genericFilterVO = new GenericFilterVO(CountryVO.class.getName());
 		List<IBaseVO> result = this.baseEntityService.filter(genericFilterVO);
 
@@ -86,17 +90,20 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testCountry1() {
+	public void testCountry1()
+	{
 		GenericFilterVO<?> filter = new GenericFilterVO(CountryVO.class);
 		List<CountryVO> result = (List<CountryVO>) this.baseEntityService.filter(filter);
 		assertEquals(1, result.size());
 	}
 
 	@Test
-	public void testFilter2Associations() {
+	public void testFilter2Associations()
+	{
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(RegionVO.class.getName());
-		genericFilterVO.addAssociation(RegionVO.FIELD_REGION2COUNTRIES.getAttributeName()).addAssociation(Region2CountryVO.FIELD_REGION2COUNTRYCOUNTRY.getAttributeName());
+		genericFilterVO.addAssociation(RegionVO.FIELD_REGION2COUNTRIES.getAttributeName()).addAssociation(
+				Region2CountryVO.FIELD_REGION2COUNTRYCOUNTRY.getAttributeName());
 
 		// List<String> associations =
 		// DBUtil.filter2Associations(genericFilterVO);
@@ -108,7 +115,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testFilterRegionWithRegion2Country() {
+	public void testFilterRegionWithRegion2Country()
+	{
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(RegionVO.class.getName());
 		genericFilterVO.addAssociation(RegionVO.FIELD_REGION2COUNTRIES.getAttributeName());
@@ -120,10 +128,12 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testFilterRegionWithRegion2CountryAndCountry() {
+	public void testFilterRegionWithRegion2CountryAndCountry()
+	{
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(RegionVO.class.getName());
-		genericFilterVO.addAssociation(RegionVO.FIELD_REGION2COUNTRIES.getAttributeName()).addAssociation(Region2CountryVO.FIELD_REGION2COUNTRYCOUNTRY.getAttributeName());
+		genericFilterVO.addAssociation(RegionVO.FIELD_REGION2COUNTRIES.getAttributeName()).addAssociation(
+				Region2CountryVO.FIELD_REGION2COUNTRYCOUNTRY.getAttributeName());
 
 		RegionVO result = (RegionVO) this.baseEntityService.filter(genericFilterVO).get(0);
 
@@ -132,7 +142,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testFilterStateWithCountry() {
+	public void testFilterStateWithCountry()
+	{
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(StateVO.class.getName());
 		genericFilterVO.addAssociation(StateVO.FIELD_STATECOUNTRY.getAttributeName());
@@ -144,7 +155,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testFilterStateWithoutCountry() {
+	public void testFilterStateWithoutCountry()
+	{
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(StateVO.class.getName());
 		List<IBaseVO> result = this.baseEntityService.filter(genericFilterVO);
@@ -154,7 +166,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testMyAdminEntities() {
+	public void testMyAdminEntities()
+	{
 		GenericFilterVO<?> filter = new GenericFilterVO(DictionaryContainerVO.class);
 		List<CountryVO> result = (List<CountryVO>) this.baseEntityService.filter(filter);
 
@@ -162,7 +175,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testReadState() {
+	public void testReadState()
+	{
 		GenericFilterVO genericFilterVO = new GenericFilterVO(StateVO.class.getName());
 
 		List<IBaseVO> result = this.baseEntityService.filter(genericFilterVO);
@@ -173,12 +187,14 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testEntityExtends() {
+	public void testEntityExtends()
+	{
 		UserVO userVO = new UserVO();
 		userVO.setUserName("xxx");
 		this.baseEntityService.create(userVO);
 
-		List<UserVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(UserVO.class, UserVO.FIELD_USERNAME, "xxx"));
+		List<UserVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(UserVO.class).addCriteria(UserVO.FIELD_USERNAME, "xxx")
+				.getGenericFilter());
 
 		assertEquals(1, result.size());
 		assertEquals("xxx", result.get(0).getUserName());
@@ -186,7 +202,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoDBTest {
 	}
 
 	@Test
-	public void testValidateAndSaveMandatoryListItemRegion() {
+	public void testValidateAndSaveMandatoryListItemRegion()
+	{
 		RegionVO region = new RegionVO();
 		region.setRegionName("abc");
 

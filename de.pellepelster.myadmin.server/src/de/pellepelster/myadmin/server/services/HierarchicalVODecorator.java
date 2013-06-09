@@ -37,12 +37,12 @@ public class HierarchicalVODecorator implements IVODaoDecorator
 
 		if (hierarchicalVO.getParentClassName() != null && hierarchicalVO.getParentId() != null)
 		{
-			IHierarchicalVO parent = (IHierarchicalVO) baseVODAO.read(GenericFilterFactory.createGenericFilter(hierarchicalVO.getParentClassName(),
-					IBaseVO.FIELD_ID.getAttributeName(), hierarchicalVO.getParentId()));
+			IHierarchicalVO parent = (IHierarchicalVO) this.baseVODAO.read(GenericFilterFactory.createGenericFilter(hierarchicalVO.getParentClassName())
+					.addCriteria(IBaseVO.FIELD_ID, hierarchicalVO.getParentId()).getGenericFilter());
 			hierarchicalVO.setParent(parent);
 		}
 
-		hierarchicalVO.setHasChildren(hierachicalService.hasChildren(vo.getClass().getName(), vo.getId()));
+		hierarchicalVO.setHasChildren(this.hierachicalService.hasChildren(vo.getClass().getName(), vo.getId()));
 	}
 
 	public void setBaseVODAO(IBaseVODAO baseVODAO)
