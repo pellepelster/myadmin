@@ -20,5 +20,5 @@
 		factory-method="getInstance" id="copyBean" />
 
 	<context:component-scan base-package="de.pellepelster.myadmin.server" />
-
+	
 </beans>

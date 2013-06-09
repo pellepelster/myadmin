@@ -10,7 +10,7 @@
 
 		<!-- copy server artifacts to libs dir for inclusion in war -->
 		<copy todir="${lib.dir}">
-			<fileset dir="${build.dir}" includes="@organisation.name@.@project.name@.jar"/>
+			<fileset dir="${build.dir}" includes="@organisation.name@.@project.name@.server.jar"/>
 		</copy>
 		
 		<mkdir dir="war"/>

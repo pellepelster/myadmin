@@ -21,7 +21,10 @@
 			classpath:MyAdminServerSpringSecurity.xml, 
 			classpath:MyAdminServerApplicationContext-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 
+			classpath:MyAdminRestServices-gen.xml, 
+			classpath:@project.name.camelcase@ServerApplicationContext.xml, 
 			classpath:@project.name.camelcase@ServerApplicationContext-gen.xml, 
+			classpath:@project.name.camelcase@RestServices-gen.xml, 
 			classpath:MyAdminServerGWTServices-gen.xml, 
 			classpath:MyAdminServerInvokerServices-gen.xml, 
 			classpath:@project.name.camelcase@DB-gen.xml

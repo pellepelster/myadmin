@@ -21,13 +21,13 @@
 			<artifact pattern="${ivy.default.ivy.user.dir}/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
 		</filesystem>
 
-		<chain name="myadmin_dev" returnFirst="true" checkmodified="false">
+		<chain name="myadmin_dev" returnFirst="true" checkmodified="true">
 			<resolver ref="myadmin_dependencies_local" />
 			<resolver ref="default" />
 			<resolver ref="myadmin_dependencies" />
 		</chain>
 
-		<chain name="myadmin_staging" returnFirst="true" checkmodified="false">
+		<chain name="myadmin_staging" returnFirst="true" checkmodified="true">
 			<resolver ref="myadmin_staging_repository" />
 			<resolver ref="myadmin_dev" />
 		</chain>
