@@ -8,6 +8,13 @@
 
 	<target name="war">
 
+		<target name="post.jar">
+			<copy todir="${lib.dir}">
+				<fileset dir="${build.dir}" includes="@organisation.name@.@project.name@.jar"/>
+			</copy>
+			<antcall target="war" />
+		</target>
+		
 		<mkdir dir="war"/>
 		<mkdir dir="WebContent/WEB-INF/classes"/>
 		
