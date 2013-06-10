@@ -28,13 +28,16 @@ import de.pellepelster.myadmin.client.base.rest.ParameterOrder;
  * @author pelle
  * 
  */
-public final class RestUtil {
+public final class RestUtil
+{
 
-	public static class ResultWrapper {
+	public static class ResultWrapper
+	{
 
 		public Object result;
 
-		public ResultWrapper(Object result) {
+		public ResultWrapper(Object result)
+		{
 			super();
 			this.result = result;
 		}
@@ -49,10 +52,12 @@ public final class RestUtil {
 	 *            parameter wrapper
 	 * @return
 	 */
-	public static Object invokeRemoteRestService(String serviceUrl, Object parameters) {
+	public static Object invokeRemoteRestService(String serviceUrl, Object parameters)
+	{
 		RestTemplate restTemplate = new RestTemplate();
 
-		try {
+		try
+		{
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.enableDefaultTyping();
@@ -62,7 +67,9 @@ public final class RestUtil {
 
 			return objectMapper.readValue(result.getBytes(), ResultWrapper.class);
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 
@@ -83,8 +90,10 @@ public final class RestUtil {
 	 * @return the json encoded result of the service call (wrapped in a
 	 *         {@link ResultWrapper}
 	 */
-	public static <T> String invokeServiceMethod(Object service, String methodName, String jsonParameters, Class<T> parametersClass) {
-		try {
+	public static <T> String invokeServiceMethod(Object service, String methodName, String jsonParameters, Class<T> parametersClass)
+	{
+		try
+		{
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.enableDefaultTyping();
 			objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -93,13 +102,15 @@ public final class RestUtil {
 			Class<?>[] parameterTypes = new Class[fields.length];
 			Object[] parameters = new Object[fields.length];
 
-			if (fields.length > 0) {
+			if (fields.length > 0)
+			{
 
 				T parameterWrapper = objectMapper.readValue(jsonParameters.getBytes(), parametersClass);
 
 				// rely on correctly generated ParameterOrder annotations
 				// starting at 1
-				for (Field field : fields) {
+				for (Field field : fields)
+				{
 					ParameterOrder parameterOrder = field.getAnnotation(ParameterOrder.class);
 
 					Object parameter = field.get(parameterWrapper);
@@ -110,8 +121,10 @@ public final class RestUtil {
 
 			Method methodToInvoke = null;
 
-			for (Method method : service.getClass().getMethods()) {
-				if (method.getName().equals(methodName)) {
+			for (Method method : service.getClass().getMethods())
+			{
+				if (method.getName().equals(methodName))
+				{
 					methodToInvoke = method;
 				}
 			}
@@ -120,19 +133,26 @@ public final class RestUtil {
 
 			return objectMapper.writeValueAsString(new ResultWrapper(result));
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
 		}
 	}
 
-	public static String invokeServiceMethod(Object service, String methodName, Object[] parameters) {
-		try {
+	public static String invokeServiceMethod(Object service, String methodName, Object[] parameters)
+	{
+		try
+		{
 			Object result = MethodUtils.invokeExactMethod(service, methodName, parameters);
 
-			if (result != null) {
-				return result.toString();
+			if (result != null)
+			{
+				return simpleTypeToJson(result);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
 		}
 
@@ -143,21 +163,25 @@ public final class RestUtil {
 	/**
 	 * Private constructor
 	 */
-	private RestUtil() {
+	private RestUtil()
+	{
 	}
 
-	public static String simpleTypeArrayToJson(Object[] objectArray) {
+	public static String simpleTypeArrayToJson(Object[] objectArray)
+	{
 
 		StringBuilder sb = new StringBuilder();
 
 		String delimiter = "";
 		sb.append("[");
 
-		for (Object arrayItem : objectArray) {
+		for (Object arrayItem : objectArray)
+		{
 
 			sb.append(delimiter);
 			sb.append("\"");
-			if (arrayItem != null) {
+			if (arrayItem != null)
+			{
 				sb.append(arrayItem.toString());
 			}
 			sb.append("\"");
@@ -169,18 +193,22 @@ public final class RestUtil {
 
 	}
 
-	public static String simpleTypeToJson(Object object) {
+	public static String simpleTypeToJson(Object object)
+	{
 
-		if (object == null) {
+		if (object == null)
+		{
 			return "";
 		}
 
-		if (object instanceof Object[]) {
+		if (object instanceof Object[])
+		{
 			Object[] array = (Object[]) object;
 			return simpleTypeArrayToJson(array).toString();
 		}
 
-		if (object instanceof List) {
+		if (object instanceof List)
+		{
 			List<?> list = (List) object;
 			return simpleTypeArrayToJson(list.toArray()).toString();
 		}
