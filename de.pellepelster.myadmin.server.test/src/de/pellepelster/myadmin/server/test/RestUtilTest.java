@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.pellepelster.myadmin.client.base.SysteminformationSimpleVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
@@ -72,6 +73,16 @@ public class RestUtilTest extends BaseMyAdminJndiContextTest
 	public void testInvokeServiceMethodSimple()
 	{
 		Assert.assertEquals("false", RestUtil.invokeServiceMethod(this.userService, "userNameExists", new Object[] { "peter" }));
+	}
+
+	@Test
+	public void testSimpleVO()
+	{
+		SysteminformationSimpleVO s = new SysteminformationSimpleVO();
+		s.setHostName("abc");
+		s.setIpAddress("def");
+
+		Assert.assertEquals("{\"hostName\": \"abc\", \"ipAddress\": \"def\"}", RestUtil.simpleVOToJson(s));
 	}
 
 	@Test

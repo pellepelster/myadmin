@@ -32,7 +32,7 @@
 	«ENDFILE»
 «ENDDEFINE»
 
-//- entityWebVO -------------------------------------------------------------
+//- mobile vo -----------------------------------------------------------------
 «DEFINE mobileVOEntityFile FOR Entity»
 	«info("generating mobile entity vo '" + entityName() + "'")»
 
@@ -40,6 +40,22 @@
 	package «fullQualifiedEntityPackage()»;
 
 	«EXPAND webVOEntityClass("de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO") FOR this»	
+
+	«ENDFILE»
+«ENDDEFINE»
+
+//- simple vo -----------------------------------------------------------------
+«DEFINE simpleVOFile FOR SimpleVO»
+	«info("generating simple vo '" + simpleVOName() + "'")»
+
+	«FILE fullQualifiedSimpleVOFileName()»
+	package «fullQualifiedSimpleVOPackage()»;
+
+	public class «simpleVOName()» implements de.pellepelster.myadmin.client.base.db.vos.ISimpleVO {
+
+		«EXPAND templates::vo::Attribute::simpleVOAttributeGetterSetter(this) FOREACH attributes»
+	
+	}
 
 	«ENDFILE»
 «ENDDEFINE»

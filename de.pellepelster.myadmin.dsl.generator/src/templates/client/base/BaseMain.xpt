@@ -10,4 +10,7 @@
 	«info("generating enumarations")»
 	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
 
+	«info("generating simple vos")»
+	«EXPAND templates::vo::VO::simpleVOFile FOREACH eAllContents.typeSelect(SimpleVO)»
+
 «ENDDEFINE»

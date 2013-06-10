@@ -11,15 +11,18 @@
  */
 package de.pellepelster.myadmin.server.core.services;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
+import de.pellepelster.myadmin.client.base.db.vos.ISimpleVO;
 import de.pellepelster.myadmin.client.base.rest.ParameterOrder;
 
 /**
@@ -148,7 +151,7 @@ public final class RestUtil
 
 			if (result != null)
 			{
-				return simpleTypeToJson(result);
+				return objectToJson(result);
 			}
 		}
 		catch (Exception e)
@@ -193,7 +196,7 @@ public final class RestUtil
 
 	}
 
-	public static String simpleTypeToJson(Object object)
+	public static String objectToJson(Object object)
 	{
 
 		if (object == null)
@@ -213,6 +216,62 @@ public final class RestUtil
 			return simpleTypeArrayToJson(list.toArray()).toString();
 		}
 
+		if (object instanceof ISimpleVO)
+		{
+			ISimpleVO simpleVO = (ISimpleVO) object;
+
+			return simpleVOToJson(simpleVO);
+		}
+
 		return object.toString();
+	}
+
+	public static String simpleVOToJson(ISimpleVO simpleVO)
+	{
+		if (simpleVO == null)
+		{
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		String delimiter = "";
+		sb.append("{");
+
+		for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(simpleVO))
+		{
+			String attribute = propertyDescriptor.getName();
+
+			if (PropertyUtils.isWriteable(simpleVO, attribute) && PropertyUtils.isReadable(simpleVO, attribute))
+			{
+				sb.append(delimiter);
+
+				Object value = null;
+				try
+				{
+					value = PropertyUtils.getProperty(simpleVO, attribute);
+				}
+				catch (Exception e)
+				{
+					throw new RuntimeException(e);
+				}
+
+				if (value != null)
+				{
+					sb.append("\"");
+					sb.append(propertyDescriptor.getName());
+					sb.append("\"");
+
+					sb.append(": ");
+					sb.append("\"");
+					sb.append(objectToJson(value));
+					sb.append("\"");
+				}
+				delimiter = ", ";
+			}
+		}
+		sb.append("}");
+
+		return sb.toString();
 	}
 }

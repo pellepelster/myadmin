@@ -6,6 +6,9 @@
 «DEFINE webVOType FOR EntityAttribute-»
 	«EXPAND templates::type::Type::type("webvo", true) FOR this.type-»«ENDDEFINE»
 
+«DEFINE webVOType FOR SimpleVOAttribute-»
+	«EXPAND templates::type::Type::type("webvo", true) FOR this.type-»«ENDDEFINE»
+
 «DEFINE webVOType FOR Entity-»
 	«fullQualifiedEntityName(this)-»«ENDDEFINE»
 
@@ -80,7 +83,7 @@
 «ENDDEFINE»
 
 «DEFINE rawType(String type, Boolean generics) FOR Type-»
-	«throwError("type '" + metaType.toString() + "' not implemented")» 
+	«throwError("raw type '" + metaType.toString() + "' not implemented")» 
 «ENDDEFINE»
 
 //- reference datatype type ---------------------------------------------------
@@ -121,7 +124,12 @@
 «DEFINE rawType(String type, Boolean generics) FOR SimpleType-»
 	«this.type.toString().toFirstUpper()-»
 «ENDDEFINE»
-	
+
+//- simple vo type ------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR SimpleVOType-»
+	«EXPAND type(type, generics) FOR this.type»
+«ENDDEFINE»
+
 //- myadmin type --------------------------------------------------------------
 «DEFINE type(String type, Boolean generics) FOR MyAdminType-»		
 	«IF (cardinality == Cardinality::onetomany)-»
@@ -211,6 +219,15 @@
 	«fullQualifiedEntityName(this)-»
 «ENDDEFINE»
 
+//- simple vo -----------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR SimpleVO-»
+	«fullQualifiedSimpleVOName(this)»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR SimpleVO-»
+	«fullQualifiedSimpleVOName(this)-»
+«ENDDEFINE»
+
 
 //- enumeration type  ---------------------------------------------------------
 «DEFINE type(String type, Boolean generics) FOR EnumerationType-»
@@ -264,7 +281,7 @@
 «ENDDEFINE»
 
 «DEFINE datatypeType(String type) FOR Datatype»
-	«throwError("type '" + metaType.toString() + "' not implemented")» 
+	«throwError("datatype type '" + metaType.toString() + "' not implemented")» 
 «ENDDEFINE»
 
 «DEFINE datatypeType(String type) FOR TextDatatype-»

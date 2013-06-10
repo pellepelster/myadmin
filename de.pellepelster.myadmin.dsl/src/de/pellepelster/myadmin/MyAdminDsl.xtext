@@ -13,7 +13,7 @@ Model:
 "}"; 
 
 AbstractElement:
-	Model | PackageDeclaration | Import | Datatype | Enumeration | Entity | RemoteService | ModuleDefinition | Module | NavigationNode | Dictionary;
+	Model | PackageDeclaration | Import | Datatype | Enumeration | Entity | SimpleVO | RemoteService | ModuleDefinition | Module | NavigationNode | Dictionary;
 
 PackageDeclaration:
 	'package' name=QualifiedName '{'
@@ -57,6 +57,9 @@ SimpleType:
 
 MyAdminType:
 	"myadmintype" type=MyAdminTypes("<"generic=Generic">")?(cardinality=Cardinality)?;
+
+SimpleVOType:
+	"simplevotype" type=[ SimpleVO ](cardinality=Cardinality)?;
 
 enum MyAdminTypes: 
 	ibasevo = "IBaseVO" | ihierarchicalvo = "IHierarchicalVO" | ibaseclientvo = "IBaseClientVO" | genericfiltervo = "GenericFilterVO";
@@ -111,7 +114,7 @@ enum CascadeType:
 	merge = "cascade_merge" | persist = "cascade_persist" | refresh = "cascade_refresh" | remove = "cascade_remove" | all = "cascade_all";
 
 Type:
-	EntityReferenceType | DatatypeType | SimpleType | EnumerationType | SimpleMapType | MyAdminType | GenericType | JavaType | CustomType;
+	SimpleVOAttributeTypes | SimpleVOType | EntityReferenceType | DatatypeType | SimpleMapType | MyAdminType | GenericType | JavaType | CustomType;
 
 enum SimpleTypes: 
 	long = "Long" | integer = "Integer" | bigdecimal = "BigDecimal" | string = "String" | boolean = "Boolean" | reference = "Reference";
@@ -125,6 +128,18 @@ Entity:
 		("naturalkey {" naturalKeyAttributes+=[EntityAttribute] (", " naturalKeyAttributes+=[EntityAttribute])* "}")?
 		
 		(attributes+=EntityAttribute)*
+	"}";
+
+//- simple VO -----------------------------------------------------------------
+SimpleVOAttributeTypes:
+	SimpleType | EnumerationType;
+
+SimpleVOAttribute:
+	type=SimpleVOAttributeTypes name=ID;
+
+SimpleVO:
+	"simplevo" name=ID "{"
+		(attributes+=SimpleVOAttribute)*
 	"}";
 
 //- navigation ----------------------------------------------------------------

@@ -10,7 +10,13 @@ String getPackageName(Object object, ModelScope modelScope) :
 String entityName(Object object) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.entityName(org.eclipse.emf.ecore.EObject);
 
+String simpleVOName(Object object) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.entityName(org.eclipse.emf.ecore.EObject);
+
 String fullQualifiedEntityName(Object object) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.fullQualifiedEntityName(org.eclipse.emf.ecore.EObject);
+
+String fullQualifiedSimpleVOName(Object object) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.fullQualifiedEntityName(org.eclipse.emf.ecore.EObject);
 
 String fullQualifiedEntityName(Object object, ModelScope modelScope) :
@@ -129,6 +135,10 @@ String fullQualifiedEntityFileName(Enumeration enumeration) : fullQualifiedEntit
 
 String fullQualifiedEntityPackage(Entity entity) : getPackageName(entity);
 String fullQualifiedEntityPackage(Enumeration enumeration) : getPackageName(enumeration);
+
+//- simple vo naming utils ----------------------------------------------------
+String fullQualifiedSimpleVOFileName(SimpleVO simpleVO) : fullQualifiedSimpleVOName(simpleVO).replaceAll('\\.', '/') + '.java';
+String fullQualifiedSimpleVOPackage(SimpleVO simpleVO) : getPackageName(simpleVO);
 
 
 //- jpa utils -----------------------------------------------------------------

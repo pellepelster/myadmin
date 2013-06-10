@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.web.test;
 
 import de.pellepelster.myadmin.client.web.IMyAdminGWTRemoteServiceLocator;
+import de.pellepelster.myadmin.client.web.ISystemServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
@@ -28,30 +29,30 @@ public class TestMyAdminRemoteServiceLocator implements IMyAdminGWTRemoteService
 	public TestMyAdminRemoteServiceLocator()
 	{
 		super();
-		baseEntityServiceGWTAsync = new TestBaseEntityServiceGWTAsync();
-		dictionaryServiceGWTAsync = new TestDictionaryServiceGWTAsync();
-		hierachicalServiceGWTAsync = new TestHierarchicalServiceGWTAsync();
+		this.baseEntityServiceGWTAsync = new TestBaseEntityServiceGWTAsync();
+		this.dictionaryServiceGWTAsync = new TestDictionaryServiceGWTAsync();
+		this.hierachicalServiceGWTAsync = new TestHierarchicalServiceGWTAsync();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public IBaseEntityServiceGWTAsync getBaseEntityService()
 	{
-		return baseEntityServiceGWTAsync;
+		return this.baseEntityServiceGWTAsync;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public IDictionaryServiceGWTAsync getDictionaryService()
 	{
-		return dictionaryServiceGWTAsync;
+		return this.dictionaryServiceGWTAsync;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public IHierachicalServiceGWTAsync getHierachicalService()
 	{
-		return hierachicalServiceGWTAsync;
+		return this.hierachicalServiceGWTAsync;
 	}
 
 	/** {@inheritDoc} */
@@ -64,6 +65,12 @@ public class TestMyAdminRemoteServiceLocator implements IMyAdminGWTRemoteService
 	/** {@inheritDoc} */
 	@Override
 	public IUserServiceGWTAsync getUserService()
+	{
+		return null;
+	}
+
+	@Override
+	public ISystemServiceGWTAsync getSystemService()
 	{
 		return null;
 	}
