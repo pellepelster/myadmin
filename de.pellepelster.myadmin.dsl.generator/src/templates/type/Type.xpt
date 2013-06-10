@@ -349,6 +349,10 @@
 	 = new java.util.HashMap<«type1.toString().toFirstUpper()», «type2.toString().toFirstUpper()»>();
 «ENDDEFINE»
 
+«DEFINE parseSimpleTypeFromString(String parameterName) FOR EnumerationType-»
+	«fullQualifiedEntityName(this.type)-».valueOf(«parameterName»)
+«ENDDEFINE»
+
 «DEFINE parseSimpleTypeFromString(String parameterName) FOR SimpleTypes-»
 	«IF this == SimpleTypes::long-»
 		java.lang.Long.parseLong(«parameterName»)
@@ -363,4 +367,8 @@
 	«ELSE»
 		«throwError("unsupported simple type '" + this.toString() + "'")»
 	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE parseSimpleTypeFromString(String parameterName) FOR Type-»
+	«throwError("unsupported type '" + this.toString() + "'")»
 «ENDDEFINE»
