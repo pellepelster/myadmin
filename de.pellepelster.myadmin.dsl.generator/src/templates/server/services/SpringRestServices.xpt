@@ -38,7 +38,7 @@ public class «baseRestServiceControllerName()» {
 	@ResponseBody
 	public «IF returnType == null»void«ELSE»String«ENDIF» «name»(«FOREACH methodParameters AS methodParameter SEPARATOR ", "»@org.springframework.web.bind.annotation.PathVariable("«methodParameter.name.toLowerCase()»") String «methodParameter.name.toFirstLower()»«ENDFOREACH»«IF !methodParameters.isEmpty»,«ENDIF» org.springframework.ui.Model model)
 	{
-		Object result = RestUtil.invokeServiceMethod(«remoteService.name.toFirstLower()», "«name»", new Object[] { «FOREACH methodParameters AS methodParameter SEPARATOR ", "»«EXPAND templates::type::Type::parseSimpleTypeFromString(methodParameter.name) FOR (methodParameter.type).type»«ENDFOREACH» });
+		Object result = RestUtil.invokeServiceMethod(«remoteService.name.toFirstLower()», "«name»", new Object[] { «FOREACH methodParameters AS methodParameter SEPARATOR ", "»«EXPAND templates::type::Type::parseSimpleTypeFromString(methodParameter.name) FOR methodParameter.type»«ENDFOREACH» });
 
 		«IF returnType != null»
 			return de.pellepelster.myadmin.server.core.services.RestUtil.simpleTypeToJson(result);

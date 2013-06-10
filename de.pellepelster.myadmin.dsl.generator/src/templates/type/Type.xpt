@@ -353,6 +353,10 @@
 	«fullQualifiedEntityName(this.type)-».valueOf(«parameterName»)
 «ENDDEFINE»
 
+«DEFINE parseSimpleTypeFromString(String parameterName) FOR SimpleType-»
+	«EXPAND parseSimpleTypeFromString(parameterName) FOR this.type»
+«ENDDEFINE»
+
 «DEFINE parseSimpleTypeFromString(String parameterName) FOR SimpleTypes-»
 	«IF this == SimpleTypes::long-»
 		java.lang.Long.parseLong(«parameterName»)
