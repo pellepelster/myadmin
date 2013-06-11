@@ -27,17 +27,19 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Enumeration;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelScope;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
+import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleVO;
 import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 public class Extensions
 {
 
-	public static String WEB_ROOT_PACKAGE_POSTFIX = "client.web";
-	public static String MOBILE_ROOT_PACKAGE_POSTFIX = "mobile.web";
-	public static String WEB_SERVICE_ROOT_PACKAGE_POSTFIX = "client.web";
-	public static String SERVER_ROOT_PACKAGE_POSTFIX = "server";
-	public static String CLIENT_BASE_ROOT_PACKAGE_POSTFIX = "client.base";
+	public static final String SIMPLE_VO_POSTFIX = "SimpleVO";
+	public static final String WEB_ROOT_PACKAGE_POSTFIX = "client.web";
+	public static final String MOBILE_ROOT_PACKAGE_POSTFIX = "mobile.web";
+	public static final String WEB_SERVICE_ROOT_PACKAGE_POSTFIX = "client.web";
+	public static final String SERVER_ROOT_PACKAGE_POSTFIX = "server";
+	public static final String CLIENT_BASE_ROOT_PACKAGE_POSTFIX = "client.base";
 
 	public static List<EObject> allElements(EObject anElementInRootResource)
 	{
@@ -93,6 +95,10 @@ public class Extensions
 		{
 			return toFirstUpper(((Entity) eObject).getName()) + postfix;
 		}
+		if (eObject instanceof SimpleVO)
+		{
+			return toFirstUpper(((SimpleVO) eObject).getName()) + SIMPLE_VO_POSTFIX;
+		}
 		else if (eObject instanceof Enumeration)
 		{
 			return toFirstUpper(((Enumeration) eObject).getName());
@@ -106,6 +112,10 @@ public class Extensions
 	public static String fullQualifiedEntityName(EObject eObject)
 	{
 		if (eObject instanceof Enumeration)
+		{
+			return fullQualifiedEntityName(eObject, ModelScope.CLIENT_BASE);
+		}
+		if (eObject instanceof SimpleVO)
 		{
 			return fullQualifiedEntityName(eObject, ModelScope.CLIENT_BASE);
 		}

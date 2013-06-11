@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
@@ -77,6 +78,23 @@ public class RestUtilTest extends BaseMyAdminJndiContextTest {
 		Assert.assertEquals("1.2", RestUtil.simpleTypeToJson(1.2));
 		Assert.assertEquals("[\"a\", \"b\"]", RestUtil.simpleTypeToJson(new String[] { "a", "b" }));
 		Assert.assertEquals("[\"d\", \"e\"]", RestUtil.simpleTypeToJson(Arrays.asList(new String[] { "d", "e" })));
+	}
+
+	public void testSimpleVOToJson() {
+		SysteminformationSimpleVO s = new SysteminformationSimpleVO();
+		s.setHostName("abc");
+		s.setIpAddress("def");
+
+		Assert.assertEquals("{\"hostName\": \"abc\", \"ipAddress\": \"def\"}", RestUtil.simpleVOToJson(s));
+	}
+
+	@Test
+	public void testIBaseVOToJson() {
+		ClientVO clientVO = new ClientVO();
+		clientVO.setName("ccc");
+		clientVO.setId(1);
+
+		Assert.assertEquals("{\"id\": 1, \"name\": \"ccc\", \"oid\": 1}", RestUtil.simpleVOToJson(clientVO));
 	}
 
 	@Test

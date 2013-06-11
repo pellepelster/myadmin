@@ -21,6 +21,21 @@
 	}	
 «ENDDEFINE»
 
+«DEFINE simpleVOAttributeGetterSetter(SimpleVO simpleVO) FOR SimpleVOAttribute»
+
+	private «EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»;
+
+	public «EXPAND templates::type::Type::webVOType FOR type-» get«name.toFirstUpper()»()
+	{
+		return «name.toFirstLower()»;
+	}
+
+	public void set«name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»)
+	{
+		«EXPAND assignVariable(name) FOR this.type»
+	}	
+«ENDDEFINE»
+
 «DEFINE assignVariable(String name) FOR Type»
 	this.«name.toFirstLower()» = «name.toFirstLower()»;
 «ENDDEFINE»
