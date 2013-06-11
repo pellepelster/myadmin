@@ -37,7 +37,14 @@ public class TextControlFactory extends BaseControlFactory<ITextControlModel>
 	@Override
 	public IControl<Widget> createControl(ITextControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
-		return new TextControl(controlModel);
+		if (controlModel.isReadonly())
+		{
+			return new ReadonlyControl(controlModel, this);
+		}
+		else
+		{
+			return new TextControl(controlModel);
+		}
 	}
 
 	/** {@inheritDoc} */

@@ -79,4 +79,6 @@ public interface IBaseControlModel extends IBaseModel, IDatabindingAwareModel
 	 * @return
 	 */
 	boolean isMandatory();
+
+	boolean isReadonly();
 }

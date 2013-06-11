@@ -27,7 +27,6 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Labels;
-import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleTypes;
 
 /**
  * Factory for control creation
@@ -168,6 +167,11 @@ public class ControlFactory
 			if (dictionaryControlVO.getMandatory() == null && baseDictionaryControl.isMandatory())
 			{
 				dictionaryControlVO.setMandatory(baseDictionaryControl.isMandatory());
+			}
+
+			if (dictionaryControlVO.getReadOnly() == null && baseDictionaryControl.isReadonly())
+			{
+				dictionaryControlVO.setReadOnly(baseDictionaryControl.isReadonly());
 			}
 
 		}

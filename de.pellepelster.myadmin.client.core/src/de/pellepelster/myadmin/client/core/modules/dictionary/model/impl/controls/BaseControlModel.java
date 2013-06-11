@@ -155,7 +155,13 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	@Override
 	public boolean isMandatory()
 	{
-		return this.dictionaryControlVO.getMandatory();
+		return this.dictionaryControlVO.getMandatory() != null && this.dictionaryControlVO.getMandatory();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public boolean isReadonly()
+	{
+		return this.dictionaryControlVO.getReadOnly() != null && this.dictionaryControlVO.getReadOnly();
+	}
 }
