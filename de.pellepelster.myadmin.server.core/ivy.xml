@@ -29,6 +29,8 @@
 
 		<dependency name="server-lib" rev="latest.integration" conf="*->default" />
 
+		<dependency org="com.google.code.gson" name="gson" rev="2.2.4" />
+		
 	</dependencies>
 
 </ivy-module>

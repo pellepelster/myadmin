@@ -127,7 +127,15 @@
 
 //- simple vo type ------------------------------------------------------------
 «DEFINE type(String type, Boolean generics) FOR SimpleVOType-»
-	«EXPAND type(type, generics) FOR this.type»
+	«IF (cardinality == Cardinality::onetomany)-»
+		java.util.List«IF generics»<«EXPAND rawType(type, generics) FOR this-»>«ENDIF»
+	«ELSE-»
+		«EXPAND rawType(type, generics) FOR this-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR SimpleVOType-»
+	«EXPAND type(type, generics) FOR this.type-»
 «ENDDEFINE»
 
 //- myadmin type --------------------------------------------------------------

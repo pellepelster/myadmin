@@ -7,10 +7,18 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			simpletype String ipAddress
 		}
 
+		simplevo LogEntry {
+			simpletype String logText
+		}
+
 		remoteservice SystemService {
 	
 			remotemethod getSystemInformation returns simplevotype Systeminformation  {
 			}
+			
+			remotemethod getLog returns simplevotype LogEntry *  {
+			}
+			
 		}
 
 		package datatypes {

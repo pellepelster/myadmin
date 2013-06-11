@@ -11,14 +11,11 @@
  */
 package de.pellepelster.myadmin.server.test;
 
-import java.util.Arrays;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
@@ -29,6 +26,7 @@ import de.pellepelster.myadmin.server.test.restvos.ObjectB;
 import de.pellepelster.myadmin.server.test.restvos.ObjectC;
 
 public class RestUtilTest extends BaseMyAdminJndiContextTest {
+
 	@Autowired
 	protected IUserService userService;
 
@@ -68,33 +66,6 @@ public class RestUtilTest extends BaseMyAdminJndiContextTest {
 	@Test
 	public void testInvokeServiceMethodSimple() {
 		Assert.assertEquals("false", RestUtil.invokeServiceMethod(this.userService, "userNameExists", new Object[] { "peter" }));
-	}
-
-	@Test
-	public void testSimpleTypeToJson() {
-		Assert.assertEquals("false", RestUtil.simpleTypeToJson(false));
-		Assert.assertEquals("true", RestUtil.simpleTypeToJson(true));
-		Assert.assertEquals("1", RestUtil.simpleTypeToJson(1));
-		Assert.assertEquals("1.2", RestUtil.simpleTypeToJson(1.2));
-		Assert.assertEquals("[\"a\", \"b\"]", RestUtil.simpleTypeToJson(new String[] { "a", "b" }));
-		Assert.assertEquals("[\"d\", \"e\"]", RestUtil.simpleTypeToJson(Arrays.asList(new String[] { "d", "e" })));
-	}
-
-	public void testSimpleVOToJson() {
-		SysteminformationSimpleVO s = new SysteminformationSimpleVO();
-		s.setHostName("abc");
-		s.setIpAddress("def");
-
-		Assert.assertEquals("{\"hostName\": \"abc\", \"ipAddress\": \"def\"}", RestUtil.simpleVOToJson(s));
-	}
-
-	@Test
-	public void testIBaseVOToJson() {
-		ClientVO clientVO = new ClientVO();
-		clientVO.setName("ccc");
-		clientVO.setId(1);
-
-		Assert.assertEquals("{\"id\": 1, \"name\": \"ccc\", \"oid\": 1}", RestUtil.simpleVOToJson(clientVO));
 	}
 
 	@Test

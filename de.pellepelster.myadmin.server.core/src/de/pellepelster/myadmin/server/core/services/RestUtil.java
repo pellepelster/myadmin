@@ -11,20 +11,16 @@
  */
 package de.pellepelster.myadmin.server.core.services;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.ISimpleVO;
+import com.google.gson.Gson;
+
 import de.pellepelster.myadmin.client.base.rest.ParameterOrder;
 
 /**
@@ -33,16 +29,15 @@ import de.pellepelster.myadmin.client.base.rest.ParameterOrder;
  * @author pelle
  * 
  */
-public final class RestUtil
-{
+public final class RestUtil {
 
-	public static class ResultWrapper
-	{
+	private static final Gson GSON = new Gson();
+
+	public static class ResultWrapper {
 
 		public Object result;
 
-		public ResultWrapper(Object result)
-		{
+		public ResultWrapper(Object result) {
 			super();
 			this.result = result;
 		}
@@ -57,12 +52,10 @@ public final class RestUtil
 	 *            parameter wrapper
 	 * @return
 	 */
-	public static Object invokeRemoteRestService(String serviceUrl, Object parameters)
-	{
+	public static Object invokeRemoteRestService(String serviceUrl, Object parameters) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		try
-		{
+		try {
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.enableDefaultTyping();
@@ -72,9 +65,7 @@ public final class RestUtil
 
 			return objectMapper.readValue(result.getBytes(), ResultWrapper.class);
 
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
@@ -95,10 +86,8 @@ public final class RestUtil
 	 * @return the json encoded result of the service call (wrapped in a
 	 *         {@link ResultWrapper}
 	 */
-	public static <T> String invokeServiceMethod(Object service, String methodName, String jsonParameters, Class<T> parametersClass)
-	{
-		try
-		{
+	public static <T> String invokeServiceMethod(Object service, String methodName, String jsonParameters, Class<T> parametersClass) {
+		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.enableDefaultTyping();
 			objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -107,15 +96,13 @@ public final class RestUtil
 			Class<?>[] parameterTypes = new Class[fields.length];
 			Object[] parameters = new Object[fields.length];
 
-			if (fields.length > 0)
-			{
+			if (fields.length > 0) {
 
 				T parameterWrapper = objectMapper.readValue(jsonParameters.getBytes(), parametersClass);
 
 				// rely on correctly generated ParameterOrder annotations
 				// starting at 1
-				for (Field field : fields)
-				{
+				for (Field field : fields) {
 					ParameterOrder parameterOrder = field.getAnnotation(ParameterOrder.class);
 
 					Object parameter = field.get(parameterWrapper);
@@ -126,10 +113,8 @@ public final class RestUtil
 
 			Method methodToInvoke = null;
 
-			for (Method method : service.getClass().getMethods())
-			{
-				if (method.getName().equals(methodName))
-				{
+			for (Method method : service.getClass().getMethods()) {
+				if (method.getName().equals(methodName)) {
 					methodToInvoke = method;
 				}
 			}
@@ -138,26 +123,19 @@ public final class RestUtil
 
 			return objectMapper.writeValueAsString(new ResultWrapper(result));
 
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
 		}
 	}
 
-	public static String invokeServiceMethod(Object service, String methodName, Object[] parameters)
-	{
-		try
-		{
+	public static String invokeServiceMethod(Object service, String methodName, Object[] parameters) {
+		try {
 			Object result = MethodUtils.invokeExactMethod(service, methodName, parameters);
 
-			if (result != null)
-			{
-				return objectToJson(result);
+			if (result != null) {
+				return GSON.toJson(result);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(String.format("error invoking method '%s' on service '%s'", methodName, service.getClass()), e);
 		}
 
@@ -168,117 +146,7 @@ public final class RestUtil
 	/**
 	 * Private constructor
 	 */
-	private RestUtil()
-	{
+	private RestUtil() {
 	}
 
-	public static String simpleTypeArrayToJson(Object[] objectArray)
-	{
-
-		StringBuilder sb = new StringBuilder();
-
-		String delimiter = "";
-		sb.append("[");
-
-		for (Object arrayItem : objectArray)
-		{
-
-			sb.append(delimiter);
-			sb.append("\"");
-			if (arrayItem != null)
-			{
-				sb.append(arrayItem.toString());
-			}
-			sb.append("\"");
-			delimiter = ", ";
-		}
-		sb.append("]");
-
-		return sb.toString();
-
-	}
-
-	public static String objectToJson(Object object)
-	{
-
-		if (object == null)
-		{
-			return "";
-		}
-
-		if (object instanceof Object[])
-		{
-			Object[] array = (Object[]) object;
-
-			return simpleTypeArrayToJson(array).toString();
-		}
-
-		if (object instanceof List)
-		{
-			@SuppressWarnings("rawtypes")
-			List<?> list = (List) object;
-			return simpleTypeArrayToJson(list.toArray()).toString();
-		}
-
-		if (object instanceof ISimpleVO || object instanceof IBaseVO)
-		{
-			return simpleVOToJson(object);
-		}
-
-		if (object instanceof Boolean || object instanceof Long || object instanceof Integer || object instanceof BigDecimal)
-		{
-			return object.toString();
-		}
-		else
-		{
-			return String.format("\"%s\"", object.toString());
-		}
-	}
-
-	public static String simpleVOToJson(Object simpleVO)
-	{
-		if (simpleVO == null)
-		{
-			return "";
-		}
-
-		StringBuilder sb = new StringBuilder();
-
-		String delimiter = "";
-		sb.append("{");
-
-		for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(simpleVO))
-		{
-			String attribute = propertyDescriptor.getName();
-
-			if (PropertyUtils.isWriteable(simpleVO, attribute) && PropertyUtils.isReadable(simpleVO, attribute))
-			{
-				sb.append(delimiter);
-
-				Object value = null;
-				try
-				{
-					value = PropertyUtils.getProperty(simpleVO, attribute);
-				}
-				catch (Exception e)
-				{
-					throw new RuntimeException(e);
-				}
-
-				if (value != null)
-				{
-					sb.append("\"");
-					sb.append(propertyDescriptor.getName());
-					sb.append("\"");
-
-					sb.append(": ");
-					sb.append(objectToJson(value));
-				}
-				delimiter = ", ";
-			}
-		}
-		sb.append("}");
-
-		return sb.toString();
-	}
 }
