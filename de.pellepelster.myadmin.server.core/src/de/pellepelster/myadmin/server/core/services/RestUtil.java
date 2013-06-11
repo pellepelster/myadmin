@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.server.core.services;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.beanutils.MethodUtils;
@@ -22,6 +23,7 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.ISimpleVO;
 import de.pellepelster.myadmin.client.base.rest.ParameterOrder;
 
@@ -207,26 +209,33 @@ public final class RestUtil
 		if (object instanceof Object[])
 		{
 			Object[] array = (Object[]) object;
+
 			return simpleTypeArrayToJson(array).toString();
 		}
 
 		if (object instanceof List)
 		{
+			@SuppressWarnings("rawtypes")
 			List<?> list = (List) object;
 			return simpleTypeArrayToJson(list.toArray()).toString();
 		}
 
-		if (object instanceof ISimpleVO)
+		if (object instanceof ISimpleVO || object instanceof IBaseVO)
 		{
-			ISimpleVO simpleVO = (ISimpleVO) object;
-
-			return simpleVOToJson(simpleVO);
+			return simpleVOToJson(object);
 		}
 
-		return object.toString();
+		if (object instanceof Boolean || object instanceof Long || object instanceof Integer || object instanceof BigDecimal)
+		{
+			return object.toString();
+		}
+		else
+		{
+			return String.format("\"%s\"", object.toString());
+		}
 	}
 
-	public static String simpleVOToJson(ISimpleVO simpleVO)
+	public static String simpleVOToJson(Object simpleVO)
 	{
 		if (simpleVO == null)
 		{
@@ -263,9 +272,7 @@ public final class RestUtil
 					sb.append("\"");
 
 					sb.append(": ");
-					sb.append("\"");
 					sb.append(objectToJson(value));
-					sb.append("\"");
 				}
 				delimiter = ", ";
 			}

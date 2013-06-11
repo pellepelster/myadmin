@@ -33,7 +33,7 @@ public class «baseRestServiceControllerName()» {
 
 «DEFINE remoteMethod(RemoteService remoteService) FOR RemoteMethod»
 	
-	«IF (methodParameters.size == 0 || (methodParameters.type.typeSelect(SimpleType).size + methodParameters.type.typeSelect(EnumerationType).size) == methodParameters.size) && (returnType == null || SimpleType.isAssignableFrom(returnType.metaType) || SimpleVOType.isAssignableFrom(returnType.metaType))»
+	«IF (methodParameters.size == 0 || (methodParameters.type.typeSelect(SimpleType).size + methodParameters.type.typeSelect(EnumerationType).size) == methodParameters.size)»
 	@RequestMapping(value="/«restServiceUrl()»«FOREACH methodParameters AS methodParameter»/{«methodParameter.name.toLowerCase()»}«ENDFOREACH»", method=org.springframework.web.bind.annotation.RequestMethod.GET)
 	@ResponseBody
 	public «IF returnType == null»void«ELSE»String«ENDIF» «name»(«FOREACH methodParameters AS methodParameter SEPARATOR ", "»@org.springframework.web.bind.annotation.PathVariable("«methodParameter.name.toLowerCase()»") String «methodParameter.name.toFirstLower()»«ENDFOREACH»«IF !methodParameters.isEmpty»,«ENDIF» org.springframework.ui.Model model)
