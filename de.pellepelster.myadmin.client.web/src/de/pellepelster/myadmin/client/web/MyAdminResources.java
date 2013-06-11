@@ -34,4 +34,7 @@ public interface MyAdminResources extends ClientBundle
 
 	@Source("searchSearch.png")
 	ImageResource searchSearch();
+
+	@Source("editorRefresh.png")
+	ImageResource editorRefresh();
 }

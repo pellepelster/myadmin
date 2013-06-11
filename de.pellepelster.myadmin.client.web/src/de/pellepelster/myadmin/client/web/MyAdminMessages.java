@@ -67,7 +67,7 @@ public interface MyAdminMessages extends Messages
 	String searchCreate();
 
 	@DefaultMessage("{0} results")
-	//@AlternateMessage({ "=0", "{0} result" })
+	// @AlternateMessage({ "=0", "{0} result" })
 	String searchResults(@PluralCount int resoultCount);
 
 	@DefaultMessage("Search")
@@ -75,5 +75,8 @@ public interface MyAdminMessages extends Messages
 
 	@DefaultMessage("Search for {0}")
 	String searchTitle(String dictionaryName);
+
+	@DefaultMessage("Refresh")
+	String editorRefresh();
 
 }

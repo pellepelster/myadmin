@@ -46,6 +46,8 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 	private static final String DICTIONARY_BACK_DEBUG_ID = "DictionaryBack";
 
+	private static final String DICTIONARY_REFRESH_DEBUG_ID = "DictionaryRefresh";
+
 	@SuppressWarnings("rawtypes")
 	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI)
 	{
@@ -106,6 +108,17 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				save();
 			}
 		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_DEBUG_ID);
+
+		actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
+		{
+			/** {@inheritDoc} */
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				getModule().refresh();
+			}
+
+		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_DEBUG_ID);
 
 	}
 

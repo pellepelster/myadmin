@@ -296,6 +296,18 @@
 	}
 «ENDDEFINE»
 
+«DEFINE parseEnumerationFromObject(String attributeName) FOR Enumeration»
+	if (value instanceof String)
+	{
+		set«attributeName.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR this-».valueOf((String) value));
+			
+	}
+	else
+	{
+		set«attributeName.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR this-») value);
+	}
+«ENDDEFINE»
+
 //- genericVOSetter -----------------------------------------------------------
 «DEFINE genericVOSetter FOR Entity»
 	public void set(java.lang.String name, java.lang.Object value) {
@@ -304,15 +316,15 @@
 			if ("«attribute.name»".equals(name))
 			{		
 				«IF attribute.type.metaType == EnumerationType»
-					if (value instanceof String)
-					{
-						set«attribute.name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR attribute.type-».valueOf((String) value));
-							
-					}
-					else
-					{
-						set«attribute.name.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR attribute.type-») value);
-					}
+					«EXPAND parseEnumerationFromObject(attribute.name) FOR ((EnumerationType) attribute.type).type»
+				«ELSEIF attribute.type.metaType == DatatypeType»
+					«LET ((DatatypeType) attribute.type).type AS datatype»
+						«IF datatype.metaType == EnumerationDatatype»
+							«EXPAND parseEnumerationFromObject(attribute.name) FOR ((EnumerationDatatype) datatype).enumeration»
+						«ELSE»
+							set«attribute.name.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR attribute.type-») value);
+						«ENDIF»
+					«ENDLET»
 				«ELSE»
 					set«attribute.name.toFirstUpper()»((«EXPAND templates::type::Type::webVOType FOR attribute.type-») value);
 				«ENDIF»

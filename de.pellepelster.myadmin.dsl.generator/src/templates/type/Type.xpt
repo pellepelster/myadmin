@@ -6,6 +6,9 @@
 «DEFINE webVOType FOR EntityAttribute-»
 	«EXPAND templates::type::Type::type("webvo", true) FOR this.type-»«ENDDEFINE»
 
+«DEFINE webVOType FOR Enumeration-»
+	«EXPAND templates::type::Type::type("webvo", true) FOR this-»«ENDDEFINE»
+
 «DEFINE webVOType FOR SimpleVOAttribute-»
 	«EXPAND templates::type::Type::type("webvo", true) FOR this.type-»«ENDDEFINE»
 
@@ -239,10 +242,17 @@
 
 //- enumeration type  ---------------------------------------------------------
 «DEFINE type(String type, Boolean generics) FOR EnumerationType-»
-	«EXPAND rawType(type, generics) FOR this-»«ENDDEFINE»
+	«EXPAND type(type, generics) FOR this.type-»«ENDDEFINE»
 
 «DEFINE rawType(String type, Boolean generics) FOR EnumerationType-»
-	«fullQualifiedEntityName(this.type)-»«ENDDEFINE»
+	«EXPAND rawType(type, generics) FOR this.type-»«ENDDEFINE»
+
+//- enumeration ---------------------------------------------------------------
+«DEFINE type(String type, Boolean generics) FOR Enumeration-»
+	«EXPAND rawType(type, generics) FOR this-»«ENDDEFINE»
+
+«DEFINE rawType(String type, Boolean generics) FOR Enumeration-»
+	«fullQualifiedEntityName(this)-»«ENDDEFINE»
 
 //- myAdminType ---------------------------------------------------------------
 «DEFINE myAdminType FOR MyAdminType-»

@@ -26,8 +26,8 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -394,4 +394,8 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		this.titleChangedCallback = titleChangedCallback;
 	}
 
+	public void refresh()
+	{
+		load();
+	}
 }
