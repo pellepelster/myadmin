@@ -484,7 +484,6 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 	@Override
 	public <ValidateAndCreateVOType extends IBaseVO> void validateAndCreate(ValidateAndCreateVOType vo, AsyncCallback<Result<ValidateAndCreateVOType>> callback)
 	{
-
 		if (vo instanceof Test1VO)
 		{
 
@@ -501,6 +500,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			}
 			else
 			{
+				test1vo.setId(this.test1vos.size());
 				this.test1vos.add(test1vo);
 			}
 

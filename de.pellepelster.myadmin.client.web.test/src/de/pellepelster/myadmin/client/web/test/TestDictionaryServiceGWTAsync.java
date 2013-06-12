@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -439,6 +440,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		dictionaryControlVO.setColumnLabel(label);
 		dictionaryControlVO.setMandatory(false);
 		dictionaryControlVO.setName(label);
+		dictionaryControlVO.setControlType(CONTROL_TYPE.TEXT);
 
 		dictionaryControlVO.setAttributePath(attributePath);
 		dictionaryControlVO.setDictionary(dictionaryName);
@@ -465,6 +467,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
 
 		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.TEXT);
+		dictionaryDatatypeVO.setMaxLength(16);
 		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
 
 		return dictionaryControlVO;

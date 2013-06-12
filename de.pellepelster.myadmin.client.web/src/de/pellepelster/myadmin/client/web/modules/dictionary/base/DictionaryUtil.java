@@ -109,7 +109,7 @@ public final class DictionaryUtil
 	public static String getEditorTitle(IDictionaryModel dictionaryModel, DatabindingVOWrapper voWrapper)
 	{
 
-		IBaseVO vo = voWrapper.getVo();
+		IBaseVO vo = voWrapper.getVO();
 
 		String title = getTitle(dictionaryModel.getEditorModel().getTitle(), dictionaryModel.getTitle());
 
