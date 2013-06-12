@@ -48,7 +48,7 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  */
 public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule implements IDictionaryEditor<VOType>
 {
-	public EventBus eventBus = GWT.create(SimpleEventBus.class);
+	private EventBus eventBus = GWT.create(SimpleEventBus.class);
 
 	private SimpleCallback<String> titleChangedCallback;
 
@@ -93,7 +93,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				DictionaryEditorModule.this.voWrapper.setVo(result.getVo());
 				DictionaryEditorModule.this.voWrapper.markClean();
 
-				MyAdmin.EVENT_BUS.fireEvent(new VOSavedEvent(result.getVo()));
+				VOSavedEvent voSavedEvent = new VOSavedEvent(result.getVo());
+				MyAdmin.EVENT_BUS.fireEvent(voSavedEvent);
+				getEventBus().fireEvent(voSavedEvent);
 
 				callTitleChangedCallback();
 			}
@@ -194,7 +196,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private EditorMode getEditorMode()
 	{
-		if (this.voWrapper.getVo() == null || this.voWrapper.getVo().getId() == IBaseVO.NEW_VO_ID)
+		if (this.voWrapper.getVO() == null || this.voWrapper.getVO().getId() == IBaseVO.NEW_VO_ID)
 		{
 			return EditorMode.INSERT;
 		}
@@ -254,10 +256,21 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public void load(final AsyncCallback<Void> callback)
 	{
-		if (hasId())
+		long id = -1;
+
+		if (this.voWrapper.getVO() != null && !this.voWrapper.getVO().isNew())
+		{
+			id = this.voWrapper.getVO().getId();
+		}
+		else if (hasId())
+		{
+			id = getId();
+		}
+
+		if (id > 0)
 		{
 			GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO<IBaseVO>(this.dictionaryModel.getVOName());
-			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, getId());
+			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
 			DictionaryModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel.getEditorModel().getCompositeModel());
 
@@ -280,6 +293,8 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				{
 					if (result.size() == 1)
 					{
+						DictionaryEditorModule.this.eventBus.fireEvent(new VOLoadEvent(result.get(0)));
+
 						DictionaryEditorModule.this.voWrapper.setVo(result.get(0));
 						DictionaryEditorModule.this.voWrapper.markClean();
 						callTitleChangedCallback();
@@ -379,10 +394,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		switch (getEditorMode())
 		{
 			case INSERT:
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndCreate(this.voWrapper.getVo(), this.saveCallback);
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndCreate(this.voWrapper.getVO(), this.saveCallback);
 				break;
 			case UPDATE:
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndSave(this.voWrapper.getVo(), this.saveCallback);
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndSave(this.voWrapper.getVO(), this.saveCallback);
 				break;
 			default:
 				throw new RuntimeException("editor mode '" + getEditorMode().toString() + "' not implemented");

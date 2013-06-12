@@ -47,32 +47,32 @@ public class DatabindingVOWrapper
 
 	public void addContentChangedListener(IContentChangedListener contentChangedListener)
 	{
-		contentChangedListeners.add(contentChangedListener);
+		this.contentChangedListeners.add(contentChangedListener);
 	}
 
 	public Object get(String name)
 	{
-		return vo.get(name);
+		return this.vo.get(name);
 	}
 
 	public long getId()
 	{
-		return vo.getId();
+		return this.vo.getId();
 	}
 
 	public void addDirtyListener(IDirtyListener dirtyListener)
 	{
-		dirtyListeners.add(dirtyListener);
+		this.dirtyListeners.add(dirtyListener);
 	}
-	
+
 	public IObservableValue getObservableValue(final IDatabindingAwareModel databindingAwareModel)
 	{
 
 		IObservableValue observableValue;
 
-		if (observableValues.containsKey(databindingAwareModel))
+		if (this.observableValues.containsKey(databindingAwareModel))
 		{
-			observableValue = observableValues.get(databindingAwareModel);
+			observableValue = this.observableValues.get(databindingAwareModel);
 		}
 		else
 		{
@@ -85,14 +85,14 @@ public class DatabindingVOWrapper
 				@Override
 				public void addValueChangeListener(IValueChangeListener valueChangeListener)
 				{
-					valueChangeListeners.add(valueChangeListener);
+					this.valueChangeListeners.add(valueChangeListener);
 				}
 
 				/** {@inheritDoc} */
 				@Override
 				public Object getContent()
 				{
-					return vo.get(databindingAwareModel.getAttributePath());
+					return DatabindingVOWrapper.this.vo.get(databindingAwareModel.getAttributePath());
 				}
 
 				/** {@inheritDoc} */
@@ -113,14 +113,14 @@ public class DatabindingVOWrapper
 				@Override
 				public List<IValueChangeListener> getValueChangeListeners()
 				{
-					return valueChangeListeners;
+					return this.valueChangeListeners;
 				}
 
 				/** {@inheritDoc} */
 				@Override
 				public void removeValueChangeListener(IValueChangeListener valueChangeListener)
 				{
-					valueChangeListeners.remove(valueChangeListener);
+					this.valueChangeListeners.remove(valueChangeListener);
 				}
 
 				/** {@inheritDoc} */
@@ -131,45 +131,40 @@ public class DatabindingVOWrapper
 				}
 			};
 
-			observableValues.put(databindingAwareModel, observableValue);
+			this.observableValues.put(databindingAwareModel, observableValue);
 		}
 
 		return observableValue;
 	}
 
-	public long getOid()
+	public IBaseVO getVO()
 	{
-		return vo.getOid();
-	}
-
-	public IBaseVO getVo()
-	{
-		return vo;
+		return this.vo;
 	}
 
 	private final List<IDirtyListener> dirtyListeners = new ArrayList<IDirtyListener>();
 
 	public void markClean()
 	{
-		for (IDirtyListener dirtyListener : dirtyListeners)
+		for (IDirtyListener dirtyListener : this.dirtyListeners)
 		{
 			dirtyListener.markClean();
 		}
-		dirty = false;
+		this.dirty = false;
 	}
 
 	public void markDirty()
 	{
-		for (IDirtyListener dirtyListener : dirtyListeners)
+		for (IDirtyListener dirtyListener : this.dirtyListeners)
 		{
 			dirtyListener.markDirty();
 		}
-		dirty = true;
+		this.dirty = true;
 	}
 
 	public boolean isDirty()
 	{
-		return dirty;
+		return this.dirty;
 	}
 
 	public void set(String attributePath, Object value)
@@ -179,11 +174,11 @@ public class DatabindingVOWrapper
 
 	private void set(String attributePath, Object value, boolean fireValueChangeEvents)
 	{
-		VOBeanUtil.set(vo, attributePath, value);
+		VOBeanUtil.set(this.vo, attributePath, value);
 
-		if (fireValueChangeEvents && observableValues.containsKey(attributePath))
+		if (fireValueChangeEvents && this.observableValues.containsKey(attributePath))
 		{
-			for (IValueChangeListener valueChangeListener : observableValues.get(attributePath).getValueChangeListeners())
+			for (IValueChangeListener valueChangeListener : this.observableValues.get(attributePath).getValueChangeListeners())
 			{
 				valueChangeListener.handleValueChange(new ValueChangeEvent(attributePath, valueChangeListener));
 			}
@@ -192,27 +187,17 @@ public class DatabindingVOWrapper
 		markDirty();
 	}
 
-	public void setId(long id)
-	{
-		vo.setId(id);
-	}
-
-	public void setOid(long oid)
-	{
-		vo.setOid(oid);
-	}
-
 	public void setVo(IBaseVO vo)
 	{
 		this.vo = vo;
 		markClean();
 
-		for (IContentChangedListener contentChangedListener : contentChangedListeners)
+		for (IContentChangedListener contentChangedListener : this.contentChangedListeners)
 		{
 			contentChangedListener.contentChanged(vo);
 		}
 
-		for (Map.Entry<IDatabindingAwareModel, IObservableValue> entry : observableValues.entrySet())
+		for (Map.Entry<IDatabindingAwareModel, IObservableValue> entry : this.observableValues.entrySet())
 		{
 			for (IValueChangeListener valueChangeListener : entry.getValue().getValueChangeListeners())
 			{

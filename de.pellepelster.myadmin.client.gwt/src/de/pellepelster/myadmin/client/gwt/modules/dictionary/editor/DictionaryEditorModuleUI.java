@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.editor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -28,6 +29,8 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModul
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditor;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
@@ -109,7 +112,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			}
 		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_DEBUG_ID);
 
-		actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
+		final Button refreshButton = actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
 		{
 			/** {@inheritDoc} */
 			@Override
@@ -119,6 +122,18 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			}
 
 		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_DEBUG_ID);
+
+		refreshButton.setEnabled(false);
+
+		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOSavedEventHandler()
+		{
+
+			@Override
+			public void onVOSaved(VOSavedEvent dictionaryEditorModuleEvent)
+			{
+				refreshButton.setEnabled(!dictionaryEditorModuleEvent.getVo().isNew());
+			}
+		});
 
 	}
 

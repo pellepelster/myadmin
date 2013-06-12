@@ -15,5 +15,5 @@ import com.google.gwt.event.shared.EventHandler;
 
 public interface VOSavedEventHandler extends EventHandler
 {
-	void onVOSaved(VOSavedEvent dictionaryEditorModuleEvent);
+	void onVOSaved(VOSavedEvent VOSavedEvent);
 }

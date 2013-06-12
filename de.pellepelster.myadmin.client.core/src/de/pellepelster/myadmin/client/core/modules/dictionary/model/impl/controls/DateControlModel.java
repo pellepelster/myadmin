@@ -34,14 +34,10 @@ public class DateControlModel extends BaseControlModel implements IDateControlMo
 
 	private static final long serialVersionUID = 4527174051951928193L;
 
-	public DateControlModel()
-	{
-		this.dateTimeFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
-	}
-
 	public DateControlModel(IBaseModel parent, DictionaryControlVO dictionaryControlVO)
 	{
 		super(parent, dictionaryControlVO);
+		this.dateTimeFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
 	}
 
 	/** {@inheritDoc} */
