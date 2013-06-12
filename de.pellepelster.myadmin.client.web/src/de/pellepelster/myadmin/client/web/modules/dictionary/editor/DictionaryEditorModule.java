@@ -281,10 +281,13 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				{
 					if (result.size() == 1)
 					{
-						DictionaryEditorModule.this.eventBus.fireEvent(new VOLoadEvent(result.get(0)));
-
 						DictionaryEditorModule.this.voWrapper.setVo(result.get(0));
 						DictionaryEditorModule.this.voWrapper.markClean();
+
+						VOLoadEvent voSavedEvent = new VOLoadEvent(result.get(0));
+						MyAdmin.EVENT_BUS.fireEvent(voSavedEvent);
+						getEventBus().fireEvent(voSavedEvent);
+
 					}
 					else
 					{
@@ -322,6 +325,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				public void onSuccess(IBaseVO result)
 				{
 					DictionaryEditorModule.this.voWrapper.setVo(result);
+
+					VOLoadEvent voSavedEvent = new VOLoadEvent(result);
+					MyAdmin.EVENT_BUS.fireEvent(voSavedEvent);
+					getEventBus().fireEvent(voSavedEvent);
 
 					if (callback != null)
 					{
