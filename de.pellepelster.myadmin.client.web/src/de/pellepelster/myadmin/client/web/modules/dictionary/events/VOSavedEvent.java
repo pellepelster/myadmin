@@ -15,33 +15,33 @@ import com.google.gwt.event.shared.GwtEvent;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
-public class VOSavedEvent extends GwtEvent<VOSavedEventHandler>
+public class VOSavedEvent extends GwtEvent<VOEventHandler>
 {
-	private final IBaseVO vo;
+	private final IBaseVO baseVO;
 
-	public VOSavedEvent(IBaseVO vo)
+	public VOSavedEvent(IBaseVO baseVO)
 	{
 		super();
-		this.vo = vo;
+		this.baseVO = baseVO;
 	}
 
 	public IBaseVO getVo()
 	{
-		return vo;
+		return this.baseVO;
 	}
 
-	public static Type<VOSavedEventHandler> TYPE = new Type<VOSavedEventHandler>();
+	public static Type<VOEventHandler> TYPE = new Type<VOEventHandler>();
 
 	@Override
-	public Type<VOSavedEventHandler> getAssociatedType()
+	public Type<VOEventHandler> getAssociatedType()
 	{
 		return TYPE;
 	}
 
 	@Override
-	protected void dispatch(VOSavedEventHandler handler)
+	protected void dispatch(VOEventHandler handler)
 	{
-		handler.onVOSaved(this);
+		handler.onVOEvent(this.baseVO);
 	}
 
 }

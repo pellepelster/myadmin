@@ -22,7 +22,6 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IDirtyListener;
 
 public class DatabindingVOWrapper
 {
@@ -32,8 +31,6 @@ public class DatabindingVOWrapper
 	private IBaseVO vo;
 
 	private final Map<IDatabindingAwareModel, IObservableValue> observableValues = new HashMap<IDatabindingAwareModel, IObservableValue>();
-
-	private final List<IContentChangedListener> contentChangedListeners = new ArrayList<IContentChangedListener>();
 
 	public DatabindingVOWrapper()
 	{
@@ -45,11 +42,6 @@ public class DatabindingVOWrapper
 		this.vo = vo;
 	}
 
-	public void addContentChangedListener(IContentChangedListener contentChangedListener)
-	{
-		this.contentChangedListeners.add(contentChangedListener);
-	}
-
 	public Object get(String name)
 	{
 		return this.vo.get(name);
@@ -58,11 +50,6 @@ public class DatabindingVOWrapper
 	public long getId()
 	{
 		return this.vo.getId();
-	}
-
-	public void addDirtyListener(IDirtyListener dirtyListener)
-	{
-		this.dirtyListeners.add(dirtyListener);
 	}
 
 	public IObservableValue getObservableValue(final IDatabindingAwareModel databindingAwareModel)
@@ -142,23 +129,13 @@ public class DatabindingVOWrapper
 		return this.vo;
 	}
 
-	private final List<IDirtyListener> dirtyListeners = new ArrayList<IDirtyListener>();
-
 	public void markClean()
 	{
-		for (IDirtyListener dirtyListener : this.dirtyListeners)
-		{
-			dirtyListener.markClean();
-		}
 		this.dirty = false;
 	}
 
 	public void markDirty()
 	{
-		for (IDirtyListener dirtyListener : this.dirtyListeners)
-		{
-			dirtyListener.markDirty();
-		}
 		this.dirty = true;
 	}
 
@@ -191,11 +168,6 @@ public class DatabindingVOWrapper
 	{
 		this.vo = vo;
 		markClean();
-
-		for (IContentChangedListener contentChangedListener : this.contentChangedListeners)
-		{
-			contentChangedListener.contentChanged(vo);
-		}
 
 		for (Map.Entry<IDatabindingAwareModel, IObservableValue> entry : this.observableValues.entrySet())
 		{

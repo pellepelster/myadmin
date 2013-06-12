@@ -29,10 +29,10 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModul
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditor;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
  * UI for the navigation module
@@ -70,16 +70,19 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		final HTML editorTitle = new HTML(editorModule.getTitle());
 		editorTitle.addStyleName(GwtStyles.EDITOR_TITLE);
 		verticalPanel.add(editorTitle);
-		editorModule.setTitleChangedCallback(new SimpleCallback<String>()
+
+		VOEventHandler voEventHandler = new VOEventHandler()
 		{
 
 			@Override
-			public void onCallback(String title)
+			public void onVOEvent(IBaseVO baseVO)
 			{
-				editorTitle.setText(title);
-
+				editorTitle.setText(getModule().getTitle());
 			}
-		});
+		};
+
+		editorModule.getEventBus().addHandler(VOSavedEvent.TYPE, voEventHandler);
+		editorModule.getEventBus().addHandler(VOLoadEvent.TYPE, voEventHandler);
 
 		DictionaryEditor<VOType> dictionaryEditor = new DictionaryEditor<VOType>(getModule());
 		verticalPanel.add(dictionaryEditor.getContainer());
@@ -125,13 +128,13 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		refreshButton.setEnabled(false);
 
-		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOSavedEventHandler()
+		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler()
 		{
 
 			@Override
-			public void onVOSaved(VOSavedEvent dictionaryEditorModuleEvent)
+			public void onVOEvent(IBaseVO baseVO)
 			{
-				refreshButton.setEnabled(!dictionaryEditorModuleEvent.getVo().isNew());
+				refreshButton.setEnabled(!baseVO.isNew());
 			}
 		});
 

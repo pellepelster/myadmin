@@ -21,6 +21,7 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
@@ -28,8 +29,8 @@ import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalNodeI
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEventHandler;
 
 public class HierarchicalTreeModel implements TreeViewModel
 {
@@ -50,15 +51,15 @@ public class HierarchicalTreeModel implements TreeViewModel
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
 
-		MyAdmin.EVENT_BUS.addHandler(VOSavedEvent.TYPE, new VOSavedEventHandler()
+		MyAdmin.EVENT_BUS.addHandler(VOSavedEvent.TYPE, new VOEventHandler()
 		{
 
 			@Override
-			public void onVOSaved(VOSavedEvent voSavedEvent)
+			public void onVOEvent(IBaseVO baseVO)
 			{
-				if (voSavedEvent.getVo() instanceof IHierarchicalVO)
+				if (baseVO instanceof IHierarchicalVO)
 				{
-					IHierarchicalVO hierarchicalVO = (IHierarchicalVO) voSavedEvent.getVo();
+					IHierarchicalVO hierarchicalVO = (IHierarchicalVO) baseVO;
 
 					if (dataProviders.containsKey(getKey(hierarchicalVO.getParent())))
 					{

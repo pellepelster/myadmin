@@ -9,13 +9,13 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
+package de.pellepelster.myadmin.client.web.modules.dictionary.events;
+
+import com.google.gwt.event.shared.EventHandler;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
-public interface IContentChangedListener
+public interface VOEventHandler extends EventHandler
 {
-
-	void contentChanged(IBaseVO vo);
-
+	void onVOEvent(IBaseVO baseVO);
 }

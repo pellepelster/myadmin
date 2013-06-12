@@ -37,8 +37,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.Binding;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.DataBindingContext;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.DatabindingVOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
  * Dictionary editor module
@@ -49,16 +49,6 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule implements IDictionaryEditor<VOType>
 {
 	private EventBus eventBus = GWT.create(SimpleEventBus.class);
-
-	private SimpleCallback<String> titleChangedCallback;
-
-	private void callTitleChangedCallback()
-	{
-		if (this.titleChangedCallback != null)
-		{
-			this.titleChangedCallback.onCallback(getTitle());
-		}
-	}
 
 	public enum EditorMode
 	{
@@ -96,8 +86,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				VOSavedEvent voSavedEvent = new VOSavedEvent(result.getVo());
 				MyAdmin.EVENT_BUS.fireEvent(voSavedEvent);
 				getEventBus().fireEvent(voSavedEvent);
-
-				callTitleChangedCallback();
 			}
 			else
 			{
@@ -297,7 +285,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 						DictionaryEditorModule.this.voWrapper.setVo(result.get(0));
 						DictionaryEditorModule.this.voWrapper.markClean();
-						callTitleChangedCallback();
 					}
 					else
 					{
@@ -402,11 +389,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			default:
 				throw new RuntimeException("editor mode '" + getEditorMode().toString() + "' not implemented");
 		}
-	}
-
-	public void setTitleChangedCallback(SimpleCallback<String> titleChangedCallback)
-	{
-		this.titleChangedCallback = titleChangedCallback;
 	}
 
 	public void refresh()
