@@ -222,6 +222,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			// client test project
 			IJavaProject clientTestProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.CLIENT_TEST);
 			setProjectReferences(clientTestProject, monitor, clientProject);
+			setProjectReferences(clientTestProject, monitor, generatorProject);
 
 			// server project
 			IJavaProject serverProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.SERVER);
@@ -230,6 +231,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			// client test project
 			IJavaProject serverTestProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.SERVER_TEST);
 			setProjectReferences(serverTestProject, monitor, serverProject);
+			setProjectReferences(serverTestProject, monitor, generatorProject);
 
 			Job job = new Job(Messages.InitializingProjects)
 			{
