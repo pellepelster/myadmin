@@ -12,7 +12,7 @@
 
 	public abstract class «hookRegistrationClassName()» {
 	
-		public static void setEditorSaveHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IEditorSaveHook editorSaveHook)
+		public static void setEditorSaveHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IEditorSaveHook<«fullQualifiedEntityName(this.entity)»> editorSaveHook)
 		{
 			ClientHookRegistry.getInstance().setEditorSaveHook("«this.name»", editorSaveHook); 
 		}

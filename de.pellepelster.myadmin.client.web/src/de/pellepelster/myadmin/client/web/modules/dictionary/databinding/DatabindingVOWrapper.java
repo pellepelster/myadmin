@@ -23,12 +23,12 @@ import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 
-public class DatabindingVOWrapper
+public class DatabindingVOWrapper<VOTYpe extends IBaseVO>
 {
 
 	private boolean dirty = false;
 
-	private IBaseVO vo;
+	private VOTYpe vo;
 
 	private final Map<IDatabindingAwareModel, IObservableValue> observableValues = new HashMap<IDatabindingAwareModel, IObservableValue>();
 
@@ -36,7 +36,7 @@ public class DatabindingVOWrapper
 	{
 	}
 
-	public DatabindingVOWrapper(IBaseVO vo)
+	public DatabindingVOWrapper(VOTYpe vo)
 	{
 		super();
 		this.vo = vo;
@@ -124,7 +124,7 @@ public class DatabindingVOWrapper
 		return observableValue;
 	}
 
-	public IBaseVO getVO()
+	public VOTYpe getVO()
 	{
 		return this.vo;
 	}
@@ -164,7 +164,7 @@ public class DatabindingVOWrapper
 		markDirty();
 	}
 
-	public void setVo(IBaseVO vo)
+	public void setVo(VOTYpe vo)
 	{
 		this.vo = vo;
 		markClean();

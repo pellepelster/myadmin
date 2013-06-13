@@ -106,7 +106,7 @@ public final class DictionaryUtil
 
 	}
 
-	public static String getEditorTitle(IDictionaryModel dictionaryModel, DatabindingVOWrapper voWrapper)
+	public static String getEditorTitle(IDictionaryModel dictionaryModel, DatabindingVOWrapper<?> voWrapper)
 	{
 
 		IBaseVO vo = voWrapper.getVO();

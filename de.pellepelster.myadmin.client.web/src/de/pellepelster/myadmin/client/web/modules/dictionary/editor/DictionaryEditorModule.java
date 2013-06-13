@@ -55,7 +55,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		INSERT, UPDATE;
 	}
 
-	private final DatabindingVOWrapper voWrapper = new DatabindingVOWrapper();
+	private final DatabindingVOWrapper<VOType> voWrapper = new DatabindingVOWrapper<VOType>();
 
 	private final DataBindingContext dataBindingContext = new DataBindingContext(this.voWrapper, getEventBus());
 
@@ -63,7 +63,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private IDictionaryModel dictionaryModel;
 
-	private final AsyncCallback<Result<IBaseVO>> saveCallback = new AsyncCallback<Result<IBaseVO>>()
+	private final AsyncCallback<Result<VOType>> saveCallback = new AsyncCallback<Result<VOType>>()
 	{
 
 		/** {@inheritDoc} */
@@ -75,7 +75,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 		/** {@inheritDoc} */
 		@Override
-		public void onSuccess(Result<IBaseVO> result)
+		public void onSuccess(Result<VOType> result)
 		{
 
 			if (result.getValidationMessages().isEmpty())
@@ -120,7 +120,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getEditorTitle(getDictionaryModel(), getVoWrapper());
+		return DictionaryUtil.getEditorTitle(getDictionaryModel(), getVOWrapper());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -194,7 +194,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
-	public DatabindingVOWrapper getVoWrapper()
+	public DatabindingVOWrapper<VOType> getVOWrapper()
 	{
 		return this.voWrapper;
 	}
@@ -257,12 +257,12 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 		if (id > 0)
 		{
-			GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO<IBaseVO>(this.dictionaryModel.getVOName());
+			GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel.getVOName());
 			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
 			DictionaryModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel.getEditorModel().getCompositeModel());
 
-			AsyncCallback<List<IBaseVO>> filterCallback = new AsyncCallback<List<IBaseVO>>()
+			AsyncCallback<List<VOType>> filterCallback = new AsyncCallback<List<VOType>>()
 			{
 
 				/** {@inheritDoc} */
@@ -277,7 +277,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 				/** {@inheritDoc} */
 				@Override
-				public void onSuccess(List<IBaseVO> result)
+				public void onSuccess(List<VOType> result)
 				{
 					if (result.size() == 1)
 					{
@@ -307,7 +307,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 		else
 		{
-			AsyncCallback<IBaseVO> newVOCallback = new AsyncCallback<IBaseVO>()
+			AsyncCallback<VOType> newVOCallback = new AsyncCallback<VOType>()
 			{
 
 				/** {@inheritDoc} */
@@ -322,7 +322,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 				/** {@inheritDoc} */
 				@Override
-				public void onSuccess(IBaseVO result)
+				public void onSuccess(VOType result)
 				{
 					DictionaryEditorModule.this.voWrapper.setVo(result);
 
@@ -341,7 +341,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 					.getRemoteServiceLocator()
 					.getBaseEntityService()
 					.getNewVO(this.dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(getParameters()),
-							newVOCallback);
+							(AsyncCallback<IBaseVO>) newVOCallback);
 		}
 	}
 
@@ -360,7 +360,8 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		{
 			if (ClientHookRegistry.getInstance().hasEditorSaveHook(getDictionaryModel().getName()))
 			{
-				ClientHookRegistry.getInstance().getEditorSaveHook(getDictionaryModel().getName()).onSave(new AsyncCallback<Void>()
+
+				ClientHookRegistry.getInstance().getEditorSaveHook(getDictionaryModel().getName()).onSave(new AsyncCallback<Boolean>()
 				{
 
 					@Override
@@ -370,11 +371,14 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 					}
 
 					@Override
-					public void onSuccess(Void result)
+					public void onSuccess(Boolean doSave)
 					{
-						internalSave();
+						if (doSave != null && doSave)
+						{
+							internalSave();
+						}
 					}
-				});
+				}, getVOWrapper().getVO());
 			}
 			else
 			{

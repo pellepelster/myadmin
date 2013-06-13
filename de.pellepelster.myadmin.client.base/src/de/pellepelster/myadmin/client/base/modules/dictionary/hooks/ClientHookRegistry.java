@@ -3,6 +3,7 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.hooks;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class ClientHookRegistry
 {
 	private static ClientHookRegistry instance;

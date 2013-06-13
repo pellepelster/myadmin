@@ -2,7 +2,11 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.hooks;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface IEditorSaveHook
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+
+public interface IEditorSaveHook<VOType extends IBaseVO>
 {
-	void onSave(AsyncCallback<Void> asyncCallback);
+
+	void onSave(AsyncCallback<Boolean> asyncCallback, VOType vo);
+
 }
