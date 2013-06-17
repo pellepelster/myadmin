@@ -12,6 +12,8 @@
 	</configurations>
 	
 	<publications>
+		<artifact name="@organisation.name@.@project.name@.server" type="jar" ext="jar" conf="master" />
+		<artifact name="@organisation.name@.@project.name@.server-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
 	<dependencies defaultconf="*->default">

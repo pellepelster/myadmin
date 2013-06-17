@@ -13,6 +13,8 @@
 	</configurations>
 
 	<publications>
+		<artifact name="@organisation.name@.@project.name@.client.test" type="jar" ext="jar" conf="master" />
+		<artifact name="@organisation.name@.@project.name@.client.test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
 	<dependencies defaultconf="*->default">
