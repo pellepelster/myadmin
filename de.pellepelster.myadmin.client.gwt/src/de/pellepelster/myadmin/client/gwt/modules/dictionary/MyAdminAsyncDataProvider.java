@@ -56,12 +56,14 @@ public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataP
 				public void onFailure(Throwable caught)
 				{
 					updateRowData(start, new ArrayList<VOType>());
+					updateRowCount(0, true);
 				}
 
 				@Override
 				public void onSuccess(List<VOType> result)
 				{
 					updateRowData(start, result);
+					updateRowCount(result.size(), true);
 					callResultsChangedCallback(result.size());
 				}
 			});
