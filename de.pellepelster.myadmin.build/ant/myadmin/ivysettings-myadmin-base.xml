@@ -23,8 +23,8 @@
 		</url>
 
 		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
-			<resolver ref="gwt-commons" />
 			<resolver ref="myadmin_dependencies_repository" />
+			<resolver ref="gwt-commons" />
 		</chain>
 
 	</resolvers>

@@ -2,6 +2,8 @@
 
 	<property name="no.compile" value="no.compile=true" />
 	
+	<property name="ivy.settings.file"  value="local.ivysettings.xml" />
+	
 	<ivy:settings id="local.ivy.settings" file="local.ivysettings.xml" />
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
@@ -12,7 +14,7 @@
 	</target>
 
 	<target name="jars.import.myadmin">
-		<IvyJarImport baseArtifactDir="${basedir}\jars" targetresolver="myadmin" ivysettings="ivy.settings" />
+		<IvyJarImport baseArtifactDir="${basedir}\jars" targetresolver="myadmin_dependencies_local" ivysettings="ivy.settings" />
 	</target>
 
 </project>
