@@ -13,12 +13,10 @@ package de.pellepelster.myadmin.server.test.base;
 
 import org.junit.BeforeClass;
 
-public abstract class BaseMyAdminJndiContextTest extends BaseJndiContextTest
-{
+public abstract class BaseMyAdminJndiContextTest extends BaseJndiContextTest {
 
 	@BeforeClass
-	public static void initJndi() throws Exception
-	{
+	public static void initJndi() throws Exception {
 		initJndi("MyAdmin");
 	}
 }

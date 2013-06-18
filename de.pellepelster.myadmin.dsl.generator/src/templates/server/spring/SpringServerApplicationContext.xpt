@@ -12,15 +12,29 @@
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<bean id="«entityVOMapperName()»"
+		class="«fullQualifiedEntityVOMapperName()»">
+	</bean>
+
+</beans>
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE springServerApplicationContextServices FOR Model»
+«FILE name + "ServerApplicationContextServices-gen.xml"-»
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
 	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
 	<bean id="«remoteService.name.toFirstLower()»"
 		class="«fullQualifiedImplementationName(remoteService)»">
 	</bean>
 	«ENDFOREACH»
-
-	<bean id="«entityVOMapperName()»"
-		class="«fullQualifiedEntityVOMapperName()»">
-	</bean>
 
 </beans>
 «ENDFILE»

@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.tools.dictionary;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,18 +21,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
+import de.pellepelster.myadmin.server.services.ImportExportService;
+import de.pellepelster.myadmin.server.services.MetaDataService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
-public class EntityExporter extends BaseToolAntTask
-{
+public class EntityImport extends BaseToolAntTask {
 
-	private static final Logger logger = Logger.getLogger(EntityExporter.class);
+	private String importDir;
+
+	public String getImportDir() {
+		return importDir;
+	}
+
+	public void setImportDir(String importDir) {
+		this.importDir = importDir;
+	}
+
+	private static final Logger logger = Logger.getLogger(EntityImport.class);
 
 	/** {@inheritDoc} */
 	@Override
-	public void execute() throws BuildException
-	{
+	public void execute() throws BuildException {
+
 		logger.info("initializing spring context");
 
 		SecurityContextImpl sc = new SecurityContextImpl();
@@ -47,13 +60,13 @@ public class EntityExporter extends BaseToolAntTask
 		MyAdminApplicationContextProvider.getInstance().init(new String[] { "MyAdminToolsApplicationContext.xml", "MyAdminClientServices-gen.xml" });
 
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
-		// ImportExportService importExportService = null; // =
-		// MyAdminRemoteServiceLocator.getInstance().get.getBaseEntityService();
 
-		// File exportDir = new File(System.getProperty("java.io.tempdir"));
+		ImportExportService importExportService = (ImportExportService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("importexportservice");
+		MetaDataService metaDataService = (MetaDataService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("metadataservice");
 
-		// EntityExportRunner entityExportRunner = new
-		// EntityExportRunner(importExportService, exportDir);
-		// entityExportRunner.run();
+		File sourceDir = new File(importDir);
+
+		EntityImportRunner entityImportRunner = new EntityImportRunner(importExportService, metaDataService, sourceDir);
+		entityImportRunner.run();
 	}
 }

@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="entityVOMapper" class="de.pellepelster.myadmin.server.util.EntityVOMapper" />
+	<bean id="entityVOMapper" class="de.pellepelster.myadmin.db.util.EntityVOMapper" />
 
 	<bean id="validator" class="de.pellepelster.myadmin.server.validators.Validator" />
 
@@ -19,6 +19,12 @@
 	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
 		factory-method="getInstance" id="copyBean" />
 
+	<bean id="importexportservice"
+		class="de.pellepelster.myadmin.server.services.ImportExportService" />
+
+	<bean id="metadataservice" class="de.pellepelster.myadmin.server.services.MetaDataService" />
+
+
 	<context:component-scan base-package="de.pellepelster.myadmin.server" />
-	
+
 </beans>

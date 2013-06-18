@@ -20,10 +20,12 @@
 		<param-value>
 			classpath:MyAdminServerSpringSecurity.xml, 
 			classpath:MyAdminServerApplicationContext-gen.xml, 
+			classpath:MyAdminServerApplicationContextServices-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 
 			classpath:MyAdminRestServices-gen.xml, 
 			classpath:@project.name.camelcase@ServerApplicationContext.xml, 
 			classpath:@project.name.camelcase@ServerApplicationContext-gen.xml, 
+			classpath:@project.name.camelcase@ServerApplicationContextServices-gen.xml, 
 			classpath:@project.name.camelcase@RestServices-gen.xml, 
 			classpath:MyAdminServerGWTServices-gen.xml, 
 			classpath:MyAdminServerInvokerServices-gen.xml, 

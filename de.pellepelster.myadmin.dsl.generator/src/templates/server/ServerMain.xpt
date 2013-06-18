@@ -12,6 +12,7 @@
 	«EXPAND EntityVOMapper::entityVOMapper»
 	«EXPAND spring::SpringDB::springDB»
 	«EXPAND spring::SpringServerApplicationContext::springServerApplicationContext»
+	«EXPAND spring::SpringServerApplicationContext::springServerApplicationContextServices»
 	«EXPAND services::SpringServerGWTServices::springServerGWTServices»
 	«EXPAND services::SpringServerInvokerServices::springServerInvokerServices»
 	«EXPAND services::SpringClientServices::springClientServices»
