@@ -126,7 +126,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_DEBUG_ID);
 
-		refreshButton.setEnabled(false);
+		// refreshButton.setEnabled(false);
 
 		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler()
 		{
