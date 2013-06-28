@@ -24,6 +24,7 @@ import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
+import de.pellepelster.myadmin.client.core.utils.DateTimeFormat;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
 
@@ -37,9 +38,9 @@ public class DateControl extends DateBox implements IControl<Widget>
 	public DateControl(final IDateControlModel dateControlModel)
 	{
 		this.dateControlModel = dateControlModel;
-
 		ensureDebugId(DictionaryModelUtil.getDebugId(dateControlModel));
-		setFormat(new DateBox.DefaultFormat(dateControlModel.getFormat()));
+
+		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(this.dateControlModel.getFormatPattern())));
 		gwtControlHelper = new ControlHelper(this, dateControlModel, false, Date.class);
 
 		addValueChangeHandler(new ValueChangeHandler<Date>()

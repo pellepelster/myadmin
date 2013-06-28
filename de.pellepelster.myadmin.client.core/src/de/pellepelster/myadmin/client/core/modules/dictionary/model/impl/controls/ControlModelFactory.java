@@ -16,6 +16,7 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.core.utils.DateTimeFormat;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 
 /**
@@ -42,7 +43,9 @@ public class ControlModelFactory
 			case BOOLEAN:
 				return new BooleanControlModel(parent, controlVO);
 			case DATE:
-				return new DateControlModel(parent, controlVO);
+				com.google.gwt.i18n.shared.DateTimeFormat dateTimeFormat = DateTimeFormat
+						.getFormat(com.google.gwt.i18n.shared.DateTimeFormat.PredefinedFormat.DATE_MEDIUM);
+				return new DateControlModel(parent, controlVO, dateTimeFormat.getPattern());
 			case ENUMERATION:
 				return new EnumerationControlModel(parent, controlVO);
 			case REFERENCE:

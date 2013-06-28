@@ -32,7 +32,7 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	private DictionaryControlVO dictionaryControlVO;
 	private Integer width;
 
-	public BaseControlModel()
+	protected BaseControlModel()
 	{
 		super(null);
 	}

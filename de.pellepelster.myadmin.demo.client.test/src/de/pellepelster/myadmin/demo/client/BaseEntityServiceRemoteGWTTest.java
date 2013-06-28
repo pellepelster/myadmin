@@ -15,7 +15,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.demo.client.web.entities.Test1VO;
+import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 
 public class BaseEntityServiceRemoteGWTTest extends GWTTestCase
 {

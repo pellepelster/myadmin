@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
-
 /**
  * Date control
  * 
@@ -22,5 +20,5 @@ import com.google.gwt.i18n.client.DateTimeFormat;
  */
 public interface IDateControlModel extends IBaseControlModel
 {
-	DateTimeFormat getFormat();
+	String getFormatPattern();
 }
