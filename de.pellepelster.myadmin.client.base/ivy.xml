@@ -23,7 +23,7 @@
 			<exclude name="gwt-dev" />
 		</dependency>
 	
-		<dependency org="com.google.gwt" name="gwt-user" rev="2.5.0"  />
+		<dependency org="com.google.gwt" name="gwt-user" rev="2.5.1"  />
 		
 	</dependencies>
 

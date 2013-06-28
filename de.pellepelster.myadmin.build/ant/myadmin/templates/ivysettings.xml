@@ -8,6 +8,7 @@
 
 		<chain name="@project.name@_default" returnFirst="true" checkmodified="true">
 			<resolver ref="default" />
+			<resolver ref="myadmin_dependencies" />
 		</chain>
 
 	</resolvers>

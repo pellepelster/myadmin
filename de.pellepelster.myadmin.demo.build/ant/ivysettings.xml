@@ -12,10 +12,12 @@
 		</filesystem>
 		
 		<chain name="demo_default" returnFirst="true" checkmodified="true">
+			<resolver ref="myadmin_dependencies" />
 			<resolver ref="default" />
 		</chain>
 
 		<chain name="demo_release" returnFirst="true" checkmodified="true">
+			<resolver ref="myadmin_dependencies" />
 			<resolver ref="demo_staging_repository" />
 			<resolver ref="default" />
 		</chain>

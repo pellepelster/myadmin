@@ -13,6 +13,8 @@
 	</configurations>
 
 	<publications>
+		<artifact name="de.pellepelster.myadmin.demo.client.test" type="jar" ext="jar" conf="master" />
+		<artifact name="de.pellepelster.myadmin.demo.client.test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
 	<dependencies defaultconf="*->default">

@@ -8,6 +8,11 @@
 
 	<target name="war">
 
+		<!-- copy server artifacts to libs dir for inclusion in war -->
+		<copy todir="${lib.dir}">
+			<fileset dir="${build.dir}" includes="de.pellepelster.myadmin.demo.server.jar"/>
+		</copy>
+		
 		<mkdir dir="war"/>
 		<mkdir dir="WebContent/WEB-INF/classes"/>
 		

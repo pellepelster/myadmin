@@ -12,6 +12,8 @@
 	</configurations>
 	
 	<publications>
+		<artifact name="de.pellepelster.myadmin.demo.server.test" type="jar" ext="jar" conf="master" />
+		<artifact name="de.pellepelster.myadmin.demo.server.test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
 	<dependencies defaultconf="*->default">
@@ -20,19 +22,11 @@
 
 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="compile->default,generated.server" />
 
-
-		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="runtime->runtime" />
-		
-		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="runtime->runtime;compile->default,sources" />
-
-		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server" />
-
-<!-- 
 		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->default" />
-		<dependency org="de.pellepelster.myadmin" name="dsl" rev="latest.integration" conf="runtime->runtime.eclipse" />
- -->
 
-		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server" />
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->default" />
+
+		<dependency org="de.pellepelster.myadmin" name="dsl" rev="latest.integration" conf="runtime->runtime.eclipse" />
 
 		<dependency org="org.mortbay.jetty" name="jetty-ant" rev="7.6.0.RC5">
 			<artifact name="jetty-ant" type="jar" />
