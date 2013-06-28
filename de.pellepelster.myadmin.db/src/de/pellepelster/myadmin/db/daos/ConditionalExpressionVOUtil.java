@@ -20,12 +20,14 @@ import de.pellepelster.myadmin.client.base.jpql.IConditionalExpressionVO;
 import de.pellepelster.myadmin.client.base.jpql.IExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.IntegerExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
+import de.pellepelster.myadmin.client.base.jpql.expressions.BooleanExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.EntityExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.LongExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.NamedParameterExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.NullExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.StringExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.TimestampExpressionObjectVO;
+import de.pellepelster.myadmin.db.jpql.expression.BooleanExpressionObject;
 import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.EntityExpressionObject;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
@@ -93,6 +95,11 @@ public final class ConditionalExpressionVOUtil
 			return new LongExpressionObject(((LongExpressionObjectVO) expressionObjectVO).getValue());
 		}
 
+		if (expressionObjectVO instanceof BooleanExpressionObjectVO)
+		{
+			return new BooleanExpressionObject(((BooleanExpressionObjectVO) expressionObjectVO).getValue());
+		}
+
 		if (expressionObjectVO instanceof IntegerExpressionObjectVO)
 		{
 			return new IntegerExpressionObject(((IntegerExpressionObjectVO) expressionObjectVO).getValue());
@@ -113,7 +120,7 @@ public final class ConditionalExpressionVOUtil
 
 	public CopyBean getCopyBean()
 	{
-		return copyBean;
+		return this.copyBean;
 	}
 
 	public void setCopyBean(CopyBean copyBean)
