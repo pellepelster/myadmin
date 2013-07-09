@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.demo.server.test.remote;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.pellepelster.myadmin.server.core.services.IApplicationContextProvider;
+import de.pellepelster.myadmin.server.base.services.IApplicationContextProvider;
 
 public final class ApplicationContextProvider implements IApplicationContextProvider
 {
@@ -34,16 +34,17 @@ public final class ApplicationContextProvider implements IApplicationContextProv
 	{
 	}
 
+	@Override
 	public synchronized ApplicationContext getContext()
 	{
-		if (context == null)
+		if (this.context == null)
 		{
 			Thread currentThread = Thread.currentThread();
 			ClassLoader originalClassloader = currentThread.getContextClassLoader();
 			try
 			{
 				currentThread.setContextClassLoader(this.getClass().getClassLoader());
-				context = new ClassPathXmlApplicationContext(contextLocations);
+				this.context = new ClassPathXmlApplicationContext(this.contextLocations);
 			}
 			finally
 			{
@@ -51,12 +52,12 @@ public final class ApplicationContextProvider implements IApplicationContextProv
 			}
 		}
 
-		return context;
+		return this.context;
 	}
 
 	public synchronized void init(String[] contextLocations)
 	{
 		this.contextLocations = contextLocations;
-		context = null;
+		this.context = null;
 	}
 }
