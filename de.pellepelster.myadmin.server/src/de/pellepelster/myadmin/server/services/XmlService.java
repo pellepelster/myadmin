@@ -38,7 +38,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.FieldIterator;
-import de.pellepelster.myadmin.server.core.xml.XmlVOMapping;
+import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
 
 @Component
 @SuppressWarnings("rawtypes")
@@ -92,7 +92,7 @@ public class XmlService
 			rootXmlElementName = StringUtils.removeStart(rootXmlElementName, "<");
 			rootXmlElementName = rootXmlElementName.split(" ")[0];
 
-			Class<?> xmlClass = metaDataService.getXmlRootClassByElementName(rootXmlElementName);
+			Class<?> xmlClass = this.metaDataService.getXmlRootClassByElementName(rootXmlElementName);
 
 			return xmlClass;
 
@@ -109,12 +109,12 @@ public class XmlService
 
 	private JAXBContext getJaxbContext() throws JAXBException
 	{
-		if (jaxbContext == null)
+		if (this.jaxbContext == null)
 		{
-			jaxbContext = JAXBContext.newInstance(metaDataService.getXmlRootClasses().toArray(new Class<?>[0]));
+			this.jaxbContext = JAXBContext.newInstance(this.metaDataService.getXmlRootClasses().toArray(new Class<?>[0]));
 		}
 
-		return jaxbContext;
+		return this.jaxbContext;
 	}
 
 	public <T extends IBaseVO> void export(Class<? extends IBaseVO> voClass, List<T> vos, OutputStream outputStream)
@@ -199,8 +199,8 @@ public class XmlService
 
 		if (xmlVOMapping != null)
 		{
-			IBaseVO vo = (IBaseVO) xmToVolCopyBean.copyObject(xmlObject, xmlVOMapping.voClass());
-			baseEntityService.create(vo);
+			IBaseVO vo = (IBaseVO) this.xmToVolCopyBean.copyObject(xmlObject, xmlVOMapping.voClass());
+			this.baseEntityService.create(vo);
 		}
 
 		/*
@@ -276,7 +276,7 @@ public class XmlService
 	{
 		List<Object> xmlObjects = vosToXmlObjectList(voClass, vos);
 
-		Class<?> xmlListWrapperClass = metaDataService.getXmlListWrapperClassForVOClass(voClass);
+		Class<?> xmlListWrapperClass = this.metaDataService.getXmlListWrapperClassForVOClass(voClass);
 
 		Object xmlListWrapper = null;
 
@@ -301,12 +301,12 @@ public class XmlService
 			return new ArrayList<Object>();
 		}
 
-		Class<?> xmlClass = metaDataService.getXmlClassForVOClass(voClass);
+		Class<?> xmlClass = this.metaDataService.getXmlClassForVOClass(voClass);
 		List<Object> xmlObjects = new ArrayList<Object>();
 
 		for (T vo : vos)
 		{
-			Object xmlObject = voToXmlCopyBean.copyObject(vo, xmlClass);
+			Object xmlObject = this.voToXmlCopyBean.copyObject(vo, xmlClass);
 			xmlObjects.add(xmlObject);
 		}
 

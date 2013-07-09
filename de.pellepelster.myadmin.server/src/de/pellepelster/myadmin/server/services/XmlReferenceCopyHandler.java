@@ -23,8 +23,8 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.FieldIterator;
 import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
+import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
-import de.pellepelster.myadmin.server.core.xml.XmlVOMapping;
 
 public class XmlReferenceCopyHandler implements IFieldCopyHandler
 {

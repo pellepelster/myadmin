@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.core.xml;
+package de.pellepelster.myadmin.server.base.xml;
 
 import static java.lang.annotation.ElementType.TYPE;
 

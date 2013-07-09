@@ -23,6 +23,7 @@
 
 		<dependency name="client-core" rev="latest.integration" conf="*->@" />
 
+		<dependency name="client-base" rev="latest.integration" conf="*->@" />
 				
 	</dependencies>
 

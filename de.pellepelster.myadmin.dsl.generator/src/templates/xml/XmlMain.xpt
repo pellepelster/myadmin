@@ -157,7 +157,7 @@ Type:
 	
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 	xmlns:annox="http://annox.dev.java.net" 
-	xmlns:myadmin="http://annox.dev.java.net/de.pellepelster.myadmin.server.core.xml"
+	xmlns:myadmin="http://annox.dev.java.net/de.pellepelster.myadmin.server.base.xml"
 	jaxb:version="2.1" 
 	jaxb:extensionBindingPrefixes="annox"
 	 

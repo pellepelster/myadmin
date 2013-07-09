@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.tools;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.pellepelster.myadmin.server.core.services.IApplicationContextProvider;
+import de.pellepelster.myadmin.server.base.services.IApplicationContextProvider;
 
 public final class MyAdminApplicationContextProvider implements IApplicationContextProvider
 {

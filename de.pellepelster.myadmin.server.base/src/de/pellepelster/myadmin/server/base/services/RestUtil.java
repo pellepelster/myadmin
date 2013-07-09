@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.core.services;
+package de.pellepelster.myadmin.server.base.services;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

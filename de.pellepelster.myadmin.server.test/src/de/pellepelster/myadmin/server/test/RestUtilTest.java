@@ -19,24 +19,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
 import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
-import de.pellepelster.myadmin.server.core.services.RestUtil;
+import de.pellepelster.myadmin.server.base.services.RestUtil;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.server.test.restvos.ObjectA;
 import de.pellepelster.myadmin.server.test.restvos.ObjectB;
 import de.pellepelster.myadmin.server.test.restvos.ObjectC;
 
-public class RestUtilTest extends BaseMyAdminJndiContextTest {
+public class RestUtilTest extends BaseMyAdminJndiContextTest
+{
 
 	@Autowired
 	protected IUserService userService;
 
-	public void setUserService(IUserService userService) {
+	public void setUserService(IUserService userService)
+	{
 		this.userService = userService;
 	}
 
 	@Test
-	public void baseJacksonTest() {
-		try {
+	public void baseJacksonTest()
+	{
+		try
+		{
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			ObjectA objectA = new ObjectA();
@@ -58,20 +62,25 @@ public class RestUtilTest extends BaseMyAdminJndiContextTest {
 			Assert.assertEquals("bbb", result.getList1().get(0).getString2());
 			Assert.assertEquals("ccc", result.getList1().get(0).getMap1().get("key1").getString3());
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Test
-	public void testInvokeServiceMethodSimple() {
+	public void testInvokeServiceMethodSimple()
+	{
 		Assert.assertEquals("false", RestUtil.invokeServiceMethod(this.userService, "userNameExists", new Object[] { "peter" }));
 	}
 
 	@Test
-	public void testInvokeServiceMethod() {
+	public void testInvokeServiceMethod()
+	{
 
-		try {
+		try
+		{
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.enableDefaultTyping();
 
@@ -87,7 +96,9 @@ public class RestUtilTest extends BaseMyAdminJndiContextTest {
 			// BaseEntityServiceCreateMobileParameterWrapper.class);
 			// Assert.assertNotNull(result);
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e);
 		}
 	}
