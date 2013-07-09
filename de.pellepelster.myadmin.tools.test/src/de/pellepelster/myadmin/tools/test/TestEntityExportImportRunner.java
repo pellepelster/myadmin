@@ -21,10 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.io.Files;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryEditorVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.MetaDataService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
@@ -58,7 +58,7 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 		EntityImportRunner entityImportRunner = new EntityImportRunner(this.importExportService, this.metaDataService, tempDir);
 		entityImportRunner.run();
 
-		List<DictionaryVO> dictionaryVOs = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class).getGenericFilter());
+		List<DictionaryVO> dictionaryVOs = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(DictionaryVO.class).getGenericFilter());
 		Assert.assertEquals(1, dictionaryVOs.size());
 
 		DictionaryVO dictionaryVO = dictionaryVOs.get(0);

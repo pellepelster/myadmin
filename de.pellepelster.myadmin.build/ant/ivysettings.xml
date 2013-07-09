@@ -9,10 +9,12 @@
 
 	<settings defaultResolver="${ivy.resolver.default}" />
 
+	<!-- 
 	<caches default="myadmin_cache">
 		<cache name="myadmin_cache" basedir="${ivy.default.ivy.user.dir}/myadmin_cache" ivyPattern="${ivy.local.default.ivy.pattern}" artifactPattern="${ivy.local.default.artifact.pattern}" />
 	</caches>
- 	
+ 	 -->
+ 	 
 	<resolvers>
 
 		<filesystem name="myadmin_staging_repository">

@@ -17,11 +17,11 @@ import org.apache.log4j.Logger;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.user.IMyAdminUserClientDetails;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.user.service.MyAdminUserDetails;
 
 /**
@@ -76,7 +76,7 @@ public class UserServiceImpl implements IUserService
 
 	public Boolean userNameExistsInternal(String username)
 	{
-		return this.baseVODAO.getCount(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, username)
+		return this.baseVODAO.getCount(ServerGenericFilterBuilder.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, username)
 				.getGenericFilter()) > 0;
 	}
 
@@ -123,7 +123,7 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public MyAdminUserVO getUserByName(String userName)
 	{
-		return this.baseVODAO.read(GenericFilterFactory.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, userName)
+		return this.baseVODAO.read(ServerGenericFilterBuilder.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, userName)
 				.getGenericFilter());
 	}
 }

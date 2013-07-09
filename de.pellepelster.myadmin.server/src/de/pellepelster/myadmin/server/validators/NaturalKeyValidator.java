@@ -19,11 +19,11 @@ import javax.annotation.Resource;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.NaturalKey;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 
 /**
@@ -61,7 +61,7 @@ public class NaturalKeyValidator implements IValidator
 		for (IAttributeDescriptor<?> attributeDescriptor : new AnnotationIterator(vo.getClass(), NaturalKey.class))
 		{
 			@SuppressWarnings("unchecked")
-			GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(vo.getClass())
+			GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) ClientGenericFilterBuilder.createGenericFilter(vo.getClass())
 					.addCriteria(attributeDescriptor, vo.get(attributeDescriptor.getAttributeName())).getGenericFilter();
 
 			List<IBaseVO> filterResult = this.baseVODAO.filter(genericFilterVO);

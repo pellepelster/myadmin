@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.daos.IVODaoDecorator;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 public class HierarchicalVODecorator implements IVODaoDecorator
 {
@@ -37,7 +37,7 @@ public class HierarchicalVODecorator implements IVODaoDecorator
 
 		if (hierarchicalVO.getParentClassName() != null && hierarchicalVO.getParentId() != null)
 		{
-			IHierarchicalVO parent = (IHierarchicalVO) this.baseVODAO.read(GenericFilterFactory.createGenericFilter(hierarchicalVO.getParentClassName())
+			IHierarchicalVO parent = (IHierarchicalVO) this.baseVODAO.read(ServerGenericFilterBuilder.createGenericFilter(hierarchicalVO.getParentClassName())
 					.addCriteria(IBaseVO.FIELD_ID, hierarchicalVO.getParentId()).getGenericFilter());
 			hierarchicalVO.setParent(parent);
 		}

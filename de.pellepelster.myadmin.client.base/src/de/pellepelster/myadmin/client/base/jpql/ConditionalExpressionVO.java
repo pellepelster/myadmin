@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.jpql.expressions.BooleanExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.EntityExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.LongExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.NamedParameterExpressionObjectVO;
@@ -76,6 +77,11 @@ public class ConditionalExpressionVO implements Serializable, IConditionalExpres
 		else if (value instanceof Long)
 		{
 			this.expressionObject2 = new LongExpressionObjectVO((Long) value);
+			this.relationalOperator = relop;
+		}
+		else if (value instanceof Boolean)
+		{
+			this.expressionObject2 = new BooleanExpressionObjectVO((Boolean) value);
 			this.relationalOperator = relop;
 		}
 		else

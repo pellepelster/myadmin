@@ -18,8 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.CompanyDictionaryIDs;
@@ -111,13 +111,13 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
 
 		Assert.assertEquals(1, childNodes.size());
 
-		List<ManagerVO> managers = this.baseVODAO.filter(GenericFilterFactory.createGenericFilter(ManagerVO.class)
+		List<ManagerVO> managers = this.baseVODAO.filter(ClientGenericFilterBuilder.createGenericFilter(ManagerVO.class)
 				.addCriteria(ManagerVO.FIELD_ID, childNodes.get(0).getVoId()).getGenericFilter());
 		Assert.assertEquals(1, managers.size());
 		Assert.assertEquals("xxx", managers.get(0).getParent().get("companyName"));
 		Assert.assertEquals(false, managers.get(0).hasChildren());
 
-		List<CompanyVO> companies = this.baseVODAO.filter(GenericFilterFactory.createGenericFilter(CompanyVO.class).getGenericFilter());
+		List<CompanyVO> companies = this.baseVODAO.filter(ClientGenericFilterBuilder.createGenericFilter(CompanyVO.class).getGenericFilter());
 		Assert.assertEquals(2, companies.size());
 		Assert.assertEquals(true, companies.get(0).hasChildren());
 		Assert.assertEquals(true, companies.get(1).hasChildren());

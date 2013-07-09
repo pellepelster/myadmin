@@ -39,6 +39,13 @@ public class BooleanExpressionObject implements IExpressionObject
 	@Override
 	public String getJPQL(IEntity parentEntity, RelationalOperator relationalOperator)
 	{
-		return this.value.toString();
+		if (this.value)
+		{
+			return "1";
+		}
+		else
+		{
+			return "0";
+		}
 	}
 }

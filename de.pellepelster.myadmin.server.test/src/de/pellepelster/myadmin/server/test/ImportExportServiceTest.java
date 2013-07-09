@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
@@ -91,17 +91,18 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
 		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
 		this.baseEntityService.deleteAll(ClientVO.class.getName());
-		Assert.assertEquals(0, this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class).getGenericFilter()).size());
+		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter()).size());
 
 		this.importExportService.importVO(clientXml);
 		this.importExportService.importVO(controlsXml);
 		this.importExportService.importVO(dictionaryXml);
 
-		List<ClientVO> clientResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class).getGenericFilter());
+		List<ClientVO> clientResult = this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter());
 		Assert.assertEquals(1, clientResult.size());
 		Assert.assertEquals(client1.getName(), clientResult.get(0).getName());
 
-		List<DictionaryVO> dictionaryResult = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(DictionaryVO.class).getGenericFilter());
+		List<DictionaryVO> dictionaryResult = this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(DictionaryVO.class)
+				.getGenericFilter());
 		Assert.assertEquals(1, dictionaryResult.size());
 		Assert.assertEquals(dictionary1.getName(), dictionaryResult.get(0).getName());
 		Assert.assertEquals(client1.getName(), dictionaryResult.get(0).getClient().getName());

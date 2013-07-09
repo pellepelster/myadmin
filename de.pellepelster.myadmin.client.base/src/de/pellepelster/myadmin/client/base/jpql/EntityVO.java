@@ -26,7 +26,9 @@ public class EntityVO extends BaseEntityAssociationVO implements Serializable
 {
 
 	private static final long serialVersionUID = -6182336683431474116L;
+
 	private List<OrderClauseVO> orderClauses = new ArrayList<OrderClauseVO>();
+
 	private String voClassName;
 
 	public EntityVO()
@@ -40,17 +42,17 @@ public class EntityVO extends BaseEntityAssociationVO implements Serializable
 
 	public void addOrderBy(String field, OrderClauseVO.ORDER_DIRECTION orderDirection)
 	{
-		orderClauses.add(new OrderClauseVO(field, orderDirection));
+		this.orderClauses.add(new OrderClauseVO(field, orderDirection));
 	}
 
 	public List<OrderClauseVO> getOrderBy()
 	{
-		return orderClauses;
+		return this.orderClauses;
 	}
 
 	public String getVoClassName()
 	{
-		return voClassName;
+		return this.voClassName;
 	}
 
 }

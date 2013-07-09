@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
@@ -33,6 +32,8 @@ import de.pellepelster.myadmin.demo.client.web.entities.Region2CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
+import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public final class DemoBaseEntityServiceTest extends BaseDemoTest
@@ -46,9 +47,9 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	{
 		this.baseEntityService.deleteAll(CityVO.class.getName());
 		this.baseEntityService.deleteAll(StateVO.class.getName());
-		this.baseEntityService.deleteAll(CountryVO.class.getName());
 		this.baseEntityService.deleteAll(RegionVO.class.getName());
 		this.baseEntityService.deleteAll(Region2CountryVO.class.getName());
+		this.baseEntityService.deleteAll(CountryVO.class.getName());
 
 		CountryVO germany = new CountryVO();
 		germany.setCountryName("Germany");
@@ -95,6 +96,43 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		GenericFilterVO<?> filter = new GenericFilterVO(CountryVO.class);
 		List<CountryVO> result = (List<CountryVO>) this.baseEntityService.filter(filter);
 		assertEquals(1, result.size());
+	}
+
+	@Test
+	public void testBooleanPositive()
+	{
+		this.baseEntityService.deleteAll(Test1VO.class.getName());
+		Test1VO test1VO = new Test1VO();
+		test1VO.setBooleanDatatype1(true);
+		this.baseEntityService.create(test1VO);
+
+		GenericFilterVO<Test1VO> filter = new GenericFilterVO(Test1VO.class);
+		filter.addCriteria(Test1VO.FIELD_BOOLEANDATATYPE1, true);
+
+		List<Test1VO> result = this.baseEntityService.filter(filter);
+		assertEquals(1, result.size());
+	}
+
+	@Test
+	public void testBoolean()
+	{
+		this.baseEntityService.deleteAll(Test1VO.class.getName());
+		Test1VO test1VO = new Test1VO();
+		test1VO.setBooleanDatatype1(true);
+		this.baseEntityService.create(test1VO);
+
+		GenericFilterVO<Test1VO> filterTrue = new GenericFilterVO(Test1VO.class);
+		filterTrue.addCriteria(Test1VO.FIELD_BOOLEANDATATYPE1, true);
+
+		GenericFilterVO<Test1VO> filterFalse = new GenericFilterVO(Test1VO.class);
+		filterFalse.addCriteria(Test1VO.FIELD_BOOLEANDATATYPE1, false);
+
+		List<Test1VO> result = this.baseEntityService.filter(filterTrue);
+		assertEquals(1, result.size());
+
+		result = this.baseEntityService.filter(filterFalse);
+		assertEquals(0, result.size());
+
 	}
 
 	@Test
@@ -193,8 +231,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		userVO.setUserName("xxx");
 		this.baseEntityService.create(userVO);
 
-		List<UserVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(UserVO.class).addCriteria(UserVO.FIELD_USERNAME, "xxx")
-				.getGenericFilter());
+		List<UserVO> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(UserVO.class)
+				.addCriteria(UserVO.FIELD_USERNAME, "xxx").getGenericFilter());
 
 		assertEquals(1, result.size());
 		assertEquals("xxx", result.get(0).getUserName());

@@ -19,18 +19,11 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency name="db" rev="latest.integration" conf="*->@" />
+		<dependency name="server-base" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-base" rev="latest.integration" conf="*->@" />
-		
-		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" />
+		<dependency name="client-core" rev="latest.integration" conf="*->@" />
 
-		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" />
-
-		<dependency name="server-lib" rev="latest.integration" conf="*->default" />
-
-		<dependency org="com.google.code.gson" name="gson" rev="2.2.4" />
-		
+				
 	</dependencies>
 
 </ivy-module>

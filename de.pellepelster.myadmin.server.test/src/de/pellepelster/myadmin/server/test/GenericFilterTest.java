@@ -18,13 +18,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
 public final class GenericFilterTest extends BaseMyAdminJndiContextTest
@@ -87,14 +87,15 @@ public final class GenericFilterTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testFilterAll()
 	{
-		Assert.assertEquals(2, this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class).getGenericFilter()).size());
+		Assert.assertEquals(2, this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class).getGenericFilter())
+				.size());
 	}
 
 	@Test
 	public void testFilter1()
 	{
 		ModuleDefinitionVO moduleDefinition = this.baseEntityService.filter(
-				GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class).addCriteria(ModuleDefinitionVO.FIELD_NAME, "moduledefinition1")
+				ServerGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class).addCriteria(ModuleDefinitionVO.FIELD_NAME, "moduledefinition1")
 						.getGenericFilter()).get(0);
 
 		Assert.assertEquals("moduledefinition1", moduleDefinition.getName());
@@ -103,7 +104,7 @@ public final class GenericFilterTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testFilterwithAssociation()
 	{
-		GenericFilterVO<ModuleVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, "module1")
+		GenericFilterVO<ModuleVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, "module1")
 				.getGenericFilter();
 		genericFilterVO.addAssociation(ModuleVO.FIELD_MODULEDEFINITION).addAssociation(ModuleDefinitionVO.FIELD_CLIENT);
 
@@ -117,7 +118,7 @@ public final class GenericFilterTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testFilterOr()
 	{
-		GenericFilterVO<ModuleDefinitionVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class).getGenericFilter();
+		GenericFilterVO<ModuleDefinitionVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class).getGenericFilter();
 
 		// , ModuleDefinitionVO.FIELD_NAME, "moduledefinition1"
 

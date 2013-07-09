@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.db.daos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +28,6 @@ import de.pellepelster.myadmin.client.base.jpql.expressions.NamedParameterExpres
 import de.pellepelster.myadmin.client.base.jpql.expressions.NullExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.StringExpressionObjectVO;
 import de.pellepelster.myadmin.client.base.jpql.expressions.TimestampExpressionObjectVO;
-import de.pellepelster.myadmin.db.jpql.expression.BooleanExpressionObject;
 import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.EntityExpressionObject;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
@@ -97,7 +97,8 @@ public final class ConditionalExpressionVOUtil
 
 		if (expressionObjectVO instanceof BooleanExpressionObjectVO)
 		{
-			return new BooleanExpressionObject(((BooleanExpressionObjectVO) expressionObjectVO).getValue());
+			BooleanExpressionObjectVO booleanExpressionObjectVO = (BooleanExpressionObjectVO) expressionObjectVO;
+			return new NamedParameterExpressionObject(UUID.randomUUID().toString(), booleanExpressionObjectVO.getValue());
 		}
 
 		if (expressionObjectVO instanceof IntegerExpressionObjectVO)

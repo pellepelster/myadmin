@@ -18,7 +18,6 @@ import javax.annotation.Resource;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.DictionaryModel;
@@ -31,6 +30,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWT;
 import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 public class DictionaryServiceImpl implements IDictionaryServiceGWT
 {
@@ -96,7 +96,7 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT
 	private DictionaryVO getDictionaryInternal(String dictionaryName)
 	{
 
-		GenericFilterVO<DictionaryVO> genericFilterVO = GenericFilterFactory.createGenericFilter(DictionaryVO.class)
+		GenericFilterVO<DictionaryVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(DictionaryVO.class)
 				.addCriteria(DictionaryVO.FIELD_NAME, dictionaryName).getGenericFilter();
 
 		addControlAssociations(genericFilterVO.addAssociation(DictionaryVO.FIELD_CONTROLAGGREGATES));

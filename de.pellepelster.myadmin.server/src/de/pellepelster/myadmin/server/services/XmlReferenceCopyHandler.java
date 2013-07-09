@@ -18,12 +18,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.FieldIterator;
 import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.core.xml.XmlVOMapping;
 
 public class XmlReferenceCopyHandler implements IFieldCopyHandler
@@ -78,7 +78,7 @@ public class XmlReferenceCopyHandler implements IFieldCopyHandler
 	private Object getByNaturalKey(Class<? extends IBaseVO> voClass, Object source)
 	{
 		@SuppressWarnings("unchecked")
-		GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) GenericFilterFactory.createGenericFilter(voClass).getGenericFilter();
+		GenericFilterVO<IBaseVO> genericFilterVO = (GenericFilterVO<IBaseVO>) ServerGenericFilterBuilder.createGenericFilter(voClass).getGenericFilter();
 
 		for (FieldDescriptor naturalKeyFieldDescriptor : new FieldIterator(source))
 		{

@@ -21,11 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.VOHierarchy;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
@@ -229,7 +229,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 
 		for (Class<? extends IHierarchicalVO> hierarchicalClass : this.hierarchicalClasses)
 		{
-			GenericFilterVO<? extends IHierarchicalVO> childrenFilter = GenericFilterFactory.createGenericFilter(hierarchicalClass)
+			GenericFilterVO<? extends IHierarchicalVO> childrenFilter = ClientGenericFilterBuilder.createGenericFilter(hierarchicalClass)
 					.addCriteria(IHierarchicalVO.FIELD_PARENT_CLASSNAME, voClassName).addCriteria(IHierarchicalVO.FIELD_PARENT_ID, voId).getGenericFilter();
 
 			count += this.baseVODAO.getCount(childrenFilter);

@@ -19,10 +19,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
-public class ImportExportService {
+public class ImportExportService
+{
 
 	private final static Logger LOG = Logger.getLogger(ImportExportService.class);
 
@@ -32,9 +33,10 @@ public class ImportExportService {
 	@Autowired
 	private XmlService xmlService;
 
-	public <T extends IBaseVO> String exportVO(Class<T> voClass) {
+	public <T extends IBaseVO> String exportVO(Class<T> voClass)
+	{
 		LOG.info(String.format("exporting all '%s' vos", voClass.getName()));
-		List<T> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(voClass).getGenericFilter());
+		List<T> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(voClass).getGenericFilter());
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		this.xmlService.export(voClass, result, outputStream);
@@ -43,7 +45,8 @@ public class ImportExportService {
 
 	}
 
-	public void importVO(String xmlString) {
+	public void importVO(String xmlString)
+	{
 		Class<?> xmlClass = this.xmlService.detectXmlClass(xmlString);
 
 		LOG.info(String.format("importing '%s' vos", xmlClass));

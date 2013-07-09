@@ -17,9 +17,9 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -76,7 +76,7 @@ public final class ModuleHandler
 	public void startModule(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
 	{
 
-		GenericFilterVO<ModuleVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, moduleName)
+		GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, moduleName)
 				.getGenericFilter();
 		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
 
@@ -103,7 +103,7 @@ public final class ModuleHandler
 					// no module found, we try to use the module definition as
 					// module
 
-					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = GenericFilterFactory.createGenericFilter(ModuleDefinitionVO.class)
+					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class)
 							.addCriteria(ModuleDefinitionVO.FIELD_NAME, moduleName).getGenericFilter();
 
 					MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()

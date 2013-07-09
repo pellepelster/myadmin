@@ -33,7 +33,7 @@
 
 		<dependency name="client-base" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
 
-		<dependency name="server-core" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
+		<dependency name="server-base" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
 
 		<dependency name="db" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
 

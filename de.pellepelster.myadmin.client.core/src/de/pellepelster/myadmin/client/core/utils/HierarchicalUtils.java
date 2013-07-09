@@ -16,8 +16,8 @@ import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 
 public class HierarchicalUtils
@@ -30,7 +30,7 @@ public class HierarchicalUtils
 		{
 			String parentVOClassName = parameters.get(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName());
 			Long parentVOID = Long.parseLong(parameters.get(IHierarchicalVO.FIELD_PARENT_ID.getAttributeName()));
-			GenericFilterVO<IBaseVO> genericFilterVO = GenericFilterFactory.createGenericFilter(parentVOClassName).getGenericFilter();
+			GenericFilterVO<IBaseVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(parentVOClassName).getGenericFilter();
 			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, parentVOID);
 
 			List<IBaseVO> result = baseEntityService.filter(genericFilterVO);

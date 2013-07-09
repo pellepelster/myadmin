@@ -20,11 +20,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterFactory;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.schema.client.ClientList;
 import de.pellepelster.myadmin.schema.client.ClientType;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.XmlService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
@@ -65,7 +65,7 @@ public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 
 		this.xmlService.importXml(ClientList.class, inputStream);
 
-		List<ClientVO> result = this.baseEntityService.filter(GenericFilterFactory.createGenericFilter(ClientVO.class)
+		List<ClientVO> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(ClientVO.class)
 				.addCriteria(ClientVO.FIELD_NAME, "client1").getGenericFilter());
 		Assert.assertEquals(2, result.size());
 

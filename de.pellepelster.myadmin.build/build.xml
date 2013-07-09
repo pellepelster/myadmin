@@ -35,12 +35,23 @@
 			<ivy:buildlist settingsref="ivy.settings" reference="build.path">
 				<fileset refid="@{fileset}" />
 			</ivy:buildlist>
+
+		    <pathconvert pathsep="${line.separator}"
+		        property="build.path.echo"             
+		        refid="build.path">
+		    </pathconvert>
+		    <echo>${build.path.echo}</echo>
+		
 		</sequential>
 	</macrodef>
 
+	<target name="report">
+		<ivy:report conf="${ivy.conf}" organisation="de.pellepelster.myadmin" module="server-core" graph="false" todir="${build.dir}/ivy-report" />
+	</target>
+
 	<target name="publish.all">
 		<antcall target="info" />
-		<buildlist fileset="publish.fileset.all" />
+		<buildlist fileset="publish.fileset.all"  />
 		<subant target="publish" buildpathref="build.path" />
 	</target>
 
