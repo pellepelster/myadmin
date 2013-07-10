@@ -14,31 +14,32 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.layout;
 import de.pellepelster.gwt.commons.client.GwtCommons;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.controls.EnumerationControlModel;
 
 public final class WidthCalculationStrategy
 {
 	private static WidthCalculationStrategy instance;
 
-	public int getWidth(int characters)
+	public int getWidth(int characters, boolean uppercase)
 	{
-		return getWidth(characters, 1f);
+		return getWidth(characters, uppercase, 1f);
 	}
 
-	public int getWidth(int characters, float factor)
+	public int getWidth(int characters, boolean uppercase, float factor)
 	{
-		float width = characters * GwtCommons.getInstance().getAverageCharacterWidth();
-		
+		float width = characters * GwtCommons.getInstance().getAverageCharacterWidth(uppercase);
+
 		return (int) Math.round(Math.ceil(width * factor));
 	}
 
-	public String getPxWidth(int characters, float factor)
+	public String getPxWidth(int characters, boolean uppercase, float factor)
 	{
-		return getWidth(characters, factor) + "px";
+		return getWidth(characters, uppercase, factor) + "px";
 	}
 
-	public String getPxWidth(int characters)
+	public String getPxWidth(int characters, boolean uppercase)
 	{
-		return getWidth(characters, 1f) + "px";
+		return getWidth(characters, uppercase, 1f) + "px";
 	}
 
 	public static WidthCalculationStrategy getInstance()
@@ -55,15 +56,36 @@ public final class WidthCalculationStrategy
 	{
 	}
 
+	private boolean isUppercase(IBaseControlModel baseControlModel)
+	{
+		boolean uppercase = false;
+
+		if (baseControlModel instanceof EnumerationControlModel)
+		{
+			EnumerationControlModel enumerationControlModel = (EnumerationControlModel) baseControlModel;
+
+			String allEnumValues = "";
+			for (String enumValue : enumerationControlModel.getEnumeration().values())
+			{
+				allEnumValues += enumValue;
+			}
+
+			uppercase = allEnumValues.toUpperCase().equals(allEnumValues);
+
+		}
+
+		return uppercase;
+	}
+
 	public int getControlWidth(IBaseControlModel baseControlModel)
 	{
 		if (baseControlModel.getWidthHint() == null)
 		{
-			return getWidth(IBaseControlModel.DEFAULT_WIDTH_HINT);
+			return getWidth(IBaseControlModel.DEFAULT_WIDTH_HINT, isUppercase(baseControlModel));
 		}
 		else
 		{
-			return getWidth(baseControlModel.getWidthHint());
+			return getWidth(baseControlModel.getWidthHint(), isUppercase(baseControlModel));
 		}
 	}
 
@@ -81,12 +103,7 @@ public final class WidthCalculationStrategy
 
 	public String getPxWidth(IBaseControlModel baseControlModel)
 	{
-		return getPxWidth(baseControlModel.getWidthHint());
-	}
-	
-	public String getPxWidth(IBaseControlModel baseControlModel, float factor)
-	{
-		return getPxWidth(baseControlModel.getWidthHint(), factor);
+		return getPxWidth(baseControlModel.getWidthHint(), isUppercase(baseControlModel));
 	}
 
 }

@@ -59,7 +59,7 @@ public class EnumerationControlModel extends BaseControlModel implements IEnumar
 			}
 		}
 
-		return ObjectUtils.firstNonNull(getWidthHintInternal(), maxLength, DEFAULT_WIDTH_HINT);
+		return (int) (ObjectUtils.firstNonNull(getWidthHintInternal(), maxLength, DEFAULT_WIDTH_HINT) * 1.6);
 	}
 
 }
