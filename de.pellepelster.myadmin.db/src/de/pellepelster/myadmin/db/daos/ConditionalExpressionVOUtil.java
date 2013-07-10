@@ -13,7 +13,6 @@ package de.pellepelster.myadmin.db.daos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,20 +50,22 @@ public final class ConditionalExpressionVOUtil
 	{
 		List<IConditionalExpression> ces = new ArrayList<IConditionalExpression>();
 
+		int i = 0;
 		for (IConditionalExpressionVO conditionalExpressionVO : conditionalExpressionVOs)
 		{
-			IExpressionObject expressionObject1 = getExpressionObject(conditionalExpressionVO.getExpressionObject1());
-			IExpressionObject expressionObject2 = getExpressionObject(conditionalExpressionVO.getExpressionObject2());
+			IExpressionObject expressionObject1 = getExpressionObject(String.format("namedparameter%d", i), conditionalExpressionVO.getExpressionObject1());
+			IExpressionObject expressionObject2 = getExpressionObject(String.format("namedparameter%d", i), conditionalExpressionVO.getExpressionObject2());
 
 			ces.add(new ConditionalExpression(conditionalExpressionVO.getLogicalOperator(), expressionObject1, RelationalOperator
 					.valueOf(conditionalExpressionVO.getRelationalOperator().name()), expressionObject2));
+			i++;
 		}
 
 		return ces;
 
 	}
 
-	public static IExpressionObject getExpressionObject(IExpressionObjectVO expressionObjectVO)
+	public static IExpressionObject getExpressionObject(String id, IExpressionObjectVO expressionObjectVO)
 	{
 
 		if (expressionObjectVO instanceof EntityExpressionObjectVO)
@@ -98,7 +99,7 @@ public final class ConditionalExpressionVOUtil
 		if (expressionObjectVO instanceof BooleanExpressionObjectVO)
 		{
 			BooleanExpressionObjectVO booleanExpressionObjectVO = (BooleanExpressionObjectVO) expressionObjectVO;
-			return new NamedParameterExpressionObject(UUID.randomUUID().toString(), booleanExpressionObjectVO.getValue());
+			return new NamedParameterExpressionObject(id, booleanExpressionObjectVO.getValue());
 		}
 
 		if (expressionObjectVO instanceof IntegerExpressionObjectVO)
