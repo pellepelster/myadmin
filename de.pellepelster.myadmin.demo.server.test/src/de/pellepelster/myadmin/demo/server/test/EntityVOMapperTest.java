@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server.old;
+package de.pellepelster.myadmin.demo.server.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 import de.pellepelster.myadmin.demo.server.entities.Country;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
 
-public final class EntityVOMapperTest extends BaseMyAdminDemoDBTest
+public final class EntityVOMapperTest extends BaseDemoTest
 {
 	@Test
 	public void testInvalidClass()

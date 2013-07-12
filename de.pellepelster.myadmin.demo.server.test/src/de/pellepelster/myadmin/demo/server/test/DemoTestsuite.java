@@ -11,7 +11,7 @@ import de.pellepelster.myadmin.demo.server.test.dictionary.DemoHierarchicalTest;
 @RunWith(Suite.class)
 // @SuiteClasses({ DemoDictionaryServiceRemoteTest.class,
 // DemoModuleServiceRemoteTest.class })
-@SuiteClasses({ DemoDictionaryTest.class, DemoHierarchicalTest.class, DemoBaseEntityServiceTest.class })
+@SuiteClasses({ EntityVOMapperTest.class, DemoDictionaryTest.class, DemoHierarchicalTest.class, DemoBaseEntityServiceTest.class })
 public class DemoTestsuite
 {
 }

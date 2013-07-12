@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server.old;
+package de.pellepelster.myadmin.demo.server.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 
-public class ModuleNavigationBaseEntityServiceTest extends BaseMyAdminDemoDBTest
+public class ModuleNavigationBaseEntityServiceTest extends BaseDemoTest
 {
 
 	@Autowired
@@ -50,7 +50,7 @@ public class ModuleNavigationBaseEntityServiceTest extends BaseMyAdminDemoDBTest
 		child2NavigationVO.setTitle("child1");
 		child1NavigationVO.getChildren().add(child2NavigationVO);
 
-		baseEntityService.create(rootNavigationVO);
+		this.baseEntityService.create(rootNavigationVO);
 
 	}
 
@@ -63,7 +63,7 @@ public class ModuleNavigationBaseEntityServiceTest extends BaseMyAdminDemoDBTest
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE).addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
 
-		List<ModuleNavigationVO> result = baseEntityService.filter(genericFilterVO);
+		List<ModuleNavigationVO> result = this.baseEntityService.filter(genericFilterVO);
 
 		assertEquals(1, result.size());
 
