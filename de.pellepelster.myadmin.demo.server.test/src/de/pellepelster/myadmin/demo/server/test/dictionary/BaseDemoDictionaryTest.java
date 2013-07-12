@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +22,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
+import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public abstract class BaseDemoDictionaryImporterTest extends BaseDemoTest
+public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 {
 
 	@Autowired

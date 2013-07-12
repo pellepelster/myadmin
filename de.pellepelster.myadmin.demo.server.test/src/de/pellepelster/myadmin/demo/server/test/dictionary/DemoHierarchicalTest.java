@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 
-public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
+public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 {
 	@Autowired
 	private IHierachicalService hierachicalService;
@@ -38,6 +38,8 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryImporterTest
 	public void initData()
 	{
 		super.initData();
+
+		getBaseEntityService().deleteAll(CompanyVO.class.getName());
 
 		MyAdminDslStandaloneSetup.doSetup();
 

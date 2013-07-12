@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.CountryDictionaryIDs;
 
-public final class DemoDictionaryTest extends BaseDemoDictionaryImporterTest
+public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
 	@Test
 	public void testCountry()

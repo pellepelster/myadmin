@@ -9,13 +9,15 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.List;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +35,7 @@ import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
+import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -206,10 +209,10 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	@Test
 	public void testMyAdminEntities()
 	{
-		GenericFilterVO<?> filter = new GenericFilterVO(DictionaryContainerVO.class);
-		List<CountryVO> result = (List<CountryVO>) this.baseEntityService.filter(filter);
+		GenericFilterVO<DictionaryContainerVO> filter = new GenericFilterVO(DictionaryContainerVO.class);
+		List<DictionaryContainerVO> result = this.baseEntityService.filter(filter);
 
-		assertEquals(0, result.size());
+		Assert.assertFalse(result.isEmpty());
 	}
 
 	@Test
