@@ -21,10 +21,13 @@ import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.CountryDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.test1.Dictionary1DictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.test1.Dictionary2DictionaryIDs;
 
 public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
@@ -68,6 +71,38 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 		ModuleNavigationVO countryModuleNavigationVO = result.get(1).getChildren().get(0).getChildren().get(0);
 		Assert.assertEquals("Country", countryModuleNavigationVO.getTitle());
 		Assert.assertFalse(countryModuleNavigationVO.getModule().getProperties().isEmpty());
+
+	}
+
+	@Test
+	public void testDictionary1()
+	{
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1);
+		Assert.assertEquals("Dictionary1", dictionaryModel.getName());
+
+		Assert.assertEquals(7, dictionaryModel.getSearchModel().getResultModel().getControls().size());
+
+	}
+
+	@Test
+	public void testReferenceControlLabelFallback()
+	{
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1);
+
+		IReferenceControlModel referenceControlModel = (IReferenceControlModel) dictionaryModel.getSearchModel().getResultModel().getControls().get(6);
+		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
+		Assert.assertEquals(1, referenceControlModel.getLabelControls().size());
+		Assert.assertEquals("ReferenceControl1", referenceControlModel.getName());
+	}
+
+	@Test
+	public void testDictionary2()
+	{
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary2DictionaryIDs.DICTIONARY2);
+		Assert.assertEquals("Dictionary2", dictionaryModel.getName());
+
+		Assert.assertEquals(1, dictionaryModel.getLabelControls().size());
+		Assert.assertEquals("TextControl2", dictionaryModel.getLabelControls().get(0).getName());
 
 	}
 

@@ -11,6 +11,9 @@
  */
 package de.pellepelster.myadmin.tools.dictionary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.beanutils.PropertyUtils;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
@@ -306,10 +309,24 @@ public class ControlFactory
 
 		createDictionaryControlCommon(dictionaryReferenceControl, dictionaryControlVO, logIdentiation + 1);
 
-		// control labels
-		for (DictionaryControl dictionaryLabelControl : dictionaryReferenceControl.getLabelcontrols())
+		if (dictionaryControlVO.getLabelControls().isEmpty())
 		{
-			dictionaryControlVO.getLabelControls().add(createDictionaryControlVO(dictionaryLabelControl, logIdentiation + 1));
+			List<DictionaryControl> dictionaryControls = new ArrayList<DictionaryControl>();
+
+			if (dictionaryReferenceControl.getLabelcontrols().isEmpty() && dictionaryReferenceControl.getDictionary() != null)
+			{
+				dictionaryControls = dictionaryReferenceControl.getDictionary().getLabelcontrols();
+			}
+			else if (!dictionaryReferenceControl.getLabelcontrols().isEmpty())
+			{
+				dictionaryControls = dictionaryReferenceControl.getLabelcontrols();
+			}
+
+			// control labels
+			for (DictionaryControl dictionaryLabelControl : dictionaryControls)
+			{
+				dictionaryControlVO.getLabelControls().add(createDictionaryControlVO(dictionaryLabelControl, logIdentiation + 1));
+			}
 		}
 
 		if (dictionaryReferenceControl.getRef() != null)
