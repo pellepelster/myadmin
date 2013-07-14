@@ -1,0 +1,22 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::NewExtensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE dictionaryDebugID FOR Dictionary»
+	«info("generating dictionary debug id for '" + this.name + "'")»
+
+	«FILE fullQualifiedDictionaryDebugIDsInterfaceFileName()»
+	package «fullQualifiedPackageName()»;
+	
+	public interface «dictionaryDebugIDsInterfaceName()» {
+	
+		String DICTIONARY_SEARCH_MODULE = "gwt-debug-DictionarySearch-«this.name»";
+
+		String DICTIONARY_SEARCH_MODULE_SEARCH_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionarySearchButton";
+
+		String DICTIONARY_SEARCH_MODULE_CREATE_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionaryCreateButton";
+
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»

@@ -76,7 +76,6 @@ public class SeleniumTests extends BaseRemoteTest
 
 	}
 
-	@Test
 	public void testCreateCountry() throws Exception
 	{
 		this.driver.get(getRemoteUrl() + "/Demo/Demo.html");
@@ -97,6 +96,76 @@ public class SeleniumTests extends BaseRemoteTest
 			FileUtils.copyFile(screenshotFile, new File(System.getProperty("screenshot.dir"), "createCountries.png"));
 		}
 
+	}
+
+	private void waitForDivWithText(String text)
+	{
+		waitForElementByXpath(String.format("//div[text() = \"%s\"]", text));
+	}
+
+	private void openNavigationItem(String navigtionItemName)
+	{
+		this.driver.findElement(By.xpath(String.format("//div[text() = \"%s\"]/preceding::div[1]/img", navigtionItemName))).click();
+	}
+
+	private void clickNavigationItem(String navigtionItemName)
+	{
+		this.driver.findElement(By.xpath(String.format("//div[text() = \"%s\"]", navigtionItemName))).click();
+	}
+
+	@Test
+	public void testCreateDictionary1Textcontrol1() throws Exception
+	{
+		this.driver.get(getRemoteUrl() + "/Demo/Demo.html");
+
+		waitForDivWithText("Test");
+
+		openNavigationItem("Test");
+
+		createDictionary1("aaa");
+		createDictionary1("bbb");
+		createDictionary1("ccc");
+
+		// execute search
+		// this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionarySearch")).click();
+		// waitForElementByXpath("//div[text() = \"" + countryName + "\"]");
+
+		if (System.getProperty("screenshot.dir") != null)
+		{
+			File screenshotFile = ((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenshotFile, new File(System.getProperty("screenshot.dir"), "createCountries.png"));
+		}
+
+	}
+
+	private void waitForElementAndClickById(String id)
+	{
+		waitForElementById(id);
+		this.driver.findElement(By.id(id)).click();
+	}
+
+	private void clickById(String id)
+	{
+		this.driver.findElement(By.id(id)).click();
+	}
+
+	private void createDictionary1(Object value) throws Exception
+	{
+		clickNavigationItem("Dictionary1");
+
+		waitForElementAndClickById("gwt-debug-DictionarySearch-Dictionary1-DictionaryCreate");
+
+		waitForElementById("gwt-debug-Dictionary1-RootComposite-Dictionary1Composite3-TextControl1");
+
+		this.driver.findElement(By.id("gwt-debug-Dictionary1-RootComposite-Dictionary1Composite3-TextControl1")).clear();
+		this.driver.findElement(By.id("gwt-debug-Dictionary1-RootComposite-Dictionary1Composite3-TextControl1")).sendKeys(value.toString());
+
+		clickById("gwt-debug-DictionarySearch-Dictionary1-DictionarySave");
+
+		waitForElementByXpath(String.format("//div[text() = \"Dictionary1Editor %s\"]", value.toString()));
+
+		clickById("gwt-debug-DictionarySearch-Dictionary1-DictionaryBack");
+		waitForElementById("gwt-debug-DictionarySearch-Dictionary1-DictionarySearch");
 	}
 
 	@After
