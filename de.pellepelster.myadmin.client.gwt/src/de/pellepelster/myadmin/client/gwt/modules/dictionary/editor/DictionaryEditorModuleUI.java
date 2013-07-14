@@ -45,11 +45,11 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 	private final VerticalPanel verticalPanel;
 
-	private static final String DICTIONARY_SAVE_DEBUG_ID = "DictionarySave";
+	private static final String DICTIONARY_SAVE_BUTTON_DEBUG_ID = "DictionarySaveButton";
 
-	private static final String DICTIONARY_BACK_DEBUG_ID = "DictionaryBack";
+	private static final String DICTIONARY_BACK_BUTTON_DEBUG_ID = "DictionaryBackButton";
 
-	private static final String DICTIONARY_REFRESH_DEBUG_ID = "DictionaryRefresh";
+	private static final String DICTIONARY_REFRESH_BUTTON_DEBUG_ID = "DictionaryRefreshButton";
 
 	@SuppressWarnings("rawtypes")
 	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI)
@@ -100,7 +100,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				{
 					MyAdmin.getInstance().getLayoutFactory().showModuleUI(previousModuleUI);
 				}
-			}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_DEBUG_ID);
+			}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_BUTTON_DEBUG_ID);
 
 			actionBar.addSpacer(2);
 		}
@@ -113,7 +113,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			{
 				save();
 			}
-		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_DEBUG_ID);
+		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_BUTTON_DEBUG_ID);
 
 		final Button refreshButton = actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
 		{
@@ -124,7 +124,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				getModule().refresh();
 			}
 
-		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_DEBUG_ID);
+		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_BUTTON_DEBUG_ID);
 
 		// refreshButton.setEnabled(false);
 

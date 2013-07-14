@@ -28,6 +28,9 @@
 	«info("generating dictionary identifiers")»
 	«EXPAND dictionary::DictionaryIDs::dictionaryID FOREACH eAllContents.typeSelect(Dictionary)»
 
+	«info("generating dictionary debug identifiers")»
+	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID FOREACH eAllContents.typeSelect(Dictionary)»
+
 	«info("generating dictionary hook registrations")»
 	«EXPAND dictionary::Hooks::hookRegistration FOREACH eAllContents.typeSelect(Dictionary)»
 

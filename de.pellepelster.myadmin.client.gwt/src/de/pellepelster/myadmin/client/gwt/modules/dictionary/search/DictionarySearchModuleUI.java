@@ -39,9 +39,9 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule>
 {
 
-	private static final String DICTIONARY_CREATE_DEBUG_ID = "DictionaryCreate";
+	private static final String DICTIONARY_CREATE_BUTTON_DEBUG_ID = "DictionaryCreateButton";
 
-	private static final String DICTIONARY_SEARCH_DEBUG_ID = "DictionarySearch";
+	private static final String DICTIONARY_SEARCH_BUTTON_DEBUG_ID = "DictionarySearchButton";
 
 	private final VerticalPanel verticalPanel;
 
@@ -95,7 +95,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 				{
 					dictionaryResult.setFilter(dictionaryFilter.getFilter());
 				}
-			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_DEBUG_ID);
+			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_BUTTON_DEBUG_ID);
 		}
 		else
 		{
@@ -107,7 +107,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 				{
 					dictionaryResult.setFilter(dictionaryResult.getEmptyFilter(searchModel));
 				}
-			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_DEBUG_ID);
+			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_BUTTON_DEBUG_ID);
 
 		}
 
@@ -120,7 +120,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			{
 				DictionaryEditorModuleFactory.openEditor(getModule().getDictionaryModel().getName());
 			}
-		}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_CREATE_DEBUG_ID);
+		}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_CREATE_BUTTON_DEBUG_ID);
 
 		Panel resultPanel = dictionaryResult.getContainer();
 		resultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);

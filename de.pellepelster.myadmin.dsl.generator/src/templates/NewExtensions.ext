@@ -89,6 +89,11 @@ String dictionaryIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFir
 String fullQualifiedDictionaryIDsInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryIDsInterfaceName(dictionary);
 String fullQualifiedDictionaryIDsInterfaceFileName(Dictionary dictionary) : fullQualifiedDictionaryIDsInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';
 
+//- dictionary debug ids ------------------------------------------------------------
+String dictionaryDebugIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryDebugIDs";
+String fullQualifiedDictionaryDebugIDsInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryDebugIDsInterfaceName(dictionary);
+String fullQualifiedDictionaryDebugIDsInterfaceFileName(Dictionary dictionary) : fullQualifiedDictionaryDebugIDsInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';
+
 //- hook registrations --------------------------------------------------------
 String hookRegistrationClassName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "HookRegistration";
 String fullQualifiedHookRegistrationClassName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + hookRegistrationClassName(dictionary);
