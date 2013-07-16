@@ -18,8 +18,16 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBigDecimalControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBooleanControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryDateControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEnumerationControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
+import de.pellepelster.myadmin.dsl.query.controls.DictionaryControlQuery;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
 public class ModelQueryTest
@@ -79,6 +87,109 @@ public class ModelQueryTest
 
 		Dictionary dictionary = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionary();
 		Assert.assertEquals("TestDictionary1", dictionary.getName());
+	}
+
+	@Test
+	public void testDictionaryControlQuery()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		Dictionary dictionary = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionary();
+
+		DictionaryTextControl textControl = (DictionaryTextControl) dictionary.getDictionaryeditor().getContainercontents().get(0);
+
+		DictionaryControlQuery.create(textControl);
+	}
+
+	@Test
+	public void testResolveTextControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryTextControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("TextControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveIntegerControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryIntegerControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("IntegerControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveBigDecimalControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryBigDecimalControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("BigDecimalControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveDateControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryDateControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("DateControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveBooleanControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryBooleanControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("BooleanControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveEnumerationControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryEnumerationControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("EnumerationControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
+	}
+
+	@Test
+	public void testResolveReferenceControl()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		DictionaryControlQuery<?> dictionaryControlQuery = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionaryEditor()
+				.getControlsByType(DictionaryReferenceControl.class).getSingleDictionaryControlQuery();
+
+		Assert.assertEquals("ReferenceControl1", dictionaryControlQuery.getName(true));
+		Assert.assertNull(dictionaryControlQuery.getName(false));
+
 	}
 
 	@Test

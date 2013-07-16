@@ -36,9 +36,33 @@ project ModelTest {
 				dictionarycontrols {
 				
 					textcontrol TextControl1 {
-						entityattribute textDataType1
-						label "TextControl1"
+						entityattribute Test1.textDatatype1 label "TextControl1" mandatory
 					}
+
+					integercontrol IntegerControl1 {
+						entityattribute Test1.integerDatatype1 label "integerControl1"
+					}
+
+					bigdecimalcontrol BigDecimalControl1 {
+						entityattribute Test1.bigDecimalDatatype1 label "BigDecimalControl1"
+					}
+
+					datecontrol DateControl1 {
+						entityattribute Test1.dateDatatype1 label "DateControl1"
+					}
+
+					booleancontrol BooleanControl1 {
+						entityattribute Test1.booleanDatatype1 label "BooleanControl1"
+					}
+
+					enumerationcontrol EnumerationControl1 {
+						entityattribute Test1.enumerationDatatype1 label "EnumerationControl1"
+					}
+
+					referencecontrol ReferenceControl1 {
+						entityattribute Test1.referenceDatatype1 label "ReferenceControl1" dictionary Dictionary2
+					}
+					
 				}
 				
 				labelcontrols {
@@ -64,6 +88,12 @@ project ModelTest {
 				
 				dictionaryeditor TestDictionary1Editor {
 					textcontrol ref TextControl1
+					integercontrol ref IntegerControl1
+					bigdecimalcontrol ref BigDecimalControl1
+					datecontrol ref DateControl1
+					booleancontrol ref BooleanControl1
+					enumerationcontrol ref EnumerationControl1
+					referencecontrol ref ReferenceControl1
 				}
 			}
 		}
