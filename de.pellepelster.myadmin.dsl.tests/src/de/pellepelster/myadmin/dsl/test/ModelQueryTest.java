@@ -17,19 +17,23 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
-public class ModelQueryTest {
+public class ModelQueryTest
+{
 
 	@BeforeClass
-	public static void init() {
+	public static void init()
+	{
 		MyAdminDslStandaloneSetup.doSetup();
 	}
 
 	@Test
-	public void testQueryRootPackages() {
+	public void testQueryRootPackages()
+	{
 		Model model = SpringModelUtils.getModel("classpath:model/SingleRootPackageModel.msl");
 
 		Assert.assertTrue(ModelQuery.createQuery(model).getRootPackages().hasExactlyOne());
@@ -37,7 +41,8 @@ public class ModelQueryTest {
 	}
 
 	@Test
-	public void testGetPackagesByName() {
+	public void testGetPackagesByName()
+	{
 		Model model = SpringModelUtils.getModel("classpath:model/PackagesModel.msl");
 
 		Assert.assertEquals("c.d", ModelQuery.createQuery(model).getPackageByName("a.b.c.d").getName());
@@ -45,7 +50,8 @@ public class ModelQueryTest {
 	}
 
 	@Test
-	public void testGetAndCreatePackageByName() {
+	public void testGetAndCreatePackageByName()
+	{
 		Model model = SpringModelUtils.getModel("classpath:model/PackagesModel.msl");
 
 		Assert.assertEquals("e.f", ModelQuery.createQuery(model).getAndCreatePackageByName("a.b.c.d.e.f").getName());
@@ -57,7 +63,8 @@ public class ModelQueryTest {
 	}
 
 	@Test
-	public void testGetAndCreateSplitPackageByName() {
+	public void testGetAndCreateSplitPackageByName()
+	{
 		Model model = SpringModelUtils.getModel("classpath:model/PackagesModel.msl");
 
 		Assert.assertEquals("x", ModelQuery.createQuery(model).getAndCreatePackageByName("a.b.c.x").getName());
@@ -66,7 +73,17 @@ public class ModelQueryTest {
 	}
 
 	@Test
-	public void testGetAndCreatePackageEmptyModel() {
+	public void testGetDictionaryByName()
+	{
+		Model model = SpringModelUtils.getModel("classpath:model/DictionaryQueryTest.msl");
+
+		Dictionary dictionary = ModelQuery.createQuery(model).getDictionaryByName("TestDictionary1").getDictionary();
+		Assert.assertEquals("TestDictionary1", dictionary.getName());
+	}
+
+	@Test
+	public void testGetAndCreatePackageEmptyModel()
+	{
 		Model model = SpringModelUtils.getModel("classpath:model/EmptyModel.msl");
 
 		Assert.assertNull(ModelQuery.createQuery(model).getPackageByName("a"));

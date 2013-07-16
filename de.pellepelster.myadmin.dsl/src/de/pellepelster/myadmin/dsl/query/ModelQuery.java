@@ -12,6 +12,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.AbstractElement;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
@@ -56,6 +57,17 @@ public class ModelQuery
 	{
 		Iterator<Entity> entities = Iterators.transform(this.model.eAllContents(), FunctionEObjectTypeSelect.getFunction(Entity.class));
 		return new EntitiesQuery(Lists.newArrayList(Iterators.filter(entities, Predicates.notNull())));
+	}
+
+	public DictionariesQuery getAllDictionaries()
+	{
+		Iterator<Dictionary> dictionaries = Iterators.transform(this.model.eAllContents(), FunctionEObjectTypeSelect.getFunction(Dictionary.class));
+		return new DictionariesQuery(Lists.newArrayList(Iterators.filter(dictionaries, Predicates.notNull())));
+	}
+
+	public DictionaryQuery getDictionaryByName(String dictionaryName)
+	{
+		return getAllDictionaries().getByName(dictionaryName);
 	}
 
 	public EntityQuery getEntityByName(String entityName)
