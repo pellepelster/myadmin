@@ -189,5 +189,20 @@ String controlName(DictionaryControl control) : control.name + "Control";
 String clientGeneratedModuleDefinitionFileName(Model model) : model.name.toFirstUpper() + "Generated.gwt.xml";	
 String fullQualifiedClientGeneratedModuleDefinitionFileName(Model model) : getSingleRootPackage(model).name.replaceAll('\\.', '/') + "/" + clientGeneratedModuleDefinitionFileName(model);
 
+
+
+//- dictionary ids ------------------------------------------------------------	
+String resolveControlName(DictionaryControl dictionaryControl) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.resolveControlName(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
+
+String dictionaryID(DictionaryControl dictionaryControl) : dictionaryID(dictionaryControl.eContainer) + "-" + resolveControlName(dictionaryControl);
+
+String dictionaryID(Dictionary dictionary): dictionary.name;
+
+String dictionaryID(DictionaryEditor dictionaryEditor): dictionaryID(dictionaryEditor.eContainer) + "-" +  dictionaryEditor.name;
+
+String dictionaryID(Object object) : "";
+
+String dictionaryID(DictionaryComposite dictionaryComposite) : dictionaryID(dictionaryComposite.eContainer) + "-" + dictionaryComposite.name;
 	
-	
+String dictionaryIDIdentifier(DictionaryControl dictionaryControl) : dictionaryID(dictionaryControl).toUpperCase().replaceAll("-", "_");

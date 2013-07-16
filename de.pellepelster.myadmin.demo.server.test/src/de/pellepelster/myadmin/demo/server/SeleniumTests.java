@@ -28,6 +28,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import de.pellepelster.myadmin.demo.client.web.test1.Dictionary1DictionaryDebugIDs;
+
 public class SeleniumTests extends BaseRemoteTest
 {
 
@@ -53,7 +55,6 @@ public class SeleniumTests extends BaseRemoteTest
 		this.driver.findElement(By.xpath("//div[text() = \"Country\"]")).click();
 
 		waitForElementById("gwt-debug-DictionarySearch-Country-DictionaryCreate");
-
 		// open country Editor
 		this.driver.findElement(By.id("gwt-debug-DictionarySearch-Country-DictionaryCreate")).click();
 		waitForElementById("gwt-debug-Country-RootComposite-Composite2-Composite3-CountryName");
@@ -153,7 +154,7 @@ public class SeleniumTests extends BaseRemoteTest
 	{
 		clickNavigationItem("Dictionary1");
 
-		waitForElementAndClickById("gwt-debug-DictionarySearch-Dictionary1-DictionaryCreate");
+		waitForElementAndClickById(Dictionary1DictionaryDebugIDs.DICTIONARY_SEARCH_MODULE_CREATE_BUTTON);
 
 		waitForElementById("gwt-debug-Dictionary1-RootComposite-Dictionary1Composite3-TextControl1");
 

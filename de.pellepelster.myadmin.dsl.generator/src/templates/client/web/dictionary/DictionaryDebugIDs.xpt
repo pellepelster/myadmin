@@ -2,6 +2,7 @@
 «EXTENSION templates::NewExtensions»
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 
+
 «DEFINE dictionaryDebugID FOR Dictionary»
 	«info("generating dictionary debug id for '" + this.name + "'")»
 
@@ -15,6 +16,10 @@
 		String DICTIONARY_SEARCH_MODULE_SEARCH_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionarySearchButton";
 
 		String DICTIONARY_SEARCH_MODULE_CREATE_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionaryCreateButton";
+
+		«FOREACH this.dictionaryeditor.eAllContents.typeSelect(DictionaryControl) AS dictionaryControl»
+		String «dictionaryIDIdentifier(dictionaryControl)»  = "gwt-debug-«dictionaryID(dictionaryControl)»";
+		«ENDFOREACH»
 
 	}
 	«ENDFILE»

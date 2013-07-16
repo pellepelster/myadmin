@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
+import de.pellepelster.myadmin.dsl.DictionaryControlResolver;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Enumeration;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
@@ -35,10 +37,15 @@ public class Extensions
 {
 
 	public static final String SIMPLE_VO_POSTFIX = "SimpleVO";
+
 	public static final String WEB_ROOT_PACKAGE_POSTFIX = "client.web";
+
 	public static final String MOBILE_ROOT_PACKAGE_POSTFIX = "mobile.web";
+
 	public static final String WEB_SERVICE_ROOT_PACKAGE_POSTFIX = "client.web";
+
 	public static final String SERVER_ROOT_PACKAGE_POSTFIX = "server";
+
 	public static final String CLIENT_BASE_ROOT_PACKAGE_POSTFIX = "client.base";
 
 	public static List<EObject> allElements(EObject anElementInRootResource)
@@ -227,6 +234,11 @@ public class Extensions
 		}
 
 		return (Model) eObject;
+	}
+
+	public static String resolveControlName(DictionaryControl dictionaryControl)
+	{
+		return DictionaryControlResolver.resolveControlName(dictionaryControl);
 	}
 
 	public static String getRootWebServicePackageName(Model model)
