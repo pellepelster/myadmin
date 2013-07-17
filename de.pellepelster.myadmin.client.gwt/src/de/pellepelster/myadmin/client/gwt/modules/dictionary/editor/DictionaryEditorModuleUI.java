@@ -32,7 +32,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
-import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 
 /**
  * UI for the navigation module
@@ -100,7 +99,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				{
 					MyAdmin.getInstance().getLayoutFactory().showModuleUI(previousModuleUI);
 				}
-			}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_BUTTON_DEBUG_ID);
+			}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_BUTTON_DEBUG_ID);
 
 			actionBar.addSpacer(2);
 		}
@@ -113,7 +112,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			{
 				save();
 			}
-		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_BUTTON_DEBUG_ID);
+		}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_BUTTON_DEBUG_ID);
 
 		final Button refreshButton = actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
 		{
@@ -124,7 +123,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				getModule().refresh();
 			}
 
-		}, DictionarySearchModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_BUTTON_DEBUG_ID);
+		}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_BUTTON_DEBUG_ID);
 
 		// refreshButton.setEnabled(false);
 

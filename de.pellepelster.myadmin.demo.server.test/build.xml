@@ -32,7 +32,11 @@
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
 	
-	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
+	<target name="post.test">
+		<antcall target="test.remote.local" />
+	</target>
+
+	<target name="test.remote.local" depends="jar, tomcat.local.start, import.dictionary">
 
 		<mkdir dir="${test.dir}"/>
 		
@@ -49,7 +53,7 @@
 
 			<formatter type="xml" />
 
-			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
+			<test name="de.pellepelster.myadmin.demo.server.test.remote.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
 
 		</junit>
 	</target>

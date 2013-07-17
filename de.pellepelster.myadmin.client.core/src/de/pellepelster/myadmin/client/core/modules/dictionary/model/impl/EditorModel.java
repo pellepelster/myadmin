@@ -28,7 +28,7 @@ public class EditorModel extends BaseModel implements IEditorModel
 {
 
 	private static final long serialVersionUID = -2746470946400505577L;
-	
+
 	private ICompositeModel composite;
 	private String voName;
 	private DictionaryEditorVO dictionaryEditorVO;
@@ -53,7 +53,7 @@ public class EditorModel extends BaseModel implements IEditorModel
 
 		if (dictionaryEditorVO.getContainer() != null)
 		{
-			composite = new CompositeContainerModel(parent, dictionaryEditorVO.getContainer());
+			this.composite = new CompositeContainerModel(this, dictionaryEditorVO.getContainer());
 		}
 	}
 
@@ -61,23 +61,23 @@ public class EditorModel extends BaseModel implements IEditorModel
 	@Override
 	public ICompositeModel getCompositeModel()
 	{
-		return composite;
+		return this.composite;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getName()
 	{
-		return dictionaryEditorVO.getName();
+		return this.dictionaryEditorVO.getName();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getTitle()
 	{
-		if (dictionaryEditorVO.getTitle() != null && !dictionaryEditorVO.getTitle().isEmpty())
+		if (this.dictionaryEditorVO.getTitle() != null && !this.dictionaryEditorVO.getTitle().isEmpty())
 		{
-			return dictionaryEditorVO.getTitle();
+			return this.dictionaryEditorVO.getTitle();
 		}
 		else
 		{
@@ -89,6 +89,6 @@ public class EditorModel extends BaseModel implements IEditorModel
 	@Override
 	public String getVOName()
 	{
-		return voName;
+		return this.voName;
 	}
 }

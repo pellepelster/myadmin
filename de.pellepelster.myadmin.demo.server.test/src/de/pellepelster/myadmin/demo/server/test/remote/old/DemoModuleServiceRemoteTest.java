@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server.test.remote;
+package de.pellepelster.myadmin.demo.server.test.remote.old;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@
 
 «DEFINE dictionaryDebugID(Collection[String] visitedDictionaryControls) FOR DictionaryControl»
 	«LET dictionaryIDIdentifier(this) AS id»
-		«IF !visitedDictionaryControls.contains(id)-»
+		«IF !visitedDictionaryControls.contains(id) && !id.startsWith("_")-»
 		String «visitedDictionaryControls.add(id).toList().last()» = "gwt-debug-«dictionaryID(this)»";
 		«ENDIF»
 	«ENDLET»
@@ -24,7 +24,19 @@
 
 		String DICTIONARY_SEARCH_MODULE_CREATE_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionaryCreateButton";
 
+		String DICTIONARY_EDITOR_MODULE = "gwt-debug-DictionaryEditor-«this.name»";
+
+		String DICTIONARY_EDITOR_MODULE_SAVE_BUTTON = "gwt-debug-DictionaryEditor-«this.name»-DictionarySaveButton";
+
+		String DICTIONARY_EDITOR_MODULE_REFRESH_BUTTON = "gwt-debug-DictionaryEditor-«this.name»-DictionaryRefreshButton";
+
+		String DICTIONARY_EDITOR_MODULE_BACK_BUTTON = "gwt-debug-DictionaryEditor-«this.name»-DictionaryBackButton";
+
 		«FOREACH this.dictionaryeditor.eAllContents.typeSelect(DictionaryControl) AS dictionaryControl»
+		«EXPAND dictionaryDebugID(visitedDictionaryControls) FOR dictionaryControl»
+		«ENDFOREACH»
+
+		«FOREACH this.dictionarysearch.eAllContents.typeSelect(DictionaryControl) AS dictionaryControl»
 		«EXPAND dictionaryDebugID(visitedDictionaryControls) FOR dictionaryControl»
 		«ENDFOREACH»
 

@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.demo.server;
+package de.pellepelster.myadmin.demo.server.test.remote;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
+
 
 public class RestServiceTest extends BaseRemoteTest
 {

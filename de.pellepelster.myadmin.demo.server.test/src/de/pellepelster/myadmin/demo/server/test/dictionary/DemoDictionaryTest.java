@@ -51,7 +51,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 		ITextControlModel textControlModel = (ITextControlModel) countryDictionaryModel.getEditorModel().getCompositeModel().getChildren().get(0).getChildren()
 				.get(0).getControls().get(0);
 
-		Assert.assertEquals("Country-RootComposite-Composite2-Composite3-CountryName", DictionaryModelUtil.getDebugId(textControlModel));
+		Assert.assertEquals("Country-CountryEditor-Composite2-Composite3-CountryName", DictionaryModelUtil.getDebugId(textControlModel));
 	}
 
 	@Test

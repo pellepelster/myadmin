@@ -195,14 +195,16 @@ String fullQualifiedClientGeneratedModuleDefinitionFileName(Model model) : getSi
 String resolveControlName(DictionaryControl dictionaryControl) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.resolveControlName(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
 
-String dictionaryID(DictionaryControl dictionaryControl) : dictionaryID(dictionaryControl.eContainer) + "-" + resolveControlName(dictionaryControl);
+String dictionaryIDInternal(DictionaryControl dictionaryControl) : dictionaryIDInternal(dictionaryControl.eContainer) + "-" + resolveControlName(dictionaryControl);
 
-String dictionaryID(Dictionary dictionary): dictionary.name;
+String dictionaryIDInternal(Dictionary dictionary): dictionary.name;
 
-String dictionaryID(DictionaryEditor dictionaryEditor): dictionaryID(dictionaryEditor.eContainer) + "-" +  dictionaryEditor.name;
+String dictionaryIDInternal(DictionaryEditor dictionaryEditor): dictionaryIDInternal(dictionaryEditor.eContainer) + "-" +  dictionaryEditor.name;
 
-String dictionaryID(Object object) : "";
+String dictionaryIDInternal(Object object) : "";
 
-String dictionaryID(DictionaryComposite dictionaryComposite) : dictionaryID(dictionaryComposite.eContainer) + "-" + dictionaryComposite.name;
+String dictionaryIDInternal(DictionaryComposite dictionaryComposite) : dictionaryIDInternal(dictionaryComposite.eContainer) + "-" + dictionaryComposite.name;
+
+String dictionaryID(DictionaryControl dictionaryControl) : dictionaryIDInternal(dictionaryControl);
 	
 String dictionaryIDIdentifier(DictionaryControl dictionaryControl) : dictionaryID(dictionaryControl).toUpperCase().replaceAll("-", "_");
