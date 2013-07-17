@@ -4,6 +4,8 @@
 
 	<target name="pre.jar">
 
+		<delete dir="gwt-unitCache" />
+		
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
 				<pathelement path="src/" />
