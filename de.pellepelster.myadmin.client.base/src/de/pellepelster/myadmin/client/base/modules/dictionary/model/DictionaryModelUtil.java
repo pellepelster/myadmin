@@ -137,22 +137,26 @@ public final class DictionaryModelUtil
 		}
 
 	}
-	
+
 	public static String getDebugId(IBaseControlModel baseControlModel)
 	{
 		String debugId = "";
 		String delimiter = "";
-		
+
 		IBaseModel baseModel = baseControlModel;
-		
-		while (baseModel != null)
+
+		do
 		{
-			debugId =  baseModel.getName() + delimiter + debugId; 
-			
+			if (!baseModel.getName().equals("RootComposite"))
+			{
+				debugId = baseModel.getName() + delimiter + debugId;
+				delimiter = "-";
+			}
+
 			baseModel = baseModel.getParent();
-			delimiter = "-";
 		}
-			
+		while (baseModel != null);
+
 		return debugId;
 	}
 
