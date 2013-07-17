@@ -2,8 +2,15 @@
 «EXTENSION templates::NewExtensions»
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 
+«DEFINE dictionaryDebugID(Collection[String] visitedDictionaryControls) FOR DictionaryControl»
+	«LET dictionaryIDIdentifier(this) AS id»
+		«IF !visitedDictionaryControls.contains(id)-»
+		String «visitedDictionaryControls.add(id).toList().last()» = "gwt-debug-«dictionaryID(this)»";
+		«ENDIF»
+	«ENDLET»
+«ENDDEFINE»
 
-«DEFINE dictionaryDebugID FOR Dictionary»
+«DEFINE dictionaryDebugID(Collection[String] visitedDictionaryControls) FOR Dictionary»
 	«info("generating dictionary debug id for '" + this.name + "'")»
 
 	«FILE fullQualifiedDictionaryDebugIDsInterfaceFileName()»
@@ -18,7 +25,7 @@
 		String DICTIONARY_SEARCH_MODULE_CREATE_BUTTON = "gwt-debug-DictionarySearch-«this.name»-DictionaryCreateButton";
 
 		«FOREACH this.dictionaryeditor.eAllContents.typeSelect(DictionaryControl) AS dictionaryControl»
-		String «dictionaryIDIdentifier(dictionaryControl)»  = "gwt-debug-«dictionaryID(dictionaryControl)»";
+		«EXPAND dictionaryDebugID(visitedDictionaryControls) FOR dictionaryControl»
 		«ENDFOREACH»
 
 	}
