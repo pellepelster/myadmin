@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: de.pellepelster.myadmin.dsl.test
 Bundle-SymbolicName: de.pellepelster.myadmin.dsl.test
 Bundle-Version: 1.0.0.qualifier
-Export-Package: de.pellepelster.myadmin.dsl
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext,
  org.eclipse.xtext.junit4,

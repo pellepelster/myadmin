@@ -1,3 +1,3 @@
 src-gen/
-/lib
-/test
+lib
+test
