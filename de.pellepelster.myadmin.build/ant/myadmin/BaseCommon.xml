@@ -69,6 +69,7 @@
 	<!-- defaults for compile/jaring -->
 	<path id="jar.files">
 		<fileset dir="${classes.dir}" />
+		<fileset dir="${src.dir}" includes="**/*.xsl" />
 		<fileset dir="${src.dir}" includes="**/*.xml" />
 		<fileset dir="${src.dir}" includes="**/*.properties" />
 		<fileset dir="${src.dir}" includes="**/*.css" />
@@ -77,6 +78,7 @@
 
 	<path id="source.jar.files">
 		<fileset dir="${src.dir}" includes="**/*.java" />
+		<fileset dir="${src.dir}" includes="**/*.xsl" />
 		<fileset dir="${src.dir}" includes="**/*.xml" />
 		<fileset dir="${src.dir}" includes="**/*.png" />
 		<fileset dir="${src.dir}" includes="**/*.properties" />
