@@ -18,6 +18,12 @@
 
 		<dependency name="db-test" rev="latest.integration" conf="*->@" />
 
+		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.31.0" />
+		<dependency org="org.seleniumhq.selenium" name="selenium-api" rev="2.31.0" />
+		<dependency org="org.seleniumhq.selenium" name="selenium-firefox-driver" rev="2.31.0" />
+
+		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.4" />
+
 	</dependencies>
 
 </ivy-module>

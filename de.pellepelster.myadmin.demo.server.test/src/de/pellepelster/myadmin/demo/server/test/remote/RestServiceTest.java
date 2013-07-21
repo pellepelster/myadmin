@@ -5,24 +5,13 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
-
-public class RestServiceTest extends BaseRemoteTest
-{
-
-	@Override
-	@Before
-	public void setUp() throws Exception
-	{
-		super.setUp();
-	}
+public class RestServiceTest extends BaseRemoteTest {
 
 	@Test
-	public void testRestUserService()
-	{
+	public void testRestUserService() {
 		RestTemplate restTemplate = new RestTemplate();
 
 		Map<String, String> vars = new HashMap<String, String>();

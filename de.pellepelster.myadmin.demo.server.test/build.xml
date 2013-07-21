@@ -48,8 +48,12 @@
 				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
 			</classpath>
 
-			<sysproperty key="screenshot.dir" value="${test.dir}"/>
+			<sysproperty key="selenium.report.dir" value="${basedir}/${test.dir}"/>
 			<sysproperty key="remote.url" value="${remote.url}"/>
+
+			<sysproperty key="remote.path" value="${remote.path}"/>
+			<sysproperty key="remote.port" value="${remote.port}"/>
+			<sysproperty key="remote.server" value="${remote.server}"/>
 
 			<formatter type="xml" />
 
