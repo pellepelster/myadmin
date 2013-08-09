@@ -296,7 +296,6 @@ public class SeleniumLogger implements WebDriver
 
 		try
 		{
-
 			byte[] screenshot = ((TakesScreenshot) this.driver).getScreenshotAs(OutputType.BYTES);
 			screenshot = mergeImageAndText(screenshot, logText);
 

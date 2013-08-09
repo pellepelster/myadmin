@@ -5,16 +5,31 @@
 	<property name="bootstrap.ivy.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivy.xml" />
 	<property name="bootstrap.ivy.settings.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivysettings.xml" />
 	<property name="bootstrap.lib.dir" value="${bootstrap.imported.basedir}/../../lib-bootstrap" />
-	
-	<ivy:settings id="ivy.settings" file="${bootstrap.imported.basedir}/ivysettings.xml" />
+	<property name="ivy.jar.file" value="${bootstrap.lib.dir}/ivy.jar" />
+	<property name="ivy.version" value="2.3.0" />
 
 	<target name="write.ivy.files">
 		<echo file="${bootstrap.ivy.temp.file}" message="@bootstrap.ivy.escaped@" append="false" />
 		<echo file="${bootstrap.ivy.settings.temp.file}" message="@bootstrap.ivy.settings.escaped@" append="false" />
 	</target>
 
+	<available file="${ivy.jar.file}" property="ivy.jar.exists" />
+
+	<target name="ivy.bootstrap.download" unless="ivy.jar.exists">
+		<mkdir dir="${bootstrap.lib.dir}" />
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" dest="${ivy.jar.file}" usetimestamp="true" />
+	</target>
+
 	
-	<target name="resolve" depends="write.ivy.files">
+	<target name="resolve" depends="write.ivy.files, ivy.bootstrap.download">
+		
+		<path id="ivy.bootstrap.lib.path">
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</path>
+
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.bootstrap.lib.path" />
+
+		<ivy:settings id="ivy.settings" file="${bootstrap.imported.basedir}/ivysettings.xml" />
 		<ivy:settings id="bootstrap.ivy.settings" file="${bootstrap.ivy.settings.temp.file}" />
 
 		<ivy:resolve settingsref="bootstrap.ivy.settings" file="${bootstrap.ivy.temp.file}" checkifchanged="true" conf="default" />
