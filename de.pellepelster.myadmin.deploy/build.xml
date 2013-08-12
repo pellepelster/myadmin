@@ -9,7 +9,10 @@
 
 	<target name="build.distros">
 
-		<taskdef name="builder" classpath="${user.home}/distbuilder/libs/at.bestsolution.releng.distrobuilder-0.0.1-SNAPSHOT.jar"	classname="at.bestsolution.releng.distrobuilder.ant.DistroBuilderTaskDef" />
+		<taskdef name="builder" classname="at.bestsolution.releng.distrobuilder.ant.DistroBuilderTaskDef">
+			<fileset dir="lib" includes="*.jar" />
+		</taskdef>
+
 
 		<builder builddirectory="${env.WORKSPACE}" p2directorexecutable="${user.home}/distbuilder/builder/eclipse" targetdirectory="${user.home}/distbuilder/targets" staticreposdirectory="${user.home}/distbuilder/repos" distdirectory="./" version="${env.BUILD_NUMBER}">
 
