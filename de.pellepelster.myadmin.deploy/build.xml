@@ -10,7 +10,9 @@
 	<target name="build.distros">
 
 		<taskdef name="builder" classname="at.bestsolution.releng.distrobuilder.ant.DistroBuilderTaskDef">
-			<fileset dir="lib" includes="*.jar" />
+			<classpath>
+				<fileset dir="lib" includes="*.jar" />
+			</classpath>
 		</taskdef>
 
 
