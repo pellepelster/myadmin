@@ -10,7 +10,7 @@
 	
 	public interface «dictionaryIDsInterfaceName()» {
 	
-		String «name.toUpperCase()» = "«name»";
+		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «name.toUpperCase()» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«name»");
 	
 	}
 	«ENDFILE»
