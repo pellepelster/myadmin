@@ -34,7 +34,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testCountry()
 	{
-		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(CountryDictionaryIDs.COUNTRY);
+		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(CountryDictionaryIDs.COUNTRY.getId());
 
 		Assert.assertNotNull(countryDictionaryModel);
 		Assert.assertNotNull(countryDictionaryModel.getEditorModel());
@@ -46,7 +46,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testModelNames()
 	{
-		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(CountryDictionaryIDs.COUNTRY);
+		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(CountryDictionaryIDs.COUNTRY.getId());
 
 		ITextControlModel textControlModel = (ITextControlModel) countryDictionaryModel.getEditorModel().getCompositeModel().getChildren().get(0).getChildren()
 				.get(0).getControls().get(0);
@@ -77,7 +77,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testDictionary1()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1);
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1.getId());
 		Assert.assertEquals("Dictionary1", dictionaryModel.getName());
 
 		Assert.assertEquals(7, dictionaryModel.getSearchModel().getResultModel().getControls().size());
@@ -87,7 +87,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testReferenceControlLabelFallback()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1);
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary1DictionaryIDs.DICTIONARY1.getId());
 
 		IReferenceControlModel referenceControlModel = (IReferenceControlModel) dictionaryModel.getSearchModel().getResultModel().getControls().get(6);
 		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
@@ -98,7 +98,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testDictionary2()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary2DictionaryIDs.DICTIONARY2);
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(Dictionary2DictionaryIDs.DICTIONARY2.getId());
 		Assert.assertEquals("Dictionary2", dictionaryModel.getName());
 
 		Assert.assertEquals(1, dictionaryModel.getLabelControls().size());

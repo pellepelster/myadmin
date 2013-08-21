@@ -80,7 +80,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		Assert.assertEquals(1, childNodes.size());
 		Assert.assertEquals("aaa", childNodes.get(0).getLabel());
 		Assert.assertEquals(false, childNodes.get(0).getHasChildren());
-		Assert.assertEquals(ManagerDictionaryIDs.MANAGER, childNodes.get(0).getDictionaryName());
+		Assert.assertEquals(ManagerDictionaryIDs.MANAGER.getId(), childNodes.get(0).getDictionaryName());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		Assert.assertEquals("xxx", rootNodes.get(0).getLabel());
 		Assert.assertEquals("yyy", rootNodes.get(1).getLabel());
 
-		Assert.assertEquals(CompanyDictionaryIDs.COMPANY, rootNodes.get(0).getDictionaryName());
+		Assert.assertEquals(CompanyDictionaryIDs.COMPANY.getId(), rootNodes.get(0).getDictionaryName());
 	}
 
 	@Test
