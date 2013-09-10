@@ -191,8 +191,19 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 		if (genericFilterVO.getVOClassName().equals(Test3VO.class.getName()))
 		{
-			callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, this.test3vos));
-			return;
+			if (hasCriteria(genericFilterVO.getEntity(), Test3VO.FIELD_ID))
+			{
+
+				int index = Integer.parseInt(getCriteria(genericFilterVO.getEntity(), Test3VO.FIELD_ID).toString());
+				callback.onSuccess((List<FilterVOType>) getResultList(this.test3vos.get(index)));
+
+				return;
+			}
+			else
+			{
+				callback.onSuccess((List<FilterVOType>) getVOSubList(genericFilterVO, this.test3vos));
+				return;
+			}
 		}
 
 		if (genericFilterVO.getVOClassName().equals(ModuleVO.class.getName()))
@@ -212,12 +223,15 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 				return;
 			}
 
-			if (hasCriteria(genericFilterVO.getEntity(), ModuleVO.FIELD_NAME, TestDictionaryServiceGWTAsync.DICTIONARY1_ID))
+			boolean handled = false;
+
+			handled = handled | checkForDictionary(genericFilterVO, callback, TestDictionaryServiceGWTAsync.DICTIONARY1_ID);
+			handled = handled | checkForDictionary(genericFilterVO, callback, TestDictionaryServiceGWTAsync.DICTIONARY2_ID);
+			handled = handled | checkForDictionary(genericFilterVO, callback, TestDictionaryServiceGWTAsync.DICTIONARY3_ID);
+			handled = handled | checkForDictionary(genericFilterVO, callback, TestDictionaryServiceGWTAsync.DICTIONARY_ASSIGNMENT_TEST_ID);
+
+			if (handled)
 			{
-
-				ModuleVO moduleVO = getSearchModule(TestDictionaryServiceGWTAsync.DICTIONARY1_ID);
-
-				callback.onSuccess((List<FilterVOType>) getResultList(moduleVO));
 				return;
 			}
 
@@ -243,14 +257,18 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			List<ModuleNavigationVO> result = new ArrayList<ModuleNavigationVO>();
 
 			ModuleNavigationVO moduleNavigation1VO = new ModuleNavigationVO();
-			moduleNavigation1VO.setTitle("Navigation 1");
+			moduleNavigation1VO.setTitle("Test");
 			result.add(moduleNavigation1VO);
 
 			ModuleNavigationVO moduleNavigation11VO = new ModuleNavigationVO();
-			moduleNavigation11VO.setTitle("Navigation 1.1");
+			moduleNavigation11VO.setTitle("Dictionaries");
 			moduleNavigation1VO.getChildren().add(moduleNavigation11VO);
 
 			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY1_ID);
+
+			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY2_ID);
+
+			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY3_ID);
 
 			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY_ASSIGNMENT_TEST_ID);
 
@@ -267,7 +285,21 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 
 		}
 
-		callback.onFailure(new RuntimeException("not implemented"));
+		callback.onFailure(new RuntimeException("filter for vo '" + genericFilterVO.getVOClassName() + "' or its filter parameters not implemented"));
+	}
+
+	private <FilterVOType extends IBaseVO> boolean checkForDictionary(GenericFilterVO<?> genericFilterVO, AsyncCallback<List<FilterVOType>> callback,
+			String dictionaryId)
+	{
+		if (hasCriteria(genericFilterVO.getEntity(), ModuleVO.FIELD_NAME, dictionaryId))
+		{
+			ModuleVO moduleVO = getSearchModule(dictionaryId);
+			callback.onSuccess((List<FilterVOType>) getResultList(moduleVO));
+			return true;
+		}
+
+		return false;
+
 	}
 
 	private void createDictionaryNavigationNode(ModuleNavigationVO parentMNavigationVO, String dictionaryId)
