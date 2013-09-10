@@ -139,7 +139,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		{
 
 			List<DictionaryControlVO> dictionaryControl1VOs = new ArrayList<DictionaryControlVO>();
-			dictionaryControl1VOs.add(TestDictionaryControlFactory.getTextControl("Textcontrol", "string1"));
+			dictionaryControl1VOs.add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string1"));
 			dictionaryControl1VOs.add(getIntegerControl("IntegerControl", "integer1"));
 			dictionaryControl1VOs.add(getBigDecimalControl("BigDecimalControl", "bigDecimal1"));
 			dictionaryControl1VOs.add(getDateControl("DateControl", "date1"));
@@ -150,7 +150,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryControl1VOs.add(getReferenceControl("ReferenceControl", "test3VO", DICTIONARY3_ID));
 
 			List<DictionaryControlVO> dictionaryControl2VOs = new ArrayList<DictionaryControlVO>();
-			dictionaryControl2VOs.add(TestDictionaryControlFactory.getTextControl("Textcontrol", "string2"));
+			dictionaryControl2VOs.add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string2"));
 			dictionaryControl2VOs.add(getIntegerControl("IntegerControl", "integer2"));
 			dictionaryControl2VOs.add(getBigDecimalControl("BigDecimalControl", "bigDecimal2"));
 			dictionaryControl2VOs.add(getDateControl("DateControl", "date2"));
@@ -179,7 +179,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			DictionaryVO dictionaryVO = new DictionaryVO();
 			dictionaryVO.setName(dictionaryName);
 			dictionaryVO.setEntityName(Test1VO.class.getName());
-			dictionaryVO.getLabelControls().add(TestDictionaryControlFactory.getTextControl("Textcontrol", "string1"));
+			dictionaryVO.getLabelControls().add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string1"));
 
 			// - dictionary editor ---------------------------------------------
 			DictionaryEditorVO dictionaryEditorVO = new DictionaryEditorVO();
@@ -210,7 +210,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		if (DICTIONARY2_ID.equals(dictionaryName))
 		{
-			DictionaryControlVO text2Control = TestDictionaryControlFactory.getTextControl("Textcontrol", "string2");
+			DictionaryControlVO text2Control = TestDictionaryControlFactory.createTextControl("Textcontrol", "string2");
 
 			List<DictionaryControlVO> dictionaryControl1VOs = new ArrayList<DictionaryControlVO>();
 			dictionaryControl1VOs.add(text2Control);
@@ -260,7 +260,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		if (DICTIONARY3_ID.equals(dictionaryName))
 		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test3VO.class.getName());
-			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.getTextControl(Test3VO.FIELD_STRING3));
+			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.createTextControl(Test3VO.FIELD_STRING3));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
@@ -269,8 +269,10 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test1VO.class.getName());
 
-			testDictionaryFactory.createSearch().addControlToAll(TestDictionaryControlFactory.getTextControl(Test1VO.FIELD_STRING1));
-			testDictionaryFactory.createEditor().addContainer(TestDictionaryContainerFactory.createAssigmentTable(Test1VO.FIELD_TEST2VOS));
+			testDictionaryFactory.createSearch().addControlToAll(TestDictionaryControlFactory.createTextControl(Test1VO.FIELD_STRING1));
+			testDictionaryFactory.createEditor().addContainer(
+					TestDictionaryContainerFactory.createAssigmentTable(Test1VO.FIELD_TEST2VOS,
+							TestDictionaryControlFactory.createTextControl(Test2VO.FIELD_STRING2)));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
@@ -296,7 +298,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 				dictionaryVO.setEntityName(HierarchicalTest3VO.class.getName());
 			}
 
-			dictionaryVO.getLabelControls().add(TestDictionaryControlFactory.getTextControl("String1", "string1"));
+			dictionaryVO.getLabelControls().add(TestDictionaryControlFactory.createTextControl("String1", "string1"));
 
 			// - dictionary editor ---------------------------------------------
 			DictionaryEditorVO dictionaryEditorVO = new DictionaryEditorVO();

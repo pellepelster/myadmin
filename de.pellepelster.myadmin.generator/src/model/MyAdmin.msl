@@ -502,7 +502,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				dictionarycontrols {
 					textcontrol GroupName {
 						entityattribute de.pellepelster.myadmin.entities.^dictionary.MyAdminGroup.groupName
-						label "Groupname"
+						label "Name"
 					}
 				}
 	
@@ -530,7 +530,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				
 					textcontrol UserName {
 						entityattribute de.pellepelster.myadmin.entities.^dictionary.MyAdminUser.userName
-						label "Username"
+						label "Name"
 					}
 				}
 				
@@ -558,7 +558,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 							dictionary MyAdminGroup
 							
 							columncontrols {
-							//	textcontrol ref  de.pellepelster.myadmin.entities.^dictionary.MyAdminGroup.groupName
+								textcontrol ref MyAdminGroup.GroupName
 							}
 						}
 					}

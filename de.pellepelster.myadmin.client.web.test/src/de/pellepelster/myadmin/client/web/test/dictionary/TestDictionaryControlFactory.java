@@ -8,12 +8,12 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatype
 public class TestDictionaryControlFactory
 {
 
-	public static DictionaryControlVO getTextControl(IAttributeDescriptor<String> attributeDescriptor)
+	public static DictionaryControlVO createTextControl(IAttributeDescriptor<String> attributeDescriptor)
 	{
-		return getTextControl(attributeDescriptor.getAttributeName(), attributeDescriptor.getAttributeName());
+		return createTextControl(attributeDescriptor.getAttributeName(), attributeDescriptor.getAttributeName());
 	}
 
-	public static DictionaryControlVO getTextControl(String label, String attributePath)
+	public static DictionaryControlVO createTextControl(String label, String attributePath)
 	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
