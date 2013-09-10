@@ -250,10 +250,9 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			moduleNavigation11VO.setTitle("Navigation 1.1");
 			moduleNavigation1VO.getChildren().add(moduleNavigation11VO);
 
-			ModuleNavigationVO moduleNavigation111VO = new ModuleNavigationVO();
-			moduleNavigation111VO.setTitle("Dictionary 1");
-			moduleNavigation11VO.getChildren().add(moduleNavigation111VO);
-			moduleNavigation111VO.setModule(getSearchModule(TestDictionaryServiceGWTAsync.DICTIONARY1_ID));
+			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY1_ID);
+
+			createDictionaryNavigationNode(moduleNavigation11VO, TestDictionaryServiceGWTAsync.DICTIONARY_ASSIGNMENT_TEST_ID);
 
 			ModuleNavigationVO moduleNavigation112VO = new ModuleNavigationVO();
 			moduleNavigation112VO.setTitle("Navigation 1.1.2");
@@ -269,6 +268,14 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		}
 
 		callback.onFailure(new RuntimeException("not implemented"));
+	}
+
+	private void createDictionaryNavigationNode(ModuleNavigationVO parentMNavigationVO, String dictionaryId)
+	{
+		ModuleNavigationVO moduleNavigationVO = new ModuleNavigationVO();
+		moduleNavigationVO.setTitle(dictionaryId);
+		parentMNavigationVO.getChildren().add(moduleNavigationVO);
+		moduleNavigationVO.setModule(getSearchModule(dictionaryId));
 	}
 
 	private Object getCriteria(EntityVO entityVO, IAttributeDescriptor<?> field)
