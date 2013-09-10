@@ -92,6 +92,7 @@ public final class DictionaryModelUtil
 		List<String> result = new ArrayList<String>();
 
 		createReferenceControlsList(dictionaryModel.getLabelControls(), result);
+
 		createReferenceControlsList(dictionaryModel.getSearchModel().getResultModel().getControls(), result);
 
 		return result;

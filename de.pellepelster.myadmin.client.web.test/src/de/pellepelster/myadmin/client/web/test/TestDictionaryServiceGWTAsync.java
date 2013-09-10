@@ -31,6 +31,9 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryResultVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWTAsync;
+import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryContainerFactory;
+import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryControlFactory;
+import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryFactory;
 
 public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 {
@@ -257,15 +260,17 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		if (DICTIONARY3_ID.equals(dictionaryName))
 		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test3VO.class.getName());
-			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.getTextControl("Textcontrol", "string3"));
+			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.getTextControl(Test3VO.FIELD_STRING3));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
 
 		if (DICTIONARY_ASSIGNMENT_TEST_ID.equals(dictionaryName))
 		{
-			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test3VO.class.getName());
-			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.getTextControl("Textcontrol", "string3"));
+			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test1VO.class.getName());
+
+			testDictionaryFactory.createSearch().addControlToAll(TestDictionaryControlFactory.getTextControl(Test1VO.FIELD_STRING1));
+			testDictionaryFactory.createEditor().addContainer(TestDictionaryContainerFactory.createAssigmentTable(Test1VO.FIELD_TEST2VOS));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}

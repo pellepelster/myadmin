@@ -1,5 +1,6 @@
-package de.pellepelster.myadmin.client.web.test;
+package de.pellepelster.myadmin.client.web.test.dictionary;
 
+import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
@@ -7,9 +8,13 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatype
 public class TestDictionaryControlFactory
 {
 
+	public static DictionaryControlVO getTextControl(IAttributeDescriptor<String> attributeDescriptor)
+	{
+		return getTextControl(attributeDescriptor.getAttributeName(), attributeDescriptor.getAttributeName());
+	}
+
 	public static DictionaryControlVO getTextControl(String label, String attributePath)
 	{
-
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
 		dictionaryControlVO.setColumnLabel(label);
