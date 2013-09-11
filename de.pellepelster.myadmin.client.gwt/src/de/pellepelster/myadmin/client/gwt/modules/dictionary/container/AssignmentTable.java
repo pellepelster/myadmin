@@ -14,8 +14,11 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -28,7 +31,10 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
+import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 
 /**
@@ -37,16 +43,16 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
  * @author pelle
  * 
  */
-public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContainer<Panel>, IUIObservableValue
+public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>, IUIObservableValue
 {
 
 	private final IAssignmentTableModel assignmentTableModel;
 
-	private final List<IBaseVO> content;
-
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
-	private final ListDataProvider<IBaseVO> dataProvider = new ListDataProvider<IBaseVO>();
+	private final ListDataProvider<VOType> dataProvider = new ListDataProvider<VOType>();
+
+	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
 	public AssignmentTable(IAssignmentTableModel assignmentTableModel)
 	{
@@ -56,10 +62,15 @@ public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContaine
 		setWidth("100%");
 
 		dataProvider.addDataDisplay(this);
-		content = dataProvider.getList();
 
-		verticalPanel.add(this);
+		simpleLayoutPanel.add(this);
+		simpleLayoutPanel.setWidth("99%");
+		simpleLayoutPanel.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
+
+		verticalPanel.add(simpleLayoutPanel);
 		verticalPanel.setWidth("100%");
+
+		createAddButton();
 
 		createModelColumns();
 
@@ -67,10 +78,9 @@ public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContaine
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<IBaseVO, ?> getColumn(IBaseControlModel baseControlModel)
+	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel)
 	{
-		return (Column<IBaseVO, ?>) MyAdmin.getInstance().getControlHandler().createColumn(baseControlModel, true, dataProvider, this);
-
+		return (Column<VOType, ?>) MyAdmin.getInstance().getControlHandler().createColumn(baseControlModel, true, dataProvider, this);
 	}
 
 	/** {@inheritDoc} */
@@ -91,7 +101,7 @@ public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContaine
 	@Override
 	public Object getContent()
 	{
-		return content;
+		return dataProvider.getList();
 	}
 
 	/** {@inheritDoc} */
@@ -129,8 +139,8 @@ public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContaine
 	{
 		if (content instanceof List)
 		{
-			this.content.clear();
-			this.content.addAll((Collection<? extends IBaseVO>) content);
+			this.dataProvider.getList().clear();
+			this.dataProvider.getList().addAll((Collection<VOType>) content);
 		}
 		else
 		{
@@ -143,6 +153,29 @@ public class AssignmentTable extends BaseCellTable<IBaseVO> implements IContaine
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
 
+	}
+
+	private void createAddButton()
+	{
+		ImageButton addButton = new ImageButton(MyAdmin.RESOURCES.add());
+		addButton.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				VOSelectionPopup.create(DictionaryModelProvider.getCachedDictionaryModel(assignmentTableModel.getDictionaryName()).getVOName(),
+						assignmentTableModel.getControls(), new IVOSelectHandler<VOType>()
+						{
+
+							@Override
+							public void onSingleSelect(VOType vo)
+							{
+								dataProvider.getList().add(vo);
+							}
+						});
+			}
+		});
+		verticalPanel.add(addButton);
 	}
 
 }

@@ -37,6 +37,11 @@ public class ImageButton extends Button
 		setResource(imageResource);
 	}
 
+	public ImageButton(String text)
+	{
+		setText(text);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String getText()

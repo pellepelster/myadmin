@@ -79,4 +79,10 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("Refresh")
 	String editorRefresh();
 
+	@DefaultMessage("Ok")
+	String buttonOk();
+
+	@DefaultMessage("Cancel")
+	String buttonCancel();
+
 }

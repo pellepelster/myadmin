@@ -12,12 +12,12 @@
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
 /**
- * Handler for double click events on VO's (usually in lists or tables9
+ * Handler for double click events on VO's (usually in lists or tables)
  * 
  * @author pelle
  * 
  */
-public interface IVODoubleClickHandler<VOType>
+public interface IVOSelectHandler<VOType>
 {
 
 	/**
@@ -25,5 +25,5 @@ public interface IVODoubleClickHandler<VOType>
 	 * 
 	 * @param vo
 	 */
-	void doubleClick(VOType vo);
+	void onSingleSelect(VOType vo);
 }

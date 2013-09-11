@@ -271,7 +271,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 			testDictionaryFactory.createSearch().addControlToAll(TestDictionaryControlFactory.createTextControl(Test1VO.FIELD_STRING1));
 			testDictionaryFactory.createEditor().addContainer(
-					TestDictionaryContainerFactory.createAssigmentTable(Test1VO.FIELD_TEST2VOS,
+					TestDictionaryContainerFactory.createAssigmentTable(DICTIONARY2_ID, Test1VO.FIELD_TEST2VOS,
 							TestDictionaryControlFactory.createTextControl(Test2VO.FIELD_STRING2)));
 
 			return testDictionaryFactory.getDictionaryModel();

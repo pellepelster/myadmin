@@ -52,4 +52,6 @@ public interface GwtStyles
 	double DISABLED_OPACITY = 0.2d;
 
 	double ENABLED_OPACITY = 1.0d;
+
+	int SPACING = 10;
 }

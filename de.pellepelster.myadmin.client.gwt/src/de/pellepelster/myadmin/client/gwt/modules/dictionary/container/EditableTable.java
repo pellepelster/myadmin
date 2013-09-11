@@ -36,6 +36,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -76,7 +77,8 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 
 		simpleLayoutPanel.add(this);
 		simpleLayoutPanel.setWidth("99%");
-		simpleLayoutPanel.setHeight("20em");
+		simpleLayoutPanel.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
+
 		verticalPanel.setWidth("100%");
 		verticalPanel.add(simpleLayoutPanel);
 

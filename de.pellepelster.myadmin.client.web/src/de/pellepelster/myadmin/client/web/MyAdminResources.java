@@ -20,6 +20,12 @@ public interface MyAdminResources extends ClientBundle
 	@Source("delete.png")
 	ImageResource delete();
 
+	@Source("ok.png")
+	ImageResource ok();
+
+	@Source("cancel.png")
+	ImageResource cancel();
+
 	@Source("back.png")
 	ImageResource back();
 

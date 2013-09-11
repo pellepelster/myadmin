@@ -8,11 +8,13 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlV
 public class TestDictionaryContainerFactory
 {
 
-	public static DictionaryContainerVO createAssigmentTable(IAttributeDescriptor<?> attributeDescriptor, DictionaryControlVO dictionaryControlVO)
+	public static DictionaryContainerVO createAssigmentTable(String dictionaryName, IAttributeDescriptor<?> attributeDescriptor,
+			DictionaryControlVO dictionaryControlVO)
 	{
 		DictionaryContainerVO dictionaryContainerVO = new DictionaryContainerVO();
 		dictionaryContainerVO.setType(DICTIONARY_CONTAINER_TYPE.ASSIGNMENT_TABLE);
 		dictionaryContainerVO.setAttributePath(attributeDescriptor.getAttributeName());
+		dictionaryContainerVO.setDictionaryName(dictionaryName);
 		dictionaryContainerVO.getControls().add(dictionaryControlVO);
 
 		return dictionaryContainerVO;

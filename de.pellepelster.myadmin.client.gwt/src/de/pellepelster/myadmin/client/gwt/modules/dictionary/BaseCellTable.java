@@ -35,6 +35,12 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 
 	private List<IBaseControlModel> baseControlModels;
 
+	public static final String DEFAULT_TABLE_HEIGHT = "15em";
+
+	public static final String DEFAULT_TABLE_WIDTH = "5em";
+
+	public static final int DEFAULT_MAX_RESULTS = 15;
+
 	public BaseCellTable(List<IBaseControlModel> baseControlModels)
 	{
 		super(KEYPROVIDER);
@@ -52,7 +58,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		setSelectionModel(selectionModel);
 	}
 
-	public void addDoubleClickHandler(final IVODoubleClickHandler<VOType> voDoubleClickHandler)
+	public void addVOSelectHandler(final IVOSelectHandler<VOType> voDoubleClickHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -64,7 +70,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 
 				if (selectionModel.getSelectedObject() != null)
 				{
-					voDoubleClickHandler.doubleClick(selectionModel.getSelectedObject());
+					voDoubleClickHandler.onSingleSelect(selectionModel.getSelectedObject());
 				}
 			}
 		}, DoubleClickEvent.getType());

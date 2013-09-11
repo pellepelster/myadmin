@@ -50,12 +50,12 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 	{
 		resultCellTable = new ResultCellTable<VOType>(resultModel);
 		resultCellTable.setWidth("100%");
-		resultCellTable.addDoubleClickHandler(new IVODoubleClickHandler<VOType>()
+		resultCellTable.addVOSelectHandler(new IVOSelectHandler<VOType>()
 		{
 
 			/** {@inheritDoc} */
 			@Override
-			public void doubleClick(VOType vo)
+			public void onSingleSelect(VOType vo)
 			{
 				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, vo.getId());
 			}

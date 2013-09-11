@@ -52,7 +52,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 		setSelectionModel(selectionModel);
 	}
 
-	public void addDoubleClickHandler(final IVODoubleClickHandler<VOType> voDoubleClickHandler)
+	public void addVOSelectHandler(final IVOSelectHandler<VOType> voSelectHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -64,7 +64,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 				if (selectionModel.getSelectedObject() != null)
 				{
-					voDoubleClickHandler.doubleClick(selectionModel.getSelectedObject());
+					voSelectHandler.onSingleSelect(selectionModel.getSelectedObject());
 				}
 			}
 		}, DoubleClickEvent.getType());

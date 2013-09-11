@@ -33,6 +33,13 @@ public abstract class BaseGenericFilterBuilder<T extends IBaseVO, F>
 		return this;
 	}
 
+	public BaseGenericFilterBuilder<T, F> setMaxResults(int maxResults)
+	{
+		this.genericFilterVO.setMaxResults(maxResults);
+
+		return this;
+	}
+
 	protected abstract F getFilterBuilder();
 
 	public BaseGenericFilterBuilder<T, F> addAssociation(IAttributeDescriptor<?> attributeDescriptor)
