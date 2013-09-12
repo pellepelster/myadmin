@@ -76,3 +76,9 @@
 	margin-bottom: 0.5em;
 	margin-top: 0.5em;
 }
+
+.gwt-PopupPanelGlass {
+	background-color: #000;
+	opacity: 0.3;
+	filter: literal("alpha(opacity=30)");
+}

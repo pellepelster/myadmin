@@ -71,4 +71,9 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 	}
 
+	public VOType getCurrentSelection()
+	{
+		return selectionModel.getSelectedObject();
+	}
+
 }

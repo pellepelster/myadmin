@@ -5,9 +5,8 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -26,30 +25,29 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProv
 public class VOSelectionPopup<VOType extends IBaseVO>
 {
 
-	private final PopupPanel popupPanel;
+	private final DialogBox dialogBox;
 
 	private final String voClassName;
 
 	private final VOTable<VOType> voTable;
 
+	private final IVOSelectHandler<VOType> voSelectHandler;
+
 	private VOSelectionPopup(String voClassName, String message, List<IBaseControlModel> baseControlModels, final IVOSelectHandler<VOType> voSelectHandler)
 	{
 		this.voClassName = voClassName;
+		this.voSelectHandler = voSelectHandler;
 
-		popupPanel = new PopupPanel();
-		popupPanel.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
-		popupPanel.center();
-		popupPanel.setGlassEnabled(true);
-		popupPanel.setTitle("Title");
-		popupPanel.setModal(true);
+		dialogBox = new DialogBox(false, true);
+		dialogBox.setGlassEnabled(true);
+		dialogBox.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
+		dialogBox.center();
+		dialogBox.setTitle(MyAdmin.MESSAGES.voSelectionHeader(message));
+		dialogBox.setText(MyAdmin.MESSAGES.voSelectionHeader(message));
 
 		VerticalPanel verticalPanel = new VerticalPanel();
-		popupPanel.add(verticalPanel);
+		dialogBox.add(verticalPanel);
 		verticalPanel.setSpacing(GwtStyles.SPACING);
-
-		HTMLPanel htmlPanel = new HTMLPanel(MyAdmin.MESSAGES.voSelectionHeader(message));
-		htmlPanel.setWidth("100%");
-		verticalPanel.add(htmlPanel);
 
 		// vo table
 		voTable = new VOTable<VOType>(baseControlModels);
@@ -59,11 +57,10 @@ public class VOSelectionPopup<VOType extends IBaseVO>
 		voTable.setWidth("100%");
 		voTable.addVOSelectHandler(new IVOSelectHandler<VOType>()
 		{
-
 			@Override
 			public void onSingleSelect(VOType vo)
 			{
-				popupPanel.hide();
+				dialogBox.hide();
 				voSelectHandler.onSingleSelect(vo);
 			}
 		});
@@ -72,6 +69,7 @@ public class VOSelectionPopup<VOType extends IBaseVO>
 		// buttons
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		verticalPanel.add(buttonPanel);
+		buttonPanel.setSpacing(GwtStyles.SPACING);
 
 		createOkButton(buttonPanel);
 		createCancelButton(buttonPanel);
@@ -105,6 +103,15 @@ public class VOSelectionPopup<VOType extends IBaseVO>
 	{
 		ImageButton okButton = new ImageButton(MyAdmin.RESOURCES.ok());
 		buttonPanel.add(okButton);
+		okButton.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				voSelectHandler.onSingleSelect(voTable.getCurrentSelection());
+				dialogBox.hide();
+			}
+		});
 	}
 
 	private void createCancelButton(HorizontalPanel buttonPanel)
@@ -112,11 +119,10 @@ public class VOSelectionPopup<VOType extends IBaseVO>
 		ImageButton cancelButton = new ImageButton(MyAdmin.RESOURCES.cancel());
 		cancelButton.addClickHandler(new ClickHandler()
 		{
-
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				popupPanel.hide();
+				dialogBox.hide();
 			}
 		});
 		buttonPanel.add(cancelButton);
@@ -137,7 +143,7 @@ public class VOSelectionPopup<VOType extends IBaseVO>
 
 	public void show()
 	{
-		popupPanel.show();
+		dialogBox.show();
 	}
 
 }

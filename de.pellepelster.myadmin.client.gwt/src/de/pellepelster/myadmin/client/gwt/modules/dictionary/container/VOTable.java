@@ -22,6 +22,7 @@ public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType>
 		dataProvider.addDataDisplay(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel)
 	{

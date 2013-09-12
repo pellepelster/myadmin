@@ -33,7 +33,6 @@ public class ImageButton extends Button
 
 	public ImageButton(ImageResource imageResource)
 	{
-		setText(text);
 		setResource(imageResource);
 	}
 

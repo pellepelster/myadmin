@@ -168,7 +168,10 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 					@Override
 					public void onSingleSelect(VOType vo)
 					{
-						dataProvider.getList().add(vo);
+						if (!dataProvider.getList().contains(vo))
+						{
+							dataProvider.getList().add(vo);
+						}
 					}
 				});
 			}
