@@ -80,7 +80,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 	@Override
 	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel)
 	{
-		return (Column<VOType, ?>) MyAdmin.getInstance().getControlHandler().createColumn(baseControlModel, true, dataProvider, this);
+		return (Column<VOType, ?>) MyAdmin.getInstance().getControlHandler().createColumn(baseControlModel, false, dataProvider, this);
 	}
 
 	/** {@inheritDoc} */
