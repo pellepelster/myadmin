@@ -14,6 +14,8 @@ package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
@@ -100,14 +102,7 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	@Override
 	public String getTitle()
 	{
-		if (this.dictionaryVO.getTitle() != null && !this.dictionaryVO.getTitle().isEmpty())
-		{
-			return this.dictionaryVO.getTitle();
-		}
-		else
-		{
-			return getName();
-		}
+		return Objects.firstNonNull(this.dictionaryVO.getTitle(), getName());
 	}
 
 	/** {@inheritDoc} */
@@ -120,27 +115,13 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	@Override
 	public String getLabel()
 	{
-		if (this.dictionaryVO.getLabel() != null)
-		{
-			return this.dictionaryVO.getLabel();
-		}
-		else
-		{
-			return getTitle();
-		}
+		return Objects.firstNonNull(this.dictionaryVO.getLabel(), getTitle());
 	}
 
 	@Override
 	public String getPluralLabel()
 	{
-		if (this.dictionaryVO.getPluralLabel() != null)
-		{
-			return this.dictionaryVO.getPluralLabel();
-		}
-		else
-		{
-			return getLabel();
-		}
+		return Objects.firstNonNull(this.dictionaryVO.getPluralLabel(), getLabel());
 	}
 
 }

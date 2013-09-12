@@ -34,7 +34,6 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 
 /**
@@ -163,16 +162,15 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				VOSelectionPopup.create(DictionaryModelProvider.getCachedDictionaryModel(assignmentTableModel.getDictionaryName()).getVOName(),
-						assignmentTableModel.getControls(), new IVOSelectHandler<VOType>()
-						{
+				VOSelectionPopup.create(assignmentTableModel, new IVOSelectHandler<VOType>()
+				{
 
-							@Override
-							public void onSingleSelect(VOType vo)
-							{
-								dataProvider.getList().add(vo);
-							}
-						});
+					@Override
+					public void onSingleSelect(VOType vo)
+					{
+						dataProvider.getList().add(vo);
+					}
+				});
 			}
 		});
 		verticalPanel.add(addButton);

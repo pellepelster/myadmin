@@ -85,4 +85,7 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("Cancel")
 	String buttonCancel();
 
+	@DefaultMessage("Select {0}")
+	String voSelectionHeader(String message);
+
 }
