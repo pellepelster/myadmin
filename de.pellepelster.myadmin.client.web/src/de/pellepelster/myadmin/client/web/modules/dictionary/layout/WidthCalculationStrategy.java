@@ -20,27 +20,34 @@ public final class WidthCalculationStrategy
 {
 	private static WidthCalculationStrategy instance;
 
-	public int getWidth(int characters, boolean uppercase)
+	public final static float CONTROL_COLUMN_FACTOR_DEFAULT = 1.1f;
+
+	public final static int CONTROL_COLUMN_OFFSET_DEFAULT = 0;
+
+	public final static float CONTROL_FACTOR_DEFAULT = 1.0f;
+
+	public final static int CONTROL_OFFSET_DEFAULT = 0;
+
+	public final static float TABLE_FACTOR_DEFAULT = 1.1f;
+
+	public final static int TABLE_OFFSET_DEFAULT = 0;
+
+	private float getWidth(int characters, boolean uppercase)
 	{
 		return getWidth(characters, uppercase, 1f);
 	}
 
-	public int getWidth(int characters, boolean uppercase, float factor)
+	private float getWidth(int characters, boolean uppercase, float factor)
 	{
 		float width = characters * GwtCommons.getInstance().getAverageCharacterWidth(uppercase);
 
-		return (int) Math.round(Math.ceil(width * factor));
+		return width * factor;
 	}
 
-	public String getPxWidth(int characters, boolean uppercase, float factor)
-	{
-		return getWidth(characters, uppercase, factor) + "px";
-	}
-
-	public String getPxWidth(int characters, boolean uppercase)
-	{
-		return getWidth(characters, uppercase, 1f) + "px";
-	}
+	// public String getPxWidth(int characters, boolean uppercase, float factor)
+	// {
+	// return getWidth(characters, uppercase, factor) + "px";
+	// }
 
 	public static WidthCalculationStrategy getInstance()
 	{
@@ -77,33 +84,53 @@ public final class WidthCalculationStrategy
 		return uppercase;
 	}
 
-	public int getControlWidth(IBaseControlModel baseControlModel)
+	private int addFactorAndOffset(float width, float factor, int offset)
 	{
-		if (baseControlModel.getWidthHint() == null)
-		{
-			return getWidth(IBaseControlModel.DEFAULT_WIDTH_HINT, isUppercase(baseControlModel));
-		}
-		else
-		{
-			return getWidth(baseControlModel.getWidthHint(), isUppercase(baseControlModel));
-		}
+		return Math.round(width * factor + offset);
 	}
 
-	public int getTableWidth(IBaseTableModel baseTableModel)
+	private float getControlWidthInternal(IBaseControlModel baseControlModel)
 	{
-		int widht = 0;
+		int widthHint = IBaseControlModel.DEFAULT_WIDTH_HINT;
+
+		if (baseControlModel.getWidthHint() == null)
+		{
+			return widthHint = baseControlModel.getWidthHint();
+		}
+
+		return getWidth(widthHint, isUppercase(baseControlModel));
+	}
+
+	private int getControlWidth(IBaseControlModel baseControlModel)
+	{
+		return addFactorAndOffset(getControlWidthInternal(baseControlModel), CONTROL_FACTOR_DEFAULT, CONTROL_OFFSET_DEFAULT);
+	}
+
+	public String getControlWidthCss(IBaseControlModel baseControlModel)
+	{
+		return getControlWidth(baseControlModel) + "px";
+	}
+
+	public int getControlColumnWidth(IBaseControlModel baseControlModel)
+	{
+		return addFactorAndOffset(getControlWidthInternal(baseControlModel), CONTROL_COLUMN_FACTOR_DEFAULT, CONTROL_COLUMN_OFFSET_DEFAULT);
+	}
+
+	private int getTableWidth(IBaseTableModel baseTableModel)
+	{
+		int width = 0;
 
 		for (IBaseControlModel baseControlModel : baseTableModel.getControls())
 		{
-			widht += getControlWidth(baseControlModel);
+			width += getControlColumnWidth(baseControlModel);
 		}
 
-		return widht;
+		return addFactorAndOffset(width, TABLE_FACTOR_DEFAULT, TABLE_OFFSET_DEFAULT);
 	}
 
-	public String getPxWidth(IBaseControlModel baseControlModel)
+	public String getTableWidthCss(IBaseTableModel baseTableModel)
 	{
-		return getPxWidth(baseControlModel.getWidthHint(), isUppercase(baseControlModel));
+		return getTableWidth(baseTableModel) + "px";
 	}
 
 }

@@ -42,7 +42,7 @@ public class ControlHelper
 	{
 		this.uiObject = widget;
 
-		widget.setWidth(WidthCalculationStrategy.getInstance().getPxWidth(baseControlModel));
+		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControlModel));
 
 		if (widget instanceof HasValue<?>)
 		{

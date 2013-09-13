@@ -39,6 +39,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
@@ -70,7 +71,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 		dataProvider.addDataDisplay(this);
 
 		simpleLayoutPanel.add(this);
-		simpleLayoutPanel.setWidth("99%");
+		simpleLayoutPanel.setWidth(WidthCalculationStrategy.getInstance().getTableWidthCss(assignmentTableModel));
 		simpleLayoutPanel.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
 
 		verticalPanel.add(simpleLayoutPanel);

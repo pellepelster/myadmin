@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -23,6 +24,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VOType>
@@ -52,7 +54,10 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		for (IBaseControlModel baseControlModel : baseControlModels)
 		{
 			TextHeader textHeader = new TextHeader(baseControlModel.getColumnLabel());
-			addColumn(getColumn(baseControlModel), textHeader);
+			Column column = getColumn(baseControlModel);
+			setColumnWidth(column, WidthCalculationStrategy.getInstance().getControlColumnWidth(baseControlModel), Unit.PX);
+
+			addColumn(column, textHeader);
 		}
 
 		setSelectionModel(selectionModel);
