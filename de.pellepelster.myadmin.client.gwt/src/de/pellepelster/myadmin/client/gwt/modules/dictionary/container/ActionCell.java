@@ -30,7 +30,7 @@ import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class EditableTableActionCell extends AbstractCell<Object>
+public class ActionCell extends AbstractCell<Object>
 {
 	private Image image;
 
@@ -48,7 +48,7 @@ public class EditableTableActionCell extends AbstractCell<Object>
 		return consumedEvents;
 	}
 
-	public EditableTableActionCell(SimpleCallback<IBaseVO> actionCallback)
+	public ActionCell(SimpleCallback<IBaseVO> actionCallback)
 	{
 		this.actionCallback = actionCallback;
 	}

@@ -58,6 +58,11 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		setSelectionModel(selectionModel);
 	}
 
+	protected VOType getSelection()
+	{
+		return selectionModel.getSelectedObject();
+	}
+
 	public void addVOSelectHandler(final IVOSelectHandler<VOType> voDoubleClickHandler)
 	{
 		addDomHandler(new DoubleClickHandler()

@@ -85,8 +85,7 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 		createAddButton();
 
 		TextHeader textHeader = new TextHeader("");
-
-		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new EditableTableActionCell(new SimpleCallback<IBaseVO>()
+		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ActionCell(new SimpleCallback<IBaseVO>()
 		{
 
 			@Override
@@ -110,7 +109,6 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 
 	private void fireValueChanges()
 	{
-
 		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTableModel.getAttributePath(), CollectionUtils.copyToArrayList(dataProvider.getList()));
 		for (IValueChangeListener valueChangeListener : valueChangeListeners)
 		{

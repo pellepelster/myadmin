@@ -11,12 +11,14 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -24,17 +26,20 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
+import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
  * GWT {@link ICompositeModel} implementation
@@ -44,6 +49,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
  */
 public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>, IUIObservableValue
 {
+
+	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
 	private final IAssignmentTableModel assignmentTableModel;
 
@@ -69,9 +76,34 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 		verticalPanel.add(simpleLayoutPanel);
 		verticalPanel.setWidth("100%");
 
-		createAddButton();
+		VerticalPanel buttonPanel = new VerticalPanel();
+		buttonPanel.setWidth("1px");
+		verticalPanel.add(buttonPanel);
+
+		createAddButton(buttonPanel);
 
 		createModelColumns();
+
+		TextHeader textHeader = new TextHeader("");
+		Column<VOType, Object> column = new Column<VOType, Object>(new ActionCell(new SimpleCallback<IBaseVO>()
+		{
+
+			@Override
+			public void onCallback(IBaseVO vo)
+			{
+				dataProvider.getList().remove(vo);
+				fireValueChanges();
+			}
+		}))
+		{
+			@Override
+			public String getValue(IBaseVO vo)
+			{
+				return null;
+			}
+		};
+
+		addColumn(column, textHeader);
 
 	}
 
@@ -86,7 +118,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 	@Override
 	public void addValueChangeListener(IValueChangeListener valueChangeListener)
 	{
-
+		valueChangeListeners.add(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
@@ -121,14 +153,14 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 	@Override
 	public List<IValueChangeListener> getValueChangeListeners()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return valueChangeListeners;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
 	{
+		valueChangeListeners.remove(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
@@ -154,7 +186,17 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 
 	}
 
-	private void createAddButton()
+	private void fireValueChanges()
+	{
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(assignmentTableModel.getAttributePath(), CollectionUtils.copyToArrayList(dataProvider
+				.getList()));
+		for (IValueChangeListener valueChangeListener : valueChangeListeners)
+		{
+			valueChangeListener.handleValueChange(valueChangeEvent);
+		}
+	}
+
+	private void createAddButton(VerticalPanel buttonPanel)
 	{
 		ImageButton addButton = new ImageButton(MyAdmin.RESOURCES.add());
 		addButton.addClickHandler(new ClickHandler()
@@ -171,12 +213,13 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 						if (!dataProvider.getList().contains(vo))
 						{
 							dataProvider.getList().add(vo);
+							fireValueChanges();
 						}
 					}
 				});
 			}
 		});
-		verticalPanel.add(addButton);
+		buttonPanel.add(addButton);
 	}
 
 }
