@@ -22,6 +22,8 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleFactoryRegistry;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControlFactory;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
@@ -36,8 +38,7 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @version $Rev$, $Date$
  * 
  */
-public final class MyAdmin implements EntryPoint
-{
+public final class MyAdmin implements EntryPoint {
 
 	private ILayoutFactory<?, ?> layoutFactory;
 
@@ -53,8 +54,7 @@ public final class MyAdmin implements EntryPoint
 	 * 
 	 * @return
 	 */
-	public static MyAdmin getInstance()
-	{
+	public static MyAdmin getInstance() {
 		return instance;
 	}
 
@@ -72,25 +72,20 @@ public final class MyAdmin implements EntryPoint
 	/**
 	 * Constructor for {@link MyAdmin}
 	 */
-	private MyAdmin()
-	{
+	private MyAdmin() {
 	}
 
-	public IControlFactory getControlHandler()
-	{
+	public IControlFactory getControlHandler() {
 		return controlHandler;
 	}
 
-	public ILayoutFactory<?, ?> getLayoutFactory()
-	{
+	public ILayoutFactory<?, ?> getLayoutFactory() {
 		return layoutFactory;
 	}
 
-	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator()
-	{
+	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator() {
 
-		if (myAdminGWTRemoteServiceLocator != null)
-		{
+		if (myAdminGWTRemoteServiceLocator != null) {
 			return myAdminGWTRemoteServiceLocator;
 		}
 
@@ -102,15 +97,13 @@ public final class MyAdmin implements EntryPoint
 	 * 
 	 * @param rootUrl
 	 */
-	public String getRootUrl()
-	{
+	public String getRootUrl() {
 		return rootUrl;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
 		LOGGER.log(Level.INFO, "MyAdmin module started");
 		instance = this;
 		registerModules();
@@ -119,25 +112,22 @@ public final class MyAdmin implements EntryPoint
 	/**
 	 * Registers all MyAdmin modules
 	 */
-	private void registerModules()
-	{
+	private void registerModules() {
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.MODULE_ID, new DictionarySearchModuleFactory());
+		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.MODULE_ID, new ModuleNavigationModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.MODULE_ID, new HierarchicalTreeModuleFactory());
 	}
 
-	public void setControlHandler(IControlFactory controlHandler)
-	{
+	public void setControlHandler(IControlFactory controlHandler) {
 		this.controlHandler = controlHandler;
 	}
 
-	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory)
-	{
+	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory) {
 		this.layoutFactory = layoutFactory;
 	}
 
-	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
-	{
+	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator) {
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
 	}
 
@@ -146,8 +136,7 @@ public final class MyAdmin implements EntryPoint
 	 * 
 	 * @param rootUrl
 	 */
-	public void setRootUrl(String rootUrl)
-	{
+	public void setRootUrl(String rootUrl) {
 		this.rootUrl = rootUrl;
 	}
 

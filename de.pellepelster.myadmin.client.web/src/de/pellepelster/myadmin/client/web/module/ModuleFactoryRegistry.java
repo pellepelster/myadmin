@@ -13,14 +13,11 @@ package de.pellepelster.myadmin.client.web.module;
 
 import java.util.HashMap;
 
-public final class ModuleFactoryRegistry
-{
+public final class ModuleFactoryRegistry {
 	private static ModuleFactoryRegistry instance;
 
-	public static ModuleFactoryRegistry getInstance()
-	{
-		if (instance == null)
-		{
+	public static ModuleFactoryRegistry getInstance() {
+		if (instance == null) {
 			instance = new ModuleFactoryRegistry();
 		}
 
@@ -29,17 +26,20 @@ public final class ModuleFactoryRegistry
 
 	private final HashMap<String, IModuleFactory> moduleFactories = new HashMap<String, IModuleFactory>();
 
-	private ModuleFactoryRegistry()
-	{
+	private ModuleFactoryRegistry() {
 	}
 
-	public void addModuleFactory(String moduleDefinitionName, IModuleFactory moduleFactory)
-	{
+	public void addModuleFactory(String moduleDefinitionName, IModuleFactory moduleFactory) {
 		moduleFactories.put(moduleDefinitionName, moduleFactory);
 	}
 
-	public IModuleFactory getModuleFactory(String moduleDefinitionName)
-	{
-		return moduleFactories.get(moduleDefinitionName);
+	public IModuleFactory getModuleFactory(String moduleDefinitionName) {
+		IModuleFactory moduleFactory = moduleFactories.get(moduleDefinitionName);
+
+		if (moduleFactory == null) {
+			throw new RuntimeException("no module factory found for module name '" + moduleDefinitionName + "'");
+		}
+
+		return moduleFactory;
 	}
 }
