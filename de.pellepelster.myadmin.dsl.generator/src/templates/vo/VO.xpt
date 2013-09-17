@@ -67,8 +67,10 @@
 	
 		private static final long serialVersionUID = 1L;
 
-		«EXPAND templates::util::Attribute::attributeGetterSetter("long", "id", "de.pellepelster.myadmin.client.base.db.vos.IBaseVO.NEW_VO_ID")»
-
+		«IF this.extends == null-»
+			«EXPAND templates::util::Attribute::attributeGetterSetter("long", "id", "de.pellepelster.myadmin.client.base.db.vos.IBaseVO.NEW_VO_ID")»
+		«ENDIF»
+		
 		«EXPAND templates::vo::FieldDescriptor::fieldDescriptor FOREACH attributes»
 
 		«IF entityOptions != null && entityOptions.hierarchical»	

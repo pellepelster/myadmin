@@ -2,6 +2,21 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 	package de.pellepelster.myadmin.demo {
 
+		package inheritance {
+		
+			entity TestBaseClass {
+				simpletype String string1
+			}
+	
+			entity TestEntity1 extends TestBaseClass {
+				simpletype String string2
+			}
+	
+			entity TestEntity2 extends TestBaseClass {
+				simpletype String string3
+			}
+		}
+
 		package test1 {
 
 			textdatatype TextDatatype1 {

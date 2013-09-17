@@ -17,8 +17,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
@@ -34,6 +31,7 @@ import de.pellepelster.myadmin.demo.client.web.entities.Region2CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
+import de.pellepelster.myadmin.demo.client.web.inheritance.TestEntity1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
@@ -84,13 +82,31 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	}
 
 	@Test
+	public void testInheritance()
+	{
+		TestEntity1VO testEntity1VO = new TestEntity1VO();
+		testEntity1VO.setString1("aaa");
+		testEntity1VO.setString2("bbb");
+
+		this.baseEntityService.create(testEntity1VO);
+
+		GenericFilterVO genericFilterVO = new GenericFilterVO(TestEntity1VO.class.getName());
+		List<TestEntity1VO> result = this.baseEntityService.filter(genericFilterVO);
+
+		assertEquals(1, result.size());
+
+		TestEntity1VO testEntity1VOResult = result.get(0);
+		assertEquals("aaa", testEntity1VOResult.getString1());
+		assertEquals("bbb", testEntity1VOResult.getString2());
+	}
+
+	@Test
 	public void testCountry()
 	{
 		GenericFilterVO genericFilterVO = new GenericFilterVO(CountryVO.class.getName());
 		List<IBaseVO> result = this.baseEntityService.filter(genericFilterVO);
 
 		assertEquals(1, result.size());
-
 	}
 
 	@Test
@@ -204,15 +220,6 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		StateVO state1 = (StateVO) result.get(0);
 		assertNotNull(state1.getStateCountry());
-	}
-
-	@Test
-	public void testMyAdminEntities()
-	{
-		GenericFilterVO<DictionaryContainerVO> filter = new GenericFilterVO(DictionaryContainerVO.class);
-		List<DictionaryContainerVO> result = this.baseEntityService.filter(filter);
-
-		Assert.assertFalse(result.isEmpty());
 	}
 
 	@Test

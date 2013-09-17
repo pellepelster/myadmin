@@ -15,9 +15,8 @@
 	
 		@javax.persistence.Entity
 		«IF this.extends != null-»
-		«REM»
-		@javax.persistence.Inheritance(strategy = javax.persistence.InheritanceType.TABLE_PER_CLASS)
-		«ENDREM»
+		@javax.persistence.Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
+		@javax.persistence.PrimaryKeyJoinColumn(name="«jpaIdName(this.extends)»")
 		«ELSE»
 		@javax.persistence.Table(name = "«name.toLowerCase()»")
 		«ENDIF»
