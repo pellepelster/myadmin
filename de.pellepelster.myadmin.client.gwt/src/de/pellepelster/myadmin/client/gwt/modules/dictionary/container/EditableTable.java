@@ -85,7 +85,7 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 		createAddButton();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ActionCell(new SimpleCallback<IBaseVO>()
+		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
 		{
 
 			@Override

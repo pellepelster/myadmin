@@ -86,7 +86,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 		createModelColumns();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<VOType, Object> column = new Column<VOType, Object>(new ActionCell(new SimpleCallback<IBaseVO>()
+		Column<VOType, Object> column = new Column<VOType, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
 		{
 
 			@Override
