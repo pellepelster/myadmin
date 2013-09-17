@@ -43,4 +43,8 @@ public interface MyAdminResources extends ClientBundle
 
 	@Source("editorRefresh.png")
 	ImageResource editorRefresh();
+
+	@Source("more.png")
+	ImageResource more();
+
 }
