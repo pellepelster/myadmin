@@ -19,6 +19,7 @@ package de.pellepelster.myadmin.client.base.db.vos;
  */
 public interface IHierarchicalVO extends IBaseHierarchical<IHierarchicalVO>, IBaseVO
 {
+	public static final IAttributeDescriptor<String> FIELD_PARENT = new AttributeDescriptor<String>("parent", IBaseVO.class, IBaseVO.class);
 
 	public static final IAttributeDescriptor<String> FIELD_PARENT_CLASSNAME = new AttributeDescriptor<String>("parentClassName", String.class, String.class);
 

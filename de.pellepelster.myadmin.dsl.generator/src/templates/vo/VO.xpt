@@ -150,10 +150,6 @@
 
 	private de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent;
 
-	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_PARENT = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor(
-			"parent", de.pellepelster.myadmin.client.base.db.vos.IBaseVO.class, de.pellepelster.myadmin.client.base.db.vos.IBaseVO.class);
-
-
 	/** {@inheritDoc} */
 	@Override
 	

@@ -13,6 +13,23 @@ public class TestDictionaryControlFactory
 		return createTextControl(attributeDescriptor.getAttributeName(), attributeDescriptor.getAttributeName());
 	}
 
+	public static DictionaryControlVO createHierarchicalControl(IAttributeDescriptor<String> attributeDescriptor)
+	{
+		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
+		dictionaryControlVO.setEditorLabel(attributeDescriptor.getAttributeName());
+		dictionaryControlVO.setColumnLabel(attributeDescriptor.getAttributeName());
+		dictionaryControlVO.setMandatory(false);
+		dictionaryControlVO.setName(attributeDescriptor.getAttributeName());
+		dictionaryControlVO.setAttributePath(attributeDescriptor.getAttributeName());
+
+		DictionaryDatatypeVO dictionaryDatatypeVO = new DictionaryDatatypeVO();
+
+		dictionaryDatatypeVO.setBaseType(DICTIONARY_BASETYPE.HIERARCHICAL);
+		dictionaryControlVO.setDatatype(dictionaryDatatypeVO);
+
+		return dictionaryControlVO;
+	}
+
 	public static DictionaryControlVO createTextControl(String label, String attributePath)
 	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();

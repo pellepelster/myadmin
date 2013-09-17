@@ -35,7 +35,8 @@ import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryContaine
 import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryControlFactory;
 import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryFactory;
 
-public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync {
+public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
+{
 
 	public static final String DICTIONARY1_ID = "Dictionary1";
 
@@ -51,7 +52,10 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 	public static final String DICTIONARY_ASSIGNMENT_TEST_ID = "DictionaryAssignmentTest";
 
-	private DictionaryControlVO getBigDecimalControl(String label, String attributePath) {
+	public static final String DICTIONARY_HIERARCHICAL_TEST_ID = "DictionaryHierarchicalTest";
+
+	private DictionaryControlVO getBigDecimalControl(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -71,7 +75,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getBooleanControl(String label, String attributePath) {
+	private DictionaryControlVO getBooleanControl(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -89,7 +94,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getDateControl(String label, String attributePath) {
+	private DictionaryControlVO getDateControl(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -109,13 +115,16 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 	/** {@inheritDoc} */
 	@Override
-	public void getDictionaries(List<String> dictionaryNames, AsyncCallback<List<IDictionaryModel>> callback) {
+	public void getDictionaries(List<String> dictionaryNames, AsyncCallback<List<IDictionaryModel>> callback)
+	{
 		List<IDictionaryModel> result = new ArrayList<IDictionaryModel>();
 
-		for (String dictionaryName : dictionaryNames) {
+		for (String dictionaryName : dictionaryNames)
+		{
 			IDictionaryModel dictionaryModel = getDictionary(dictionaryName);
 
-			if (dictionaryModel == null) {
+			if (dictionaryModel == null)
+			{
 				callback.onFailure(new RuntimeException("dictionary '" + dictionaryName + "' not found"));
 			}
 
@@ -125,9 +134,11 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		callback.onSuccess(result);
 	}
 
-	private IDictionaryModel getDictionary(String dictionaryName) {
+	private IDictionaryModel getDictionary(String dictionaryName)
+	{
 
-		if (DICTIONARY1_ID.equals(dictionaryName)) {
+		if (DICTIONARY1_ID.equals(dictionaryName))
+		{
 
 			List<DictionaryControlVO> dictionaryControl1VOs = new ArrayList<DictionaryControlVO>();
 			dictionaryControl1VOs.add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string1"));
@@ -199,7 +210,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			return dictionaryModel;
 		}
 
-		if (DICTIONARY2_ID.equals(dictionaryName)) {
+		if (DICTIONARY2_ID.equals(dictionaryName))
+		{
 			DictionaryControlVO text2Control = TestDictionaryControlFactory.createTextControl("Textcontrol", "string2");
 
 			List<DictionaryControlVO> dictionaryControl1VOs = new ArrayList<DictionaryControlVO>();
@@ -247,33 +259,53 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			return dictionaryModel;
 		}
 
-		if (DICTIONARY3_ID.equals(dictionaryName)) {
+		if (DICTIONARY3_ID.equals(dictionaryName))
+		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test3VO.class.getName());
 			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.createTextControl(Test3VO.FIELD_STRING3));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
 
-		if (DICTIONARY_ASSIGNMENT_TEST_ID.equals(dictionaryName)) {
+		if (DICTIONARY_ASSIGNMENT_TEST_ID.equals(dictionaryName))
+		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, Test1VO.class.getName());
 
 			testDictionaryFactory.createSearch().addControlToAll(TestDictionaryControlFactory.createTextControl(Test1VO.FIELD_STRING1));
-			testDictionaryFactory.createEditor().addContainer(TestDictionaryContainerFactory.createAssigmentTable(DICTIONARY2_ID, Test1VO.FIELD_TEST2VOS, TestDictionaryControlFactory.createTextControl(Test2VO.FIELD_STRING2)));
+			testDictionaryFactory.createEditor().addContainer(
+					TestDictionaryContainerFactory.createAssigmentTable(DICTIONARY2_ID, Test1VO.FIELD_TEST2VOS,
+							TestDictionaryControlFactory.createTextControl(Test2VO.FIELD_STRING2)));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
 
-		if (HIERARCHICAL_DICTIONARY1_ID.equals(dictionaryName) || HIERARCHICAL_DICTIONARY2_ID.equals(dictionaryName) || HIERARCHICAL_DICTIONARY3_ID.equals(dictionaryName)) {
+		if (DICTIONARY_HIERARCHICAL_TEST_ID.equals(dictionaryName))
+		{
+			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, HierarchicalTest1VO.class.getName());
+
+			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.createHierarchicalControl(HierarchicalTest1VO.FIELD_PARENT));
+
+			return testDictionaryFactory.getDictionaryModel();
+		}
+
+		if (HIERARCHICAL_DICTIONARY1_ID.equals(dictionaryName) || HIERARCHICAL_DICTIONARY2_ID.equals(dictionaryName)
+				|| HIERARCHICAL_DICTIONARY3_ID.equals(dictionaryName))
+		{
 			DictionaryControlVO hierarchicalControl = getHierarchicalControl("HierarchicalControl", TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1);
 
 			DictionaryVO dictionaryVO = new DictionaryVO();
 			dictionaryVO.setName(dictionaryName);
 
-			if (HIERARCHICAL_DICTIONARY1_ID.equals(dictionaryName)) {
+			if (HIERARCHICAL_DICTIONARY1_ID.equals(dictionaryName))
+			{
 				dictionaryVO.setEntityName(HierarchicalTest1VO.class.getName());
-			} else if (HIERARCHICAL_DICTIONARY2_ID.equals(dictionaryName)) {
+			}
+			else if (HIERARCHICAL_DICTIONARY2_ID.equals(dictionaryName))
+			{
 				dictionaryVO.setEntityName(HierarchicalTest2VO.class.getName());
-			} else if (HIERARCHICAL_DICTIONARY3_ID.equals(dictionaryName)) {
+			}
+			else if (HIERARCHICAL_DICTIONARY3_ID.equals(dictionaryName))
+			{
 				dictionaryVO.setEntityName(HierarchicalTest3VO.class.getName());
 			}
 
@@ -294,7 +326,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return null;
 	}
 
-	private DictionaryControlVO getHierarchicalControl(String label, String hierarchicalId) {
+	private DictionaryControlVO getHierarchicalControl(String label, String hierarchicalId)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -313,19 +346,24 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 	/** {@inheritDoc} */
 	@Override
-	public void getDictionary(String dictionaryName, AsyncCallback<IDictionaryModel> callback) {
+	public void getDictionary(String dictionaryName, AsyncCallback<IDictionaryModel> callback)
+	{
 
 		IDictionaryModel dictionaryModel = getDictionary(dictionaryName);
 
-		if (dictionaryModel == null) {
+		if (dictionaryModel == null)
+		{
 			callback.onFailure(new RuntimeException("dictionary '" + dictionaryName + "' not found"));
-		} else {
+		}
+		else
+		{
 			callback.onSuccess(dictionaryModel);
 		}
 
 	}
 
-	private DictionaryControlVO getEnumerationControl1(String label, String attributePath) {
+	private DictionaryControlVO getEnumerationControl1(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -347,7 +385,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getEnumerationControl2(String label, String attributePath) {
+	private DictionaryControlVO getEnumerationControl2(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -369,7 +408,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getIntegerControl(String label, String attributePath) {
+	private DictionaryControlVO getIntegerControl(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
@@ -387,7 +427,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getReferenceControl(String label, String attributePath, String dictionaryName) {
+	private DictionaryControlVO getReferenceControl(String label, String attributePath, String dictionaryName)
+	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
 		dictionaryControlVO.setColumnLabel(label);
@@ -406,7 +447,8 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	private DictionaryControlVO getTimestampControl(String label, String attributePath) {
+	private DictionaryControlVO getTimestampControl(String label, String attributePath)
+	{
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
