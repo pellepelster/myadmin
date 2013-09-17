@@ -150,6 +150,10 @@
 
 	private de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent;
 
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_PARENT = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor(
+			"parent", de.pellepelster.myadmin.client.base.db.vos.IBaseVO.class, de.pellepelster.myadmin.client.base.db.vos.IBaseVO.class);
+
+
 	/** {@inheritDoc} */
 	@Override
 	
@@ -257,9 +261,12 @@
 «DEFINE genericVOGetter FOR Entity»
 	public Object get(java.lang.String name) {
 
-		«EXPAND genericVOGetterForMethod FOR "oid"»
-		
-		«EXPAND genericVOGetterForMethod FOR "id"»
+		«IF this.extends == null»
+
+			«EXPAND genericVOGetterForMethod FOR "oid"»
+			«EXPAND genericVOGetterForMethod FOR "id"»
+	
+		«ENDIF»
 	
 		«FOREACH attributes AS attribute»
 			if ("«attribute.name»".equals(name))
