@@ -217,7 +217,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 							fireValueChanges();
 						}
 					}
-				});
+				}).show();
 			}
 		});
 		buttonPanel.add(addButton);
