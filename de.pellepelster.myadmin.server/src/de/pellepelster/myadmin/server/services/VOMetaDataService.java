@@ -33,9 +33,9 @@ import de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
 
-public class MetaDataService implements InitializingBean
+public class VOMetaDataService implements InitializingBean
 {
-	private final static Logger LOG = Logger.getLogger(MetaDataService.class);
+	private final static Logger LOG = Logger.getLogger(VOMetaDataService.class);
 
 	private List<Class<? extends IBaseVO>> voClasses = new ArrayList<Class<? extends IBaseVO>>();
 	private final Map<Class<? extends IBaseVO>, Class<?>> voXmlMappings = new HashMap<Class<? extends IBaseVO>, Class<?>>();

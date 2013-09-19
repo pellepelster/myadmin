@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.db.copy.handler.TypeEqualsCopyHandler;
 public class VOToXmlCopyBean extends BaseCopyBean implements InitializingBean
 {
 	@Autowired
-	private MetaDataService metaDataService;
+	private VOMetaDataService metaDataService;
 
 	@Autowired
 	private SimpleVOToXmlCopyBean simpleVOToXmlCopyBean;
@@ -42,7 +42,7 @@ public class VOToXmlCopyBean extends BaseCopyBean implements InitializingBean
 		addFieldCopyHandler(new VOReferenceCopyHandler(metaDataService, simpleVOToXmlCopyBean));
 	}
 
-	public void setMetaDataService(MetaDataService metaDataService)
+	public void setMetaDataService(VOMetaDataService metaDataService)
 	{
 		this.metaDataService = metaDataService;
 	}

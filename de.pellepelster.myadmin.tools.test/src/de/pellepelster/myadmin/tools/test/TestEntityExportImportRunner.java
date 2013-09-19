@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.MetaDataService;
+import de.pellepelster.myadmin.server.services.VOMetaDataService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
 import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;
@@ -41,7 +41,7 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 	private ImportExportService importExportService;
 
 	@Autowired
-	private MetaDataService metaDataService;
+	private VOMetaDataService metaDataService;
 
 	@Test
 	public void testFullExport()
@@ -89,7 +89,7 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 		this.importExportService = importExportService;
 	}
 
-	public void setMetaDataService(MetaDataService metaDataService)
+	public void setMetaDataService(VOMetaDataService metaDataService)
 	{
 		this.metaDataService = metaDataService;
 	}

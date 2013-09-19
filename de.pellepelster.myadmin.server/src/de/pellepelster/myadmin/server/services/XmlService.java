@@ -70,7 +70,7 @@ public class XmlService
 	private VOToXmlCopyBean voToXmlCopyBean;
 
 	@Autowired
-	private MetaDataService metaDataService;
+	private VOMetaDataService metaDataService;
 
 	public Class<?> detectXmlClass(String xmlString)
 	{
@@ -248,7 +248,7 @@ public class XmlService
 		}
 	}
 
-	public void setMetaDataService(MetaDataService metaDataService)
+	public void setMetaDataService(VOMetaDataService metaDataService)
 	{
 		this.metaDataService = metaDataService;
 	}

@@ -465,4 +465,10 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 
 		return dictionaryControlVO;
 	}
+
+	@Override
+	public void getAllDictionaries(AsyncCallback<List<IDictionaryModel>> callback)
+	{
+		throw new RuntimeException("not implemented");
+	}
 }

@@ -68,30 +68,35 @@ public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
 	{
 		if (dialogBox == null)
 		{
-			dialogBox = new DialogBox(false, true);
-			dialogBox.setGlassEnabled(true);
-			dialogBox.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
-			dialogBox.center();
-			dialogBox.setTitle(MyAdmin.MESSAGES.voSelectionHeader(message));
-			dialogBox.setText(MyAdmin.MESSAGES.voSelectionHeader(message));
-
-			VerticalPanel verticalPanel = new VerticalPanel();
-			dialogBox.add(verticalPanel);
-			verticalPanel.setSpacing(GwtStyles.SPACING);
-
-			Widget dialogBoxContent = createDialogBoxContent();
-			verticalPanel.add(dialogBoxContent);
-
-			// buttons
-			HorizontalPanel buttonPanel = new HorizontalPanel();
-			verticalPanel.add(buttonPanel);
-			buttonPanel.setSpacing(GwtStyles.SPACING);
-
-			createOkButton(buttonPanel);
-			createCancelButton(buttonPanel);
+			initDialogBox();
 		}
 
 		dialogBox.show();
+	}
+
+	protected void initDialogBox()
+	{
+		dialogBox = new DialogBox(false, true);
+		dialogBox.setGlassEnabled(true);
+		dialogBox.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
+		dialogBox.center();
+		dialogBox.setTitle(MyAdmin.MESSAGES.voSelectionHeader(message));
+		dialogBox.setText(MyAdmin.MESSAGES.voSelectionHeader(message));
+
+		VerticalPanel verticalPanel = new VerticalPanel();
+		dialogBox.add(verticalPanel);
+		verticalPanel.setSpacing(GwtStyles.SPACING);
+
+		Widget dialogBoxContent = createDialogBoxContent();
+		verticalPanel.add(dialogBoxContent);
+
+		// buttons
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		verticalPanel.add(buttonPanel);
+		buttonPanel.setSpacing(GwtStyles.SPACING);
+
+		createOkButton(buttonPanel);
+		createCancelButton(buttonPanel);
 	}
 
 	protected abstract VOType getCurrentSelection();

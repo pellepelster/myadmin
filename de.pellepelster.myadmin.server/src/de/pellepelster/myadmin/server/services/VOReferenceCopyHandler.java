@@ -22,11 +22,11 @@ import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
 
 public class VOReferenceCopyHandler implements IFieldCopyHandler
 {
-	private final MetaDataService metaDataService;
+	private final VOMetaDataService metaDataService;
 	
 	private final SimpleVOToXmlCopyBean simpleVOToXmlCopyBean;
 
-	public VOReferenceCopyHandler(MetaDataService metaDataService, SimpleVOToXmlCopyBean simpleVOToXmlCopyBean)
+	public VOReferenceCopyHandler(VOMetaDataService metaDataService, SimpleVOToXmlCopyBean simpleVOToXmlCopyBean)
 	{
 		super();
 		this.metaDataService = metaDataService;

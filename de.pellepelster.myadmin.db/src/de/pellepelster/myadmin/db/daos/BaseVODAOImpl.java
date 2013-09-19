@@ -23,6 +23,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.db.IBaseDAO;
 import de.pellepelster.myadmin.db.IBaseEntity;
 import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.ISearchIndexService;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery.AGGREGATE_TYPE;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
@@ -46,6 +47,9 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 	@Autowired
 	private IBaseDAO baseDAO;
+
+	@Autowired(required = false)
+	private ISearchIndexService searchIndexService;
 
 	/** {@inheritDoc} */
 	@Override
@@ -71,9 +75,13 @@ public class BaseVODAOImpl implements IBaseVODAO
 	@Override
 	public <T extends IBaseVO> T create(T vo)
 	{
-
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
 		IBaseEntity res = this.baseDAO.create(entity);
+
+		if (this.searchIndexService != null)
+		{
+			this.searchIndexService.createVO(vo);
+		}
 
 		T result = (T) convertEntiyToVO(res, null);
 
@@ -98,6 +106,12 @@ public class BaseVODAOImpl implements IBaseVODAO
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
 
 		this.baseDAO.delete(entity);
+
+		if (this.searchIndexService != null)
+		{
+			this.searchIndexService.deleteVO(vo);
+		}
+
 	}
 
 	/** {@inheritDoc} */
@@ -107,6 +121,12 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		Class<? extends IBaseEntity> entityClass = (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
 		this.baseDAO.deleteAll(entityClass);
+
+		if (this.searchIndexService != null)
+		{
+			this.searchIndexService.deleteAllVO(voClass);
+		}
+
 	}
 
 	/** {@inheritDoc} */

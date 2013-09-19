@@ -74,6 +74,12 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				enum DICTIONARY_TYPE {
 					SEARCH, EDITOR
 				}
+
+				entity DictionaryLabelIndex implements de.pellepelster.myadmin.db.IClient {
+					simpletype String className
+					simpletype Integer classId
+					simpletype String labelText
+				}
 				
 				entity Client implements de.pellepelster.myadmin.db.IClient {
 					naturalkey { name }
@@ -392,6 +398,10 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				remotemethod getDictionaries returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"*
 				{
 					simpletype String* dictionaryNames
+				}
+
+				remotemethod getAllDictionaries returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"*
+				{
 				}
 	
 				remotemethod getDictionary returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"

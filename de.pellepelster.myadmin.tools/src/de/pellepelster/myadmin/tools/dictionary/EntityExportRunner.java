@@ -19,17 +19,17 @@ import org.apache.log4j.Logger;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.MetaDataService;
+import de.pellepelster.myadmin.server.services.VOMetaDataService;
 
 public class EntityExportRunner
 {
 	private final static Logger LOGGER = Logger.getLogger("EntityExport");
 
 	private final ImportExportService importExportService;
-	private final MetaDataService metaDataService;
+	private final VOMetaDataService metaDataService;
 	private final File exportDir;
 
-	public EntityExportRunner(ImportExportService importExportService, MetaDataService metaDataService, File exportDir)
+	public EntityExportRunner(ImportExportService importExportService, VOMetaDataService metaDataService, File exportDir)
 	{
 		this.importExportService = importExportService;
 		this.metaDataService = metaDataService;

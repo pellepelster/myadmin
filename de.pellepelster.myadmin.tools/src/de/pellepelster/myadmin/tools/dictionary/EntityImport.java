@@ -22,7 +22,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.MetaDataService;
+import de.pellepelster.myadmin.server.services.VOMetaDataService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
@@ -62,7 +62,7 @@ public class EntityImport extends BaseToolAntTask {
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 
 		ImportExportService importExportService = (ImportExportService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("importexportservice");
-		MetaDataService metaDataService = (MetaDataService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("metadataservice");
+		VOMetaDataService metaDataService = (VOMetaDataService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("metadataservice");
 
 		File sourceDir = new File(importDir);
 

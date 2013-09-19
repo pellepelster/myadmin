@@ -22,7 +22,7 @@
 	<bean id="importexportservice"
 		class="de.pellepelster.myadmin.server.services.ImportExportService" />
 
-	<bean id="metadataservice" class="de.pellepelster.myadmin.server.services.MetaDataService" />
+	<bean id="metadataservice" class="de.pellepelster.myadmin.server.services.VOMetaDataService" />
 
 
 	<context:component-scan base-package="de.pellepelster.myadmin.server" />

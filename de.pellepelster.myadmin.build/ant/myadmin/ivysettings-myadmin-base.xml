@@ -25,6 +25,7 @@
 		<chain name="myadmin_dependencies" returnFirst="true" checkmodified="true">
 			<resolver ref="myadmin_dependencies_repository" />
 			<resolver ref="gwt-commons" />
+			<ibiblio name="example" m2compatible="true" root="http://maven.restlet.org"/>
 		</chain>
 
 	</resolvers>
