@@ -4,4 +4,59 @@
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	
+	<macrodef name="solr">
+		
+		<attribute name="action" />
+		<attribute name="cargo.jvmargs" default="" />
+		<attribute name="war.file" />
+		<attribute name="solr.remote.port" default="8380" />
+		
+		<sequential>
+			
+			<taskdef resource="cargo.tasks">
+				<classpath>
+					<pathelement location="lib/cargo-core-uberjar-jar.jar" />
+					<pathelement location="lib/cargo-ant-jar.jar" />
+					<fileset dir="lib" includes="*jar" />
+				</classpath>
+			</taskdef>
+
+			<echo>cargo.jvmargs: @{cargo.jvmargs}</echo>
+			
+			<property name="solr.test.dir" value="${test.dir}/solr" />
+			<mkdir dir="${solr.test.dir}" />
+			<mkdir dir="${solr.test.dir}/logs" />
+			<mkdir dir="${solr.test.dir}/server" />
+			<mkdir dir="${solr.test.dir}/downloads" />
+
+			<cargo containerId="tomcat6x" output="${solr.test.dir}/logs/output.log" log="${solr.test.dir}/logs/cargo.log" action="@{action}">
+				
+				<zipUrlInstaller installUrl="http://www.apache.org/dist/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.zip" downloadDir="tomcat/downloads" extractDir="${solr.test.dir}/downloads" />
+				
+				<extraClasspath>
+					<pathelement location="./lib/slf4j-log4j12-jar.jar" />
+					<pathelement location="./lib/slf4j-api-jar.jar" />
+					<pathelement location="./lib/log4j-bundle.jar" />
+					<pathelement location="./lib/commons-logging-jar.jar" />
+				</extraClasspath>
+
+				<configuration>
+					<property name="cargo.servlet.port" value="@{solr.remote.port}" />
+					<property name="cargo.jvmargs" value="@{cargo.jvmargs}" />
+					<property name="cargo.logging" value="medium" />
+					
+					<deployable type="war" file="@{war.file}" />
+				</configuration>
+
+			</cargo>
+		</sequential>
+	</macrodef>
+	
+	
+	<target name="solr.run">
+		<copy file="lib/solr-war.war" tofile="${test.dir}/solr.war" />
+		
+		<solr action="run" cargo.jvmargs="-Dlog4j.configuration=file://${basedir}/solr/log4j.xml -Dsolr.solr.home=${basedir}/solr -Dsolr.data.dir=${basedir}/solr/data" solr.remote.port="8380" war.file="${test.dir}/solr.war"/>
+	</target>
+	
 </project>

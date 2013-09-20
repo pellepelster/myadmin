@@ -24,7 +24,17 @@
 
 		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.4" />
 
-		<dependency org="org.apache.solr" name="solr" rev="4.4.0" />
+		<dependency org="org.apache.solr" name="solr" rev="4.4.0"  />
+
+		<dependency org="org.apache.httpcomponents" name="httpcomponents-client" rev="4.3" />
+
+		<dependency org="org.codehaus.cargo" name="cargo-core-uberjar" rev="1.2.4" />
+		<dependency org="org.codehaus.cargo" name="cargo-ant" rev="1.2.4" />
+		
+		<dependency org="org.slf4j" name="slf4j-parent" rev="1.7.5" />
+		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false">
+			<artifact name="log4j" type="jar"/>
+		</dependency>
 
 	</dependencies>
 

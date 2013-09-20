@@ -40,6 +40,7 @@
 		<attribute name="jndi.name"/>
 		
 		<sequential>
+
 			<taskdef resource="cargo.tasks">
 				<classpath>
 					<pathelement location="lib/cargo-core-uberjar-jar.jar" />
