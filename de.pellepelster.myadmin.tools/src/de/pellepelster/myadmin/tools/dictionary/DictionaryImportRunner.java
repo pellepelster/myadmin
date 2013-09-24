@@ -56,20 +56,24 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleParameter;
 import de.pellepelster.myadmin.dsl.myAdminDsl.NavigationNode;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
-public class DictionaryImportRunner {
+public class DictionaryImportRunner
+{
 
-	public static <T extends EObject> List<T> filter(EObject eObject, Class<T> clazz) {
+	public static <T extends EObject> List<T> filter(EObject eObject, Class<T> clazz)
+	{
 		return filter(eObject, clazz, null);
 	}
 
-	public static <T extends EObject> List<T> filter(EObject eObject, Class<T> clazz, Predicate<T> filter) {
+	public static <T extends EObject> List<T> filter(EObject eObject, Class<T> clazz, Predicate<T> filter)
+	{
 		ResourceSet resourceSet = eObject.eResource().getResourceSet();
 
 		Iterator<T> iterator = Iterators.filter(EcoreUtil.getAllContents(resourceSet, true), clazz);
 
 		Iterator<T> result = iterator;
 
-		if (filter != null) {
+		if (filter != null)
+		{
 			result = Iterators.filter(iterator, filter);
 		}
 
@@ -97,13 +101,17 @@ public class DictionaryImportRunner {
 	 * @param baseEntityService
 	 * @param modelFile
 	 */
-	public DictionaryImportRunner(IBaseEntityService baseEntityService, List<org.springframework.core.io.Resource> modelResources, org.springframework.core.io.Resource modelResource) {
+	public DictionaryImportRunner(IBaseEntityService baseEntityService, List<org.springframework.core.io.Resource> modelResources,
+			org.springframework.core.io.Resource modelResource)
+	{
 
 		this.baseEntityService = baseEntityService;
 
 		List<String> currentModelFileNames = new ArrayList<String>();
-		for (org.springframework.core.io.Resource resource : modelResources) {
-			if (!currentModelFileNames.contains(resource.getFilename()) && !modelResource.getFilename().equals(resource.getFilename())) {
+		for (org.springframework.core.io.Resource resource : modelResources)
+		{
+			if (!currentModelFileNames.contains(resource.getFilename()) && !modelResource.getFilename().equals(resource.getFilename()))
+			{
 				this.modelResources.add(resource);
 				currentModelFileNames.add(resource.getFilename());
 			}
@@ -112,20 +120,23 @@ public class DictionaryImportRunner {
 		this.modelResource = modelResource;
 	}
 
-	private void createDictionaries(int logIdentiation) {
+	private void createDictionaries(int logIdentiation)
+	{
 
 		List<Dictionary> dictionaries = filter(this.model, Dictionary.class);
 
 		ToolUtils.logInfo(LOG, String.format("importing %d dictionaries", dictionaries.size()), logIdentiation);
 
-		for (Dictionary dictionary : dictionaries) {
+		for (Dictionary dictionary : dictionaries)
+		{
 
 			DictionaryVO dictionaryVO = DictionaryFactory.createDictionary(dictionary, logIdentiation + 1);
 
 			// - editor ---------------------------------------------------
 			DictionaryEditor dictionaryEditor = dictionary.getDictionaryeditor();
 
-			if (dictionaryEditor != null) {
+			if (dictionaryEditor != null)
+			{
 				DictionaryEditorVO dictionaryEditorVO = DictionaryFactory.createEditor(dictionaryEditor, logIdentiation + 1);
 				dictionaryVO.setEditor(dictionaryEditorVO);
 			}
@@ -133,20 +144,23 @@ public class DictionaryImportRunner {
 
 			// - search ---------------------------------------------------
 			DictionarySearch dictionarySearch = dictionary.getDictionarysearch();
-			if (dictionarySearch != null) {
+			if (dictionarySearch != null)
+			{
 				DictionarySearchVO dictionarySearchVO = createSearch(dictionarySearch, logIdentiation + 1);
 				dictionaryVO.setSearch(dictionarySearchVO);
 
 				// - result
 				// ---------------------------------------------------
 				DictionaryResult dictionaryResult = dictionarySearch.getDictionaryresult();
-				if (dictionaryResult == null) {
+				if (dictionaryResult == null)
+				{
 					throw new RuntimeException("no result defined");
 				}
 				DictionaryResultVO dictionaryResultVO = new DictionaryResultVO();
 				dictionaryResultVO.setName(dictionaryResult.getName());
 
-				for (DictionaryControl dictionaryControl : dictionaryResult.getResultcolumns()) {
+				for (DictionaryControl dictionaryControl : dictionaryResult.getResultcolumns())
+				{
 					DictionaryControlVO dictionaryControlVO = ControlFactory.getInstance().createDictionaryControlVO(dictionaryControl, logIdentiation + 1);
 					dictionaryResultVO.getControls().add(dictionaryControlVO);
 				}
@@ -158,7 +172,8 @@ public class DictionaryImportRunner {
 
 				// - filter
 				// ---------------------------------------------------
-				for (DictionaryFilter dictionaryfilter : dictionarySearch.getDictionaryfilters()) {
+				for (DictionaryFilter dictionaryfilter : dictionarySearch.getDictionaryfilters())
+				{
 					DictionaryFilterVO dictionaryFilterVO = new DictionaryFilterVO();
 					dictionaryFilterVO.setName(dictionaryfilter.getName());
 					ToolUtils.logInfo(LOG, String.format("adding dictionary filter '%s'", dictionaryFilterVO.getName()), logIdentiation);
@@ -183,7 +198,8 @@ public class DictionaryImportRunner {
 		}
 	}
 
-	private void createModuleDefinition(ModuleDefinition moduleDefinition, int logIdentiation) {
+	private void createModuleDefinition(ModuleDefinition moduleDefinition, int logIdentiation)
+	{
 		ToolUtils.logInfo(LOG, String.format("importing module definition '%s'", moduleDefinition.getName()), logIdentiation);
 
 		ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
@@ -192,22 +208,26 @@ public class DictionaryImportRunner {
 		this.moduleDefinitionVOs.put(moduleDefinition.getName(), this.baseEntityService.create(moduleDefinitionVO));
 	}
 
-	private void createModuleDefinitions(int logIdentiation) {
+	private void createModuleDefinitions(int logIdentiation)
+	{
 		List<ModuleDefinition> moduleDefinitions = filter(this.model, ModuleDefinition.class);
 
 		ToolUtils.logInfo(LOG, String.format("importing %d module definitions", moduleDefinitions.size()), logIdentiation);
 
-		for (ModuleDefinition moduleDefinition : moduleDefinitions) {
+		for (ModuleDefinition moduleDefinition : moduleDefinitions)
+		{
 			createModuleDefinition(moduleDefinition, logIdentiation + 1);
 		}
 
 	}
 
-	private void createModules(int logIdentation) {
+	private void createModules(int logIdentation)
+	{
 
 		ToolUtils.logInfo(LOG, String.format("importing modules"), logIdentation);
 
-		for (Module module : filter(this.model, Module.class)) {
+		for (Module module : filter(this.model, Module.class))
+		{
 			ModuleVO moduleVO = new ModuleVO();
 			moduleVO.setName(module.getName());
 
@@ -215,9 +235,13 @@ public class DictionaryImportRunner {
 
 			ToolUtils.logInfo(LOG, String.format("importing module '%s'", moduleVO.getName()), logIdentation);
 
-			for (ModuleParameter moduleParameter : module.getModuleParameters()) {
+			for (ModuleParameter moduleParameter : module.getModuleParameters())
+			{
 
-				ToolUtils.logInfo(LOG, String.format("setting property '%s' with value '%s'", moduleParameter.getModuleDefinitionParameter().getName(), moduleParameter.getValue()), logIdentation + 1);
+				ToolUtils.logInfo(
+						LOG,
+						String.format("setting property '%s' with value '%s'", moduleParameter.getModuleDefinitionParameter().getName(),
+								moduleParameter.getValue()), logIdentation + 1);
 				moduleVO.getProperties().put(moduleParameter.getModuleDefinitionParameter().getName(), moduleParameter.getValue());
 			}
 
@@ -226,30 +250,36 @@ public class DictionaryImportRunner {
 
 	}
 
-	private void createNavigationTree(int logIdentation) {
+	private void createNavigationTree(int logIdentation)
+	{
 
 		ToolUtils.logInfo(LOG, "creating navigation tree", logIdentation);
 
 		// - create navigation table --------------------------------------
 		List<ModuleNavigationVO> navigationVOList = new ArrayList<ModuleNavigationVO>();
 
-		Predicate<NavigationNode> filter = new Predicate<NavigationNode>() {
+		Predicate<NavigationNode> filter = new Predicate<NavigationNode>()
+		{
 			@Override
-			public boolean apply(NavigationNode navigationNode) {
+			public boolean apply(NavigationNode navigationNode)
+			{
 				return !(navigationNode.eContainer() instanceof NavigationNode);
 			}
 		};
 
 		createNavigationTree(filter(this.model, NavigationNode.class, filter), navigationVOList, logIdentation + 1);
 
-		for (ModuleNavigationVO moduleNavigationVO : navigationVOList) {
+		for (ModuleNavigationVO moduleNavigationVO : navigationVOList)
+		{
 			this.baseEntityService.create(moduleNavigationVO);
 		}
 
 	}
 
-	private ModuleVO getOrCreateFakeModuleVO(String moduleDefinitionId, String moduleId, String moduleProperty, String moduleValue) {
-		if (!this.moduleDefinitionVOs.containsKey(moduleDefinitionId)) {
+	private ModuleVO getOrCreateFakeModuleVO(String moduleDefinitionId, String moduleId, String moduleProperty, String moduleValue)
+	{
+		if (!this.moduleDefinitionVOs.containsKey(moduleDefinitionId))
+		{
 			ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
 			moduleDefinitionVO.setName(moduleDefinitionId);
 			this.moduleDefinitionVOs.put(moduleDefinitionId, this.baseEntityService.create(moduleDefinitionVO));
@@ -257,7 +287,8 @@ public class DictionaryImportRunner {
 
 		ModuleDefinitionVO moduleDefinitionVO = this.moduleDefinitionVOs.get(moduleDefinitionId);
 
-		if (!this.moduleVOs.containsKey(moduleId)) {
+		if (!this.moduleVOs.containsKey(moduleId))
+		{
 			ModuleVO moduleVO = new ModuleVO();
 			moduleVO.setName(moduleId);
 			moduleVO.setModuleDefinition(moduleDefinitionVO);
@@ -270,8 +301,10 @@ public class DictionaryImportRunner {
 		return moduleVO;
 	}
 
-	private String getParentDictionaryName(EObject eObject) {
-		if (eObject.eContainer() instanceof Dictionary) {
+	private String getParentDictionaryName(EObject eObject)
+	{
+		if (eObject.eContainer() instanceof Dictionary)
+		{
 			Dictionary dictionary = (Dictionary) eObject.eContainer();
 			return dictionary.getName();
 		}
@@ -279,33 +312,43 @@ public class DictionaryImportRunner {
 		return null;
 	}
 
-	private void createNavigationTree(List<NavigationNode> navigationNodes, List<ModuleNavigationVO> parentNavigationList, int logIdentation) {
+	private void createNavigationTree(List<NavigationNode> navigationNodes, List<ModuleNavigationVO> parentNavigationList, int logIdentation)
+	{
 
-		for (NavigationNode navigationNode : navigationNodes) {
+		for (NavigationNode navigationNode : navigationNodes)
+		{
 			ToolUtils.logInfo(LOG, String.format("creating navigation node '%s'", navigationNode.getName()), logIdentation);
 
 			ModuleNavigationVO moduleNavigationVO = new ModuleNavigationVO();
 			parentNavigationList.add(moduleNavigationVO);
 
-			if (StringUtils.isEmpty(navigationNode.getTitle())) {
+			if (StringUtils.isEmpty(navigationNode.getTitle()))
+			{
 				moduleNavigationVO.setTitle(navigationNode.getName());
-			} else {
+			}
+			else
+			{
 				moduleNavigationVO.setTitle(navigationNode.getTitle());
 			}
 
-			if (navigationNode.getModule() != null && this.moduleVOs.containsKey((navigationNode.getModule().getName()))) {
+			if (navigationNode.getModule() != null && this.moduleVOs.containsKey((navigationNode.getModule().getName())))
+			{
 				moduleNavigationVO.setModule(this.moduleVOs.get(navigationNode.getModule().getName()));
 			}
 
-			if (navigationNode.getDictionaryEditor() != null) {
+			if (navigationNode.getDictionaryEditor() != null)
+			{
 				String dictionaryName = getParentDictionaryName(navigationNode.getDictionaryEditor());
-				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionaryEditorModule.MODULE_ID, String.format("%s_editor", dictionaryName), DictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, dictionaryName);
+				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionaryEditorModule.MODULE_ID, String.format("%s_editor", dictionaryName),
+						DictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, dictionaryName);
 				moduleNavigationVO.setModule(moduleVO);
 			}
 
-			if (navigationNode.getDictionarySearch() != null) {
+			if (navigationNode.getDictionarySearch() != null)
+			{
 				String dictionaryName = getParentDictionaryName(navigationNode.getDictionarySearch());
-				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionarySearchModule.MODULE_ID, String.format("%s_search", dictionaryName), DictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID, dictionaryName);
+				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionarySearchModule.MODULE_ID, String.format("%s_search", dictionaryName),
+						DictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID, dictionaryName);
 				moduleNavigationVO.setModule(moduleVO);
 			}
 
@@ -359,7 +402,8 @@ public class DictionaryImportRunner {
 	//
 	// }
 
-	private DictionarySearchVO createSearch(DictionarySearch dictionarySearch, int logIdentiation) {
+	private DictionarySearchVO createSearch(DictionarySearch dictionarySearch, int logIdentiation)
+	{
 
 		DictionarySearchVO dictionarySearchVO = new DictionarySearchVO();
 		dictionarySearchVO.setName(dictionarySearch.getName());
@@ -371,11 +415,13 @@ public class DictionaryImportRunner {
 
 	}
 
-	public Model getModel() {
+	public Model getModel()
+	{
 		return this.model;
 	}
 
-	private void initDictionaryTables(int logIdentation) {
+	private void initDictionaryTables(int logIdentation)
+	{
 
 		ToolUtils.logInfo(LOG, "initializing dictionary tables", logIdentation);
 
@@ -393,7 +439,8 @@ public class DictionaryImportRunner {
 	/**
 	 * Clean up module tables
 	 */
-	private void initModuleTables(int logIdentation) {
+	private void initModuleTables(int logIdentation)
+	{
 
 		ToolUtils.logInfo(LOG, "initializing module tables", logIdentation);
 
@@ -402,7 +449,8 @@ public class DictionaryImportRunner {
 		this.baseEntityService.deleteAll(ModuleDefinitionVO.class.getName());
 	}
 
-	public void run() {
+	public void run()
+	{
 
 		MyAdminDslStandaloneSetup.doSetup();
 

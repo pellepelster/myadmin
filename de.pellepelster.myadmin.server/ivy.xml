@@ -55,9 +55,11 @@
 			<artifact name="spring-security-web" type="jar" />
 		</dependency>
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration">
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false">
 			<exclude name="gwt-dev" />
 		</dependency>	
+
+		<dependency org="org.apache.solr" name="solr-solrj" rev="4.4.0" />
 
 	</dependencies>
 

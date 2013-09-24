@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2013 Christian Pelster.
  * 
- * All rights reserved. This program and the accompanying materials
+ * All rights reserved. VOTypehis program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery;
 
 /**
@@ -31,7 +32,7 @@ public interface IBaseVODAO
 	 * 
 	 * @param voClass
 	 * @param field
-	 * @param aggregateType
+	 * @param aggregateVOTypeype
 	 * @return
 	 */
 	long aggregate(GenericFilterVO<?> genericFilterVO, String field, AggregateQuery.AGGREGATE_TYPE aggregateType);
@@ -39,19 +40,19 @@ public interface IBaseVODAO
 	/**
 	 * Persist a new VO
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param vo
 	 * @return
 	 */
-	<T extends IBaseVO> T create(T vo);
+	<VOType extends IBaseVO> VOType create(VOType vo);
 
 	/**
 	 * Deletes a VO
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param vo
 	 */
-	<T extends IBaseVO> void delete(T vo);
+	<VOType extends IBaseVO> void delete(VOType vo);
 
 	/**
 	 * Deletes all VOs of a certain type
@@ -63,21 +64,21 @@ public interface IBaseVODAO
 	/**
 	 * Gets all VOs by conditions in a specified order and paging
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param genericFilterVO
 	 * 
 	 * @return
 	 */
-	<T extends IBaseVO> List<T> filter(GenericFilterVO<?> genericFilterVO);
+	<VOType extends IBaseVO> List<VOType> filter(GenericFilterVO<?> genericFilterVO);
 
 	/**
 	 * Gets all VOs for a certain type
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param voClass
 	 * @return
 	 */
-	<T extends IBaseVO> List<T> getAll(Class<T> voClass);
+	<VOType extends IBaseVO> List<VOType> getAll(Class<VOType> voClass);
 
 	/**
 	 * Convenience for {@link IBaseVODAO#getCount(Class, List)}
@@ -98,12 +99,12 @@ public interface IBaseVODAO
 	/**
 	 * Gets a single VO by id
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param id
 	 * @param voClass
 	 * @return
 	 */
-	<T extends IBaseVO> T read(long id, Class<T> voClass);
+	<VOType extends IBaseVO> VOType read(long id, Class<VOType> voClass);
 
 	/**
 	 * Reads a single vo by filter
@@ -111,15 +112,16 @@ public interface IBaseVODAO
 	 * @param genericFilterVO
 	 * @return
 	 */
-	<T extends IBaseVO> T read(GenericFilterVO<T> genericFilterVO);
-	
-	
+	<VOType extends IBaseVO> VOType read(GenericFilterVO<VOType> genericFilterVO);
+
 	/**
 	 * Saves an VO
 	 * 
-	 * @param <T>
+	 * @param <VOType>
 	 * @param vo
 	 * @return
 	 */
-	<T extends IBaseVO> T save(T vo);
+	<VOType extends IBaseVO> VOType save(VOType vo);
+
+	<VOType extends IBaseVO> List<IVODAOCallback> getVODAOCallbacks();
 }

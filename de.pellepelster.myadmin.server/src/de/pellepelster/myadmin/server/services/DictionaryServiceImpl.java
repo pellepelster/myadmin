@@ -14,7 +14,8 @@ package de.pellepelster.myadmin.server.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
@@ -30,42 +31,56 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWT;
 import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
+import de.pellepelster.myadmin.server.services.search.SearchIndexService;
 
-public class DictionaryServiceImpl implements IDictionaryServiceGWT {
+public class DictionaryServiceImpl implements IDictionaryServiceGWT
+{
+	private final static Logger LOG = Logger.getLogger(SearchIndexService.class);
 
-	@Resource
+	@Autowired
 	private IBaseVODAO baseVODAO;
 
-	private void addContainerAssociations(AssociationVO parentAssociationVO, IAttributeDescriptor<?> attributeDescriptor) {
+	@Autowired(required = false)
+	private ISearchIndexService searchIndexService;
+
+	private void addContainerAssociations(AssociationVO parentAssociationVO, IAttributeDescriptor<?> attributeDescriptor)
+	{
 		AssociationVO containerAssociationVO = parentAssociationVO.addAssociation(attributeDescriptor);
 		containerAssociationVO.addAssociation(DictionaryContainerVO.FIELD_CHILDREN);
 
 		addControlAssociations(containerAssociationVO.addAssociation(DictionaryContainerVO.FIELD_CONTROLS));
 	}
 
-	private void addControlAssociations(AssociationVO controlAssociationVO) {
+	private void addControlAssociations(AssociationVO controlAssociationVO)
+	{
 		controlAssociationVO.addAssociation(DictionaryControlVO.FIELD_DATATYPE);
 		controlAssociationVO.addAssociation(DictionaryControlVO.FIELD_LABELCONTROLS);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IDictionaryModel> getDictionaries(List<String> dictionaryNames) {
+	public List<IDictionaryModel> getDictionaries(List<String> dictionaryNames)
+	{
 		List<IDictionaryModel> result = new ArrayList<IDictionaryModel>();
 
-		for (DictionaryVO dictionaryVO : getDictionariesInternal(dictionaryNames)) {
+		for (DictionaryVO dictionaryVO : getDictionariesInternal(dictionaryNames))
+		{
 			result.add(new DictionaryModel(dictionaryVO));
 		}
 
 		return result;
 	}
 
-	public List<IDictionaryModel> getAllDictionaries() {
+	@Override
+	public List<IDictionaryModel> getAllDictionaries()
+	{
 
 		List<IDictionaryModel> result = new ArrayList<IDictionaryModel>();
 
-		for (DictionaryVO tmpDictionaryVO : baseVODAO.getAll(DictionaryVO.class)) {
+		for (DictionaryVO tmpDictionaryVO : this.baseVODAO.getAll(DictionaryVO.class))
+		{
 			DictionaryVO dictionaryVO = getDictionaryInternal(tmpDictionaryVO.getName());
 			result.add(new DictionaryModel(dictionaryVO));
 		}
@@ -73,13 +88,16 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT {
 		return result;
 	}
 
-	private List<DictionaryVO> getDictionariesInternal(List<String> dictionaryNames) {
+	private List<DictionaryVO> getDictionariesInternal(List<String> dictionaryNames)
+	{
 		List<DictionaryVO> result = new ArrayList<DictionaryVO>();
 
-		for (String dictionaryName : dictionaryNames) {
+		for (String dictionaryName : dictionaryNames)
+		{
 			DictionaryVO dictionaryVO = getDictionaryInternal(dictionaryName);
 
-			if (dictionaryVO != null) {
+			if (dictionaryVO != null)
+			{
 				result.add(getDictionaryInternal(dictionaryName));
 			}
 		}
@@ -89,14 +107,17 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT {
 
 	/** {@inheritDoc} */
 	@Override
-	public IDictionaryModel getDictionary(String dictionaryName) {
+	public IDictionaryModel getDictionary(String dictionaryName)
+	{
 		DictionaryVO dictionaryVO = getDictionaryInternal(dictionaryName);
 		return new DictionaryModel(dictionaryVO);
 	}
 
-	private DictionaryVO getDictionaryInternal(String dictionaryName) {
+	private DictionaryVO getDictionaryInternal(String dictionaryName)
+	{
 
-		GenericFilterVO<DictionaryVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(DictionaryVO.class).addCriteria(DictionaryVO.FIELD_NAME, dictionaryName).getGenericFilter();
+		GenericFilterVO<DictionaryVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(DictionaryVO.class)
+				.addCriteria(DictionaryVO.FIELD_NAME, dictionaryName).getGenericFilter();
 
 		addControlAssociations(genericFilterVO.addAssociation(DictionaryVO.FIELD_CONTROLAGGREGATES));
 		addControlAssociations(genericFilterVO.addAssociation(DictionaryVO.FIELD_LABELCONTROLS));
@@ -112,15 +133,24 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT {
 
 		List<DictionaryVO> result = this.baseVODAO.filter(genericFilterVO);
 
-		if (result.size() == 1) {
+		if (result.size() == 1)
+		{
 			return result.get(0);
-		} else {
+		}
+		else
+		{
 			throw new RuntimeException(String.format("dictionary '%s' not found", dictionaryName));
 		}
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO) {
+	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	{
 		this.baseVODAO = baseVODAO;
+	}
+
+	public void setSearchIndexService(ISearchIndexService searchIndexService)
+	{
+		this.searchIndexService = searchIndexService;
 	}
 
 }

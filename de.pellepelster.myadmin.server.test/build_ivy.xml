@@ -56,7 +56,7 @@
 	<target name="solr.run">
 		<copy file="lib/solr-war.war" tofile="${test.dir}/solr.war" />
 		
-		<solr action="run" cargo.jvmargs="-Dlog4j.configuration=file://${basedir}/solr/log4j.xml -Dsolr.solr.home=${basedir}/solr -Dsolr.data.dir=${basedir}/solr/data" solr.remote.port="8380" war.file="${test.dir}/solr.war"/>
+		<solr action="run" cargo.jvmargs="-Dlog4j.configuration=file:///${basedir}/solr/log4j.xml -Dsolr.solr.home=${basedir}/solr -Dsolr.data.dir=${basedir}/solr/data" solr.remote.port="8380" war.file="${test.dir}/solr.war"/>
 	</target>
 	
 </project>

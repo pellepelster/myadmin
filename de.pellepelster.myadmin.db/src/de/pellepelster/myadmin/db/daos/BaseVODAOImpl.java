@@ -23,7 +23,6 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.db.IBaseDAO;
 import de.pellepelster.myadmin.db.IBaseEntity;
 import de.pellepelster.myadmin.db.IBaseVODAO;
-import de.pellepelster.myadmin.db.ISearchIndexService;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery.AGGREGATE_TYPE;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
@@ -41,15 +40,13 @@ import de.pellepelster.myadmin.db.util.EntityVOMapper;
  */
 public class BaseVODAOImpl implements IBaseVODAO
 {
+	private List<IVODAOCallback> voDAOCallbacks = new ArrayList<IVODAOCallback>();
 
 	@Autowired(required = false)
 	private List<IVODaoDecorator> voDaoDecorators = new ArrayList<IVODaoDecorator>();
 
 	@Autowired
 	private IBaseDAO baseDAO;
-
-	@Autowired(required = false)
-	private ISearchIndexService searchIndexService;
 
 	/** {@inheritDoc} */
 	@Override
@@ -64,10 +61,17 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 	private IBaseVO convertEntiyToVO(IBaseEntity entity, Map<Class<?>, List<String>> classLoadAssociations)
 	{
-
 		Class<?> entityClass = entity.getClass();
 
 		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations);
+	}
+
+	private <T extends IBaseVO> void callOnAdd(T vo)
+	{
+		for (IVODAOCallback voDAOCallback : this.voDAOCallbacks)
+		{
+			voDAOCallback.onAdd(vo);
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -78,10 +82,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
 		IBaseEntity res = this.baseDAO.create(entity);
 
-		if (this.searchIndexService != null)
-		{
-			this.searchIndexService.createVO(vo);
-		}
+		callOnAdd(vo);
 
 		T result = (T) convertEntiyToVO(res, null);
 
@@ -107,11 +108,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 		this.baseDAO.delete(entity);
 
-		if (this.searchIndexService != null)
-		{
-			this.searchIndexService.deleteVO(vo);
-		}
-
 	}
 
 	/** {@inheritDoc} */
@@ -121,12 +117,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		Class<? extends IBaseEntity> entityClass = (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
 		this.baseDAO.deleteAll(entityClass);
-
-		if (this.searchIndexService != null)
-		{
-			this.searchIndexService.deleteAllVO(voClass);
-		}
-
 	}
 
 	/** {@inheritDoc} */
@@ -187,11 +177,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return this.baseDAO.getCount(entityClass, ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria()));
 	}
 
-	public List<IVODaoDecorator> getVoDaoDecorators()
-	{
-		return this.voDaoDecorators;
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public <T extends IBaseVO> T read(GenericFilterVO<T> genericFilterVO)
@@ -242,9 +227,11 @@ public class BaseVODAOImpl implements IBaseVODAO
 		Class<?> voClass = vo.getClass();
 
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(voClass));
+		IBaseEntity entityResult = this.baseDAO.save(entity);
 
-		IBaseEntity result = this.baseDAO.save(entity);
-		return (T) convertEntiyToVO(result, null);
+		T voResult = (T) convertEntiyToVO(entityResult, null);
+
+		return voResult;
 	}
 
 	public void setBaseDAO(IBaseDAO baseDAO)
@@ -252,9 +239,15 @@ public class BaseVODAOImpl implements IBaseVODAO
 		this.baseDAO = baseDAO;
 	}
 
-	public void setVoDaoDecorators(List<IVODaoDecorator> voDaoDecorators)
+	public List<IVODaoDecorator> getVoDaoDecorators()
 	{
-		this.voDaoDecorators = voDaoDecorators;
+		return this.voDaoDecorators;
+	}
+
+	@Override
+	public List<IVODAOCallback> getVODAOCallbacks()
+	{
+		return this.voDAOCallbacks;
 	}
 
 }

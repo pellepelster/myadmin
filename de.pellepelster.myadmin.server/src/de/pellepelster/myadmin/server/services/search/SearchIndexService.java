@@ -1,89 +1,112 @@
 package de.pellepelster.myadmin.server.services.search;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrInputDocument;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryLabelIndexVO;
-import de.pellepelster.myadmin.client.web.services.IDictionaryService;
-import de.pellepelster.myadmin.db.ISearchIndexService;
+import de.pellepelster.myadmin.db.index.ISearchIndexElement;
+import de.pellepelster.myadmin.db.index.ISearchIndexService;
 
-public class SearchIndexService implements InitializingBean, ISearchIndexService
+public class SearchIndexService implements ISearchIndexService
 {
-	private IDictionaryService dictionaryService;
-
-	private Map<String, List<String>> dictionaryLabelIndexAttributes = new HashMap<String, List<String>>();
-
 	private final static Logger LOG = Logger.getLogger(SearchIndexService.class);
 
-	@Override
-	public void afterPropertiesSet() throws Exception
-	{
-		List<String> indexAttributes = new ArrayList<String>();
+	private SolrServer server = new HttpSolrServer("http://localhost:8380/solr/");
 
-		for (IDictionaryModel dictionaryModel : this.dictionaryService.getAllDictionaries())
+	// private String getLabelText(IBaseVO baseVO)
+	// {
+	// if (hasIndexAttributes(baseVO))
+	// {
+	// // String labelText
+	// }
+	//
+	// return null;
+	// }
+	//
+	// private boolean hasIndexAttributes(IBaseVO baseVO)
+	// {
+	// return
+	// this.dictionaryLabelIndexAttributes.containsKey(baseVO.getClass().getName());
+	// }
+
+	@Override
+	public void add(ISearchIndexElement indexElement)
+	{
+		try
 		{
-			for (IBaseControlModel baseControlModel : dictionaryModel.getLabelControls())
-			{
-				indexAttributes.add(baseControlModel.getAttributePath());
-			}
+			Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
 
-			if (!indexAttributes.isEmpty())
-			{
-				LOG.info(String.format("the following attributes for vo '%s' will be indexed: %s", dictionaryModel.getVOName(), indexAttributes.toString()));
-				this.dictionaryLabelIndexAttributes.put(dictionaryModel.getVOName(), indexAttributes);
-			}
+			SolrInputDocument document = new SolrInputDocument();
+			document.setField(SEARCH_INDEX_ID_FIELD_NAME, indexElement.getId());
+			document.setField(SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, indexElement.getType());
+
+			// for (Map.Entry<String, String> idField :
+			// indexElement.getIdFields().entrySet())
+			// {
+			// document.addField(idField.getKey(), idField.getValue());
+			// }
+
+			docs.add(document);
+
+			this.server.add(docs);
+			this.server.commit();
 		}
-
-	}
-
-	public void setDictionaryService(IDictionaryService dictionaryService)
-	{
-		this.dictionaryService = dictionaryService;
-	}
-
-	private String getLabelText(IBaseVO baseVO)
-	{
-		if (hasIndexAttributes(baseVO))
+		catch (Exception e)
 		{
-			// String labelText
+			throw new RuntimeException(e);
 		}
-
-		return null;
-	}
-
-	private boolean hasIndexAttributes(IBaseVO baseVO)
-	{
-		return this.dictionaryLabelIndexAttributes.containsKey(baseVO.getClass().getName());
 	}
 
 	@Override
-	public void createVO(IBaseVO baseVO)
+	public void delete(ISearchIndexElement indexElement)
 	{
-		DictionaryLabelIndexVO l = new DictionaryLabelIndexVO();
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteVO(IBaseVO baseVO)
+	public void update(ISearchIndexElement baseVO)
 	{
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void update(IBaseVO baseVO)
+	public void deleteAll(String elementType)
 	{
+		try
+		{
+			String deleteQuery = String.format("%s:%s", SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, elementType);
+			this.server.deleteByQuery(deleteQuery);
+			this.server.commit();
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public void deleteAllVO(Class voClass)
+	public long getCount(String elementType)
 	{
+		try
+		{
+			SolrQuery query = new SolrQuery();
+			query.setQuery(String.format("%s:%s", SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, elementType));
+			QueryResponse rsp = this.server.query(query);
+
+			return rsp.getResults().getNumFound();
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 }
