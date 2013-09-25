@@ -18,6 +18,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -30,10 +31,12 @@ import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
-public class DictionaryTest extends BaseMyAdminJndiContextTest
-{
+public class DictionaryTest extends BaseMyAdminJndiContextTest {
 
 	private static DictionaryImportRunner dictionaryImportRunner;
+
+	@Autowired
+	private ApplicationEventMulticaster applicationEventMulticaster;
 
 	@Autowired
 	private IBaseEntityService baseEntityService;
@@ -41,39 +44,17 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	@Autowired
 	private IDictionaryService dictionaryService;
 
-	public IBaseEntityService getBaseEntityService()
-	{
-		return this.baseEntityService;
-	}
-
-	public IDictionaryService getDictionaryService()
-	{
-		return this.dictionaryService;
-	}
-
 	@Before
-	public void initData()
-	{
+	public void initData() {
 		Resource modelResource = SpringModelUtils.getResource("classpath:model/TestModel1.msl");
 		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
-		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
+		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, applicationEventMulticaster, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 
-	public void setBaseEntityService(IBaseEntityService baseEntityService)
-	{
-		this.baseEntityService = baseEntityService;
-	}
-
-	public void setDictionaryService(IDictionaryService dictionaryService)
-	{
-		this.dictionaryService = dictionaryService;
-	}
-
 	@Test
-	public void testTestGetDictionary1()
-	{
+	public void testTestGetDictionary1() {
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 		Assert.assertEquals("TestDictionary1", dictionaryModel.getName());
 
@@ -81,12 +62,10 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
-	public void testDictionary1TextControl1Defaults()
-	{
+	public void testDictionary1TextControl1Defaults() {
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 
-		ITextControlModel textControlModel = DictionaryModelQuery.create(dictionaryModel).getControls()
-				.getControlModelByName("TextControl1Defaults", ITextControlModel.class);
+		ITextControlModel textControlModel = DictionaryModelQuery.create(dictionaryModel).getControls().getControlModelByName("TextControl1Defaults", ITextControlModel.class);
 
 		Assert.assertEquals(IBaseControlModel.MAX_LENGTH_DEFAULT, textControlModel.getMaxLength());
 		Assert.assertEquals("TextControl1Defaults", textControlModel.getColumnLabel());
@@ -95,8 +74,7 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
-	public void testDictionaryTextControl1()
-	{
+	public void testDictionaryTextControl1() {
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 		IBaseControlModel baseControlModel = dictionaryModel.getLabelControls().get(0);
 		Assert.assertTrue(baseControlModel instanceof ITextControlModel);
@@ -121,12 +99,23 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
-	public void testDictionary1()
-	{
+	public void testDictionary1() {
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 
 		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getLabel());
 		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getPluralLabel());
+	}
+
+	public void setApplicationEventMulticaster(ApplicationEventMulticaster applicationEventMulticaster) {
+		this.applicationEventMulticaster = applicationEventMulticaster;
+	}
+
+	public void setBaseEntityService(IBaseEntityService baseEntityService) {
+		this.baseEntityService = baseEntityService;
+	}
+
+	public void setDictionaryService(IDictionaryService dictionaryService) {
+		this.dictionaryService = dictionaryService;
 	}
 
 }

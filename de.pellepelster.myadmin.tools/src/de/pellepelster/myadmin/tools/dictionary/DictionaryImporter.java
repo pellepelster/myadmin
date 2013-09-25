@@ -20,6 +20,7 @@ import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -96,7 +97,9 @@ public class DictionaryImporter extends BaseToolAntTask {
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 		IBaseEntityService baseEntityService = MyAdminRemoteServiceLocator.getInstance().getBaseEntityService();
 
-		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, modelResources, modelResource);
+		ApplicationEventMulticaster applicationEventMulticaster = MyAdminApplicationContextProvider.getInstance().getContext().getBean(ApplicationEventMulticaster.class);
+
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, applicationEventMulticaster, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 

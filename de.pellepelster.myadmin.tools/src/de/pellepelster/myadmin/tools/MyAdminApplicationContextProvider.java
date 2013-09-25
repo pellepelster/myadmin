@@ -16,13 +16,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.pellepelster.myadmin.server.base.services.IApplicationContextProvider;
 
-public final class MyAdminApplicationContextProvider implements IApplicationContextProvider
-{
+public final class MyAdminApplicationContextProvider implements IApplicationContextProvider {
 
 	private static final MyAdminApplicationContextProvider instance = new MyAdminApplicationContextProvider();
 
-	public static MyAdminApplicationContextProvider getInstance()
-	{
+	public static MyAdminApplicationContextProvider getInstance() {
 		return instance;
 	}
 
@@ -30,24 +28,18 @@ public final class MyAdminApplicationContextProvider implements IApplicationCont
 
 	private String[] contextLocations;
 
-	protected MyAdminApplicationContextProvider()
-	{
+	protected MyAdminApplicationContextProvider() {
 	}
 
 	@Override
-	public synchronized ApplicationContext getContext()
-	{
-		if (this.context == null)
-		{
+	public synchronized ApplicationContext getContext() {
+		if (this.context == null) {
 			Thread currentThread = Thread.currentThread();
 			ClassLoader originalClassloader = currentThread.getContextClassLoader();
-			try
-			{
+			try {
 				currentThread.setContextClassLoader(this.getClass().getClassLoader());
 				this.context = new ClassPathXmlApplicationContext(this.contextLocations);
-			}
-			finally
-			{
+			} finally {
 				currentThread.setContextClassLoader(originalClassloader);
 			}
 		}
@@ -55,8 +47,7 @@ public final class MyAdminApplicationContextProvider implements IApplicationCont
 		return this.context;
 	}
 
-	public synchronized void init(String[] contextLocations)
-	{
+	public synchronized void init(String[] contextLocations) {
 		this.contextLocations = contextLocations;
 		this.context = null;
 	}

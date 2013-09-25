@@ -262,4 +262,5 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		assertEquals(1, result.getValidationMessages().size());
 	}
+
 }

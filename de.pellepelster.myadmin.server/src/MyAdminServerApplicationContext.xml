@@ -22,11 +22,21 @@
 	<bean id="importexportservice"
 		class="de.pellepelster.myadmin.server.services.ImportExportService" />
 
-	<bean id="vometadataservice" class="de.pellepelster.myadmin.server.services.VOMetaDataService" />
+	<bean id="vometadataservice"
+		class="de.pellepelster.myadmin.server.services.VOMetaDataService" />
 
-	<bean id="dictionarymetadataservice" class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
+	<bean id="dictionarymetadataservice"
+		class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
 
-	<bean id="searchindexservice" class="de.pellepelster.myadmin.server.services.search.SearchIndexService" />
+	<bean id="searchindexservice"
+		class="de.pellepelster.myadmin.server.services.search.SearchIndexService" />
+
+	<bean id="applicationEventMulticaster"
+		class="org.springframework.context.event.SimpleApplicationEventMulticaster">
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+		</property>
+	</bean>
 
 	<context:component-scan base-package="de.pellepelster.myadmin.server" />
 
