@@ -38,6 +38,7 @@ public class SearchIndexService implements ISearchIndexService
 	@Override
 	public void add(ISearchIndexElement indexElement)
 	{
+		LOG.debug(String.format("indexing '%s'", indexElement.toString()));
 		try
 		{
 			Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();

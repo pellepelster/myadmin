@@ -44,4 +44,11 @@ public class DictionaryIndexElement implements ISearchIndexElement
 		return this.id;
 	}
 
+	@Override
+	public String toString()
+	{
+
+		return String.format("%s:", getId());
+	}
+
 }

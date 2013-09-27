@@ -62,7 +62,11 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 		{
 			this.searchModel = new SearchModel(this, dictionaryVO.getSearch(), this.voName);
 		}
-		this.editorModel = new EditorModel(this, dictionaryVO.getEditor(), this.voName);
+
+		if (dictionaryVO.getEditor() != null)
+		{
+			this.editorModel = new EditorModel(this, dictionaryVO.getEditor(), this.voName);
+		}
 
 		for (DictionaryControlVO controlVO : dictionaryVO.getLabelControls())
 		{

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -33,6 +34,9 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 
 	@Autowired
 	private IDictionaryService dictionaryService;
+
+	@Autowired
+	private ApplicationEventMulticaster applicationEventMulticaster;
 
 	public IBaseEntityService getBaseEntityService()
 	{
@@ -69,7 +73,8 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 			throw new RuntimeException(e);
 		}
 
-		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, this.applicationEventMulticaster, modelResources,
+				modelResource);
 		dictionaryImportRunner.run();
 	}
 
