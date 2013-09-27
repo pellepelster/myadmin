@@ -34,7 +34,7 @@
 	
 	<dependencies defaultconf="*->default">
 
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->default,compile,generated.server" />
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="compile->@,generated.server" />
 
 	</dependencies>
 

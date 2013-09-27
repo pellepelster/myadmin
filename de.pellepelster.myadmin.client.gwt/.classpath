@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.web"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.client.gwt&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.generator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

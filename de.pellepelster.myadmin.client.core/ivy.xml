@@ -21,7 +21,7 @@
 
 		<dependency name="client-base" rev="latest.integration" conf="*->@" />
 	
-		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency name="generator" rev="latest.integration" conf="compile->generated.client.web" />
 
 	</dependencies>
 

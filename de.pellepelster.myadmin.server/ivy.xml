@@ -23,7 +23,7 @@
 
 		<dependency name="client-web" rev="latest.integration" conf="*->@"  />
 
-		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server" />
+		<dependency name="generator" rev="latest.integration" conf="compile->generated.xml,generated.server" />
 
 		<dependency org="net.sf.extcos" name="extcos" rev="0.3b">
 			<artifact name="extcos" type="jar" />

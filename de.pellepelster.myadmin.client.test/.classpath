@@ -7,5 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.web"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.client.test&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.generator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
