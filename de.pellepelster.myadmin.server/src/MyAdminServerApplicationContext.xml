@@ -29,7 +29,7 @@
 		class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
 
 	<bean id="searchindexservice"
-		class="de.pellepelster.myadmin.server.services.search.SearchIndexService" />
+		class="de.pellepelster.myadmin.server.services.search.SolrSearchIndexService" />
 
 	<bean id="applicationEventMulticaster"
 		class="org.springframework.context.event.SimpleApplicationEventMulticaster">

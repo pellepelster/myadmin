@@ -237,4 +237,9 @@ public final class DictionaryUtil
 		super();
 	}
 
+	public static String getLabel(List<IBaseControlModel> labelControlModels, IBaseVO vo)
+	{
+		return getLabel(labelControlModels, vo, null);
+	};
+
 }

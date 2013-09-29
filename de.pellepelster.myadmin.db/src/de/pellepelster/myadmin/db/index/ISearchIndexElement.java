@@ -8,6 +8,6 @@ public interface ISearchIndexElement
 
 	String getType();
 
-	String getId();
+	String getText();
 
 }

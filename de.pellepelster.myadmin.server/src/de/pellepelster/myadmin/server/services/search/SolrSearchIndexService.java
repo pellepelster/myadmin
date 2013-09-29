@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.server.services.search;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -13,9 +14,19 @@ import org.apache.solr.common.SolrInputDocument;
 import de.pellepelster.myadmin.db.index.ISearchIndexElement;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 
-public class SearchIndexService implements ISearchIndexService
+public class SolrSearchIndexService implements ISearchIndexService
 {
-	private final static Logger LOG = Logger.getLogger(SearchIndexService.class);
+	static final String SEARCH_INDEX_ID_FIELD_NAME = "id";
+
+	static final String DYNAMIC_STRING_FIELD_POSTFIX = "_s";
+
+	static final String ID_DELIMITER = "#";
+
+	static final String SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME = "type" + DYNAMIC_STRING_FIELD_POSTFIX;
+
+	static final String SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME = "text" + DYNAMIC_STRING_FIELD_POSTFIX;
+
+	private final static Logger LOG = Logger.getLogger(SolrSearchIndexService.class);
 
 	private SolrServer server = new HttpSolrServer("http://localhost:8380/solr/");
 
@@ -44,8 +55,24 @@ public class SearchIndexService implements ISearchIndexService
 			Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
 
 			SolrInputDocument document = new SolrInputDocument();
-			document.setField(SEARCH_INDEX_ID_FIELD_NAME, indexElement.getId());
+
 			document.setField(SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, indexElement.getType());
+			document.setField(SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME, indexElement.getText());
+
+			StringBuilder id = new StringBuilder();
+
+			for (Map.Entry<String, String> idFieldEntry : indexElement.getIdFields().entrySet())
+			{
+				if (id.length() > 0)
+				{
+					id.append(ID_DELIMITER);
+				}
+				id.append(idFieldEntry.getValue());
+
+				document.setField(idFieldEntry.getKey() + DYNAMIC_STRING_FIELD_POSTFIX, idFieldEntry.getValue());
+			}
+
+			document.setField(SEARCH_INDEX_ID_FIELD_NAME, id.toString());
 
 			// for (Map.Entry<String, String> idField :
 			// indexElement.getIdFields().entrySet())

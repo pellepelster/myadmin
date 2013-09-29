@@ -26,6 +26,7 @@ import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test2VO;
+import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElement;
 
 public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 {
@@ -42,30 +43,30 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 		test1VO1.setTextDatatype1("aaa");
 		this.baseVODAO.create(test1VO1);
 
-		Assert.assertTrue(this.searchIndexService.getCount(Test1VO.class.getName()) > 0);
+		Assert.assertTrue(this.searchIndexService.getCount(DictionaryLabelIndexElement.class.getName()) > 0);
 
-		this.searchIndexService.deleteAll(Test1VO.class.getName());
+		this.searchIndexService.deleteAll(DictionaryLabelIndexElement.class.getName());
 
-		Assert.assertEquals(0, this.searchIndexService.getCount(Test1VO.class.getName()));
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElement.class.getName()));
 	}
 
 	@Test
 	public void testGetCount()
 	{
-		this.searchIndexService.deleteAll(Test1VO.class.getName());
-		Assert.assertEquals(0, this.searchIndexService.getCount(Test1VO.class.getName()));
+		this.searchIndexService.deleteAll(DictionaryLabelIndexElement.class.getName());
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElement.class.getName()));
 
 		Test1VO test1VO1 = new Test1VO();
 		test1VO1.setTextDatatype1("aaa");
 		this.baseVODAO.create(test1VO1);
 
-		Assert.assertEquals(1, this.searchIndexService.getCount(Test1VO.class.getName()));
+		Assert.assertEquals(1, this.searchIndexService.getCount(DictionaryLabelIndexElement.class.getName()));
 
 		Test2VO test2VO1 = new Test2VO();
 		test2VO1.setTextDatatype2("aaa");
 		this.baseVODAO.create(test2VO1);
 
-		Assert.assertEquals(1, this.searchIndexService.getCount(Test1VO.class.getName()));
+		Assert.assertEquals(2, this.searchIndexService.getCount(DictionaryLabelIndexElement.class.getName()));
 	}
 
 	public void baseJacksonTest()

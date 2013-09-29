@@ -33,11 +33,11 @@ import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWT;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
-import de.pellepelster.myadmin.server.services.search.SearchIndexService;
+import de.pellepelster.myadmin.server.services.search.SolrSearchIndexService;
 
 public class DictionaryServiceImpl implements IDictionaryServiceGWT
 {
-	private final static Logger LOG = Logger.getLogger(SearchIndexService.class);
+	private final static Logger LOG = Logger.getLogger(SolrSearchIndexService.class);
 
 	@Autowired
 	private IBaseVODAO baseVODAO;

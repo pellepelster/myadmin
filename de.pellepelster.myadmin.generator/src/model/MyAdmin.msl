@@ -316,6 +316,14 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					reference Module+ ^module
 					simpletype String ^title
 				}		
+
+				entity SearchIndexItem 
+				{
+					simpletype String ^type
+					simpletype String ^text
+				}		
+
+
 			}
 		}
 		
