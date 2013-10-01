@@ -29,7 +29,7 @@ import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
 import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
-import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElement;
+import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;
 
 public class DictionaryMetaDataService implements InitializingBean, ApplicationListener<DictionaryEvent>
 {
@@ -60,7 +60,7 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 				{
 					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getVOsToIndex().get(vo.getClass().getName()))
 					{
-						DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElement.create(dictionaryModel, vo));
+						DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElementFactory.createIndexElement(dictionaryModel, vo));
 					}
 				}
 			}

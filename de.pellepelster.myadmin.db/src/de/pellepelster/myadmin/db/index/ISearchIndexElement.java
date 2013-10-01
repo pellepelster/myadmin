@@ -1,13 +1,6 @@
 package de.pellepelster.myadmin.db.index;
 
-import java.util.Map;
-
-public interface ISearchIndexElement
+public interface ISearchIndexElement extends ISearchIndexElementQuery
 {
-	Map<String, String> getIdFields();
-
-	String getType();
-
 	String getText();
-
 }
