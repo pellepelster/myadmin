@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
+import de.pellepelster.myadmin.server.services.xml.XmlImportExportService;
 
 public class ImportExportService
 {
@@ -31,7 +32,7 @@ public class ImportExportService
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
-	private XmlService xmlService;
+	private XmlImportExportService xmlService;
 
 	public <T extends IBaseVO> String exportVO(Class<T> voClass)
 	{

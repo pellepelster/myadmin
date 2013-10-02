@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionarySearchMobileVO;
-import de.pellepelster.myadmin.server.services.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
 public class MetaDataServiceTest extends BaseMyAdminJndiContextTest

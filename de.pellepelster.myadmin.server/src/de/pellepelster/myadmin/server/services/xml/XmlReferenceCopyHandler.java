@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class XmlReferenceCopyHandler implements IFieldCopyHandler
 		if (xmlVOMapping.isReferenceListWrapper())
 		{
 			Object referenceListWrapper = fieldDescriptor.getSourceValue();
-			List referenceList = XmlService.getFirstList(referenceListWrapper);
+			List referenceList = XmlImportExportService.getFirstList(referenceListWrapper);
 			List targetList = new ArrayList();
 
 			for (Object referenceType : referenceList)

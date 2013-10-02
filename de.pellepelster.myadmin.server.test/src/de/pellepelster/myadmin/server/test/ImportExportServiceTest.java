@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.schema.client.ClientList;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.XmlService;
+import de.pellepelster.myadmin.server.services.xml.XmlImportExportService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
 public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
@@ -39,7 +39,7 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
-	private XmlService xmlService;
+	private XmlImportExportService xmlService;
 
 	@Before
 	public void initTestData()
@@ -56,7 +56,7 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 		this.importExportService = exportService;
 	}
 
-	public void setXmlService(XmlService xmlService)
+	public void setXmlService(XmlImportExportService xmlService)
 	{
 		this.xmlService = xmlService;
 	}
@@ -91,6 +91,10 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
 		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
 		this.baseEntityService.deleteAll(ClientVO.class.getName());
+
+		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(DictionaryVO.class).getGenericFilter()).size());
+		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(DictionaryControlVO.class).getGenericFilter())
+				.size());
 		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter()).size());
 
 		this.importExportService.importVO(clientXml);

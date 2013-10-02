@@ -22,9 +22,6 @@
 	<bean id="importexportservice"
 		class="de.pellepelster.myadmin.server.services.ImportExportService" />
 
-	<bean id="vometadataservice"
-		class="de.pellepelster.myadmin.server.services.VOMetaDataService" />
-
 	<bean id="dictionarymetadataservice"
 		class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
 

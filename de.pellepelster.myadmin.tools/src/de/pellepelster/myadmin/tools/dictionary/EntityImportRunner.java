@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 
 public class EntityImportRunner
 {
@@ -44,14 +44,14 @@ public class EntityImportRunner
 	{
 		int logIdentiation = 0;
 
-		LOGGER.info(String.format("starting entity import from dir '%s'", importDir.getPath()));
+		LOGGER.info(String.format("starting entity import from dir '%s'", this.importDir.getPath()));
 
-		for (Class<? extends IBaseVO> voClass : metaDataService.getVOClasses())
+		for (Class<? extends IBaseVO> voClass : this.metaDataService.getVOClasses())
 		{
 			String xmlFilePrefix = String.format("%s", voClass.getName());
 
 			IOFileFilter xmlFileFilter = FileFilterUtils.prefixFileFilter(xmlFilePrefix);
-			Collection<File> xmlFiles = FileUtils.listFiles(importDir, xmlFileFilter, null);
+			Collection<File> xmlFiles = FileUtils.listFiles(this.importDir, xmlFileFilter, null);
 
 			for (File file : xmlFiles)
 			{
@@ -63,8 +63,7 @@ public class EntityImportRunner
 				{
 					FileInputStream fileInputStream = new FileInputStream(file);
 					xmlString = IOUtils.toString(fileInputStream);
-					importExportService.importVO(xmlString);
-
+					this.importExportService.importVO(xmlString);
 				}
 				catch (Exception e)
 				{

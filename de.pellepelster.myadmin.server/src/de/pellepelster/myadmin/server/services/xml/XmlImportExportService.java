@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,12 +39,14 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.FieldIterator;
 import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOToXmlCopyBean;
 
 @Component
 @SuppressWarnings("rawtypes")
-public class XmlService
+public class XmlImportExportService
 {
-	private final static Logger LOG = Logger.getLogger(XmlService.class);
+	private final static Logger LOG = Logger.getLogger(XmlImportExportService.class);
 
 	public static List<Object> getFirstList(Object xmlListWrapper)
 	{

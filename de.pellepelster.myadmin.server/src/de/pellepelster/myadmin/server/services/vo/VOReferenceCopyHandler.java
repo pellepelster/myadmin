@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.vo;
 
 import java.util.List;
 
@@ -19,6 +19,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
+import de.pellepelster.myadmin.server.services.SimpleVOToXmlCopyBean;
+import de.pellepelster.myadmin.server.services.xml.XmlImportExportService;
 
 public class VOReferenceCopyHandler implements IFieldCopyHandler
 {
@@ -57,7 +59,7 @@ public class VOReferenceCopyHandler implements IFieldCopyHandler
 
 				Object xmlReferenceWrapper = ConstructorUtils.invokeConstructor(xmlReferenceWrapperClass, new Object[0]);
 
-				List targetList = XmlService.getFirstList(xmlReferenceWrapper);
+				List targetList = XmlImportExportService.getFirstList(xmlReferenceWrapper);
 
 				for (IBaseVO vo : sourceList)
 				{

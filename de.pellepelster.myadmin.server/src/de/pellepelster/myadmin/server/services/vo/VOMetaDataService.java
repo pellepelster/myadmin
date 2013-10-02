@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.vo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,12 +27,16 @@ import net.sf.extcos.ComponentScanner;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
+import de.pellepelster.myadmin.server.services.DirectedGraph;
+import de.pellepelster.myadmin.server.services.TopologicalSort;
 
+@Component
 public class VOMetaDataService implements InitializingBean
 {
 	private final static Logger LOG = Logger.getLogger(VOMetaDataService.class);

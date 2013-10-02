@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
 import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;

@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.vo;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import de.pellepelster.myadmin.db.copy.BaseCopyBean;
 import de.pellepelster.myadmin.db.copy.handler.LongToBigIntegerCopyHandler;
 import de.pellepelster.myadmin.db.copy.handler.TypeEqualsCopyHandler;
+import de.pellepelster.myadmin.server.services.SimpleVOToXmlCopyBean;
 
 @Component
 public class VOToXmlCopyBean extends BaseCopyBean implements InitializingBean

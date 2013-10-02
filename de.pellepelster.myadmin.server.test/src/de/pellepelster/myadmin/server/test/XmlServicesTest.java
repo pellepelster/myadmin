@@ -25,14 +25,14 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.schema.client.ClientList;
 import de.pellepelster.myadmin.schema.client.ClientType;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
-import de.pellepelster.myadmin.server.services.XmlService;
+import de.pellepelster.myadmin.server.services.xml.XmlImportExportService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 
 public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 {
 
 	@Autowired
-	private XmlService xmlService;
+	private XmlImportExportService xmlService;
 
 	@Autowired
 	private IBaseEntityService baseEntityService;
@@ -47,7 +47,7 @@ public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 		this.baseEntityService = baseEntityService;
 	}
 
-	public void setXmlService(XmlService xmlService)
+	public void setXmlService(XmlImportExportService xmlService)
 	{
 		this.xmlService = xmlService;
 	}

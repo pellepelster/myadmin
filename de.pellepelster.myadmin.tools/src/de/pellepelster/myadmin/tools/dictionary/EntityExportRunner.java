@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 
 public class EntityExportRunner
 {

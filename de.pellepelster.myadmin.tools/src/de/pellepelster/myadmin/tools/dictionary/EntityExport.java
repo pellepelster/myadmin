@@ -25,7 +25,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
