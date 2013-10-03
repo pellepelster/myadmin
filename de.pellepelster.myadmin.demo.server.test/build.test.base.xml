@@ -65,7 +65,7 @@
 
 				<configuration>
 					<property name="cargo.servlet.port" value="${remote.port}" />
-					
+					<property name="timeout" value="120000" />
 					<property name="cargo.jvmargs" value="@{cargo.jvmargs}" />
 					<property name="cargo.datasource.datasource1" value="cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|cargo.datasource.url=jdbc:derby:derbyDB;create=true|cargo.datasource.jndi=@{jndi.name}|cargo.datasource.username=myadmin|cargo.datasource.password=nonemptypassword" />
 					<deployable type="war" file="@{war.file}" />

@@ -19,12 +19,6 @@
 	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
 		factory-method="getInstance" id="copyBean" />
 
-	<bean id="importexportservice"
-		class="de.pellepelster.myadmin.server.services.ImportExportService" />
-
-	<bean id="dictionarymetadataservice"
-		class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
-
 	<bean id="searchindexservice"
 		class="de.pellepelster.myadmin.server.services.search.SolrSearchIndexService" />
 

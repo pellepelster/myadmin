@@ -9,7 +9,7 @@
 	</appender>
 
 	<root>
-		<priority value="DEBUG"></priority>
+		<priority value="INFO"></priority>
 		<appender-ref ref="stdout"/>
 	</root>
 	

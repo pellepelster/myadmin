@@ -30,7 +30,7 @@
 	
 	<target name="import.testdata" depends="resolve">
 		<taskdef name="entityimport" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.EntityImport" />
-		<dictionaryimporter classpathref="lib.path.id" importDir="${basedir}/testdata" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
+		<entityimport importDir="${basedir}/testdata" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
 	</target>
 	
 	

@@ -8,7 +8,7 @@
 		<conf name="generated.client.mobile" />
 		<conf name="generated.client.base" />
 		<conf name="generated.xml" />
-		<conf name="generated.server" extends="generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
+		<conf name="generated.server" extends="master, generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="runtime.jaxb" />

@@ -24,12 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
+import de.pellepelster.myadmin.demo.client.web.test1.Dictionary1DictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test2VO;
-import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;
+import de.pellepelster.myadmin.server.services.search.DictionarySearchIndexFactory;
 
-public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
-{
+public final class DemoSearchIndexTest extends BaseDemoDictionaryTest {
+
 	@Autowired
 	protected ISearchIndexService searchIndexService;
 
@@ -37,44 +38,43 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 	protected IBaseVODAO baseVODAO;
 
 	@Test
-	public void testDeleteAll()
-	{
+	public void testDeleteAll() {
+
 		Test1VO test1VO1 = new Test1VO();
 		test1VO1.setTextDatatype1("aaa");
 		this.baseVODAO.create(test1VO1);
 
-		Assert.assertTrue(this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.class.getName()) > 0);
+		Assert.assertTrue(this.searchIndexService.getCount(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)) > 0);
 
-		this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.class.getName());
+		this.searchIndexService.deleteAll(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1));
 
-		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.class.getName()));
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
 	}
 
 	@Test
-	public void testGetCount()
-	{
-		this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.class.getName());
-		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.class.getName()));
+	public void testGetCount() {
+
+		this.searchIndexService.deleteAll(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1));
+
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
 
 		Test1VO test1VO1 = new Test1VO();
 		test1VO1.setTextDatatype1("aaa");
 		this.baseVODAO.create(test1VO1);
 
-		Assert.assertEquals(1, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.class.getName()));
+		Assert.assertEquals(1, this.searchIndexService.getCount(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
 
 		Test2VO test2VO1 = new Test2VO();
 		test2VO1.setTextDatatype2("aaa");
 		this.baseVODAO.create(test2VO1);
 
-		Assert.assertEquals(2, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.class.getName()));
+		Assert.assertEquals(1, this.searchIndexService.getCount(DictionarySearchIndexFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
 	}
 
-	public void baseJacksonTest()
-	{
+	public void baseJacksonTest() {
 		SolrServer server = new HttpSolrServer("http://localhost:8380/solr/");
 
-		try
-		{
+		try {
 			// for (int o = 0; o < 100; o++)
 			// {
 			// Collection<SolrInputDocument> docs = new
@@ -98,27 +98,22 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 
 			SolrDocumentList docs = rsp.getResults();
 
-			for (SolrDocument solrDocument : docs)
-			{
+			for (SolrDocument solrDocument : docs) {
 				System.out.println(solrDocument.getFieldValue("id"));
 			}
 
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
 	}
 
 	@Override
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
-	{
+	public void setBaseVODAO(IBaseVODAO baseVODAO) {
 		this.baseVODAO = baseVODAO;
 	}
 
-	public void setSearchIndexService(ISearchIndexService searchIndexService)
-	{
+	public void setSearchIndexService(ISearchIndexService searchIndexService) {
 		this.searchIndexService = searchIndexService;
 	}
 

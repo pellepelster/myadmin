@@ -1,7 +1,6 @@
 package de.pellepelster.myadmin.db.index;
 
-public interface ISearchIndexService
-{
+public interface ISearchIndexService {
 
 	void add(ISearchIndexElement element);
 
@@ -9,8 +8,8 @@ public interface ISearchIndexService
 
 	void update(ISearchIndexElement element);
 
-	void deleteAll(String elementType);
+	void deleteAll(ISearchIndexElementQuery elementQuery);
 
-	long getCount(String elementType);
+	long getCount(ISearchIndexElementQuery elementQuery);
 
 }

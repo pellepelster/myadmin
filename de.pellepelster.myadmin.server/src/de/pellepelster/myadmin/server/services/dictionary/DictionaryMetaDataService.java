@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -29,8 +30,9 @@ import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
 import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
-import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;
+import de.pellepelster.myadmin.server.services.search.DictionarySearchIndexFactory;
 
+@Component
 public class DictionaryMetaDataService implements InitializingBean, ApplicationListener<DictionaryEvent>
 {
 
@@ -60,7 +62,7 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 				{
 					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getVOsToIndex().get(vo.getClass().getName()))
 					{
-						DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElementFactory.createIndexElement(dictionaryModel, vo));
+						DictionaryMetaDataService.this.searchIndexService.add(DictionarySearchIndexFactory.createElement(dictionaryModel, vo));
 					}
 				}
 			}
