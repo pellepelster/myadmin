@@ -5,14 +5,20 @@ import java.util.Map;
 
 public class SearchIndexElementQuery implements ISearchIndexElementQuery
 {
-	private Map<String, String> idFields = new HashMap<String, String>();
-
 	private final String type;
 
-	public SearchIndexElementQuery(String type, Map<String, String> idFields)
+	private String text;
+
+	private Map<String, String> fields = new HashMap<String, String>();
+
+	public SearchIndexElementQuery(String type)
 	{
 		this.type = type;
-		this.idFields.putAll(idFields);
+	}
+
+	public void setText(String text)
+	{
+		this.text = text;
 	}
 
 	@Override
@@ -22,9 +28,15 @@ public class SearchIndexElementQuery implements ISearchIndexElementQuery
 	}
 
 	@Override
-	public Map<String, String> getIdFields()
+	public String getText()
 	{
-		return this.idFields;
+		return this.text;
+	}
+
+	@Override
+	public Map<String, String> getFields()
+	{
+		return this.fields;
 	}
 
 }

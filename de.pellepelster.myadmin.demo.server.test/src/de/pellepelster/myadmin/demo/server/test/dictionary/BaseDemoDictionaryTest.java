@@ -23,6 +23,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
+import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
@@ -38,6 +40,9 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	@Autowired
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
+	@Autowired
+	protected IBaseVODAO baseVODAO;
+
 	public IBaseEntityService getBaseEntityService()
 	{
 		return this.baseEntityService;
@@ -48,8 +53,30 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 		return this.dictionaryService;
 	}
 
+	public void createTest1VO(String text)
+	{
+		Test1VO test1VO1 = new Test1VO();
+		test1VO1.setTextDatatype1(text);
+		this.baseVODAO.create(test1VO1);
+
+	}
+
+	public void createTest1VOs()
+	{
+		String[] texts = new String[] { "achromatize", "achromatized", "achromatizes", "achromatizing", "adonizes", "aerography", "aerologies", "aerology",
+				"aerometer", "aggrandizer", "albumenize", "alchemize", "alchemized", "alchemizes", "alchemizing", "alcoholize", "alcoholized", "alcoholizes",
+				"alcoholizing", "alkalinize", "alkalinized", "alkalinizes", "alkalinizing", "alkalization", "allegorize", "allegorized", "allegorizes",
+				"allegorizing", "aluminize", "aluminized", "aluminizes", "aluminizing", "amebocyte", "amenorrhea", "amenorrheas", "amenorrheic", "amorist",
+				"amorists" };
+
+		for (int i = 0; i < texts.length; i++)
+		{
+			createTest1VO(texts[i]);
+		}
+	}
+
 	@Before
-	public void initData()
+	public void init()
 	{
 
 		PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();

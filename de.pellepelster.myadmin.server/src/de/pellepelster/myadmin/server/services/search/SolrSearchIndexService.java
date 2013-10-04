@@ -2,15 +2,20 @@ package de.pellepelster.myadmin.server.services.search;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.db.index.ISearchIndexElement;
 import de.pellepelster.myadmin.db.index.ISearchIndexElementQuery;
@@ -18,16 +23,7 @@ import de.pellepelster.myadmin.db.index.ISearchIndexService;
 
 public class SolrSearchIndexService implements ISearchIndexService
 {
-
-	static final String SEARCH_INDEX_ID_FIELD_NAME = "id";
-
-	static final String DYNAMIC_STRING_FIELD_POSTFIX = "_s";
-
-	static final String ID_DELIMITER = "#";
-
-	static final String SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME = "type";
-
-	static final String SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME = "text";
+	private Map<String, ISearchIndexElementFactory> searchIndexElementFactories = new HashMap<String, ISearchIndexElementFactory>();
 
 	private final static Logger LOG = Logger.getLogger(SolrSearchIndexService.class);
 
@@ -57,16 +53,7 @@ public class SolrSearchIndexService implements ISearchIndexService
 		{
 			Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
 
-			SolrInputDocument document = new SolrInputDocument();
-
-			document.setField(getDynamicStringFieldName(SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME), indexElement.getType());
-			document.setField(getDynamicStringFieldName(SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME), indexElement.getText());
-			document.setField(SEARCH_INDEX_ID_FIELD_NAME, UUID.randomUUID().toString());
-
-			for (Map.Entry<String, String> idField : indexElement.getIdFields().entrySet())
-			{
-				document.addField(getDynamicStringFieldName(idField.getKey()), idField.getValue());
-			}
+			SolrInputDocument document = getSearchIndexElementFactory(indexElement.getType()).getSolrDocument(indexElement);
 
 			docs.add(document);
 
@@ -94,28 +81,24 @@ public class SolrSearchIndexService implements ISearchIndexService
 
 	}
 
-	private String getDynamicStringFieldName(String fieldName)
-	{
-		return fieldName + DYNAMIC_STRING_FIELD_POSTFIX;
-	}
-
-	private void addDynamicStringField(StringBuilder sb, String fieldName, String fieldValue)
-	{
-		sb.append(String.format("%s:%s", getDynamicStringFieldName(fieldName), fieldValue));
-	}
-
 	private String getQuery(ISearchIndexElementQuery elementQuery)
 	{
 
 		StringBuilder sb = new StringBuilder();
 
-		addDynamicStringField(sb, SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, elementQuery.getType());
+		SolrUtils.addDynamicStringField(sb, ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, elementQuery.getType());
 
 		sb.append(" AND ");
 
-		for (Map.Entry<String, String> idFieldEntry : elementQuery.getIdFields().entrySet())
+		for (Map.Entry<String, String> idFieldEntry : elementQuery.getFields().entrySet())
 		{
-			addDynamicStringField(sb, idFieldEntry.getKey(), idFieldEntry.getValue());
+			SolrUtils.addDynamicStringField(sb, idFieldEntry.getKey(), idFieldEntry.getValue());
+		}
+
+		if (!StringUtils.isEmpty(elementQuery.getText()))
+		{
+			sb.append(" AND ");
+			SolrUtils.addDynamicStringField(sb, ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, "*" + elementQuery.getText() + "*");
 		}
 
 		return sb.toString();
@@ -127,7 +110,6 @@ public class SolrSearchIndexService implements ISearchIndexService
 
 		try
 		{
-
 			String deleteQuery = getQuery(elementQuery);
 			LOG.debug(String.format("deleting all search elements for query '%s'", deleteQuery));
 
@@ -157,6 +139,65 @@ public class SolrSearchIndexService implements ISearchIndexService
 		catch (Exception e)
 		{
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<ISearchIndexElement> search(ISearchIndexElementQuery elementQuery)
+	{
+		List<ISearchIndexElement> results = new ArrayList<ISearchIndexElement>();
+
+		String searchQuery = getQuery(elementQuery);
+		LOG.debug(String.format("searchelements with query '%s'", searchQuery));
+
+		QueryResponse rsp = null;
+
+		try
+		{
+
+			SolrQuery query = new SolrQuery(searchQuery);
+			rsp = this.server.query(query);
+		}
+
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+
+		for (SolrDocument solrDocument : rsp.getResults())
+		{
+			ISearchIndexElement searchIndexElement = getSearchIndexElementFactory(solrDocument).getSearchIndexElement(solrDocument);
+			results.add(searchIndexElement);
+		}
+
+		return results;
+	}
+
+	private ISearchIndexElementFactory getSearchIndexElementFactory(SolrDocument solrDocument)
+	{
+		return getSearchIndexElementFactory(Objects.toString(solrDocument.getFieldValue(ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME)));
+	}
+
+	private ISearchIndexElementFactory getSearchIndexElementFactory(String elementType)
+	{
+		ISearchIndexElementFactory searchIndexElementFactory = this.searchIndexElementFactories.get(elementType);
+
+		if (searchIndexElementFactory != null)
+		{
+			return searchIndexElementFactory;
+		}
+		else
+		{
+			throw new RuntimeException(String.format("unknown element type '%s'", elementType));
+		}
+	}
+
+	@Autowired
+	public void setSearchIndexElementFactories(List<ISearchIndexElementFactory> searchIndexElementFactories)
+	{
+		for (ISearchIndexElementFactory searchIndexElementFactory : searchIndexElementFactories)
+		{
+			this.searchIndexElementFactories.put(searchIndexElementFactory.getType(), searchIndexElementFactory);
 		}
 	}
 

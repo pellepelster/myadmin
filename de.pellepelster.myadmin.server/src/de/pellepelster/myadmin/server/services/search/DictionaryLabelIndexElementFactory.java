@@ -1,9 +1,14 @@
 package de.pellepelster.myadmin.server.services.search;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
+import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.db.index.ISearchIndexElement;
@@ -11,33 +16,77 @@ import de.pellepelster.myadmin.db.index.ISearchIndexElementQuery;
 import de.pellepelster.myadmin.db.index.SearchIndexElement;
 import de.pellepelster.myadmin.db.index.SearchIndexElementQuery;
 
-public class DictionaryLabelIndexElementFactory
+@Component
+public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFactory
 {
-	private static final String DICTIONARY_NAME_FIELD_NAME = "dictionaryName";
 
-	private static final String SEARCH_INDEX_ELEMENT_TYPE = "dictionaryLabel";
+	public static final String SEARCH_INDEX_ELEMENT_TYPE = "dictionaryLabel";
 
-	private DictionaryLabelIndexElementFactory()
+	public static final String DICTIONARY_NAME_FIELD_NAME = "dictionaryName";
+
+	public static final String VO_CLASS_NAME_FIELD_NAME = "voClassName";
+
+	public static final String VO_ID_FIELD_NAME = "voId";
+
+	public static ISearchIndexElementQuery createElementQuery(IDictionaryDescriptor dictionary)
 	{
+		SearchIndexElementQuery indexElementQuery = new SearchIndexElementQuery(SEARCH_INDEX_ELEMENT_TYPE);
+		indexElementQuery.getFields().put(DICTIONARY_NAME_FIELD_NAME, dictionary.getId());
+
+		return indexElementQuery;
 	}
 
-	public static Map<String, String> getIdFields(String dictionaryName)
+	public static ISearchIndexElement createElement(IDictionaryModel dictionaryModel, IBaseVO vo)
 	{
-		Map<String, String> idFields = new HashMap<String, String>();
-		idFields.put(DICTIONARY_NAME_FIELD_NAME, dictionaryName);
+		SearchIndexElement indexElement = new SearchIndexElement(SEARCH_INDEX_ELEMENT_TYPE);
 
-		return idFields;
+		indexElement.setText(DictionaryUtil.getLabel(dictionaryModel.getLabelControls(), vo));
+
+		indexElement.getFields().put(DICTIONARY_NAME_FIELD_NAME, dictionaryModel.getName());
+		indexElement.getFields().put(VO_CLASS_NAME_FIELD_NAME, vo.getClass().getName());
+		indexElement.getFields().put(VO_ID_FIELD_NAME, Long.toString(vo.getId()));
+
+		return indexElement;
 	}
 
-	public static ISearchIndexElement createIndexElement(IDictionaryModel dictionaryModel, IBaseVO vo)
+	@Override
+	public String getType()
 	{
-		return new SearchIndexElement(SEARCH_INDEX_ELEMENT_TYPE, getIdFields(dictionaryModel.getName()), DictionaryUtil.getLabel(
-				dictionaryModel.getLabelControls(), vo));
+		return SEARCH_INDEX_ELEMENT_TYPE;
 	}
 
-	public static ISearchIndexElementQuery createIndexElementQuery(IDictionaryModel dictionaryModel, IBaseVO vo)
+	@Override
+	public ISearchIndexElement getSearchIndexElement(SolrDocument solrDocument)
 	{
-		return new SearchIndexElementQuery(SEARCH_INDEX_ELEMENT_TYPE, getIdFields(dictionaryModel.getName()));
+		SearchIndexElement indexElement = new SearchIndexElement(SEARCH_INDEX_ELEMENT_TYPE);
+
+		// document.setField(SEARCH_INDEX_ID_FIELD_NAME,
+		// UUID.randomUUID().toString());
+
+		indexElement.setText(SolrUtils.getDynamicStringField(solrDocument, ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME));
+
+		SolrUtils.setDynamicStringField(indexElement, solrDocument, DICTIONARY_NAME_FIELD_NAME);
+		SolrUtils.setDynamicStringField(indexElement, solrDocument, VO_CLASS_NAME_FIELD_NAME);
+		SolrUtils.setDynamicStringField(indexElement, solrDocument, VO_ID_FIELD_NAME);
+
+		return indexElement;
 	}
 
+	@Override
+	public SolrInputDocument getSolrDocument(ISearchIndexElement indexElement)
+	{
+		SolrInputDocument document = new SolrInputDocument();
+
+		document.setField(SEARCH_INDEX_ID_FIELD_NAME, UUID.randomUUID().toString());
+
+		document.setField(SolrUtils.getDynamicStringFieldName(SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME), indexElement.getType());
+		document.setField(SolrUtils.getDynamicStringFieldName(SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME), indexElement.getText());
+
+		for (Map.Entry<String, String> idField : indexElement.getFields().entrySet())
+		{
+			document.addField(SolrUtils.getDynamicStringFieldName(idField.getKey()), idField.getValue());
+		}
+
+		return document;
+	}
 }
