@@ -29,22 +29,6 @@ public class SolrSearchIndexService implements ISearchIndexService
 
 	private SolrServer server = new HttpSolrServer("http://localhost:8380/solr/");
 
-	// private String getLabelText(IBaseVO baseVO)
-	// {
-	// if (hasIndexAttributes(baseVO))
-	// {
-	// // String labelText
-	// }
-	//
-	// return null;
-	// }
-	//
-	// private boolean hasIndexAttributes(IBaseVO baseVO)
-	// {
-	// return
-	// this.dictionaryLabelIndexAttributes.containsKey(baseVO.getClass().getName());
-	// }
-
 	@Override
 	public void add(ISearchIndexElement indexElement)
 	{
@@ -68,13 +52,6 @@ public class SolrSearchIndexService implements ISearchIndexService
 	}
 
 	@Override
-	public void delete(ISearchIndexElement indexElement)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update(ISearchIndexElement baseVO)
 	{
 		// TODO Auto-generated method stub
@@ -88,10 +65,9 @@ public class SolrSearchIndexService implements ISearchIndexService
 
 		SolrUtils.addDynamicStringField(sb, ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TYPE_FIELD_NAME, elementQuery.getType());
 
-		sb.append(" AND ");
-
 		for (Map.Entry<String, String> idFieldEntry : elementQuery.getFields().entrySet())
 		{
+			sb.append(" AND ");
 			SolrUtils.addDynamicStringField(sb, idFieldEntry.getKey(), idFieldEntry.getValue());
 		}
 
@@ -105,9 +81,14 @@ public class SolrSearchIndexService implements ISearchIndexService
 	}
 
 	@Override
+	public void delete(ISearchIndexElementQuery elementQuery)
+	{
+		deleteAll(elementQuery);
+	}
+
+	@Override
 	public void deleteAll(ISearchIndexElementQuery elementQuery)
 	{
-
 		try
 		{
 			String deleteQuery = getQuery(elementQuery);

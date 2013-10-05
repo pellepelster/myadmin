@@ -7,7 +7,7 @@ public interface ISearchIndexService
 
 	void add(ISearchIndexElement element);
 
-	void delete(ISearchIndexElement element);
+	void delete(ISearchIndexElementQuery elementQuery);
 
 	void update(ISearchIndexElement element);
 

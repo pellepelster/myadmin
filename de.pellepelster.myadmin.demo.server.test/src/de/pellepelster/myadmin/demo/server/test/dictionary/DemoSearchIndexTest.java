@@ -41,22 +41,52 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 	@Test
 	public void testDeleteAll()
 	{
+		this.baseVODAO.deleteAll(Test1VO.class);
+
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(0, this.baseVODAO.getCount(Test1VO.class));
 
 		Test1VO test1VO1 = new Test1VO();
 		test1VO1.setTextDatatype1("aaa");
 		this.baseVODAO.create(test1VO1);
 
-		Assert.assertTrue(this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)) > 0);
+		Assert.assertEquals(1, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(1, this.baseVODAO.getCount(Test1VO.class));
 
-		this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1));
+		this.baseVODAO.deleteAll(Test1VO.class);
 
 		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(0, this.baseVODAO.getCount(Test1VO.class));
+	}
+
+	@Test
+	public void testDelete()
+	{
+		this.baseVODAO.deleteAll(Test1VO.class);
+
+		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(0, this.baseVODAO.getCount(Test1VO.class));
+
+		Test1VO test1VO1 = new Test1VO();
+		test1VO1.setTextDatatype1("aaa");
+		test1VO1 = this.baseVODAO.create(test1VO1);
+
+		Test1VO test1VO2 = new Test1VO();
+		test1VO2.setTextDatatype1("bbb");
+		test1VO2 = this.baseVODAO.create(test1VO2);
+
+		Assert.assertEquals(2, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(2, this.baseVODAO.getCount(Test1VO.class));
+
+		this.baseVODAO.delete(test1VO1);
+
+		Assert.assertEquals(1, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));
+		Assert.assertEquals(1, this.baseVODAO.getCount(Test1VO.class));
 	}
 
 	@Test
 	public void testGetCount()
 	{
-
 		this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1));
 
 		Assert.assertEquals(0, this.searchIndexService.getCount(DictionaryLabelIndexElementFactory.createElementQuery(Dictionary1DictionaryIDs.DICTIONARY1)));

@@ -66,14 +66,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations);
 	}
 
-	private <T extends IBaseVO> void callOnAdd(T vo)
-	{
-		for (IVODAOCallback voDAOCallback : this.voDAOCallbacks)
-		{
-			voDAOCallback.onAdd(vo);
-		}
-	}
-
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -82,9 +74,9 @@ public class BaseVODAOImpl implements IBaseVODAO
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
 		IBaseEntity res = this.baseDAO.create(entity);
 
-		callOnAdd(vo);
-
 		T result = (T) convertEntiyToVO(res, null);
+
+		callOnAdd(result);
 
 		return result;
 	}
@@ -108,6 +100,8 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 		this.baseDAO.delete(entity);
 
+		callOnDelete(vo);
+
 	}
 
 	/** {@inheritDoc} */
@@ -117,6 +111,8 @@ public class BaseVODAOImpl implements IBaseVODAO
 	{
 		Class<? extends IBaseEntity> entityClass = (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
 		this.baseDAO.deleteAll(entityClass);
+
+		callOnDeleteAll(voClass);
 	}
 
 	/** {@inheritDoc} */
@@ -248,6 +244,30 @@ public class BaseVODAOImpl implements IBaseVODAO
 	public List<IVODAOCallback> getVODAOCallbacks()
 	{
 		return this.voDAOCallbacks;
+	}
+
+	private <T extends IBaseVO> void callOnAdd(T vo)
+	{
+		for (IVODAOCallback voDAOCallback : this.voDAOCallbacks)
+		{
+			voDAOCallback.onAdd(vo);
+		}
+	}
+
+	private <T extends IBaseVO> void callOnDelete(T vo)
+	{
+		for (IVODAOCallback voDAOCallback : this.voDAOCallbacks)
+		{
+			voDAOCallback.onDelete(vo);
+		}
+	}
+
+	private void callOnDeleteAll(Class<? extends IBaseVO> voClass)
+	{
+		for (IVODAOCallback voDAOCallback : this.voDAOCallbacks)
+		{
+			voDAOCallback.onDeleteAll(voClass);
+		}
 	}
 
 }

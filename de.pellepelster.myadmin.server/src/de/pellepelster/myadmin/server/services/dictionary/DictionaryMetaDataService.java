@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.server.services.dictionary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 
 	private final static Logger LOG = Logger.getLogger(DictionaryMetaDataService.class);
 
-	private Map<String, List<IDictionaryModel>> vosToDictionaryModels;
+	private Map<Class<? extends IBaseVO>, List<IDictionaryModel>> vosToDictionaryModels;
 
 	@Autowired
 	private IDictionaryService dictionaryService;
@@ -58,26 +59,30 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 			@Override
 			public <VOType extends IBaseVO> void onAdd(VOType vo)
 			{
-				if (doIndexVO(vo))
+				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
 				{
-					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getVOsToIndex().get(vo.getClass().getName()))
-					{
-						DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElementFactory.createElement(dictionaryModel, vo));
-					}
+					DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElementFactory.createElement(dictionaryModel, vo));
+				}
+			}
+
+			@Override
+			public void onDeleteAll(Class<? extends IBaseVO> voClass)
+			{
+				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(voClass))
+				{
+					DictionaryMetaDataService.this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel));
+				}
+			}
+
+			@Override
+			public <T extends IBaseVO> void onDelete(T vo)
+			{
+				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
+				{
+					DictionaryMetaDataService.this.searchIndexService.delete(DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel, vo));
 				}
 			}
 		});
-	}
-
-	private boolean doIndexVO(IBaseVO vo)
-	{
-		return DictionaryMetaDataService.this.searchIndexService != null && isIndexVO(vo);
-	}
-
-	private boolean isIndexVO(IBaseVO vo)
-	{
-		return vo != null && !vo.getClass().getName().startsWith(Dictionary.class.getName()) && this.getVOsToIndex().containsKey(vo.getClass().getName())
-				&& !this.getVOsToIndex().get(vo.getClass().getName()).isEmpty();
 	}
 
 	public void setDictionaryService(IDictionaryService dictionaryService)
@@ -90,27 +95,51 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 		this.searchIndexService = searchIndexService;
 	}
 
-	public Map<String, List<IDictionaryModel>> getVOsToIndex()
+	public List<IDictionaryModel> getModelsForVO(IBaseVO vo)
+	{
+		return getModelsForVO(vo.getClass());
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<IDictionaryModel> getModelsForVO(Class<? extends IBaseVO> voClass)
 	{
 
 		if (this.vosToDictionaryModels == null)
 		{
-
-			this.vosToDictionaryModels = new HashMap<String, List<IDictionaryModel>>();
+			this.vosToDictionaryModels = new HashMap<Class<? extends IBaseVO>, List<IDictionaryModel>>();
 
 			for (IDictionaryModel dictionaryModel : this.dictionaryService.getAllDictionaries())
 			{
-				if (!this.vosToDictionaryModels.containsKey(dictionaryModel.getVOName()))
+				Class<?> tmpVoClass = null;
+				try
 				{
-					this.vosToDictionaryModels.put(dictionaryModel.getVOName(), new ArrayList<IDictionaryModel>());
+					tmpVoClass = Class.forName(dictionaryModel.getVOName());
+				}
+				catch (Exception e)
+				{
+					throw new RuntimeException(e);
 				}
 
-				this.vosToDictionaryModels.get(dictionaryModel.getVOName()).add(dictionaryModel);
+				if (!this.vosToDictionaryModels.containsKey(dictionaryModel.getVOName()))
+				{
+					this.vosToDictionaryModels.put((Class<? extends IBaseVO>) tmpVoClass, new ArrayList<IDictionaryModel>());
+				}
+
+				this.vosToDictionaryModels.get(tmpVoClass).add(dictionaryModel);
 			}
 
 		}
 
-		return this.vosToDictionaryModels;
+		if (DictionaryMetaDataService.this.searchIndexService != null && !voClass.getName().startsWith(Dictionary.class.getName())
+				&& this.vosToDictionaryModels.containsKey(voClass))
+		{
+			return this.vosToDictionaryModels.get(voClass);
+		}
+		else
+		{
+			return Collections.EMPTY_LIST;
+		}
+
 	}
 
 	@Override

@@ -28,12 +28,33 @@ public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFa
 
 	public static final String VO_ID_FIELD_NAME = "voId";
 
-	public static ISearchIndexElementQuery createElementQuery(IDictionaryDescriptor dictionary)
+	public static ISearchIndexElementQuery createElementQuery(String dictionaryName, IBaseVO vo)
 	{
 		SearchIndexElementQuery indexElementQuery = new SearchIndexElementQuery(SEARCH_INDEX_ELEMENT_TYPE);
-		indexElementQuery.getFields().put(DICTIONARY_NAME_FIELD_NAME, dictionary.getId());
+		indexElementQuery.getFields().put(DICTIONARY_NAME_FIELD_NAME, dictionaryName);
+
+		if (vo != null)
+		{
+			indexElementQuery.getFields().put(VO_CLASS_NAME_FIELD_NAME, vo.getClass().getName());
+			indexElementQuery.getFields().put(VO_ID_FIELD_NAME, Long.toString(vo.getId()));
+		}
 
 		return indexElementQuery;
+	}
+
+	public static ISearchIndexElementQuery createElementQuery(IDictionaryDescriptor dictionaryDescriptor)
+	{
+		return createElementQuery(dictionaryDescriptor.getId(), null);
+	}
+
+	public static ISearchIndexElementQuery createElementQuery(IDictionaryModel dictionaryModel)
+	{
+		return createElementQuery(dictionaryModel.getName(), null);
+	}
+
+	public static ISearchIndexElementQuery createElementQuery(IDictionaryModel dictionaryModel, IBaseVO vo)
+	{
+		return createElementQuery(dictionaryModel.getName(), vo);
 	}
 
 	public static ISearchIndexElement createElement(IDictionaryModel dictionaryModel, IBaseVO vo)
@@ -89,4 +110,5 @@ public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFa
 
 		return document;
 	}
+
 }
