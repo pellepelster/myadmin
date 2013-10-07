@@ -23,6 +23,8 @@
 
 		<dependency name="client-web-test" rev="latest.integration" conf="*->@,sources" />
 
+		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.1"  />
+
  	</dependencies>
 
 </ivy-module>

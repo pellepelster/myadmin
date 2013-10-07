@@ -29,12 +29,16 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierarchicalNodeVO>
 {
 	private HierarchicalConfiguration hierarchicalConfiguration;
+
 	private DictionaryHierarchicalNodeVO hierarchicalNode;
 
-	public HierarchicalDataProvider(HierarchicalConfiguration hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode)
+	private boolean showAddNodes;
+
+	public HierarchicalDataProvider(HierarchicalConfiguration hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode, boolean showAddNodes)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
 		this.hierarchicalNode = hierarchicalNode;
+		this.showAddNodes = showAddNodes;
 	}
 
 	@Override
@@ -54,31 +58,37 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 			parentId = hierarchicalNode.getVoId();
 			parentClassname = hierarchicalNode.getVoClassName();
 
-			for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
+			if (showAddNodes)
 			{
-				if (entry.getValue().contains(hierarchicalNode.getDictionaryName()))
+				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
 				{
-					DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
-					addHierarchicalNode.setDictionaryName(entry.getKey());
-					addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
-					addHierarchicalNode.setHasChildren(false);
-					addHierarchicalNode.setParentClassName(parentClassname);
-					addHierarchicalNode.setParentVOId(parentId);
-					addNodes.add(addHierarchicalNode);
+					if (entry.getValue().contains(hierarchicalNode.getDictionaryName()))
+					{
+						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
+						addHierarchicalNode.setDictionaryName(entry.getKey());
+						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
+						addHierarchicalNode.setHasChildren(false);
+						addHierarchicalNode.setParentClassName(parentClassname);
+						addHierarchicalNode.setParentVOId(parentId);
+						addNodes.add(addHierarchicalNode);
+					}
 				}
 			}
 		}
 		else
 		{
-			for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
+			if (showAddNodes)
 			{
-				if (entry.getValue().size() == 1 && entry.getValue().get(0) == null)
+				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
 				{
-					DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
-					addHierarchicalNode.setDictionaryName(entry.getKey());
-					addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
-					addHierarchicalNode.setHasChildren(false);
-					addNodes.add(addHierarchicalNode);
+					if (entry.getValue().size() == 1 && entry.getValue().get(0) == null)
+					{
+						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
+						addHierarchicalNode.setDictionaryName(entry.getKey());
+						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
+						addHierarchicalNode.setHasChildren(false);
+						addNodes.add(addHierarchicalNode);
+					}
 				}
 			}
 		}

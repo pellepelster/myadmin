@@ -11,6 +11,13 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			simpletype String logText
 		}
 
+		entity DictionaryLabelSearchIndex {
+			simpletype String dictionaryName
+			simpletype String voClassName
+			simpletype Long voId
+			simpletype String ^text
+		}
+
 		remoteservice SystemService {
 	
 			remotemethod getSystemInformation returns simplevotype Systeminformation  {

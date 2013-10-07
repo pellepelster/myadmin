@@ -13,9 +13,10 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
@@ -25,47 +26,59 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.gwt.ui.RollOverActionImage;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class HierarchicalControl extends Composite implements IControl<Widget>
+public class HierarchicalControl extends Anchor implements IControl<Widget>
 {
-	private final IHierarchicalControlModel hierachicalControlModel;
+	private final IHierarchicalControlModel hierarchicalControlModel;
 
 	private final ControlHelper gwtControlHelper;
 
 	private IHierarchicalVO hierarchicalVO;
 
-	private Anchor anchor;
-
-	public HierarchicalControl(IHierarchicalControlModel hierachicalControlModel)
+	public HierarchicalControl(final IHierarchicalControlModel hierarchicalControlModel)
 	{
-		FlowPanel panel = new FlowPanel();
+		this.hierarchicalControlModel = hierarchicalControlModel;
+		gwtControlHelper = new ControlHelper(this, hierarchicalControlModel, true, String.class);
 
-		initWidget(panel);
-
-		// anchor
-		anchor = new Anchor();
-		panel.add(anchor);
-
-		// actio image
-		RollOverActionImage rollOverActionImage = new RollOverActionImage(MyAdmin.getInstance().RESOURCES.more(), new SimpleCallback<Void>()
+		addClickHandler(new ClickHandler()
 		{
-
 			@Override
-			public void onCallback(Void t)
+			public void onClick(ClickEvent event)
 			{
+				HierarchicalVOSelectionPopup.create(hierarchicalControlModel, new AsyncCallback<HierarchicalVOSelectionPopup>()
+				{
+
+					@Override
+					public void onSuccess(HierarchicalVOSelectionPopup result)
+					{
+						result.setVoSelectHandler(new IVOSelectHandler<IHierarchicalVO>()
+						{
+
+							@Override
+							public void onSingleSelect(IHierarchicalVO vo)
+							{
+
+							}
+						});
+
+						result.show();
+					}
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						throw new RuntimeException(caught);
+					}
+				});
 			}
 		});
-		panel.add(rollOverActionImage);
 
-		this.hierachicalControlModel = hierachicalControlModel;
-		gwtControlHelper = new ControlHelper(anchor, hierachicalControlModel, true, String.class);
-
-		ensureDebugId(DictionaryModelUtil.getDebugId(hierachicalControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(hierarchicalControlModel));
 	}
 
 	/** {@inheritDoc} */
@@ -93,7 +106,7 @@ public class HierarchicalControl extends Composite implements IControl<Widget>
 	@Override
 	public IBaseControlModel getModel()
 	{
-		return hierachicalControlModel;
+		return hierarchicalControlModel;
 	}
 
 	/** {@inheritDoc} */
@@ -134,7 +147,7 @@ public class HierarchicalControl extends Composite implements IControl<Widget>
 					defaultLabel = hierarchicalVO.toString();
 				}
 
-				anchor.setText(DictionaryUtil.getLabel(hierachicalControlModel, hierarchicalVO, defaultLabel));
+				setText(DictionaryUtil.getLabel(hierarchicalControlModel, hierarchicalVO, defaultLabel));
 			}
 			else
 			{
@@ -144,7 +157,7 @@ public class HierarchicalControl extends Composite implements IControl<Widget>
 		else
 		{
 			hierarchicalVO = null;
-			anchor.setText(MyAdmin.MESSAGES.hierarchicalNone());
+			setText(MyAdmin.MESSAGES.hierarchicalNone());
 		}
 	}
 
@@ -152,7 +165,7 @@ public class HierarchicalControl extends Composite implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages, hierachicalControlModel);
+		gwtControlHelper.setValidationMessages(validationMessages, hierarchicalControlModel);
 	}
 
 }

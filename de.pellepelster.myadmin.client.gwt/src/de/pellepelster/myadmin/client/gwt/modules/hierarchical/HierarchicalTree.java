@@ -16,18 +16,18 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalTree extends VerticalPanel
 {
-	private HierarchicalConfiguration hierarchicalConfiguration;
 
-	public HierarchicalTree(HierarchicalConfiguration hierarchicalConfiguration)
+	public HierarchicalTree(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
+			SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler)
 	{
-		this.hierarchicalConfiguration = hierarchicalConfiguration;
-
 		CellTree.Resources treeResources = GWT.create(CellTree.BasicResources.class);
 
-		HierarchicalTreeModel hierarchicalTreeModel = new HierarchicalTreeModel(hierarchicalConfiguration);
+		HierarchicalTreeModel hierarchicalTreeModel = new HierarchicalTreeModel(hierarchicalConfiguration, showAddnodes, nodeActivatedHandler);
 		CellTree cellTree = new CellTree(hierarchicalTreeModel, null, treeResources);
 		add(cellTree);
 	}

@@ -20,7 +20,7 @@ public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
 
 	private DialogBox dialogBox;
 
-	private final IVOSelectHandler<VOType> voSelectHandler;
+	private IVOSelectHandler<VOType> voSelectHandler;
 
 	protected BaseVOSelectionPopup(String message, final IVOSelectHandler<VOType> voSelectHandler)
 	{
@@ -97,6 +97,11 @@ public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
 
 		createOkButton(buttonPanel);
 		createCancelButton(buttonPanel);
+	}
+
+	public void setVoSelectHandler(IVOSelectHandler<VOType> voSelectHandler)
+	{
+		this.voSelectHandler = voSelectHandler;
 	}
 
 	protected abstract VOType getCurrentSelection();

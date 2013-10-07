@@ -1,87 +1,130 @@
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
+import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTree;
+import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class HierarchicalVOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPopup<VOType>
+public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarchicalVO>
 {
-	private final String voClassName;
+	private HierarchicalTree hierarchicalTree;
 
-	private VOTable<VOType> voTable;
+	private HierarchicalConfiguration hierarchicalConfiguration;
 
-	private IHierarchicalControlModel hierarchicalControlModel;
-
-	private HierarchicalVOSelectionPopup(String voClassName, String message, IHierarchicalControlModel hierarchicalControlModel,
-			final IVOSelectHandler<VOType> voSelectHandler)
+	private HierarchicalVOSelectionPopup(HierarchicalConfiguration hierarchicalConfiguration, IHierarchicalControlModel hierarchicalControlModel)
 	{
-		super(message, voSelectHandler);
+		super("<none>", null);
 
-		this.voClassName = voClassName;
-		this.hierarchicalControlModel = hierarchicalControlModel;
+		this.hierarchicalConfiguration = hierarchicalConfiguration;
 	}
 
-	public static <VOType extends IBaseVO> HierarchicalVOSelectionPopup<VOType> create(IHierarchicalControlModel hierarchicalControlModel,
-			IVOSelectHandler<VOType> voSelectHandler)
+	public static void create(final IHierarchicalControlModel hierarchicalControlModel, final AsyncCallback<HierarchicalVOSelectionPopup> asyncCallback)
 	{
-		return null; // new
-						// HierarchicalVOSelectionPopup<VOType>(dictionaryModel.getTitle(),
-						// hierarchicalControlModel, voSelectHandler);
+		MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService()
+				.getConfigurationById(hierarchicalControlModel.getHierarchicalId(), new AsyncCallback<HierarchicalConfiguration>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						asyncCallback.onFailure(caught);
+					}
+
+					@Override
+					public void onSuccess(HierarchicalConfiguration result)
+					{
+						asyncCallback.onSuccess(new HierarchicalVOSelectionPopup(result, hierarchicalControlModel));
+					}
+				});
+
 	}
 
 	@Override
 	protected Widget createDialogBoxContent()
 	{
-		// vo table
-		// voTable = new VOTable<VOType>(baseControlModels);
+		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
+		scrollPanel.setWidth("100%");
 
-		voTable.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
-		voTable.setWidth("100%");
-		voTable.addVOSelectHandler(new IVOSelectHandler<VOType>()
+		hierarchicalTree = new HierarchicalTree(hierarchicalConfiguration, false, new SimpleCallback<DictionaryHierarchicalNodeVO>()
 		{
+
 			@Override
-			public void onSingleSelect(VOType vo)
+			public void onCallback(DictionaryHierarchicalNodeVO t)
 			{
-				closeDialogWithSelection(vo);
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().read(t.getVoId(), t.getVoClassName(), new AsyncCallback<IBaseVO>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						throw new RuntimeException(caught);
+					}
+
+					@Override
+					public void onSuccess(IBaseVO result)
+					{
+						if (result instanceof IHierarchicalVO)
+						{
+							closeDialogWithSelection((IHierarchicalVO) result);
+						}
+						else
+						{
+							throw new RuntimeException("unsupported vo type '" + result.getClass().getName() + "'");
+						}
+					}
+				});
+
 			}
 		});
 
-		return voTable;
+		hierarchicalTree.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
+		hierarchicalTree.setWidth("100%");
+		scrollPanel.add(hierarchicalTree);
+
+		return scrollPanel;
 	}
 
-	public void show()
-	{
-		// if (dialogBox == null)
-		// {
-		// MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService()
-		// .getConfigurationById(hierarchicalControlModel.getHierarchicalId(),
-		// new AsyncCallback<HierarchicalConfiguration>()
-		// {
-		//
-		// @Override
-		// public void onFailure(Throwable caught)
-		// {
-		// throw new RuntimeException(caught);
-		// }
-		//
-		// @Override
-		// public void onSuccess(HierarchicalConfiguration result)
-		// {
-		// initDialogBox();
-		// }
-		// });
-		// }
-		//
-		// dialogBox.show();
-	}
+	// public void show()
+	// {
+	// // if (dialogBox == null)
+	// // {
+	// //
+	// MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService()
+	// // .getConfigurationById(hierarchicalControlModel.getHierarchicalId(),
+	// // new AsyncCallback<HierarchicalConfiguration>()
+	// // {
+	// //
+	// // @Override
+	// // public void onFailure(Throwable caught)
+	// // {
+	// // throw new RuntimeException(caught);
+	// // }
+	// //
+	// // @Override
+	// // public void onSuccess(HierarchicalConfiguration result)
+	// // {
+	// // initDialogBox();
+	// // }
+	// // });
+	// // }
+	// //
+	//
+	// }
 
 	@Override
-	protected VOType getCurrentSelection()
+	protected IHierarchicalVO getCurrentSelection()
 	{
-		return voTable.getCurrentSelection();
+		return null; // voTable.getCurrentSelection();
 	}
 
 }

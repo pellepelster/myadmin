@@ -24,13 +24,12 @@ import com.google.gwt.view.client.TreeViewModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
-import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalNodeInfo.HierarchicalNodeCallback;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalTreeModel implements TreeViewModel
 {
@@ -47,9 +46,13 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 	private final static String ROOT_DATAPROVIDER_KEY = "root";
 
-	public HierarchicalTreeModel(HierarchicalConfiguration hierarchicalConfiguration)
+	private final boolean showAddnodes;
+
+	public HierarchicalTreeModel(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
+			final SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
+		this.showAddnodes = showAddnodes;
 
 		MyAdmin.EVENT_BUS.addHandler(VOSavedEvent.TYPE, new VOEventHandler()
 		{
@@ -73,29 +76,15 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 		selectionModel.addSelectionChangeHandler(new Handler()
 		{
-
 			/** {@inheritDoc} */
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event)
 			{
-				if (selectionModel.getSelectedObject() != null)
+				if (nodeActivatedHandler != null && selectionModel.getSelectedObject() != null)
 				{
 					DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO = selectionModel.getSelectedObject();
-
-					if (dictionaryHierarchicalNodeVO.getVoId() == null)
-					{
-						HashMap<String, Object> parameters = CollectionUtils.getMap(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName(),
-								dictionaryHierarchicalNodeVO.getParentClassName(), IHierarchicalVO.FIELD_PARENT_ID.getAttributeName(),
-								dictionaryHierarchicalNodeVO.getParentVOId());
-
-						DictionaryEditorModuleFactory.openEditor(dictionaryHierarchicalNodeVO.getDictionaryName(), parameters);
-					}
-					else
-					{
-						DictionaryEditorModuleFactory.openEditorForId(dictionaryHierarchicalNodeVO.getDictionaryName(), dictionaryHierarchicalNodeVO.getVoId());
-					}
+					nodeActivatedHandler.onCallback(dictionaryHierarchicalNodeVO);
 				}
-
 			}
 		});
 
@@ -137,13 +126,12 @@ public class HierarchicalTreeModel implements TreeViewModel
 		if (value == null || value instanceof DictionaryHierarchicalNodeVO)
 		{
 			final DictionaryHierarchicalNodeVO hierarchicalNodeVO = (DictionaryHierarchicalNodeVO) value;
-			HierarchicalDataProvider dataProvider = new HierarchicalDataProvider(hierarchicalConfiguration, hierarchicalNodeVO);
+			HierarchicalDataProvider dataProvider = new HierarchicalDataProvider(hierarchicalConfiguration, hierarchicalNodeVO, showAddnodes);
 			dataProvider.addDataDisplay(cellList);
 			dataProviders.put(getKey(hierarchicalNodeVO), dataProvider);
 
 			return new HierarchicalNodeInfo(dataProvider, hierarchicalCell, selectionModel, new HierarchicalNodeCallback()
 			{
-
 				@Override
 				public void onUnsetDataDisplay()
 				{
