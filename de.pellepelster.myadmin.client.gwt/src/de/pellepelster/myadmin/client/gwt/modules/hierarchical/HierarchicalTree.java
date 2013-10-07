@@ -15,14 +15,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalTree extends VerticalPanel
 {
 
-	public HierarchicalTree(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
+	public HierarchicalTree(HierarchicalConfigurationVO hierarchicalConfiguration, boolean showAddnodes,
 			SimpleCallback<DictionaryHierarchicalNodeVO> nodeSelectionHandler)
 	{
 		CellTree.Resources treeResources = GWT.create(CellTree.BasicResources.class);

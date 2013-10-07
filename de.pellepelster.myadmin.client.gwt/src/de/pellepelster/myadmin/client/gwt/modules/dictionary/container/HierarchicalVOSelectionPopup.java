@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTree;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -18,11 +18,11 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 {
 	private HierarchicalTree hierarchicalTree;
 
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	private DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO;
 
-	private HierarchicalVOSelectionPopup(HierarchicalConfiguration hierarchicalConfiguration, IHierarchicalControlModel hierarchicalControlModel)
+	private HierarchicalVOSelectionPopup(HierarchicalConfigurationVO hierarchicalConfiguration, IHierarchicalControlModel hierarchicalControlModel)
 	{
 		super("<none>", null);
 
@@ -32,7 +32,7 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 	public static void create(final IHierarchicalControlModel hierarchicalControlModel, final AsyncCallback<HierarchicalVOSelectionPopup> asyncCallback)
 	{
 		MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService()
-				.getConfigurationById(hierarchicalControlModel.getHierarchicalId(), new AsyncCallback<HierarchicalConfiguration>()
+				.getConfigurationById(hierarchicalControlModel.getHierarchicalId(), new AsyncCallback<HierarchicalConfigurationVO>()
 				{
 
 					@Override
@@ -42,7 +42,7 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 					}
 
 					@Override
-					public void onSuccess(HierarchicalConfiguration result)
+					public void onSuccess(HierarchicalConfigurationVO result)
 					{
 						asyncCallback.onSuccess(new HierarchicalVOSelectionPopup(result, hierarchicalControlModel));
 					}

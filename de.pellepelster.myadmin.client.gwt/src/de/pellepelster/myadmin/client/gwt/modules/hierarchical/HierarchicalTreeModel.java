@@ -23,7 +23,7 @@ import com.google.gwt.view.client.TreeViewModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalNodeInfo.HierarchicalNodeCallback;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
@@ -38,7 +38,7 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 	private final SingleSelectionModel<DictionaryHierarchicalNodeVO> selectionModel = new SingleSelectionModel<DictionaryHierarchicalNodeVO>();
 
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	private final Cell<DictionaryHierarchicalNodeVO> hierarchicalCell = new HierarchicalCell();
 
@@ -48,7 +48,7 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 	private final boolean showAddnodes;
 
-	public HierarchicalTreeModel(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
+	public HierarchicalTreeModel(HierarchicalConfigurationVO hierarchicalConfiguration, boolean showAddnodes,
 			final SimpleCallback<DictionaryHierarchicalNodeVO> nodeSelectionHandler)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;

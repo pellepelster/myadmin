@@ -20,7 +20,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
@@ -28,13 +28,13 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 
 public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierarchicalNodeVO>
 {
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	private DictionaryHierarchicalNodeVO hierarchicalNode;
 
 	private boolean showAddNodes;
 
-	public HierarchicalDataProvider(HierarchicalConfiguration hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode, boolean showAddNodes)
+	public HierarchicalDataProvider(HierarchicalConfigurationVO hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode, boolean showAddNodes)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
 		this.hierarchicalNode = hierarchicalNode;

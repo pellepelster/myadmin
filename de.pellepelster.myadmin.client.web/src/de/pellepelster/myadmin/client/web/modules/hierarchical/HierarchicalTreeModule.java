@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.BaseModuleHierarchicalTreeModule;
@@ -30,7 +30,7 @@ import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
 
 public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 {
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	public HierarchicalTreeModule(ModuleVO moduleVO, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
@@ -38,7 +38,7 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 
 		final IHierachicalServiceGWTAsync hierachicalService = MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService();
 
-		hierachicalService.getConfigurationById(getHierarchicalTreeId(), new AsyncCallback<HierarchicalConfiguration>()
+		hierachicalService.getConfigurationById(getHierarchicalTreeId(), new AsyncCallback<HierarchicalConfigurationVO>()
 		{
 
 			/** {@inheritDoc} */
@@ -49,12 +49,12 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 			}
 
 			@Override
-			public void onSuccess(HierarchicalConfiguration result)
+			public void onSuccess(HierarchicalConfigurationVO result)
 			{
-				hierarchicalConfiguration = result;
+				HierarchicalTreeModule.this.hierarchicalConfiguration = result;
 
 				Set<String> dictionaryNames = new HashSet<String>();
-				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
+				for (Map.Entry<String, List<String>> entry : HierarchicalTreeModule.this.hierarchicalConfiguration.getHierarchy().entrySet())
 				{
 					dictionaryNames.add(entry.getKey());
 
@@ -87,9 +87,9 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 
 	}
 
-	public HierarchicalConfiguration getHierarchicalConfiguration()
+	public HierarchicalConfigurationVO getHierarchicalConfiguration()
 	{
-		return hierarchicalConfiguration;
+		return this.hierarchicalConfiguration;
 	}
 
 }
