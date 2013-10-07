@@ -19,9 +19,6 @@
 	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
 		factory-method="getInstance" id="copyBean" />
 
-	<bean id="searchindexservice"
-		class="de.pellepelster.myadmin.server.services.search.DBSearchIndexService" />
-
 	<bean id="applicationEventMulticaster"
 		class="org.springframework.context.event.SimpleApplicationEventMulticaster">
 		<property name="taskExecutor">

@@ -283,7 +283,13 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		{
 			TestDictionaryFactory testDictionaryFactory = TestDictionaryFactory.create(dictionaryName, HierarchicalTest1VO.class.getName());
 
-			testDictionaryFactory.addControlToAll(TestDictionaryControlFactory.createHierarchicalControl(HierarchicalTest1VO.FIELD_PARENT));
+			DictionaryControlVO controlVO = TestDictionaryControlFactory.createHierarchicalControl(HierarchicalTest1VO.FIELD_PARENT);
+
+			testDictionaryFactory.createEditor().addControl(controlVO);
+
+			testDictionaryFactory.createSearch().addControlToAll(controlVO);
+
+			testDictionaryFactory.addLabelControl(TestDictionaryControlFactory.createTextControl(HierarchicalTest1VO.FIELD_STRING1));
 
 			return testDictionaryFactory.getDictionaryModel();
 		}
