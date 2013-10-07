@@ -23,10 +23,10 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType>
-{
+public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType> {
 	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
 
 	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
@@ -35,16 +35,13 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 	private List<IBaseControlModel> baseControlModels;
 
-	public BaseDataGrid(List<IBaseControlModel> baseControlModels)
-	{
+	public BaseDataGrid(List<IBaseControlModel> baseControlModels) {
 		super(KEYPROVIDER);
 		this.baseControlModels = baseControlModels;
 	}
 
-	protected void createModelColumns()
-	{
-		for (IBaseControlModel baseControlModel : baseControlModels)
-		{
+	protected void createModelColumns() {
+		for (IBaseControlModel baseControlModel : baseControlModels) {
 			TextHeader textHeader = new TextHeader(baseControlModel.getColumnLabel());
 			addColumn(getColumn(baseControlModel), textHeader);
 		}
@@ -52,27 +49,22 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 		setSelectionModel(selectionModel);
 	}
 
-	public void addVOSelectHandler(final IVOSelectHandler<VOType> voSelectHandler)
-	{
-		addDomHandler(new DoubleClickHandler()
-		{
+	public void addVOSelectHandler(final SimpleCallback<VOType> voSelectHandler) {
+		addDomHandler(new DoubleClickHandler() {
 
 			/** {@inheritDoc} */
 			@Override
-			public void onDoubleClick(DoubleClickEvent event)
-			{
+			public void onDoubleClick(DoubleClickEvent event) {
 
-				if (selectionModel.getSelectedObject() != null)
-				{
-					voSelectHandler.onSingleSelect(selectionModel.getSelectedObject());
+				if (selectionModel.getSelectedObject() != null) {
+					voSelectHandler.onCallback(selectionModel.getSelectedObject());
 				}
 			}
 		}, DoubleClickEvent.getType());
 
 	}
 
-	public VOType getCurrentSelection()
-	{
+	public VOType getCurrentSelection() {
 		return selectionModel.getSelectedObject();
 	}
 

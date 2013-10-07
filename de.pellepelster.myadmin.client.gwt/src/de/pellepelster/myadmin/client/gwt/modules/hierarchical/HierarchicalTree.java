@@ -23,11 +23,11 @@ public class HierarchicalTree extends VerticalPanel
 {
 
 	public HierarchicalTree(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
-			SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler)
+			SimpleCallback<DictionaryHierarchicalNodeVO> nodeSelectionHandler)
 	{
 		CellTree.Resources treeResources = GWT.create(CellTree.BasicResources.class);
 
-		HierarchicalTreeModel hierarchicalTreeModel = new HierarchicalTreeModel(hierarchicalConfiguration, showAddnodes, nodeActivatedHandler);
+		HierarchicalTreeModel hierarchicalTreeModel = new HierarchicalTreeModel(hierarchicalConfiguration, showAddnodes, nodeSelectionHandler);
 		CellTree cellTree = new CellTree(hierarchicalTreeModel, null, treeResources);
 		add(cellTree);
 	}

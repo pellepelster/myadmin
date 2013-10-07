@@ -49,7 +49,7 @@ public class HierarchicalTreeModel implements TreeViewModel
 	private final boolean showAddnodes;
 
 	public HierarchicalTreeModel(HierarchicalConfiguration hierarchicalConfiguration, boolean showAddnodes,
-			final SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler)
+			final SimpleCallback<DictionaryHierarchicalNodeVO> nodeSelectionHandler)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
 		this.showAddnodes = showAddnodes;
@@ -80,10 +80,10 @@ public class HierarchicalTreeModel implements TreeViewModel
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event)
 			{
-				if (nodeActivatedHandler != null && selectionModel.getSelectedObject() != null)
+				if (nodeSelectionHandler != null && selectionModel.getSelectedObject() != null)
 				{
 					DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO = selectionModel.getSelectedObject();
-					nodeActivatedHandler.onCallback(dictionaryHierarchicalNodeVO);
+					nodeSelectionHandler.onCallback(dictionaryHierarchicalNodeVO);
 				}
 			}
 		});

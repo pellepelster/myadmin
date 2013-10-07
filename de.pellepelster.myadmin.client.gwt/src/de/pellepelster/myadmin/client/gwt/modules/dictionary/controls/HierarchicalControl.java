@@ -26,24 +26,24 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalControl extends Anchor implements IControl<Widget>
 {
 	private final IHierarchicalControlModel hierarchicalControlModel;
 
-	private final ControlHelper gwtControlHelper;
+	private final ControlHelper controlHelper;
 
 	private IHierarchicalVO hierarchicalVO;
 
 	public HierarchicalControl(final IHierarchicalControlModel hierarchicalControlModel)
 	{
 		this.hierarchicalControlModel = hierarchicalControlModel;
-		gwtControlHelper = new ControlHelper(this, hierarchicalControlModel, true, String.class);
+		controlHelper = new ControlHelper(this, hierarchicalControlModel, true, String.class);
 
 		addClickHandler(new ClickHandler()
 		{
@@ -52,20 +52,19 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 			{
 				HierarchicalVOSelectionPopup.create(hierarchicalControlModel, new AsyncCallback<HierarchicalVOSelectionPopup>()
 				{
-
 					@Override
 					public void onSuccess(HierarchicalVOSelectionPopup result)
 					{
-						result.setVoSelectHandler(new IVOSelectHandler<IHierarchicalVO>()
+
+						result.setVoSelectHandler(new SimpleCallback<IHierarchicalVO>()
 						{
-
 							@Override
-							public void onSingleSelect(IHierarchicalVO vo)
+							public void onCallback(IHierarchicalVO vo)
 							{
-
+								setContent(vo);
+								controlHelper.fireValueChangeListeners(vo);
 							}
 						});
-
 						result.show();
 					}
 
@@ -85,7 +84,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 	@Override
 	public void addValueChangeListener(IValueChangeListener valueChangeListener)
 	{
-		gwtControlHelper.getValueChangeListeners().add(valueChangeListener);
+		controlHelper.getValueChangeListeners().add(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
@@ -113,7 +112,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 	@Override
 	public List<IValueChangeListener> getValueChangeListeners()
 	{
-		return gwtControlHelper.getValueChangeListeners();
+		return controlHelper.getValueChangeListeners();
 	}
 
 	/** {@inheritDoc} */
@@ -127,7 +126,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 	@Override
 	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
 	{
-		gwtControlHelper.getValueChangeListeners().remove(valueChangeListener);
+		controlHelper.getValueChangeListeners().remove(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
@@ -165,7 +164,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages, hierarchicalControlModel);
+		controlHelper.setValidationMessages(validationMessages, hierarchicalControlModel);
 	}
 
 }

@@ -38,9 +38,12 @@ public class ControlHelper
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
+	private final IBaseControlModel baseControlModel;
+
 	public ControlHelper(final Widget widget, final IBaseControlModel baseControlModel, boolean addValueChangeListener, final Class<?> targetClass)
 	{
 		this.uiObject = widget;
+		this.baseControlModel = baseControlModel;
 
 		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControlModel));
 
@@ -57,7 +60,7 @@ public class ControlHelper
 					{
 						if (hasValueWidget.getValue() == null || hasValueWidget.getValue().toString().isEmpty())
 						{
-							fireValueChangeListeners(baseControlModel.getAttributePath(), hasValueWidget.getValue());
+							fireValueChangeListeners(hasValueWidget.getValue());
 						}
 					}
 				}, BlurEvent.getType());
@@ -68,16 +71,16 @@ public class ControlHelper
 					@Override
 					public void onChange(ChangeEvent event)
 					{
-						fireValueChangeListeners(baseControlModel.getAttributePath(), hasValueWidget.getValue());
+						fireValueChangeListeners(hasValueWidget.getValue());
 					}
 				}, ChangeEvent.getType());
 			}
 		}
 	}
 
-	public void fireValueChangeListeners(String attributePath, Object value)
+	public void fireValueChangeListeners(Object value)
 	{
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(attributePath, value);
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(baseControlModel.getAttributePath(), value);
 
 		for (IValueChangeListener valueChangeListener : valueChangeListeners)
 		{

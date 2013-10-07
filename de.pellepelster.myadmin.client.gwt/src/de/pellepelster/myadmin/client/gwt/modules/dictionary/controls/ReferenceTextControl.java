@@ -55,7 +55,7 @@ public class ReferenceTextControl extends SuggestBox implements IControl<Widget>
 				{
 					VOSuggestion voSuggestion = (VOSuggestion) selectionEvent.getSelectedItem();
 					vo = voSuggestion.getVo();
-					gwtControlHelper.fireValueChangeListeners(referenceControlModel.getAttributePath(), vo);
+					gwtControlHelper.fireValueChangeListeners(vo);
 				}
 
 			}
