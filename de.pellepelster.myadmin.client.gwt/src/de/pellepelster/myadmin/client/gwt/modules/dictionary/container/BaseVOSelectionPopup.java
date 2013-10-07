@@ -10,72 +10,60 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
-{
+public abstract class BaseVOSelectionPopup<VOType extends IBaseVO> {
 	private final String message;
 
 	private DialogBox dialogBox;
 
-	private IVOSelectHandler<VOType> voSelectHandler;
+	private SimpleCallback<VOType> voSelectHandler;
 
-	protected BaseVOSelectionPopup(String message, final IVOSelectHandler<VOType> voSelectHandler)
-	{
+	protected BaseVOSelectionPopup(String message, final SimpleCallback<VOType> voSelectHandler) {
 		this.message = message;
 		this.voSelectHandler = voSelectHandler;
 	}
 
 	protected abstract Widget createDialogBoxContent();
 
-	private void createOkButton(HorizontalPanel buttonPanel)
-	{
+	private void createOkButton(HorizontalPanel buttonPanel) {
 		ImageButton okButton = new ImageButton(MyAdmin.RESOURCES.ok());
 		buttonPanel.add(okButton);
-		okButton.addClickHandler(new ClickHandler()
-		{
+		okButton.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event)
-			{
+			public void onClick(ClickEvent event) {
 				closeDialogWithSelection(getCurrentSelection());
 			}
 		});
 	}
 
-	protected void closeDialogWithSelection(VOType selection)
-	{
-		voSelectHandler.onSingleSelect(selection);
+	protected void closeDialogWithSelection(VOType selection) {
+		voSelectHandler.onCallback(selection);
 		dialogBox.hide();
 	}
 
-	private void createCancelButton(HorizontalPanel buttonPanel)
-	{
+	private void createCancelButton(HorizontalPanel buttonPanel) {
 		ImageButton cancelButton = new ImageButton(MyAdmin.RESOURCES.cancel());
-		cancelButton.addClickHandler(new ClickHandler()
-		{
+		cancelButton.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event)
-			{
+			public void onClick(ClickEvent event) {
 				dialogBox.hide();
 			}
 		});
 		buttonPanel.add(cancelButton);
 	}
 
-	public void show()
-	{
-		if (dialogBox == null)
-		{
+	public void show() {
+		if (dialogBox == null) {
 			initDialogBox();
 		}
 
 		dialogBox.show();
 	}
 
-	protected void initDialogBox()
-	{
+	protected void initDialogBox() {
 		dialogBox = new DialogBox(false, true);
 		dialogBox.setGlassEnabled(true);
 		dialogBox.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
@@ -99,8 +87,7 @@ public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
 		createCancelButton(buttonPanel);
 	}
 
-	public void setVoSelectHandler(IVOSelectHandler<VOType> voSelectHandler)
-	{
+	public void setVoSelectHandler(SimpleCallback<VOType> voSelectHandler) {
 		this.voSelectHandler = voSelectHandler;
 	}
 

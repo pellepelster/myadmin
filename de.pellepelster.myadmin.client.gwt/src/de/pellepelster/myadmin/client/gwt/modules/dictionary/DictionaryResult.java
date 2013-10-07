@@ -31,8 +31,7 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * 
  * @param <VOType>
  */
-public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResultUI<VOType, Panel>
-{
+public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResultUI<VOType, Panel> {
 
 	private final ResultCellTable<VOType> resultCellTable;
 
@@ -46,17 +45,14 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 	 * @param filterModel
 	 *            Model describing the filter
 	 */
-	public DictionaryResult(final String dictionaryModelName, IResultModel resultModel)
-	{
+	public DictionaryResult(final String dictionaryModelName, IResultModel resultModel) {
 		resultCellTable = new ResultCellTable<VOType>(resultModel);
 		resultCellTable.setWidth("100%");
-		resultCellTable.addVOSelectHandler(new IVOSelectHandler<VOType>()
-		{
+		resultCellTable.addVOSelectHandler(new SimpleCallback<VOType>() {
 
 			/** {@inheritDoc} */
 			@Override
-			public void onSingleSelect(VOType vo)
-			{
+			public void onCallback(VOType vo) {
 				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, vo.getId());
 			}
 		});
@@ -68,26 +64,22 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 
 	/** {@inheritDoc} */
 	@Override
-	public Panel getContainer()
-	{
+	public Panel getContainer() {
 		return verticalPanel;
 	}
 
-	public GenericFilterVO<VOType> getEmptyFilter(ISearchModel searchModel)
-	{
+	public GenericFilterVO<VOType> getEmptyFilter(ISearchModel searchModel) {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(searchModel.getVOName());
 		return genericFilter;
 	}
 
-	public void setFilter(GenericFilterVO<VOType> genericFilterVO)
-	{
+	public void setFilter(GenericFilterVO<VOType> genericFilterVO) {
 		dataProvider.setGenericFilterVO(genericFilterVO);
 		resultCellTable.setVisibleRangeAndClearData(resultCellTable.getVisibleRange(), true);
 	}
 
-	public void setResultsChangedCallback(SimpleCallback<Integer> resultsChangedCallback)
-	{
+	public void setResultsChangedCallback(SimpleCallback<Integer> resultsChangedCallback) {
 		dataProvider.setResultsChangedCallback(resultsChangedCallback);
 	}
 

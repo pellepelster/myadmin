@@ -26,42 +26,34 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.IVOSelectHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class HierarchicalControl extends Anchor implements IControl<Widget>
-{
+public class HierarchicalControl extends Anchor implements IControl<Widget> {
 	private final IHierarchicalControlModel hierarchicalControlModel;
 
 	private final ControlHelper gwtControlHelper;
 
 	private IHierarchicalVO hierarchicalVO;
 
-	public HierarchicalControl(final IHierarchicalControlModel hierarchicalControlModel)
-	{
+	public HierarchicalControl(final IHierarchicalControlModel hierarchicalControlModel) {
 		this.hierarchicalControlModel = hierarchicalControlModel;
 		gwtControlHelper = new ControlHelper(this, hierarchicalControlModel, true, String.class);
 
-		addClickHandler(new ClickHandler()
-		{
+		addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event)
-			{
-				HierarchicalVOSelectionPopup.create(hierarchicalControlModel, new AsyncCallback<HierarchicalVOSelectionPopup>()
-				{
+			public void onClick(ClickEvent event) {
+				HierarchicalVOSelectionPopup.create(hierarchicalControlModel, new AsyncCallback<HierarchicalVOSelectionPopup>() {
 
 					@Override
-					public void onSuccess(HierarchicalVOSelectionPopup result)
-					{
-						result.setVoSelectHandler(new IVOSelectHandler<IHierarchicalVO>()
-						{
+					public void onSuccess(HierarchicalVOSelectionPopup result) {
+						result.setVoSelectHandler(new SimpleCallback<IHierarchicalVO>() {
 
 							@Override
-							public void onSingleSelect(IHierarchicalVO vo)
-							{
+							public void onCallback(IHierarchicalVO vo) {
 
 							}
 						});
@@ -70,8 +62,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 					}
 
 					@Override
-					public void onFailure(Throwable caught)
-					{
+					public void onFailure(Throwable caught) {
 						throw new RuntimeException(caught);
 					}
 				});
@@ -83,79 +74,64 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 
 	/** {@inheritDoc} */
 	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener)
-	{
+	public void addValueChangeListener(IValueChangeListener valueChangeListener) {
 		gwtControlHelper.getValueChangeListeners().add(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Object getContent()
-	{
+	public Object getContent() {
 		return hierarchicalVO;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Class<?> getContentType()
-	{
+	public Class<?> getContentType() {
 		return String.class;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public IBaseControlModel getModel()
-	{
+	public IBaseControlModel getModel() {
 		return hierarchicalControlModel;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
+	public List<IValueChangeListener> getValueChangeListeners() {
 		return gwtControlHelper.getValueChangeListeners();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Widget getWidget()
-	{
+	public Widget getWidget() {
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
-	{
+	public void removeValueChangeListener(IValueChangeListener valueChangeListener) {
 		gwtControlHelper.getValueChangeListeners().remove(valueChangeListener);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void setContent(Object content)
-	{
-		if (content != null)
-		{
+	public void setContent(Object content) {
+		if (content != null) {
 
-			if (content instanceof IHierarchicalVO)
-			{
+			if (content instanceof IHierarchicalVO) {
 				hierarchicalVO = (IHierarchicalVO) content;
 
 				String defaultLabel = "<none>";
-				if (hierarchicalVO != null)
-				{
+				if (hierarchicalVO != null) {
 					defaultLabel = hierarchicalVO.toString();
 				}
 
 				setText(DictionaryUtil.getLabel(hierarchicalControlModel, hierarchicalVO, defaultLabel));
-			}
-			else
-			{
+			} else {
 				throw new RuntimeException("unsupported value type '" + content.getClass().getName() + "'");
 			}
-		}
-		else
-		{
+		} else {
 			hierarchicalVO = null;
 			setText(MyAdmin.MESSAGES.hierarchicalNone());
 		}
@@ -163,8 +139,7 @@ public class HierarchicalControl extends Anchor implements IControl<Widget>
 
 	/** {@inheritDoc} */
 	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
-	{
+	public void setValidationMessages(List<IValidationMessage> validationMessages) {
 		gwtControlHelper.setValidationMessages(validationMessages, hierarchicalControlModel);
 	}
 

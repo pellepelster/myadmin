@@ -25,10 +25,10 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
+import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VOType>
-{
+public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VOType> {
 	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
 
 	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
@@ -43,16 +43,13 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 
 	public static final int DEFAULT_MAX_RESULTS = 15;
 
-	public BaseCellTable(List<IBaseControlModel> baseControlModels)
-	{
+	public BaseCellTable(List<IBaseControlModel> baseControlModels) {
 		super(KEYPROVIDER);
 		this.baseControlModels = baseControlModels;
 	}
 
-	protected void createModelColumns()
-	{
-		for (IBaseControlModel baseControlModel : baseControlModels)
-		{
+	protected void createModelColumns() {
+		for (IBaseControlModel baseControlModel : baseControlModels) {
 			TextHeader textHeader = new TextHeader(baseControlModel.getColumnLabel());
 			Column column = getColumn(baseControlModel);
 			setColumnWidth(column, WidthCalculationStrategy.getInstance().getControlColumnWidth(baseControlModel), Unit.PX);
@@ -63,24 +60,19 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		setSelectionModel(selectionModel);
 	}
 
-	protected VOType getSelection()
-	{
+	protected VOType getSelection() {
 		return selectionModel.getSelectedObject();
 	}
 
-	public void addVOSelectHandler(final IVOSelectHandler<VOType> voDoubleClickHandler)
-	{
-		addDomHandler(new DoubleClickHandler()
-		{
+	public void addVOSelectHandler(final SimpleCallback<VOType> voDoubleClickHandler) {
+		addDomHandler(new DoubleClickHandler() {
 
 			/** {@inheritDoc} */
 			@Override
-			public void onDoubleClick(DoubleClickEvent event)
-			{
+			public void onDoubleClick(DoubleClickEvent event) {
 
-				if (selectionModel.getSelectedObject() != null)
-				{
-					voDoubleClickHandler.onSingleSelect(selectionModel.getSelectedObject());
+				if (selectionModel.getSelectedObject() != null) {
+					voDoubleClickHandler.onCallback(selectionModel.getSelectedObject());
 				}
 			}
 		}, DoubleClickEvent.getType());
