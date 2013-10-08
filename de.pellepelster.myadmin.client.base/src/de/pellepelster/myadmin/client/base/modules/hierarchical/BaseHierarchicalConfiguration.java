@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.base.modules.hierarchical;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public abstract class BaseHierarchicalConfiguration
 
 	protected void addHierarchy(IDictionaryDescriptor dictionaryDescriptor, IDictionaryDescriptor... parentDictionaryDescriptors)
 	{
-		if (parentDictionaryDescriptors.length == 0)
+		if (parentDictionaryDescriptors.length > 0)
 		{
 			List<String> parentDictionaryNames = Lists.transform(Arrays.asList(parentDictionaryDescriptors), new Function<IDictionaryDescriptor, String>()
 			{
@@ -53,7 +54,7 @@ public abstract class BaseHierarchicalConfiguration
 		}
 		else
 		{
-			this.hierarchy.put(dictionaryDescriptor.getId(), Arrays.asList(new String[] { null }));
+			this.hierarchy.put(dictionaryDescriptor.getId(), Collections.EMPTY_LIST);
 		}
 	}
 

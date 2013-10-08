@@ -184,6 +184,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	public List<DictionaryHierarchicalNodeVO> getRootNodes(String id)
 	{
 		List<DictionaryHierarchicalNodeVO> result = new ArrayList<DictionaryHierarchicalNodeVO>();
+
 		for (VOHierarchy voHierarchy : getRootHierarchies(id))
 		{
 			result.addAll(getChildNodes(voHierarchy, null, null));
