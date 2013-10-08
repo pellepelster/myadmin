@@ -18,6 +18,8 @@
 
  		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="compile->generated.server" />
 
+ 		<dependency org="de.pellepelster.myadmin" name="demo.client.test" rev="latest.integration" conf="compile->compile" />
+
 		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->@">
 		 	<exclude org="com.google.gwt"  />
 		 </dependency>
