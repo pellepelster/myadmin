@@ -21,7 +21,7 @@ public class HierarchicalConfigurationVO implements Serializable
 
 	private static final long serialVersionUID = 2347100754321469227L;
 
-	private Map<String, List<String>> hierarchy = new HashMap<String, List<String>>();
+	private Map<String, List<String>> dictionaryHierarchy = new HashMap<String, List<String>>();
 
 	private String id;
 
@@ -32,11 +32,29 @@ public class HierarchicalConfigurationVO implements Serializable
 		super();
 	}
 
-	public HierarchicalConfigurationVO(String id, Map<String, List<String>> hierarchy)
+	public HierarchicalConfigurationVO(String id, Map<String, List<String>> dictionaryHierarchy)
 	{
 		super();
 		this.id = id;
-		this.hierarchy = hierarchy;
+		this.dictionaryHierarchy = dictionaryHierarchy;
+	}
+
+	public boolean isRootDictionary(String dictionaryId)
+	{
+		return this.dictionaryHierarchy.get(dictionaryId).isEmpty();
+	}
+
+	public static boolean isRootDictionary(String dictionaryId, List<HierarchicalConfigurationVO> hierarchicalConfigurationVOs)
+	{
+		for (HierarchicalConfigurationVO hierarchicalConfigurationVO : hierarchicalConfigurationVOs)
+		{
+			if (hierarchicalConfigurationVO.isRootDictionary(dictionaryId))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -45,9 +63,9 @@ public class HierarchicalConfigurationVO implements Serializable
 	 * 
 	 * @return
 	 */
-	public Map<String, List<String>> getHierarchy()
+	public Map<String, List<String>> getDictionaryHierarchy()
 	{
-		return this.hierarchy;
+		return this.dictionaryHierarchy;
 	}
 
 	public String getId()

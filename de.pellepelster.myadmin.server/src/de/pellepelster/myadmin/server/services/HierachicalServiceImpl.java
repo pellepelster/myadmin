@@ -222,6 +222,11 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 					.addCriteria(IHierarchicalVO.FIELD_PARENT_CLASSNAME, voClassName).addCriteria(IHierarchicalVO.FIELD_PARENT_ID, voId).getGenericFilter();
 
 			count += this.baseVODAO.getCount(childrenFilter);
+
+			if (count > 0)
+			{
+				return true;
+			}
 		}
 
 		return count > 0;
@@ -248,7 +253,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 			for (HierarchicalConfigurationVO hierarchicalConfiguration : this.hierarchicalConfigurations)
 			{
 
-				for (Map.Entry<String, List<String>> dictionaryHierarchy : hierarchicalConfiguration.getHierarchy().entrySet())
+				for (Map.Entry<String, List<String>> dictionaryHierarchy : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
 					IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary(dictionaryHierarchy.getKey());
 
@@ -306,4 +311,9 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		}
 	}
 
+	@Override
+	public List<HierarchicalConfigurationVO> getConfigurations()
+	{
+		return this.hierarchicalConfigurations;
+	}
 }

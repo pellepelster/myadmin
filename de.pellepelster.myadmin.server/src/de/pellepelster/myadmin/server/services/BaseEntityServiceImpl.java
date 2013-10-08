@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.server.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
-import de.pellepelster.myadmin.server.validators.Validator;
+import de.pellepelster.myadmin.server.validators.IValidator;
 
 /**
  * Implementation for {@link IBaseEntityService}
@@ -58,15 +59,15 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	 * }
 	 */
 
-	@Autowired
-	private Validator validator;
+	@Autowired(required = false)
+	private List<IValidator> validators = new ArrayList<IValidator>();
 
 	/** {@inheritDoc} */
 	@Override
 	public <VOType extends IBaseVO> VOType create(VOType vo)
 	{
 		LOG.debug(String.format("creating '%s'", vo.getClass().getName()));
-		return baseVODAO.create(vo);
+		return this.baseVODAO.create(vo);
 	}
 
 	/*
@@ -143,13 +144,13 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public <DeleteVOType extends IBaseVO> void delete(DeleteVOType vo)
 	{
-		baseVODAO.delete(vo);
+		this.baseVODAO.delete(vo);
 	}
 
 	@Override
 	public void deleteAll(String voClassName)
 	{
-		baseVODAO.deleteAll(BeanUtil.getVOClass(voClassName));
+		this.baseVODAO.deleteAll(BeanUtil.getVOClass(voClassName));
 
 	}
 
@@ -157,7 +158,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public <VOType extends IBaseVO> List<VOType> filter(GenericFilterVO<VOType> genericFilterVO)
 	{
-		return baseVODAO.filter(genericFilterVO);
+		return this.baseVODAO.filter(genericFilterVO);
 	}
 
 	/** {@inheritDoc} */
@@ -197,14 +198,14 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public IBaseVO read(Long id, String voClassName)
 	{
-		return baseVODAO.read(id, BeanUtil.getVOClass(voClassName));
+		return this.baseVODAO.read(id, BeanUtil.getVOClass(voClassName));
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public <VOType extends IBaseVO> VOType save(VOType vo)
 	{
-		return baseVODAO.save(vo);
+		return this.baseVODAO.save(vo);
 	}
 
 	public void setBaseVODAO(IBaseVODAO baseVODAO)
@@ -212,23 +213,32 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		this.baseVODAO = baseVODAO;
 	}
 
-	public void setValidator(Validator validator)
-	{
-		this.validator = validator;
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public <ValidateVOType extends IBaseVO> List<IValidationMessage> validate(ValidateVOType vo)
 	{
-		return validator.validate(vo);
+		List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
+
+		for (IValidator validator : this.validators)
+		{
+			if (validator.canValidate(vo))
+			{
+				validationMessages.addAll(validator.validate(vo));
+			}
+		}
+
+		return validationMessages;
+	}
+
+	public void setValidators(List<IValidator> validators)
+	{
+		this.validators = validators;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public <ValidateAndCreateVOType extends IBaseVO> Result<ValidateAndCreateVOType> validateAndCreate(ValidateAndCreateVOType vo)
 	{
-
 		ValidateAndCreateVOType newVO = null;
 
 		Result<ValidateAndCreateVOType> result = new Result<ValidateAndCreateVOType>();

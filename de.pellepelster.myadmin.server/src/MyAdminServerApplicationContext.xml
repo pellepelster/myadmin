@@ -8,8 +8,6 @@
 
 	<bean id="entityVOMapper" class="de.pellepelster.myadmin.db.util.EntityVOMapper" />
 
-	<bean id="validator" class="de.pellepelster.myadmin.server.validators.Validator" />
-
 	<bean id="naturalKeyValidator"
 		class="de.pellepelster.myadmin.server.validators.NaturalKeyValidator" />
 

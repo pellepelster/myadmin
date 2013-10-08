@@ -60,7 +60,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 
 			if (showAddNodes)
 			{
-				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
+				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
 					if (entry.getValue().contains(hierarchicalNode.getDictionaryName()))
 					{
@@ -79,7 +79,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 		{
 			if (showAddNodes)
 			{
-				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getHierarchy().entrySet())
+				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
 					if (entry.getValue().size() == 1 && entry.getValue().get(0) == null)
 					{

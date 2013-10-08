@@ -148,10 +148,11 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 		if (this.hierarchicalConfiguration == null)
 		{
 			this.hierarchicalConfiguration = new HierarchicalConfigurationVO();
-			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID, Arrays.asList(new String[] { null }));
-			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID,
+			this.hierarchicalConfiguration.getDictionaryHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID,
+					Arrays.asList(new String[] { null }));
+			this.hierarchicalConfiguration.getDictionaryHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID,
 					Arrays.asList(new String[] { TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID }));
-			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY3_ID,
+			this.hierarchicalConfiguration.getDictionaryHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY3_ID,
 					Arrays.asList(new String[] { TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID }));
 			this.hierarchicalConfiguration.setTitle(HIERARCHICAL_TREE1);
 		}
@@ -187,4 +188,9 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 	{
 	}
 
+	@Override
+	public void getConfigurations(AsyncCallback<List<HierarchicalConfigurationVO>> callback)
+	{
+		Arrays.asList(new HierarchicalConfigurationVO[] { this.hierarchicalConfiguration });
+	}
 }

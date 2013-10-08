@@ -54,7 +54,7 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 				HierarchicalTreeModule.this.hierarchicalConfiguration = result;
 
 				Set<String> dictionaryNames = new HashSet<String>();
-				for (Map.Entry<String, List<String>> entry : HierarchicalTreeModule.this.hierarchicalConfiguration.getHierarchy().entrySet())
+				for (Map.Entry<String, List<String>> entry : HierarchicalTreeModule.this.hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
 					dictionaryNames.add(entry.getKey());
 
