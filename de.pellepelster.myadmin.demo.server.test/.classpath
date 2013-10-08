@@ -20,5 +20,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.db.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.generator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.demo.client.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

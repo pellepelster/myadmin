@@ -18,10 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
+import de.pellepelster.myadmin.demo.client.TestClientHierarchicalConfiguration;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.CompanyDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.ManagerDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
@@ -70,12 +71,13 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	@Test
 	public void testGetChildren()
 	{
-		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes(TestClientHierarchicalConfiguration.ID);
 
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
 		Assert.assertEquals(true, rootNode1.getHasChildren());
 
-		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
+		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes(TestClientHierarchicalConfiguration.ID, rootNode1.getVoId(),
+				rootNode1.getVoClassName());
 
 		Assert.assertEquals(1, childNodes.size());
 		Assert.assertEquals("aaa", childNodes.get(0).getLabel());
@@ -86,14 +88,14 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	@Test
 	public void testGetHierarchicalConfiguration()
 	{
-		HierarchicalConfiguration hierarchicalConfiguration = this.hierachicalService.getConfigurationById("Test");
-		Assert.assertEquals("Test", hierarchicalConfiguration.getId());
+		HierarchicalConfigurationVO hierarchicalConfiguration = this.hierachicalService.getConfigurationById(TestClientHierarchicalConfiguration.ID);
+		Assert.assertEquals(TestClientHierarchicalConfiguration.ID, hierarchicalConfiguration.getId());
 	}
 
 	@Test
 	public void testGetRootNodes()
 	{
-		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes(TestClientHierarchicalConfiguration.ID);
 
 		Assert.assertEquals(2, rootNodes.size());
 
@@ -106,10 +108,11 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	@Test
 	public void testVODecorator()
 	{
-		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes("Test");
+		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes(TestClientHierarchicalConfiguration.ID);
 		DictionaryHierarchicalNodeVO rootNode1 = rootNodes.get(0);
 
-		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes("Test", rootNode1.getVoId(), rootNode1.getVoClassName());
+		List<DictionaryHierarchicalNodeVO> childNodes = this.hierachicalService.getChildNodes(TestClientHierarchicalConfiguration.ID, rootNode1.getVoId(),
+				rootNode1.getVoClassName());
 
 		Assert.assertEquals(1, childNodes.size());
 

@@ -18,7 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
 
@@ -29,11 +29,11 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 
 	private final List<DictionaryHierarchicalNodeVO> tree = new ArrayList<DictionaryHierarchicalNodeVO>();
 
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	public TestHierarchicalServiceGWTAsync()
 	{
-		createDictionaryHierarchicalNodeVOs(tree, 6, 0, "", 0l);
+		createDictionaryHierarchicalNodeVOs(this.tree, 6, 0, "", 0l);
 	}
 
 	private void createDictionaryHierarchicalNodeVOs(List<DictionaryHierarchicalNodeVO> tree, int nodeCount, int currentLevel, String parentLabel, Long parentId)
@@ -125,7 +125,7 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 		else
 		{
 			List<DictionaryHierarchicalNodeVO> result = new ArrayList<DictionaryHierarchicalNodeVO>();
-			result.addAll(flattenList(getByParentId(tree, voId).getChildren()));
+			result.addAll(flattenList(getByParentId(this.tree, voId).getChildren()));
 
 			if (HierarchicalTest1VO.class.getName().equals(voClassName))
 			{
@@ -143,20 +143,20 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 
 	/** {@inheritDoc} */
 	@Override
-	public void getConfigurationById(String id, AsyncCallback<HierarchicalConfiguration> callback)
+	public void getConfigurationById(String id, AsyncCallback<HierarchicalConfigurationVO> callback)
 	{
-		if (hierarchicalConfiguration == null)
+		if (this.hierarchicalConfiguration == null)
 		{
-			hierarchicalConfiguration = new HierarchicalConfiguration();
-			hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID, Arrays.asList(new String[] { null }));
-			hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID,
+			this.hierarchicalConfiguration = new HierarchicalConfigurationVO();
+			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID, Arrays.asList(new String[] { null }));
+			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID,
 					Arrays.asList(new String[] { TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY1_ID }));
-			hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY3_ID,
+			this.hierarchicalConfiguration.getHierarchy().put(TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY3_ID,
 					Arrays.asList(new String[] { TestDictionaryServiceGWTAsync.HIERARCHICAL_DICTIONARY2_ID }));
-			hierarchicalConfiguration.setTitle(HIERARCHICAL_TREE1);
+			this.hierarchicalConfiguration.setTitle(HIERARCHICAL_TREE1);
 		}
 
-		callback.onSuccess(hierarchicalConfiguration);
+		callback.onSuccess(this.hierarchicalConfiguration);
 	}
 
 	private List<DictionaryHierarchicalNodeVO> flattenList(List<DictionaryHierarchicalNodeVO> list)
@@ -179,7 +179,7 @@ public class TestHierarchicalServiceGWTAsync implements IHierachicalServiceGWTAs
 	@Override
 	public void getRootNodes(String id, AsyncCallback<List<DictionaryHierarchicalNodeVO>> callback)
 	{
-		callback.onSuccess(flattenList(tree));
+		callback.onSuccess(flattenList(this.tree));
 	}
 
 	@Override

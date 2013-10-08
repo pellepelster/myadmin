@@ -51,7 +51,7 @@ public class ReferenceDropdownControl extends ListBox implements IControl<Widget
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(referenceControlModel.getAttributePath(), null);
+				gwtControlHelper.fireValueChangeListeners(null);
 			}
 		});
 

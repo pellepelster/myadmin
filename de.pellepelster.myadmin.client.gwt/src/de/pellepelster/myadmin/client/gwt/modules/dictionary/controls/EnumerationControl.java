@@ -50,7 +50,7 @@ public class EnumerationControl extends ListBox implements IControl<Widget>
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(enumarationControlModel.getAttributePath(), getEnumForSelection());
+				gwtControlHelper.fireValueChangeListeners(getEnumForSelection());
 			}
 		});
 

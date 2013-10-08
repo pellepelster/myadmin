@@ -126,7 +126,6 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 		{
 			column = new Column<IBaseVO, IBaseVO>(new ReferenceCell(controlModel))
 			{
-
 				@Override
 				public IBaseVO getValue(IBaseVO vo)
 				{

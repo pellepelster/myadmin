@@ -80,12 +80,12 @@ public abstract class BaseHierarchicalTestVO extends BaseVO implements IHierarch
 
 		if ("string1".equals(name))
 		{
-			return string1;
+			return this.string1;
 		}
 
 		if ("parent".equals(name))
 		{
-			return parent;
+			return this.parent;
 		}
 
 		throw new RuntimeException("getter for '" + name + "' not implemented");
@@ -94,12 +94,12 @@ public abstract class BaseHierarchicalTestVO extends BaseVO implements IHierarch
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public String getString1()
 	{
-		return string1;
+		return this.string1;
 	}
 
 	@Override
@@ -108,8 +108,13 @@ public abstract class BaseHierarchicalTestVO extends BaseVO implements IHierarch
 
 		if ("string1".equals(name))
 		{
-			string1 = (String) value;
+			this.string1 = (String) value;
 		}
+		else if ("parent".equals(name))
+		{
+			this.parent = (IHierarchicalVO) value;
+		}
+
 		else
 		{
 			throw new RuntimeException("setter for '" + name + "' not implemented");
@@ -131,13 +136,13 @@ public abstract class BaseHierarchicalTestVO extends BaseVO implements IHierarch
 	@Override
 	public IHierarchicalVO getParent()
 	{
-		return parent;
+		return this.parent;
 	}
 
 	@Override
 	public boolean hasChildren()
 	{
-		return hasChildren;
+		return this.hasChildren;
 	}
 
 	@Override
@@ -167,13 +172,13 @@ public abstract class BaseHierarchicalTestVO extends BaseVO implements IHierarch
 	@Override
 	public String getParentClassName()
 	{
-		return parentClassName;
+		return this.parentClassName;
 	}
 
 	@Override
 	public Long getParentId()
 	{
-		return parentId;
+		return this.parentId;
 	}
 
 }

@@ -344,7 +344,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					simpletype String id
 				}
 
-				remotemethod getConfigurationById returns customtype "de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration" {
+				remotemethod getConfigurationById returns customtype "de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO" {
 					simpletype String id
 				}
 

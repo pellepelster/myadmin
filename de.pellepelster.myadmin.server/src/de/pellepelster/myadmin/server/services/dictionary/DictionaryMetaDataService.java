@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
@@ -44,8 +46,8 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 	@Autowired
 	private IDictionaryService dictionaryService;
 
-	@Autowired
-	private ISearchIndexService searchIndexService;
+	@Autowired(required = false)
+	private Optional<ISearchIndexService> searchIndexService = Optional.absent();
 
 	@Autowired
 	private IBaseVODAO baseVODAO;
@@ -54,35 +56,40 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 	public void afterPropertiesSet() throws Exception
 	{
 
-		this.baseVODAO.getVODAOCallbacks().add(new IVODAOCallback()
+		if (this.searchIndexService.isPresent())
 		{
-			@Override
-			public <VOType extends IBaseVO> void onAdd(VOType vo)
+			this.baseVODAO.getVODAOCallbacks().add(new IVODAOCallback()
 			{
-				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
+				@Override
+				public <VOType extends IBaseVO> void onAdd(VOType vo)
 				{
-					DictionaryMetaDataService.this.searchIndexService.add(DictionaryLabelIndexElementFactory.createElement(dictionaryModel, vo));
+					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
+					{
+						DictionaryMetaDataService.this.searchIndexService.get().add(DictionaryLabelIndexElementFactory.createElement(dictionaryModel, vo));
+					}
 				}
-			}
 
-			@Override
-			public void onDeleteAll(Class<? extends IBaseVO> voClass)
-			{
-				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(voClass))
+				@Override
+				public void onDeleteAll(Class<? extends IBaseVO> voClass)
 				{
-					DictionaryMetaDataService.this.searchIndexService.deleteAll(DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel));
+					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(voClass))
+					{
+						DictionaryMetaDataService.this.searchIndexService.get().deleteAll(
+								DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel));
+					}
 				}
-			}
 
-			@Override
-			public <T extends IBaseVO> void onDelete(T vo)
-			{
-				for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
+				@Override
+				public <T extends IBaseVO> void onDelete(T vo)
 				{
-					DictionaryMetaDataService.this.searchIndexService.delete(DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel, vo));
+					for (IDictionaryModel dictionaryModel : DictionaryMetaDataService.this.getModelsForVO(vo))
+					{
+						DictionaryMetaDataService.this.searchIndexService.get().delete(
+								DictionaryLabelIndexElementFactory.createElementQuery(dictionaryModel, vo));
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public void setDictionaryService(IDictionaryService dictionaryService)
@@ -92,7 +99,7 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 
 	public void setSearchIndexService(ISearchIndexService searchIndexService)
 	{
-		this.searchIndexService = searchIndexService;
+		this.searchIndexService = Optional.of(searchIndexService);
 	}
 
 	public List<IDictionaryModel> getModelsForVO(IBaseVO vo)

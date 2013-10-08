@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,56 +15,80 @@ import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public abstract class BaseVOSelectionPopup<VOType extends IBaseVO> {
+public abstract class BaseVOSelectionPopup<VOType extends IBaseVO>
+{
 	private final String message;
 
 	private DialogBox dialogBox;
 
 	private SimpleCallback<VOType> voSelectHandler;
 
-	protected BaseVOSelectionPopup(String message, final SimpleCallback<VOType> voSelectHandler) {
+	protected BaseVOSelectionPopup(String message, final SimpleCallback<VOType> voSelectHandler)
+	{
 		this.message = message;
 		this.voSelectHandler = voSelectHandler;
 	}
 
-	protected abstract Widget createDialogBoxContent();
-
-	private void createOkButton(HorizontalPanel buttonPanel) {
+	private void createOkButton(HorizontalPanel buttonPanel)
+	{
 		ImageButton okButton = new ImageButton(MyAdmin.RESOURCES.ok());
 		buttonPanel.add(okButton);
-		okButton.addClickHandler(new ClickHandler() {
+		okButton.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
-				closeDialogWithSelection(getCurrentSelection());
+			public void onClick(ClickEvent event)
+			{
+				getCurrentSelection(new AsyncCallback<VOType>()
+				{
+
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						throw new RuntimeException(caught);
+					}
+
+					@Override
+					public void onSuccess(VOType result)
+					{
+						closeDialogWithSelection(result);
+					}
+				});
 			}
 		});
 	}
 
-	protected void closeDialogWithSelection(VOType selection) {
+	protected void closeDialogWithSelection(VOType selection)
+	{
 		voSelectHandler.onCallback(selection);
 		dialogBox.hide();
 	}
 
-	private void createCancelButton(HorizontalPanel buttonPanel) {
+	private void createCancelButton(HorizontalPanel buttonPanel)
+	{
 		ImageButton cancelButton = new ImageButton(MyAdmin.RESOURCES.cancel());
-		cancelButton.addClickHandler(new ClickHandler() {
+		cancelButton.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event)
+			{
 				dialogBox.hide();
 			}
 		});
 		buttonPanel.add(cancelButton);
 	}
 
-	public void show() {
-		if (dialogBox == null) {
+	public void show()
+	{
+		if (dialogBox == null)
+		{
 			initDialogBox();
 		}
 
 		dialogBox.show();
 	}
 
-	protected void initDialogBox() {
+	protected void initDialogBox()
+	{
 		dialogBox = new DialogBox(false, true);
 		dialogBox.setGlassEnabled(true);
 		dialogBox.setWidth(BaseCellTable.DEFAULT_TABLE_WIDTH);
@@ -87,9 +112,13 @@ public abstract class BaseVOSelectionPopup<VOType extends IBaseVO> {
 		createCancelButton(buttonPanel);
 	}
 
-	public void setVoSelectHandler(SimpleCallback<VOType> voSelectHandler) {
+	public void setVoSelectHandler(SimpleCallback<VOType> voSelectHandler)
+	{
 		this.voSelectHandler = voSelectHandler;
 	}
 
-	protected abstract VOType getCurrentSelection();
+	protected abstract void getCurrentSelection(AsyncCallback<VOType> asyncCallback);
+
+	protected abstract Widget createDialogBoxContent();
+
 }

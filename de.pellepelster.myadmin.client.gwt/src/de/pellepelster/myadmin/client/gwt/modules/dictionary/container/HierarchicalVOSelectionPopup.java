@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTree;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -18,9 +18,11 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 {
 	private HierarchicalTree hierarchicalTree;
 
-	private HierarchicalConfiguration hierarchicalConfiguration;
+	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
-	private HierarchicalVOSelectionPopup(HierarchicalConfiguration hierarchicalConfiguration, IHierarchicalControlModel hierarchicalControlModel)
+	private DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO;
+
+	private HierarchicalVOSelectionPopup(HierarchicalConfigurationVO hierarchicalConfiguration, IHierarchicalControlModel hierarchicalControlModel)
 	{
 		super("<none>", null);
 
@@ -30,7 +32,7 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 	public static void create(final IHierarchicalControlModel hierarchicalControlModel, final AsyncCallback<HierarchicalVOSelectionPopup> asyncCallback)
 	{
 		MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService()
-				.getConfigurationById(hierarchicalControlModel.getHierarchicalId(), new AsyncCallback<HierarchicalConfiguration>()
+				.getConfigurationById(hierarchicalControlModel.getHierarchicalId(), new AsyncCallback<HierarchicalConfigurationVO>()
 				{
 
 					@Override
@@ -40,7 +42,7 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 					}
 
 					@Override
-					public void onSuccess(HierarchicalConfiguration result)
+					public void onSuccess(HierarchicalConfigurationVO result)
 					{
 						asyncCallback.onSuccess(new HierarchicalVOSelectionPopup(result, hierarchicalControlModel));
 					}
@@ -59,30 +61,9 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 		{
 
 			@Override
-			public void onCallback(DictionaryHierarchicalNodeVO t)
+			public void onCallback(DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO)
 			{
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().read(t.getVoId(), t.getVoClassName(), new AsyncCallback<IBaseVO>()
-				{
-
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						throw new RuntimeException(caught);
-					}
-
-					@Override
-					public void onSuccess(IBaseVO result)
-					{
-						if (result instanceof IHierarchicalVO)
-						{
-							closeDialogWithSelection((IHierarchicalVO) result);
-						}
-						else
-						{
-							throw new RuntimeException("unsupported vo type '" + result.getClass().getName() + "'");
-						}
-					}
-				});
+				HierarchicalVOSelectionPopup.this.dictionaryHierarchicalNodeVO = dictionaryHierarchicalNodeVO;
 
 			}
 		});
@@ -122,9 +103,30 @@ public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarch
 	// }
 
 	@Override
-	protected IHierarchicalVO getCurrentSelection()
+	protected void getCurrentSelection(final AsyncCallback<IHierarchicalVO> asyncCallback)
 	{
-		return null; // voTable.getCurrentSelection();
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
+				.read(dictionaryHierarchicalNodeVO.getVoId(), dictionaryHierarchicalNodeVO.getVoClassName(), new AsyncCallback<IBaseVO>()
+				{
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						asyncCallback.onFailure(caught);
+					}
+
+					@Override
+					public void onSuccess(IBaseVO result)
+					{
+						if (result instanceof IHierarchicalVO)
+						{
+							asyncCallback.onSuccess((IHierarchicalVO) result);
+						}
+						else
+						{
+							throw new RuntimeException("unsupported vo type '" + result.getClass().getName() + "'");
+						}
+					}
+				});
 	}
 
 }

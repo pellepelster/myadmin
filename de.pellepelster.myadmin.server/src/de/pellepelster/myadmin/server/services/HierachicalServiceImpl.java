@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.server.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,8 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.BaseHierarchicalConfiguration;
+import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.VOHierarchy;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
@@ -50,8 +52,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 
 	private List<Class<? extends IHierarchicalVO>> hierarchicalClasses;
 
-	@Autowired(required = false)
-	private List<HierarchicalConfiguration> hierarchicalConfigurations;
+	private List<HierarchicalConfigurationVO> hierarchicalConfigurations = new ArrayList<HierarchicalConfigurationVO>();
 
 	private Map<String, List<VOHierarchy>> voHierarchies = null;
 
@@ -125,16 +126,13 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	}
 
 	@Override
-	public HierarchicalConfiguration getConfigurationById(String id)
+	public HierarchicalConfigurationVO getConfigurationById(String id)
 	{
-		if (this.hierarchicalConfigurations != null)
+		for (HierarchicalConfigurationVO hierarchicalConfiguration : this.hierarchicalConfigurations)
 		{
-			for (HierarchicalConfiguration hierarchicalConfiguration : this.hierarchicalConfigurations)
+			if (hierarchicalConfiguration.getId().equals(id))
 			{
-				if (hierarchicalConfiguration.getId().equals(id))
-				{
-					return hierarchicalConfiguration;
-				}
+				return hierarchicalConfiguration;
 			}
 		}
 
@@ -165,16 +163,11 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		}
 	}
 
-	public List<HierarchicalConfiguration> getHierarchicalConfigurations()
-	{
-		return this.hierarchicalConfigurations;
-	}
-
 	private List<VOHierarchy> getRootHierarchies(String id)
 	{
 		List<VOHierarchy> result = new ArrayList<VOHierarchy>();
 
-		for (VOHierarchy voHierarchy : this.voHierarchies.get(id))
+		for (VOHierarchy voHierarchy : this.getVOHierarchy(id))
 		{
 			if (voHierarchy.getParents().isEmpty())
 			{
@@ -190,12 +183,8 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	@Override
 	public List<DictionaryHierarchicalNodeVO> getRootNodes(String id)
 	{
-		if (this.voHierarchies == null)
-		{
-			initVOHierarchies();
-		}
-
 		List<DictionaryHierarchicalNodeVO> result = new ArrayList<DictionaryHierarchicalNodeVO>();
+
 		for (VOHierarchy voHierarchy : getRootHierarchies(id))
 		{
 			result.addAll(getChildNodes(voHierarchy, null, null));
@@ -208,7 +197,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	{
 		List<VOHierarchy> result = new ArrayList<VOHierarchy>();
 
-		for (VOHierarchy voHierarchy : this.voHierarchies.get(id))
+		for (VOHierarchy voHierarchy : this.getVOHierarchy(id))
 		{
 			Class<?> parentClass = getHierarchicalClass(parentClassName);
 
@@ -238,41 +227,59 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		return count > 0;
 	}
 
-	private void initVOHierarchies()
+	private List<VOHierarchy> getVOHierarchy(String hierarchicalConfigurationId)
 	{
-		this.voHierarchies = new HashMap<String, List<VOHierarchy>>();
-
-		for (HierarchicalConfiguration hierarchicalConfiguration : this.hierarchicalConfigurations)
+		if (getAndInitVOHierarchies().containsKey(hierarchicalConfigurationId))
 		{
+			return getAndInitVOHierarchies().get(hierarchicalConfigurationId);
+		}
+		else
+		{
+			return Collections.EMPTY_LIST;
+		}
+	}
 
-			for (Map.Entry<String, List<String>> dictionaryHierarchy : hierarchicalConfiguration.getHierarchy().entrySet())
+	private Map<String, List<VOHierarchy>> getAndInitVOHierarchies()
+	{
+		if (this.voHierarchies == null)
+		{
+			this.voHierarchies = new HashMap<String, List<VOHierarchy>>();
+
+			for (HierarchicalConfigurationVO hierarchicalConfiguration : this.hierarchicalConfigurations)
 			{
-				IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary(dictionaryHierarchy.getKey());
 
-				Class<? extends IHierarchicalVO> voClass = getHierarchicalClass(dictionaryModel.getVOName());
-				List<Class<? extends IHierarchicalVO>> parentClasses = new ArrayList<Class<? extends IHierarchicalVO>>();
-
-				for (String parentDictionaryName : dictionaryHierarchy.getValue())
-
-					if (parentDictionaryName == null)
-					{
-						parentClasses.add(null);
-					}
-					else
-					{
-						String parentClassName = this.dictionaryService.getDictionary(parentDictionaryName).getVOName();
-						parentClasses.add(getHierarchicalClass(parentClassName));
-					}
-
-				if (!this.voHierarchies.containsKey(hierarchicalConfiguration.getId()))
+				for (Map.Entry<String, List<String>> dictionaryHierarchy : hierarchicalConfiguration.getHierarchy().entrySet())
 				{
-					this.voHierarchies.put(hierarchicalConfiguration.getId(), new ArrayList<VOHierarchy>());
+					IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary(dictionaryHierarchy.getKey());
+
+					Class<? extends IHierarchicalVO> voClass = getHierarchicalClass(dictionaryModel.getVOName());
+					List<Class<? extends IHierarchicalVO>> parentClasses = new ArrayList<Class<? extends IHierarchicalVO>>();
+
+					for (String parentDictionaryName : dictionaryHierarchy.getValue())
+					{
+						if (parentDictionaryName == null)
+						{
+							parentClasses.add(null);
+						}
+						else
+						{
+							String parentClassName = this.dictionaryService.getDictionary(parentDictionaryName).getVOName();
+							parentClasses.add(getHierarchicalClass(parentClassName));
+						}
+					}
+
+					if (!this.voHierarchies.containsKey(hierarchicalConfiguration.getId()))
+					{
+						this.voHierarchies.put(hierarchicalConfiguration.getId(), new ArrayList<VOHierarchy>());
+					}
+
+					this.voHierarchies.get(hierarchicalConfiguration.getId()).add(new VOHierarchy(dictionaryModel, voClass, parentClasses));
 				}
 
-				this.voHierarchies.get(hierarchicalConfiguration.getId()).add(new VOHierarchy(dictionaryModel, voClass, parentClasses));
 			}
-
 		}
+
+		return this.voHierarchies;
 	}
 
 	public void setBaseVODAO(IBaseVODAO baseVODAO)
@@ -290,9 +297,13 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		this.entityVOMapper = entityVOMapper;
 	}
 
-	public void setHierarchicalConfigurations(List<HierarchicalConfiguration> hierarchicalConfigurations)
+	@Autowired(required = false)
+	public void setHierarchicalConfigurations(List<BaseHierarchicalConfiguration> hierarchicalConfigurations)
 	{
-		this.hierarchicalConfigurations = hierarchicalConfigurations;
+		for (BaseHierarchicalConfiguration hierarchicalConfiguration : hierarchicalConfigurations)
+		{
+			this.hierarchicalConfigurations.add(hierarchicalConfiguration.getHierarchyConfigurationVO());
+		}
 	}
 
 }

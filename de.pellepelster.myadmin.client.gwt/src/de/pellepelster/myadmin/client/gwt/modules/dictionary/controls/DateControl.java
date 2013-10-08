@@ -49,7 +49,7 @@ public class DateControl extends DateBox implements IControl<Widget>
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event)
 			{
-				gwtControlHelper.fireValueChangeListeners(dateControlModel.getAttributePath(), event.getValue());
+				gwtControlHelper.fireValueChangeListeners(event.getValue());
 			}
 		});
 

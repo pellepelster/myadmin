@@ -522,6 +522,13 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 	@Override
 	public void read(Long id, String voClassName, AsyncCallback<IBaseVO> callback)
 	{
+		if (voClassName.equals(HierarchicalTest1VO.class.getName()))
+		{
+			HierarchicalTest1VO hierarchicalTest1VO = new HierarchicalTest1VO(null);
+			hierarchicalTest1VO.setString1("xxx");
+			callback.onSuccess(hierarchicalTest1VO);
+		}
+
 	}
 
 	/** {@inheritDoc} */
