@@ -227,7 +227,6 @@ public class Extensions
 
 	public static Model getRootModel(EObject eObject)
 	{
-
 		while (!(eObject instanceof Model) && eObject != null)
 		{
 			eObject = eObject.eContainer();

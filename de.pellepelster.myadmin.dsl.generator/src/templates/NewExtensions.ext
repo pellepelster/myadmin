@@ -38,6 +38,9 @@ PackageDeclaration getSingleRootPackage(Model model) :
 List[Entity] getReferencedEntitiesWithoutDuplicates(Entity entity) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getReferencedEntitiesWithoutDuplicates(de.pellepelster.myadmin.dsl.myAdminDsl.Entity);
 
+List[EObject] getReferencedEntitiesWithoutDuplicates(EObject eObject) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getReferencedEntitiesWithoutDuplicates(de.pellepelster.myadmin.dsl.myAdminDsl.Entity);
+
 //- xsd -----------------------------------------------------------------------
 String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
 String xsdQualifier(Entity entity): entity.name.toLowerCase();

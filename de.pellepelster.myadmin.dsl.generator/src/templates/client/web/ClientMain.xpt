@@ -8,7 +8,8 @@
 	«storeGlobalVar("model_scope", ModelScope::web)»
 	
 	«info("generating web vos")»
-	«EXPAND templates::vo::VO::webVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
+	«»
+	«EXPAND templates::vo::VO::webVOEntityFile FOREACH this.eRootContainer.eAllContents.typeSelect(Entity)»
 
 	«info("generating remote services")»
 	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
