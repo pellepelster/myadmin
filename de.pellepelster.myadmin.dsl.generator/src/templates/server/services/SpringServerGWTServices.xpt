@@ -16,7 +16,7 @@
 	    <property name="order" value="10"/>
 		<property name="mappings">
 			<map>
-				«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+				«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 					«IF !isNonPublic(remoteService)»
 						<entry key="/rpc/«remoteService.name.toFirstUpper()»" value-ref="«remoteService.name.toFirstLower()»" />
 					«ENDIF»

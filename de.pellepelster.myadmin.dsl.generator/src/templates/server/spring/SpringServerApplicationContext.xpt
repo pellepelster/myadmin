@@ -30,7 +30,7 @@
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 	<bean id="«remoteService.name.toFirstLower()»"
 		class="«fullQualifiedImplementationName(remoteService)»">
 	</bean>

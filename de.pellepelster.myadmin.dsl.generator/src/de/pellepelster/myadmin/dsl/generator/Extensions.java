@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -36,6 +37,8 @@ import de.pellepelster.myadmin.dsl.util.ModelUtil;
 public class Extensions
 {
 
+	private static final Logger LOG = Logger.getLogger(Extensions.class);
+
 	public static final String SIMPLE_VO_POSTFIX = "SimpleVO";
 
 	public static final String WEB_ROOT_PACKAGE_POSTFIX = "client.web";
@@ -51,8 +54,15 @@ public class Extensions
 	public static List<EObject> allElements(EObject anElementInRootResource)
 	{
 		ResourceSet resourceSet = anElementInRootResource.eResource().getResourceSet();
-
 		Iterator<EObject> iter = Iterators.filter(EcoreUtil.getAllContents(resourceSet, true), EObject.class);
+
+		// LOG.info(String.format("getting all elements for '%s'",
+		// anElementInRootResource));
+		// for (Resource r :
+		// anElementInRootResource.eResource().getResourceSet().getResources())
+		// {
+		// LOG.debug(String.format("resource '%s'", r.getURI().toString()));
+		// }
 
 		return Lists.newArrayList(iter);
 	}

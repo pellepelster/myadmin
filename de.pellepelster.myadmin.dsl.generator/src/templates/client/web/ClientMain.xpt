@@ -8,11 +8,10 @@
 	«storeGlobalVar("model_scope", ModelScope::web)»
 	
 	«info("generating web vos")»
-	«»
-	«EXPAND templates::vo::VO::webVOEntityFile FOREACH this.eRootContainer.eAllContents.typeSelect(Entity)»
+	«EXPAND templates::vo::VO::webVOEntityFile FOREACH allElements().typeSelect(Entity)»
 
 	«info("generating remote services")»
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 			«EXPAND templates::services::RemoteService::remoteService FOR remoteService»
 			«EXPAND services::GWTRemoteService::gwtRemoteService FOR remoteService»
@@ -24,16 +23,16 @@
 	«EXPAND services::GWTRemoteServiceLocator::gwtRemoteServiceLocator FOR this»
 
 	«info("generating base client modules")»
-	«EXPAND ClientModule::baseModuleClass FOREACH eAllContents.typeSelect(ModuleDefinition)»
+	«EXPAND ClientModule::baseModuleClass FOREACH allElements().typeSelect(ModuleDefinition)»
 	
 	«info("generating dictionary identifiers")»
-	«EXPAND dictionary::DictionaryIDs::dictionaryID FOREACH eAllContents.typeSelect(Dictionary)»
+	«EXPAND dictionary::DictionaryIDs::dictionaryID FOREACH allElements().typeSelect(Dictionary)»
 
 	«info("generating dictionary debug identifiers")»
-	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID({String}) FOREACH eAllContents.typeSelect(Dictionary)»
+	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID({String}) FOREACH allElements().typeSelect(Dictionary)»
 
 	«info("generating dictionary hook registrations")»
-	«EXPAND dictionary::Hooks::hookRegistration FOREACH eAllContents.typeSelect(Dictionary)»
+	«EXPAND dictionary::Hooks::hookRegistration FOREACH allElements().typeSelect(Dictionary)»
 
 	«EXPAND GwtModule::clientGeneratedModuleDefinition FOR this»
 	

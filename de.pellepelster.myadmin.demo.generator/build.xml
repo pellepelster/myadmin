@@ -10,7 +10,7 @@
 
 	<path id="local.lib.path.id">
 		<path refid="lib.path.id" />
-		<fileset dir="${build.dir}" includes="*.jar" />
+		<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
 	</path>
 
 	<path id="xjc.classpath">

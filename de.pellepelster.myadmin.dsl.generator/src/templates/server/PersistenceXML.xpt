@@ -11,7 +11,7 @@
 
 		<persistence-unit name="«persistenceUnitName()»">
 
-		«FOREACH  eRootContainer.eAllContents.typeSelect(Entity) AS entity»
+		«FOREACH  allElements().typeSelect(Entity) AS entity»
 		<class>«fullQualifiedEntityName(entity)-»</class>
 		«ENDFOREACH»
 

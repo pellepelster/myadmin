@@ -25,7 +25,7 @@ public class «name»RemoteServiceLocator {
         this.applicationContextProvider = applicationContextProvider;
     }
 
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		    public final «fullQualifiedInterfaceName(remoteService, ModelScope::web)» get«remoteService.name.toFirstUpper()»() {
 		        return («fullQualifiedInterfaceName(remoteService, ModelScope::web)») applicationContextProvider.getContext().getBean("«remoteService.name.toFirstLower()»");

@@ -8,9 +8,9 @@
 	«storeGlobalVar("model_scope", ModelScope::client_base)»
 	
 	«info("generating enumarations")»
-	«EXPAND templates::vo::VO::voEnumeration FOREACH eAllContents.typeSelect(Enumeration)»
+	«EXPAND templates::vo::VO::voEnumeration FOREACH allElements().typeSelect(Enumeration)»
 
 	«info("generating simple vos")»
-	«EXPAND templates::vo::VO::simpleVOFile FOREACH eAllContents.typeSelect(SimpleVO)»
+	«EXPAND templates::vo::VO::simpleVOFile FOREACH allElements().typeSelect(SimpleVO)»
 
 «ENDDEFINE»

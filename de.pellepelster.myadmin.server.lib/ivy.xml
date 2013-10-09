@@ -25,7 +25,7 @@
 			<artifact name="spring-core" type="jar" />
 		</dependency>
 
-		<dependency org="com.google.guava" name="guava" rev="13.0.1" />
+		<dependency org="com.google.guava" name="guava" rev="14.0" />
 
 		<dependency org="commons-cli" name="commons-cli" rev="1.2" transitive="false" />
 

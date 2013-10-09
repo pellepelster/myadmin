@@ -74,7 +74,7 @@ public class «baseRestServiceControllerName()» {
 		<mvc:annotation-driven/>
 	
 		<!--
-		«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+		«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 			<bean id="«remoteService.name.toFirstLower()»Rest" class="«fullyQualifiedBaseRestServiceControllerName(remoteService)»" />
 		«ENDFOREACH»
 		-->

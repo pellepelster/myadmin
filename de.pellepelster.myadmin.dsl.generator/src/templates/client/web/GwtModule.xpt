@@ -16,7 +16,7 @@
 	<source path="«webServicePackageName()»" />
 	«ENDREM»
 
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 	«REM»<source path="«fullQualifiedPackageName(getParentEntityPackage(remoteService))»" />«ENDREM»
 	«ENDFOREACH»
 	

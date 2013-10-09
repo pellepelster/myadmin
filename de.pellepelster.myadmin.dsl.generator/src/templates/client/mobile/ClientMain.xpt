@@ -10,11 +10,11 @@
 	«EXPAND templates::vo::VO::mobileVOEntityFile FOREACH eAllContents.typeSelect(Entity)»
 
 	«info("generating mobile remote services")»
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«EXPAND services::MobileServiceImpl::mobileClientServiceImpl FOR remoteService»
 	«ENDFOREACH»
 
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«FOREACH remoteService.remoteMethods AS remoteMethod»
 			«EXPAND services::MobileServiceImpl::mobileParameterWrapper(remoteService) FOR remoteMethod»
 		«ENDFOREACH»

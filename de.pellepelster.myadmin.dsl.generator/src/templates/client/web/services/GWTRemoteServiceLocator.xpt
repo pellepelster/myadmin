@@ -19,7 +19,7 @@ public class «GWTServiceLocatorName()» implements «GWTServiceLocatorInterface
         return instance;
     }
 
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService)» get«serviceName(remoteService)»() {
 				final «fullQualifiedInterfaceNameGWTAsync(remoteService)» service = («fullQualifiedInterfaceNameGWTAsync(remoteService)») com.google.gwt.core.client.GWT.create(«fullQualifiedInterfaceNameGWT(remoteService)».class);
@@ -38,7 +38,7 @@ public class «GWTServiceLocatorName()» implements «GWTServiceLocatorInterface
 package «fullQualifiedGWTServiceLocatorPackage()»;
 
 public interface «GWTServiceLocatorInterfaceName()» {
-	«FOREACH eAllContents.typeSelect(RemoteService) AS remoteService»
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService)» get«serviceName(remoteService)»();
 		«ENDIF»

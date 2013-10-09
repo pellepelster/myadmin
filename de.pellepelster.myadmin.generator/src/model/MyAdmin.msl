@@ -2,32 +2,6 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 	
 	package de.pellepelster.myadmin {
 
-		simplevo Systeminformation {
-			simpletype String hostName
-			simpletype String ipAddress
-		}
-
-		simplevo LogEntry {
-			simpletype String logText
-		}
-
-		entity DictionaryLabelSearchIndex {
-			simpletype String dictionaryName
-			simpletype String voClassName
-			simpletype Long voId
-			simpletype String ^text
-		}
-
-		remoteservice SystemService {
-	
-			remotemethod getSystemInformation returns simplevotype Systeminformation  {
-			}
-			
-			remotemethod getLog returns simplevotype LogEntry *  {
-			}
-			
-		}
-
 		package datatypes {
 	
 			//- user -------------------------------------------------
