@@ -1,5 +1,5 @@
 «IMPORT myAdminDsl»
-«EXTENSION templates::NewExtensions»
+«EXTENSION templates::Extensions»
 
 //- attributeGetterSetter -----------------------------------------------------
 «DEFINE attributeGetterSetter(String typeName, String attributeName) FOR Object»

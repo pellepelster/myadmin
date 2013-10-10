@@ -1,5 +1,5 @@
 «IMPORT myAdminDsl»
-«EXTENSION templates::NewExtensions»
+«EXTENSION templates::Extensions»
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 «EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
 

@@ -1,5 +1,5 @@
 «IMPORT myAdminDsl»
-«EXTENSION templates::NewExtensions»
+«EXTENSION templates::Extensions»
 
 «DEFINE commentFile(String filename) FOR Object»
 /**
