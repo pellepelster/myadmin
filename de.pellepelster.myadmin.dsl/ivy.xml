@@ -56,12 +56,14 @@
 		<dependency org="org.eclipse" name="osgi" rev="3.5.0.v20090520" conf="runtime.eclipse->default" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" conf="runtime.eclipse->default" />
 		
+		<!-- 
 		<dependency org="org.eclipse" name="org.eclipse.core.resources" rev="3.8.0.v20120522-2034" />
 		<dependency org="org.eclipse" name="org.eclipse.core.jobs" rev="3.5.300.v20120912-155018" />
 		<dependency org="org.eclipse" name="org.eclipse.core.runtime" rev="3.8.0.v20120912-155025" />
 		<dependency org="org.eclipse" name="org.eclipse.core.contenttype" rev="3.4.200.v20120523-2004" />
 
-			<!-- <dependency org="org.antlr" name="org.antlr.generator" rev="3.2.0.v201108011202" /> <dependency org="org.antlr" name="org.antlr.runtime.source" rev="3.2.0.v201101311130" /> -->
+		<dependency org="org.antlr" name="org.antlr.generator" rev="3.2.0.v201108011202" /> <dependency org="org.antlr" name="org.antlr.runtime.source" rev="3.2.0.v201101311130" />
+		 -->
 
 	</dependencies>
 
