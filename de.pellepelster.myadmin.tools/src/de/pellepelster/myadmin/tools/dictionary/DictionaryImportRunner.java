@@ -40,7 +40,6 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
@@ -56,6 +55,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.Module;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleDefinition;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleParameter;
 import de.pellepelster.myadmin.dsl.myAdminDsl.NavigationNode;
+import de.pellepelster.myadmin.dsl.util.ModelUtil;
 import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
@@ -282,13 +282,11 @@ public class DictionaryImportRunner
 
 	}
 
-	private ModuleVO getOrCreateFakeModuleVO(String moduleDefinitionId, String moduleId, String moduleProperty, String moduleValue)
+	private ModuleVO getOrCreateSimpleModuleVO(String moduleDefinitionId, String moduleId, String moduleProperty, String moduleValue)
 	{
 		if (!this.moduleDefinitionVOs.containsKey(moduleDefinitionId))
 		{
-			ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
-			moduleDefinitionVO.setName(moduleDefinitionId);
-			this.moduleDefinitionVOs.put(moduleDefinitionId, this.baseEntityService.create(moduleDefinitionVO));
+			throw new RuntimeException(String.format("module definition '%s' not found", moduleDefinitionId));
 		}
 
 		ModuleDefinitionVO moduleDefinitionVO = this.moduleDefinitionVOs.get(moduleDefinitionId);
@@ -305,17 +303,6 @@ public class DictionaryImportRunner
 		ModuleVO moduleVO = this.moduleVOs.get(moduleId);
 
 		return moduleVO;
-	}
-
-	private String getParentDictionaryName(EObject eObject)
-	{
-		if (eObject.eContainer() instanceof Dictionary)
-		{
-			Dictionary dictionary = (Dictionary) eObject.eContainer();
-			return dictionary.getName();
-		}
-
-		return null;
 	}
 
 	private void createNavigationTree(List<NavigationNode> navigationNodes, List<ModuleNavigationVO> parentNavigationList, int logIdentation)
@@ -344,16 +331,21 @@ public class DictionaryImportRunner
 
 			if (navigationNode.getDictionaryEditor() != null)
 			{
-				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionaryEditorModule.MODULE_ID,
-						String.format("%s%s", ModuleHandler.FAKE_MODULE_MARKER, navigationNode.getDictionaryEditor().getName()),
+				String dictionaryName = ModelUtil.getParentDictionaryName(navigationNode.getDictionaryEditor());
+
+				ModuleVO moduleVO = getOrCreateSimpleModuleVO(DictionaryEditorModule.MODULE_ID,
+						String.format("%s_%s", dictionaryName, navigationNode.getDictionaryEditor().getName()),
 						DictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, navigationNode.getDictionaryEditor().getName());
+
 				moduleNavigationVO.setModule(moduleVO);
 			}
 
 			if (navigationNode.getDictionarySearch() != null)
 			{
-				ModuleVO moduleVO = getOrCreateFakeModuleVO(DictionarySearchModule.MODULE_ID,
-						String.format("%s%s", ModuleHandler.FAKE_MODULE_MARKER, navigationNode.getDictionarySearch().getName()),
+				String dictionaryName = ModelUtil.getParentDictionaryName(navigationNode.getDictionarySearch());
+
+				ModuleVO moduleVO = getOrCreateSimpleModuleVO(DictionarySearchModule.MODULE_ID,
+						String.format("%s_%s", dictionaryName, navigationNode.getDictionarySearch().getName()),
 						DictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID, navigationNode.getDictionarySearch().getName());
 				moduleNavigationVO.setModule(moduleVO);
 			}

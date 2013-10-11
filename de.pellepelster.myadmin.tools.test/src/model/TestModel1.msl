@@ -2,6 +2,14 @@ project MyAdminDemo {
 
 	package de.pellepelster.myadmin.test {
 
+		navigationnode TestNavigation {
+
+			navigationnode TestDictionary1 {
+				dictionarySearch dictionaries.TestDictionary1.TestDictionary1Search
+			}
+
+		}
+
 		package datatypes {
 	
 			textdatatype TextDataType1 {

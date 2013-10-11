@@ -4,12 +4,14 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
@@ -101,4 +103,33 @@ public class ModelUtil
 		return null;
 	}
 
+	public static <T extends EObject> T getParentEObject(EObject eObject, Class<T> eObjectClass)
+	{
+		EObject currentEObject = eObject;
+
+		while (currentEObject != null && !eObjectClass.isAssignableFrom(currentEObject.getClass()))
+		{
+			currentEObject = eObject.eContainer();
+		}
+
+		if (currentEObject != null)
+		{
+			return (T) currentEObject;
+		}
+		else
+		{
+			throw new RuntimeException(String.format("no parent dictionary found for '%s'", eObject.toString()));
+
+		}
+	}
+
+	public static Dictionary getParentDictionary(EObject eObject)
+	{
+		return getParentEObject(eObject, Dictionary.class);
+	}
+
+	public static String getParentDictionaryName(EObject eObject)
+	{
+		return getParentDictionary(eObject).getName();
+	}
 }
