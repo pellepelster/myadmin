@@ -18,6 +18,8 @@
 	«EXPAND services::SpringClientServices::springClientServices»
 	«EXPAND PersistenceXML::persistence»
 	«EXPAND services::SpringClientRemoteServiceLocator::springclientRemoteServiceLocator»
+	«EXPAND services::SpringServiceLocator::springServiceLocator»
+	«EXPAND services::SpringAsyncServiceLocator::springAsyncServiceLocator»
 	
 	«info("generating spring base rest services")»
 	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»

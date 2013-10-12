@@ -16,6 +16,7 @@
 			«EXPAND templates::services::RemoteService::remoteService FOR remoteService»
 			«EXPAND services::GWTRemoteService::gwtRemoteService FOR remoteService»
 			«EXPAND services::GWTRemoteService::gwtRemoteServiceAsync FOR remoteService»
+			«EXPAND services::GWTRemoteService::gwtRemoteServiceAsyncAdapter FOR remoteService»
 		«ENDIF»
 	«ENDFOREACH»
 

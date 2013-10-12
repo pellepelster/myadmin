@@ -24,10 +24,11 @@
 	package «fullQualifiedServicePackage()»;
 	
 	public interface «interfaceNameGWTAsync()-» {
-		«EXPAND remoteMethodAsync FOREACH remoteMethods»
+		«FOREACH remoteMethods AS remoteMethod»
+			«EXPAND remoteMethodAsync FOR remoteMethod»;
+		«ENDFOREACH»
 	}
 	«ENDFILE»
-
 
 «ENDDEFINE»
 
@@ -35,11 +36,10 @@
 «DEFINE remoteMethodAsync FOR RemoteMethod»
 	«EXPAND templates::type::Type::webVOGenericTypeDefinition FOR genericTypeDefinition»
 	«IF methodParameters.size == 0-»
-	void «name.toFirstLower()»(«EXPAND asyncCallback-»);
+	void «name.toFirstLower()»(«EXPAND asyncCallback-»)
 	«ELSE-»
-	void «name.toFirstLower()»(«EXPAND templates::services::RemoteService::remoteMethodParameter FOREACH methodParameters SEPARATOR ", "-»,«EXPAND asyncCallback-»);
+	void «name.toFirstLower()»(«EXPAND templates::services::RemoteService::remoteMethodParameter FOREACH methodParameters SEPARATOR ", "-»,«EXPAND asyncCallback-»)
 	«ENDIF-»
-
 «ENDDEFINE»
 
 //- asyncCallback -------------------------------------------------------------
@@ -49,5 +49,46 @@
 	«ELSE-»
 	 com.google.gwt.user.client.rpc.AsyncCallback<Void> callback
 	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE gwtRemoteServiceAsyncAdapter FOR RemoteService»
+
+	«info("generating async gwt remote service adapter '" + gwtAsyncAdapterName() +  "'")»
+
+	«FILE fullQualifiedGWTAsyncAdapterFileName()»
+	package «fullQualifiedServicePackage()»;
+	
+	public class «gwtAsyncAdapterName()-» implements «fullQualifiedInterfaceNameGWTAsync()» {
+
+		private «interfaceName()» «this.name.toFirstLower()»;
+		
+		public «gwtAsyncAdapterName()»(«interfaceName()» «this.name.toFirstLower()»)
+		{
+			this.«this.name.toFirstLower()» = «this.name.toFirstLower()»;
+		}
+	
+		«FOREACH remoteMethods AS remoteMethod»
+			public «EXPAND remoteMethodAsync FOR remoteMethod-»
+			{
+				try
+				{
+				«IF remoteMethod.returnType != null»
+					callback.onSuccess(this.«name.toFirstLower()».«remoteMethod.name.toFirstLower()»(«FOREACH remoteMethod.methodParameters AS methodParameter SEPARATOR  ", "-»«methodParameter.name.toFirstLower()»«ENDFOREACH-»));
+				«ELSE»
+					this.«name.toFirstLower()».«remoteMethod.name.toFirstLower()»(«FOREACH remoteMethod.methodParameters AS methodParameter SEPARATOR  ", "-»«methodParameter.name.toFirstLower()»«ENDFOREACH-»);
+					callback.onSuccess(null);
+				«ENDIF»
+				}
+				catch (Exception e)
+				{
+					callback.onFailure(e);
+				}
+			
+			}
+		«ENDFOREACH»
+	
+	}
+	«ENDFILE»
+
 «ENDDEFINE»
 

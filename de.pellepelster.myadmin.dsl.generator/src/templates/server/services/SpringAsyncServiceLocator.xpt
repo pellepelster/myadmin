@@ -1,0 +1,38 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE springAsyncServiceLocator FOR Model»
+«FILE fullQualifiedAsyncServiceLocatorFileName()-»
+package «getRootWebServicePackageName()»;
+
+@org.springframework.stereotype.Component
+public class «asyncServiceLocatorName()» implements «GWTServiceLocatorInterfaceName()» {
+
+    public «asyncServiceLocatorName()»() {
+    }
+
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+		
+		@org.springframework.beans.factory.annotation.Autowired
+			private «fullQualifiedInterfaceName(remoteService, ModelScope::web)» «serviceName(remoteService).toFirstLower()»;
+		
+		    public void set«remoteService.name.toFirstUpper()»(«fullQualifiedInterfaceName(remoteService, ModelScope::web)» «serviceName(remoteService).toFirstLower()») {
+		        this.«serviceName(remoteService).toFirstLower()» = «serviceName(remoteService).toFirstLower()»;
+		    }
+		    
+		«ENDIF»
+	«ENDFOREACH»
+	
+	
+	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
+		«IF !isNonPublic(remoteService)»
+		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService, ModelScope::web)» get«serviceName(remoteService)»() {
+				return new «fullQualifiedGWTAsyncAdapterName(remoteService, ModelScope::web)»(this.«serviceName(remoteService).toFirstLower()»);
+			}
+		«ENDIF»
+	«ENDFOREACH»
+}
+«ENDFILE»
+«ENDDEFINE»

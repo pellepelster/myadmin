@@ -25,6 +25,15 @@
 
 		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->@,sources" />
 
+		<dependency org="com.googlecode.gwt-test-utils" name="gwt-test-utils" rev="0.45"/>
+
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" />
+	
+		<dependency org="org.springframework" name="spring-test" rev="3.1.0.RELEASE" />
+
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->@" />
+
+		
 	</dependencies>
 
 </ivy-module>

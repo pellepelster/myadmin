@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
@@ -35,6 +36,7 @@ import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.search.SolrSearchIndexService;
 
+@Component()
 public class DictionaryServiceImpl implements IDictionaryServiceGWT
 {
 	private final static Logger LOG = Logger.getLogger(SolrSearchIndexService.class);

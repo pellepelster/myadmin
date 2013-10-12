@@ -3,7 +3,7 @@
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 
 «DEFINE springclientRemoteServiceLocator FOR Model»
-«FILE fullQualifiedServiceLocatorFileName()-»
+«FILE fullQualifiedRemoteServiceLocatorFileName()-»
 package «getRootWebServicePackageName()»;
 
 public class «name»RemoteServiceLocator {

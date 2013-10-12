@@ -72,9 +72,15 @@ String fullQualifiedGWTServiceLocatorFileName(Model model): fullQualifiedGWTServ
 String fullQualifiedGWTServiceLocatorInterfaceFileName(Model model): fullQualifiedGWTServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + GWTServiceLocatorInterfaceName(model) + ".java";
 
 //- servicelocator utils ------------------------------------------------------
-String serviceLocatorName(Model model): model.name.toFirstUpper() + "RemoteServiceLocator";
+String remoteServiceLocatorName(Model model): model.name.toFirstUpper() + "RemoteServiceLocator";
+String serviceLocatorName(Model model): model.name.toFirstUpper() + "ServiceLocator";
+String asyncServiceLocatorName(Model model): model.name.toFirstUpper() + "AsyncServiceLocator";
 String fullQualifiedServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
-String fullQualifiedServiceLocatorFileName(Model model): fullQualifiedServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + serviceLocatorName(model) + ".java";
+String fullQualifiedRemoteServiceLocatorFileName(Model model): fullQualifiedServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + remoteServiceLocatorName(model) + ".java";
+String fullQualifiedServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + serviceLocatorName(model);
+String fullQualifiedAsyncServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + asyncServiceLocatorName(model);
+String fullQualifiedServiceLocatorFileName(Model model): fullQualifiedServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
+String fullQualifiedAsyncServiceLocatorFileName(Model model): fullQualifiedAsyncServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
 
 //- entity vo mapper ----------------------------------------------------------
 String fullQualifiedEntityVOMapperFileName(Model model) : fullQualifiedEntityVOMapperName(model).replaceAll('\\.', '/') + '.java';
@@ -82,6 +88,7 @@ String fullQualifiedEntityVOMapperName(Model model) : getRootWebServicePackageNa
 String entityVOMapperName(Model model) : model.name.toFirstUpper() + 'EntityVOMapper';
 
 //- service extensions --------------------------------------------------------
+String fullQualifiedServicePackage(RemoteService remoteService, ModelScope modelScope) : getPackageName(remoteService, modelScope);
 String fullQualifiedServicePackage(RemoteService remoteService) : getPackageName(remoteService);
 String serviceName(RemoteService remoteService) : remoteService.name.toFirstUpper();
 boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOptions != null && remoteService.remoteServiceOptions.nonpublic;
@@ -102,6 +109,10 @@ String hookRegistrationClassName(Dictionary dictionary) : dictionary.name.toFirs
 String fullQualifiedHookRegistrationClassName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + hookRegistrationClassName(dictionary);
 String fullQualifiedHookRegistrationClassFileName(Dictionary dictionary) : fullQualifiedHookRegistrationClassName(dictionary).replaceAll('\\.', '/') + '.java';
 
+String gwtAsyncAdapterName(RemoteService remoteService) : serviceName(remoteService) + "AsyncAdapter";
+String fullQualifiedGWTAsyncAdapterName(RemoteService remoteService, ModelScope modelScope) : fullQualifiedServicePackage(remoteService, modelScope) + "." + gwtAsyncAdapterName(remoteService);
+String fullQualifiedGWTAsyncAdapterName(RemoteService remoteService) : fullQualifiedServicePackage(remoteService) + "." + gwtAsyncAdapterName(remoteService);
+String fullQualifiedGWTAsyncAdapterFileName(RemoteService remoteService) : fullQualifiedGWTAsyncAdapterName(remoteService).replaceAll('\\.', '/') + '.java';
 
 String interfaceName(RemoteService remoteService) : 'I' + serviceName(remoteService);
 String interfaceNameGWT(RemoteService remoteService) : interfaceName(remoteService) + "GWT";
@@ -112,6 +123,7 @@ String fullQualifiedInterfaceName(RemoteService remoteService, ModelScope modelS
 String fullQualifiedInterfaceName(RemoteService remoteService) : fullQualifiedServicePackage(remoteService) + '.' + interfaceName(remoteService);
 
 String fullQualifiedInterfaceNameGWT(RemoteService remoteService) : fullQualifiedServicePackage(remoteService) + '.' + interfaceNameGWT(remoteService);
+String fullQualifiedInterfaceNameGWTAsync(RemoteService remoteService, ModelScope modelScope) : fullQualifiedServicePackage(remoteService, modelScope) + '.' + interfaceNameGWTAsync(remoteService);
 String fullQualifiedInterfaceNameGWTAsync(RemoteService remoteService) : fullQualifiedServicePackage(remoteService) + '.' + interfaceNameGWTAsync(remoteService);
 String fullQualifiedImplementationName(RemoteService remoteService) : getServiceImplementationPackageName(remoteService) + '.' + implementationName(remoteService);
 String fullQualifiedInterfaceFileName(RemoteService remoteService) : fullQualifiedInterfaceName(remoteService).replaceAll('\\.', '/') + '.java';
