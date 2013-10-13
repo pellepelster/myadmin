@@ -5,12 +5,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.db"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.db.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server.core"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=de.pellepelster.myadmin.server.test&amp;ivyXmlPath=ivy.xml&amp;confs=runtime"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.server.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.generator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.db.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

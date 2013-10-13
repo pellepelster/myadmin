@@ -11,21 +11,19 @@
  */
 package de.pellepelster.myadmin.demo.server.test.dictionary;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
+import de.pellepelster.myadmin.tools.SpringModelUtils;
 import de.pellepelster.myadmin.tools.dictionary.DictionaryImportRunner;
 
 public abstract class BaseDemoDictionaryTest extends BaseDemoTest
@@ -79,26 +77,8 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	public void init()
 	{
 
-		PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
-		Resource modelResource = null;
-		List<Resource> modelResources = new ArrayList<Resource>();
-
-		try
-		{
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:model/*.msl"))
-			{
-				modelResources.add(resource);
-			}
-
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath:Demo.msl"))
-			{
-				modelResource = resource;
-			}
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		Resource modelResource = SpringModelUtils.getResource("classpath:model/TestModel1.msl");
+		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
 		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, this.applicationEventMulticaster, modelResources,
 				modelResource);

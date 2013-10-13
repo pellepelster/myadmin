@@ -65,11 +65,11 @@ String fullQualifiedBaseModuleName(ModuleDefinition moduleDefinition) : fullQual
 String fullQualifiedBaseModuleFileName(ModuleDefinition moduleDefinition) : fullQualifiedBaseModuleName(moduleDefinition).replaceAll('\\.', '/') + ".java";
 
 //- GWT servicelocator utils --------------------------------------------------
-String GWTServiceLocatorName(Model model): model.name.toFirstUpper() + "GWTRemoteServiceLocator";
-String GWTServiceLocatorInterfaceName(Model model): "I" + model.name.toFirstUpper() + "GWTRemoteServiceLocator";
+String gwtServiceLocatorName(Model model): model.name.toFirstUpper() + "GWTRemoteServiceLocator";
+String gwtServiceLocatorInterfaceName(Model model): "I" + model.name.toFirstUpper() + "GWTRemoteServiceLocator";
 String fullQualifiedGWTServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
-String fullQualifiedGWTServiceLocatorFileName(Model model): fullQualifiedGWTServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + GWTServiceLocatorName(model) + ".java";
-String fullQualifiedGWTServiceLocatorInterfaceFileName(Model model): fullQualifiedGWTServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + GWTServiceLocatorInterfaceName(model) + ".java";
+String fullQualifiedGWTServiceLocatorFileName(Model model): fullQualifiedGWTServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtServiceLocatorName(model) + ".java";
+String fullQualifiedGWTServiceLocatorInterfaceFileName(Model model): fullQualifiedGWTServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtServiceLocatorInterfaceName(model) + ".java";
 
 //- servicelocator utils ------------------------------------------------------
 String remoteServiceLocatorName(Model model): model.name.toFirstUpper() + "RemoteServiceLocator";

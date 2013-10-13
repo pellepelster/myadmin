@@ -7,7 +7,7 @@
 
 package «fullQualifiedGWTServiceLocatorPackage()»;
 
-public class «GWTServiceLocatorName()» implements «GWTServiceLocatorInterfaceName()» {
+public class «gwtServiceLocatorName()» implements «gwtServiceLocatorInterfaceName()» {
 
     private static final «name»GWTRemoteServiceLocator instance =
         new «name»GWTRemoteServiceLocator();
@@ -37,7 +37,7 @@ public class «GWTServiceLocatorName()» implements «GWTServiceLocatorInterface
 
 package «fullQualifiedGWTServiceLocatorPackage()»;
 
-public interface «GWTServiceLocatorInterfaceName()» {
+public interface «gwtServiceLocatorInterfaceName()» {
 	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService)» get«serviceName(remoteService)»();

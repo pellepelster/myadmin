@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
+import de.pellepelster.myadmin.client.web.IMyAdminGWTRemoteServiceLocator;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
@@ -32,21 +33,32 @@ import de.pellepelster.myadmin.client.web.test.TestMyAdminRemoteServiceLocator;
  */
 public class MyAdminGwtTest implements EntryPoint
 {
+	public MyAdminGwtTest(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
+	{
+		super();
+		init(myAdminGWTRemoteServiceLocator);
+
+	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void onModuleLoad()
 	{
+		init(new TestMyAdminRemoteServiceLocator());
 
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PCT);
-
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
-		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
-		MyAdmin.getInstance().setControlHandler(new ControlHandler());
 
 		gwtLayoutFactory.startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 		gwtLayoutFactory.startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
 				HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1));
+
 	}
+
+	private void init(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
+	{
+		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(myAdminGWTRemoteServiceLocator);
+		MyAdmin.getInstance().setControlHandler(new ControlHandler());
+	}
+
 }

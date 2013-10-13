@@ -2,8 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.4/distro-source/core/src/gwt-module.dtd">
 <module rename-to="DemoTest">
 
-	<inherits name='de.pellepelster.myadmin.MyAdminClientGwt' />
-	<inherits name='com.google.gwt.user.theme.standard.Standard'/>
+	<inherits name='de.pellepelster.myadmin.demo.Demo' />
 	
 	<entry-point class="de.pellepelster.myadmin.demo.client.test.DemoTest" />
 

@@ -31,6 +31,9 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="«serviceLocatorName().toFirstLower()»" class="«fullQualifiedServiceLocatorName()»" />
+	
+	<bean id="«asyncServiceLocatorName().toFirstLower()»" class="«fullQualifiedAsyncServiceLocatorName()»" />
+	
 
 	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 	<bean id="«remoteService.name.toFirstLower()»"
