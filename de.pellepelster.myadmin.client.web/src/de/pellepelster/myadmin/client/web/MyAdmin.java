@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.web;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -20,7 +22,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleFactoryRegistry;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControlFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
@@ -37,8 +39,7 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @version $Rev$, $Date$
  * 
  */
-public final class MyAdmin implements EntryPoint
-{
+public final class MyAdmin implements EntryPoint {
 
 	private ILayoutFactory<?, ?> layoutFactory;
 
@@ -54,17 +55,12 @@ public final class MyAdmin implements EntryPoint
 	 * 
 	 * @return
 	 */
-	public static MyAdmin getInstance()
-	{
-		if (instance == null)
-		{
+	public static MyAdmin getInstance() {
+		if (instance == null) {
 			instance = new MyAdmin();
 		}
 		return instance;
 	}
-
-	/** Root URL for all MyAdmin services */
-	private String rootUrl = "";
 
 	public final static MyAdminMessages MESSAGES = ((MyAdminMessages) GWT.create(MyAdminMessages.class));;
 
@@ -72,58 +68,35 @@ public final class MyAdmin implements EntryPoint
 
 	private IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator;
 
-	private IControlFactory controlHandler;
-
 	/**
 	 * Constructor for {@link MyAdmin}
 	 */
-	private MyAdmin()
-	{
+	private MyAdmin() {
 	}
 
-	public IControlFactory getControlHandler()
-	{
-		return this.controlHandler;
-	}
-
-	public ILayoutFactory<?, ?> getLayoutFactory()
-	{
+	public ILayoutFactory<?, ?> getLayoutFactory() {
 		return this.layoutFactory;
 	}
 
-	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator()
-	{
+	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator() {
 
-		if (this.myAdminGWTRemoteServiceLocator != null)
-		{
+		if (this.myAdminGWTRemoteServiceLocator != null) {
 			return this.myAdminGWTRemoteServiceLocator;
 		}
 
 		return MyAdminGWTRemoteServiceLocator.getInstance();
 	}
 
-	/**
-	 * Returns the root URL for MyAdmin services
-	 * 
-	 * @param rootUrl
-	 */
-	public String getRootUrl()
-	{
-		return this.rootUrl;
-	}
-
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad()
-	{
+	public void onModuleLoad() {
 		init();
 	}
 
 	/**
 	 * Registers all MyAdmin modules
 	 */
-	public void init()
-	{
+	public void init() {
 		instance = this;
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.MODULE_ID, new DictionarySearchModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());
@@ -131,29 +104,22 @@ public final class MyAdmin implements EntryPoint
 		ModuleFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.MODULE_ID, new HierarchicalTreeModuleFactory());
 	}
 
-	public void setControlHandler(IControlFactory controlHandler)
-	{
-		this.controlHandler = controlHandler;
-	}
-
-	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory)
-	{
+	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory) {
 		this.layoutFactory = layoutFactory;
 	}
 
-	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
-	{
+	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator) {
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
 	}
 
-	/**
-	 * Sets the root URL for MyAdmin services
-	 * 
-	 * @param rootUrl
-	 */
-	public void setRootUrl(String rootUrl)
-	{
-		this.rootUrl = rootUrl;
+	public void startModule(String moduleName, String location) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+
+		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
+	}
+
+	public void startModule(String moduleName, String location, Map<String, Object> parameters) {
+		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
 	}
 
 }

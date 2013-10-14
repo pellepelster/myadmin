@@ -26,9 +26,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.core.utils.DateTimeFormat;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
-public class DateControl extends DateBox implements IControl<Widget>
+public class DateControl extends DateBox implements IUIControl<Widget>
 {
 
 	private final IDateControlModel dateControlModel;

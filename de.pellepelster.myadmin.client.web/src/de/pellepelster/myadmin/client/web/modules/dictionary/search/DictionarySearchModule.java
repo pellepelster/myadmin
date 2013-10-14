@@ -19,8 +19,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.layout.DictionarySearchInput;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
@@ -33,51 +33,46 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
  * @version $Rev$, $Date$
  * 
  */
-public class DictionarySearchModule extends BaseDictionarySearchModule
-{
+public class DictionarySearchModule extends BaseDictionarySearchModule {
 	private IDictionaryModel dictionaryModel;
+
+	private DictionarySearch dictionarySearch;
 
 	private final DictionarySearchInput input;
 
-	public DictionarySearchModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
-	{
+	public DictionarySearchModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters) {
 
 		super(moduleVO, moduleCallback, parameters);
 
 		input = new DictionarySearchInput(getSearchDictionaryName());
 
-		DictionaryModelProvider.getDictionaryModel(getSearchDictionaryName(), new AsyncCallback<IDictionaryModel>()
-		{
+		DictionaryModelProvider.getDictionaryModel(getSearchDictionaryName(), new AsyncCallback<IDictionaryModel>() {
 
 			/** {@inheritDoc} */
 			@Override
-			public void onFailure(Throwable caught)
-			{
+			public void onFailure(Throwable caught) {
 				getModuleCallback().onFailure(caught);
 			}
 
 			/** {@inheritDoc} */
 			@Override
-			public void onSuccess(IDictionaryModel dictionaryModel)
-			{
+			public void onSuccess(final IDictionaryModel dictionaryModel) {
 				DictionarySearchModule.this.dictionaryModel = dictionaryModel;
 
 				List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel);
 
-				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new AsyncCallback<List<IDictionaryModel>>()
-				{
+				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new AsyncCallback<List<IDictionaryModel>>() {
 
 					/** {@inheritDoc} */
 					@Override
-					public void onFailure(Throwable caught)
-					{
+					public void onFailure(Throwable caught) {
 						GWT.log("error retrieving dictionary model", caught);
 					}
 
 					/** {@inheritDoc} */
 					@Override
-					public void onSuccess(List<IDictionaryModel> result)
-					{
+					public void onSuccess(List<IDictionaryModel> result) {
+						dictionarySearch = new DictionarySearch(dictionaryModel.getSearchModel());
 						getModuleCallback().onSuccess(DictionarySearchModule.this);
 					}
 				});
@@ -86,13 +81,11 @@ public class DictionarySearchModule extends BaseDictionarySearchModule
 		});
 	}
 
-	public IDictionaryModel getDictionaryModel()
-	{
+	public IDictionaryModel getDictionaryModel() {
 		return dictionaryModel;
 	}
 
-	public String getTitle()
-	{
+	public String getTitle() {
 		return DictionaryUtil.getSearchTitle(dictionaryModel);
 	}
 

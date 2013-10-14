@@ -15,14 +15,12 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
-import de.pellepelster.myadmin.client.web.IMyAdminGWTRemoteServiceLocator;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
-import de.pellepelster.myadmin.client.web.test.TestHierarchicalServiceGWTAsync;
-import de.pellepelster.myadmin.client.web.test.TestMyAdminRemoteServiceLocator;
+import de.pellepelster.myadmin.client.web.test.services.TestHierarchicalServiceGWTAsync;
+import de.pellepelster.myadmin.client.web.test.services.TestMyAdminRemoteServiceLocator;
 
 /**
  * myadmin gwt test application
@@ -31,34 +29,18 @@ import de.pellepelster.myadmin.client.web.test.TestMyAdminRemoteServiceLocator;
  * @version $Rev$, $Date$
  * 
  */
-public class MyAdminGwtTest implements EntryPoint
-{
-	public MyAdminGwtTest(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
-	{
-		super();
-		init(myAdminGWTRemoteServiceLocator);
-
-	}
+public class MyAdminGwtTest implements EntryPoint {
 
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad()
-	{
-		init(new TestMyAdminRemoteServiceLocator());
+	public void onModuleLoad() {
 
-		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PCT);
-		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
+		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
+		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PCT));
 
-		gwtLayoutFactory.startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
-		gwtLayoutFactory.startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
-				HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1));
+		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
+		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(), HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1));
 
-	}
-
-	private void init(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
-	{
-		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(myAdminGWTRemoteServiceLocator);
-		MyAdmin.getInstance().setControlHandler(new ControlHandler());
 	}
 
 }

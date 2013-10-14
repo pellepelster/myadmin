@@ -28,9 +28,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
-public class ReferenceTextControl extends SuggestBox implements IControl<Widget>
+public class ReferenceTextControl extends SuggestBox implements IUIControl<Widget>
 {
 
 	private IBaseVO vo;

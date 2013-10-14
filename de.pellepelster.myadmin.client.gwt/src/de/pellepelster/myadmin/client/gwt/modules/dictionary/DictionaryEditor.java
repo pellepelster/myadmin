@@ -19,10 +19,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.layout.IDictionaryLayoutStrategy;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.gwt.ColumnLayoutStrategy;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IDictionaryEditorUI;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryFilterUI;
@@ -43,9 +42,7 @@ public class DictionaryEditor<VOType extends IBaseVO> implements IDictionaryEdit
 
 	private final List<IUIObservableValue> uiObservableValues = new ArrayList<IUIObservableValue>();
 
-	@SuppressWarnings("unchecked")
-	private final IDictionaryLayoutStrategy<Panel> layoutStrategy = (IDictionaryLayoutStrategy<Panel>) MyAdmin.getInstance()
-			.getLayoutFactory().getLayoutStrategy(uiObservableValues, LAYOUT_TYPE.EDITOR);
+	private final ColumnLayoutStrategy layoutStrategy;
 
 	/**
 	 * Constructor for {@link DictionaryEditor}
@@ -55,6 +52,7 @@ public class DictionaryEditor<VOType extends IBaseVO> implements IDictionaryEdit
 	public DictionaryEditor(DictionaryEditorModule<VOType> dictionaryEditorModule) {
 
 		this.dictionaryModel = dictionaryEditorModule.getDictionaryModel();
+		layoutStrategy = new ColumnLayoutStrategy(uiObservableValues, LAYOUT_TYPE.EDITOR);
 
 		verticalPanel.setWidth("100%");
 		layoutStrategy.createLayout(verticalPanel, dictionaryModel.getEditorModel().getCompositeModel());

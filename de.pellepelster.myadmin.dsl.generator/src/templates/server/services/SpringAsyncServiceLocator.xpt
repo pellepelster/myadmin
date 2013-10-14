@@ -7,7 +7,7 @@
 package «getRootWebServicePackageName()»;
 
 @org.springframework.stereotype.Component
-public class «asyncServiceLocatorName()» implements «gwtServiceLocatorInterfaceName()» {
+public class «asyncServiceLocatorName()» implements «gwtRemoteServiceLocatorInterfaceName()» {
 
     public «asyncServiceLocatorName()»() {
     }

@@ -9,6 +9,7 @@
 	<import file="build.test.base.xml" />
 
 	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
+	
 	<property name="jndi.name" value="jdbc/Demo"/>
 
 	<target name="tomcat.local.run" depends="resolve">

@@ -8,3 +8,5 @@ build
 /war
 /build.xml
 /ivy.xml
+/tomcat
+/war_tmp

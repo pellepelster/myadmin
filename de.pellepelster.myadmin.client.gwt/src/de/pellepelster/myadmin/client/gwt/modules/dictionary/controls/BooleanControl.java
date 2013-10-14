@@ -22,9 +22,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
-public class BooleanControl extends CheckBox implements IControl<Widget>
+public class BooleanControl extends CheckBox implements IUIControl<Widget>
 {
 
 	private final IBooleanControlModel booleanControlModel;

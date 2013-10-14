@@ -27,7 +27,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
  * control factory for date controls
@@ -40,7 +40,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel>
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(IDateControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(IDateControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		return new DateControl(controlModel);
 	}

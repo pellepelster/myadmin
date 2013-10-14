@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
 /**
@@ -35,7 +35,7 @@ public class TextControlFactory extends BaseControlFactory<ITextControlModel>
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(ITextControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(ITextControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		if (controlModel.isReadonly())
 		{

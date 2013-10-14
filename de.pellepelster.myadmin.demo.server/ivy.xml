@@ -12,6 +12,7 @@
 	</configurations>
 	
 	<publications>
+		<artifact name="de.pellepelster.myadmin.demo" type="war" ext="war" conf="master" />
 	</publications>
 
 	<dependencies defaultconf="*->default">

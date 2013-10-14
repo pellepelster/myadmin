@@ -10,7 +10,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Christian Pelster
 Bundle-ClassPath: lib/commons-lang3-jar.jar,
- lib/guava-jar.jar,
+ lib/guava-bundle.jar,
  .
 Export-Package: com.google.common.annotations,
  com.google.common.base,

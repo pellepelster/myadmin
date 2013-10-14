@@ -34,6 +34,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
+import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -104,7 +105,7 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel) {
-		return (Column<VOType, ?>) MyAdmin.getInstance().getControlHandler().createColumn(baseControlModel, false, dataProvider, this);
+		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControlModel, false, dataProvider, this);
 	}
 
 	/** {@inheritDoc} */

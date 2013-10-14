@@ -31,142 +31,107 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
  * @version $Rev$, $Date$
  * 
  */
-public final class ModuleHandler
-{
+public final class ModuleHandler {
 
 	public static final String FAKE_MODULE_MARKER = "FAKE_MODULE#";
 
 	private static ModuleHandler instance;
 
-	public static ModuleHandler getInstance()
-	{
-		if (instance == null)
-		{
+	public static ModuleHandler getInstance() {
+		if (instance == null) {
 			instance = new ModuleHandler();
 		}
 
 		return instance;
 	}
 
-	private ModuleHandler()
-	{
+	private ModuleHandler() {
 	}
 
-	private void getModuleInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
-	{
+	private void getModuleInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters) {
 
 		IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleVO.getModuleDefinition().getName());
 		factory.getNewInstance(moduleVO, moduleCallback, parameters);
 
 	}
 
-	public void startModule(IModule module, Map<String, Object> parameters)
-	{
+	public void startModule(IModule module, Map<String, Object> parameters) {
 		startModule(module, null, parameters);
 	}
 
-	public void startModule(IModule module, String location, Map<String, Object> parameters)
-	{
+	public void startModule(IModule module, String location, Map<String, Object> parameters) {
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, location, parameters);
 	}
 
-	public void startModule(final String moduleName)
-	{
+	public void startModule(final String moduleName) {
 		startModule(moduleName, null, new HashMap<String, Object>());
 	}
 
-	public void startModule(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
-	{
-		if (moduleName.startsWith(FAKE_MODULE_MARKER))
-		{
-			String moduleNameWithoutMarker = moduleName.replace(FAKE_MODULE_MARKER, "");
+	public void startModule(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback) {
 
-			GenericFilterVO<ModuleDefinitionVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class)
-					.addCriteria(ModuleDefinitionVO.FIELD_NAME, moduleNameWithoutMarker).getGenericFilter();
+		GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, moduleName).getGenericFilter();
+		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
 
-			MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleDefinitionVO>>()
-			{
-
-				/** {@inheritDoc} */
-				@Override
-				public void onFailure(Throwable caught)
-				{
-					moduleAsyncCallback.onFailure(caught);
-				}
-
-				@Override
-				public void onSuccess(List<ModuleDefinitionVO> result)
-				{
-					if (result.size() == 1)
-					{
-						ModuleVO moduleVO = new ModuleVO();
-						moduleVO.setName(moduleName);
-						moduleVO.setModuleDefinition(result.get(0));
-
-						getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
-					}
-					else
-					{
-						moduleAsyncCallback.onFailure(new RuntimeException("error loading module by module name, module name was '" + moduleName + "'"));
-					}
-				}
-			});
-
-		}
-		else
-		{
-			GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class)
-					.addCriteria(ModuleVO.FIELD_NAME, moduleName).getGenericFilter();
-			genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
-
-			MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleVO>>()
-			{
-
-				/** {@inheritDoc} */
-				@Override
-				public void onFailure(Throwable caught)
-				{
-					moduleAsyncCallback.onFailure(caught);
-				}
-
-				/** {@inheritDoc} */
-				@Override
-				public void onSuccess(List<ModuleVO> result)
-				{
-					if (result.size() == 1)
-					{
-						getModuleInstance(result.get(0), moduleAsyncCallback, parameters);
-					}
-					else
-					{
-						moduleAsyncCallback.onFailure(new RuntimeException("error loading module by module name, module name was '" + moduleName + "'"));
-					}
-				}
-			});
-		}
-	}
-
-	public void startModule(final String moduleName, final String location)
-	{
-		startModule(moduleName, location, new HashMap<String, Object>());
-	}
-
-	public void startModule(final String moduleName, final String location, final Map<String, Object> parameters)
-	{
-		startModule(moduleName, parameters, new AsyncCallback<IModule>()
-		{
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleVO>>() {
 
 			/** {@inheritDoc} */
 			@Override
-			public void onFailure(Throwable caught)
-			{
+			public void onFailure(Throwable caught) {
+				moduleAsyncCallback.onFailure(caught);
+			}
+
+			/** {@inheritDoc} */
+			@Override
+			public void onSuccess(List<ModuleVO> result) {
+				if (result.size() == 1) {
+					getModuleInstance(result.get(0), moduleAsyncCallback, parameters);
+				} else {
+
+					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class).addCriteria(ModuleDefinitionVO.FIELD_NAME, moduleName).getGenericFilter();
+
+					MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleDefinitionVO>>() {
+
+						/** {@inheritDoc} */
+						@Override
+						public void onFailure(Throwable caught) {
+							moduleAsyncCallback.onFailure(caught);
+						}
+
+						@Override
+						public void onSuccess(List<ModuleDefinitionVO> result) {
+							if (result.size() == 1) {
+								ModuleVO moduleVO = new ModuleVO();
+								moduleVO.setName(moduleName);
+								moduleVO.setModuleDefinition(result.get(0));
+
+								getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
+							} else {
+								moduleAsyncCallback.onFailure(new RuntimeException("no module found with name '" + moduleName + "'"));
+							}
+						}
+					});
+
+				}
+			}
+		});
+	}
+
+	public void startModule(final String moduleName, final String location) {
+		startModule(moduleName, location, new HashMap<String, Object>());
+	}
+
+	public void startModule(final String moduleName, final String location, final Map<String, Object> parameters) {
+		startModule(moduleName, parameters, new AsyncCallback<IModule>() {
+
+			/** {@inheritDoc} */
+			@Override
+			public void onFailure(Throwable caught) {
 				throw new RuntimeException("error starting module '" + moduleName + "', reason was: ", caught);
 			}
 
 			/** {@inheritDoc} */
 			@Override
-			public void onSuccess(IModule module)
-			{
+			public void onSuccess(IModule module) {
 				startModule(module, location, parameters);
 			}
 		});

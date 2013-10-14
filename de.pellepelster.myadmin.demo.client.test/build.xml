@@ -1,5 +1,49 @@
 <project name="de.pellepelster.myadmin.demo.client.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+	
+	<property file="../de.pellepelster.myadmin.demo.server.test/build.properties" />
+	<import file="../de.pellepelster.myadmin.demo.server.test/build.test.base.xml" />
+
+	<property name="client.test.war.file" value="${build.dir}/de.pellepelster.myadmin.demo.war"/>
+	
+
+	<target name="war">
+
+		<property name="war.tmp.dir" value="${basedir}/war_tmp" />
+		
+		<delete dir="${war.tmp.dir}" />
+		<mkdir dir="${war.tmp.dir}"/>
+		
+		<unzip dest="${war.tmp.dir}" src="${lib.dir}/de.pellepelster.myadmin.demo-war.war" />
+		
+		<copy todir="${war.tmp.dir}">
+			<fileset dir="war">
+				<exclude name="WEB-INF/**"/>
+			</fileset>
+		</copy>
+
+		<delete file="${war.file}" />
+
+		<zip destfile="${client.test.war.file}">
+			<fileset dir="${war.tmp.dir}" includes="**/*"></fileset>
+		</zip>
+		
+	</target>
+
+	
+	<target name="tomcat.local.run">
+		<tomcat.local action="run" war.file="${client.test.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
+	</target>
+	
+	<target name="tomcat.local.run.debug">
+		<tomcat.local action="run" war.file="${client.test.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
+	</target>
+
+	
+	<target name="import.dictionary">
+		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
+		<dictionaryimporter classpathref="lib.path.id" modelfile="file:/${basedir}/../de.pellepelster.myadmin.demo.generator/src/Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
+	</target>
 
 </project>

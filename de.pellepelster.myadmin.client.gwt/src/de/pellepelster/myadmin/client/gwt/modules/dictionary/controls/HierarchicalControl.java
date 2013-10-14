@@ -29,10 +29,10 @@ import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class HierarchicalControl extends Anchor implements IControl<Widget>
+public class HierarchicalControl extends Anchor implements IUIControl<Widget>
 {
 	private final IHierarchicalControlModel hierarchicalControlModel;
 

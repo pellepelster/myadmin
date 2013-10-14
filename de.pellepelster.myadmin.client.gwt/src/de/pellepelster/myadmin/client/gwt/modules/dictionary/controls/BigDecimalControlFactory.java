@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabinding
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.BaseValidator;
 
@@ -81,7 +81,7 @@ public class BigDecimalControlFactory extends BaseControlFactory<IBigDecimalCont
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(IBigDecimalControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(IBigDecimalControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		return new BigDecimalControl(controlModel);
 	}

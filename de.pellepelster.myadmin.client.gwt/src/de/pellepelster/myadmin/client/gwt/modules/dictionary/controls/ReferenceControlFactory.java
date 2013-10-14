@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
  * control factory for reference controls
@@ -50,7 +50,7 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(IReferenceControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(IReferenceControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		switch (controlModel.getControlType())
 		{

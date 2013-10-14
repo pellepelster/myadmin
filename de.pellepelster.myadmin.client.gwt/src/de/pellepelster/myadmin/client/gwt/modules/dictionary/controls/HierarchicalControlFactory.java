@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
  * control factory for text controls
@@ -29,7 +29,7 @@ public class HierarchicalControlFactory extends BaseControlFactory<IHierarchical
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(IHierarchicalControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(IHierarchicalControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		return new HierarchicalControl(controlModel);
 	}

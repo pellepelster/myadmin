@@ -31,8 +31,8 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.Hierarchic
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ReferenceControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.TextControlFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IControlFactory;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
 /**
@@ -42,13 +42,13 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * 
  */
 @SuppressWarnings("unchecked")
-public class ControlHandler<ControlModelType extends IBaseControlModel> implements IControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>
-{
+public class ControlHandler<ControlModelType extends IBaseControlModel> implements IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> {
 
-	private static List<IControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>> controlFactories = new ArrayList<IControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>>();
+	private static ControlHandler<IBaseControlModel> instance;
 
-	public ControlHandler()
-	{
+	private static List<IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>> controlFactories = new ArrayList<IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>>();
+
+	private ControlHandler() {
 		super();
 		controlFactories.add(new TextControlFactory());
 		controlFactories.add(new IntegerControlFactory());
@@ -60,36 +60,38 @@ public class ControlHandler<ControlModelType extends IBaseControlModel> implemen
 		controlFactories.add(new HierarchicalControlFactory());
 	}
 
+	public static ControlHandler<IBaseControlModel> getInstance() {
+		if (instance == null) {
+			instance = new ControlHandler<IBaseControlModel>();
+		}
+
+		return instance;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("rawtypes")
-	public Column createColumn(ControlModelType controlModel, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable)
-	{
+	public Column createColumn(ControlModelType controlModel, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable) {
 		return getControlFactory(controlModel).createColumn(controlModel, editable, listDataProvider, abstractCellTable);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public IControl<Widget> createControl(ControlModelType controlModel, LAYOUT_TYPE layoutType)
-	{
+	public IUIControl<Widget> createControl(ControlModelType controlModel, LAYOUT_TYPE layoutType) {
 		return getControlFactory(controlModel).createControl(controlModel, layoutType);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(ControlModelType controlModel)
-	{
+	public List<IValidator> createValidators(ControlModelType controlModel) {
 		return getControlFactory(controlModel).createValidators(controlModel);
 	}
 
-	private IControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> getControlFactory(IBaseControlModel baseControlModel)
-	{
+	private IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> getControlFactory(IBaseControlModel baseControlModel) {
 
-		for (IControlFactory<?, Widget, Column<IBaseVO, ?>, Panel> controlFactory : controlFactories)
-		{
-			if (controlFactory.supports(baseControlModel))
-			{
-				return (IControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>) controlFactory;
+		for (IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel> controlFactory : controlFactories) {
+			if (controlFactory.supports(baseControlModel)) {
+				return (IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>) controlFactory;
 			}
 		}
 
@@ -98,15 +100,13 @@ public class ControlHandler<ControlModelType extends IBaseControlModel> implemen
 
 	/** {@inheritDoc} */
 	@Override
-	public String format(ControlModelType controlModel, Object value)
-	{
+	public String format(ControlModelType controlModel, Object value) {
 		return getControlFactory(controlModel).format(controlModel, value);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
-	{
+	public boolean supports(IBaseControlModel baseControlModel) {
 		return true;
 	}
 

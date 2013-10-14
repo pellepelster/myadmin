@@ -35,9 +35,16 @@ import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUIFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.search.DictionarySearchModuleUIFactory;
+import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTreeModuleUIFactory;
+import de.pellepelster.myadmin.client.gwt.modules.navigation.NavigationModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
-import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
+import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
+import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
 /**
  * {@link ILayoutFactory} implementation for GWT
@@ -45,54 +52,41 @@ import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
  * @author pelle
  * 
  */
-public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
-{
+public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget> {
 
-	private class PanelLayoutInfo
-	{
+	private class PanelLayoutInfo {
 		private final int size;
 		private final boolean supportsMultipleChildren;
 		private final Widget widget;
 
-		public PanelLayoutInfo(int size, boolean supportsMultipleChildren, Widget widget)
-		{
+		public PanelLayoutInfo(int size, boolean supportsMultipleChildren, Widget widget) {
 			super();
 			this.size = size;
 			this.supportsMultipleChildren = supportsMultipleChildren;
 			this.widget = widget;
 		}
 
-		public Panel getPanel()
-		{
-			if (widget instanceof Panel)
-			{
+		public Panel getPanel() {
+			if (widget instanceof Panel) {
 				return (Panel) widget;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 		}
 
-		public int getSize()
-		{
+		public int getSize() {
 			return size;
 		}
 
-		public StackLayoutPanel getStackLayoutPanel()
-		{
-			if (widget instanceof StackLayoutPanel)
-			{
+		public StackLayoutPanel getStackLayoutPanel() {
+			if (widget instanceof StackLayoutPanel) {
 				return (StackLayoutPanel) widget;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 		}
 
-		public boolean isSupportsMultipleChildren()
-		{
+		public boolean isSupportsMultipleChildren() {
 			return supportsMultipleChildren;
 		}
 	}
@@ -110,9 +104,13 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 	 * 
 	 * @param unit
 	 */
-	public GWTLayoutFactory(Unit unit)
-	{
+	public GWTLayoutFactory(Unit unit) {
 		this.unit = unit;
+
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.class, new DictionarySearchModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.class, new DictionaryEditorModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.class, new HierarchicalTreeModuleUIFactory());
 
 		rootPanel = new DockLayoutPanel(Unit.PCT);
 		rootPanel.setWidth("100%");
@@ -124,15 +122,12 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		RootLayoutPanel.get().add(rootPanel);
 	}
 
-	private void addModule(IGwtModuleUI<?> moduleUI, DockLayoutPanel.Direction direction)
-	{
-		if (!currentModules.containsKey(direction))
-		{
+	private void addModule(IGwtModuleUI<?> moduleUI, DockLayoutPanel.Direction direction) {
+		if (!currentModules.containsKey(direction)) {
 			currentModules.put(direction, new ArrayList<IGwtModuleUI<?>>());
 		}
 
-		if (!currentModules.get(direction).contains(moduleUI))
-		{
+		if (!currentModules.get(direction).contains(moduleUI)) {
 			currentModules.get(direction).add(moduleUI);
 		}
 
@@ -141,18 +136,14 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		addToLayout(panelLayoutInfo, moduleUI.getContainer(), moduleUI.getTitle());
 	}
 
-	private void addToLayout(PanelLayoutInfo panelLayoutInfo, Panel newPanel, String title)
-	{
-		if (panelLayoutInfo.getStackLayoutPanel() != null)
-		{
+	private void addToLayout(PanelLayoutInfo panelLayoutInfo, Panel newPanel, String title) {
+		if (panelLayoutInfo.getStackLayoutPanel() != null) {
 			newPanel.setWidth("100%");
 
 			HTML html = new HTML(title);
 			panelLayoutInfo.getStackLayoutPanel().add(newPanel, html, 3);
 
-		}
-		else if (panelLayoutInfo.getPanel() != null)
-		{
+		} else if (panelLayoutInfo.getPanel() != null) {
 			Panel panel = panelLayoutInfo.getPanel();
 			removeAllChildren(panel);
 			panel.add(newPanel);
@@ -161,35 +152,28 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 	}
 
 	@Override
-	public boolean closeAndBack(String location)
-	{
+	public boolean closeAndBack(String location) {
 
 		DockLayoutPanel.Direction direction = getDirection(location);
 
-		if (closeCurrentModule(direction))
-		{
+		if (closeCurrentModule(direction)) {
 			IGwtModuleUI<?> moduleUI = getCurrentModuleUI(direction);
 
-			if (moduleUI != null)
-			{
+			if (moduleUI != null) {
 				addModule(moduleUI, direction);
 			}
 
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 
 	}
 
-	private boolean closeCurrentModule(DockLayoutPanel.Direction direction)
-	{
+	private boolean closeCurrentModule(DockLayoutPanel.Direction direction) {
 		IGwtModuleUI<?> currentModuleUI = getCurrentModuleUI(direction);
 
-		if (currentModuleUI != null && currentModuleUI.close())
-		{
+		if (currentModuleUI != null && currentModuleUI.close()) {
 			currentModules.get(direction).remove(currentModuleUI);
 
 			PanelLayoutInfo panelLayoutInfo = panels.get(direction);
@@ -197,25 +181,17 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 			removeAllChildren(panelLayoutInfo.getPanel());
 
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	private IGwtModuleUI<?> getCurrentModuleUI(Direction direction)
-	{
-		for (Map.Entry<Direction, List<IGwtModuleUI<?>>> entry : currentModules.entrySet())
-		{
-			if (entry.getKey() == direction)
-			{
-				if (entry.getValue().isEmpty())
-				{
+	private IGwtModuleUI<?> getCurrentModuleUI(Direction direction) {
+		for (Map.Entry<Direction, List<IGwtModuleUI<?>>> entry : currentModules.entrySet()) {
+			if (entry.getKey() == direction) {
+				if (entry.getValue().isEmpty()) {
 					return null;
-				}
-				else
-				{
+				} else {
 					return entry.getValue().get(entry.getValue().size() - 1);
 				}
 			}
@@ -224,58 +200,44 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		return null;
 	}
 
-	private Direction getDirection(String location)
-	{
-		try
-		{
+	private Direction getDirection(String location) {
+		try {
 			return Direction.valueOf(location);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			return Direction.CENTER;
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public IDictionaryLayoutStrategy<Panel> getLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType)
-	{
+	public IDictionaryLayoutStrategy<Panel> getLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType) {
 		return new ColumnLayoutStrategy(observableValues, layoutType);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean hasBreadCrumbs(String location)
-	{
+	public boolean hasBreadCrumbs(String location) {
 		Direction direction = getDirection(location);
 
 		return !currentModules.get(direction).isEmpty();
 	}
 
-	private void hideCurrentModule(DockLayoutPanel.Direction direction)
-	{
-		if (panels.containsKey(direction))
-		{
+	private void hideCurrentModule(DockLayoutPanel.Direction direction) {
+		if (panels.containsKey(direction)) {
 			PanelLayoutInfo panelLayoutInfo = panels.get(direction);
 			removeAllChildren(panelLayoutInfo.getPanel());
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("no panel layout info found for direction '" + direction + "'");
 		}
 	}
 
-	private void initializePanelLayout(Direction direction, int size, boolean supportsMultipleChildren)
-	{
+	private void initializePanelLayout(Direction direction, int size, boolean supportsMultipleChildren) {
 		Widget panel = null;
 
-		if (supportsMultipleChildren)
-		{
+		if (supportsMultipleChildren) {
 			panel = new StackLayoutPanel(Unit.EM);
 			panel.setHeight("100%");
-		}
-		else
-		{
+		} else {
 			panel = new HorizontalPanel();
 		}
 
@@ -286,65 +248,54 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 		panels.put(direction, new PanelLayoutInfo(size, supportsMultipleChildren, panel));
 
-		switch (direction)
-		{
-			case CENTER:
-				rootPanel.add(panel);
-				break;
-			case EAST:
-				rootPanel.addEast(panel, size);
-				break;
-			case NORTH:
-				rootPanel.addNorth(panel, size);
-				break;
-			case SOUTH:
-				rootPanel.addSouth(panel, size);
-				break;
-			case WEST:
-				rootPanel.addWest(panel, size);
-				break;
-			case LINE_END:
-				rootPanel.addLineEnd(panel, size);
-				break;
-			case LINE_START:
-				rootPanel.addLineStart(panel, size);
-				break;
-			default:
-				throw new RuntimeException("unsupported direction '" + direction.toString() + "'");
+		switch (direction) {
+		case CENTER:
+			rootPanel.add(panel);
+			break;
+		case EAST:
+			rootPanel.addEast(panel, size);
+			break;
+		case NORTH:
+			rootPanel.addNorth(panel, size);
+			break;
+		case SOUTH:
+			rootPanel.addSouth(panel, size);
+			break;
+		case WEST:
+			rootPanel.addWest(panel, size);
+			break;
+		case LINE_END:
+			rootPanel.addLineEnd(panel, size);
+			break;
+		case LINE_START:
+			rootPanel.addLineStart(panel, size);
+			break;
+		default:
+			throw new RuntimeException("unsupported direction '" + direction.toString() + "'");
 		}
 	}
 
-	private void removeAllChildren(Panel panel)
-	{
+	private void removeAllChildren(Panel panel) {
 		Iterator<Widget> childrenIterator = panel.iterator();
 
-		while (childrenIterator.hasNext())
-		{
+		while (childrenIterator.hasNext()) {
 			panel.remove(childrenIterator.next());
 		}
 	}
 
-	private void showModule(IGwtModuleUI<?> moduleUI, DockLayoutPanel.Direction direction)
-	{
-		if (panels.containsKey(direction))
-		{
+	private void showModule(IGwtModuleUI<?> moduleUI, DockLayoutPanel.Direction direction) {
+		if (panels.containsKey(direction)) {
 			IGwtModuleUI<?> currentModuleUI = getCurrentModuleUI(direction);
 			PanelLayoutInfo panelLayoutInfo = panels.get(direction);
 
-			if (currentModuleUI != null && !panelLayoutInfo.isSupportsMultipleChildren())
-			{
-				if (currentModuleUI.contributesToBreadCrumbs())
-				{
+			if (currentModuleUI != null && !panelLayoutInfo.isSupportsMultipleChildren()) {
+				if (currentModuleUI.contributesToBreadCrumbs()) {
 					hideCurrentModule(direction);
-				}
-				else if (!closeCurrentModule(direction))
-				{
+				} else if (!closeCurrentModule(direction)) {
 					return;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("no panel layout info found for direction '" + direction + "'");
 		}
 
@@ -354,28 +305,14 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 	/** {@inheritDoc} */
 	@Override
-	public void showModuleUI(@SuppressWarnings("rawtypes") IModuleUI moduleUI)
-	{
+	public void showModuleUI(@SuppressWarnings("rawtypes") IModuleUI moduleUI) {
 		showModule((IGwtModuleUI<?>) moduleUI, Direction.CENTER);
-	}
-
-	public void startModule(String moduleName, String location)
-	{
-		Map<String, Object> parameters = new HashMap<String, Object>();
-
-		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
-	}
-
-	public void startModule(String moduleName, String location, Map<String, Object> parameters)
-	{
-		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
 	}
 
 	/** {@inheritDoc} */
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public void startModuleUI(IModule module, String location, Map<String, Object> parameters)
-	{
+	public void startModuleUI(IModule module, String location, Map<String, Object> parameters) {
 		DockLayoutPanel.Direction direction = getDirection(location);
 
 		IGwtModuleUI moduleUI = null;

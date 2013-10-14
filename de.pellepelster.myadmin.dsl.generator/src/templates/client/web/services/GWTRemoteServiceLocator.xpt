@@ -3,29 +3,47 @@
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 
 «DEFINE gwtRemoteServiceLocator FOR Model»
-«FILE fullQualifiedGWTServiceLocatorFileName()-»
+«FILE fullQualifiedGWTRemoteServiceLocatorFileName()-»
 
-package «fullQualifiedGWTServiceLocatorPackage()»;
+package «fullQualifiedGWTRemoteServiceLocatorPackage()»;
 
-public class «gwtServiceLocatorName()» implements «gwtServiceLocatorInterfaceName()» {
+public class «gwtRemoteServiceLocatorName()» implements «gwtRemoteServiceLocatorInterfaceName()» {
 
-    private static final «name»GWTRemoteServiceLocator instance =
-        new «name»GWTRemoteServiceLocator();
+    private static final «gwtRemoteServiceLocatorName()» instance =
+        new «gwtRemoteServiceLocatorName()»();
 
-    private «name»GWTRemoteServiceLocator() {
+    private «gwtRemoteServiceLocatorName()»() {
     }
 
-    public static «name»GWTRemoteServiceLocator getInstance() {
+    public static «gwtRemoteServiceLocatorName()» getInstance() {
         return instance;
     }
+    
+   	private String remoteBaseUrl = null;
+	
+	public void setRemoteBaseUrl(String remoteBaseUrl)
+	{
+		this.remoteBaseUrl = remoteBaseUrl;
+	}
+    
+    public String getModuleBaseUrl()
+    {
+	    if (remoteBaseUrl != null)
+	    {
+			return remoteBaseUrl;
+	    }
+	    else
+	    {
+	    	return com.google.gwt.core.client.GWT.getModuleBaseURL() + "../remote/rpc"; 
+	    }
+    } 
 
 	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService)» get«serviceName(remoteService)»() {
 				final «fullQualifiedInterfaceNameGWTAsync(remoteService)» service = («fullQualifiedInterfaceNameGWTAsync(remoteService)») com.google.gwt.core.client.GWT.create(«fullQualifiedInterfaceNameGWT(remoteService)».class);
 				com.google.gwt.user.client.rpc.ServiceDefTarget formEndpoint = (com.google.gwt.user.client.rpc.ServiceDefTarget) service;
-				formEndpoint.setServiceEntryPoint(com.google.gwt.core.client.GWT.getModuleBaseURL()
-						+ "../remote/rpc/«serviceName(remoteService)»");
+				formEndpoint.setServiceEntryPoint(getModuleBaseUrl() + "/«serviceName(remoteService)»");
 				return service;
 			}
 		«ENDIF»
@@ -33,11 +51,11 @@ public class «gwtServiceLocatorName()» implements «gwtServiceLocatorInterface
 }
 «ENDFILE»
 
-«FILE fullQualifiedGWTServiceLocatorInterfaceFileName()-»
+«FILE fullQualifiedGWTRemoteServiceLocatorInterfaceFileName()-»
 
-package «fullQualifiedGWTServiceLocatorPackage()»;
+package «fullQualifiedGWTRemoteServiceLocatorPackage()»;
 
-public interface «gwtServiceLocatorInterfaceName()» {
+public interface «gwtRemoteServiceLocatorInterfaceName()» {
 	«FOREACH allElements().typeSelect(RemoteService) AS remoteService»
 		«IF !isNonPublic(remoteService)»
 		 	public «fullQualifiedInterfaceNameGWTAsync(remoteService)» get«serviceName(remoteService)»();
