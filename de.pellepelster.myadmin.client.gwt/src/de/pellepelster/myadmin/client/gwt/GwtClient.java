@@ -13,11 +13,13 @@ package de.pellepelster.myadmin.client.gwt;
 
 import com.google.gwt.core.client.EntryPoint;
 
-public class GwtClient implements EntryPoint {
+public class GwtClient implements EntryPoint
+{
 
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 	}
 
 }

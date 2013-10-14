@@ -7,7 +7,6 @@
 
 	<property name="client.test.war.file" value="${build.dir}/de.pellepelster.myadmin.demo.war"/>
 	
-
 	<target name="war">
 
 		<property name="war.tmp.dir" value="${basedir}/war_tmp" />
@@ -32,11 +31,11 @@
 	</target>
 
 	
-	<target name="tomcat.local.run">
+	<target name="tomcat.local.run" depends="war">
 		<tomcat.local action="run" war.file="${client.test.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
 	</target>
 	
-	<target name="tomcat.local.run.debug">
+	<target name="tomcat.local.run.debug" depends="war">
 		<tomcat.local action="run" war.file="${client.test.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
 	</target>
 

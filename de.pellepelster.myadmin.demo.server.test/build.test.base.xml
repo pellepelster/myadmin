@@ -54,6 +54,7 @@
 			<mkdir dir="tomcat/logs" />
 
 			<echo>cargo.jvmargs: @{cargo.jvmargs}</echo>
+			<echo>jndi.name: @{jndi.name}</echo>
 			
 			<cargo containerId="tomcat6x" output="tomcat/logs/output.log" log="tomcat/logs/cargo.log" action="@{action}">
 

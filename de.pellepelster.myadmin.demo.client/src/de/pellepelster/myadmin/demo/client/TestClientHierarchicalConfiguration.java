@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.demo.client.test;
+package de.pellepelster.myadmin.demo.client;
 
 import de.pellepelster.myadmin.client.base.modules.hierarchical.BaseHierarchicalConfiguration;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.CompanyDictionaryIDs;

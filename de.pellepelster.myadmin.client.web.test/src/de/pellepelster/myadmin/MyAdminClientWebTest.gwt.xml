@@ -7,8 +7,6 @@
 	
 	<source path="client.web.test" />
 	
-	<!--
-  	<entry-point class='de.pellepelster.myadmin.client.web.test.MyAdminWebTest' />
-	-->
+  	<entry-point class='de.pellepelster.myadmin.client.web.test.MyAdminTest' />
 		
 </module>

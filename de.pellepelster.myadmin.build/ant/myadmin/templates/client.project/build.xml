@@ -2,6 +2,10 @@
 
 	<import file="@ant.common.file@" />
 
+	<path id="lib.client.path.id">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
+			
 	<target name="pre.jar">
 
 		<delete dir="gwt-unitCache" />
@@ -9,7 +13,7 @@
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
 				<pathelement path="src/" />
-				<path refid="lib.path.id" />
+				<path refid="lib.client.path.id" />
 			</classpath>
 			<jvmarg value="-Xmx768M" />
 			<arg value="-localWorkers" />

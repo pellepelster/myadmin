@@ -10,8 +10,6 @@
 
 	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
 	
-	<property name="jndi.name" value="jdbc/Demo"/>
-
 	<target name="tomcat.local.run" depends="resolve">
 		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
 	</target>

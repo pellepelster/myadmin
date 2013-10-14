@@ -14,22 +14,43 @@ package de.pellepelster.myadmin.demo.client.test;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.test.MyAdminTest;
 
-public class DemoClientTest extends GWTTestCase {
+public class DemoClientTest extends GWTTestCase
+{
 
-	public String getModuleName() {
+	@Override
+	public String getModuleName()
+	{
 		return "de.pellepelster.myadmin.demo.DemoTest";
 	}
 
 	@Test
-	public void test1() {
+	public void testNavigationTree()
+	{
+		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString(), new AsyncCallback<IModuleUI>()
+		{
 
-		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
+			@Override
+			public void onSuccess(IModuleUI result)
+			{
+				result.toString();
+			}
 
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		delayTestFinish(2000);
 	}
 
 }

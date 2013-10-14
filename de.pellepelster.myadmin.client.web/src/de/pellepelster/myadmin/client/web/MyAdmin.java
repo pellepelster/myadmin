@@ -39,7 +39,8 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @version $Rev$, $Date$
  * 
  */
-public final class MyAdmin implements EntryPoint {
+public final class MyAdmin implements EntryPoint
+{
 
 	private ILayoutFactory<?, ?> layoutFactory;
 
@@ -55,8 +56,10 @@ public final class MyAdmin implements EntryPoint {
 	 * 
 	 * @return
 	 */
-	public static MyAdmin getInstance() {
-		if (instance == null) {
+	public static MyAdmin getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new MyAdmin();
 		}
 		return instance;
@@ -68,19 +71,21 @@ public final class MyAdmin implements EntryPoint {
 
 	private IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator;
 
-	/**
-	 * Constructor for {@link MyAdmin}
-	 */
-	private MyAdmin() {
+	private MyAdmin()
+	{
+		init();
 	}
 
-	public ILayoutFactory<?, ?> getLayoutFactory() {
+	public ILayoutFactory<?, ?> getLayoutFactory()
+	{
 		return this.layoutFactory;
 	}
 
-	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator() {
+	public IMyAdminGWTRemoteServiceLocator getRemoteServiceLocator()
+	{
 
-		if (this.myAdminGWTRemoteServiceLocator != null) {
+		if (this.myAdminGWTRemoteServiceLocator != null)
+		{
 			return this.myAdminGWTRemoteServiceLocator;
 		}
 
@@ -89,36 +94,47 @@ public final class MyAdmin implements EntryPoint {
 
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
+		instance = this;
 		init();
 	}
 
 	/**
 	 * Registers all MyAdmin modules
 	 */
-	public void init() {
-		instance = this;
+	public void init()
+	{
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.MODULE_ID, new DictionarySearchModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.MODULE_ID, new ModuleNavigationModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.MODULE_ID, new HierarchicalTreeModuleFactory());
 	}
 
-	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory) {
+	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory)
+	{
 		this.layoutFactory = layoutFactory;
 	}
 
-	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator) {
+	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
+	{
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
 	}
 
-	public void startModule(String moduleName, String location) {
+	public void startModule(String moduleName, String location)
+	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
+		startModule(moduleName, location, parameters);
+	}
+
+	public void startModule(String moduleName, String location, Map<String, Object> parameters)
+	{
 		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
 	}
 
-	public void startModule(String moduleName, String location, Map<String, Object> parameters) {
+	public void startModule(String moduleName, String location, Map<String, Object> parameters, String d)
+	{
 		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
 	}
 
