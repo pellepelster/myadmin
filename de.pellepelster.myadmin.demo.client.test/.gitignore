@@ -10,3 +10,4 @@ build
 /ivy.xml
 /tomcat
 /war_tmp
+/derby.log
