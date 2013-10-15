@@ -17,9 +17,9 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
+import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 
 public class DemoClientTest extends GWTTestCase
 {
@@ -33,22 +33,22 @@ public class DemoClientTest extends GWTTestCase
 	@Test
 	public void testNavigationTree()
 	{
-		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString(), new AsyncCallback<IModuleUI>()
-		{
+		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_ID, NavigationModuleTestUI.class, Direction.WEST.toString(),
+				new AsyncCallback<NavigationModuleTestUI>()
+				{
 
-			@Override
-			public void onSuccess(IModuleUI result)
-			{
-				result.toString();
-			}
+					@Override
+					public void onSuccess(NavigationModuleTestUI result)
+					{
+						result.get();
+					}
 
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				// TODO Auto-generated method stub
-
-			}
-		});
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						throw new RuntimeException(caught);
+					}
+				});
 
 		delayTestFinish(2000);
 	}

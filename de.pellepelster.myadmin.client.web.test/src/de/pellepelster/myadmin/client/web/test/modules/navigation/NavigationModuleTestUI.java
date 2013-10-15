@@ -11,7 +11,13 @@
  */
 package de.pellepelster.myadmin.client.web.test.modules.navigation;
 
+import java.util.Collection;
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
 /**
@@ -20,43 +26,67 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class NavigationModuleTestUI implements IModuleUI {
+public class NavigationModuleTestUI implements IModuleUI
+{
+	private Collection<NavigationTreeTestElement> rootElements;
 
 	private ModuleNavigationModule module;
 
-	public NavigationModuleTestUI(ModuleNavigationModule module) {
+	public NavigationModuleTestUI(ModuleNavigationModule module)
+	{
 		super();
 		this.module = module;
 	}
 
 	@Override
-	public boolean close() {
-		// TODO Auto-generated method stub
+	public boolean close()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean contributesToBreadCrumbs() {
-		// TODO Auto-generated method stub
+	public boolean contributesToBreadCrumbs()
+	{
 		return false;
 	}
 
 	@Override
-	public Object getContainer() {
-		// TODO Auto-generated method stub
+	public Object getContainer()
+	{
 		return null;
 	}
 
 	@Override
-	public Object getModule() {
-		// TODO Auto-generated method stub
+	public Object getModule()
+	{
 		return null;
 	}
 
 	@Override
-	public String getTitle() {
-		// TODO Auto-generated method stub
+	public String getTitle()
+	{
 		return null;
+	}
+
+	public void get()
+	{
+		this.module.getNavigationTreeContent(new AsyncCallback<List<ModuleNavigationVO>>()
+		{
+
+			@Override
+			public void onSuccess(List<ModuleNavigationVO> children)
+			{
+
+				NavigationModuleTestUI.this.rootElements = NavigationTreeTestElement.createChildren(children);
+			}
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 }
