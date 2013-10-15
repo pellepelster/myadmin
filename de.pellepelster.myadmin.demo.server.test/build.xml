@@ -8,6 +8,12 @@
 
 	<import file="build.test.base.xml" />
 
+
+	<path id="local.lib.path.id">
+		<path refid="lib.path.id" />
+		<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
+	</path>
+	
 	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
 	
 	<target name="tomcat.local.run" depends="resolve">
@@ -44,11 +50,12 @@
 
 	<target name="test.remote.local" depends="jar, tomcat.local.start, import.dictionary">
 
+		<!--
 		<mkdir dir="${test.dir}"/>
 		
 		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
 
-			<classpath refid="lib.path.id" />
+			<classpath refid="local.lib.path.id" />
 			
 			<classpath>
 				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
@@ -66,6 +73,7 @@
 			<test name="de.pellepelster.myadmin.demo.server.test.remote.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
 
 		</junit>
+		-->
 	</target>
 	
 

@@ -77,7 +77,7 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	public void init()
 	{
 
-		Resource modelResource = SpringModelUtils.getResource("classpath:model/TestModel1.msl");
+		Resource modelResource = SpringModelUtils.getResource("classpath:Demo.msl");
 		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
 		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, this.applicationEventMulticaster, modelResources,

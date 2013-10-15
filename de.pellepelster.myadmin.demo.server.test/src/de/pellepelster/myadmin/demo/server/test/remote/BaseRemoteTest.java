@@ -11,7 +11,8 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.demo.server.test.remote.old.ApplicationContextProvider;
 
-public class BaseRemoteTest {
+public class BaseRemoteTest
+{
 
 	private String remoteUrl;
 
@@ -22,36 +23,41 @@ public class BaseRemoteTest {
 	private String remotePath;
 
 	@Before
-	public void setUp() {
+	public void setUp()
+	{
 
-		if (System.getProperty("remote.server") == null) {
+		if (System.getProperty("remote.server") == null)
+		{
 			fail(String.format("property remote.server needed"));
 		}
 
-		if (System.getProperty("remote.port") == null) {
+		if (System.getProperty("remote.port") == null)
+		{
 			fail(String.format("property remote.port needed"));
 		}
 
-		if (System.getProperty("remote.path") == null) {
+		if (System.getProperty("remote.path") == null)
+		{
 			fail(String.format("property remote.path needed"));
 		}
 
-		remotePath = System.getProperty("remote.path");
-		remotePort = System.getProperty("remote.port");
-		remoteServer = System.getProperty("remote.server");
-		remoteUrl = String.format("http://%s:%s/%s", remoteServer, remotePort, remotePath);
+		this.remotePath = System.getProperty("remote.path");
+		this.remotePort = System.getProperty("remote.port");
+		this.remoteServer = System.getProperty("remote.server");
+		this.remoteUrl = String.format("http://%s:%s/%s", this.remoteServer, this.remotePort, this.remotePath);
 
 		SecurityContextImpl sc = new SecurityContextImpl();
 		Authentication auth = new UsernamePasswordAuthenticationToken("system", "system");
 		sc.setAuthentication(auth);
 		SecurityContextHolder.setContext(sc);
 
-		ApplicationContextProvider.getInstance().init(new String[] { "MyAdminDemoTestApplicationContext.xml", "MyAdminClientServices-gen.xml" });
+		ApplicationContextProvider.getInstance().init(new String[] { "DemoServerTestApplicationContext.xmll", "MyAdminClientServices-gen.xml" });
 		MyAdminRemoteServiceLocator.getInstance().init(ApplicationContextProvider.getInstance());
 
 	}
 
-	public String getRemoteUrl() {
+	public String getRemoteUrl()
+	{
 		return this.remoteUrl;
 	}
 

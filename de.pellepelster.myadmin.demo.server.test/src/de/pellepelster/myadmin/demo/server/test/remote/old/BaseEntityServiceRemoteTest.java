@@ -38,7 +38,7 @@ public final class BaseEntityServiceRemoteTest extends TestCase
 		System.setProperty("remote.port", "8080");
 		System.setProperty("remote.path", "de.pellepelster.myadmin.demo/MyAdminDemoRemote");
 
-		ApplicationContextProvider.getInstance().init(new String[] { "MyAdminDemoTestApplicationContext.xml", "MyAdminClientServices-gen.xml" });
+		ApplicationContextProvider.getInstance().init(new String[] { "DemoServerTestApplicationContext.xml", "MyAdminClientServices-gen.xml" });
 		// MyAdminRemoteServiceLocator.getInstance().init(ApplicationContextProvider.getInstance());
 
 	}
