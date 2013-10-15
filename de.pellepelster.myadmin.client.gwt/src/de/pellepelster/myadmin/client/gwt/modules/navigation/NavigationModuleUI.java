@@ -29,7 +29,6 @@ import com.google.gwt.view.client.TreeViewModel;
 
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.NavigationTreeElements;
@@ -116,7 +115,7 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 		@Override
 		public boolean isLeaf(Object value)
 		{
-			return (value instanceof ModuleNavigationVO && ((ModuleNavigationVO) value).getChildren().isEmpty());
+			return (value instanceof NavigationTreeElements && ((NavigationTreeElements) value).getChildren().isEmpty());
 		}
 
 		public void setNavigationTreeModel(NavigationTreeElements navigationTreeElements)

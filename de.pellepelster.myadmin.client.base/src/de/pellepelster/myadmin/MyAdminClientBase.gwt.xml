@@ -6,6 +6,8 @@
 	
 	<inherits name="com.google.common.base.Base" />
 	
+	<inherits name='com.google.common.collect.Collect' />
+	
 	<source path="client.base" />
 	
 </module>
