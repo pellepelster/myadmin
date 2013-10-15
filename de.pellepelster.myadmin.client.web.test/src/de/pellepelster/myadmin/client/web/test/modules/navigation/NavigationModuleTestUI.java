@@ -11,14 +11,12 @@
  */
 package de.pellepelster.myadmin.client.web.test.modules.navigation;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.modules.navigation.NavigationTreeElements;
+import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
 
 /**
  * UI for the navigation module
@@ -28,7 +26,7 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  */
 public class NavigationModuleTestUI implements IModuleUI
 {
-	private Collection<NavigationTreeTestElement> rootElements;
+	private NavigationTreeTestElements root;
 
 	private ModuleNavigationModule module;
 
@@ -68,23 +66,15 @@ public class NavigationModuleTestUI implements IModuleUI
 		return null;
 	}
 
-	public void get()
+	public void getRootElements(final AsyncCallback<NavigationTreeTestElements> asyncCallback)
 	{
-		this.module.getNavigationTreeContent(new AsyncCallback<List<ModuleNavigationVO>>()
+		this.module.getNavigationTreeContent(new BaseAsyncCallback<NavigationTreeElements>()
 		{
-
 			@Override
-			public void onSuccess(List<ModuleNavigationVO> children)
+			public void onSuccess(NavigationTreeElements navigationTreeElements)
 			{
-
-				NavigationModuleTestUI.this.rootElements = NavigationTreeTestElement.createChildren(children);
-			}
-
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				// TODO Auto-generated method stub
-
+				NavigationModuleTestUI.this.root = new NavigationTreeTestElements(navigationTreeElements);
+				asyncCallback.onSuccess(NavigationModuleTestUI.this.root);
 			}
 		});
 	}

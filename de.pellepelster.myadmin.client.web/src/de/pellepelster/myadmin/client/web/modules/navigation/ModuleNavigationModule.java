@@ -21,6 +21,7 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
+import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
@@ -32,13 +33,23 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		getModuleCallback().onSuccess(this);
 	}
 
-	public void getNavigationTreeContent(AsyncCallback<List<ModuleNavigationVO>> asyncCallback)
+	public void getNavigationTreeContent(final AsyncCallback<NavigationTreeElements> asyncCallback)
 	{
 		GenericFilterVO<ModuleNavigationVO> genericFilterVO = new GenericFilterVO<ModuleNavigationVO>(ModuleNavigationVO.class);
 		genericFilterVO.addCriteria(ModuleNavigationVO.FIELD_PARENT.getAttributeName(), null);
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE).addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
 
-		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, asyncCallback);
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
+				.filter(genericFilterVO, new BaseAsyncCallback<List<ModuleNavigationVO>>(asyncCallback)
+				{
+					@Override
+					public void onSuccess(List<ModuleNavigationVO> moduleNavigationVOs)
+					{
+						NavigationTreeElements root = new NavigationTreeElements(moduleNavigationVOs);
+						asyncCallback.onSuccess(root);
+					}
+				});
+
 	}
 }

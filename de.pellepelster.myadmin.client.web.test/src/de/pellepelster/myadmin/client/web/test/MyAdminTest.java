@@ -28,10 +28,9 @@ public class MyAdminTest
 		return instance;
 	}
 
-	public <T extends IModuleUI> void startModule(String moduleName, Class<T> moduleType, String location, final AsyncCallback<T> asyncCallback)
+	public <T extends IModuleUI> void startModule(final String moduleName, Class<T> moduleType, final String location, final AsyncCallback<T> asyncCallback)
 	{
-		this.junitLayoutFactory.addLayoutCallback(moduleName, (AsyncCallback<IModuleUI>) asyncCallback);
+		MyAdminTest.this.junitLayoutFactory.addLayoutCallback(moduleName, (AsyncCallback<IModuleUI>) asyncCallback);
 		MyAdmin.getInstance().startModule(moduleName, location);
-
 	}
 }
