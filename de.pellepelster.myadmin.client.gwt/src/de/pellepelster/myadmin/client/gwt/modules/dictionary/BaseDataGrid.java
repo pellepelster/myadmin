@@ -21,42 +21,50 @@ import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType> {
+public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType>
+{
 	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
 
 	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
 
-	protected abstract Column<VOType, ?> getColumn(IBaseControlModel baseControlModel);
+	protected abstract Column<VOType, ?> getColumn(BaseControl baseControl);
 
-	private List<IBaseControlModel> baseControlModels;
+	private List<BaseControl> baseControls;
 
-	public BaseDataGrid(List<IBaseControlModel> baseControlModels) {
+	public BaseDataGrid(List<BaseControl> baseControls)
+	{
 		super(KEYPROVIDER);
-		this.baseControlModels = baseControlModels;
+		this.baseControls = baseControls;
 	}
 
-	protected void createModelColumns() {
-		for (IBaseControlModel baseControlModel : baseControlModels) {
-			TextHeader textHeader = new TextHeader(baseControlModel.getColumnLabel());
-			addColumn(getColumn(baseControlModel), textHeader);
+	protected void createModelColumns()
+	{
+		for (BaseControl baseControl : baseControls)
+		{
+			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
+			addColumn(getColumn(baseControl), textHeader);
 		}
 
 		setSelectionModel(selectionModel);
 	}
 
-	public void addVOSelectHandler(final SimpleCallback<VOType> voSelectHandler) {
-		addDomHandler(new DoubleClickHandler() {
+	public void addVOSelectHandler(final SimpleCallback<VOType> voSelectHandler)
+	{
+		addDomHandler(new DoubleClickHandler()
+		{
 
 			/** {@inheritDoc} */
 			@Override
-			public void onDoubleClick(DoubleClickEvent event) {
+			public void onDoubleClick(DoubleClickEvent event)
+			{
 
-				if (selectionModel.getSelectedObject() != null) {
+				if (selectionModel.getSelectedObject() != null)
+				{
 					voSelectHandler.onCallback(selectionModel.getSelectedObject());
 				}
 			}
@@ -64,7 +72,8 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 	}
 
-	public VOType getCurrentSelection() {
+	public VOType getCurrentSelection()
+	{
 		return selectionModel.getSelectedObject();
 	}
 

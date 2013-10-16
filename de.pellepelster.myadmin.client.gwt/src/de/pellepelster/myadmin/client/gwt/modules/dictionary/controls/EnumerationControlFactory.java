@@ -22,9 +22,9 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.EnumerationControl;
 
 /**
  * control factory for enumeration controls
@@ -32,31 +32,31 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @author pelle
  * 
  */
-public class EnumerationControlFactory extends BaseControlFactory<IEnumerationControlModel>
+public class EnumerationControlFactory extends BaseControlFactory<IEnumerationControlModel, EnumerationControl>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IEnumerationControlModel controlModel, LAYOUT_TYPE layoutType)
+	public Widget createControl(EnumerationControl enumerationControl, LAYOUT_TYPE layoutType)
 	{
-		return new EnumerationControl(controlModel);
+		return new GwtEnumerationControl(enumerationControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControl)
 	{
-		return baseControlModel instanceof IEnumerationControlModel;
+		return baseControl instanceof EnumerationControl;
 	}
 
 	@Override
-	public Column createColumn(final IEnumerationControlModel controlModel, boolean editable, ListDataProvider<?> listDataProvider,
+	public Column createColumn(final EnumerationControl enumerationControl, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable)
 	{
 
 		if (editable)
 		{
-			List<String> enumList = EnumerationControl.getSortedEnumList(controlModel);
+			List<String> enumList = GwtEnumerationControl.getSortedEnumList(enumerationControl.getModel());
 			final SelectionCell selectionCell = new SelectionCell(enumList);
 
 			Column<IBaseVO, String> column = new Column<IBaseVO, String>(selectionCell)
@@ -65,14 +65,14 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 				@Override
 				public String getValue(IBaseVO vo)
 				{
-					Object enumValue = vo.get(controlModel.getAttributePath());
+					Object enumValue = vo.get(enumerationControl.getModel().getAttributePath());
 					if (enumValue == null)
 					{
 						return "";
 					}
 					else
 					{
-						return (String) controlModel.getEnumeration().get(vo.get(controlModel.getAttributePath()).toString());
+						return (String) enumerationControl.getModel().getEnumeration().get(vo.get(enumerationControl.getModel().getAttributePath()).toString());
 					}
 				}
 			};
@@ -82,7 +82,7 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 				@Override
 				public void update(int index, IBaseVO vo, String value)
 				{
-					vo.set(controlModel.getAttributePath(), EnumerationControl.getEnumForText(controlModel, value));
+					vo.set(enumerationControl.getModel().getAttributePath(), GwtEnumerationControl.getEnumForText(enumerationControl.getModel(), value));
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -91,7 +91,7 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 		}
 		else
 		{
-			return super.createColumn(controlModel, editable, listDataProvider, abstractCellTable);
+			return super.createColumn(enumerationControl, editable, listDataProvider, abstractCellTable);
 		}
 	}
 

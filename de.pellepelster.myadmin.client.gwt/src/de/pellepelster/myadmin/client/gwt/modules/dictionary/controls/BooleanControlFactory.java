@@ -20,10 +20,9 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BooleanControl;
 
 /**
  * control factory for boolean controls
@@ -31,25 +30,25 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @author pelle
  * 
  */
-public class BooleanControlFactory extends BaseControlFactory<IBooleanControlModel>
+public class BooleanControlFactory extends BaseControlFactory<IBooleanControlModel, BooleanControl>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(BaseControl<IBooleanControlModel> baseControl, LAYOUT_TYPE layoutType)
+	public Widget createControl(BooleanControl booleanControl, LAYOUT_TYPE layoutType)
 	{
-		return new BooleanControl(controlModel);
+		return new GwtBooleanControl(booleanControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControlModel)
 	{
-		return baseControlModel instanceof IBooleanControlModel;
+		return baseControlModel instanceof BooleanControl;
 	}
 
 	@Override
-	public Column createColumn(final IBooleanControlModel controlModel, boolean editable, ListDataProvider<?> listDataProvider,
+	public Column createColumn(final BooleanControl booleanControl, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable)
 	{
 
@@ -63,7 +62,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 				@Override
 				public Boolean getValue(IBaseVO vo)
 				{
-					return (Boolean) vo.get(controlModel.getAttributePath());
+					return (Boolean) vo.get(booleanControl.getModel().getAttributePath());
 				}
 			};
 
@@ -72,7 +71,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 				@Override
 				public void update(int index, IBaseVO vo, Boolean value)
 				{
-					vo.set(controlModel.getAttributePath(), value);
+					vo.set(booleanControl.getModel().getAttributePath(), value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -81,7 +80,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 		}
 		else
 		{
-			return super.createColumn(controlModel, editable, listDataProvider, abstractCellTable);
+			return super.createColumn(booleanControl, editable, listDataProvider, abstractCellTable);
 		}
 	}
 

@@ -19,30 +19,26 @@ import java.util.Map;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.EnumerationControl;
 
-public class EnumerationControl extends ListBox implements IUIControl<Widget>
+public class GwtEnumerationControl extends ListBox
 {
 
-	private final IEnumerationControlModel enumarationControlModel;
+	private final EnumerationControl enumarationControl;
 	private final ControlHelper gwtControlHelper;
 
-	public EnumerationControl(final IEnumerationControlModel enumarationControlModel)
+	public GwtEnumerationControl(final EnumerationControl enumarationControl)
 	{
 		super(false);
 
-		this.enumarationControlModel = enumarationControlModel;
+		this.enumarationControl = enumarationControl;
 
-		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControlModel));
-		gwtControlHelper = new ControlHelper(this, enumarationControlModel, false, String.class);
+		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControl.getModel()));
+		gwtControlHelper = new ControlHelper(this, enumarationControl, false, String.class);
 
 		addChangeHandler(new ChangeHandler()
 		{
@@ -54,7 +50,7 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 			}
 		});
 
-		List<String> enumList = getSortedEnumList(enumarationControlModel);
+		List<String> enumList = getSortedEnumList(enumarationControl.getModel());
 
 		addItem("");
 		for (String enumValue : enumList)
@@ -71,27 +67,6 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 		Collections.sort(enumList);
 
 		return enumList;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent()
-	{
-		return getEnumForSelection();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType()
-	{
-		return String.class;
 	}
 
 	public static String getEnumForText(IEnumerationControlModel enumarationControlModel, String text)
@@ -116,39 +91,9 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 	{
 		String text = getValue(getSelectedIndex());
 
-		return getEnumForText(enumarationControlModel, text);
+		return getEnumForText(enumarationControl.getModel(), text);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public IBaseControlModel getModel()
-	{
-		return enumarationControlModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
-		return gwtControlHelper.getValueChangeListeners();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Widget getWidget()
-	{
-		return this;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
@@ -175,13 +120,6 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 		{
 			super.setSelectedIndex(0);
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
-	{
-		gwtControlHelper.setValidationMessages(validationMessages, enumarationControlModel);
 	}
 
 }

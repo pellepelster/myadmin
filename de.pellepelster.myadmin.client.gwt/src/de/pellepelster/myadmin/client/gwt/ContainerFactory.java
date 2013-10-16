@@ -13,12 +13,13 @@ package de.pellepelster.myadmin.client.gwt;
 
 import com.google.gwt.user.client.ui.Panel;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.AssignmentTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.EditableTable;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtAssignmentTable;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtComposite;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtEditableTable;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 
 /**
@@ -30,21 +31,21 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
 public class ContainerFactory
 {
 
-	public static IContainer<Panel> createContainer(BaseContainer<IBaseContainerModel> baseContainer)
+	public static IContainer<Panel> createContainer(BaseContainer baseContainer)
 	{
 		IContainer<Panel> container;
 
-		if (baseContainer instanceof de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite)
+		if (baseContainer instanceof Composite)
 		{
-			return new Composite((de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite) baseContainer);
+			return new GwtComposite((Composite) baseContainer);
 		}
-		else if (baseContainer instanceof IEditableTableModel)
+		else if (baseContainer instanceof EditableTable)
 		{
-			container = new EditableTable((IEditableTableModel) baseContainer);
+			container = new GwtEditableTable((EditableTable) baseContainer);
 		}
-		else if (baseContainer instanceof IAssignmentTableModel)
+		else if (baseContainer instanceof AssignmentTable)
 		{
-			container = new AssignmentTable((IAssignmentTableModel) baseContainer);
+			container = new GwtAssignmentTable((AssignmentTable) baseContainer);
 		}
 		else
 		{

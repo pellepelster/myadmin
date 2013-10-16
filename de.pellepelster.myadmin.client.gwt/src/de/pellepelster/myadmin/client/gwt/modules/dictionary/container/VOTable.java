@@ -6,15 +6,18 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 
-public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType> {
+public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType>
+{
+
 	private final ListDataProvider<VOType> dataProvider = new ListDataProvider<VOType>();
 
-	public VOTable(List<IBaseControlModel> baseControlModels) {
-		super(baseControlModels);
+	public VOTable(List<BaseControl> baseControls)
+	{
+		super(baseControls);
 
 		createModelColumns();
 		dataProvider.addDataDisplay(this);
@@ -22,11 +25,13 @@ public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel) {
-		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControlModel, false, dataProvider, this);
+	protected Column<VOType, ?> getColumn(BaseControl baseControl)
+	{
+		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, dataProvider, this);
 	}
 
-	public void setContent(List<VOType> content) {
+	public void setContent(List<VOType> content)
+	{
 		dataProvider.setList(content);
 	}
 

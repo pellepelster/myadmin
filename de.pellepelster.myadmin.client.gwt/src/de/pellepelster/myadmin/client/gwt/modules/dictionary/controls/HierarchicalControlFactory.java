@@ -14,9 +14,9 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.HierarchicalControl;
 
 /**
  * control factory for text controls
@@ -24,21 +24,21 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @author pelle
  * 
  */
-public class HierarchicalControlFactory extends BaseControlFactory<IHierarchicalControlModel>
+public class HierarchicalControlFactory extends BaseControlFactory<IHierarchicalControlModel, HierarchicalControl>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IHierarchicalControlModel controlModel, LAYOUT_TYPE layoutType)
+	public Widget createControl(HierarchicalControl hierarchicalControl, LAYOUT_TYPE layoutType)
 	{
-		return new HierarchicalControl(controlModel);
+		return new GwtHierarchicalControl(hierarchicalControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControl)
 	{
-		return baseControlModel instanceof IHierarchicalControlModel;
+		return baseControl instanceof HierarchicalControl;
 	}
 
 }

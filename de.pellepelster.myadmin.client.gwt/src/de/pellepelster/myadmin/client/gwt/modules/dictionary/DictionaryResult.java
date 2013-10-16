@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryFilterUI;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.IDictionaryResultUI;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.ResultTable;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
@@ -31,7 +31,8 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * 
  * @param <VOType>
  */
-public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResultUI<VOType, Panel> {
+public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResultUI<VOType, Panel>
+{
 
 	private final ResultCellTable<VOType> resultCellTable;
 
@@ -45,14 +46,18 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 	 * @param filterModel
 	 *            Model describing the filter
 	 */
-	public DictionaryResult(final String dictionaryModelName, IResultModel resultModel) {
-		resultCellTable = new ResultCellTable<VOType>(resultModel);
+	public DictionaryResult(final String dictionaryModelName, ResultTable resultTable)
+	{
+
+		resultCellTable = new ResultCellTable<VOType>(resultTable);
 		resultCellTable.setWidth("100%");
-		resultCellTable.addVOSelectHandler(new SimpleCallback<VOType>() {
+		resultCellTable.addVOSelectHandler(new SimpleCallback<VOType>()
+		{
 
 			/** {@inheritDoc} */
 			@Override
-			public void onCallback(VOType vo) {
+			public void onCallback(VOType vo)
+			{
 				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, vo.getId());
 			}
 		});
@@ -64,22 +69,26 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 
 	/** {@inheritDoc} */
 	@Override
-	public Panel getContainer() {
+	public Panel getContainer()
+	{
 		return verticalPanel;
 	}
 
-	public GenericFilterVO<VOType> getEmptyFilter(ISearchModel searchModel) {
+	public GenericFilterVO<VOType> getEmptyFilter(ISearchModel searchModel)
+	{
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(searchModel.getVOName());
 		return genericFilter;
 	}
 
-	public void setFilter(GenericFilterVO<VOType> genericFilterVO) {
+	public void setFilter(GenericFilterVO<VOType> genericFilterVO)
+	{
 		dataProvider.setGenericFilterVO(genericFilterVO);
 		resultCellTable.setVisibleRangeAndClearData(resultCellTable.getVisibleRange(), true);
 	}
 
-	public void setResultsChangedCallback(SimpleCallback<Integer> resultsChangedCallback) {
+	public void setResultsChangedCallback(SimpleCallback<Integer> resultsChangedCallback)
+	{
 		dataProvider.setResultsChangedCallback(resultsChangedCallback);
 	}
 

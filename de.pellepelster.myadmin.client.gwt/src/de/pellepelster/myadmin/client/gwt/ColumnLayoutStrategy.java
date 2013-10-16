@@ -11,21 +11,15 @@
  */
 package de.pellepelster.myadmin.client.gwt;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
  * GWT column based implementation for {@link IDictionaryLayoutStrategy}
@@ -38,21 +32,12 @@ public class ColumnLayoutStrategy
 {
 	private final LAYOUT_TYPE layoutType;
 
-	private final List<IUIObservableValue> observableValues;
-
-	/**
-	 * Constructor for {@link ColumnLayoutStrategy}
-	 * 
-	 * @param observableValues
-	 * @param layoutType
-	 */
-	public ColumnLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType)
+	public ColumnLayoutStrategy(LAYOUT_TYPE layoutType)
 	{
-		this.observableValues = observableValues;
 		this.layoutType = layoutType;
 	}
 
-	public void createLayout(Panel parent, BaseContainer<IBaseContainerModel> baseContainer)
+	public void createLayout(Panel parent, BaseContainer<?> baseContainer)
 	{
 
 		if (!baseContainer.getControls().isEmpty())
@@ -65,11 +50,10 @@ public class ColumnLayoutStrategy
 			// flexTable.getFlexCellFormatter();ControlHandler.getInstance()
 
 			int row = 0;
-			for (BaseControl<IBaseControlModel> baseControl : baseContainer.getControls())
+			for (BaseControl baseControl : baseContainer.getControls())
 			{
 
-				IUIControl<Widget> control = ControlHandler.getInstance().createControl(baseControl, layoutType);
-				observableValues.add(control);
+				Widget control = ControlHandler.getInstance().createControl(baseControl, layoutType);
 
 				switch (layoutType)
 				{
@@ -80,7 +64,7 @@ public class ColumnLayoutStrategy
 						flexTable.setHTML(row, 0, baseControl.getFilterLabel());
 						break;
 				}
-				flexTable.setWidget(row, 1, control.getWidget());
+				flexTable.setWidget(row, 1, control);
 
 				row++;
 			}
@@ -89,16 +73,11 @@ public class ColumnLayoutStrategy
 		if (!baseContainer.getChildren().isEmpty())
 		{
 
-			for (BaseContainer<IBaseContainerModel> lBaseContainer : baseContainer.getChildren())
+			for (BaseContainer lBaseContainer : baseContainer.getChildren())
 			{
 
 				IContainer<Panel> container = ContainerFactory.createContainer(lBaseContainer);
 				parent.add(container.getContainer());
-
-				if (container instanceof IUIObservableValue)
-				{
-					observableValues.add((IUIObservableValue) container);
-				}
 
 				if (container.getContainer() instanceof Panel && !(lBaseContainer instanceof BaseTable))
 				{

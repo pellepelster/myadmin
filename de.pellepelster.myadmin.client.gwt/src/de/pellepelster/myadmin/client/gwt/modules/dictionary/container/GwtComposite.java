@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 
 /**
@@ -23,10 +24,10 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
  * @author pelle
  * 
  */
-public class Composite extends VerticalPanel implements IContainer<Panel>
+public class GwtComposite extends VerticalPanel implements IContainer<Panel>
 {
 
-	public Composite(ICompositeModel containerModel)
+	public GwtComposite(Composite composite)
 	{
 		setWidth("100%");
 	}

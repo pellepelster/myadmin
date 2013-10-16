@@ -15,8 +15,6 @@ import java.util.Date;
 
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,9 +23,9 @@ import com.google.gwt.view.client.ListDataProvider;
 import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.DateControl;
 
 /**
  * control factory for date controls
@@ -35,42 +33,25 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @author pelle
  * 
  */
-public class DateControlFactory extends BaseControlFactory<IDateControlModel>
+public class DateControlFactory extends BaseControlFactory<IDateControlModel, DateControl>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IDateControlModel controlModel, LAYOUT_TYPE layoutType)
+	public Widget createControl(DateControl dateControl, LAYOUT_TYPE layoutType)
 	{
-		return new DateControl(controlModel);
+		return new GwtDateControl(dateControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String format(IDateControlModel controlModel, Object value)
+	public boolean supports(BaseControl baseControl)
 	{
-
-		if (value != null && value instanceof Date)
-		{
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_LONG);
-			return dateFormat.format((Date) value);
-		}
-		else
-		{
-			return super.format(controlModel, value);
-		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
-	{
-		return baseControlModel instanceof IDateControlModel;
+		return baseControl instanceof DateControl;
 	}
 
 	@Override
-	public Column createColumn(final IDateControlModel controlModel, boolean editable, ListDataProvider<?> listDataProvider,
-			AbstractCellTable<?> abstractCellTable)
+	public Column createColumn(final DateControl dateControl, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable)
 	{
 
 		if (editable)
@@ -83,7 +64,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel>
 				@Override
 				public Date getValue(IBaseVO vo)
 				{
-					return (Date) vo.get(controlModel.getAttributePath());
+					return (Date) vo.get(dateControl.getModel().getAttributePath());
 				}
 			};
 
@@ -92,8 +73,8 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel>
 				@Override
 				public void update(int index, IBaseVO vo, Date value)
 				{
-					vo.set(controlModel.getAttributePath(),
-							TypeHelper.convert(vo.getAttributeDescriptor(controlModel.getAttributePath()).getAttributeType(), value));
+					vo.set(dateControl.getModel().getAttributePath(),
+							TypeHelper.convert(vo.getAttributeDescriptor(dateControl.getModel().getAttributePath()).getAttributeType(), value));
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -102,7 +83,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel>
 		}
 		else
 		{
-			return super.createColumn(controlModel, editable, listDataProvider, abstractCellTable);
+			return super.createColumn(dateControl, editable, listDataProvider, abstractCellTable);
 		}
 	}
 

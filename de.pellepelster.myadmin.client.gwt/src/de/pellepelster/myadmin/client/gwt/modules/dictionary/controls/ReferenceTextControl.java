@@ -11,40 +11,33 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.List;
-
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceTextControl extends SuggestBox implements IUIControl<Widget>
+public class ReferenceTextControl extends SuggestBox
 {
 
 	private IBaseVO vo;
-	private final IReferenceControlModel referenceControlModel;
+	private final ReferenceControl referenceControl;
 	private final ControlHelper gwtControlHelper;
 
-	public ReferenceTextControl(final IReferenceControlModel referenceControlModel)
+	public ReferenceTextControl(final ReferenceControl referenceControl)
 	{
-		super(new VOSuggestOracle(referenceControlModel));
+		super(new VOSuggestOracle(referenceControl.getModel()));
 
-		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
 		setLimit(5);
-		this.referenceControlModel = referenceControlModel;
-		gwtControlHelper = new ControlHelper(this, referenceControlModel, false, IBaseVO.class);
+		this.referenceControl = referenceControl;
+		gwtControlHelper = new ControlHelper(this, referenceControl, false, IBaseVO.class);
 
 		addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>()
 		{
@@ -63,57 +56,6 @@ public class ReferenceTextControl extends SuggestBox implements IUIControl<Widge
 
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent()
-	{
-		return vo;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType()
-	{
-		return IBaseVO.class;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public IBaseControlModel getModel()
-	{
-		return referenceControlModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
-		return gwtControlHelper.getValueChangeListeners();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Widget getWidget()
-	{
-		return this;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
@@ -121,7 +63,7 @@ public class ReferenceTextControl extends SuggestBox implements IUIControl<Widge
 			if (content instanceof IBaseVO)
 			{
 				vo = (IBaseVO) content;
-				setText(DictionaryUtil.getLabel(referenceControlModel, vo));
+				setText(DictionaryUtil.getLabel(referenceControl.getModel(), vo));
 			}
 			else
 			{
@@ -133,13 +75,6 @@ public class ReferenceTextControl extends SuggestBox implements IUIControl<Widge
 			vo = null;
 			setText("");
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
-	{
-		gwtControlHelper.setValidationMessages(validationMessages, referenceControlModel);
 	}
 
 }

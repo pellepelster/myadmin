@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.EditableTable;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtEditableTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
@@ -43,7 +43,7 @@ public class ControlUtil
 	public static boolean hasFirstEditMarker(IBaseVO vo, IBaseControlModel baseControlModel)
 	{
 		return vo.getData().containsKey(baseControlModel.getName())
-				&& vo.getData().get(baseControlModel.getName()).equals(EditableTable.CONTROL_FIRST_EDIT_DATA_KEY);
+				&& vo.getData().get(baseControlModel.getName()).equals(GwtEditableTable.CONTROL_FIRST_EDIT_DATA_KEY);
 	}
 
 	public static void removeFirstEditMarker(Context context, IBaseControlModel baseControlModel)

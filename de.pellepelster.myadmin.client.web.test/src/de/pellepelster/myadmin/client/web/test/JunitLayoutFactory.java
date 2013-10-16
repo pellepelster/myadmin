@@ -9,10 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.base.layout.IDictionaryLayoutStrategy;
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
@@ -43,12 +41,6 @@ public class JunitLayoutFactory implements ILayoutFactory
 	public boolean closeAndBack(String location)
 	{
 		return false;
-	}
-
-	@Override
-	public IDictionaryLayoutStrategy getLayoutStrategy(List observableValues, LAYOUT_TYPE layoutType)
-	{
-		return null;
 	}
 
 	@Override

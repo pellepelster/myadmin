@@ -14,24 +14,27 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 import com.google.gwt.user.cellview.client.Column;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.ResultTable;
 
-public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOType> {
+public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOType>
+{
 
-	private final IResultModel resultModel;
+	private final ResultTable resultTable;
 
-	public ResultCellTable(IResultModel resultModel) {
-		super(resultModel.getControls());
-		this.resultModel = resultModel;
+	public ResultCellTable(ResultTable resultTable)
+	{
+		super(resultTable.getControls());
+		this.resultTable = resultTable;
 
 		createModelColumns();
 	}
 
 	@Override
-	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel) {
-		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControlModel, false, null, this);
+	protected Column<VOType, ?> getColumn(BaseControl baseControl)
+	{
+		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, null, this);
 	}
 
 }

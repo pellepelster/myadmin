@@ -24,21 +24,18 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
@@ -48,11 +45,12 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * @author pelle
  * 
  */
-public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>, IUIObservableValue {
+public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>
+{
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
-	private final IAssignmentTableModel assignmentTableModel;
+	private final AssignmentTable assignmentTable;
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
@@ -60,16 +58,17 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
-	public AssignmentTable(IAssignmentTableModel assignmentTableModel) {
-		super(assignmentTableModel.getControls());
+	public GwtAssignmentTable(AssignmentTable assignmentTable)
+	{
+		super(assignmentTable.getControls());
 
-		this.assignmentTableModel = assignmentTableModel;
+		this.assignmentTable = assignmentTable;
 		setWidth("100%");
 
 		dataProvider.addDataDisplay(this);
 
 		simpleLayoutPanel.add(this);
-		simpleLayoutPanel.setWidth(WidthCalculationStrategy.getInstance().getTableWidthCss(assignmentTableModel));
+		simpleLayoutPanel.setWidth(WidthCalculationStrategy.getInstance().getTableWidthCss(assignmentTable.getModel()));
 		simpleLayoutPanel.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
 
 		verticalPanel.add(simpleLayoutPanel);
@@ -84,16 +83,20 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 		createModelColumns();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<VOType, Object> column = new Column<VOType, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>() {
+		Column<VOType, Object> column = new Column<VOType, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
+		{
 
 			@Override
-			public void onCallback(IBaseVO vo) {
+			public void onCallback(IBaseVO vo)
+			{
 				dataProvider.getList().remove(vo);
 				fireValueChanges();
 			}
-		})) {
+		}))
+		{
 			@Override
-			public String getValue(IBaseVO vo) {
+			public String getValue(IBaseVO vo)
+			{
 				return null;
 			}
 		};
@@ -104,87 +107,57 @@ public class AssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<VOType, ?> getColumn(IBaseControlModel baseControlModel) {
-		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControlModel, false, dataProvider, this);
+	protected Column<VOType, ?> getColumn(BaseControl baseControl)
+	{
+		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, dataProvider, this);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener) {
-		valueChangeListeners.add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Panel getContainer() {
+	public Panel getContainer()
+	{
 		return verticalPanel;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent() {
-		return dataProvider.getList();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType() {
-		return List.class;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public IDatabindingAwareModel getModel() {
-		return assignmentTableModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners() {
-		return valueChangeListeners;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener) {
-		valueChangeListeners.remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setContent(Object content) {
-		if (content instanceof List) {
+	public void setContent(Object content)
+	{
+		if (content instanceof List)
+		{
 			this.dataProvider.getList().clear();
 			this.dataProvider.getList().addAll((Collection<VOType>) content);
-		} else {
+		}
+		else
+		{
 			throw new RuntimeException("unsupported content type '" + content.getClass().getName() + "'");
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages) {
-
-	}
-
-	private void fireValueChanges() {
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(assignmentTableModel.getAttributePath(), CollectionUtils.copyToArrayList(dataProvider.getList()));
-		for (IValueChangeListener valueChangeListener : valueChangeListeners) {
+	private void fireValueChanges()
+	{
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(assignmentTable.getModel().getAttributePath(), CollectionUtils.copyToArrayList(dataProvider
+				.getList()));
+		for (IValueChangeListener valueChangeListener : valueChangeListeners)
+		{
 			valueChangeListener.handleValueChange(valueChangeEvent);
 		}
 	}
 
-	private void createAddButton(VerticalPanel buttonPanel) {
+	private void createAddButton(VerticalPanel buttonPanel)
+	{
 		ImageButton addButton = new ImageButton(MyAdmin.RESOURCES.add());
-		addButton.addClickHandler(new ClickHandler() {
+		addButton.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
-				VOSelectionPopup.create(assignmentTableModel, new SimpleCallback<VOType>() {
+			public void onClick(ClickEvent event)
+			{
+				VOSelectionPopup.create(assignmentTable, new SimpleCallback<VOType>()
+				{
 
 					@Override
-					public void onCallback(VOType vo) {
-						if (!dataProvider.getList().contains(vo)) {
+					public void onCallback(VOType vo)
+					{
+						if (!dataProvider.getList().contains(vo))
+						{
 							dataProvider.getList().add(vo);
 							fireValueChanges();
 						}

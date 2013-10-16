@@ -26,14 +26,10 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
@@ -41,7 +37,9 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
@@ -50,7 +48,8 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * @author pelle
  * 
  */
-public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<Panel>, IUIObservableValue {
+public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContainer<Panel>
+{
 	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
@@ -61,12 +60,13 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 
 	private final ListDataProvider<IBaseVO> dataProvider = new ListDataProvider<IBaseVO>();
 
-	private final IEditableTableModel editableTableModel;
+	private final EditableTable editableTable;
 
-	public EditableTable(IEditableTableModel editableTableModel) {
-		super(editableTableModel.getControls());
+	public GwtEditableTable(EditableTable editableTable)
+	{
+		super(editableTable.getControls());
 
-		this.editableTableModel = editableTableModel;
+		this.editableTable = editableTable;
 
 		createModelColumns();
 
@@ -84,17 +84,21 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 		createAddButton();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>() {
+		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
+		{
 
 			@Override
-			public void onCallback(IBaseVO vo) {
+			public void onCallback(IBaseVO vo)
+			{
 				dataProvider.getList().remove(vo);
 				fireValueChanges();
 			}
-		})) {
+		}))
+		{
 
 			@Override
-			public String getValue(IBaseVO vo) {
+			public String getValue(IBaseVO vo)
+			{
 				return null;
 			}
 		};
@@ -102,37 +106,48 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 		addColumn(column, textHeader);
 	}
 
-	private void fireValueChanges() {
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTableModel.getAttributePath(), CollectionUtils.copyToArrayList(dataProvider.getList()));
-		for (IValueChangeListener valueChangeListener : valueChangeListeners) {
+	private void fireValueChanges()
+	{
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTable.getModel().getAttributePath(), CollectionUtils.copyToArrayList(dataProvider
+				.getList()));
+		for (IValueChangeListener valueChangeListener : valueChangeListeners)
+		{
 			valueChangeListener.handleValueChange(valueChangeEvent);
 		}
 	}
 
-	private void createAddButton() {
+	private void createAddButton()
+	{
 
 		ImageButton addButton = new ImageButton(MyAdmin.RESOURCES.add());
-		addButton.addClickHandler(new ClickHandler() {
+		addButton.addClickHandler(new ClickHandler()
+		{
 			@Override
-			public void onClick(ClickEvent event) {
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().getNewVO(editableTableModel.getVOName(), new HashMap<String, String>(), new AsyncCallback<IBaseVO>() {
+			public void onClick(ClickEvent event)
+			{
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
+						.getNewVO(editableTable.getModel().getVOName(), new HashMap<String, String>(), new AsyncCallback<IBaseVO>()
+						{
 
-					@Override
-					public void onSuccess(IBaseVO newVO) {
-						for (IBaseControlModel baseControlModel : editableTableModel.getControls()) {
-							newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
-						}
+							@Override
+							public void onSuccess(IBaseVO newVO)
+							{
+								for (IBaseControlModel baseControlModel : editableTable.getModel().getControls())
+								{
+									newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
+								}
 
-						dataProvider.getList().add(newVO);
-						fireValueChanges();
-						getSelectionModel().setSelected(newVO, true);
-					}
+								dataProvider.getList().add(newVO);
+								fireValueChanges();
+								getSelectionModel().setSelected(newVO, true);
+							}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						throw new RuntimeException("error creating new vo '" + editableTableModel.getVOName() + "'");
-					}
-				});
+							@Override
+							public void onFailure(Throwable caught)
+							{
+								throw new RuntimeException("error creating new vo '" + editableTable.getModel().getVOName() + "'");
+							}
+						});
 			}
 		});
 		verticalPanel.add(addButton);
@@ -140,68 +155,29 @@ public class EditableTable extends BaseDataGrid<IBaseVO> implements IContainer<P
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<IBaseVO, ?> getColumn(IBaseControlModel baseControlModel) {
-		return (Column<IBaseVO, ?>) ControlHandler.getInstance().createColumn(baseControlModel, true, dataProvider, this);
+	protected Column<IBaseVO, ?> getColumn(BaseControl baseControl)
+	{
+		return (Column<IBaseVO, ?>) ControlHandler.getInstance().createColumn(baseControl, true, dataProvider, this);
 
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener) {
-		valueChangeListeners.add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Panel getContainer() {
+	public Panel getContainer()
+	{
 		return verticalPanel;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent() {
-		return dataProvider.getList();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType() {
-		return List.class;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public IDatabindingAwareModel getModel() {
-		return editableTableModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners() {
-		return valueChangeListeners;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener) {
-		valueChangeListeners.remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setContent(Object content) {
-		if (content instanceof List) {
+	public void setContent(Object content)
+	{
+		if (content instanceof List)
+		{
 			dataProvider.setList((List<IBaseVO>) content);
-		} else {
+		}
+		else
+		{
 			throw new RuntimeException("unsupported content type '" + content.getClass().getName() + "'");
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages) {
-
 	}
 
 }

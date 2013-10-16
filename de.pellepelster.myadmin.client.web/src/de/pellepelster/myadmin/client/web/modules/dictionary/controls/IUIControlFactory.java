@@ -14,29 +14,22 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.AbstractCellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-/**
- * Factory for control related thingies
- * 
- * @author pelle
- * 
- */
-public interface IUIControlFactory<ControlModelType extends IBaseControlModel, WidgetType, ColumType, ContainerType>
+public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>>
 {
+	Column<IBaseVO, ?> createColumn(ControlType baseControl, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable);
 
-	ColumType createColumn(BaseControl<ControlModelType> baseControl, boolean editable, ListDataProvider<?> listDataProvider,
-			AbstractCellTable<?> abstractCellTable);
+	Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType);
 
-	IUIControl<WidgetType> createControl(BaseControl<ControlModelType> baseControl, LAYOUT_TYPE layoutType);
-
-	List<IValidator> createValidators(BaseControl<ControlModelType> baseControl);
-
-	String format(BaseControl<ControlModelType> baseControl, Object value);
+	List<IValidator> createValidators(ControlType baseControl);
 
 	boolean supports(BaseControl baseControl);
 }

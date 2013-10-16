@@ -11,46 +11,39 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.List;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.HierarchicalControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class HierarchicalControl extends Anchor implements IUIControl<Widget>
+public class GwtHierarchicalControl extends Anchor
 {
-	private final IHierarchicalControlModel hierarchicalControlModel;
+	private final HierarchicalControl hierarchicalControl;
 
 	private final ControlHelper controlHelper;
 
 	private IHierarchicalVO hierarchicalVO;
 
-	public HierarchicalControl(final IHierarchicalControlModel hierarchicalControlModel)
+	public GwtHierarchicalControl(final HierarchicalControl hierarchicalControl)
 	{
-		this.hierarchicalControlModel = hierarchicalControlModel;
-		controlHelper = new ControlHelper(this, hierarchicalControlModel, true, String.class);
+		this.hierarchicalControl = hierarchicalControl;
+		controlHelper = new ControlHelper(this, hierarchicalControl, true, String.class);
 
 		addClickHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				HierarchicalVOSelectionPopup.create(hierarchicalControlModel, new AsyncCallback<HierarchicalVOSelectionPopup>()
+				HierarchicalVOSelectionPopup.create(hierarchicalControl.getModel(), new AsyncCallback<HierarchicalVOSelectionPopup>()
 				{
 					@Override
 					public void onSuccess(HierarchicalVOSelectionPopup result)
@@ -77,60 +70,9 @@ public class HierarchicalControl extends Anchor implements IUIControl<Widget>
 			}
 		});
 
-		ensureDebugId(DictionaryModelUtil.getDebugId(hierarchicalControlModel));
+		ensureDebugId(DictionaryModelUtil.getDebugId(hierarchicalControl.getModel()));
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		controlHelper.getValueChangeListeners().add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent()
-	{
-		return hierarchicalVO;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType()
-	{
-		return String.class;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public IBaseControlModel getModel()
-	{
-		return hierarchicalControlModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
-		return controlHelper.getValueChangeListeners();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Widget getWidget()
-	{
-		return this;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		controlHelper.getValueChangeListeners().remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
@@ -146,7 +88,7 @@ public class HierarchicalControl extends Anchor implements IUIControl<Widget>
 					defaultLabel = hierarchicalVO.toString();
 				}
 
-				setText(DictionaryUtil.getLabel(hierarchicalControlModel, hierarchicalVO, defaultLabel));
+				setText(DictionaryUtil.getLabel(hierarchicalControl.getModel(), hierarchicalVO, defaultLabel));
 			}
 			else
 			{
@@ -158,13 +100,6 @@ public class HierarchicalControl extends Anchor implements IUIControl<Widget>
 			hierarchicalVO = null;
 			setText(MyAdmin.MESSAGES.hierarchicalNone());
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
-	{
-		controlHelper.setValidationMessages(validationMessages, hierarchicalControlModel);
 	}
 
 }

@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.editor;
 
-import java.util.List;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -23,18 +21,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.gwt.commons.client.HumanizedMessagePopup;
 import de.pellepelster.gwt.commons.client.HumanizedMessagePopup.MESSAGE_TYPE;
-import de.pellepelster.myadmin.client.base.databinding.IObservableValue;
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditor;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.Binding;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
@@ -92,7 +85,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		DictionaryEditor<VOType> dictionaryEditor = new DictionaryEditor<VOType>(getModule());
 		verticalPanel.add(dictionaryEditor.getContainer());
-		bindControls(dictionaryEditor.getUIObservableValues());
 
 		if (previousModuleUI != null)
 		{
@@ -184,23 +176,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 	public String getTitle()
 	{
 		return getModule().getTitle();
-	}
-
-	private void bindControls(List<IUIObservableValue> uiObservableValues)
-	{
-
-		for (final IUIObservableValue uiObservableValue : uiObservableValues)
-		{
-
-			final IObservableValue modelObervableValue = getModule().getVOWrapper().getObservableValue(uiObservableValue.getModel());
-			final Binding binding = getModule().getDataBindingContext().createBinding(modelObervableValue, uiObservableValue);
-
-			if (uiObservableValue.getModel() instanceof IBaseControlModel)
-			{
-				binding.setValidators(ControlHandler.getInstance().createValidators((IBaseControlModel) uiObservableValue.getModel()));
-			}
-
-		}
 	}
 
 }

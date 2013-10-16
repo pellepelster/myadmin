@@ -31,8 +31,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.DataBindingContext;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.DatabindingVOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
@@ -52,15 +51,13 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		INSERT, UPDATE;
 	}
 
-	private final DatabindingVOWrapper<VOType> voWrapper = new DatabindingVOWrapper<VOType>();
-
-	private final DataBindingContext dataBindingContext = new DataBindingContext(this.voWrapper, getEventBus());
+	private final VOWrapper<VOType> voWrapper = new VOWrapper<VOType>();
 
 	public static final String DICTIONARY_PARAMETER_NAME = "Dictionary";
 
 	private DictionaryEditor dictionaryEditor;
 
-	private IDictionaryModel dictionaryModel1;
+	private IDictionaryModel dictionaryModel;
 
 	private final AsyncCallback<Result<VOType>> saveCallback = new AsyncCallback<Result<VOType>>()
 	{
@@ -88,7 +85,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			}
 			else
 			{
-				DictionaryEditorModule.this.dataBindingContext.addValidationMessages(result.getValidationMessages());
+				// DictionaryEditorModule.this.dataBindingContext.addValidationMessages(result.getValidationMessages());
 			}
 
 		}
@@ -117,7 +114,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getEditorTitle(this.dictionaryModel1, getVOWrapper());
+		return DictionaryUtil.getEditorTitle(this.dictionaryModel, this.voWrapper);
 	}
 
 	private void getAllReferencedDictionaries(final IDictionaryModel dictionaryModel)
@@ -149,8 +146,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 					@Override
 					public void onSuccess(Void result)
 					{
-						DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor(dictionaryModel.getEditorModel());
-						DictionaryEditorModule.this.dictionaryModel1 = dictionaryModel;
+						DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor(dictionaryModel.getEditorModel(),
+								(VOWrapper<IBaseVO>) DictionaryEditorModule.this.voWrapper);
+						DictionaryEditorModule.this.dictionaryModel = dictionaryModel;
 						getModuleCallback().onSuccess(DictionaryEditorModule.this);
 					}
 				});
@@ -158,10 +156,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		});
 	}
 
-	// public IDictionaryModel getDictionaryModel()
-	// {
-	// return this.dictionaryModel;
-	// }
+	public IDictionaryModel getDictionaryModel()
+	{
+		return this.dictionaryModel;
+	}
 
 	private EditorMode getEditorMode()
 	{
@@ -175,16 +173,11 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
-	public DatabindingVOWrapper<VOType> getVOWrapper()
-	{
-		return this.voWrapper;
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public boolean hasErrors()
 	{
-		return this.dataBindingContext.hasErrors();
+		return false; // this.dataBindingContext.hasErrors();
 	}
 
 	private void init(String editorDictionaryName)
@@ -196,8 +189,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			@Override
 			public void onSuccess(IDictionaryModel dictionaryModel)
 			{
-				DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor(dictionaryModel.getEditorModel());
-				DictionaryEditorModule.this.dictionaryModel1 = dictionaryModel;
+				DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor(dictionaryModel.getEditorModel(),
+						(VOWrapper<IBaseVO>) DictionaryEditorModule.this.voWrapper);
+				DictionaryEditorModule.this.dictionaryModel = dictionaryModel;
 				getAllReferencedDictionaries(dictionaryModel);
 			}
 		});
@@ -231,10 +225,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 		if (id > 0)
 		{
-			GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel1.getVOName());
+			GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel.getVOName());
 			genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
-			DictionaryModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel1.getEditorModel().getCompositeModel());
+			DictionaryModelUtil.populateAssociations(genericFilterVO, this.dictionaryModel.getEditorModel().getCompositeModel());
 
 			AsyncCallback<List<VOType>> filterCallback = new AsyncCallback<List<VOType>>()
 			{
@@ -314,7 +308,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 			MyAdmin.getInstance()
 					.getRemoteServiceLocator()
 					.getBaseEntityService()
-					.getNewVO(this.dictionaryModel1.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(getParameters()),
+					.getNewVO(this.dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(getParameters()),
 							(AsyncCallback<IBaseVO>) newVOCallback);
 		}
 	}
@@ -329,37 +323,35 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	public void save()
 	{
 
-		this.dataBindingContext.validateAndUpdate();
-
-		if (!this.dataBindingContext.hasErrors())
+		// if (!this.dataBindingContext.hasErrors())
+		// {
+		if (ClientHookRegistry.getInstance().hasEditorSaveHook(this.dictionaryModel.getName()))
 		{
-			if (ClientHookRegistry.getInstance().hasEditorSaveHook(this.dictionaryModel1.getName()))
+
+			ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel.getName()).onSave(new AsyncCallback<Boolean>()
 			{
 
-				ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel1.getName()).onSave(new AsyncCallback<Boolean>()
+				@Override
+				public void onFailure(Throwable caught)
 				{
+					throw new RuntimeException("error executing editor save hook", caught);
+				}
 
-					@Override
-					public void onFailure(Throwable caught)
+				@Override
+				public void onSuccess(Boolean doSave)
+				{
+					if (doSave != null && doSave)
 					{
-						throw new RuntimeException("error executing editor save hook", caught);
+						internalSave();
 					}
-
-					@Override
-					public void onSuccess(Boolean doSave)
-					{
-						if (doSave != null && doSave)
-						{
-							internalSave();
-						}
-					}
-				}, getVOWrapper().getVO());
-			}
-			else
-			{
-				internalSave();
-			}
+				}
+			}, this.voWrapper.getVO());
 		}
+		else
+		{
+			internalSave();
+		}
+		// }
 	}
 
 	private void internalSave()
@@ -380,11 +372,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	public void refresh()
 	{
 		load();
-	}
-
-	public DataBindingContext getDataBindingContext()
-	{
-		return this.dataBindingContext;
 	}
 
 	public DictionaryEditor getDictionaryEditor()

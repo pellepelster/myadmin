@@ -26,26 +26,26 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
 public class ControlHelper
 {
-
 	private final UIObject uiObject;
 
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
-	private final IBaseControlModel baseControlModel;
+	private final BaseControl<IBaseControlModel> baseControl;
 
-	public ControlHelper(final Widget widget, final IBaseControlModel baseControlModel, boolean addValueChangeListener, final Class<?> targetClass)
+	public ControlHelper(final Widget widget, final BaseControl baseControl, boolean addValueChangeListener, final Class<?> targetClass)
 	{
 		this.uiObject = widget;
-		this.baseControlModel = baseControlModel;
+		this.baseControl = baseControl;
 
-		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControlModel));
+		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControl.getModel()));
 
 		if (widget instanceof HasValue<?>)
 		{
@@ -80,7 +80,7 @@ public class ControlHelper
 
 	public void fireValueChangeListeners(Object value)
 	{
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(baseControlModel.getAttributePath(), value);
+		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(baseControl.getModel().getAttributePath(), value);
 
 		for (IValueChangeListener valueChangeListener : valueChangeListeners)
 		{

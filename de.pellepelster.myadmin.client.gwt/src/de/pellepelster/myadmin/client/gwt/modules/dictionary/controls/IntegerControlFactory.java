@@ -22,10 +22,10 @@ import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IntegerControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.BaseValidator;
 
@@ -35,7 +35,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validat
  * @author pelle
  * 
  */
-public class IntegerControlFactory extends BaseControlFactory<IIntegerControlModel>
+public class IntegerControlFactory extends BaseControlFactory<IIntegerControlModel, IntegerControl>
 {
 
 	private static class IntegerValidator extends BaseValidator
@@ -83,23 +83,23 @@ public class IntegerControlFactory extends BaseControlFactory<IIntegerControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IIntegerControlModel controlModel, LAYOUT_TYPE layoutType)
+	public Widget createControl(IntegerControl integerControl, LAYOUT_TYPE layoutType)
 	{
-		return new IntegerControl(controlModel);
+		return new GwtIntegerControl(integerControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(IIntegerControlModel controlModel)
+	public List<IValidator> createValidators(IntegerControl integerControl)
 	{
-		return addValidators(controlModel, VALIDATORS);
+		return addValidators(integerControl, VALIDATORS);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControl)
 	{
-		return baseControlModel instanceof IIntegerControlModel;
+		return baseControl instanceof IntegerControl;
 	}
 
 }

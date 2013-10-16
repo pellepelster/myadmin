@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlContentPresenter;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.DatabindingVOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
 /**
  * Utilities for dictionary model handling
@@ -106,7 +106,7 @@ public final class DictionaryUtil
 
 	}
 
-	public static String getEditorTitle(IDictionaryModel dictionaryModel, DatabindingVOWrapper<?> voWrapper)
+	public static String getEditorTitle(IDictionaryModel dictionaryModel, VOWrapper<?> voWrapper)
 	{
 
 		IBaseVO vo = voWrapper.getVO();

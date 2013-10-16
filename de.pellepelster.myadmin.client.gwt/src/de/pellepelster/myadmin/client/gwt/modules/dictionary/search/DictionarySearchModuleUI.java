@@ -22,8 +22,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryFilter;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryResult;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.GwtDictionaryFilter;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
@@ -68,7 +68,8 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		final ISearchModel searchModel = module.getDictionaryModel().getSearchModel();
 
-		final DictionaryResult<VOType> dictionaryResult = new DictionaryResult<VOType>(getModule().getDictionaryModel().getName(), searchModel.getResultModel());
+		// searchModel.getResultModel()
+		final DictionaryResult<VOType> dictionaryResult = new DictionaryResult<VOType>(getModule().getDictionaryModel().getName(), null);
 		dictionaryResult.setResultsChangedCallback(new SimpleCallback<Integer>()
 		{
 
@@ -81,7 +82,8 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		if (!searchModel.getFilterModel().isEmpty())
 		{
-			final DictionaryFilter<VOType> dictionaryFilter = new DictionaryFilter<VOType>(searchModel.getFilterModel().get(0));
+			// searchModel.getFilterModel().get(0)
+			final GwtDictionaryFilter<VOType> dictionaryFilter = new GwtDictionaryFilter<VOType>(null);
 
 			Panel filterPanel = dictionaryFilter.getContainer();
 			filterPanel.addStyleName(GwtStyles.VERTICAL_SPACING);

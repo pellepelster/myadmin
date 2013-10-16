@@ -17,9 +17,9 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
 /**
@@ -28,37 +28,37 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * @author pelle
  * 
  */
-public class TextControlFactory extends BaseControlFactory<ITextControlModel>
+public class TextControlFactory extends BaseControlFactory<ITextControlModel, TextControl>
 {
 
 	private static final List<IValidator> VALIDATORS = Arrays.asList(new IValidator[] {});
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(ITextControlModel controlModel, LAYOUT_TYPE layoutType)
+	public Widget createControl(TextControl textControl, LAYOUT_TYPE layoutType)
 	{
-		if (controlModel.isReadonly())
+		if (textControl.getModel().isReadonly())
 		{
-			return new ReadonlyControl(controlModel, this);
+			return new ReadonlyControl(textControl);
 		}
 		else
 		{
-			return new TextControl(controlModel);
+			return new GwtTextControl(textControl);
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControl)
 	{
-		return baseControlModel instanceof ITextControlModel;
+		return baseControl instanceof TextControl;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(ITextControlModel controlModel)
+	public List<IValidator> createValidators(TextControl textControl)
 	{
-		return addValidators(controlModel, VALIDATORS);
+		return addValidators(textControl, VALIDATORS);
 	}
 
 }

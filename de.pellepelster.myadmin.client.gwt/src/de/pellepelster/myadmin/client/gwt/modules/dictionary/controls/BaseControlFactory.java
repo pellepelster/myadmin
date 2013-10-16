@@ -18,8 +18,6 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
@@ -39,14 +37,14 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validat
  * @author pelle
  * 
  */
-public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel> implements
-		IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>
+public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>> implements
+		IUIControlFactory<ControlModelType, ControlType>
 {
 
 	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
 	@Override
-	public Column<IBaseVO, ?> createColumn(final BaseControl<ControlModelType> baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
+	public Column<IBaseVO, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
 			final AbstractCellTable<?> abstractCellTable)
 	{
 
@@ -84,7 +82,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 				@Override
 				public String getValue(IBaseVO vo)
 				{
-					return format(baseControl, vo.get(baseControl.getModel().getAttributePath()));
+					return baseControl.format();
 				}
 			};
 
@@ -129,7 +127,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 				@Override
 				public String getValue(IBaseVO vo)
 				{
-					return format(baseControl, vo.get(baseControl.getModel().getAttributePath()));
+					return baseControl.format();
 				}
 			};
 		}
@@ -140,7 +138,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(BaseControl<ControlModelType> baseControl)
+	public List<IValidator> createValidators(ControlType baseControl)
 	{
 		return createBaseValidators(baseControl);
 	}
@@ -164,17 +162,4 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		return validatorsResult;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public String format(BaseControl<ControlModelType> baseControl, Object value)
-	{
-		if (value != null)
-		{
-			return value.toString();
-		}
-		else
-		{
-			return "";
-		}
-	}
 }

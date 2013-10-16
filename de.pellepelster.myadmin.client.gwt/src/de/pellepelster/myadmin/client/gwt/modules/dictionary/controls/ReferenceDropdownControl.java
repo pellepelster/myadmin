@@ -19,31 +19,26 @@ import java.util.Map;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceDropdownControl extends ListBox implements IUIControl<Widget>
+public class ReferenceDropdownControl extends ListBox
 {
 
-	private final IReferenceControlModel referenceControlModel;
+	private final ReferenceControl referenceControl;
 	private final ControlHelper gwtControlHelper;
 
-	public ReferenceDropdownControl(final IReferenceControlModel referenceControlModel)
+	public ReferenceDropdownControl(final ReferenceControl referenceControl)
 	{
 		super(false);
 
-		this.referenceControlModel = referenceControlModel;
+		this.referenceControl = referenceControl;
 
-		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControlModel));
-		gwtControlHelper = new ControlHelper(this, referenceControlModel, false, String.class);
+		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
+		gwtControlHelper = new ControlHelper(this, referenceControl, false, String.class);
 
 		addChangeHandler(new ChangeHandler()
 		{
@@ -55,7 +50,7 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 			}
 		});
 
-		ControlUtil.populateListBox(referenceControlModel, this);
+		ControlUtil.populateListBox(referenceControl.getModel(), this);
 
 	}
 
@@ -66,27 +61,6 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 		Collections.sort(enumList);
 
 		return enumList;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void addValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().add(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Object getContent()
-	{
-		return null;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Class<?> getContentType()
-	{
-		return String.class;
 	}
 
 	public static String getEnumForText(IEnumerationControlModel enumarationControlModel, String text)
@@ -107,36 +81,6 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 		throw new RuntimeException("no enum found for text '" + text + "'");
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public IBaseControlModel getModel()
-	{
-		return referenceControlModel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
-		return gwtControlHelper.getValueChangeListeners();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Widget getWidget()
-	{
-		return this;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void removeValueChangeListener(IValueChangeListener valueChangeListener)
-	{
-		gwtControlHelper.getValueChangeListeners().remove(valueChangeListener);
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
@@ -163,13 +107,6 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 		{
 			super.setSelectedIndex(0);
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setValidationMessages(List<IValidationMessage> validationMessages)
-	{
-		gwtControlHelper.setValidationMessages(validationMessages, referenceControlModel);
 	}
 
 }
