@@ -46,7 +46,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent
  * @author pelle
  * 
  */
-public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>> {
+public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>>
+{
 
 	private final VerticalPanel verticalPanel;
 
@@ -57,7 +58,8 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 	private static final String DICTIONARY_REFRESH_BUTTON_DEBUG_ID = "DictionaryRefreshButton";
 
 	@SuppressWarnings("rawtypes")
-	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI) {
+	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI)
+	{
 		super(editorModule);
 
 		verticalPanel = new VerticalPanel();
@@ -75,10 +77,12 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		editorTitle.addStyleName(GwtStyles.EDITOR_TITLE);
 		verticalPanel.add(editorTitle);
 
-		VOEventHandler voEventHandler = new VOEventHandler() {
+		VOEventHandler voEventHandler = new VOEventHandler()
+		{
 
 			@Override
-			public void onVOEvent(IBaseVO baseVO) {
+			public void onVOEvent(IBaseVO baseVO)
+			{
 				editorTitle.setText(getModule().getTitle());
 			}
 		};
@@ -90,13 +94,16 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		verticalPanel.add(dictionaryEditor.getContainer());
 		bindControls(dictionaryEditor.getUIObservableValues());
 
-		if (previousModuleUI != null) {
+		if (previousModuleUI != null)
+		{
 
-			actionBar.addSingleButton(MyAdmin.RESOURCES.back(), MyAdmin.MESSAGES.editorBack(), new ClickHandler() {
+			actionBar.addSingleButton(MyAdmin.RESOURCES.back(), MyAdmin.MESSAGES.editorBack(), new ClickHandler()
+			{
 				/** {@inheritDoc} */
 				@SuppressWarnings("unchecked")
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClick(ClickEvent event)
+				{
 					MyAdmin.getInstance().getLayoutFactory().showModuleUI(previousModuleUI);
 				}
 			}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_BUTTON_DEBUG_ID);
@@ -104,18 +111,22 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			actionBar.addSpacer(2);
 		}
 
-		actionBar.addSingleButton(MyAdmin.RESOURCES.editorSave(), MyAdmin.MESSAGES.editorSave(), new ClickHandler() {
+		actionBar.addSingleButton(MyAdmin.RESOURCES.editorSave(), MyAdmin.MESSAGES.editorSave(), new ClickHandler()
+		{
 			/** {@inheritDoc} */
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event)
+			{
 				save();
 			}
 		}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_SAVE_BUTTON_DEBUG_ID);
 
-		final Button refreshButton = actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler() {
+		final Button refreshButton = actionBar.addSingleButton(MyAdmin.RESOURCES.editorRefresh(), MyAdmin.MESSAGES.editorRefresh(), new ClickHandler()
+		{
 			/** {@inheritDoc} */
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event)
+			{
 				getModule().refresh();
 			}
 
@@ -123,54 +134,69 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		// refreshButton.setEnabled(false);
 
-		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler() {
+		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler()
+		{
 
 			@Override
-			public void onVOEvent(IBaseVO baseVO) {
+			public void onVOEvent(IBaseVO baseVO)
+			{
 				refreshButton.setEnabled(!baseVO.isNew());
 			}
 		});
 
 	}
 
-	private void save() {
-		if (getModule().hasErrors()) {
+	private void save()
+	{
+		if (getModule().hasErrors())
+		{
 			HumanizedMessagePopup.showMessageAndFadeAfterMouseMove(MyAdmin.MESSAGES.editorContainsErrors(), MESSAGE_TYPE.ERROR);
-		} else {
+		}
+		else
+		{
 			getModule().save();
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean close() {
+	public boolean close()
+	{
 
-		if (getModule().isDirty()) {
+		if (getModule().isDirty())
+		{
 			return Window.confirm(MyAdmin.MESSAGES.editorClose());
-		} else {
+		}
+		else
+		{
 			return true;
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Panel getContainer() {
+	public Panel getContainer()
+	{
 		return verticalPanel;
 	}
 
 	@Override
-	public String getTitle() {
-		return getModule().getDictionaryModel().getTitle();
+	public String getTitle()
+	{
+		return getModule().getTitle();
 	}
 
-	private void bindControls(List<IUIObservableValue> uiObservableValues) {
+	private void bindControls(List<IUIObservableValue> uiObservableValues)
+	{
 
-		for (final IUIObservableValue uiObservableValue : uiObservableValues) {
+		for (final IUIObservableValue uiObservableValue : uiObservableValues)
+		{
 
 			final IObservableValue modelObervableValue = getModule().getVOWrapper().getObservableValue(uiObservableValue.getModel());
 			final Binding binding = getModule().getDataBindingContext().createBinding(modelObervableValue, uiObservableValue);
 
-			if (uiObservableValue.getModel() instanceof IBaseControlModel) {
+			if (uiObservableValue.getModel() instanceof IBaseControlModel)
+			{
 				binding.setValidators(ControlHandler.getInstance().createValidators((IBaseControlModel) uiObservableValue.getModel()));
 			}
 

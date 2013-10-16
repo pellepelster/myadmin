@@ -11,15 +11,10 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.containers;
 
-import java.util.List;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-
-public interface IBaseTableModel
+public interface IBaseTableModel extends IBaseContainerModel
 {
 	int DEFAULT_VISBLE_ROWS = 5;
-
-	List<IBaseControlModel> getControls();
 
 	Integer getVisibleRows();
 }

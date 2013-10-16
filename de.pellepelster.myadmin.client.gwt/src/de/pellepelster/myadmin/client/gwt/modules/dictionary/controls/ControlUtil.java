@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
@@ -39,25 +38,6 @@ public class ControlUtil
 		}
 
 		return hasFirstEditMarker((IBaseVO) context.getKey(), baseControlModel);
-	}
-
-	public static String getLabel(LAYOUT_TYPE layoutType, IBaseControlModel baseControlModel)
-	{
-		String label = baseControlModel.getEditorLabel();
-
-		switch (layoutType)
-		{
-			case EDITOR:
-				if (baseControlModel.isMandatory())
-				{
-					label += MyAdmin.MESSAGES.mandatoryMarker();
-				}
-				break;
-			default:
-				break;
-		}
-
-		return label;
 	}
 
 	public static boolean hasFirstEditMarker(IBaseVO vo, IBaseControlModel baseControlModel)

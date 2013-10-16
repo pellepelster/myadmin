@@ -31,6 +31,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.Hierarchic
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ReferenceControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.TextControlFactory;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
@@ -42,13 +43,15 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * 
  */
 @SuppressWarnings("unchecked")
-public class ControlHandler<ControlModelType extends IBaseControlModel> implements IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> {
+public class ControlHandler<ControlModelType extends IBaseControlModel> implements IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>
+{
 
 	private static ControlHandler<IBaseControlModel> instance;
 
 	private static List<IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>> controlFactories = new ArrayList<IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel>>();
 
-	private ControlHandler() {
+	private ControlHandler()
+	{
 		super();
 		controlFactories.add(new TextControlFactory());
 		controlFactories.add(new IntegerControlFactory());
@@ -60,8 +63,10 @@ public class ControlHandler<ControlModelType extends IBaseControlModel> implemen
 		controlFactories.add(new HierarchicalControlFactory());
 	}
 
-	public static ControlHandler<IBaseControlModel> getInstance() {
-		if (instance == null) {
+	public static ControlHandler<IBaseControlModel> getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new ControlHandler<IBaseControlModel>();
 		}
 
@@ -71,42 +76,51 @@ public class ControlHandler<ControlModelType extends IBaseControlModel> implemen
 	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("rawtypes")
-	public Column createColumn(ControlModelType controlModel, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable) {
-		return getControlFactory(controlModel).createColumn(controlModel, editable, listDataProvider, abstractCellTable);
+	public Column createColumn(BaseControl<ControlModelType> baseControl, boolean editable, ListDataProvider<?> listDataProvider,
+			AbstractCellTable<?> abstractCellTable)
+	{
+		return getControlFactory(baseControl).createColumn(baseControl, editable, listDataProvider, abstractCellTable);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(ControlModelType controlModel, LAYOUT_TYPE layoutType) {
-		return getControlFactory(controlModel).createControl(controlModel, layoutType);
+	public IUIControl<Widget> createControl(BaseControl<ControlModelType> baseControl, LAYOUT_TYPE layoutType)
+	{
+		return getControlFactory(baseControl).createControl(baseControl, layoutType);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(ControlModelType controlModel) {
-		return getControlFactory(controlModel).createValidators(controlModel);
+	public List<IValidator> createValidators(BaseControl<ControlModelType> baseControl)
+	{
+		return getControlFactory(baseControl).createValidators(baseControl);
 	}
 
-	private IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> getControlFactory(IBaseControlModel baseControlModel) {
+	private IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> getControlFactory(BaseControl<ControlModelType> baseControl)
+	{
 
-		for (IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel> controlFactory : controlFactories) {
-			if (controlFactory.supports(baseControlModel)) {
+		for (IUIControlFactory<?, Widget, Column<IBaseVO, ?>, Panel> controlFactory : controlFactories)
+		{
+			if (controlFactory.supports(baseControl))
+			{
 				return (IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>) controlFactory;
 			}
 		}
 
-		throw new RuntimeException("unsupported control model '" + baseControlModel.getClass().getName() + "'");
+		throw new RuntimeException("unsupported control model '" + baseControl.getModel().getClass().getName() + "'");
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String format(ControlModelType controlModel, Object value) {
-		return getControlFactory(controlModel).format(controlModel, value);
+	public String format(BaseControl<ControlModelType> baseControl, Object value)
+	{
+		return getControlFactory(baseControl).format(baseControl, value);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel) {
+	public boolean supports(BaseControl baseControl)
+	{
 		return true;
 	}
 

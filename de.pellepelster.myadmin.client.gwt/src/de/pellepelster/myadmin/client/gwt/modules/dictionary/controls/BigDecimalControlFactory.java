@@ -23,9 +23,9 @@ import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.BaseValidator;
@@ -81,36 +81,36 @@ public class BigDecimalControlFactory extends BaseControlFactory<IBigDecimalCont
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IBigDecimalControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(BaseControl<IBigDecimalControlModel> baseControl, LAYOUT_TYPE layoutType)
 	{
-		return new BigDecimalControl(controlModel);
+		return new BigDecimalControl(baseControl);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(IBigDecimalControlModel controlModel)
+	public List<IValidator> createValidators(BaseControl<IBigDecimalControlModel> baseControl)
 	{
-		return addValidators(controlModel, VALIDATORS);
+		return addValidators(baseControl, VALIDATORS);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String format(IBigDecimalControlModel controlModel, Object value)
+	public String format(BaseControl<IBigDecimalControlModel> baseControl, Object value)
 	{
 
 		if (value != null && value instanceof BigDecimal)
 		{
-			return BigDecimalControl.format(controlModel, (BigDecimal) value);
+			return BigDecimalControl.format(baseControl.getModel(), (BigDecimal) value);
 		}
 		else
 		{
-			return super.format(controlModel, value);
+			return super.format(baseControl, value);
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(IBaseControlModel baseControlModel)
+	public boolean supports(BaseControl baseControlModel)
 	{
 		return baseControlModel instanceof IBigDecimalControlModel;
 	}

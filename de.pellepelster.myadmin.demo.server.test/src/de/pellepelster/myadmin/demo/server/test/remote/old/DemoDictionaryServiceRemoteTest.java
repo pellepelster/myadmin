@@ -20,7 +20,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
@@ -93,7 +93,7 @@ public class DemoDictionaryServiceRemoteTest extends BaseRemoteTest
 		IBigDecimalControlModel countryArea = (IBigDecimalControlModel) composite4.getControls().get(2);
 		assertEquals("CountryArea", countryArea.getName());
 
-		IEnumarationControlModel countryDrive = (IEnumarationControlModel) composite4.getControls().get(3);
+		IEnumerationControlModel countryDrive = (IEnumerationControlModel) composite4.getControls().get(3);
 		assertEquals("CountryDrive", countryDrive.getName());
 
 	}

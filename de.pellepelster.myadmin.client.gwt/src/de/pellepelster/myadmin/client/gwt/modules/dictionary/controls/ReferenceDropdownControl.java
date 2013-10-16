@@ -25,7 +25,7 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
@@ -59,7 +59,7 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 
 	}
 
-	public static List<String> getSortedEnumList(IEnumarationControlModel enumarationControlModel)
+	public static List<String> getSortedEnumList(IEnumerationControlModel enumarationControlModel)
 	{
 		List<String> enumList = new ArrayList<String>();
 		enumList.addAll(enumarationControlModel.getEnumeration().values());
@@ -89,7 +89,7 @@ public class ReferenceDropdownControl extends ListBox implements IUIControl<Widg
 		return String.class;
 	}
 
-	public static String getEnumForText(IEnumarationControlModel enumarationControlModel, String text)
+	public static String getEnumForText(IEnumerationControlModel enumarationControlModel, String text)
 	{
 		if (text == null || text.isEmpty())
 		{

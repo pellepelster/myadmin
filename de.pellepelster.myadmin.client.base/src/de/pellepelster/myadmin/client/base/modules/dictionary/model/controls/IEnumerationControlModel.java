@@ -20,7 +20,7 @@ import java.util.Map;
  * @version $Rev$, $Date$
  * 
  */
-public interface IEnumarationControlModel extends IBaseControlModel
+public interface IEnumerationControlModel extends IBaseControlModel
 {
 
 	Map<String, String> getEnumeration();

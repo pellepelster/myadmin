@@ -1,12 +1,12 @@
-package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
+package de.pellepelster.myadmin.client.web.modules.dictionary.base;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 
-public abstract class BaseDictionary<ModelType extends IBaseModel> {
+public abstract class BaseModelElement<ModelType extends IBaseModel> {
 
 	private ModelType model;
 
-	public BaseDictionary(ModelType model) {
+	public BaseModelElement(ModelType model) {
 		super();
 		this.model = model;
 	}

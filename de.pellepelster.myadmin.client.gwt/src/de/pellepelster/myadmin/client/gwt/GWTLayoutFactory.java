@@ -28,11 +28,8 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
-import de.pellepelster.myadmin.client.base.layout.IDictionaryLayoutStrategy;
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUIFactory;
@@ -246,13 +243,6 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		{
 			return Direction.CENTER;
 		}
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public IDictionaryLayoutStrategy<Panel> getLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType)
-	{
-		return new ColumnLayoutStrategy(observableValues, layoutType);
 	}
 
 	/** {@inheritDoc} */

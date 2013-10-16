@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 
 /**
  * Model for an editor UI
@@ -20,15 +19,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
  * @version $Rev$, $Date$
  * 
  */
-public interface IEditorModel extends IBaseModel
+public interface IEditorModel extends IBaseRootModel
 {
-
-	/**
-	 * The composite structure describing the editor UI
-	 * 
-	 * @return
-	 */
-	ICompositeModel getCompositeModel();
 
 	/**
 	 * Returns the title

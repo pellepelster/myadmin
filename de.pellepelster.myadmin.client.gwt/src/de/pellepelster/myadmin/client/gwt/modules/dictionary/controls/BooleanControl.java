@@ -20,23 +20,22 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 public class BooleanControl extends CheckBox implements IUIControl<Widget>
 {
 
-	private final IBooleanControlModel booleanControlModel;
+	private final BooleanControl booleanControl;
 
 	private final ControlHelper gwtControlHelper;
 
-	public BooleanControl(IBooleanControlModel booleanControlModel)
+	public BooleanControl(BooleanControl booleanControl)
 	{
-		this.booleanControlModel = booleanControlModel;
+		this.booleanControl = booleanControl;
 
-		gwtControlHelper = new ControlHelper(this, booleanControlModel, true, Boolean.class);
-		ensureDebugId(DictionaryModelUtil.getDebugId(booleanControlModel));
+		gwtControlHelper = new ControlHelper(this, booleanControl.getModel(), true, Boolean.class);
+		ensureDebugId(DictionaryModelUtil.getDebugId(booleanControl.getModel()));
 
 	}
 
@@ -65,7 +64,7 @@ public class BooleanControl extends CheckBox implements IUIControl<Widget>
 	@Override
 	public IBaseControlModel getModel()
 	{
-		return booleanControlModel;
+		return booleanControl.getModel();
 	}
 
 	/** {@inheritDoc} */
@@ -116,7 +115,7 @@ public class BooleanControl extends CheckBox implements IUIControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages, booleanControlModel);
+		gwtControlHelper.setValidationMessages(validationMessages, booleanControl.getModel());
 	}
 
 }

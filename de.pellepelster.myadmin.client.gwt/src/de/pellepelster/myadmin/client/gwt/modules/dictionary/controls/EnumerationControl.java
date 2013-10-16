@@ -25,17 +25,17 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 public class EnumerationControl extends ListBox implements IUIControl<Widget>
 {
 
-	private final IEnumarationControlModel enumarationControlModel;
+	private final IEnumerationControlModel enumarationControlModel;
 	private final ControlHelper gwtControlHelper;
 
-	public EnumerationControl(final IEnumarationControlModel enumarationControlModel)
+	public EnumerationControl(final IEnumerationControlModel enumarationControlModel)
 	{
 		super(false);
 
@@ -64,7 +64,7 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 
 	}
 
-	public static List<String> getSortedEnumList(IEnumarationControlModel enumarationControlModel)
+	public static List<String> getSortedEnumList(IEnumerationControlModel enumarationControlModel)
 	{
 		List<String> enumList = new ArrayList<String>();
 		enumList.addAll(enumarationControlModel.getEnumeration().values());
@@ -94,7 +94,7 @@ public class EnumerationControl extends ListBox implements IUIControl<Widget>
 		return String.class;
 	}
 
-	public static String getEnumForText(IEnumarationControlModel enumarationControlModel, String text)
+	public static String getEnumForText(IEnumerationControlModel enumarationControlModel, String text)
 	{
 		if (text == null || text.isEmpty())
 		{

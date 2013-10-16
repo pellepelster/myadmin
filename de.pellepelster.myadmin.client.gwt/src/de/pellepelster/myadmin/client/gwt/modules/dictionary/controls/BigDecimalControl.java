@@ -28,15 +28,15 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
 
 public class BigDecimalControl extends TextBox implements IUIControl<Widget>
 {
-	private final IBigDecimalControlModel bigDecimalControlModel;
+	private final BigDecimalControl bigDecimalControl;
 
 	private final ControlHelper gwtControlHelper;
 
-	public BigDecimalControl(IBigDecimalControlModel bigDecimalControlModel)
+	public BigDecimalControl(BigDecimalControl bigDecimalControl)
 	{
-		this.bigDecimalControlModel = bigDecimalControlModel;
-		gwtControlHelper = new ControlHelper(this, bigDecimalControlModel, true, BigDecimal.class);
-		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControlModel));
+		this.bigDecimalControl = bigDecimalControl;
+		gwtControlHelper = new ControlHelper(this, bigDecimalControl.getModel(), true, BigDecimal.class);
+		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControl.getModel()));
 	}
 
 	/** {@inheritDoc} */
@@ -64,7 +64,7 @@ public class BigDecimalControl extends TextBox implements IUIControl<Widget>
 	@Override
 	public IBaseControlModel getModel()
 	{
-		return bigDecimalControlModel;
+		return bigDecimalControl.getModel();
 	}
 
 	/** {@inheritDoc} */
@@ -97,7 +97,7 @@ public class BigDecimalControl extends TextBox implements IUIControl<Widget>
 
 			if (content instanceof BigDecimal)
 			{
-				super.setValue(format(bigDecimalControlModel, content));
+				super.setValue(format(bigDecimalControl.getModel(), content));
 			}
 			else
 			{
@@ -135,7 +135,7 @@ public class BigDecimalControl extends TextBox implements IUIControl<Widget>
 	@Override
 	public void setValidationMessages(List<IValidationMessage> validationMessages)
 	{
-		gwtControlHelper.setValidationMessages(validationMessages, bigDecimalControlModel);
+		gwtControlHelper.setValidationMessages(validationMessages, bigDecimalControl.getModel());
 	}
 
 }

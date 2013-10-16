@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.contro
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 
@@ -25,7 +25,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlV
  * @version $Rev$, $Date$
  * 
  */
-public class EnumerationControlModel extends BaseControlModel implements IEnumarationControlModel
+public class EnumerationControlModel extends BaseControlModel implements IEnumerationControlModel
 {
 	private static final long serialVersionUID = -2124985849853567977L;
 

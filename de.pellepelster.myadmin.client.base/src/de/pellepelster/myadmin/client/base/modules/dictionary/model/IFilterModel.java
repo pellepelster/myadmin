@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 
 /**
  * Model for a filter UI
@@ -20,14 +19,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
  * @version $Rev$, $Date$
  * 
  */
-public interface IFilterModel extends IBaseModel
+public interface IFilterModel extends IBaseRootModel
 {
-	/**
-	 * The composite structure describing the filter UI
-	 * 
-	 * @return
-	 */
-	ICompositeModel getCompositeModel();
 
 	/**
 	 * Fully qualified name of the VO managed by this filter

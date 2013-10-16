@@ -11,10 +11,8 @@
  */
 package de.pellepelster.myadmin.client.base.layout;
 
-import java.util.List;
 import java.util.Map;
 
-import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
 import de.pellepelster.myadmin.client.base.module.IModule;
 
 /**
@@ -27,7 +25,6 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 public interface ILayoutFactory<ContainerType, WidgetType>
 {
 	public static final int AUTO_WIDTH = -1;
-	
 
 	/**
 	 * Closes the current module and show the previous one (if there is one)
@@ -36,17 +33,6 @@ public interface ILayoutFactory<ContainerType, WidgetType>
 	 * @return
 	 */
 	boolean closeAndBack(String location);
-
-	/**
-	 * The UI for the module
-	 * 
-	 * @param module
-	 *            module to get the UI for
-	 * @return the modules UI or null if not available
-	 */
-	// IModuleUI<Widget> getModuleUI(IModule module);
-
-	IDictionaryLayoutStrategy<ContainerType> getLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType);
 
 	/**
 	 * True if breadcrumbs exists for module navigation

@@ -36,6 +36,7 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 
 public class EditTextCellWithValidation<T> extends BaseCellControl<T>
@@ -52,11 +53,11 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private static Template template;
 
-	private IBaseControlModel baseControlModel;
+	private final BaseControl<IBaseControlModel> baseControl;
 
 	private final SafeHtmlRenderer<String> renderer;
 
-	public EditTextCellWithValidation(IBaseControlModel baseControlModel, IValueHandler<T> valueFormatter)
+	public EditTextCellWithValidation(BaseControl<IBaseControlModel> baseControl, IValueHandler<T> valueFormatter)
 	{
 		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
 
@@ -65,7 +66,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 			template = GWT.create(Template.class);
 		}
 
-		this.baseControlModel = baseControlModel;
+		this.baseControl = baseControl;
 		this.renderer = SimpleSafeHtmlRenderer.getInstance();
 	}
 
@@ -77,7 +78,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 		String type = event.getType();
 		int keyCode = event.getKeyCode();
 		boolean enterPressed = KeyUpEvent.getType().getName().equals(type) && keyCode == KeyCodes.KEY_ENTER;
-		boolean hasFirstEditMarker = ControlUtil.hasFirstEditMarker(context, baseControlModel);
+		boolean hasFirstEditMarker = ControlUtil.hasFirstEditMarker(context, baseControl.getModel());
 		boolean startEdit = ClickEvent.getType().getName().equals(type) || enterPressed;
 
 		if (viewData.isEditing() || hasFirstEditMarker)
@@ -106,7 +107,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 			styles.appendTrustedString(GwtStyles.CELL_ERROR_STYLE);
 		}
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, baseControlModel))
+		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, baseControl.getModel()))
 		{
 			sb.append(template.input(getValueHandler().format(viewData.getValue()), styles.toSafeStyles()));
 		}
@@ -120,7 +121,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 	@Override
 	public boolean resetFocus(Context context, Element parent, T value)
 	{
-		if (isEditing(context, parent, value) || ControlUtil.hasFirstEditMarker(context, baseControlModel))
+		if (isEditing(context, parent, value) || ControlUtil.hasFirstEditMarker(context, baseControl.getModel()))
 		{
 			getInputElement(parent).focus();
 			return true;
@@ -147,7 +148,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private void cancel(Context context, Element parent, T value)
 	{
-		ControlUtil.removeFirstEditMarker(context, baseControlModel);
+		ControlUtil.removeFirstEditMarker(context, baseControl.getModel());
 		clearInput(getInputElement(parent));
 		setValue(context, parent, value);
 	}
@@ -163,7 +164,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 	{
 		T value = updateViewData(parent, viewData, false);
 
-		ControlUtil.removeFirstEditMarker(context, baseControlModel);
+		ControlUtil.removeFirstEditMarker(context, baseControl.getModel());
 
 		clearInput(getInputElement(parent));
 

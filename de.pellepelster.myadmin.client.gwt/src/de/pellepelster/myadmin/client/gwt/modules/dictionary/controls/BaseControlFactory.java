@@ -26,10 +26,10 @@ import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
@@ -39,61 +39,80 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validat
  * @author pelle
  * 
  */
-public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel> implements IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel> {
+public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel> implements
+		IUIControlFactory<ControlModelType, Widget, Column<IBaseVO, ?>, Panel>
+{
 
 	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
 	@Override
-	public Column<IBaseVO, ?> createColumn(final ControlModelType controlModel, boolean editable, final ListDataProvider<?> listDataProvider, final AbstractCellTable<?> abstractCellTable) {
+	public Column<IBaseVO, ?> createColumn(final BaseControl<ControlModelType> baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
+			final AbstractCellTable<?> abstractCellTable)
+	{
 
 		Column<IBaseVO, String> column;
 
-		if (editable) {
+		if (editable)
+		{
 
-			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(controlModel, new IValueHandler() {
+			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl, new IValueHandler()
+			{
 
 				@Override
-				public String format(Object value) {
-					if (value != null) {
+				public String format(Object value)
+				{
+					if (value != null)
+					{
 						return value.toString();
-					} else {
+					}
+					else
+					{
 						return "";
 					}
 				}
 
 				@Override
-				public Object parse(String value) {
+				public Object parse(String value)
+				{
 					return value.toString();
 				}
 			});
 
-			column = new Column<IBaseVO, String>(editTextCell) {
+			column = new Column<IBaseVO, String>(editTextCell)
+			{
 
 				@Override
-				public String getValue(IBaseVO vo) {
-					return format(controlModel, vo.get(controlModel.getAttributePath()));
+				public String getValue(IBaseVO vo)
+				{
+					return format(baseControl, vo.get(baseControl.getModel().getAttributePath()));
 				}
 			};
 
-			FieldUpdater<IBaseVO, String> fieldUpdater = new FieldUpdater<IBaseVO, String>() {
+			FieldUpdater<IBaseVO, String> fieldUpdater = new FieldUpdater<IBaseVO, String>()
+			{
 				@SuppressWarnings("unchecked")
 				@Override
-				public void update(int index, IBaseVO vo, String value) {
+				public void update(int index, IBaseVO vo, String value)
+				{
 
 					Object key = BaseCellTable.KEYPROVIDER.getKey(vo);
 
-					List<IValidator> validators = ControlHandler.getInstance().createValidators(controlModel);
-					List<IValidationMessage> validationMessages = ValidationUtils.validate(validators, value, controlModel);
+					List<IValidator> validators = createValidators(baseControl);
+					List<IValidationMessage> validationMessages = ValidationUtils.validate(validators, value, baseControl.getModel());
 
 					ViewData<String> viewData = (ViewData<String>) editTextCell.getViewData(key);
 
-					if (validationMessages != null && ValidationUtils.hasError(validationMessages)) {
+					if (validationMessages != null && ValidationUtils.hasError(validationMessages))
+					{
 						viewData.setValidationMessages(validationMessages);
 						// dataGrid.redraw();
-					} else {
+					}
+					else
+					{
 						viewData.getValidationMessages().clear();
 
-						vo.set(controlModel.getAttributePath(), TypeHelper.convert(vo.getAttributeDescriptor(controlModel.getAttributePath()).getAttributeType(), value));
+						vo.set(baseControl.getModel().getAttributePath(),
+								TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(), value));
 					}
 
 					listDataProvider.refresh();
@@ -101,12 +120,16 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 			};
 			column.setFieldUpdater(fieldUpdater);
 
-		} else {
-			column = new Column<IBaseVO, String>(new TextCell()) {
+		}
+		else
+		{
+			column = new Column<IBaseVO, String>(new TextCell())
+			{
 
 				@Override
-				public String getValue(IBaseVO vo) {
-					return format(controlModel, vo.get(controlModel.getAttributePath()));
+				public String getValue(IBaseVO vo)
+				{
+					return format(baseControl, vo.get(baseControl.getModel().getAttributePath()));
 				}
 			};
 		}
@@ -117,32 +140,40 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(ControlModelType controlModel) {
-		return createBaseValidators(controlModel);
+	public List<IValidator> createValidators(BaseControl<ControlModelType> baseControl)
+	{
+		return createBaseValidators(baseControl);
 	}
 
-	public List<IValidator> createBaseValidators(ControlModelType controlModel) {
+	public List<IValidator> createBaseValidators(BaseControl<ControlModelType> baseControl)
+	{
 		List<IValidator> validators = new ArrayList<IValidator>();
 
-		if (controlModel.isMandatory()) {
+		if (baseControl.getModel().isMandatory())
+		{
 			validators.add(MANDATORY_VALIDATOR);
 		}
 		return validators;
 	}
 
-	protected List<IValidator> addValidators(ControlModelType controlModel, List<IValidator> validators) {
+	protected List<IValidator> addValidators(BaseControl<ControlModelType> baseControl, List<IValidator> validators)
+	{
 		List<IValidator> validatorsResult = new ArrayList<IValidator>();
 		validatorsResult.addAll(validators);
-		validatorsResult.addAll(createBaseValidators(controlModel));
+		validatorsResult.addAll(createBaseValidators(baseControl));
 		return validatorsResult;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String format(ControlModelType controlModel, Object value) {
-		if (value != null) {
+	public String format(BaseControl<ControlModelType> baseControl, Object value)
+	{
+		if (value != null)
+		{
 			return value.toString();
-		} else {
+		}
+		else
+		{
 			return "";
 		}
 	}

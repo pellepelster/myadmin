@@ -18,14 +18,13 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.databinding.IUIObservableValue;
-import de.pellepelster.myadmin.client.base.layout.IDictionaryLayoutStrategy;
-import de.pellepelster.myadmin.client.base.layout.ILayoutCallback;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ControlUtil;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
@@ -35,14 +34,11 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @version $Rev$, $Date$
  * 
  */
-public class ColumnLayoutStrategy implements IDictionaryLayoutStrategy<Panel> {
-
+public class ColumnLayoutStrategy
+{
 	private final LAYOUT_TYPE layoutType;
 
 	private final List<IUIObservableValue> observableValues;
-
-	private final ILayoutCallback layoutCallback = new ILayoutCallback() {
-	};
 
 	/**
 	 * Constructor for {@link ColumnLayoutStrategy}
@@ -50,18 +46,17 @@ public class ColumnLayoutStrategy implements IDictionaryLayoutStrategy<Panel> {
 	 * @param observableValues
 	 * @param layoutType
 	 */
-	public ColumnLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType) {
+	public ColumnLayoutStrategy(List<IUIObservableValue> observableValues, LAYOUT_TYPE layoutType)
+	{
 		this.observableValues = observableValues;
 		this.layoutType = layoutType;
 	}
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void createLayout(Panel parent, IBaseContainerModel containerModel) {
+	public void createLayout(Panel parent, BaseContainer<IBaseContainerModel> baseContainer)
+	{
 
-		if (!containerModel.getControls().isEmpty()) {
-
+		if (!baseContainer.getControls().isEmpty())
+		{
 			// Create a table to layout the form options
 			FlexTable flexTable = new FlexTable();
 			flexTable.setCellSpacing(5);
@@ -70,41 +65,48 @@ public class ColumnLayoutStrategy implements IDictionaryLayoutStrategy<Panel> {
 			// flexTable.getFlexCellFormatter();ControlHandler.getInstance()
 
 			int row = 0;
-			for (IBaseControlModel baseControlModel : containerModel.getControls()) {
+			for (BaseControl<IBaseControlModel> baseControl : baseContainer.getControls())
+			{
 
-				IUIControl<Widget> control = ControlHandler.getInstance().createControl(baseControlModel, layoutType);
+				IUIControl<Widget> control = ControlHandler.getInstance().createControl(baseControl, layoutType);
 				observableValues.add(control);
 
-				flexTable.setHTML(row, 0, ControlUtil.getLabel(layoutType, baseControlModel));
+				switch (layoutType)
+				{
+					case EDITOR:
+						flexTable.setHTML(row, 0, baseControl.getEditorLabel());
+						break;
+					case FILTER:
+						flexTable.setHTML(row, 0, baseControl.getFilterLabel());
+						break;
+				}
 				flexTable.setWidget(row, 1, control.getWidget());
 
 				row++;
 			}
 		}
 
-		if (!containerModel.getChildren().isEmpty()) {
+		if (!baseContainer.getChildren().isEmpty())
+		{
 
-			for (IBaseContainerModel baseContainerModel : containerModel.getChildren()) {
+			for (BaseContainer<IBaseContainerModel> lBaseContainer : baseContainer.getChildren())
+			{
 
-				IContainer<Panel> container = ContainerFactory.createContainer(baseContainerModel);
+				IContainer<Panel> container = ContainerFactory.createContainer(lBaseContainer);
 				parent.add(container.getContainer());
 
-				if (container instanceof IUIObservableValue) {
+				if (container instanceof IUIObservableValue)
+				{
 					observableValues.add((IUIObservableValue) container);
 				}
 
-				if (container.getContainer() instanceof Panel && !(baseContainerModel instanceof IBaseTableModel)) {
-					createLayout(container.getContainer(), baseContainerModel);
+				if (container.getContainer() instanceof Panel && !(lBaseContainer instanceof BaseTable))
+				{
+					createLayout(container.getContainer(), lBaseContainer);
 				}
 			}
 		}
 
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public ILayoutCallback getLayoutCallback() {
-		return layoutCallback;
 	}
 
 }

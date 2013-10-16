@@ -15,11 +15,10 @@ import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.AssignmentTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.Composite;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.EditableTable;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 
 /**
@@ -31,26 +30,25 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
 public class ContainerFactory
 {
 
-	public static IContainer<Panel> createContainer(IBaseContainerModel containerModel)
+	public static IContainer<Panel> createContainer(BaseContainer<IBaseContainerModel> baseContainer)
 	{
-
 		IContainer<Panel> container;
 
-		if (containerModel instanceof ICompositeModel)
+		if (baseContainer instanceof de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite)
 		{
-			container = new Composite((ICompositeModel) containerModel);
+			return new Composite((de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite) baseContainer);
 		}
-		else if (containerModel instanceof IEditableTableModel)
+		else if (baseContainer instanceof IEditableTableModel)
 		{
-			container = new EditableTable((IEditableTableModel) containerModel);
+			container = new EditableTable((IEditableTableModel) baseContainer);
 		}
-		else if (containerModel instanceof IAssignmentTableModel)
+		else if (baseContainer instanceof IAssignmentTableModel)
 		{
-			container = new AssignmentTable((IAssignmentTableModel) containerModel);
+			container = new AssignmentTable((IAssignmentTableModel) baseContainer);
 		}
 		else
 		{
-			throw new RuntimeException("unsupported container model type '" + containerModel.getClass().getName() + "'");
+			throw new RuntimeException("unsupported container type '" + baseContainer.getClass().getName() + "'");
 		}
 
 		return container;

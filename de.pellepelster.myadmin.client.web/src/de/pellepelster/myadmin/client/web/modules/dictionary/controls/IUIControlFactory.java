@@ -29,45 +29,14 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
 public interface IUIControlFactory<ControlModelType extends IBaseControlModel, WidgetType, ColumType, ContainerType>
 {
 
-	/**
-	 * @param controlModel
-	 * @param editable
-	 * @param listDataProvider
-	 * @param cellTable
-	 * @return
-	 */
-	ColumType createColumn(ControlModelType controlModel, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable);
+	ColumType createColumn(BaseControl<ControlModelType> baseControl, boolean editable, ListDataProvider<?> listDataProvider,
+			AbstractCellTable<?> abstractCellTable);
 
-	/**
-	 * Creates the control UI
-	 * 
-	 * @param controlModel
-	 * @param layoutType
-	 * @return
-	 */
-	IUIControl<WidgetType> createControl(ControlModelType controlModel, LAYOUT_TYPE layoutType);
+	IUIControl<WidgetType> createControl(BaseControl<ControlModelType> baseControl, LAYOUT_TYPE layoutType);
 
-	/**
-	 * Create validators for this control model
-	 * 
-	 * @param controlModel
-	 * @return
-	 */
-	List<IValidator> createValidators(ControlModelType controlModel);
+	List<IValidator> createValidators(BaseControl<ControlModelType> baseControl);
 
-	/**
-	 * Formats a controls value for display purposes
-	 * 
-	 * @param value
-	 * @return
-	 */
-	String format(ControlModelType baseControlModel, Object value);
+	String format(BaseControl<ControlModelType> baseControl, Object value);
 
-	/**
-	 * Indicates whether this factory supports a control model type
-	 * 
-	 * @param baseControlModel
-	 * @return
-	 */
-	boolean supports(IBaseControlModel baseControlModel);
+	boolean supports(BaseControl baseControl);
 }

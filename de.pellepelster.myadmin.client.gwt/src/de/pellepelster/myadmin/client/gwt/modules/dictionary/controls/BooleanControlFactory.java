@@ -22,6 +22,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
@@ -35,7 +36,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IBooleanControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(BaseControl<IBooleanControlModel> baseControl, LAYOUT_TYPE layoutType)
 	{
 		return new BooleanControl(controlModel);
 	}

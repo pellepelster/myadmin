@@ -23,7 +23,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumarationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl;
 
 /**
@@ -32,12 +32,12 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControl
  * @author pelle
  * 
  */
-public class EnumerationControlFactory extends BaseControlFactory<IEnumarationControlModel>
+public class EnumerationControlFactory extends BaseControlFactory<IEnumerationControlModel>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public IUIControl<Widget> createControl(IEnumarationControlModel controlModel, LAYOUT_TYPE layoutType)
+	public IUIControl<Widget> createControl(IEnumerationControlModel controlModel, LAYOUT_TYPE layoutType)
 	{
 		return new EnumerationControl(controlModel);
 	}
@@ -46,11 +46,11 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumarationCo
 	@Override
 	public boolean supports(IBaseControlModel baseControlModel)
 	{
-		return baseControlModel instanceof IEnumarationControlModel;
+		return baseControlModel instanceof IEnumerationControlModel;
 	}
 
 	@Override
-	public Column createColumn(final IEnumarationControlModel controlModel, boolean editable, ListDataProvider<?> listDataProvider,
+	public Column createColumn(final IEnumerationControlModel controlModel, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable)
 	{
 
