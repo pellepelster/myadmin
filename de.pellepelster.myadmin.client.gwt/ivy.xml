@@ -21,8 +21,6 @@
 	
 		<dependency name="client-web" rev="latest.integration" conf="*->@,sources" />
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" />	
-		
 		<dependency org="com.googlecode.gwtquery" name="gwtquery" rev="1.4.0-SNAPSHOT" transitive="false" />	
 		
 	</dependencies>

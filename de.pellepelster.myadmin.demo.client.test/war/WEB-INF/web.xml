@@ -3,7 +3,7 @@
 
 	<servlet>
 		<servlet-name>ProxyServlet</servlet-name>
-		<servlet-class>de.pellepelster.myadmin.demo.server.ProxyServlet</servlet-class>
+		<servlet-class>de.pellepelster.gwt.commons.server.ProxyServlet</servlet-class>
 		<init-param>
 			<param-name>proxyHost</param-name>
 			<param-value>localhost</param-value>

@@ -1,4 +1,4 @@
-<project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="de.pellepelster.myadmin.demo.server.test.base" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="jetty.temp.location" value="${basedir}/jetty-temp" />
 	<property name="db.temp.location" value="${basedir}/db-temp" />
