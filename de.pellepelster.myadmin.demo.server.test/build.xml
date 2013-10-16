@@ -5,9 +5,7 @@
 	<property file="build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-
-	<import file="build.test.base.xml" />
-
+	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
 
 	<path id="local.lib.path.id">
 		<path refid="lib.path.id" />
