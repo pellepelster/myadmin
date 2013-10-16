@@ -17,6 +17,7 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryModuleTestUIFactory;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUIFactory;
 
 public class JunitLayoutFactory implements ILayoutFactory
@@ -35,6 +36,7 @@ public class JunitLayoutFactory implements ILayoutFactory
 	public JunitLayoutFactory()
 	{
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleTestUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new DictionaryModuleTestUIFactory());
 	}
 
 	@Override

@@ -16,8 +16,10 @@ import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
@@ -36,7 +38,6 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(NavigationTreeTestElements result)
 		{
-			// result.assertIsRoot();
 			result.assertChildrenCount(2);
 			result.assertChildNavigationText(0, "Masterdata");
 			result.assertChildNavigationText(1, "Test");
@@ -53,11 +54,29 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
+	private class DictionaryModuleTest extends BaseAsyncCallback<DictionaryModuleTestUI>
+	{
+		@Override
+		public void onSuccess(DictionaryModuleTestUI result)
+		{
+			result.toString();
+		}
+	}
+
 	@Test
 	public void testNavigationTree()
 	{
 		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_ID, NavigationModuleTestUI.class, Direction.WEST.toString(),
 				new NavigationModuleTest());
+
+		delayTestFinish(2000);
+	}
+
+	@Test
+	public void testDictionary1()
+	{
+		MyAdminTest.getInstance().startModule(DictionaryEditorModule.MODULE_ID, DictionaryModuleTestUI.class, Direction.CENTER.toString(),
+				new DictionaryModuleTest());
 
 		delayTestFinish(2000);
 	}
