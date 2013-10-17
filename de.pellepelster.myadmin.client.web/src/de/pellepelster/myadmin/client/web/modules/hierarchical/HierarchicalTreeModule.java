@@ -92,4 +92,10 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 		return this.hierarchicalConfiguration;
 	}
 
+	@Override
+	public String getModuleId()
+	{
+		return this.hierarchicalConfiguration.getId();
+	}
+
 }

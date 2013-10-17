@@ -59,7 +59,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI result)
 		{
-			result.toString();
+			finishTest();
 		}
 	}
 

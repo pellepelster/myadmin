@@ -105,11 +105,11 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		init(getEditorDictionaryName());
 	}
 
-	public DictionaryEditorModule(String editorDictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public DictionaryEditorModule(String dictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
 		super(new ModuleVO(), moduleCallback, parameters);
 
-		init(editorDictionaryName);
+		init(dictionaryName);
 	}
 
 	public String getTitle()
@@ -180,10 +180,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		return false; // this.dataBindingContext.hasErrors();
 	}
 
-	private void init(String editorDictionaryName)
+	private void init(String dictionaryName)
 	{
 
-		DictionaryModelProvider.getDictionaryModel(editorDictionaryName, new BaseAsyncCallback<IDictionaryModel>(getModuleCallback())
+		DictionaryModelProvider.getDictionaryModel(dictionaryName, new BaseAsyncCallback<IDictionaryModel>(getModuleCallback())
 		{
 			/** {@inheritDoc} */
 			@Override
@@ -377,6 +377,19 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	public DictionaryEditor getDictionaryEditor()
 	{
 		return this.dictionaryEditor;
+	}
+
+	@Override
+	public String getModuleId()
+	{
+		if (this.voWrapper.getVO().isNew())
+		{
+			return this.dictionaryModel.getName();
+		}
+		else
+		{
+			return this.dictionaryModel.getName() + "#" + this.voWrapper.getVO().getId();
+		}
 	}
 
 }

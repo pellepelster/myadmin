@@ -52,4 +52,10 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 				});
 
 	}
+
+	@Override
+	public String getModuleId()
+	{
+		return getModuleName();
+	}
 }

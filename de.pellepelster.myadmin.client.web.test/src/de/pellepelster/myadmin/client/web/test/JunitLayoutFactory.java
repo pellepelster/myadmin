@@ -98,9 +98,9 @@ public class JunitLayoutFactory implements ILayoutFactory
 		IModuleUIFactory moduleUIFactory = ModuleUIFactoryRegistry.getInstance().getModuleFactory(module.getClass());
 		moduleUI = moduleUIFactory.getNewInstance(module, getCurrentModuleUI(direction), parameters);
 
-		if (this.layoutFactoryCallbacks.containsKey(module.getModuleName()))
+		if (this.layoutFactoryCallbacks.containsKey(module.getModuleId()))
 		{
-			this.layoutFactoryCallbacks.get(module.getModuleName()).onSuccess(moduleUI);
+			this.layoutFactoryCallbacks.get(module.getModuleId()).onSuccess(moduleUI);
 		}
 	}
 

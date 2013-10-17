@@ -23,9 +23,9 @@ import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
 public class DictionaryEditorModuleFactory implements IModuleFactory
 {
-	public static void openEditor(String editorModelName, HashMap<String, Object> parameters)
+	public static void openEditor(String dictionaryName, HashMap<String, Object> parameters)
 	{
-		openEditorInternal(editorModelName, parameters);
+		openEditorInternal(dictionaryName, parameters);
 	}
 
 	public static void openEditor(String editorModelName)
@@ -34,10 +34,10 @@ public class DictionaryEditorModuleFactory implements IModuleFactory
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void openEditorInternal(String editorModelName, final Map<String, Object> parameters)
+	private static void openEditorInternal(String dictionaryName, final Map<String, Object> parameters)
 	{
 
-		new DictionaryEditorModule(editorModelName, new AsyncCallback<IModule>()
+		new DictionaryEditorModule(dictionaryName, new AsyncCallback<IModule>()
 		{
 
 			/** {@inheritDoc} */
@@ -59,12 +59,12 @@ public class DictionaryEditorModuleFactory implements IModuleFactory
 
 	}
 
-	public static void openEditorForId(String editorModelName, long id)
+	public static void openEditorForId(String dictionaryName, long id)
 	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(DictionaryEditorModule.ID_PARAMETER_ID, id);
 
-		openEditorInternal(editorModelName, parameters);
+		openEditorInternal(dictionaryName, parameters);
 	}
 
 	/** {@inheritDoc} */

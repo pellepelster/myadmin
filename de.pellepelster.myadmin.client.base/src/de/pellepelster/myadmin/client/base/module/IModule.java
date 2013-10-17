@@ -21,6 +21,8 @@ package de.pellepelster.myadmin.client.base.module;
 public interface IModule
 {
 
+	String getModuleId();
+
 	/**
 	 * Returns the module name
 	 * 
