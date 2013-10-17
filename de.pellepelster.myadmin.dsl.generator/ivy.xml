@@ -20,9 +20,7 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.0.1.v201108020519" />
-
-		<dependency name="dsl" rev="latest.integration" conf="*->@;compile,runtime->runtime.eclipse" />
+		<dependency name="dsl" rev="latest.integration" conf="*->@;compile,runtime->runtime" />
 
 	</dependencies>
 

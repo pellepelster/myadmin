@@ -5,7 +5,8 @@
 
 «DEFINE main FOR Model»
 
-	«storeGlobalVar("model_scope", ModelScope::web)»
+	«setModelScope(ModelScope::web)»
+	«setModelResourceBlacklist(modelResourceBlacklist())»
 	
 	«info("generating web vos")»
 	«EXPAND templates::vo::VO::webVOEntityFile FOREACH allElements().typeSelect(Entity)»

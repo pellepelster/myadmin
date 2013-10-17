@@ -27,7 +27,9 @@ Workflow {
 		expand = "templates::client::mobile::ClientMain::main FOREACH model"
 		advice = "templates::client::mobile::MobileAdvices"
 		metaModel = org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel {}
-		globalVar = {
+		fileEncoding = fileEncoding
+		
+		globalVarDef = {
 			name = "modelResourceBlacklist"
 			value = modelResourceBlacklist
 		}
@@ -35,7 +37,5 @@ Workflow {
 			path = targetDir
 			postprocessor = org.eclipse.xpand2.output.JavaBeautifier {}
 		}
-		
-		fileEncoding = fileEncoding
 	}
 }

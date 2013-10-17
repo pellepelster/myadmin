@@ -26,11 +26,15 @@ Workflow {
 
 		fileEncoding = fileEncoding
 
+		globalVarDef = {
+			name = "modelResourceBlacklist"
+			value = modelResourceBlacklist
+		}
+
 		globalVar = {
 			name = "modelResourceBlacklist"
-			value = "xxx"
-		}
-		
+			value = modelResourceBlacklist
+		}		
 		expand = "templates::client::base::BaseMain::main FOREACH model"
 		advice = "templates::client::web::TypeAdvices"
 		metaModel = org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel {}

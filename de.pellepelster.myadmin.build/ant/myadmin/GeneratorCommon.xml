@@ -8,7 +8,7 @@
 		<attribute name="artefactName" />
 		<attribute name="runXJC" default="yes" />
 		<attribute name="supplementaryXsds" default="" />
-		<attribute name="modelResourceBlacklist" default="MyAdmin.msl" />
+		<attribute name="modelResourceBlacklist" />
 
 		<sequential>
 
@@ -106,7 +106,7 @@
 		<attribute name="pathRefId" />
 		<attribute name="modelName" />
 		<attribute name="supplementaryXsds" default="" />
-
+		<attribute name="modelResourceBlacklist" default="'MyAdmin.msl'" />
 
 		<sequential>
 			<property name="gen.temp.bin.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/bin/" />
@@ -114,11 +114,11 @@
 
 			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
 
-			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslClientBaseGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-client-base" />
-			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslWebClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-web-client" />
-			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslXmlGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-xml" runxjc="true" supplementaryXsds="@{supplementaryXsds}" />
-			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslMobileClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-mobile-client" />
-			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslServerGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-server" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslClientBaseGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-client-base" modelResourceBlacklist="@{modelResourceBlacklist}" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslWebClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-web-client" modelResourceBlacklist="@{modelResourceBlacklist}" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslXmlGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-xml" runxjc="true" supplementaryXsds="@{supplementaryXsds}" modelResourceBlacklist="@{modelResourceBlacklist}" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslMobileClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-mobile-client" modelResourceBlacklist="@{modelResourceBlacklist}" />
+			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslServerGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-server" modelResourceBlacklist="@{modelResourceBlacklist}" />
 
 		</sequential>
 

@@ -8,6 +8,7 @@
 			<include name="**/*ecore"/>
 			<include name="**/*genmodel"/>
 			<include name="**/*xmi"/>
+			<include name="**/*xtextbin"/>
 			<include name="**/*g"/>
 			<include name="**/*tokens"/>
 		</fileset>

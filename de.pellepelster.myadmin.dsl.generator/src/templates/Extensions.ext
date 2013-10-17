@@ -1,6 +1,14 @@
 import myAdminDsl;
 extension org::eclipse::xtend::util::stdlib::naming;
 
+String modelResourceBlacklist() : GLOBALVAR modelResourceBlacklist;
+
+String setModelScope(ModelScope modelScope):
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.setModelScope(de.pellepelster.myadmin.dsl.myAdminDsl.ModelScope);
+
+String setModelResourceBlacklist(String modelResourceBlacklist):
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.setModelResourceBlacklist(java.lang.String);
+	
 String getPackageName(Object object) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getPackageName(org.eclipse.emf.ecore.EObject);
 

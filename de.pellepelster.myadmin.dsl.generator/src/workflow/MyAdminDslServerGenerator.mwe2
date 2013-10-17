@@ -20,14 +20,16 @@ Workflow {
 	component = org.eclipse.xpand2.Generator {
 		expand = "templates::server::ServerMain::main FOREACH model"
 		metaModel = org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel {}
-		globalVar = {
+		fileEncoding = fileEncoding
+		
+		globalVarDef = {
 			name = "modelResourceBlacklist"
 			value = modelResourceBlacklist
 		}
+		
 		outlet = {
 			path = targetDir
 			postprocessor = org.eclipse.xpand2.output.JavaBeautifier {}
 		}
-		fileEncoding = fileEncoding
 	}
 }

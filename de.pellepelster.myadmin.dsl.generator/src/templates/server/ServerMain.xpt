@@ -5,7 +5,8 @@
 
 «DEFINE main FOR Model»
 
-	«storeGlobalVar("model_scope", ModelScope::server)»
+	«setModelScope(ModelScope::server)»
+	«setModelResourceBlacklist(modelResourceBlacklist())»
 
 	«EXPAND Entity::entity FOREACH allElements().typeSelect(Entity)»
 	«EXPAND EntityXSD::entityXSD FOREACH allElements().typeSelect(Entity)»

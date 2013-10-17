@@ -17,7 +17,7 @@
 		<artifact name="dsl-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies defaultconf="runtime.eclipse->default">
 
 		<dependency name="server-lib" rev="latest.integration" conf="*->default" />
 
@@ -48,6 +48,7 @@
 		<dependency org="org.eclipse" name="org.eclipse.xtext" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xpand" rev="1.4.0.v201306110406" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
+		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.4.0.v201306110406" />
 
 		<dependency org="org.eclipse" name="org.antlr.runtime" rev="3.2.0.v201101311130" />
  		<dependency org="org.eclipse" name="de.itemis.xtext.antlr" rev="2.1.0.v201308291703" />

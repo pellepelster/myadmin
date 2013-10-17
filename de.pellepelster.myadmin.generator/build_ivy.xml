@@ -20,7 +20,7 @@
 
 
 	<target name="post.jar" depends="resolve">
-		<myadmingenerate modelName="MyAdmin" artefactname="myadmin" pathrefid="local.lib.path.id" />
+		<myadmingenerate modelResourceBlacklist="''" modelName="MyAdmin" artefactname="myadmin" pathrefid="local.lib.path.id" />
 	</target>
 
 </project>

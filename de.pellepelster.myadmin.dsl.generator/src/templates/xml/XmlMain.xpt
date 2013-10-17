@@ -5,7 +5,9 @@
 
 
 «DEFINE main FOR Model»
-	«storeGlobalVar("model_scope", ModelScope::web)»
+
+	«setModelScope(ModelScope::web)»
+	«setModelResourceBlacklist(modelResourceBlacklist())»
 	
 	«info("generating vo xml schemas")»
 	
