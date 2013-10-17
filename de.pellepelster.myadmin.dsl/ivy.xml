@@ -25,7 +25,6 @@
 		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.9.1.v20130902-0605" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.codegen" rev="2.9.0.v20130902-0605" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.common" rev="2.9.1.v20130827-0309" />
-		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.source" rev="2.9.1.v20130827-0309" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.ecore.xmi" rev="2.9.1.v20130827-0309" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.ecore" rev="2.9.1.v20130827-0309" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.mwe.core" rev="1.2.1.v201309030422" />
@@ -43,20 +42,17 @@
 		<dependency org="org.eclipse" name="org.eclipse.xtext.common.types" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext.ecore" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext.generator" rev="2.4.3.v201309030823" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.source" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext.util" rev="2.4.3.v201309030823" />
-		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase.lib.source" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase.lib" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext.xbase" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xtext" rev="2.4.3.v201309030823" />
 		<dependency org="org.eclipse" name="org.eclipse.xpand" rev="1.4.0.v201306110406" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
 
-		<dependency org="org.eclipse" name="de.itemis.xtext.antlr" rev="2.1.0.v201308291703" />
+		<dependency org="org.eclipse" name="org.antlr.runtime" rev="3.2.0.v201101311130" />
+ 		<dependency org="org.eclipse" name="de.itemis.xtext.antlr" rev="2.1.0.v201308291703" />
 		<dependency org="org.eclipse" name="org.antlr.generator" rev="3.2.0.v201308291703" />
 		<dependency org="com.ibm" name="com.ibm.icu" rev="50.1.1.v201304230130" />
-
- 		<dependency org="org.eclipse" name="org.antlr.runtime" rev="3.2.0.v201101311130" />
  		
 	</dependencies>
 
