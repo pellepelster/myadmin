@@ -12,7 +12,7 @@
 package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
 /**
  * UI for the navigation module
@@ -20,11 +20,11 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class DictionaryModuleTestUI implements IModuleUI
+public class DictionaryEditorModuleTestUI implements IModuleUI<Object, DictionaryEditorModule>
 {
-	private ModuleNavigationModule module;
+	private DictionaryEditorModule module;
 
-	public DictionaryModuleTestUI(ModuleNavigationModule module)
+	public DictionaryEditorModuleTestUI(DictionaryEditorModule module)
 	{
 		super();
 		this.module = module;
@@ -49,9 +49,9 @@ public class DictionaryModuleTestUI implements IModuleUI
 	}
 
 	@Override
-	public Object getModule()
+	public DictionaryEditorModule getModule()
 	{
-		return null;
+		return this.module;
 	}
 
 	@Override

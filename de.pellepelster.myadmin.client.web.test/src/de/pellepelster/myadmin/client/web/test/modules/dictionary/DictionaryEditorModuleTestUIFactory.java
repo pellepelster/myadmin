@@ -13,21 +13,18 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.Panel;
-
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
-public class DictionaryModuleTestUIFactory implements IModuleUIFactory<Panel, ModuleNavigationModule>
+public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Object, DictionaryEditorModule>
 {
 
 	@Override
-	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI<Panel, ModuleNavigationModule> previousModuleUI,
-			Map<String, Object> parameters)
+	public IModuleUI<Object, DictionaryEditorModule> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
 	{
-		return new DictionaryModuleTestUI((ModuleNavigationModule) module);
+		return new DictionaryEditorModuleTestUI((DictionaryEditorModule) module);
 	}
 
 }

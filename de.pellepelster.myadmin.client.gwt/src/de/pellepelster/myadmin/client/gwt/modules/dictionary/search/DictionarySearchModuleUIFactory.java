@@ -27,8 +27,7 @@ public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> implements 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI<Panel, DictionaryEditorModule<VOType>> previousModuleUI,
-			Map<String, Object> parameters)
+	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
 	{
 		return new DictionarySearchModuleUI((DictionarySearchModule) module);
 	}

@@ -16,13 +16,13 @@ import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryModuleTestUI;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
+import de.pellepelster.myadmin.demo.client.web.test1.Dictionary1DictionaryIDs;
 
 public class DemoClientTest extends GWTTestCase
 {
@@ -54,10 +54,10 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class DictionaryModuleTest extends BaseAsyncCallback<DictionaryModuleTestUI>
+	private class DictionaryModuleTest extends BaseAsyncCallback<DictionaryEditorModuleTestUI>
 	{
 		@Override
-		public void onSuccess(DictionaryModuleTestUI result)
+		public void onSuccess(DictionaryEditorModuleTestUI result)
 		{
 			result.toString();
 		}
@@ -75,8 +75,7 @@ public class DemoClientTest extends GWTTestCase
 	@Test
 	public void testDictionary1()
 	{
-		MyAdminTest.getInstance().startModule(DictionaryEditorModule.MODULE_ID, DictionaryModuleTestUI.class, Direction.CENTER.toString(),
-				new DictionaryModuleTest());
+		MyAdminTest.getInstance().openEditor(Dictionary1DictionaryIDs.DICTIONARY1, new DictionaryModuleTest());
 
 		delayTestFinish(2000);
 	}

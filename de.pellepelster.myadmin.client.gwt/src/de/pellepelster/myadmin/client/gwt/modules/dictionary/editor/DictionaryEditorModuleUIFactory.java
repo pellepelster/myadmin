@@ -27,8 +27,7 @@ public class DictionaryEditorModuleUIFactory<VOType extends IBaseVO> implements 
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
-	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI<Panel, DictionaryEditorModule<VOType>> previousModuleUI,
-			Map<String, Object> parameters)
+	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
 	{
 		return new DictionaryEditorModuleUI<VOType>((DictionaryEditorModule<VOType>) module, (IGwtModuleUI) previousModuleUI);
 	}

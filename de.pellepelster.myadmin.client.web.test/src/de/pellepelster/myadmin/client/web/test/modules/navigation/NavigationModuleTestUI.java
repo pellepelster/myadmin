@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
  * @author pelle
  * 
  */
-public class NavigationModuleTestUI implements IModuleUI
+public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigationModule>
 {
 	private NavigationTreeTestElements root;
 
@@ -49,18 +49,6 @@ public class NavigationModuleTestUI implements IModuleUI
 	}
 
 	@Override
-	public Object getContainer()
-	{
-		return null;
-	}
-
-	@Override
-	public Object getModule()
-	{
-		return null;
-	}
-
-	@Override
 	public String getTitle()
 	{
 		return null;
@@ -77,6 +65,18 @@ public class NavigationModuleTestUI implements IModuleUI
 				asyncCallback.onSuccess(NavigationModuleTestUI.this.root);
 			}
 		});
+	}
+
+	@Override
+	public ModuleNavigationModule getModule()
+	{
+		return this.module;
+	}
+
+	@Override
+	public Object getContainer()
+	{
+		return null;
 	}
 
 }

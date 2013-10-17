@@ -37,14 +37,14 @@ public final class ModuleUIFactoryRegistry
 
 	public void addModuleFactory(Class<? extends IModule> moduleClass, IModuleUIFactory<?, ?> moduleFactory)
 	{
-		moduleFactories.put(moduleClass, moduleFactory);
+		this.moduleFactories.put(moduleClass, moduleFactory);
 	}
 
 	public IModuleUIFactory<?, ?> getModuleFactory(Class<? extends IModule> moduleClass)
 	{
-		if (moduleFactories.containsKey(moduleClass))
+		if (this.moduleFactories.containsKey(moduleClass))
 		{
-			return moduleFactories.get(moduleClass);
+			return this.moduleFactories.get(moduleClass);
 		}
 		else
 		{

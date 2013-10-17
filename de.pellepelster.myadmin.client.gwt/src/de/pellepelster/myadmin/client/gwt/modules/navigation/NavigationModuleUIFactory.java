@@ -24,8 +24,7 @@ public class NavigationModuleUIFactory implements IModuleUIFactory<Panel, Module
 {
 
 	@Override
-	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI<Panel, ModuleNavigationModule> previousModuleUI,
-			Map<String, Object> parameters)
+	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
 	{
 		return new NavigationModuleUI((ModuleNavigationModule) module);
 	}

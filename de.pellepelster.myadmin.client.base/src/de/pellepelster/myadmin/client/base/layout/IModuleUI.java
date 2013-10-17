@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.base.layout;
 
+
 /**
  * Represents the UI for a module instance
  * 
