@@ -5,6 +5,7 @@ import org.eclipse.xpand2.Generator.GlobalVar
 var targetDir = "src-gen"
 var fileEncoding = "UTF-8"
 var modelName = ""
+var modelResourceBlacklist = ""
 
 Workflow {
 
@@ -26,6 +27,10 @@ Workflow {
 		expand = "templates::client::mobile::ClientMain::main FOREACH model"
 		advice = "templates::client::mobile::MobileAdvices"
 		metaModel = org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel {}
+		globalVar = {
+			name = "modelResourceBlacklist"
+			value = modelResourceBlacklist
+		}
 		outlet = {
 			path = targetDir
 			postprocessor = org.eclipse.xpand2.output.JavaBeautifier {}

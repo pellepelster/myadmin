@@ -16,12 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.dsl.DictionaryControlResolver;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
@@ -34,8 +34,9 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.SimpleVO;
 import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
-public class Extensions
-{
+public class Extensions {
+
+	public static final String GLOBAL_VAR_MODEL_RESOURCE_BLACKLIST = "modelResourceBlacklist";
 
 	private static final Logger LOG = Logger.getLogger(Extensions.class);
 
@@ -51,9 +52,10 @@ public class Extensions
 
 	public static final String CLIENT_BASE_ROOT_PACKAGE_POSTFIX = "client.base";
 
-	public static List<EObject> allElements(EObject anElementInRootResource)
-	{
+	public static List<EObject> allElements(EObject anElementInRootResource) {
+
 		ResourceSet resourceSet = anElementInRootResource.eResource().getResourceSet();
+
 		Iterator<EObject> iter = Iterators.filter(EcoreUtil.getAllContents(resourceSet, true), EObject.class);
 
 		// LOG.info(String.format("getting all elements for '%s'",
@@ -64,7 +66,39 @@ public class Extensions
 		// LOG.debug(String.format("resource '%s'", r.getURI().toString()));
 		// }
 
-		return Lists.newArrayList(iter);
+		List<EObject> result = new ArrayList<EObject>();
+
+		System.out.println("xxxxxxxxxxxx: " + getModelResourceBlackList().toString());
+
+		while (iter.hasNext()) {
+
+			EObject eObject = iter.next();
+
+			if (!isInBlackList(eObject.eResource().getURI())) {
+				result.add(eObject);
+				// System.out.println(String.format("resource '%s'",
+				// eObject.eResource().getURI().toString()));
+			}
+
+		}
+
+		return result;
+	}
+
+	private static boolean isInBlackList(URI uri) {
+
+		for (String blackListEntry : getModelResourceBlackList()) {
+
+			if (uri.toString().endsWith(blackListEntry)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static String[] getModelResourceBlackList() {
+		return org.eclipse.xtend.util.stdlib.GlobalVarExtensions.getGlobalVar(GLOBAL_VAR_MODEL_RESOURCE_BLACKLIST).toString().split(",");
 	}
 
 	/**
@@ -75,8 +109,7 @@ public class Extensions
 	 * 
 	 * @return the name
 	 */
-	public static String entityName(EObject eObject)
-	{
+	public static String entityName(EObject eObject) {
 		return entityName(eObject, getModelScope());
 	}
 
@@ -90,73 +123,56 @@ public class Extensions
 	 * 
 	 * @return the name
 	 */
-	public static String entityName(EObject eObject, ModelScope modelScope)
-	{
+	public static String entityName(EObject eObject, ModelScope modelScope) {
 		String postfix = null;
 
-		switch (modelScope)
-		{
-			case WEB:
-				postfix = "VO";
-				break;
-			case MOBILE:
-				postfix = "MobileVO";
-				break;
+		switch (modelScope) {
+		case WEB:
+			postfix = "VO";
+			break;
+		case MOBILE:
+			postfix = "MobileVO";
+			break;
 
-			default:
-				postfix = "";
-				break;
+		default:
+			postfix = "";
+			break;
 		}
 
-		if (eObject instanceof Entity)
-		{
+		if (eObject instanceof Entity) {
 			return toFirstUpper(((Entity) eObject).getName()) + postfix;
 		}
-		if (eObject instanceof SimpleVO)
-		{
+		if (eObject instanceof SimpleVO) {
 			return toFirstUpper(((SimpleVO) eObject).getName()) + SIMPLE_VO_POSTFIX;
-		}
-		else if (eObject instanceof Enumeration)
-		{
+		} else if (eObject instanceof Enumeration) {
 			return toFirstUpper(((Enumeration) eObject).getName());
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(String.format("unsupported object type '%s'", eObject.getClass()));
 		}
 	}
 
-	public static String fullQualifiedEntityName(EObject eObject)
-	{
-		if (eObject instanceof Enumeration)
-		{
+	public static String fullQualifiedEntityName(EObject eObject) {
+		if (eObject instanceof Enumeration) {
 			return fullQualifiedEntityName(eObject, ModelScope.CLIENT_BASE);
 		}
-		if (eObject instanceof SimpleVO)
-		{
+		if (eObject instanceof SimpleVO) {
 			return fullQualifiedEntityName(eObject, ModelScope.CLIENT_BASE);
-		}
-		else
-		{
+		} else {
 			return fullQualifiedEntityName(eObject, getModelScope());
 		}
 	}
 
-	public static String fullQualifiedEntityName(EObject eObject, ModelScope modelScope)
-	{
+	public static String fullQualifiedEntityName(EObject eObject, ModelScope modelScope) {
 		return getPackageName(eObject, modelScope) + "." + entityName(eObject, modelScope);
 	}
 
-	private static ModelScope getModelScope()
-	{
+	private static ModelScope getModelScope() {
+
 		Object modelScope = org.eclipse.xtend.util.stdlib.GlobalVarExtensions.getGlobalVar("model_scope");
 
-		if (modelScope != null && modelScope instanceof ModelScope)
-		{
+		if (modelScope != null && modelScope instanceof ModelScope) {
 			return (ModelScope) modelScope;
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException(String.format("unsupported model scope '%s'", modelScope));
 		}
 	}
@@ -168,8 +184,7 @@ public class Extensions
 	 *            enumeration/entity
 	 * @return the package name for the enumeration/entity
 	 */
-	public static String getPackageName(EObject eObject)
-	{
+	public static String getPackageName(EObject eObject) {
 		return getPackageName(eObject, getModelScope());
 	}
 
@@ -182,47 +197,41 @@ public class Extensions
 	 *            the model scope
 	 * @return the package name for the enumeration/entity
 	 */
-	public static String getPackageName(EObject eObject, ModelScope modelScope)
-	{
+	public static String getPackageName(EObject eObject, ModelScope modelScope) {
 		assert eObject instanceof Entity || eObject instanceof Enumeration : "eObject must be an Enumeration/Entity";
 
-		switch (modelScope)
-		{
-			case MOBILE:
-				return getPackageName(eObject, MOBILE_ROOT_PACKAGE_POSTFIX);
-			case WEB:
-				return getPackageName(eObject, WEB_ROOT_PACKAGE_POSTFIX);
-			case CLIENT_BASE:
-				return getPackageName(eObject, CLIENT_BASE_ROOT_PACKAGE_POSTFIX);
-			case SERVER:
-				return getPackageName(eObject, SERVER_ROOT_PACKAGE_POSTFIX);
-			default:
-				throw new RuntimeException(String.format("unsupported model scope '%s'", getModelScope()));
+		switch (modelScope) {
+		case MOBILE:
+			return getPackageName(eObject, MOBILE_ROOT_PACKAGE_POSTFIX);
+		case WEB:
+			return getPackageName(eObject, WEB_ROOT_PACKAGE_POSTFIX);
+		case CLIENT_BASE:
+			return getPackageName(eObject, CLIENT_BASE_ROOT_PACKAGE_POSTFIX);
+		case SERVER:
+			return getPackageName(eObject, SERVER_ROOT_PACKAGE_POSTFIX);
+		default:
+			throw new RuntimeException(String.format("unsupported model scope '%s'", getModelScope()));
 		}
 
 	}
 
-	private static String getPackageName(EObject eObject, String rootPackagePostfix)
-	{
+	private static String getPackageName(EObject eObject, String rootPackagePostfix) {
 		List<String> packageElements = new ArrayList<String>();
 
-		while (eObject.eContainer() instanceof PackageDeclaration)
-		{
+		while (eObject.eContainer() instanceof PackageDeclaration) {
 
 			PackageDeclaration packageDeclaration = (PackageDeclaration) eObject.eContainer();
 			packageElements.add(packageDeclaration.getName().replaceAll("\\^", ""));
 			eObject = eObject.eContainer();
 		}
 
-		if (!packageElements.isEmpty())
-		{
+		if (!packageElements.isEmpty()) {
 			packageElements.add(packageElements.size() - 1, rootPackagePostfix);
 		}
 
 		String packageName = "";
 		String delimiter = "";
-		for (String packageElement : packageElements)
-		{
+		for (String packageElement : packageElements) {
 			packageName = packageElement + delimiter + packageName;
 			delimiter = ".";
 		}
@@ -230,38 +239,31 @@ public class Extensions
 		return packageName;
 	}
 
-	public static List<Entity> getReferencedEntitiesWithoutDuplicates(Entity entity)
-	{
+	public static List<Entity> getReferencedEntitiesWithoutDuplicates(Entity entity) {
 		return EntityModelUtil.getLinkedEntitiesWithoutDuplicates(entity);
 	}
 
-	public static Model getRootModel(EObject eObject)
-	{
-		while (!(eObject instanceof Model) && eObject != null)
-		{
+	public static Model getRootModel(EObject eObject) {
+		while (!(eObject instanceof Model) && eObject != null) {
 			eObject = eObject.eContainer();
 		}
 
 		return (Model) eObject;
 	}
 
-	public static String resolveControlName(DictionaryControl dictionaryControl)
-	{
+	public static String resolveControlName(DictionaryControl dictionaryControl) {
 		return DictionaryControlResolver.resolveControlName(dictionaryControl);
 	}
 
-	public static String getRootWebServicePackageName(Model model)
-	{
+	public static String getRootWebServicePackageName(Model model) {
 		return ModelUtil.getSingleRootPackage(model).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
 	}
 
-	public static PackageDeclaration getSingleRootPackage(Model model)
-	{
+	public static PackageDeclaration getSingleRootPackage(Model model) {
 		return ModelUtil.getSingleRootPackage(model);
 	}
 
-	public static String getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService remoteService)
-	{
+	public static String getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService remoteService) {
 		return getPackageName(remoteService, SERVER_ROOT_PACKAGE_POSTFIX);
 	}
 
@@ -271,8 +273,7 @@ public class Extensions
 	 * @param s
 	 * @return
 	 */
-	public static String toFirstUpper(String s)
-	{
+	public static String toFirstUpper(String s) {
 		StringBuilder sb = new StringBuilder(s);
 
 		int i = 0;

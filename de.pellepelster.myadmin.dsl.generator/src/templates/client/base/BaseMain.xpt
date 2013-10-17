@@ -6,6 +6,7 @@
 «DEFINE main FOR Model»
 
 	«storeGlobalVar("model_scope", ModelScope::client_base)»
+	«storeGlobalVar("modelResourceBlacklist", getGlobalVar("modelResourceBlacklist"))»
 	
 	«info("generating enumarations")»
 	«EXPAND templates::vo::VO::voEnumeration FOREACH allElements().typeSelect(Enumeration)»

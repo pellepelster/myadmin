@@ -9,10 +9,24 @@
 	package «fullQualifiedPackageName()»;
 	
 	public interface «dictionaryIDsInterfaceName()» {
-	
-		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «name.toUpperCase()» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«name»");
+
+	«REM»
+		«EXPAND dictionaryIdElement(this.name)»	
+		
+		«EXPAND dictionaryIdElement(this.dictionaryeditor.name, this.name)»	
+
+		«EXPAND dictionaryIdElement(this.dictionaryeditor.name, this.name)»	
+	«ENDREM»
 	
 	}
 	«ENDFILE»
 	
+«ENDDEFINE»
+
+«DEFINE dictionaryIdElement(String id) FOR Object»
+		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «dictionaryIDConstant(id)» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«id»");
+«ENDDEFINE»
+
+«DEFINE dictionaryIdElement(String id, String parentId) FOR Object»
+		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «dictionaryIDConstant(id)» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«id»", «dictionaryIDConstant(parentId)»);
 «ENDDEFINE»

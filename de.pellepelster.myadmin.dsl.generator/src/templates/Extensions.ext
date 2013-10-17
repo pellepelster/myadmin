@@ -98,6 +98,7 @@ String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictiona
 String dictionaryIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryIDs";
 String fullQualifiedDictionaryIDsInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryIDsInterfaceName(dictionary);
 String fullQualifiedDictionaryIDsInterfaceFileName(Dictionary dictionary) : fullQualifiedDictionaryIDsInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';
+String dictionaryIDConstant(String id) : id.toUpperCase();
 
 //- dictionary debug ids ------------------------------------------------------------
 String dictionaryDebugIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryDebugIDs";

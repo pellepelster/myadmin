@@ -8,6 +8,7 @@
 		<attribute name="artefactName" />
 		<attribute name="runXJC" default="yes" />
 		<attribute name="supplementaryXsds" default="" />
+		<attribute name="modelResourceBlacklist" default="MyAdmin.msl" />
 
 		<sequential>
 
@@ -17,12 +18,13 @@
 			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
 
 			<echo message="--------------------------------------------------------------------------------" />
-			<echo message="workflow:     @{workflow.file}" />
-			<echo message="classpath:    @{pathRefId}" />
-			<echo message="modelName:    @{modelName}" />
-			<echo message="artefactName: @{artefactName}" />
-			<echo message="gen.temp.src.dir ${gen.temp.src.dir}" />
-			<echo message="gen.temp.bin.dir ${gen.temp.bin.dir}" />
+			<echo message="workflow:     			@{workflow.file}" />
+			<echo message="classpath:    			@{pathRefId}" />
+			<echo message="modelName:    			@{modelName}" />
+			<echo message="artefactName: 			@{artefactName}" />
+			<echo message="modelResourceBlacklist: 	@{modelResourceBlacklist}" />
+			<echo message="gen.temp.src.dir: 		${gen.temp.src.dir}" />
+			<echo message="gen.temp.bin.dir: 		${gen.temp.bin.dir}" />
 			<echo message="--------------------------------------------------------------------------------" />
 
 			<delete dir="${gen.temp.bin.dir}" failonerror="false" />
@@ -43,11 +45,13 @@
 				<!--
 				<jvmarg line="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=y"/>
 				-->
+				
 				<arg value="@{workflow.file}" />
 				<arg value="-p" />
 				<arg value="targetDir=${gen.temp.src.dir}" />
 				<arg value="modelName=@{modelName}" />
-
+				<arg value="modelResourceBlacklist=@{modelResourceBlacklist}" />
+				
 			</java>
 
 			<if>
