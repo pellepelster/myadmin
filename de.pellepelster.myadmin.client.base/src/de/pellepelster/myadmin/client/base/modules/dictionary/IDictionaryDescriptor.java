@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary;
 
 public interface IDictionaryDescriptor {
+	
 	IDictionaryDescriptor getParent();
 
 	String getId();

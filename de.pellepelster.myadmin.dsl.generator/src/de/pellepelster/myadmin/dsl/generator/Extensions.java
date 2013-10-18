@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Iterators;
 
 import de.pellepelster.myadmin.dsl.DictionaryControlResolver;
@@ -114,6 +115,11 @@ public class Extensions
 	public static String entityName(EObject eObject)
 	{
 		return entityName(eObject, getModelScope());
+	}
+
+	public static String camelCaseToUnderScore(String camelCase)
+	{
+		return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, camelCase);
 	}
 
 	/**

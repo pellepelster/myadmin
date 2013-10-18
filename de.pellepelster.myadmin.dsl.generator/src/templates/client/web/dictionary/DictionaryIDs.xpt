@@ -2,24 +2,68 @@
 «EXTENSION templates::Extensions»
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
 
-«DEFINE dictionaryID FOR Dictionary»
-	«info("generating dictionary id for '" + this.name + "'")»
-
-	«FILE fullQualifiedDictionaryIDsInterfaceFileName()»
-	package «fullQualifiedPackageName()»;
+«DEFINE dictionaryID FOR Model»
+	«info("generating dictionary ids for '" + this.name + "'")»
 	
-	public interface «dictionaryIDsInterfaceName()» {
-
-	«REM»
-		«EXPAND dictionaryIdElement(this.name)»	
+	«FILE fullQualifiedDictionaryIDsFileName()»
+	package «getSingleRootPackage().name»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 		
-		«EXPAND dictionaryIdElement(this.dictionaryeditor.name, this.name)»	
+	public class «dictionaryIDsName()» {
 
-		«EXPAND dictionaryIdElement(this.dictionaryeditor.name, this.name)»	
-	«ENDREM»
+	«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
+		«EXPAND dictionaryIDClass FOR dictionary»
+	«ENDFOREACH»
 	
 	}
 	«ENDFILE»
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass FOR Dictionary»
+
+	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
+
+		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+	
+		«EXPAND dictionaryIDClass FOR this.dictionaryeditor»
+	
+		«EXPAND dictionaryIDClass FOR this.dictionarysearch»
+	}
+	
+	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass FOR DictionaryEditor»
+
+	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
+
+		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+	
+	}
+	
+	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass FOR DictionarySearch»
+
+	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
+
+		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+	
+	}
+	
+	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
 	
 «ENDDEFINE»
 

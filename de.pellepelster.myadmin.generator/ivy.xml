@@ -41,6 +41,7 @@
 			<artifact name="ant" type="jar" />
 		</dependency>
 
+<!-- 
 		<dependency org="com.sun.jaxb" name="annox" rev="0.5.1" conf="runtime.jaxb->default" />
 		<dependency org="com.sun.jaxb" name="jaxb-api" rev="2.6.5" conf="runtime.jaxb->default" />
 		<dependency org="com.sun.jaxb" name="jaxb-impl" rev="2.6.5" conf="runtime.jaxb->default" />
@@ -53,7 +54,23 @@
 		<dependency org="com.sun.jaxb" name="jaxb2-basics-tools" rev="0.6.3" conf="runtime.jaxb->default" />
 		<dependency org="com.sun.jaxb" name="jaxb2-basics" rev="0.6.3" conf="runtime.jaxb->default" />
 		<dependency org="com.sun.jaxb" name="jsr173" rev="api_1.0" conf="runtime.jaxb->default" />
- 		
+ 	 -->	
+ 	 
+ 	 <dependency org="com.sun.jaxb" name="jaxb-api" rev="2.2.7" conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb-core" rev="2.2.7" conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb-impl" rev="2.2.7" conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb-jxc" rev="2.2.7" conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb-xjc" rev="2.2.7" conf="runtime.jaxb->default" />
+ 	 <dependency org="com.sun.jaxb" name="annox" rev="0.5.1" />
+ 	 
+ 	 <dependency org="com.google.code.javaparser" name="javaparser" rev="1.0.10"  conf="runtime.jaxb->default" />
+ 	 <dependency org="com.sun.jaxb" name="jaxb2-basics-annotate" rev="0.6.4"  conf="runtime.jaxb->default" />
+     <dependency org="com.sun.jaxb" name="jaxb2-basics-ant" rev="0.6.4"  conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb2-basics-runtime" rev="0.6.4"  conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb2-basics-testing" rev="0.6.4"  conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb2-basics-tools" rev="0.6.4"  conf="runtime.jaxb->default" />
+      <dependency org="com.sun.jaxb" name="jaxb2-basics" rev="0.6.4"  conf="runtime.jaxb->default" />
+ 	 
 	</dependencies>
 
 </ivy-module>

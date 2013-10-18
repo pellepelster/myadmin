@@ -4,9 +4,9 @@ public class DictionaryDescriptor implements IDictionaryDescriptor {
 
 	private String id;
 
-	private DictionaryDescriptor parent;
+	private IDictionaryDescriptor parent;
 
-	public DictionaryDescriptor(String id, DictionaryDescriptor parent) {
+	public DictionaryDescriptor(String id, IDictionaryDescriptor parent) {
 		super();
 		this.id = id;
 		this.parent = parent;
