@@ -49,11 +49,15 @@
 		<dependency org="org.eclipse" name="org.eclipse.xpand" rev="1.4.0.v201306110406" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.typesystem.emf" rev="1.2.0.v201206110941" conf="runtime.eclipse->default" />
 		<dependency org="org.eclipse" name="org.eclipse.xtend.util.stdlib" rev="1.4.0.v201306110406" />
-
+		<dependency org="org.eclipse" name="org.eclipse.core.runtime" rev="3.9.0.v20130326-1255" />
+		<dependency org="org.eclipse" name="org.eclipse.osgi" rev="3.9.1.v20130814-1242" />
+		<dependency org="org.eclipse" name="org.eclipse.core.jobs" rev="3.5.300.v20130429-1813" />
 		<dependency org="org.eclipse" name="org.antlr.runtime" rev="3.2.0.v201101311130" />
  		<dependency org="org.eclipse" name="de.itemis.xtext.antlr" rev="2.1.0.v201308291703" />
 		<dependency org="org.eclipse" name="org.antlr.generator" rev="3.2.0.v201308291703" />
 		<dependency org="com.ibm" name="com.ibm.icu" rev="50.1.1.v201304230130" />
+ 		<dependency org="org.eclipse" name="org.eclipse.core.contenttype" rev="3.4.200.v20130326-1255" />
+ 		<dependency org="org.eclipse" name="org.eclipse.equinox.preferences" rev="3.5.100.v20130422-1538" />
  		
 	</dependencies>
 

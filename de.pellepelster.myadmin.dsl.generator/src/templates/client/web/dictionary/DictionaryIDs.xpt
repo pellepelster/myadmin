@@ -25,52 +25,133 @@
 «DEFINE dictionaryIDClass FOR Dictionary»
 
 	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
-
-		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
-			super("«name»", parent);
+	
+		protected «dictionaryIDsName()»() {
+			super("«name»", null);
 		}
 	
-		«EXPAND dictionaryIDClass FOR this.dictionaryeditor»
-	
-		«EXPAND dictionaryIDClass FOR this.dictionarysearch»
+		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOR this.dictionaryeditor»
+		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOR this.dictionarysearch»
 	}
 	
-	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
+	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»();
 	
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass FOR DictionaryEditor»
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryEditor»
 
 	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
 
-		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
+		
+		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOREACH this.containercontents»
 	
 	}
 	
-	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
+	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
 	
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass FOR DictionarySearch»
+«DEFINE dictionaryIDClass(String parent) FOR DictionarySearch»
 
 	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
-
-		public «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
-	
 	}
 	
-	public static «dictionaryIDsName()» «camelCaseToUnderScore(name).toUpperCase()» = new «dictionaryIDsName()»(null);
+	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
 	
 «ENDDEFINE»
 
-«DEFINE dictionaryIdElement(String id) FOR Object»
-		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «dictionaryIDConstant(id)» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«id»");
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryContainerContent»
+	// «this.name»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDControlClass(String parent) FOR DictionaryControl»
+	public IDictionaryDescriptor «dictionaryIDsConstantName(name)» = new DictionaryDescriptor("«name»", «parent»);
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryControlGroup»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryTextControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryIntegerControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryBigDecimalControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryBooleanControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryDateControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryEnumerationControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryReferenceControl»
+	«IF this.ref == null»
+		«EXPAND dictionaryIDControlClass(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryComposite»
+
+	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+	}
+
+	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
+	
+	«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+	
 «ENDDEFINE»
 
 «DEFINE dictionaryIdElement(String id, String parentId) FOR Object»
-		de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor «dictionaryIDConstant(id)» = new de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor("«id»", «dictionaryIDConstant(parentId)»);
+	public IDictionaryDescriptor «dictionaryIDConstant(id)» = new DictionaryDescriptor("«id»", «dictionaryIDConstant(parentId)»);
 «ENDDEFINE»

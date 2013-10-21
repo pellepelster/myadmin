@@ -1,9 +1,7 @@
 package de.pellepelster.myadmin.demo.client;
 
 import de.pellepelster.myadmin.client.base.modules.hierarchical.BaseHierarchicalConfiguration;
-import de.pellepelster.myadmin.demo.client.web.dictionaries.CompanyDictionaryIDs;
-import de.pellepelster.myadmin.demo.client.web.dictionaries.EmployeeDictionaryIDs;
-import de.pellepelster.myadmin.demo.client.web.dictionaries.ManagerDictionaryIDs;
+import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
 
 public class TestClientHierarchicalConfiguration extends BaseHierarchicalConfiguration
 {
@@ -13,8 +11,8 @@ public class TestClientHierarchicalConfiguration extends BaseHierarchicalConfigu
 	{
 		super(ID);
 
-		addHierarchy(CompanyDictionaryIDs.COMPANY);
-		addHierarchy(ManagerDictionaryIDs.MANAGER, CompanyDictionaryIDs.COMPANY);
-		addHierarchy(EmployeeDictionaryIDs.EMPLOYEE, CompanyDictionaryIDs.COMPANY, ManagerDictionaryIDs.MANAGER);
+		addHierarchy(DemoDictionaryIDs.COMPANY);
+		addHierarchy(DemoDictionaryIDs.MANAGER, DemoDictionaryIDs.COMPANY);
+		addHierarchy(DemoDictionaryIDs.EMPLOYEE, DemoDictionaryIDs.COMPANY, DemoDictionaryIDs.MANAGER);
 	}
 }

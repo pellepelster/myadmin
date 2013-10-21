@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEdit
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
-import de.pellepelster.myadmin.demo.client.web.test1.Dictionary1DictionaryIDs;
+import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
 
 public class DemoClientTest extends GWTTestCase
 {
@@ -75,7 +75,7 @@ public class DemoClientTest extends GWTTestCase
 	@Test
 	public void testDictionary1()
 	{
-		MyAdminTest.getInstance().openEditor(Dictionary1DictionaryIDs.DICTIONARY1, new DictionaryModuleTest());
+		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.DICTIONARY1, new DictionaryModuleTest());
 
 		delayTestFinish(2000);
 	}

@@ -8,10 +8,12 @@ import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
-public class Demo implements EntryPoint {
+public class Demo implements EntryPoint
+{
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 
 		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PX));
 

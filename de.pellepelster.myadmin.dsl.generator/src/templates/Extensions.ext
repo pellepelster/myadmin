@@ -106,15 +106,19 @@ boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOpt
 
 //- dictionary ids ------------------------------------------------------------
 String dictionaryIDsName(Model model) : model.name.toFirstUpper() + "DictionaryIDs";
+String dictionaryIDsName(Dictionary dictionary) : dictionary.name.toFirstUpper();
+String dictionaryIDsName(DictionaryComposite dictionaryComposite) : dictionaryComposite.name.toFirstUpper();
 String dictionaryIDsName(DictionaryEditor dictionaryEditor) : dictionaryEditor.name.toFirstUpper();
 String dictionaryIDsName(DictionarySearch dictionarySearch) : dictionarySearch.name.toFirstUpper();
+
+String dictionaryIDsConstantName(String name) : camelCaseToUnderScore(name).toUpperCase();
+
 String fullQualifiedDictionaryIDsName(Model model) : getSingleRootPackage(model).name + '.' + dictionaryIDsName(model);
 String fullQualifiedDictionaryIDsFileName(Model model) : fullQualifiedDictionaryIDsName(model).replaceAll('\\.', '/') + '.java';
 String fullQualifiedPackageName(Model model) : getPackageName(model);
 
 
 String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);
-String dictionaryIDsName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryIDs";
 String fullQualifiedDictionaryIDsName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryIDsName(dictionary);
 String fullQualifiedDictionaryIDsFileName(Dictionary dictionary) : fullQualifiedDictionaryIDsName(dictionary).replaceAll('\\.', '/') + '.java';
 String dictionaryIDConstant(String id) : id.toUpperCase();

@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.dsl.generator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
@@ -119,7 +120,14 @@ public class Extensions
 
 	public static String camelCaseToUnderScore(String camelCase)
 	{
-		return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, camelCase);
+		if (camelCase != null)
+		{
+			return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, camelCase);
+		}
+		else
+		{
+			return UUID.randomUUID().toString().toUpperCase();
+		}
 	}
 
 	/**
