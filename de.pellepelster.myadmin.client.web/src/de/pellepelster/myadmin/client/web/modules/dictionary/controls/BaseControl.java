@@ -1,12 +1,13 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public abstract class BaseControl<ModelType extends IBaseControlModel> extends BaseModelElement<ModelType>
+public abstract class BaseControl<ModelType extends IBaseControlModel> extends BaseModelElement<ModelType> implements IBaseControl
 {
 	private VOWrapper<IBaseVO> voWrapper;
 

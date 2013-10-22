@@ -10,6 +10,7 @@
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 		
 	public class «dictionaryIDsName()» {
 
@@ -71,7 +72,7 @@
 «ENDDEFINE»
 
 «DEFINE dictionaryIDControlClass(String parent) FOR DictionaryControl»
-	public IDictionaryDescriptor «dictionaryIDsConstantName(name)» = new DictionaryDescriptor("«name»", «parent»);
+	public DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»> «dictionaryIDsConstantName(name)» = new DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»>("«name»", «parent»);
 «ENDDEFINE»
 
 «DEFINE dictionaryIDClass(String parent) FOR DictionaryControlGroup»
@@ -155,3 +156,23 @@
 «DEFINE dictionaryIdElement(String id, String parentId) FOR Object»
 	public IDictionaryDescriptor «dictionaryIDConstant(id)» = new DictionaryDescriptor("«id»", «dictionaryIDConstant(parentId)»);
 «ENDDEFINE»
+
+
+«DEFINE dictionaryControlType FOR DictionaryControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryControlGroup-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryTextControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryIntegerControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryBigDecimalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryBooleanControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryDateControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryEnumerationControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+

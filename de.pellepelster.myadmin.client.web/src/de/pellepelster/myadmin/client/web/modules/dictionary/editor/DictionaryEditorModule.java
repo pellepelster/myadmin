@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -59,21 +61,14 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private IDictionaryModel dictionaryModel;
 
-	private final AsyncCallback<Result<VOType>> saveCallback = new AsyncCallback<Result<VOType>>()
+	private List<IEditorUpdateListener> updateListeners = new ArrayList<IEditorUpdateListener>();
+
+	private final AsyncCallback<Result<VOType>> saveCallback = new BaseAsyncCallback<Result<VOType>>()
 	{
-
-		/** {@inheritDoc} */
-		@Override
-		public void onFailure(Throwable caught)
-		{
-			throw new RuntimeException(caught);
-		}
-
 		/** {@inheritDoc} */
 		@Override
 		public void onSuccess(Result<VOType> result)
 		{
-
 			if (result.getValidationMessages().isEmpty())
 			{
 				DictionaryEditorModule.this.voWrapper.setVo(result.getVo());
@@ -96,6 +91,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		super(new ModuleVO(), moduleCallback, parameters);
 
 		init(dictionaryModel.getName());
+
 	}
 
 	public DictionaryEditorModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
@@ -322,21 +318,12 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	@Override
 	public void save()
 	{
-
 		// if (!this.dataBindingContext.hasErrors())
 		// {
 		if (ClientHookRegistry.getInstance().hasEditorSaveHook(this.dictionaryModel.getName()))
 		{
-
-			ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel.getName()).onSave(new AsyncCallback<Boolean>()
+			ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel.getName()).onSave(new BaseAsyncCallback<Boolean>()
 			{
-
-				@Override
-				public void onFailure(Throwable caught)
-				{
-					throw new RuntimeException("error executing editor save hook", caught);
-				}
-
 				@Override
 				public void onSuccess(Boolean doSave)
 				{
@@ -392,4 +379,13 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
+	public <T> T getControl(DictionaryControlDescriptor<T> controlDescriptor)
+	{
+		return null;
+	}
+
+	public void addUpdateListener(IEditorUpdateListener updateListener)
+	{
+		this.updateListeners.add(updateListener);
+	}
 }

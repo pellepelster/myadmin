@@ -92,7 +92,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			actionBar.addSingleButton(MyAdmin.RESOURCES.back(), MyAdmin.MESSAGES.editorBack(), new ClickHandler()
 			{
 				/** {@inheritDoc} */
-				@SuppressWarnings("unchecked")
 				@Override
 				public void onClick(ClickEvent event)
 				{
