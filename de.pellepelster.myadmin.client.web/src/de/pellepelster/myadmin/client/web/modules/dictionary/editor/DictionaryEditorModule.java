@@ -25,12 +25,14 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
@@ -379,9 +381,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
-	public <T> T getControl(DictionaryControlDescriptor<T> controlDescriptor)
+	public <ControlType extends IBaseControl<?>> ControlType getControl(DictionaryControlDescriptor<ControlType> controlDescriptor)
 	{
-		return null;
+		return DictionaryElementUtil.getControl(dictionaryEditor, controlDescriptor);
 	}
 
 	public void addUpdateListener(IEditorUpdateListener updateListener)
