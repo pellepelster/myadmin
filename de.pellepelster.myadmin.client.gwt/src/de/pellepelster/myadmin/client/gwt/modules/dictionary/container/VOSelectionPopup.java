@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
@@ -14,7 +15,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPopup<VOType>
@@ -23,9 +24,9 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 	private VOTable<VOType> voTable;
 
-	private static List<BaseControl> baseControls;
+	private static List<BaseDictionaryControl<?, ?>> baseControls;
 
-	private VOSelectionPopup(String voClassName, String message, List<BaseControl> baseControls, final SimpleCallback<VOType> voSelectHandler)
+	private VOSelectionPopup(String voClassName, String message, List<BaseDictionaryControl<?, ?>> baseControls, final SimpleCallback<VOType> voSelectHandler)
 	{
 		super(message, voSelectHandler);
 
@@ -52,7 +53,8 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 					@Override
 					public void onSuccess(List<VOType> result)
 					{
-						voTable.setContent(result);
+						throw new RuntimeException("TODO");
+						// voTable.setContent(DictionaryElementUtil.vos2TableRows(result));
 					}
 				});
 	}
@@ -63,7 +65,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 		return new VOSelectionPopup<VOType>(voClassName, message, baseControls, voSelectHandler);
 	}
 
-	public static <VOType extends IBaseVO> VOSelectionPopup<VOType> create(AssignmentTable assignmentTable, SimpleCallback<VOType> voSelectHandler)
+	public static <VOType extends IBaseVO> VOSelectionPopup<VOType> create(AssignmentTable<?> assignmentTable, SimpleCallback<VOType> voSelectHandler)
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(assignmentTable.getModel().getDictionaryName());
 
@@ -78,12 +80,12 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 		voTable.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
 		voTable.setWidth("100%");
-		voTable.addVOSelectHandler(new SimpleCallback<VOType>()
+		voTable.addVOSelectHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 		{
 			@Override
-			public void onCallback(VOType vo)
+			public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
 			{
-				closeDialogWithSelection(vo);
+				closeDialogWithSelection(tableRow.getVO());
 			}
 		});
 		refreshTable();
@@ -94,7 +96,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 	@Override
 	protected void getCurrentSelection(AsyncCallback<VOType> asyncCallback)
 	{
-		asyncCallback.onSuccess(voTable.getCurrentSelection());
+		asyncCallback.onSuccess(voTable.getCurrentSelection().getVO());
 	}
 
 }

@@ -111,6 +111,9 @@ String dictionaryIDsName(Model model) : model.name.toFirstUpper() + "DictionaryI
 String dictionaryIDsName(Dictionary dictionary) : dictionary.name.toFirstUpper();
 String dictionaryIDsName(DictionaryComposite dictionaryComposite) : dictionaryComposite.name.toFirstUpper();
 String dictionaryIDsName(DictionaryEditor dictionaryEditor) : dictionaryEditor.name.toFirstUpper();
+String dictionaryIDsName(DictionaryFilter dictionaryFilter) : dictionaryFilter.name.toFirstUpper();
+String dictionaryIDsName(DictionaryResult dictionaryResult) : dictionaryResult.name.toFirstUpper();
+String dictionaryIDsName(DictionaryEditableTable dictionaryEditableTable) : dictionaryEditableTable.name.toFirstUpper();
 String dictionaryIDsName(DictionarySearch dictionarySearch) : dictionarySearch.name.toFirstUpper();
 
 String dictionaryIDsConstantName(String name) : camelCaseToUnderScore(name).toUpperCase();

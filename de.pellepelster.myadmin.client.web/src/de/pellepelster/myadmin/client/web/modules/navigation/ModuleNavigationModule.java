@@ -21,7 +21,7 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
@@ -41,7 +41,7 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE).addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
 
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-				.filter(genericFilterVO, new BaseAsyncCallback<List<ModuleNavigationVO>>(asyncCallback)
+				.filter(genericFilterVO, new BaseErrorAsyncCallback<List<ModuleNavigationVO>>(asyncCallback)
 				{
 					@Override
 					public void onSuccess(List<ModuleNavigationVO> moduleNavigationVOs)

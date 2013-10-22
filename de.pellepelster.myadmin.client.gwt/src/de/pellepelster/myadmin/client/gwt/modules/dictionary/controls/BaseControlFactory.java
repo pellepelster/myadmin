@@ -11,107 +11,66 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
 /**
  * @author pelle
  * 
  */
-public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>> implements
-		IUIControlFactory<ControlModelType, ControlType>
+public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> implements
+		IGwtControlFactory<ControlModelType, ControlType>
 {
 
-	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
-
 	@Override
-	public Column<IBaseVO, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
 			final AbstractCellTable<?> abstractCellTable)
 	{
 
-		Column<IBaseVO, String> column;
+		Column<IBaseTable.ITableRow<IBaseVO>, String> column;
 
 		if (editable)
 		{
+			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl);
 
-			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl, new IValueHandler()
-			{
+			column = new TableRowColumn(baseControl.getModel(), editTextCell);
 
-				@Override
-				public String format(Object value)
-				{
-					if (value != null)
-					{
-						return value.toString();
-					}
-					else
-					{
-						return "";
-					}
-				}
-
-				@Override
-				public Object parse(String value)
-				{
-					return value.toString();
-				}
-			});
-
-			column = new Column<IBaseVO, String>(editTextCell)
-			{
-
-				@Override
-				public String getValue(IBaseVO vo)
-				{
-					return baseControl.format();
-				}
-			};
-
-			FieldUpdater<IBaseVO, String> fieldUpdater = new FieldUpdater<IBaseVO, String>()
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String>()
 			{
 				@SuppressWarnings("unchecked")
 				@Override
-				public void update(int index, IBaseVO vo, String value)
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, String value)
 				{
 
-					Object key = BaseCellTable.KEYPROVIDER.getKey(vo);
-
-					List<IValidator> validators = createValidators(baseControl);
-					List<IValidationMessage> validationMessages = ValidationUtils.validate(validators, value, baseControl.getModel());
+					Object key = BaseCellTable.KEYPROVIDER.getKey(tableRow);
 
 					ViewData<String> viewData = (ViewData<String>) editTextCell.getViewData(key);
 
-					if (validationMessages != null && ValidationUtils.hasError(validationMessages))
-					{
-						viewData.setValidationMessages(validationMessages);
-						// dataGrid.redraw();
-					}
-					else
-					{
-						viewData.getValidationMessages().clear();
-
-						vo.set(baseControl.getModel().getAttributePath(),
-								TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(), value));
-					}
+					// if (validationMessages != null &&
+					// ValidationUtils.hasError(validationMessages))
+					// {
+					// viewData.setValidationMessages(validationMessages);
+					// // dataGrid.redraw();
+					// }
+					// else
+					// {
+					// viewData.getValidationMessages().clear();
+					//
+					// // vo.set(baseControl.getModel().getAttributePath(),
+					// //
+					// TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(),
+					// // value));
+					// }
 
 					listDataProvider.refresh();
 				}
@@ -121,45 +80,11 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		}
 		else
 		{
-			column = new Column<IBaseVO, String>(new TextCell())
-			{
-
-				@Override
-				public String getValue(IBaseVO vo)
-				{
-					return baseControl.format();
-				}
-			};
+			column = new TableRowColumn(baseControl.getModel(), new TextCell());
 		}
 
 		return column;
 
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValidator> createValidators(ControlType baseControl)
-	{
-		return createBaseValidators(baseControl);
-	}
-
-	public List<IValidator> createBaseValidators(BaseControl<ControlModelType> baseControl)
-	{
-		List<IValidator> validators = new ArrayList<IValidator>();
-
-		if (baseControl.getModel().isMandatory())
-		{
-			validators.add(MANDATORY_VALIDATOR);
-		}
-		return validators;
-	}
-
-	protected List<IValidator> addValidators(BaseControl<ControlModelType> baseControl, List<IValidator> validators)
-	{
-		List<IValidator> validatorsResult = new ArrayList<IValidator>();
-		validatorsResult.addAll(validators);
-		validatorsResult.addAll(createBaseValidators(baseControl));
-		return validatorsResult;
 	}
 
 }

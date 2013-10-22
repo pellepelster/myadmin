@@ -24,8 +24,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -39,6 +38,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapp
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * Dictionary editor module
@@ -65,7 +65,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private List<IEditorUpdateListener> updateListeners = new ArrayList<IEditorUpdateListener>();
 
-	private final AsyncCallback<Result<VOType>> saveCallback = new BaseAsyncCallback<Result<VOType>>()
+	private final BaseAsyncCallback<Result<VOType>, Result<VOType>> internalSaveCallback = new BaseAsyncCallback<Result<VOType>, Result<VOType>>()
 	{
 		/** {@inheritDoc} */
 		@Override
@@ -79,6 +79,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 				VOSavedEvent voSavedEvent = new VOSavedEvent(result.getVo());
 				MyAdmin.EVENT_BUS.fireEvent(voSavedEvent);
 				getEventBus().fireEvent(voSavedEvent);
+
+				super.callParentCallbacks(result);
+
 			}
 			else
 			{
@@ -181,7 +184,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	private void init(String dictionaryName)
 	{
 
-		DictionaryModelProvider.getDictionaryModel(dictionaryName, new BaseAsyncCallback<IDictionaryModel>(getModuleCallback())
+		DictionaryModelProvider.getDictionaryModel(dictionaryName, new BaseErrorAsyncCallback<IDictionaryModel>(getModuleCallback())
 		{
 			/** {@inheritDoc} */
 			@Override
@@ -320,11 +323,18 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	@Override
 	public void save()
 	{
+		save(null);
+	}
+
+	public void save(AsyncCallback<Result<VOType>> asyncCallback)
+	{
+		this.internalSaveCallback.addParentCallback(asyncCallback);
+
 		// if (!this.dataBindingContext.hasErrors())
 		// {
 		if (ClientHookRegistry.getInstance().hasEditorSaveHook(this.dictionaryModel.getName()))
 		{
-			ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel.getName()).onSave(new BaseAsyncCallback<Boolean>()
+			ClientHookRegistry.getInstance().getEditorSaveHook(this.dictionaryModel.getName()).onSave(new BaseErrorAsyncCallback<Boolean>()
 			{
 				@Override
 				public void onSuccess(Boolean doSave)
@@ -348,10 +358,10 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		switch (getEditorMode())
 		{
 			case INSERT:
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndCreate(this.voWrapper.getVO(), this.saveCallback);
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndCreate(this.voWrapper.getVO(), this.internalSaveCallback);
 				break;
 			case UPDATE:
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndSave(this.voWrapper.getVO(), this.saveCallback);
+				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().validateAndSave(this.voWrapper.getVO(), this.internalSaveCallback);
 				break;
 			default:
 				throw new RuntimeException("editor mode '" + getEditorMode().toString() + "' not implemented");
@@ -373,21 +383,29 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	{
 		if (this.voWrapper.getVO().isNew())
 		{
-			return this.dictionaryModel.getName();
+			return getClass().getName() + '#' + this.dictionaryModel.getName();
 		}
 		else
 		{
-			return this.dictionaryModel.getName() + "#" + this.voWrapper.getVO().getId();
+			return getClass().getName() + '#' + this.dictionaryModel.getName() + "#" + this.voWrapper.getVO().getId();
 		}
 	}
 
-	public <ControlType extends IBaseControl<?>> ControlType getControl(DictionaryControlDescriptor<ControlType> controlDescriptor)
+	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
-		return DictionaryElementUtil.getControl(dictionaryEditor, controlDescriptor);
+		return DictionaryElementUtil.getElement(this.dictionaryEditor, controlDescriptor);
 	}
 
 	public void addUpdateListener(IEditorUpdateListener updateListener)
 	{
 		this.updateListeners.add(updateListener);
+	}
+
+	private void fireUpdateListeners()
+	{
+		for (IEditorUpdateListener updateListener : this.updateListeners)
+		{
+			updateListener.onUpdate();
+		}
 	}
 }

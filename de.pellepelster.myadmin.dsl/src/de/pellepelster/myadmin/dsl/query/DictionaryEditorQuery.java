@@ -24,6 +24,7 @@ public class DictionaryEditorQuery
 		return this.dictionaryEditor;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DictionaryControlsQuery<?> getAllControls()
 	{
 		Iterator<DictionaryControl> dictionaryControls = Iterators.transform(this.dictionaryEditor.eAllContents(),
@@ -32,6 +33,7 @@ public class DictionaryEditorQuery
 		return new DictionaryControlsQuery(Lists.newArrayList(Iterators.filter(dictionaryControls, Predicates.notNull())));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DictionaryControlsQuery<?> getControlsByType(Class<? extends DictionaryControl> controlType)
 	{
 		Iterator<DictionaryControl> dictionaryControls = Iterators.transform(this.dictionaryEditor.eAllContents(),

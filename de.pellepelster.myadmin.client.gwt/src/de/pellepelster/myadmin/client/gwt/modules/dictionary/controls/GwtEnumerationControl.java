@@ -38,7 +38,7 @@ public class GwtEnumerationControl extends ListBox
 		this.enumarationControl = enumarationControl;
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControl.getModel()));
-		gwtControlHelper = new ControlHelper(this, enumarationControl, false, String.class);
+		gwtControlHelper = new ControlHelper(this, enumarationControl, false);
 
 		addChangeHandler(new ChangeHandler()
 		{
@@ -46,7 +46,7 @@ public class GwtEnumerationControl extends ListBox
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(getEnumForSelection());
+				enumarationControl.setValue(getEnumForSelection());
 			}
 		});
 

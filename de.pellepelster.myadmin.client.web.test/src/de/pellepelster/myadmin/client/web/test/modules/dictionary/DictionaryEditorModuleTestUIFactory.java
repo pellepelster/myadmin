@@ -18,11 +18,12 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
-public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Object, DictionaryEditorModule>
+public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Object, DictionaryEditorModule<?>>
 {
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Object, DictionaryEditorModule> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
 		return new DictionaryEditorModuleTestUI((DictionaryEditorModule) module);
 	}

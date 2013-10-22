@@ -17,7 +17,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtAssign
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtComposite;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtEditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
@@ -31,7 +31,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
 public class ContainerFactory
 {
 
-	public static IContainer<Panel> createContainer(BaseContainer baseContainer)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static IContainer<Panel> createContainer(BaseContainerElement baseContainer)
 	{
 		IContainer<Panel> container;
 

@@ -22,11 +22,9 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
-import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
@@ -36,20 +34,15 @@ public class ControlHelper
 
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
 
-	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
-
-	private final BaseControl<IBaseControlModel> baseControl;
-
-	public ControlHelper(final Widget widget, final BaseControl baseControl, boolean addValueChangeListener, final Class<?> targetClass)
+	public <ValueType> ControlHelper(final Widget widget, final BaseDictionaryControl<?, ValueType> baseControl, boolean addValueChangeListener)
 	{
 		this.uiObject = widget;
-		this.baseControl = baseControl;
 
 		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControl.getModel()));
 
 		if (widget instanceof HasValue<?>)
 		{
-			final HasValue<?> hasValueWidget = (HasValue<?>) widget;
+			final HasValue<ValueType> hasValueWidget = (HasValue<ValueType>) widget;
 
 			if (addValueChangeListener)
 			{
@@ -60,7 +53,7 @@ public class ControlHelper
 					{
 						if (hasValueWidget.getValue() == null || hasValueWidget.getValue().toString().isEmpty())
 						{
-							fireValueChangeListeners(hasValueWidget.getValue());
+							baseControl.setValue(hasValueWidget.getValue());
 						}
 					}
 				}, BlurEvent.getType());
@@ -71,26 +64,11 @@ public class ControlHelper
 					@Override
 					public void onChange(ChangeEvent event)
 					{
-						fireValueChangeListeners(hasValueWidget.getValue());
+						baseControl.setValue(hasValueWidget.getValue());
 					}
 				}, ChangeEvent.getType());
 			}
 		}
-	}
-
-	public void fireValueChangeListeners(Object value)
-	{
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(baseControl.getModel().getAttributePath(), value);
-
-		for (IValueChangeListener valueChangeListener : valueChangeListeners)
-		{
-			valueChangeListener.handleValueChange(valueChangeEvent);
-		}
-	}
-
-	public List<IValueChangeListener> getValueChangeListeners()
-	{
-		return valueChangeListeners;
 	}
 
 	public void removeAllValidationMessages()

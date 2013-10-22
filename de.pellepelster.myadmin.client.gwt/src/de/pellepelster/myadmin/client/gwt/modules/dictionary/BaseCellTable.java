@@ -19,24 +19,26 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VOType>
+public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IBaseTable.ITableRow<VOType>>
 {
-	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
+	public static BaseTableRowKeyProvider KEYPROVIDER = new BaseTableRowKeyProvider();
 
-	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
+	private ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
-	protected abstract Column<VOType, ?> getColumn(BaseControl baseControl);
+	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(KEYPROVIDER);
 
-	private List<BaseControl> baseControls;
+	private List<BaseDictionaryControl<? extends IBaseControlModel, ?>> baseControls;
 
 	public static final String DEFAULT_TABLE_HEIGHT = "15em";
 
@@ -44,15 +46,16 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 
 	public static final int DEFAULT_MAX_RESULTS = 15;
 
-	public BaseCellTable(List<BaseControl> baseControls)
+	public BaseCellTable(List<BaseDictionaryControl<? extends IBaseControlModel, ?>> baseControls)
 	{
 		super(KEYPROVIDER);
+		dataProvider.addDataDisplay(this);
 		this.baseControls = baseControls;
 	}
 
 	protected void createModelColumns()
 	{
-		for (BaseControl baseControl : baseControls)
+		for (BaseDictionaryControl<? extends IBaseControlModel, ?> baseControl : baseControls)
 		{
 			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
 			Column column = getColumn(baseControl);
@@ -64,12 +67,17 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		setSelectionModel(selectionModel);
 	}
 
-	protected VOType getSelection()
+	public void setRows(List<IBaseTable.ITableRow<VOType>> rows)
+	{
+		dataProvider.setList(rows);
+	}
+
+	protected IBaseTable.ITableRow<VOType> getSelection()
 	{
 		return selectionModel.getSelectedObject();
 	}
 
-	public void addVOSelectHandler(final SimpleCallback<VOType> voDoubleClickHandler)
+	public void addVOSelectHandler(final SimpleCallback<IBaseTable.ITableRow<VOType>> voDoubleClickHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -87,5 +95,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<VO
 		}, DoubleClickEvent.getType());
 
 	}
+
+	protected abstract Column<VOType, ?> getColumn(BaseDictionaryControl<? extends IBaseControlModel, ?> baseControl);
 
 }

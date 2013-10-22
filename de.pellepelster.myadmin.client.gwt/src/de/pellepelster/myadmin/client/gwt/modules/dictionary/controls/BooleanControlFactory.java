@@ -20,8 +20,9 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BooleanControl;
 
 /**
@@ -42,13 +43,13 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControlModel)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControlModel)
 	{
 		return baseControlModel instanceof BooleanControl;
 	}
 
 	@Override
-	public Column createColumn(final BooleanControl booleanControl, boolean editable, ListDataProvider<?> listDataProvider,
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final BooleanControl booleanControl, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable)
 	{
 
@@ -56,22 +57,22 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 		{
 			final CheckboxCell checkboxCell = new CheckboxCell();
 
-			Column<IBaseVO, Boolean> column = new Column<IBaseVO, Boolean>(checkboxCell)
+			Column<IBaseTable.ITableRow<IBaseVO>, Boolean> column = new Column<IBaseTable.ITableRow<IBaseVO>, Boolean>(checkboxCell)
 			{
 
 				@Override
-				public Boolean getValue(IBaseVO vo)
+				public Boolean getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
-					return (Boolean) vo.get(booleanControl.getModel().getAttributePath());
+					return (Boolean) tableRow.getElement(booleanControl.getModel()).getValue();
 				}
 			};
 
-			FieldUpdater<IBaseVO, Boolean> fieldUpdater = new FieldUpdater<IBaseVO, Boolean>()
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Boolean> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Boolean>()
 			{
 				@Override
-				public void update(int index, IBaseVO vo, Boolean value)
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, Boolean value)
 				{
-					vo.set(booleanControl.getModel().getAttributePath(), value);
+					tableRow.getElement(booleanControl.getModel()).setValue(value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);

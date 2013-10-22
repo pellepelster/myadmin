@@ -18,33 +18,69 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextHeader;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType>
+public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {
-	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
+	private ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
-	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
+	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel;
 
-	protected abstract Column<VOType, ?> getColumn(BaseControl baseControl);
+	private List<BaseDictionaryControl<?, ?>> baseControls;
 
-	private List<BaseControl> baseControls;
-
-	public BaseDataGrid(List<BaseControl> baseControls)
+	public BaseDataGrid(final BaseTableElement<VOType, ? extends IBaseTableModel> baseTable)
 	{
-		super(KEYPROVIDER);
+		this(baseTable.getControls());
+
+		baseTable.addTableUpdateListeners(new TableUpdateListener()
+		{
+			@Override
+			public void onUpdate()
+			{
+				dataProvider.setList(baseTable.getRows());
+
+				if (!baseTable.getSelection().isEmpty())
+				{
+					if (baseTable.getSelection().size() == 1)
+					{
+						selectionModel.setSelected(baseTable.getSelection().get(0), true);
+					}
+					else
+					{
+						throw new RuntimeException("more than one table row selcted");
+					}
+
+				}
+
+			}
+		});
+	}
+
+	public BaseDataGrid(List<BaseDictionaryControl<?, ?>> baseControls)
+	{
+		super(new BaseTableRowKeyProvider<VOType>());
+
+		selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(getKeyProvider());
+		setSelectionModel(selectionModel);
+
 		this.baseControls = baseControls;
+		dataProvider.addDataDisplay(this);
 	}
 
 	protected void createModelColumns()
 	{
-		for (BaseControl baseControl : baseControls)
+		for (BaseDictionaryControl<?, ?> baseControl : baseControls)
 		{
 			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
 			addColumn(getColumn(baseControl), textHeader);
@@ -53,7 +89,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 		setSelectionModel(selectionModel);
 	}
 
-	public void addVOSelectHandler(final SimpleCallback<VOType> voSelectHandler)
+	public void addVOSelectHandler(final SimpleCallback<IBaseTable.ITableRow<VOType>> voSelectHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -72,9 +108,21 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 	}
 
-	public VOType getCurrentSelection()
+	public IBaseTable.ITableRow<VOType> getCurrentSelection()
 	{
 		return selectionModel.getSelectedObject();
+	}
+
+	public ListDataProvider<IBaseTable.ITableRow<VOType>> getDataProvider()
+	{
+		return dataProvider;
+	}
+
+	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl);
+
+	public void setRows(List<ITableRow<VOType>> rows)
+	{
+		dataProvider.setList(rows);
 	}
 
 }

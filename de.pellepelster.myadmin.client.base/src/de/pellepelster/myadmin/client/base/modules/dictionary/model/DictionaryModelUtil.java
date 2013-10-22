@@ -124,9 +124,9 @@ public final class DictionaryModelUtil
 
 		for (IBaseContainerModel lBaseContainerModel : baseContainerModel.getChildren())
 		{
-			if (lBaseContainerModel instanceof IDatabindingAwareModel)
+			if (lBaseContainerModel instanceof IContentAwareModel)
 			{
-				IDatabindingAwareModel databindingAwareModel = (IDatabindingAwareModel) lBaseContainerModel;
+				IContentAwareModel databindingAwareModel = (IContentAwareModel) lBaseContainerModel;
 				IAssociation lAssociation = association.addAssociation(databindingAwareModel.getAttributePath());
 
 				populateAssociations(lAssociation, lBaseContainerModel);
@@ -148,7 +148,7 @@ public final class DictionaryModelUtil
 
 		do
 		{
-			if (!"RootComposite".equals(baseModel.getName()))
+			if (!ICompositeModel.ROOT_COMPOSITE_NAME.equals(baseModel.getName()))
 			{
 				debugId = baseModel.getName() + delimiter + debugId;
 				delimiter = "-";

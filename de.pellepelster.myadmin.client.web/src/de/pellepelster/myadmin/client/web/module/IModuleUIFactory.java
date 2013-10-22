@@ -18,5 +18,5 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 
 public interface IModuleUIFactory<ContainerType, ModuleType>
 {
-	IModuleUI<ContainerType, ModuleType> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters);
+	IModuleUI<ContainerType, ModuleType> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters);
 }

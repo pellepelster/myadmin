@@ -1,7 +1,7 @@
 package de.pellepelster.myadmin.ui.test;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;

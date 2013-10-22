@@ -28,9 +28,9 @@ public class DictionaryEditorModuleFactory implements IModuleFactory
 		openEditorInternal(dictionaryName, parameters);
 	}
 
-	public static void openEditor(String editorModelName)
+	public static void openEditor(String dictionaryName)
 	{
-		openEditorInternal(editorModelName, new HashMap<String, Object>());
+		openEditorInternal(dictionaryName, new HashMap<String, Object>());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

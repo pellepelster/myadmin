@@ -11,12 +11,9 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.base.util.MessageFormat;
@@ -54,64 +51,8 @@ public final class ValidationUtils
 
 	}
 
-	public static List<IValidationMessage> validate(List<IValidator> validators, Object value, IDatabindingAwareModel databindingAwareModel)
-	{
-		List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
-
-		for (IValidator validator : validators)
-		{
-			validationMessages.addAll(validator.validate(value, databindingAwareModel));
-		}
-
-		return validationMessages;
-	}
-
-	/**
-	 * Returns the validation status with the highest priority
-	 * 
-	 * @param validationMessages
-	 * @return
-	 */
-	public static IMessage.SEVERITY getSeverity(List<IValidationMessage> validationMessages)
-	{
-		IMessage.SEVERITY severity = IMessage.SEVERITY.NONE;
-
-		for (IValidationMessage validationMessage : validationMessages)
-		{
-			if (validationMessage.getSeverity().getOrder() > severity.getOrder())
-			{
-				severity = validationMessage.getSeverity();
-			}
-		}
-
-		return severity;
-	}
-
-	public static boolean hasError(IMessage.SEVERITY severity)
-	{
-		return severity.getOrder() >= IMessage.SEVERITY.ERROR.getOrder();
-	}
-
-	public static boolean hasError(IValidationMessage validationMessage)
-	{
-		return hasError(validationMessage.getSeverity());
-	}
-
 	private ValidationUtils()
 	{
-	}
-
-	public static boolean hasError(List<IValidationMessage> validationMessages)
-	{
-		for (IValidationMessage validationMessage : validationMessages)
-		{
-			if (ValidationUtils.hasError(validationMessage))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public static String getAttributeContext(IValidationMessage validationMessage)

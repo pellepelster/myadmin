@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwareModel;
 
 /**
  * Interface for user data validation
@@ -25,6 +25,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabinding
 public interface IValidator
 {
 
-	List<IValidationMessage> validate(Object value, IDatabindingAwareModel databindingAwareModel);
+	List<IValidationMessage> validate(Object value, IContentAwareModel databindingAwareModel);
 
 }

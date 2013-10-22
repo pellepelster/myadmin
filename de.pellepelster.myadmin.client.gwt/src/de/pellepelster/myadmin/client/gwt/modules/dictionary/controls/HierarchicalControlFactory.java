@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.HierarchicalControl;
 
 /**
@@ -36,7 +36,7 @@ public class HierarchicalControlFactory extends BaseControlFactory<IHierarchical
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof HierarchicalControl;
 	}

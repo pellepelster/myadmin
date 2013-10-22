@@ -42,6 +42,10 @@
 	«EXPAND templates::type::Type::rawType("webvo", false) FOR this.type».class
 «ENDDEFINE»
 
+«DEFINE webVORawType FOR EntityAttribute-»
+	«EXPAND templates::type::Type::rawType("webvo", false) FOR this.type»
+«ENDDEFINE»
+
 «DEFINE webVORawTypeClass FOR Entity-»
 	«fullQualifiedEntityName(this)-».class
 «ENDDEFINE»

@@ -12,10 +12,10 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary;
 
 
-public class DictionaryControlDescriptor<ControlType> extends DictionaryDescriptor
+public class DictionaryControlDescriptor<ControlType> extends DictionaryDescriptor<ControlType>
 {
 
-	public DictionaryControlDescriptor(String id, IDictionaryDescriptor parent)
+	public DictionaryControlDescriptor(String id, DictionaryDescriptor<?> parent)
 	{
 		super(id, parent);
 	}

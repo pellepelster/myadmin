@@ -14,13 +14,13 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.SuggestCellControl.SuggestCellSuggestion;
 
-public class VOSuggestion implements SuggestCellSuggestion<IBaseVO>
+public class VOSuggestion<VOType extends IBaseVO> implements SuggestCellSuggestion<VOType>
 {
 
 	private final String displayString;
-	private final IBaseVO vo;
+	private final VOType vo;
 
-	public VOSuggestion(String displayString, IBaseVO vo)
+	public VOSuggestion(String displayString, VOType vo)
 	{
 		super();
 		this.displayString = displayString;
@@ -39,13 +39,8 @@ public class VOSuggestion implements SuggestCellSuggestion<IBaseVO>
 		return displayString;
 	}
 
-	public IBaseVO getVo()
-	{
-		return vo;
-	}
-
 	@Override
-	public IBaseVO getValue()
+	public VOType getValue()
 	{
 		return vo;
 	}

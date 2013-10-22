@@ -22,8 +22,9 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.EnumerationControl;
 
 /**
@@ -44,14 +45,14 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return baseControl instanceof EnumerationControl;
 	}
 
 	@Override
-	public Column createColumn(final EnumerationControl enumerationControl, boolean editable, ListDataProvider<?> listDataProvider,
-			AbstractCellTable<?> abstractCellTable)
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final EnumerationControl enumerationControl, boolean editable,
+			ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable)
 	{
 
 		if (editable)
@@ -59,30 +60,22 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 			List<String> enumList = GwtEnumerationControl.getSortedEnumList(enumerationControl.getModel());
 			final SelectionCell selectionCell = new SelectionCell(enumList);
 
-			Column<IBaseVO, String> column = new Column<IBaseVO, String>(selectionCell)
+			Column<IBaseTable.ITableRow<IBaseVO>, String> column = new Column<IBaseTable.ITableRow<IBaseVO>, String>(selectionCell)
 			{
 
 				@Override
-				public String getValue(IBaseVO vo)
+				public String getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
-					Object enumValue = vo.get(enumerationControl.getModel().getAttributePath());
-					if (enumValue == null)
-					{
-						return "";
-					}
-					else
-					{
-						return (String) enumerationControl.getModel().getEnumeration().get(vo.get(enumerationControl.getModel().getAttributePath()).toString());
-					}
+					return tableRow.getElement(enumerationControl.getModel()).format();
 				}
 			};
 
-			FieldUpdater<IBaseVO, String> fieldUpdater = new FieldUpdater<IBaseVO, String>()
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String>()
 			{
 				@Override
-				public void update(int index, IBaseVO vo, String value)
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, String value)
 				{
-					vo.set(enumerationControl.getModel().getAttributePath(), GwtEnumerationControl.getEnumForText(enumerationControl.getModel(), value));
+					tableRow.getElement(enumerationControl.getModel()).setValue(GwtEnumerationControl.getEnumForText(enumerationControl.getModel(), value));
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);

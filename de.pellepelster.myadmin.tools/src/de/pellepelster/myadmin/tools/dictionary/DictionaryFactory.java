@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.tools.dictionary;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryEditorVO;
@@ -66,7 +67,7 @@ public class DictionaryFactory
 		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating editor '%s'", dictionaryEditorVO.getName()), logIdentiation);
 
 		DictionaryContainerVO editorRootCompositeVO = new DictionaryContainerVO();
-		editorRootCompositeVO.setName("RootComposite");
+		editorRootCompositeVO.setName(ICompositeModel.ROOT_COMPOSITE_NAME);
 
 		ContainerFactory.getInstance().createContainer(editorRootCompositeVO, dictionaryEditor.getContainercontents(), logIdentiation + 1);
 

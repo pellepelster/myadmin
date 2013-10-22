@@ -11,27 +11,20 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collections;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
-import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
@@ -39,7 +32,8 @@ import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
+import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
@@ -48,31 +42,23 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * @author pelle
  * 
  */
-public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContainer<Panel>
+public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOType> implements IContainer<Panel>
 {
-	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
-
-	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
-
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
-	private final ListDataProvider<IBaseVO> dataProvider = new ListDataProvider<IBaseVO>();
+	private final EditableTable<VOType> editableTable;
 
-	private final EditableTable editableTable;
-
-	public GwtEditableTable(EditableTable editableTable)
+	public GwtEditableTable(final EditableTable<VOType> editableTable)
 	{
-		super(editableTable.getControls());
+		super(editableTable);
 
 		this.editableTable = editableTable;
 
 		createModelColumns();
 
 		setTableWidth(100d, Unit.PCT);
-
-		dataProvider.addDataDisplay(this);
 
 		simpleLayoutPanel.add(this);
 		simpleLayoutPanel.setWidth("99%");
@@ -84,36 +70,28 @@ public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContaine
 		createAddButton();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<IBaseVO, Object> column = new Column<IBaseVO, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
+
+		Column<IBaseTable.ITableRow<VOType>, Void> column = new Column<IBaseTable.ITableRow<VOType>, Void>(new ImageActionCell<VOType>(
+				MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseTable.ITableRow<VOType>>()
+				{
+
+					@Override
+					public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
+					{
+						editableTable.delete(tableRow);
+					}
+				}))
 		{
 
 			@Override
-			public void onCallback(IBaseVO vo)
-			{
-				dataProvider.getList().remove(vo);
-				fireValueChanges();
-			}
-		}))
-		{
-
-			@Override
-			public String getValue(IBaseVO vo)
+			public Void getValue(IBaseTable.ITableRow<VOType> vo)
 			{
 				return null;
 			}
 		};
 
 		addColumn(column, textHeader);
-	}
-
-	private void fireValueChanges()
-	{
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(editableTable.getModel().getAttributePath(), CollectionUtils.copyToArrayList(dataProvider
-				.getList()));
-		for (IValueChangeListener valueChangeListener : valueChangeListeners)
-		{
-			valueChangeListener.handleValueChange(valueChangeEvent);
-		}
+		setRows(Collections.EMPTY_LIST);
 	}
 
 	private void createAddButton()
@@ -125,29 +103,7 @@ public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContaine
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-						.getNewVO(editableTable.getModel().getVOName(), new HashMap<String, String>(), new AsyncCallback<IBaseVO>()
-						{
-
-							@Override
-							public void onSuccess(IBaseVO newVO)
-							{
-								for (IBaseControlModel baseControlModel : editableTable.getModel().getControls())
-								{
-									newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
-								}
-
-								dataProvider.getList().add(newVO);
-								fireValueChanges();
-								getSelectionModel().setSelected(newVO, true);
-							}
-
-							@Override
-							public void onFailure(Throwable caught)
-							{
-								throw new RuntimeException("error creating new vo '" + editableTable.getModel().getVOName() + "'");
-							}
-						});
+				editableTable.add(DummyAsyncCallback.dummyAsyncCallback());
 			}
 		});
 		verticalPanel.add(addButton);
@@ -155,10 +111,9 @@ public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContaine
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<IBaseVO, ?> getColumn(BaseControl baseControl)
+	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl)
 	{
-		return (Column<IBaseVO, ?>) ControlHandler.getInstance().createColumn(baseControl, true, dataProvider, this);
-
+		return (Column<IBaseTable.ITableRow<VOType>, ?>) ControlHandler.getInstance().createColumn(baseControl, true, getDataProvider(), this);
 	}
 
 	/** {@inheritDoc} */
@@ -166,18 +121,6 @@ public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContaine
 	public Panel getContainer()
 	{
 		return verticalPanel;
-	}
-
-	public void setContent(Object content)
-	{
-		if (content instanceof List)
-		{
-			dataProvider.setList((List<IBaseVO>) content);
-		}
-		else
-		{
-			throw new RuntimeException("unsupported content type '" + content.getClass().getName() + "'");
-		}
 	}
 
 }

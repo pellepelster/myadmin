@@ -29,7 +29,7 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
-public class VOSuggestOracle extends SuggestOracle
+public class VOSuggestOracle<VOType extends IBaseVO> extends SuggestOracle
 {
 	private IReferenceControlModel referenceControlModel;
 
@@ -75,6 +75,7 @@ public class VOSuggestOracle extends SuggestOracle
 						throw new RuntimeException("error loading suggestions for '" + request.getQuery() + "'");
 					}
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public void onSuccess(List<IBaseVO> result)
 					{
@@ -83,7 +84,7 @@ public class VOSuggestOracle extends SuggestOracle
 
 						for (IBaseVO vo : result)
 						{
-							VOSuggestion voSuggestion = new VOSuggestion(DictionaryUtil.getLabel(referenceControlModel, vo), vo);
+							VOSuggestion voSuggestion = new VOSuggestion<VOType>(DictionaryUtil.getLabel(referenceControlModel, vo), (VOType) vo);
 							voSuggestions.add(voSuggestion);
 						}
 

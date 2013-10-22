@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 
 import java.util.List;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
 /**
@@ -22,7 +23,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
  * @version $Rev$, $Date$
  * 
  */
-public interface IResultModel extends IBaseModel
+public interface IResultModel extends IBaseTableModel
 {
 
 	/** Default paging size */
@@ -33,6 +34,7 @@ public interface IResultModel extends IBaseModel
 	 * 
 	 * @return
 	 */
+	@Override
 	List<IBaseControlModel> getControls();
 
 	/**

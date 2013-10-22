@@ -11,91 +11,21 @@
  */
 package de.pellepelster.myadmin.demo.client.test;
 
-import org.junit.Assert;
-import org.junit.Test;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
+import com.google.gwt.junit.tools.GWTTestSuite;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
-import de.pellepelster.myadmin.client.web.test.MyAdminTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
-import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
-import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
-import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
-import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
-
-public class DemoClientTest extends GWTTestCase
+public class DemoClientTest extends GWTTestSuite
 {
-
-	@Override
-	public String getModuleName()
+	public static Test suite()
 	{
-		return "de.pellepelster.myadmin.demo.DemoTest";
+		TestSuite suite = new TestSuite(DemoClientTest.class.getName());
+
+		suite.addTestSuite(DemoClientCityTest.class);
+		suite.addTestSuite(DemoClientDictionary1Test.class);
+		suite.addTestSuite(DemoClientNavigationTest.class);
+
+		return suite;
 	}
-
-	private class NavigationTreeElementTest extends BaseAsyncCallback<NavigationTreeTestElements>
-	{
-		@Override
-		public void onSuccess(NavigationTreeTestElements result)
-		{
-			result.assertChildrenCount(2);
-			result.assertChildNavigationText(0, "Masterdata");
-			result.assertChildNavigationText(1, "Test");
-			finishTest();
-		}
-	}
-
-	private class NavigationModuleTest extends BaseAsyncCallback<NavigationModuleTestUI>
-	{
-		@Override
-		public void onSuccess(NavigationModuleTestUI result)
-		{
-			result.getRootElements(new NavigationTreeElementTest());
-		}
-	}
-
-	private class TestCityEdigtorSaveResult extends BaseAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
-	{
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
-		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.CITY_NAME);
-			Assert.assertEquals("Hamburg", textControl1.getValue());
-
-			finishTest();
-		}
-	}
-
-	private class TestCityEditorSave extends BaseAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
-	{
-
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
-		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.CITY_NAME);
-			textControl1.setValue("Hamburg");
-			result.save(new TestCityEdigtorSaveResult());
-		}
-	}
-
-	@Test
-	public void testNavigationTree()
-	{
-		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_ID, NavigationModuleTestUI.class, Direction.WEST.toString(),
-				new NavigationModuleTest());
-
-		delayTestFinish(2000);
-	}
-
-	@Test
-	public void testDictionary1()
-	{
-		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.DICTIONARY1, new TestCityEditorSave());
-
-		delayTestFinish(2000);
-	}
-
 }

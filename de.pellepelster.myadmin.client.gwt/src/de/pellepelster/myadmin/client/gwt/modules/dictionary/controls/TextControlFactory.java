@@ -11,27 +11,15 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-/**
- * control factory for text controls
- * 
- * @author pelle
- * 
- */
 public class TextControlFactory extends BaseControlFactory<ITextControlModel, TextControl>
 {
-
-	private static final List<IValidator> VALIDATORS = Arrays.asList(new IValidator[] {});
 
 	/** {@inheritDoc} */
 	@Override
@@ -49,16 +37,9 @@ public class TextControlFactory extends BaseControlFactory<ITextControlModel, Te
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return baseControl instanceof TextControl;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValidator> createValidators(TextControl textControl)
-	{
-		return addValidators(textControl, VALIDATORS);
 	}
 
 }

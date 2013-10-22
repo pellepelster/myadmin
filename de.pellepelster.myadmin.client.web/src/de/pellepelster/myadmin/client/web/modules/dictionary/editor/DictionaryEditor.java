@@ -7,9 +7,19 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapp
 public class DictionaryEditor extends BaseRootElement<IEditorModel>
 {
 
+	private VOWrapper<IBaseVO> voWrapper;
+
 	public DictionaryEditor(IEditorModel editorModel, VOWrapper<IBaseVO> voWrapper)
 	{
-		super(editorModel, voWrapper);
+		super(editorModel, null);
+		this.voWrapper = voWrapper;
 
 	}
+
+	@Override
+	protected VOWrapper<IBaseVO> getVOWrapper()
+	{
+		return this.voWrapper;
+	}
+
 }

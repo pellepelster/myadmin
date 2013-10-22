@@ -3,11 +3,11 @@
 <module>
 
 	<inherits name="com.google.gwt.user.User" />
-	
 	<inherits name="com.google.common.base.Base" />
-	
+	<inherits name="java.util.Util" />
+	<inherits name="com.google.gwt.i18n.I18N" />
 	<inherits name='com.google.common.collect.Collect' />
-	
+
 	<source path="client.base" />
-	
+
 </module>

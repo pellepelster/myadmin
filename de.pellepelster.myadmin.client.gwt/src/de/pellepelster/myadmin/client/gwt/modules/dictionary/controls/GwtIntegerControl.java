@@ -26,7 +26,7 @@ public class GwtIntegerControl extends TextBox
 	public GwtIntegerControl(IntegerControl integerControl)
 	{
 		this.integerControl = integerControl;
-		gwtControlHelper = new ControlHelper(this, integerControl, true, Integer.class);
+		gwtControlHelper = new ControlHelper(this, integerControl, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(integerControl.getModel()));
 	}
 

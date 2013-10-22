@@ -1,16 +1,18 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public class ReferenceControl extends BaseControl<IReferenceControlModel>
+public class ReferenceControl<VOType extends IBaseVO> extends BaseDictionaryControl<IReferenceControlModel, VOType>  implements IReferenceControl<VOType>
 {
 
-	public ReferenceControl(IReferenceControlModel referenceControlModel, VOWrapper<IBaseVO> voWrapper)
+	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
-		super(referenceControlModel, voWrapper);
+		super(referenceControlModel, parent);
 	}
 
 	@Override
@@ -18,11 +20,17 @@ public class ReferenceControl extends BaseControl<IReferenceControlModel>
 	{
 		if (getValue() != null && getValue() instanceof IBaseVO)
 		{
-			return DictionaryUtil.getLabel(getModel(), (IBaseVO) getValue());
+			return DictionaryUtil.getLabel(getModel(), getValue());
 		}
 		else
 		{
 			return super.format();
 		}
+	}
+
+	@Override
+	protected ParseResult parseValueInternal(String valueString)
+	{
+		throw new RuntimeException("not implemented");
 	}
 }

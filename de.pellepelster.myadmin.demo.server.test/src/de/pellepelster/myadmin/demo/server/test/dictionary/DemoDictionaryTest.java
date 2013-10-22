@@ -13,8 +13,7 @@ package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;

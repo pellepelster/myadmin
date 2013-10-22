@@ -1,11 +1,10 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.container;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
 public class ContainerFactory
 {
@@ -21,19 +20,20 @@ public class ContainerFactory
 		return instance;
 	}
 
-	public static BaseContainer createContainer(IBaseContainerModel baseContainerModel, VOWrapper<IBaseVO> voWrapper)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static BaseContainerElement<? extends IBaseContainerModel> createContainer(IBaseContainerModel baseContainerModel, BaseDictionaryElement parent)
 	{
 		if (baseContainerModel instanceof ICompositeModel)
 		{
-			return new Composite((ICompositeModel) baseContainerModel, voWrapper);
+			return new Composite((ICompositeModel) baseContainerModel, parent);
 		}
 		else if (baseContainerModel instanceof IEditableTableModel)
 		{
-			return new EditableTable((IEditableTableModel) baseContainerModel, voWrapper);
+			return new EditableTable((IEditableTableModel) baseContainerModel, parent);
 		}
 		else if (baseContainerModel instanceof IAssignmentTableModel)
 		{
-			return new AssignmentTable((IAssignmentTableModel) baseContainerModel, voWrapper);
+			return new AssignmentTable((IAssignmentTableModel) baseContainerModel, parent);
 		}
 		else
 		{

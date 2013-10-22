@@ -19,10 +19,9 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
 /**
@@ -31,12 +30,12 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceC
  * @author pelle
  * 
  */
-public class ReferenceControlFactory extends BaseControlFactory<IReferenceControlModel, ReferenceControl>
+public class ReferenceControlFactory<VOType extends IBaseVO> extends BaseControlFactory<IReferenceControlModel, ReferenceControl<VOType>>
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public Widget createControl(ReferenceControl referenceControl, LAYOUT_TYPE layoutType)
+	public Widget createControl(ReferenceControl<VOType> referenceControl, LAYOUT_TYPE layoutType)
 	{
 		switch (referenceControl.getModel().getControlType())
 		{
@@ -49,61 +48,46 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return baseControl instanceof ReferenceControl;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Column<IBaseVO, ?> createColumn(final ReferenceControl referenceControl, boolean editable, final ListDataProvider<?> listDataProvider,
-			final AbstractCellTable<?> abstractCellTable)
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final ReferenceControl<VOType> referenceControl, boolean editable,
+			final ListDataProvider<?> listDataProvider, final AbstractCellTable<?> abstractCellTable)
 	{
 
-		Column<IBaseVO, IBaseVO> column;
+		Column<IBaseTable.ITableRow<IBaseVO>, VOType> column;
 
 		if (editable)
 		{
-			final BaseCellControl<IBaseVO> editTextCell;
+			final BaseCellControl<VOType> editTextCell;
 
 			switch (referenceControl.getModel().getControlType())
 			{
 				default:
-					editTextCell = new SuggestCellControl<IBaseVO>(referenceControl.getModel(), new VOSuggestOracle(referenceControl.getModel()),
-							new IValueHandler<IBaseVO>()
-							{
-
-								@Override
-								public String format(IBaseVO value)
-								{
-									return DictionaryUtil.getLabel(referenceControl.getModel(), value, "");
-								}
-
-								@Override
-								public IBaseVO parse(String value)
-								{
-									return null;
-								}
-							});
+					editTextCell = new SuggestCellControl<VOType>(referenceControl.getModel(), new VOSuggestOracle(referenceControl.getModel()));
 					break;
 			}
 
-			column = new Column<IBaseVO, IBaseVO>(editTextCell)
+			column = new Column<IBaseTable.ITableRow<IBaseVO>, VOType>(editTextCell)
 			{
 
 				@Override
-				public IBaseVO getValue(IBaseVO vo)
+				public VOType getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
-					return (IBaseVO) vo.get(referenceControl.getModel().getAttributePath());
+					return (VOType) tableRow.getElement(referenceControl.getModel()).getValue();
 				}
 			};
 
-			FieldUpdater<IBaseVO, IBaseVO> fieldUpdater = new FieldUpdater<IBaseVO, IBaseVO>()
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, VOType> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, VOType>()
 			{
 				@Override
-				public void update(int index, IBaseVO vo, IBaseVO value)
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, VOType value)
 				{
-					vo.set(referenceControl.getModel().getAttributePath(), value);
+					tableRow.getElement(referenceControl.getModel()).setValue(value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -111,12 +95,12 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 		}
 		else
 		{
-			column = new Column<IBaseVO, IBaseVO>(new ReferenceCell(referenceControl.getModel()))
+			column = new Column<IBaseTable.ITableRow<IBaseVO>, VOType>(new ReferenceCell<VOType>(referenceControl.getModel()))
 			{
 				@Override
-				public IBaseVO getValue(IBaseVO vo)
+				public VOType getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
-					return (IBaseVO) vo.get(referenceControl.getModel().getAttributePath());
+					return (VOType) tableRow.getElement(referenceControl.getModel()).getValue();
 				}
 			};
 		}

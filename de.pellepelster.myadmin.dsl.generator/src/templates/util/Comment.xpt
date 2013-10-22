@@ -94,3 +94,7 @@
  * @param «this.name» value to set
  */
 «ENDDEFINE»
+
+«DEFINE commentElementType FOR Object»
+// element type '«this.metaType.toString()»'
+«ENDDEFINE»

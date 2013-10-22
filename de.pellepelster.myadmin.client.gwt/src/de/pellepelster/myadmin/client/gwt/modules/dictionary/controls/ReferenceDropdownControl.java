@@ -20,38 +20,32 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceDropdownControl extends ListBox
+public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox
 {
 
-	private final ReferenceControl referenceControl;
-	private final ControlHelper gwtControlHelper;
-
-	public ReferenceDropdownControl(final ReferenceControl referenceControl)
+	public ReferenceDropdownControl(final ReferenceControl<VOType> referenceControl)
 	{
 		super(false);
 
-		this.referenceControl = referenceControl;
-
 		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
-		gwtControlHelper = new ControlHelper(this, referenceControl, false, String.class);
+		new ControlHelper(this, referenceControl, false);
 
 		addChangeHandler(new ChangeHandler()
 		{
-
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(null);
+				referenceControl.setValue(null);
 			}
 		});
 
 		ControlUtil.populateListBox(referenceControl.getModel(), this);
-
 	}
 
 	public static List<String> getSortedEnumList(IEnumerationControlModel enumarationControlModel)

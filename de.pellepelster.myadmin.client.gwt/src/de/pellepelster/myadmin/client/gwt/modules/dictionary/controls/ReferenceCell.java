@@ -19,7 +19,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
-public class ReferenceCell extends AbstractCell<IBaseVO>
+public class ReferenceCell<VOType extends IBaseVO> extends AbstractCell<VOType>
 {
 	private IReferenceControlModel referenceControlModel;
 

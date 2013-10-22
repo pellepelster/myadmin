@@ -27,16 +27,17 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Image;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class ImageActionCell extends AbstractCell<Object>
+public class ImageActionCell<VOType extends IBaseVO> extends AbstractCell<Void>
 {
 	private Image image;
 
 	private final ImageResource imageResource;
 
-	private SimpleCallback<IBaseVO> actionCallback;
+	private SimpleCallback<IBaseTable.ITableRow<VOType>> actionCallback;
 
 	@Override
 	public Set<String> getConsumedEvents()
@@ -50,14 +51,14 @@ public class ImageActionCell extends AbstractCell<Object>
 		return consumedEvents;
 	}
 
-	public ImageActionCell(ImageResource imageResource, SimpleCallback<IBaseVO> actionCallback)
+	public ImageActionCell(ImageResource imageResource, SimpleCallback<IBaseTable.ITableRow<VOType>> actionCallback)
 	{
 		this.imageResource = imageResource;
 		this.actionCallback = actionCallback;
 	}
 
 	@Override
-	public void onBrowserEvent(Context context, Element parent, Object value, NativeEvent event, ValueUpdater<Object> valueUpdater)
+	public void onBrowserEvent(Context context, Element parent, Void value, NativeEvent event, ValueUpdater<Void> valueUpdater)
 	{
 		if (event.getType().equals(MouseOverEvent.getType().getName()))
 		{
@@ -71,12 +72,12 @@ public class ImageActionCell extends AbstractCell<Object>
 
 		if (event.getType().equals(ClickEvent.getType().getName()))
 		{
-			actionCallback.onCallback((IBaseVO) context.getKey());
+			actionCallback.onCallback((IBaseTable.ITableRow<VOType>) context.getKey());
 		}
 	}
 
 	@Override
-	public void render(com.google.gwt.cell.client.Cell.Context context, Object value, SafeHtmlBuilder sb)
+	public void render(com.google.gwt.cell.client.Cell.Context context, Void value, SafeHtmlBuilder sb)
 	{
 		if (image == null)
 		{

@@ -1,6 +1,5 @@
 package de.pellepelster.myadmin.client.web.test;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +14,17 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIFactory;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUIFactory;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUIFactory;
 
+@SuppressWarnings("rawtypes")
 public class JunitLayoutFactory implements ILayoutFactory
 {
 
-	private Map<String, AsyncCallback<IModuleUI>> layoutFactoryCallbacks = new HashMap<String, AsyncCallback<IModuleUI>>();
+	private AsyncCallback<IModuleUI<?, ?>> oneTimeCallback;
 
 	public interface JunitLayoutFactoryCallback
 	{
@@ -36,6 +38,7 @@ public class JunitLayoutFactory implements ILayoutFactory
 	{
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleTestUIFactory());
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.class, new DictionaryEditorModuleTestUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.class, new DictionarySearchModuleTestUIFactory());
 	}
 
 	@Override
@@ -98,15 +101,15 @@ public class JunitLayoutFactory implements ILayoutFactory
 		IModuleUIFactory moduleUIFactory = ModuleUIFactoryRegistry.getInstance().getModuleFactory(module.getClass());
 		moduleUI = moduleUIFactory.getNewInstance(module, getCurrentModuleUI(direction), parameters);
 
-		if (this.layoutFactoryCallbacks.containsKey(module.getModuleId()))
+		if (this.oneTimeCallback != null)
 		{
-			this.layoutFactoryCallbacks.get(module.getModuleId()).onSuccess(moduleUI);
+			this.oneTimeCallback.onSuccess(moduleUI);
 		}
 	}
 
-	public void addLayoutCallback(String moduleName, AsyncCallback<IModuleUI> layoutFactoryCallback)
+	public void setOneTimeCallback(String moduleName, AsyncCallback<IModuleUI<?, ?>> oneTimeCallback)
 	{
-		this.layoutFactoryCallbacks.put(moduleName, layoutFactoryCallback);
+		this.oneTimeCallback = oneTimeCallback;
 	}
 
 }

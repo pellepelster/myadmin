@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 
 public abstract class BaseHierarchicalConfiguration
 {
@@ -36,15 +36,15 @@ public abstract class BaseHierarchicalConfiguration
 		this.id = id;
 	}
 
-	protected void addHierarchy(IDictionaryDescriptor dictionaryDescriptor, IDictionaryDescriptor... parentDictionaryDescriptors)
+	protected void addHierarchy(DictionaryDescriptor dictionaryDescriptor, DictionaryDescriptor... parentDictionaryDescriptors)
 	{
 		if (parentDictionaryDescriptors.length > 0)
 		{
-			List<String> parentDictionaryNames = Lists.transform(Arrays.asList(parentDictionaryDescriptors), new Function<IDictionaryDescriptor, String>()
+			List<String> parentDictionaryNames = Lists.transform(Arrays.asList(parentDictionaryDescriptors), new Function<DictionaryDescriptor, String>()
 			{
 				@Override
 				@Nullable
-				public String apply(@Nullable IDictionaryDescriptor input)
+				public String apply(@Nullable DictionaryDescriptor input)
 				{
 					return input.getId();
 				}

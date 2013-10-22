@@ -741,6 +741,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					composite Composite2 {
 
 						layout { columns 2 }
+						
 						composite Composite3 {
 
 							textcontrol ref CityName

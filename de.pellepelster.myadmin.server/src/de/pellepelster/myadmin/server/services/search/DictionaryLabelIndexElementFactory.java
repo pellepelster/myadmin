@@ -8,7 +8,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.db.index.ISearchIndexElement;
@@ -42,7 +42,7 @@ public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFa
 		return indexElementQuery;
 	}
 
-	public static ISearchIndexElementQuery createElementQuery(IDictionaryDescriptor dictionaryDescriptor)
+	public static ISearchIndexElementQuery createElementQuery(DictionaryDescriptor dictionaryDescriptor)
 	{
 		return createElementQuery(dictionaryDescriptor.getId(), null);
 	}

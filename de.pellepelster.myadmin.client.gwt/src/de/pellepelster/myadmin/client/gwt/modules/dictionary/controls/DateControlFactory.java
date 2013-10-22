@@ -20,11 +20,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.DateControl;
 
 /**
@@ -45,36 +45,45 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof DateControl;
 	}
 
 	@Override
-	public Column createColumn(final DateControl dateControl, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable)
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final DateControl dateControl, boolean editable, ListDataProvider<?> listDataProvider,
+			AbstractCellTable<?> abstractCellTable)
 	{
-
 		if (editable)
 		{
 			final DatePickerCell datePickerCell = new DatePickerCell();
 
-			Column<IBaseVO, Date> column = new Column<IBaseVO, Date>(datePickerCell)
+			Column<IBaseTable.ITableRow<IBaseVO>, Date> column = new Column<IBaseTable.ITableRow<IBaseVO>, Date>(datePickerCell)
 			{
 
 				@Override
-				public Date getValue(IBaseVO vo)
+				public Date getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
-					return (Date) vo.get(dateControl.getModel().getAttributePath());
+					Object date = tableRow.getElement(dateControl.getModel()).getValue();
+
+					if (date == null)
+					{
+						return new Date();
+					}
+					else
+					{
+						return (Date) date;
+					}
+
 				}
 			};
 
-			FieldUpdater<IBaseVO, Date> fieldUpdater = new FieldUpdater<IBaseVO, Date>()
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Date> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Date>()
 			{
 				@Override
-				public void update(int index, IBaseVO vo, Date value)
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, Date value)
 				{
-					vo.set(dateControl.getModel().getAttributePath(),
-							TypeHelper.convert(vo.getAttributeDescriptor(dateControl.getModel().getAttributePath()).getAttributeType(), value));
+					tableRow.getElement(dateControl.getModel()).setValue(value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -86,5 +95,4 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 			return super.createColumn(dateControl, editable, listDataProvider, abstractCellTable);
 		}
 	}
-
 }

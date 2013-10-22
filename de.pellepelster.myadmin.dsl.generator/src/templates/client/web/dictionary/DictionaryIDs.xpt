@@ -8,7 +8,6 @@
 	«FILE fullQualifiedDictionaryIDsFileName()»
 	package «getRootWebPackageName()»;
 	
-	import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 		
@@ -32,6 +31,7 @@
 		}
 	
 		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOR this.dictionaryeditor»
+		
 		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOR this.dictionarysearch»
 	}
 	
@@ -41,122 +41,175 @@
 
 «DEFINE dictionaryIDClass(String parent) FOR DictionaryEditor»
 
-	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
+	// DictionaryEditor '«name»'
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
 
-		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
 		
-		«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOREACH this.containercontents»
-	
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
 	}
 	
-	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
 	
 «ENDDEFINE»
 
 «DEFINE dictionaryIDClass(String parent) FOR DictionarySearch»
 
-	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
-		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
+		
+		«REM»
+		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.dictionaryfilters»
+		«ENDREM»
+		
+		«EXPAND dictionaryIDClass(parent + "." + dictionaryIDsConstantName(name)) FOR this.dictionaryresult»
+		
 	}
 	
-	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
 	
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryContainerContent»
-	// «this.name»
-«ENDDEFINE»
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryFilter»
 
-«DEFINE dictionaryIDControlClass(String parent) FOR DictionaryControl»
-	public DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»> «dictionaryIDsConstantName(name)» = new DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»>("«name»", «parent»);
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryControlGroup»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryTextControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryIntegerControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryBigDecimalControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryBooleanControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryDateControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryEnumerationControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryReferenceControl»
-	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
-	«ELSE»
-		«EXPAND dictionaryIDControlClass(parent) FOR this.ref»
-	«ENDIF»
-«ENDDEFINE»
-
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryComposite»
-
-	public static class «dictionaryIDsName()» extends DictionaryDescriptor {
-		protected «dictionaryIDsName()»(IDictionaryDescriptor parent) {
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
+		
+		
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+	}
+	
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryResult»
+
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.resultcolumns»
+		
+	}
+	
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryContainerContent»
+	// DictionaryContainerContent '«this.name»'
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryComposite»
+
+	// DictionaryComposite '«this.name»'
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+
 	}
 
-	public static «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(«parent»);
-	
-	«EXPAND dictionaryIDClass(dictionaryIDsConstantName(name)) FOREACH this.containercontents»
-	
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
 «ENDDEFINE»
 
-«DEFINE dictionaryIdElement(String id, String parentId) FOR Object»
-	public IDictionaryDescriptor «dictionaryIDConstant(id)» = new DictionaryDescriptor("«id»", «dictionaryIDConstant(parentId)»);
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryEditableTable»
+
+	// DictionaryEditableTable '«this.name»'
+	public class «dictionaryIDsName()» extends DictionaryDescriptor<de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable<«EXPAND templates::type::Type::webVORawType FOR entityattribute»>> {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+
+		«EXPAND dictionaryDescriptor(parent + "." + dictionaryIDsConstantName(name)) FOREACH this.columncontrols»
+
+	}
+
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
 «ENDDEFINE»
 
+«DEFINE genericDictionaryControlDescriptor(String parent) FOR DictionaryControl»
+	«EXPAND templates::util::Comment::commentElementType FOR this»
+	public DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»> «dictionaryIDsConstantName(name)» = new DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»>("«name»", this);
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryControl»
+	«throwError("unsupported dictionary control type '" + this.metaType.toString() + "'")»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryControlGroup»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryTextControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryIntegerControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryBigDecimalControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryBooleanControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryDateControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryEnumerationControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryReferenceControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
 
 «DEFINE dictionaryControlType FOR DictionaryControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
 
@@ -164,15 +217,16 @@
 
 «DEFINE dictionaryControlType FOR DictionaryTextControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryIntegerControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryIntegerControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IIntegerControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryBigDecimalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryBigDecimalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBigDecimalControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryBooleanControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryBooleanControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBooleanControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryDateControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryDateControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IDateControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryEnumerationControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryEnumerationControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IEnumerationControl«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl<«EXPAND templates::type::Type::webVORawType FOR this.baseControl.entityattribute»>«ENDDEFINE»
 
+«DEFINE dictionaryControlType FOR DictionaryHierarchicalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IHierarchicalControl«ENDDEFINE»

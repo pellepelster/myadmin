@@ -16,7 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.NavigationTreeElements;
-import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * UI for the navigation module
@@ -56,7 +56,7 @@ public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigatio
 
 	public void getRootElements(final AsyncCallback<NavigationTreeTestElements> asyncCallback)
 	{
-		this.module.getNavigationTreeContent(new BaseAsyncCallback<NavigationTreeElements>()
+		this.module.getNavigationTreeContent(new BaseErrorAsyncCallback<NavigationTreeElements>()
 		{
 			@Override
 			public void onSuccess(NavigationTreeElements navigationTreeElements)

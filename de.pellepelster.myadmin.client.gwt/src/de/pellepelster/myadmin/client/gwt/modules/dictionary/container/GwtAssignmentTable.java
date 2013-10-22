@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,18 +23,16 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
-import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
@@ -48,17 +45,15 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>
 {
 
-	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
-
-	private final AssignmentTable assignmentTable;
+	private final AssignmentTable<VOType> assignmentTable;
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
-	private final ListDataProvider<VOType> dataProvider = new ListDataProvider<VOType>();
+	private final ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
-	public GwtAssignmentTable(AssignmentTable assignmentTable)
+	public GwtAssignmentTable(AssignmentTable<VOType> assignmentTable)
 	{
 		super(assignmentTable.getControls());
 
@@ -83,19 +78,20 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 		createModelColumns();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<VOType, Object> column = new Column<VOType, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
-		{
+		Column<IBaseTable.ITableRow<VOType>, Void> column = new Column<IBaseTable.ITableRow<VOType>, Void>(new ImageActionCell(MyAdmin.RESOURCES.delete(),
+				new SimpleCallback<IBaseTable.ITableRow<VOType>>()
+				{
 
-			@Override
-			public void onCallback(IBaseVO vo)
-			{
-				dataProvider.getList().remove(vo);
-				fireValueChanges();
-			}
-		}))
+					@Override
+					public void onCallback(IBaseTable.ITableRow<VOType> vo)
+					{
+						dataProvider.getList().remove(vo);
+						// fireValueChanges();
+					}
+				}))
 		{
 			@Override
-			public String getValue(IBaseVO vo)
+			public Void getValue(IBaseTable.ITableRow<VOType> vo)
 			{
 				return null;
 			}
@@ -107,7 +103,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<VOType, ?> getColumn(BaseControl baseControl)
+	protected Column<VOType, ?> getColumn(BaseDictionaryControl baseControl)
 	{
 		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, dataProvider, this);
 	}
@@ -124,21 +120,11 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 		if (content instanceof List)
 		{
 			this.dataProvider.getList().clear();
-			this.dataProvider.getList().addAll((Collection<VOType>) content);
+			this.dataProvider.getList().addAll((Collection<IBaseTable.ITableRow<VOType>>) content);
 		}
 		else
 		{
 			throw new RuntimeException("unsupported content type '" + content.getClass().getName() + "'");
-		}
-	}
-
-	private void fireValueChanges()
-	{
-		ValueChangeEvent valueChangeEvent = new ValueChangeEvent(assignmentTable.getModel().getAttributePath(), CollectionUtils.copyToArrayList(dataProvider
-				.getList()));
-		for (IValueChangeListener valueChangeListener : valueChangeListeners)
-		{
-			valueChangeListener.handleValueChange(valueChangeEvent);
 		}
 	}
 
@@ -158,8 +144,10 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 					{
 						if (!dataProvider.getList().contains(vo))
 						{
-							dataProvider.getList().add(vo);
-							fireValueChanges();
+							throw new RuntimeException("TODO");
+							// dataProvider.getList().add(new TableRow<VOType,
+							// IBaseTableModel>(vo));
+							// fireValueChanges();
 						}
 					}
 				}).show();

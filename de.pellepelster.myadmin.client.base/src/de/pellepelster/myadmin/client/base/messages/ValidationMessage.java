@@ -12,6 +12,8 @@
 package de.pellepelster.myadmin.client.base.messages;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.util.MessageFormat;
@@ -35,20 +37,21 @@ public class ValidationMessage implements IValidationMessage, Serializable
 
 	private SEVERITY severity;
 
-	private Map<String, Object> context;
+	private Map<String, Object> context = new HashMap<String, Object>();
 
+	@SuppressWarnings("unused")
 	private ValidationMessage()
 	{
 	}
 
 	public ValidationMessage(SEVERITY severity, String code, String message, String humanMessage)
 	{
-		this(severity, code, message, humanMessage, null);
+		this(severity, code, message, humanMessage, Collections.EMPTY_MAP);
 	}
 
 	public ValidationMessage(SEVERITY severity, String code, String message)
 	{
-		this(severity, code, message, null, null);
+		this(severity, code, message, null, Collections.EMPTY_MAP);
 	}
 
 	public ValidationMessage(SEVERITY severity, String code, String message, String humanMessage, Map<String, Object> context)

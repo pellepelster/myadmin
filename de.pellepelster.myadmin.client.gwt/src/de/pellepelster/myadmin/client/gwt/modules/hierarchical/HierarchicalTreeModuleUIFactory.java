@@ -24,7 +24,7 @@ public class HierarchicalTreeModuleUIFactory implements IModuleUIFactory<Panel, 
 {
 	/** {@inheritDoc} */
 	@Override
-	public IModuleUI<Panel, HierarchicalTreeModule> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Panel, HierarchicalTreeModule> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
 		return new HierarchicalTreeModuleUI((HierarchicalTreeModule) module);
 	}

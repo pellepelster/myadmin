@@ -1,15 +1,21 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBooleanControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public class BooleanControl extends BaseControl<IBooleanControlModel>
+public class BooleanControl extends BaseDictionaryControl<IBooleanControlModel, Boolean>  implements IBooleanControl
 {
 
-	public BooleanControl(IBooleanControlModel booleanControlModel, VOWrapper<IBaseVO> voWrapper)
+	public BooleanControl(IBooleanControlModel booleanControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
-		super(booleanControlModel, voWrapper);
+		super(booleanControlModel, parent);
 	}
 
+	@Override
+	protected ParseResult parseValueInternal(String valueString)
+	{
+		return new ParseResult(Boolean.parseBoolean(valueString));
+	}
 }

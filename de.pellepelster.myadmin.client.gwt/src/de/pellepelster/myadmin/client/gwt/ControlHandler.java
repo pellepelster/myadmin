@@ -26,12 +26,11 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BooleanCon
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.DateControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.EnumerationControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.HierarchicalControlFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IGwtControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ReferenceControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.TextControlFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
 /**
  * GWT based factory for {@link IBaseControlModel} derived controls
@@ -40,13 +39,13 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * 
  */
 @SuppressWarnings("unchecked")
-public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>> implements
-		IUIControlFactory<ControlModelType, ControlType>
+public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> implements
+		IGwtControlFactory<ControlModelType, ControlType>
 {
 
-	private static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>> instance;
+	private static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> instance;
 
-	private static List<IUIControlFactory<?, ?>> controlFactories = new ArrayList<IUIControlFactory<?, ?>>();
+	private static List<IGwtControlFactory<?, ?>> controlFactories = new ArrayList<IGwtControlFactory<?, ?>>();
 
 	private ControlHandler()
 	{
@@ -61,11 +60,11 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		controlFactories.add(new HierarchicalControlFactory());
 	}
 
-	public static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>> getInstance()
+	public static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> getInstance()
 	{
 		if (instance == null)
 		{
-			instance = new ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>>();
+			instance = new ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>>();
 		}
 
 		return instance;
@@ -86,21 +85,14 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		return getControlFactory(baseControl).createControl(baseControl, layoutType);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public List<IValidator> createValidators(ControlType baseControl)
-	{
-		return getControlFactory(baseControl).createValidators(baseControl);
-	}
-
-	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(BaseControl<ControlModelType> baseControl)
+	private IGwtControlFactory<ControlModelType, ControlType> getControlFactory(BaseDictionaryControl<ControlModelType, ?> baseControl)
 	{
 
-		for (IUIControlFactory<?, ?> controlFactory : controlFactories)
+		for (IGwtControlFactory<?, ?> controlFactory : controlFactories)
 		{
 			if (controlFactory.supports(baseControl))
 			{
-				return (IUIControlFactory<ControlModelType, ControlType>) controlFactory;
+				return (IGwtControlFactory<ControlModelType, ControlType>) controlFactory;
 			}
 		}
 
@@ -109,7 +101,7 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return true;
 	}

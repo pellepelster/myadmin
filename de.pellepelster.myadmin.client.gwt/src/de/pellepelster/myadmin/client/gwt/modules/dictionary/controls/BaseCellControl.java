@@ -11,53 +11,37 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
 
 public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewData<T>>
 {
-	public interface IValueHandler<T>
-	{
-		String format(T value);
-
-		T parse(String value);
-	}
-
 	static class ViewData<T>
 	{
 		private boolean isEditing;
 
 		private boolean isEditingAgain;
 
-		private T original;
-
 		private T value;
 
-		private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
+		private IBaseTable.ITableRow<IBaseVO> tableRow;
 
-		public ViewData(T value)
+		public ViewData(IBaseTable.ITableRow<IBaseVO> tableRow)
 		{
-			this.value = value;
-		}
-
-		public T getOriginal()
-		{
-			return original;
-		}
-
-		public T getValue()
-		{
-			return value;
+			this.tableRow = tableRow;
 		}
 
 		public boolean isEditing()
@@ -78,49 +62,41 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 			if (!wasEditing && isEditing)
 			{
 				isEditingAgain = true;
-				original = value;
 			}
 		}
 
-		public void setValue(T value)
+		public IBaseTable.ITableRow<IBaseVO> getTableRow()
 		{
-			this.value = value;
-		}
-
-		public List<IValidationMessage> getValidationMessages()
-		{
-			return validationMessages;
-		}
-
-		public void setValidationMessages(List<IValidationMessage> validationMessages)
-		{
-			this.validationMessages = validationMessages;
+			return tableRow;
 		}
 
 	}
 
-	private final IValueHandler<T> valueHandler;
+	private final IBaseControlModel baseControlModel;
 
-	public BaseCellControl(IValueHandler<T> valueHandler, Set<String> consumedEvents)
+	public BaseCellControl(IBaseControlModel baseControlModel, Set<String> consumedEvents)
 	{
 		super(consumedEvents);
 
-		this.valueHandler = valueHandler;
+		this.baseControlModel = baseControlModel;
 	}
 
-	public BaseCellControl(IValueHandler<T> valueHandler, String... consumedEvents)
+	public BaseCellControl(IBaseControlModel baseControlModel, String... consumedEvents)
 	{
 		super(consumedEvents);
 
-		this.valueHandler = valueHandler;
+		this.baseControlModel = baseControlModel;
 	}
 
 	@Override
 	public boolean isEditing(Context context, Element parent, T value)
 	{
-		ViewData<T> viewData = getAndInitViewData(context);
+		return getOrInitViewData(context).isEditing();
+	}
 
-		return viewData == null ? false : viewData.isEditing();
+	protected InputElement getInputElement(Element parent)
+	{
+		return parent.getFirstChild().<InputElement> cast();
 	}
 
 	protected boolean enterPressed(NativeEvent event)
@@ -129,24 +105,38 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 		return KeyUpEvent.getType().equals(event.getType()) && keyCode == KeyCodes.KEY_ENTER;
 	}
 
-	protected ViewData<T> getAndInitViewData(Context context)
+	protected String format(Context context)
 	{
-		return getAndInitViewData(context, null);
+		return getBaseControl(context).format();
 	}
 
-	protected ViewData<T> getAndInitViewData(Context context, T value)
+	protected IBaseControl<T> getBaseControl(Context context)
 	{
+		return getOrInitViewData(context).getTableRow().getElement(baseControlModel);
+	}
+
+	protected ViewData<T> getOrInitViewData(Context context)
+	{
+
 		if (getViewData(context.getKey()) == null)
 		{
-			ViewData<T> viewData = new ViewData<T>(value);
+			if (!(context.getKey() instanceof IBaseTable.ITableRow))
+			{
+				throw new RuntimeException("IBaseTable.ITableRow expected as context key");
+			}
+
+			IBaseTable.ITableRow<IBaseVO> tableRow = (ITableRow<IBaseVO>) context.getKey();
+
+			ViewData<T> viewData = new ViewData<T>(tableRow);
 			setViewData(context.getKey(), viewData);
 		}
+
 		return getViewData(context.getKey());
 	}
 
-	public IValueHandler<T> getValueHandler()
+	protected void clearViewData(Context context)
 	{
-		return valueHandler;
+		setViewData(context.getKey(), null);
 	}
 
 }
