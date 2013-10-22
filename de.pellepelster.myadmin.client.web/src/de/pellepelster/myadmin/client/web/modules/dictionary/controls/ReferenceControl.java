@@ -5,7 +5,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public class ReferenceControl extends BaseControl<IReferenceControlModel>
+public class ReferenceControl extends BaseControl<IReferenceControlModel, IBaseVO>
 {
 
 	public ReferenceControl(IReferenceControlModel referenceControlModel, VOWrapper<IBaseVO> voWrapper)
@@ -18,7 +18,7 @@ public class ReferenceControl extends BaseControl<IReferenceControlModel>
 	{
 		if (getValue() != null && getValue() instanceof IBaseVO)
 		{
-			return DictionaryUtil.getLabel(getModel(), (IBaseVO) getValue());
+			return DictionaryUtil.getLabel(getModel(), getValue());
 		}
 		else
 		{

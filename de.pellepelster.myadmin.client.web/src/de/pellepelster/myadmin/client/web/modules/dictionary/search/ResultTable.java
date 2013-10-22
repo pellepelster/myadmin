@@ -28,7 +28,7 @@ public class ResultTable extends BaseModelElement<IResultModel>
 		{
 			@Override
 			@Nullable
-			public BaseControl<IBaseControlModel> apply(IBaseControlModel baseControlModel)
+			public BaseControl<IBaseControlModel, ?> apply(IBaseControlModel baseControlModel)
 			{
 				return ControlFactory.getInstance().createControl(baseControlModel, voWrapper);
 			}

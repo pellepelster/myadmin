@@ -3,13 +3,9 @@ package de.pellepelster.myadmin.client.web.modules.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseRootModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
@@ -21,53 +17,50 @@ public class DictionaryElementUtil
 	{
 		List<String> modelIds = getModelIds(controlDescriptor);
 
-		int lastIndex = modelIds.size()-1;
-		String lastModelId = modelIds.get(lastIndex);
-		modelIds.remove(lastIndex);
-		
-		if (!baseRootElement.getModel().getName().equals(lastModelId))
+		String firstModelId = modelIds.get(0);
+		modelIds.remove(0);
+
+		if (!baseRootElement.getModel().getName().equals(firstModelId))
 		{
 			return null;
 		}
-			
-		return getControl(baseRootElement.getRootComposite(), modelIds);
-		
-	}
-	
-	public static <ControlType extends IBaseControl<?>> ControlType getControl(BaseContainer<?> baseContainer,
-			List<String> modelIds)
-	{
-		int i = modelIds.size()-1;
 
-		BaseContainer<?> currentModelElement = baseContainer;
+		return getControl(baseRootElement.getRootComposite().getChildren(), modelIds, 0);
 
-		while (currentModelElement.getModel().getName().equals(modelIds.get(i)))
-		{
-			currentModelElement = getMatchingContainer(modelIds.get(i), currentModelElement);
-			i--;
-		}
-
-		return null;
 	}
 
-	private static BaseContainer<?> getMatchingContainer(String modelId, BaseContainer<?> parentBaseContainer)
+	public static <ControlType extends IBaseControl> ControlType getControl(List<BaseContainer> baseContainers, List<String> modelIds, int level)
 	{
-		for (BaseContainer<?> baseContainer : parentBaseContainer.getChildren())
+		for (BaseContainer<?> baseContainer : baseContainers)
 		{
-			if (baseContainer.getModel().getName().equals(modelId))
+			if (baseContainer.getModel().getName().equals(modelIds.get(level)))
 			{
-				return baseContainer;
+				IBaseControl baseControl = getMatchingControl(baseContainer.getControls(), modelIds, level + 1);
+
+				if (baseControl != null)
+				{
+					return (ControlType) baseControl;
+				}
+				else
+				{
+					ControlType controlType = getControl(baseContainer.getChildren(), modelIds, level + 1);
+
+					if (controlType != null)
+					{
+						return controlType;
+					}
+				}
 			}
 		}
 
 		return null;
 	}
-	
-	private static BaseControl<?> getMatchingControl(String modelId, BaseContainer<?> parentBaseContainer)
+
+	private static BaseControl getMatchingControl(List<BaseControl> baseControls, List<String> modelIds, int level)
 	{
-		for (BaseControl<?> baseControl : parentBaseContainer.getControls())
+		for (BaseControl<?, ?> baseControl : baseControls)
 		{
-			if (baseControl.getModel().getName().equals(modelId))
+			if (baseControl.getModel().getName().equals(modelIds.get(level)))
 			{
 				return baseControl;
 			}
@@ -84,7 +77,7 @@ public class DictionaryElementUtil
 
 		while (currentDescriptor != null)
 		{
-			modelIds.add(currentDescriptor.getId());
+			modelIds.add(0, currentDescriptor.getId());
 			currentDescriptor = currentDescriptor.getParent();
 		}
 

@@ -53,11 +53,11 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private static Template template;
 
-	private final BaseControl<IBaseControlModel> baseControl;
+	private final BaseControl<IBaseControlModel, Object> baseControl;
 
 	private final SafeHtmlRenderer<String> renderer;
 
-	public EditTextCellWithValidation(BaseControl<IBaseControlModel> baseControl, IValueHandler<T> valueFormatter)
+	public EditTextCellWithValidation(BaseControl<IBaseControlModel, Object> baseControl, IValueHandler<T> valueFormatter)
 	{
 		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
 

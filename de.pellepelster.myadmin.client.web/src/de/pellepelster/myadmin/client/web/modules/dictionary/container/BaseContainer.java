@@ -44,7 +44,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 			{
 				@Override
 				@Nullable
-				public BaseControl<IBaseControlModel> apply(IBaseControlModel baseControlModel)
+				public BaseControl<IBaseControlModel, Object> apply(IBaseControlModel baseControlModel)
 				{
 					return ControlFactory.getInstance().createControl(baseControlModel, voWrapper);
 				}

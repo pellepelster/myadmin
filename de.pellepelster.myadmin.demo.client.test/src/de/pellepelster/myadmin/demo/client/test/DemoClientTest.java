@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.demo.client.test;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -62,8 +61,8 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
 		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.CITY_NAME);
-			Assert.assertEquals("Hamburg", textControl1.getValue());
+			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
+			assertEquals("Hamburg", textControl1.getValue());
 
 			finishTest();
 		}
@@ -75,7 +74,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
 		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.CITY_NAME);
+			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			textControl1.setValue("Hamburg");
 			result.save(new TestCityEdigtorSaveResult());
 		}
@@ -91,9 +90,9 @@ public class DemoClientTest extends GWTTestCase
 	}
 
 	@Test
-	public void testDictionary1()
+	public void testCity()
 	{
-		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.DICTIONARY1, new TestCityEditorSave());
+		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.CITY, new TestCityEditorSave());
 
 		delayTestFinish(2000);
 	}

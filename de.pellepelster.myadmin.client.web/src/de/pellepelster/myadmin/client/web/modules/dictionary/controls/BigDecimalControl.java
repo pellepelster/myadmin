@@ -8,7 +8,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public class BigDecimalControl extends BaseControl<IBigDecimalControlModel>
+public class BigDecimalControl extends BaseControl<IBigDecimalControlModel, BigDecimal>
 {
 
 	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, VOWrapper<IBaseVO> voWrapper)
@@ -21,7 +21,7 @@ public class BigDecimalControl extends BaseControl<IBigDecimalControlModel>
 	{
 		if (getValue() != null && getValue() instanceof BigDecimal)
 		{
-			return NumberFormat.getDecimalFormat().format((BigDecimal) getValue());
+			return NumberFormat.getDecimalFormat().format(getValue());
 		}
 		else
 		{

@@ -38,7 +38,7 @@ public class ControlHelper
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
-	private final BaseControl<IBaseControlModel> baseControl;
+	private final BaseControl<IBaseControlModel, Object> baseControl;
 
 	public ControlHelper(final Widget widget, final BaseControl baseControl, boolean addValueChangeListener, final Class<?> targetClass)
 	{

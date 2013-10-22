@@ -40,11 +40,11 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * 
  */
 @SuppressWarnings("unchecked")
-public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>> implements
+public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType, ?>> implements
 		IUIControlFactory<ControlModelType, ControlType>
 {
 
-	private static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>> instance;
+	private static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel, ?>> instance;
 
 	private static List<IUIControlFactory<?, ?>> controlFactories = new ArrayList<IUIControlFactory<?, ?>>();
 
@@ -61,11 +61,11 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		controlFactories.add(new HierarchicalControlFactory());
 	}
 
-	public static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>> getInstance()
+	public static ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel, ?>> getInstance()
 	{
 		if (instance == null)
 		{
-			instance = new ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel>>();
+			instance = new ControlHandler<IBaseControlModel, BaseControl<IBaseControlModel, ?>>();
 		}
 
 		return instance;
@@ -93,7 +93,7 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		return getControlFactory(baseControl).createValidators(baseControl);
 	}
 
-	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(BaseControl<ControlModelType> baseControl)
+	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(BaseControl<ControlModelType, ?> baseControl)
 	{
 
 		for (IUIControlFactory<?, ?> controlFactory : controlFactories)

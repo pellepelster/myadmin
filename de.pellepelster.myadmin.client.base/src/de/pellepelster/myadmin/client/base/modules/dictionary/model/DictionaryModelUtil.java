@@ -148,7 +148,7 @@ public final class DictionaryModelUtil
 
 		do
 		{
-			if (!"RootComposite".equals(baseModel.getName()))
+			if (!ICompositeModel.ROOT_COMPOSITE_NAME.equals(baseModel.getName()))
 			{
 				debugId = baseModel.getName() + delimiter + debugId;
 				delimiter = "-";

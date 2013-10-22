@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.client.web.test.dictionary;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryEditorVO;
@@ -19,7 +20,7 @@ public class TestDictionaryEditorFactory
 
 		DictionaryContainerVO editorRootCompositeVO = new DictionaryContainerVO();
 		editorRootCompositeVO.setType(DICTIONARY_CONTAINER_TYPE.COMPOSITE);
-		editorRootCompositeVO.setName("RootComposite");
+		editorRootCompositeVO.setName(ICompositeModel.ROOT_COMPOSITE_NAME);
 		this.dictionaryEditorVO.setContainer(editorRootCompositeVO);
 	}
 

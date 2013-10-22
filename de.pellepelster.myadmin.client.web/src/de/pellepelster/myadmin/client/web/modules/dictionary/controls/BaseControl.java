@@ -7,13 +7,14 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public abstract class BaseControl<ModelType extends IBaseControlModel> extends BaseModelElement<ModelType> implements IBaseControl
+public abstract class BaseControl<ModelType extends IBaseControlModel, ValueType> extends BaseModelElement<ModelType> implements IBaseControl<ValueType>
 {
 	private VOWrapper<IBaseVO> voWrapper;
 
 	public BaseControl(ModelType baseControlModel, VOWrapper<IBaseVO> voWrapper)
 	{
 		super(baseControlModel);
+		this.voWrapper = voWrapper;
 	}
 
 	public String getEditorLabel()
@@ -33,12 +34,14 @@ public abstract class BaseControl<ModelType extends IBaseControlModel> extends B
 		return getModel().getFilterLabel();
 	}
 
-	public Object getValue()
+	@Override
+	public ValueType getValue()
 	{
-		return this.voWrapper.get(getModel().getAttributePath());
+		return (ValueType) this.voWrapper.get(getModel().getAttributePath());
 	}
 
-	public void setValue(Object value)
+	@Override
+	public void setValue(ValueType value)
 	{
 		this.voWrapper.set(getModel().getAttributePath(), value);
 	}

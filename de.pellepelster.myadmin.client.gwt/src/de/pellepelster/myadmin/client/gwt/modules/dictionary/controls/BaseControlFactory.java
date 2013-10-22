@@ -37,7 +37,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validat
  * @author pelle
  * 
  */
-public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>> implements
+public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType, ?>> implements
 		IUIControlFactory<ControlModelType, ControlType>
 {
 
@@ -143,7 +143,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		return createBaseValidators(baseControl);
 	}
 
-	public List<IValidator> createBaseValidators(BaseControl<ControlModelType> baseControl)
+	public List<IValidator> createBaseValidators(BaseControl<ControlModelType, ?> baseControl)
 	{
 		List<IValidator> validators = new ArrayList<IValidator>();
 
@@ -154,7 +154,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		return validators;
 	}
 
-	protected List<IValidator> addValidators(BaseControl<ControlModelType> baseControl, List<IValidator> validators)
+	protected List<IValidator> addValidators(BaseControl<ControlModelType, ?> baseControl, List<IValidator> validators)
 	{
 		List<IValidator> validatorsResult = new ArrayList<IValidator>();
 		validatorsResult.addAll(validators);

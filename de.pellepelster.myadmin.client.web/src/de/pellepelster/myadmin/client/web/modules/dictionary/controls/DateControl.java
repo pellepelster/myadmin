@@ -9,7 +9,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public class DateControl extends BaseControl<IDateControlModel>
+public class DateControl extends BaseControl<IDateControlModel, Date>
 {
 
 	public DateControl(IDateControlModel dateControlModel, VOWrapper<IBaseVO> voWrapper)
@@ -24,7 +24,7 @@ public class DateControl extends BaseControl<IDateControlModel>
 		if (getValue() != null && getValue() instanceof Date)
 		{
 			DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_LONG);
-			return dateFormat.format((Date) getValue());
+			return dateFormat.format(getValue());
 		}
 		else
 		{

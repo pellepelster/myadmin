@@ -20,4 +20,5 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.containers;
  */
 public interface ICompositeModel extends IBaseContainerModel
 {
+	final static String ROOT_COMPOSITE_NAME = "RootComposite";
 }

@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType>>
+public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseControl<ControlModelType, ?>>
 {
 	Column<IBaseVO, ?> createColumn(ControlType baseControl, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable);
 
