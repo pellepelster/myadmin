@@ -36,9 +36,11 @@ Model getRootModel(Object object) :
 String camelCaseToUnderScore(String camelCase) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.camelCaseToUnderScore(java.lang.String);
 
-//- old ---
 String getRootWebServicePackageName(Model model) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getRootWebServicePackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
+
+String getRootWebPackageName(Model model) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getRootWebPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
 
 String getServiceImplementationPackageName(RemoteService remoteService) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getServiceImplementationPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.RemoteService);
@@ -113,7 +115,7 @@ String dictionaryIDsName(DictionarySearch dictionarySearch) : dictionarySearch.n
 
 String dictionaryIDsConstantName(String name) : camelCaseToUnderScore(name).toUpperCase();
 
-String fullQualifiedDictionaryIDsName(Model model) : getSingleRootPackage(model).name + '.' + dictionaryIDsName(model);
+String fullQualifiedDictionaryIDsName(Model model) : getRootWebPackageName(model) + '.' + dictionaryIDsName(model);
 String fullQualifiedDictionaryIDsFileName(Model model) : fullQualifiedDictionaryIDsName(model).replaceAll('\\.', '/') + '.java';
 String fullQualifiedPackageName(Model model) : getPackageName(model);
 

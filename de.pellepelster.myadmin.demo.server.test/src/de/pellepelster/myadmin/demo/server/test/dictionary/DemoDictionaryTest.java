@@ -25,7 +25,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 
 public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {

@@ -1,7 +1,7 @@
 package de.pellepelster.myadmin.demo.client;
 
 import de.pellepelster.myadmin.client.base.modules.hierarchical.BaseHierarchicalConfiguration;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 
 public class TestClientHierarchicalConfiguration extends BaseHierarchicalConfiguration
 {

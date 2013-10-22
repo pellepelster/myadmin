@@ -25,7 +25,7 @@ import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEdit
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 
 public class DemoClientTest extends GWTTestCase
 {

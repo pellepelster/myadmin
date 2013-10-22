@@ -6,7 +6,7 @@
 	«info("generating dictionary ids for '" + this.name + "'")»
 	
 	«FILE fullQualifiedDictionaryIDsFileName()»
-	package «getSingleRootPackage().name»;
+	package «getRootWebPackageName()»;
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;

@@ -16,6 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
 
@@ -68,7 +69,7 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 		return this.module.getTitle();
 	}
 
-	public <T> T getControl(DictionaryControlDescriptor<T> controlDescriptor)
+	public <ControlType extends IBaseControl<?>> ControlType getControl(DictionaryControlDescriptor<ControlType> controlDescriptor)
 	{
 		return this.module.getControl(controlDescriptor);
 	}

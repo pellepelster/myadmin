@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test2VO;
 import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;

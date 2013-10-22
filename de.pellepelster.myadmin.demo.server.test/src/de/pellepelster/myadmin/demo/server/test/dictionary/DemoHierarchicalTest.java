@@ -22,8 +22,8 @@ import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConf
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.TestClientHierarchicalConfiguration;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;

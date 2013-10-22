@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.demo.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
