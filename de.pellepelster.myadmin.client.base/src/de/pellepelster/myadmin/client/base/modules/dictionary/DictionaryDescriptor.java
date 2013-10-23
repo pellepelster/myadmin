@@ -1,12 +1,12 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary;
 
-public class DictionaryDescriptor implements IDictionaryDescriptor {
+public class DictionaryDescriptor<ElementType> {
 
 	private String id;
 
-	private IDictionaryDescriptor parent;
+	private DictionaryDescriptor<?> parent;
 
-	public DictionaryDescriptor(String id, IDictionaryDescriptor parent) {
+	public DictionaryDescriptor(String id, DictionaryDescriptor<?> parent) {
 		super();
 		this.id = id;
 		this.parent = parent;
@@ -16,13 +16,11 @@ public class DictionaryDescriptor implements IDictionaryDescriptor {
 		this(id, null);
 	}
 
-	@Override
 	public String getId() {
 		return this.id;
 	}
 
-	@Override
-	public IDictionaryDescriptor getParent() {
+	public DictionaryDescriptor<?> getParent() {
 		return parent;
 	}
 

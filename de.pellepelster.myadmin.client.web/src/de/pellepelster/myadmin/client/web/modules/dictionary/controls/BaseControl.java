@@ -1,20 +1,17 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
 public abstract class BaseControl<ModelType extends IBaseControlModel, ValueType> extends BaseModelElement<ModelType> implements IBaseControl<ValueType>
 {
-	private VOWrapper<IBaseVO> voWrapper;
 
-	public BaseControl(ModelType baseControlModel, VOWrapper<IBaseVO> voWrapper)
+	public BaseControl(ModelType baseControlModel, BaseModelElement<IBaseModel> parent)
 	{
-		super(baseControlModel);
-		this.voWrapper = voWrapper;
+		super(baseControlModel, parent);
 	}
 
 	public String getEditorLabel()
@@ -37,13 +34,13 @@ public abstract class BaseControl<ModelType extends IBaseControlModel, ValueType
 	@Override
 	public ValueType getValue()
 	{
-		return (ValueType) this.voWrapper.get(getModel().getAttributePath());
+		return (ValueType) getVOWrapper().get(getModel().getAttributePath());
 	}
 
 	@Override
 	public void setValue(ValueType value)
 	{
-		this.voWrapper.set(getModel().getAttributePath(), value);
+		getVOWrapper().set(getModel().getAttributePath(), value);
 	}
 
 	@Override

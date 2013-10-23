@@ -1,16 +1,17 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
 public class ReferenceControl extends BaseControl<IReferenceControlModel, IBaseVO>
 {
 
-	public ReferenceControl(IReferenceControlModel referenceControlModel, VOWrapper<IBaseVO> voWrapper)
+	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseModelElement<IBaseModel> parent)
 	{
-		super(referenceControlModel, voWrapper);
+		super(referenceControlModel, parent);
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package de.pellepelster.myadmin.client.web.test;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 
@@ -36,7 +36,7 @@ public class MyAdminTest
 		MyAdmin.getInstance().startModule(moduleName, location);
 	}
 
-	public void openEditor(IDictionaryDescriptor dictionaryDescriptor, final AsyncCallback asyncCallback)
+	public void openEditor(DictionaryDescriptor dictionaryDescriptor, final AsyncCallback asyncCallback)
 	{
 		MyAdminTest.this.junitLayoutFactory.addLayoutCallback(dictionaryDescriptor.getId(), asyncCallback);
 		DictionaryEditorModuleFactory.openEditor(dictionaryDescriptor.getId());

@@ -24,8 +24,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -392,9 +391,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
-	public <ControlType extends IBaseControl<?>> ControlType getControl(DictionaryControlDescriptor<ControlType> controlDescriptor)
+	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
-		return DictionaryElementUtil.getControl(this.dictionaryEditor, controlDescriptor);
+		return DictionaryElementUtil.getElement(this.dictionaryEditor, controlDescriptor);
 	}
 
 	public void addUpdateListener(IEditorUpdateListener updateListener)

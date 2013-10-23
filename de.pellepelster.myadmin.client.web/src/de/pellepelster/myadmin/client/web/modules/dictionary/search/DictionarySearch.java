@@ -6,7 +6,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class DictionarySearch extends BaseModelElement<ISearchModel> {
 
 	public DictionarySearch(ISearchModel searchModel) {
-		super(searchModel);
+		super(searchModel, null);
 	}
 
 }

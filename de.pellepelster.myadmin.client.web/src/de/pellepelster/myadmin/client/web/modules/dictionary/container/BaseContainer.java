@@ -8,13 +8,12 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
 public abstract class BaseContainer<ModelType extends IBaseContainerModel> extends BaseModelElement<ModelType>
 {
@@ -22,9 +21,9 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 
 	private List<BaseContainer> children = Collections.EMPTY_LIST;
 
-	public BaseContainer(ModelType baseContainer, final VOWrapper<IBaseVO> voWrapper)
+	public BaseContainer(ModelType baseContainer, BaseModelElement<IBaseModel> parent)
 	{
-		super(baseContainer);
+		super(baseContainer, parent);
 
 		if (!baseContainer.getChildren().isEmpty())
 		{
@@ -34,7 +33,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 				@Nullable
 				public BaseContainer<IBaseContainerModel> apply(IBaseContainerModel baseContainerModel)
 				{
-					return ContainerFactory.getInstance().createContainer(baseContainerModel, voWrapper);
+					return ContainerFactory.getInstance().createContainer(baseContainerModel, BaseContainer.this);
 				}
 			});
 		}
@@ -46,7 +45,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 				@Nullable
 				public BaseControl<IBaseControlModel, Object> apply(IBaseControlModel baseControlModel)
 				{
-					return ControlFactory.getInstance().createControl(baseControlModel, voWrapper);
+					return ControlFactory.getInstance().createControl(baseControlModel, BaseContainer.this);
 				}
 			});
 		}

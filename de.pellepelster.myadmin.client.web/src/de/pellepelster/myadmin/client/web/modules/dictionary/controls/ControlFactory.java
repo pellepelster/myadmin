@@ -1,6 +1,5 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
@@ -10,7 +9,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHi
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 
 public class ControlFactory
 {
@@ -26,39 +25,39 @@ public class ControlFactory
 		return instance;
 	}
 
-	public static BaseControl createControl(IBaseControlModel baseControlModel, VOWrapper<IBaseVO> voWrapper)
+	public static BaseControl createControl(IBaseControlModel baseControlModel, BaseModelElement parent)
 	{
 		if (baseControlModel instanceof ITextControlModel)
 		{
-			return new TextControl((ITextControlModel) baseControlModel, voWrapper);
+			return new TextControl((ITextControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IIntegerControlModel)
 		{
-			return new IntegerControl((IIntegerControlModel) baseControlModel, voWrapper);
+			return new IntegerControl((IIntegerControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IDateControlModel)
 		{
-			return new DateControl((IDateControlModel) baseControlModel, voWrapper);
+			return new DateControl((IDateControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IBooleanControlModel)
 		{
-			return new BooleanControl((IBooleanControlModel) baseControlModel, voWrapper);
+			return new BooleanControl((IBooleanControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IEnumerationControlModel)
 		{
-			return new EnumerationControl((IEnumerationControlModel) baseControlModel, voWrapper);
+			return new EnumerationControl((IEnumerationControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IReferenceControlModel)
 		{
-			return new ReferenceControl((IReferenceControlModel) baseControlModel, voWrapper);
+			return new ReferenceControl((IReferenceControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IBigDecimalControlModel)
 		{
-			return new BigDecimalControl((IBigDecimalControlModel) baseControlModel, voWrapper);
+			return new BigDecimalControl((IBigDecimalControlModel) baseControlModel, parent);
 		}
 		else if (baseControlModel instanceof IHierarchicalControlModel)
 		{
-			return new HierarchicalControl((IHierarchicalControlModel) baseControlModel, voWrapper);
+			return new HierarchicalControl((IHierarchicalControlModel) baseControlModel, parent);
 		}
 		else
 		{

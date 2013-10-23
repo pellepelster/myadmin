@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 
 import com.google.gwt.i18n.client.NumberFormat;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
 
 public class BigDecimalControl extends BaseControl<IBigDecimalControlModel, BigDecimal>
 {
 
-	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, VOWrapper<IBaseVO> voWrapper)
+	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, BaseModelElement<IBaseModel> parent)
 	{
-		super(decimalControlModel, voWrapper);
+		super(decimalControlModel, parent);
 	}
 
 	@Override

@@ -3,8 +3,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IDictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
@@ -12,10 +11,10 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElem
 
 public class DictionaryElementUtil
 {
-	public static <ControlType extends IBaseControl<?>> ControlType getControl(BaseRootElement baseRootElement,
-			DictionaryControlDescriptor<ControlType> controlDescriptor)
+	public static <ElementType> ElementType getElement(BaseRootElement baseRootElement,
+			DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
-		List<String> modelIds = getModelIds(controlDescriptor);
+		List<String> modelIds = getModelIds(dictionaryDescriptor);
 
 		String firstModelId = modelIds.get(0);
 		modelIds.remove(0);
@@ -29,7 +28,7 @@ public class DictionaryElementUtil
 
 	}
 
-	public static <ControlType extends IBaseControl> ControlType getControl(List<BaseContainer> baseContainers, List<String> modelIds, int level)
+	private static <ControlType extends IBaseControl> ControlType getControl(List<BaseContainer> baseContainers, List<String> modelIds, int level)
 	{
 		for (BaseContainer<?> baseContainer : baseContainers)
 		{
@@ -69,11 +68,11 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	private static List<String> getModelIds(DictionaryControlDescriptor<?> controlDescriptor)
+	private static List<String> getModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
 	{
 		List<String> modelIds = new ArrayList<String>();
 
-		IDictionaryDescriptor currentDescriptor = controlDescriptor;
+		DictionaryDescriptor currentDescriptor = dictionaryDescriptor;
 
 		while (currentDescriptor != null)
 		{

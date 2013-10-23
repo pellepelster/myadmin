@@ -56,13 +56,25 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class TestCityEdigtorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestCityEditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
 	{
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
 		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
+			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			assertEquals("Hamburg", textControl1.getValue());
+
+			finishTest();
+		}
+	}
+	
+	private class TestDictionary1EditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	{
+		@Override
+		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		{
+			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+			assertEquals("text1", textControl1.getValue());
 
 			finishTest();
 		}
@@ -70,14 +82,25 @@ public class DemoClientTest extends GWTTestCase
 
 	private class TestCityEditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
 	{
-
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
 		{
-			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
+			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			textControl1.setValue("Hamburg");
 
-			result.save(new TestCityEdigtorSaveResult());
+			result.save(new TestCityEditorSaveResult());
+		}
+	}
+
+	private class TestDictionary1EditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	{
+		@Override
+		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		{
+			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+			textControl1.setValue("text1");
+
+			result.save(new TestDictionary1EditorSaveResult());
 		}
 	}
 
@@ -94,6 +117,14 @@ public class DemoClientTest extends GWTTestCase
 	public void testCity()
 	{
 		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.CITY, new TestCityEditorSave());
+
+		delayTestFinish(2000);
+	}
+
+	@Test
+	public void testDictionary1()
+	{
+		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.DICTIONARY1, new TestDictionary1EditorSave());
 
 		delayTestFinish(2000);
 	}
