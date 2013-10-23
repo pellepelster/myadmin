@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.container;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -23,7 +24,7 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEd
 	}
 
 	@Override
-	public void add(final AsyncCallback<ITableRow<VOType>> asyncCallback)
+	public void add(final AsyncCallback<List<ITableRow<VOType>>> asyncCallback)
 	{
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
 				.getNewVO(getModel().getVOName(), new HashMap<String, String>(), new BaseErrorAsyncCallback<IBaseVO>()
@@ -37,7 +38,7 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEd
 							newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
 						}
 
-						asyncCallback.onSuccess(EditableTable.this.addRow((VOType) newVO));
+						asyncCallback.onSuccess(EditableTable.this.getRows());
 						// getSelectionModel().setSelected(newVO, true);
 					}
 				});

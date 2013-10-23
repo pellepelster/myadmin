@@ -27,6 +27,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
@@ -35,6 +36,7 @@ import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
@@ -54,7 +56,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
-	private final ListDataProvider<VOType> dataProvider = new ListDataProvider<VOType>();
+	private final ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
@@ -83,19 +85,20 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 		createModelColumns();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<VOType, Object> column = new Column<VOType, Object>(new ImageActionCell(MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseVO>()
-		{
+		Column<IBaseTable.ITableRow<VOType>, Void> column = new Column<IBaseTable.ITableRow<VOType>, Void>(new ImageActionCell(MyAdmin.RESOURCES.delete(),
+				new SimpleCallback<IBaseTable.ITableRow<VOType>>()
+				{
 
-			@Override
-			public void onCallback(IBaseVO vo)
-			{
-				dataProvider.getList().remove(vo);
-				fireValueChanges();
-			}
-		}))
+					@Override
+					public void onCallback(IBaseTable.ITableRow<VOType> vo)
+					{
+						dataProvider.getList().remove(vo);
+						fireValueChanges();
+					}
+				}))
 		{
 			@Override
-			public String getValue(IBaseVO vo)
+			public Void getValue(IBaseTable.ITableRow<VOType> vo)
 			{
 				return null;
 			}
@@ -124,7 +127,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 		if (content instanceof List)
 		{
 			this.dataProvider.getList().clear();
-			this.dataProvider.getList().addAll((Collection<VOType>) content);
+			this.dataProvider.getList().addAll((Collection<IBaseTable.ITableRow<VOType>>) content);
 		}
 		else
 		{
@@ -158,7 +161,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 					{
 						if (!dataProvider.getList().contains(vo))
 						{
-							dataProvider.getList().add(vo);
+							dataProvider.getList().add(new TableRow<VOType>(vo));
 							fireValueChanges();
 						}
 					}

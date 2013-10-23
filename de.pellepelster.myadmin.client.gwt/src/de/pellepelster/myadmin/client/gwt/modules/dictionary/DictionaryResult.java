@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryFilterUI;
@@ -51,14 +52,14 @@ public class DictionaryResult<VOType extends IBaseVO> implements IDictionaryResu
 
 		resultCellTable = new ResultCellTable<VOType>(resultTable);
 		resultCellTable.setWidth("100%");
-		resultCellTable.addVOSelectHandler(new SimpleCallback<VOType>()
+		resultCellTable.addVOSelectHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 		{
 
 			/** {@inheritDoc} */
 			@Override
-			public void onCallback(VOType vo)
+			public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
 			{
-				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, vo.getId());
+				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, tableRow.getVO().getId());
 			}
 		});
 

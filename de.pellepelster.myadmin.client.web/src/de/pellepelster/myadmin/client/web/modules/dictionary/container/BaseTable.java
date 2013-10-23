@@ -11,25 +11,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 
 public class BaseTable<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseContainer<ModelType> implements IBaseTable<VOType>
 {
-	public class TableRow implements ITableRow<VOType>
-	{
-		private final VOType vo;
 
-		public TableRow(VOType vo)
-		{
-			super();
-			this.vo = vo;
-		}
-
-		@Override
-		public VOType getVO()
-		{
-			return this.vo;
-		}
-
-	}
-
-	private List<TableRow> rows = new ArrayList<TableRow>();
+	private List<ITableRow<VOType>> rows = new ArrayList<ITableRow<VOType>>();
 
 	private List<TableUpdateListener> tableUpdateListeners = new ArrayList<TableUpdateListener>();
 
@@ -49,14 +32,15 @@ public class BaseTable<VOType extends IBaseVO, ModelType extends IBaseTableModel
 		this.tableUpdateListeners.add(tableUpdateListener);
 	}
 
-	protected List<TableRow> getRows()
+	@Override
+	public List<ITableRow<VOType>> getRows()
 	{
 		return this.rows;
 	}
 
 	protected ITableRow<VOType> addRow(VOType vo)
 	{
-		TableRow tableRow = new TableRow(vo);
+		TableRow<VOType> tableRow = new TableRow<VOType>(vo);
 		this.rows.add(tableRow);
 
 		return tableRow;

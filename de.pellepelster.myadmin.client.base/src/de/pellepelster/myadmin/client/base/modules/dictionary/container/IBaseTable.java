@@ -1,5 +1,7 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary.container;
 
+import java.util.List;
+
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
 public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
@@ -15,4 +17,6 @@ public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
 	}
 
 	void addTableUpdateListeners(TableUpdateListener tableUpdateListener);
+
+	List<ITableRow<VOType>> getRows();
 }

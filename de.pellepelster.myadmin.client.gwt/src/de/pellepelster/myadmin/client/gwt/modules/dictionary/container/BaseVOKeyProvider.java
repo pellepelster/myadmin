@@ -14,12 +14,13 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 import com.google.gwt.view.client.ProvidesKey;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 
-public class BaseVOKeyProvider<VOType extends IBaseVO> implements ProvidesKey<VOType>
+public class BaseVOKeyProvider<VOType extends IBaseVO> implements ProvidesKey<IBaseTable.ITableRow<VOType>>
 {
 
 	@Override
-	public Object getKey(VOType item)
+	public Object getKey(IBaseTable.ITableRow<VOType> item)
 	{
 		return item;
 	}

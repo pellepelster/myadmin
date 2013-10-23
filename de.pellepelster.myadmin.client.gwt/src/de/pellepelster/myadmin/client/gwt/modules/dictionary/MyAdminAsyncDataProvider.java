@@ -21,10 +21,12 @@ import com.google.gwt.view.client.Range;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataProvider<VOType>
+public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataProvider<IBaseTable.ITableRow<VOType>>
 {
 	private GenericFilterVO<VOType> genericFilterVO;
 
@@ -55,14 +57,14 @@ public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataP
 				@Override
 				public void onFailure(Throwable caught)
 				{
-					updateRowData(start, new ArrayList<VOType>());
+					updateRowData(start, new ArrayList<IBaseTable.ITableRow<VOType>>());
 					updateRowCount(0, true);
 				}
 
 				@Override
 				public void onSuccess(List<VOType> result)
 				{
-					updateRowData(start, result);
+					updateRowData(start, DictionaryElementUtil.vos2TableRows(result));
 					updateRowCount(result.size(), true);
 					callResultsChangedCallback(result.size());
 				}
@@ -70,7 +72,7 @@ public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataP
 		}
 		else
 		{
-			updateRowData(start, new ArrayList<VOType>());
+			updateRowData(start, new ArrayList<IBaseTable.ITableRow<VOType>>());
 			updateRowCount(0, true);
 			callResultsChangedCallback(0);
 		}
@@ -78,7 +80,7 @@ public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataP
 
 	/** {@inheritDoc} */
 	@Override
-	protected void onRangeChanged(HasData<VOType> display)
+	protected void onRangeChanged(HasData<IBaseTable.ITableRow<VOType>> display)
 	{
 		final Range range = display.getVisibleRange();
 		getData(range);

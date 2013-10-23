@@ -7,11 +7,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
@@ -52,7 +54,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 					@Override
 					public void onSuccess(List<VOType> result)
 					{
-						voTable.setContent(result);
+						voTable.setContent(DictionaryElementUtil.vos2TableRows(result));
 					}
 				});
 	}
@@ -78,12 +80,12 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 		voTable.setHeight(BaseCellTable.DEFAULT_TABLE_HEIGHT);
 		voTable.setWidth("100%");
-		voTable.addVOSelectHandler(new SimpleCallback<VOType>()
+		voTable.addVOSelectHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 		{
 			@Override
-			public void onCallback(VOType vo)
+			public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
 			{
-				closeDialogWithSelection(vo);
+				closeDialogWithSelection(tableRow.getVO());
 			}
 		});
 		refreshTable();
@@ -94,7 +96,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 	@Override
 	protected void getCurrentSelection(AsyncCallback<VOType> asyncCallback)
 	{
-		asyncCallback.onSuccess(voTable.getCurrentSelection());
+		asyncCallback.onSuccess(voTable.getCurrentSelection().getVO());
 	}
 
 }

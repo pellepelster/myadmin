@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.demo.client.test;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -46,6 +48,7 @@ public class DemoClientTest extends GWTTestCase
 			result.assertChildrenCount(2);
 			result.assertChildNavigationText(0, "Masterdata");
 			result.assertChildNavigationText(1, "Test");
+
 			finishTest();
 		}
 	}
@@ -79,12 +82,14 @@ public class DemoClientTest extends GWTTestCase
 			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			assertEquals("text1", textControl1.getValue());
 
-			IEditableTable<Test3VO> editableTable = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
-			editableTable.add(new BaseErrorAsyncCallback<IBaseTable.ITableRow<Test3VO>>()
+			final IEditableTable<Test3VO> editableTable = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
+			editableTable.add(new BaseErrorAsyncCallback<List<IBaseTable.ITableRow<Test3VO>>>()
 			{
 				@Override
-				public void onSuccess(IBaseTable.ITableRow<Test3VO> result)
+				public void onSuccess(List<IBaseTable.ITableRow<Test3VO>> result)
 				{
+					assertEquals(1, editableTable.getRows().size());
+
 					finishTest();
 				}
 			});

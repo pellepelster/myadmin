@@ -3,9 +3,12 @@ package de.pellepelster.myadmin.client.web.modules.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
@@ -92,4 +95,17 @@ public class DictionaryElementUtil
 
 		return modelIds;
 	}
+
+	public static <VOType extends IBaseVO> List<IBaseTable.ITableRow<VOType>> vos2TableRows(List<VOType> vos)
+	{
+		List<IBaseTable.ITableRow<VOType>> result = new ArrayList<IBaseTable.ITableRow<VOType>>();
+
+		for (VOType vo : vos)
+		{
+			result.add(new TableRow<VOType>(vo));
+		}
+
+		return result;
+	}
+
 }

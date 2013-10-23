@@ -21,18 +21,19 @@ import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOType>
+public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {
 	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
 
-	private final SingleSelectionModel<VOType> selectionModel = new SingleSelectionModel<VOType>(KEYPROVIDER);
+	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(KEYPROVIDER);
 
-	protected abstract Column<VOType, ?> getColumn(BaseControl baseControl);
+	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseControl baseControl);
 
 	private List<BaseControl> baseControls;
 
@@ -53,7 +54,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 		setSelectionModel(selectionModel);
 	}
 
-	public void addVOSelectHandler(final SimpleCallback<VOType> voSelectHandler)
+	public void addVOSelectHandler(final SimpleCallback<IBaseTable.ITableRow<VOType>> voSelectHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -72,7 +73,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<VOTy
 
 	}
 
-	public VOType getCurrentSelection()
+	public IBaseTable.ITableRow<VOType> getCurrentSelection()
 	{
 		return selectionModel.getSelectedObject();
 	}
