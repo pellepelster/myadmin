@@ -17,9 +17,9 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFac
 
 public abstract class BaseContainer<ModelType extends IBaseContainerModel> extends BaseModelElement<ModelType>
 {
-	private List<BaseControl> controls = Collections.EMPTY_LIST;
+	private List<BaseControl<?, ?>> controls = Collections.emptyList();
 
-	private List<BaseContainer> children = Collections.EMPTY_LIST;
+	private List<BaseContainer> children = Collections.emptyList();
 
 	public BaseContainer(ModelType baseContainer, BaseModelElement<IBaseModel> parent)
 	{
@@ -39,7 +39,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 		}
 		else if (!baseContainer.getControls().isEmpty())
 		{
-			this.controls = Lists.transform(baseContainer.getControls(), new Function<IBaseControlModel, BaseControl>()
+			this.controls = Lists.transform(baseContainer.getControls(), new Function<IBaseControlModel, BaseControl<?, ?>>()
 			{
 				@Override
 				@Nullable
@@ -51,7 +51,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 		}
 	}
 
-	public List<BaseControl> getControls()
+	public List<BaseControl<?, ?>> getControls()
 	{
 		return this.controls;
 	}

@@ -383,11 +383,11 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	{
 		if (this.voWrapper.getVO().isNew())
 		{
-			return this.dictionaryModel.getName();
+			return getClass().getName() + '#' + this.dictionaryModel.getName();
 		}
 		else
 		{
-			return this.dictionaryModel.getName() + "#" + this.voWrapper.getVO().getId();
+			return getClass().getName() + '#' + this.dictionaryModel.getName() + "#" + this.voWrapper.getVO().getId();
 		}
 	}
 

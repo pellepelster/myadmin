@@ -25,9 +25,9 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 	private VOTable<VOType> voTable;
 
-	private static List<BaseControl> baseControls;
+	private static List<BaseControl<?, ?>> baseControls;
 
-	private VOSelectionPopup(String voClassName, String message, List<BaseControl> baseControls, final SimpleCallback<VOType> voSelectHandler)
+	private VOSelectionPopup(String voClassName, String message, List<BaseControl<?, ?>> baseControls, final SimpleCallback<VOType> voSelectHandler)
 	{
 		super(message, voSelectHandler);
 

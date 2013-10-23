@@ -16,7 +16,7 @@ public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType>
 
 	private final ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
-	public VOTable(List<BaseControl> baseControls)
+	public VOTable(List<BaseControl<?, ?>> baseControls)
 	{
 		super(baseControls);
 
@@ -24,7 +24,6 @@ public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType>
 		dataProvider.addDataDisplay(this);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseControl baseControl)
 	{

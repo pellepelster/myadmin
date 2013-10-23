@@ -17,8 +17,9 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.layout.DictionarySearchInput;
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -33,22 +34,31 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
  * @version $Rev$, $Date$
  * 
  */
-public class DictionarySearchModule extends BaseDictionarySearchModule
+public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule
 {
 	private IDictionaryModel dictionaryModel;
 
 	private DictionarySearch dictionarySearch;
 
-	private final DictionarySearchInput input;
+	public DictionarySearchModule(String dictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	{
+		super(new ModuleVO(), moduleCallback, parameters);
+
+		init(dictionaryName);
+
+	}
 
 	public DictionarySearchModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
 
 		super(moduleVO, moduleCallback, parameters);
 
-		this.input = new DictionarySearchInput(getSearchDictionaryName());
+		init(getSearchDictionaryName());
+	}
 
-		DictionaryModelProvider.getDictionaryModel(getSearchDictionaryName(), new AsyncCallback<IDictionaryModel>()
+	private void init(String dictionaryName)
+	{
+		DictionaryModelProvider.getDictionaryModel(dictionaryName, new AsyncCallback<IDictionaryModel>()
 		{
 
 			/** {@inheritDoc} */
@@ -89,14 +99,19 @@ public class DictionarySearchModule extends BaseDictionarySearchModule
 		});
 	}
 
-	public IDictionaryModel getDictionaryModel()
+	public void search(AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
 	{
-		return this.dictionaryModel;
+
 	}
 
 	public String getTitle()
 	{
 		return DictionaryUtil.getSearchTitle(this.dictionaryModel);
+	}
+
+	public DictionarySearch getDictionarySearch()
+	{
+		return this.dictionarySearch;
 	}
 
 	@Override

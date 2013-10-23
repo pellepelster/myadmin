@@ -25,11 +25,13 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextCont
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
 import de.pellepelster.myadmin.client.web.test.vo.Test3VO;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 
 public class DemoClientTest extends GWTTestCase
 {
@@ -62,15 +64,37 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class TestCityEditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestCitySearchResult extends BaseErrorAsyncCallback<DictionarySearchModuleTestUI<CityVO>>
+	{
+
+		@Override
+		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
+		{
+			result.getDictionarySearch().g
+			
+			finishTest();
+		}
+	}
+
+	private class TestCitySearch extends BaseErrorAsyncCallback<DictionarySearchModuleTestUI<CityVO>>
+	{
+
+		@Override
+		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
+		{
+			result.getDictionarySearch().search(new TestCitySearchResult());
+		}
+	}
+
+	private class TestCityEditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<CityVO>>
 	{
 		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
 		{
 			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			assertEquals("Hamburg", textControl1.getValue());
 
-			finishTest();
+			MyAdminTest.getInstance().openSearch(DemoDictionaryIDs.CITY, new TestCitySearch());
 		}
 	}
 
@@ -83,6 +107,7 @@ public class DemoClientTest extends GWTTestCase
 			assertEquals("text1", textControl1.getValue());
 
 			final IEditableTable<Test3VO> editableTable = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
+
 			editableTable.add(new BaseErrorAsyncCallback<List<IBaseTable.ITableRow<Test3VO>>>()
 			{
 				@Override
@@ -97,10 +122,10 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class TestCityEditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestCityEditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<CityVO>>
 	{
 		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
 		{
 			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			textControl1.setValue("Hamburg");

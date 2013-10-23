@@ -16,16 +16,16 @@ import java.util.Map;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 
-public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Object, DictionaryEditorModule<?>>
+public class DictionarySearchModuleTestUIFactory implements IModuleUIFactory<Object, DictionarySearchModule<?>>
 {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, DictionarySearchModule<?>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
 	{
-		return new DictionaryEditorModuleTestUI((DictionaryEditorModule) module);
+		return new DictionarySearchModuleTestUI((DictionarySearchModule) module);
 	}
 
 }

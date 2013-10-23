@@ -65,7 +65,7 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	private static BaseControl getControl(List<BaseControl> baseControls, List<String> modelIds, int level)
+	private static BaseControl<?, ?> getControl(List<BaseControl<?, ?>> baseControls, List<String> modelIds, int level)
 	{
 		if (level < modelIds.size())
 		{

@@ -30,6 +30,7 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEd
 				.getNewVO(getModel().getVOName(), new HashMap<String, String>(), new BaseErrorAsyncCallback<IBaseVO>()
 				{
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public void onSuccess(IBaseVO newVO)
 					{
@@ -37,6 +38,7 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEd
 						{
 							newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
 						}
+						addRow((VOType) newVO);
 
 						asyncCallback.onSuccess(EditableTable.this.getRows());
 						// getSelectionModel().setSelected(newVO, true);

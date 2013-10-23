@@ -37,7 +37,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IB
 
 	protected abstract Column<VOType, ?> getColumn(BaseControl baseControl);
 
-	private List<BaseControl> baseControls;
+	private List<BaseControl<?, ?>> baseControls;
 
 	public static final String DEFAULT_TABLE_HEIGHT = "15em";
 
@@ -45,7 +45,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IB
 
 	public static final int DEFAULT_MAX_RESULTS = 15;
 
-	public BaseCellTable(List<BaseControl> baseControls)
+	public BaseCellTable(List<BaseControl<?, ?>> baseControls)
 	{
 		super(KEYPROVIDER);
 		this.baseControls = baseControls;

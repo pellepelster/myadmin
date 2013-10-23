@@ -26,7 +26,6 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKey
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {
 	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
@@ -35,9 +34,9 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 
 	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseControl baseControl);
 
-	private List<BaseControl> baseControls;
+	private List<BaseControl<?, ?>> baseControls;
 
-	public BaseDataGrid(List<BaseControl> baseControls)
+	public BaseDataGrid(List<BaseControl<?, ?>> baseControls)
 	{
 		super(KEYPROVIDER);
 		this.baseControls = baseControls;

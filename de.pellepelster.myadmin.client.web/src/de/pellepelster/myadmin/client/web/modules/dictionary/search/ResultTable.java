@@ -17,13 +17,13 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFac
 
 public class ResultTable extends BaseModelElement<IResultModel>
 {
-	private List<BaseControl> controls = Collections.EMPTY_LIST;
+	private List<BaseControl<?, ?>> controls = Collections.emptyList();
 
 	public ResultTable(IResultModel resultModel, BaseModelElement<IBaseModel> parent)
 	{
 		super(resultModel, parent);
 
-		this.controls = Lists.transform(resultModel.getControls(), new Function<IBaseControlModel, BaseControl>()
+		this.controls = Lists.transform(resultModel.getControls(), new Function<IBaseControlModel, BaseControl<?, ?>>()
 		{
 			@Override
 			@Nullable
@@ -34,7 +34,7 @@ public class ResultTable extends BaseModelElement<IResultModel>
 		});
 	}
 
-	public List<BaseControl> getControls()
+	public List<BaseControl<?, ?>> getControls()
 	{
 		return this.controls;
 	}
