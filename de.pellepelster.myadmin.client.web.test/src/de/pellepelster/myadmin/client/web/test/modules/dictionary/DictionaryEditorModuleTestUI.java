@@ -14,11 +14,13 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * UI for the navigation module
@@ -29,8 +31,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdat
 public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IModuleUI<Object, DictionaryEditorModule<VOType>>, IEditorUpdateListener
 {
 	private DictionaryEditorModule<VOType> module;
-
-	private AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback;
 
 	public DictionaryEditorModuleTestUI(DictionaryEditorModule<VOType> module)
 	{
@@ -74,16 +74,21 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 		return this.module.getControl(controlDescriptor);
 	}
 
-	public void save(AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)
+	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)
 	{
-		this.asyncCallback = asyncCallback;
-		this.module.save();
+		this.module.save(new BaseErrorAsyncCallback<Result<VOType>>(asyncCallback)
+		{
+			@Override
+			public void onSuccess(Result<VOType> result)
+			{
+				asyncCallback.onSuccess(DictionaryEditorModuleTestUI.this);
+			}
+		});
 	}
 
 	@Override
 	public void onUpdate()
 	{
-		this.asyncCallback.onSuccess(this);
 	}
 
 }

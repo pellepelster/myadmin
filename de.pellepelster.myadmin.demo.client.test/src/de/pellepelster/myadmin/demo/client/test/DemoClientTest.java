@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.client.web.test.MyAdminTest;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
-import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 
 public class DemoClientTest extends GWTTestCase
@@ -35,7 +35,7 @@ public class DemoClientTest extends GWTTestCase
 		return "de.pellepelster.myadmin.demo.DemoTest";
 	}
 
-	private class NavigationTreeElementTest extends BaseAsyncCallback<NavigationTreeTestElements>
+	private class NavigationTreeElementTest extends BaseErrorAsyncCallback<NavigationTreeTestElements>
 	{
 		@Override
 		public void onSuccess(NavigationTreeTestElements result)
@@ -47,7 +47,7 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class NavigationModuleTest extends BaseAsyncCallback<NavigationModuleTestUI>
+	private class NavigationModuleTest extends BaseErrorAsyncCallback<NavigationModuleTestUI>
 	{
 		@Override
 		public void onSuccess(NavigationModuleTestUI result)
@@ -56,7 +56,7 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class TestCityEdigtorSaveResult extends BaseAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestCityEdigtorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
 	{
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
@@ -68,7 +68,7 @@ public class DemoClientTest extends GWTTestCase
 		}
 	}
 
-	private class TestCityEditorSave extends BaseAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestCityEditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
 	{
 
 		@Override
@@ -76,6 +76,7 @@ public class DemoClientTest extends GWTTestCase
 		{
 			ITextControl textControl1 = result.getControl(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
 			textControl1.setValue("Hamburg");
+
 			result.save(new TestCityEdigtorSaveResult());
 		}
 	}

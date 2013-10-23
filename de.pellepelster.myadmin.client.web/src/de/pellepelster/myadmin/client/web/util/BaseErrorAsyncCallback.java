@@ -5,27 +5,27 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public abstract class BaseAsyncCallback<T, C> implements AsyncCallback<T>
+public abstract class BaseErrorAsyncCallback<T> implements AsyncCallback<T>
 {
-	private List<AsyncCallback<C>> parentCallbacks = new ArrayList<AsyncCallback<C>>();
+	private List<AsyncCallback> parentCallbacks = new ArrayList<AsyncCallback>();
 
-	public BaseAsyncCallback()
+	public BaseErrorAsyncCallback()
 	{
 	}
 
-	public BaseAsyncCallback(AsyncCallback<C> parentCallback)
+	public BaseErrorAsyncCallback(AsyncCallback parentCallback)
 	{
 		this.parentCallbacks.add(parentCallback);
 	}
 
-	public void addParentCallback(AsyncCallback<C> parentCallback)
+	public void addParentCallback(AsyncCallback parentCallback)
 	{
 		this.parentCallbacks.add(parentCallback);
 	}
 
-	protected void callParentCallbacks(C result)
+	protected void callParentCallbacks(Object result)
 	{
-		for (AsyncCallback<C> parentCallback : this.parentCallbacks)
+		for (AsyncCallback parentCallback : this.parentCallbacks)
 		{
 			parentCallback.onSuccess(result);
 		}
@@ -40,7 +40,7 @@ public abstract class BaseAsyncCallback<T, C> implements AsyncCallback<T>
 			throw new RuntimeException(caught);
 		}
 
-		for (AsyncCallback<C> parentCallback : this.parentCallbacks)
+		for (AsyncCallback parentCallback : this.parentCallbacks)
 		{
 			parentCallback.onFailure(caught);
 		}
