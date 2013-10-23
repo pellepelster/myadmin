@@ -13,7 +13,7 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseModel
 	{
 		super(baseRootModel, parent);
 
-		this.rootComposite = new Composite(baseRootModel.getCompositeModel(), parent);
+		this.rootComposite = new Composite(baseRootModel.getCompositeModel(), this);
 	}
 
 	public Composite getRootComposite()

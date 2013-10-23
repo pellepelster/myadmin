@@ -48,7 +48,7 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * @author pelle
  * 
  */
-public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContainer<Panel>
+public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<IBaseVO> implements IContainer<Panel>
 {
 	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
 
@@ -60,9 +60,9 @@ public class GwtEditableTable extends BaseDataGrid<IBaseVO> implements IContaine
 
 	private final ListDataProvider<IBaseVO> dataProvider = new ListDataProvider<IBaseVO>();
 
-	private final EditableTable editableTable;
+	private final EditableTable<VOType> editableTable;
 
-	public GwtEditableTable(EditableTable editableTable)
+	public GwtEditableTable(EditableTable<VOType> editableTable)
 	{
 		super(editableTable.getControls());
 

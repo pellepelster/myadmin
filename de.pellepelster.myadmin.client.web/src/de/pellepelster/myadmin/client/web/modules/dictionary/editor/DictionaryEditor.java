@@ -17,9 +17,9 @@ public class DictionaryEditor extends BaseRootElement<IEditorModel>
 	}
 
 	@Override
-	protected VOWrapper<IBaseVO> getVOWrapper() {
-		return voWrapper;
+	protected VOWrapper<IBaseVO> getVOWrapper()
+	{
+		return this.voWrapper;
 	}
-	
-	
+
 }

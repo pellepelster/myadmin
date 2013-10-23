@@ -11,8 +11,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElem
 
 public class DictionaryElementUtil
 {
-	public static <ElementType> ElementType getElement(BaseRootElement baseRootElement,
-			DictionaryDescriptor<ElementType> dictionaryDescriptor)
+	public static <ElementType> ElementType getElement(BaseRootElement baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
 		List<String> modelIds = getModelIds(dictionaryDescriptor);
 
@@ -24,29 +23,37 @@ public class DictionaryElementUtil
 			return null;
 		}
 
-		return getControl(baseRootElement.getRootComposite().getChildren(), modelIds, 0);
+		return getElement(baseRootElement.getRootComposite().getChildren(), modelIds, 0);
 
 	}
 
-	private static <ControlType extends IBaseControl> ControlType getControl(List<BaseContainer> baseContainers, List<String> modelIds, int level)
+	private static <ElementType> ElementType getElement(List<BaseContainer> baseContainers, List<String> modelIds, int level)
 	{
 		for (BaseContainer<?> baseContainer : baseContainers)
 		{
 			if (baseContainer.getModel().getName().equals(modelIds.get(level)))
 			{
-				IBaseControl baseControl = getMatchingControl(baseContainer.getControls(), modelIds, level + 1);
 
-				if (baseControl != null)
+				if (level == modelIds.size() - 1)
 				{
-					return (ControlType) baseControl;
+					return (ElementType) baseContainer;
 				}
 				else
 				{
-					ControlType controlType = getControl(baseContainer.getChildren(), modelIds, level + 1);
+					IBaseControl baseControl = getControl(baseContainer.getControls(), modelIds, level + 1);
 
-					if (controlType != null)
+					if (baseControl != null)
 					{
-						return controlType;
+						return (ElementType) baseControl;
+					}
+					else
+					{
+						ElementType controlType = getElement(baseContainer.getChildren(), modelIds, level + 1);
+
+						if (controlType != null)
+						{
+							return controlType;
+						}
 					}
 				}
 			}
@@ -55,13 +62,16 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	private static BaseControl getMatchingControl(List<BaseControl> baseControls, List<String> modelIds, int level)
+	private static BaseControl getControl(List<BaseControl> baseControls, List<String> modelIds, int level)
 	{
-		for (BaseControl<?, ?> baseControl : baseControls)
+		if (level < modelIds.size())
 		{
-			if (baseControl.getModel().getName().equals(modelIds.get(level)))
+			for (BaseControl<?, ?> baseControl : baseControls)
 			{
-				return baseControl;
+				if (baseControl.getModel().getName().equals(modelIds.get(level)) && level == modelIds.size() - 1)
+				{
+					return baseControl;
+				}
 			}
 		}
 

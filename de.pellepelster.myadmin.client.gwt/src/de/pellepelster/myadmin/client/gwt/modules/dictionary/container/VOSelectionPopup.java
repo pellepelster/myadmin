@@ -63,7 +63,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 		return new VOSelectionPopup<VOType>(voClassName, message, baseControls, voSelectHandler);
 	}
 
-	public static <VOType extends IBaseVO> VOSelectionPopup<VOType> create(AssignmentTable assignmentTable, SimpleCallback<VOType> voSelectHandler)
+	public static <VOType extends IBaseVO> VOSelectionPopup<VOType> create(AssignmentTable<?> assignmentTable, SimpleCallback<VOType> voSelectHandler)
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(assignmentTable.getModel().getDictionaryName());
 

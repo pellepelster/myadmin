@@ -50,7 +50,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
-	private final AssignmentTable assignmentTable;
+	private final AssignmentTable<VOType> assignmentTable;
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
@@ -58,7 +58,7 @@ public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VO
 
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
-	public GwtAssignmentTable(AssignmentTable assignmentTable)
+	public GwtAssignmentTable(AssignmentTable<VOType> assignmentTable)
 	{
 		super(assignmentTable.getControls());
 

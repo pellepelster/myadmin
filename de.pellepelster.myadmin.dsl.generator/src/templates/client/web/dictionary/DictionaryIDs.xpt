@@ -47,7 +47,7 @@
 		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
-		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
 	}
 	
 	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
@@ -66,11 +66,11 @@
 	
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryContainerContent»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryContainerContent»
 	// DictionaryContainerContent '«this.name»'
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryComposite»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryComposite»
 
 	// DictionaryComposite '«this.name»'
 	public class «dictionaryIDsName()» extends DictionaryDescriptor {
@@ -78,94 +78,98 @@
 			super("«name»", parent);
 		}
 
-		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
 
 	}
 
 	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryEditableTable»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryEditableTable»
 
 	// DictionaryEditableTable '«this.name»'
-	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+	public class «dictionaryIDsName()» extends DictionaryDescriptor<de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable> {
 		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
 
-		«EXPAND dictionaryIDControlClass(parent + "." + dictionaryIDsConstantName(name)) FOREACH this.columncontrols»
+		«EXPAND dictionaryDescriptor(parent + "." + dictionaryIDsConstantName(name)) FOREACH this.columncontrols»
 
 	}
 
 	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
 «ENDDEFINE»
 
-«DEFINE dictionaryIDControlClass(String parent) FOR DictionaryControl»
-	// DictionaryControl '«this.metaType.toString()»'
+«DEFINE genericDictionaryControlDescriptor(String parent) FOR DictionaryControl»
+	«EXPAND templates::util::Comment::commentElementType FOR this»
 	public DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»> «dictionaryIDsConstantName(name)» = new DictionaryControlDescriptor<«EXPAND dictionaryControlType FOR this»>("«name»", this);
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryControlGroup»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryControl»
+	«throwError("unsupported dictionary control type '" + this.metaType.toString() + "'")»
+«ENDDEFINE»
+
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryControlGroup»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryTextControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryTextControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryIntegerControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryIntegerControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryBigDecimalControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryBigDecimalControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryBooleanControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryBooleanControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryDateControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryDateControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryEnumerationControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryEnumerationControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryIDClass(String parent) FOR DictionaryReferenceControl»
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryReferenceControl»
 	«IF this.ref == null»
-		«EXPAND dictionaryIDControlClass(parent) FOR this»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
 	«ELSE»
-		«EXPAND dictionaryIDClass(parent) FOR this.ref»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
 	«ENDIF»
 «ENDDEFINE»
 

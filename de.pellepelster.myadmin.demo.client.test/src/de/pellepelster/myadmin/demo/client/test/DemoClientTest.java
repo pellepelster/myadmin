@@ -17,12 +17,15 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
+import de.pellepelster.myadmin.client.web.test.vo.Test3VO;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 
@@ -67,7 +70,7 @@ public class DemoClientTest extends GWTTestCase
 			finishTest();
 		}
 	}
-	
+
 	private class TestDictionary1EditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
 	{
 		@Override
@@ -76,7 +79,16 @@ public class DemoClientTest extends GWTTestCase
 			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			assertEquals("text1", textControl1.getValue());
 
-			finishTest();
+			IEditableTable<Test3VO> editableTable = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
+			editableTable.add(new BaseErrorAsyncCallback<IBaseTable.ITableRow<Test3VO>>()
+			{
+				@Override
+				public void onSuccess(IBaseTable.ITableRow<Test3VO> result)
+				{
+					finishTest();
+				}
+			});
+
 		}
 	}
 
