@@ -5,18 +5,20 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescript
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 
-public class TestTableRow<VOType extends IBaseVO> {
+public class TableRowTest<VOType extends IBaseVO>
+{
 
 	private ITableRow<VOType> tableRow;
-	
-	public TestTableRow(ITableRow<VOType> tableRow) {
+
+	public TableRowTest(ITableRow<VOType> tableRow)
+	{
 		this.tableRow = tableRow;
 	}
-	
-	public <ElementType extends IBaseControl> TestBaseDictionaryControl getElement(DictionaryDescriptor<ElementType> controlDescriptor)
-	{
-		return new TestBaseDictionaryControl(tableRow.getElement(controlDescriptor));
-	}
 
+	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlElementTest<ElementType, Value> getBaseControlTestElement(
+			DictionaryDescriptor<ElementType> controlDescriptor)
+	{
+		return new BaseControlElementTest<ElementType, Value>(this.tableRow.getElement(controlDescriptor));
+	}
 
 }

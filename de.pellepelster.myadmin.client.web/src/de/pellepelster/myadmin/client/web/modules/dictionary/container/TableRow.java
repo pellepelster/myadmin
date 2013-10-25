@@ -15,44 +15,48 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictio
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFunction;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseDictionaryElement<ModelType> implements IBaseTable.ITableRow<VOType>
+public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseDictionaryElement<ModelType> implements
+		IBaseTable.ITableRow<VOType>
 {
-	private final VOType vo;
-
 	private List<BaseDictionaryControl<?, ?>> columns;
-	
+
+	private final VOWrapper<VOType> voWrapper;
+
 	public TableRow(VOType vo, BaseTable<VOType, ModelType> parent)
 	{
 		super(parent.getModel(), parent);
-		
-		this.vo = vo;
-		columns = Lists.transform(parent.getModel().getControls(), new ControlFunction(parent));
+
+		this.columns = Lists.transform(parent.getModel().getControls(), new ControlFunction(this));
+		this.voWrapper = new VOWrapper<VOType>(vo);
 	}
 
 	@Override
-	protected VOWrapper<IBaseVO> getVOWrapper() {
-		return super.getVOWrapper();
+	protected VOWrapper<VOType> getVOWrapper()
+	{
+		return this.voWrapper;
 	}
 
 	@Override
 	public VOType getVO()
 	{
-		return this.vo;
+		return this.getVOWrapper().getVO();
 	}
 
-	public List<BaseDictionaryControl<?, ?>> getColumns() {
-		return columns;
+	public List<BaseDictionaryControl<?, ?>> getColumns()
+	{
+		return this.columns;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <ElementType extends IBaseControl<?>> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
-		List<String> modelIds = DictionaryElementUtil.getParentModelIds(this);
-		
-		List<String> modelIds1 = DictionaryElementUtil.getModelIds(controlDescriptor);
-		
-		
-		return null;
+		List<String> parentModelIds = DictionaryElementUtil.getParentModelIds(getParent());
+		List<String> controlModelIds = DictionaryElementUtil.getModelIds(controlDescriptor);
+
+		DictionaryElementUtil.removeLeadingModelIds(parentModelIds, controlModelIds);
+
+		return (ElementType) DictionaryElementUtil.getControl(this, controlModelIds);
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
@@ -8,6 +9,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseCont
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
@@ -64,6 +66,11 @@ public class DictionaryElementUtil
 		return null;
 	}
 
+	public static BaseDictionaryControl<?, ?> getControl(TableRow<?, ?> tableRow, List<String> modelIds)
+	{
+		return getControl(tableRow.getColumns(), modelIds, 0);
+	}
+
 	private static BaseDictionaryControl<?, ?> getControl(List<BaseDictionaryControl<?, ?>> baseControls, List<String> modelIds, int level)
 	{
 		if (level < modelIds.size())
@@ -94,11 +101,11 @@ public class DictionaryElementUtil
 
 		return modelIds;
 	}
-	
+
 	public static List<String> getParentModelIds(BaseDictionaryElement<? extends IBaseModel> baseDictionaryElement)
 	{
 		List<String> modelIds = new ArrayList<String>();
-		
+
 		BaseDictionaryElement<? extends IBaseModel> currentBaseDictionaryElement = baseDictionaryElement;
 
 		while (currentBaseDictionaryElement != null)
@@ -107,9 +114,26 @@ public class DictionaryElementUtil
 			currentBaseDictionaryElement = currentBaseDictionaryElement.getParent();
 		}
 
-		
 		return modelIds;
 	}
 
+	public static void removeLeadingModelIds(List<String> modelIdsToRemove, List<String> modelIds)
+	{
+
+		Iterator<String> modelIdsToRemoveIterator = modelIdsToRemove.iterator();
+		Iterator<String> modelIdsIterator = modelIds.iterator();
+
+		while (modelIdsToRemoveIterator.hasNext() && modelIdsIterator.hasNext())
+		{
+			String modelIdToRemove = modelIdsToRemoveIterator.next();
+			String modelId = modelIdsIterator.next();
+
+			if (modelId.equals(modelIdToRemove))
+			{
+				modelIdsIterator.remove();
+			}
+		}
+
+	}
 
 }

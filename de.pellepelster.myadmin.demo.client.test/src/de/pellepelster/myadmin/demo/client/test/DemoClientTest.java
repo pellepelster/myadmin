@@ -11,27 +11,23 @@
  */
 package de.pellepelster.myadmin.demo.client.test;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.MyAdminTest;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUI;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.EditableTableTest;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUI;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationTreeTestElements;
-import de.pellepelster.myadmin.client.web.test.vo.Test3VO;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
+import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
+import de.pellepelster.myadmin.demo.client.web.test1.Test3VO;
 
 public class DemoClientTest extends GWTTestCase
 {
@@ -70,7 +66,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
-			result.getResultTableRow(0).getElement(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_RESULT.CITY_NAME).assertValue("Hamburg");
+			result.getResultTableRow(0).getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_RESULT.CITY_NAME).assertValue("Hamburg");
 
 			finishTest();
 		}
@@ -91,29 +87,27 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
 		{
-			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
-			assertEquals("Hamburg", textControl1.getValue());
-
+			result.getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).assertValue("Hamburg");
 			MyAdminTest.getInstance().openSearch(DemoDictionaryIDs.CITY, new TestCitySearch());
 		}
 	}
 
-	private class TestDictionary1EditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestDictionary1EditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<Test1VO>>
 	{
 		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
-			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
-			assertEquals("text1", textControl1.getValue());
+			result.getBaseControlTestElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1).assertValue("text1");
 
-			final IEditableTable<Test3VO> editableTable = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
+			final EditableTableTest<Test3VO> editableTable = result
+					.getEditableTableTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
 
-			editableTable.add(new BaseErrorAsyncCallback<List<IBaseTable.ITableRow<Test3VO>>>()
+			editableTable.add(new BaseErrorAsyncCallback<EditableTableTest<Test3VO>>()
 			{
 				@Override
-				public void onSuccess(List<IBaseTable.ITableRow<Test3VO>> result)
+				public void onSuccess(EditableTableTest<Test3VO> result)
 				{
-					assertEquals(1, editableTable.getRows().size());
+					editableTable.assertRowCount(1);
 
 					finishTest();
 				}
@@ -127,21 +121,17 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
 		{
-			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME);
-			textControl1.setValue("Hamburg");
-
+			result.getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).setValue("Hamburg");
 			result.save(new TestCityEditorSaveResult());
 		}
 	}
 
-	private class TestDictionary1EditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<IBaseVO>>
+	private class TestDictionary1EditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<Test1VO>>
 	{
 		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<IBaseVO> result)
+		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
-			ITextControl textControl1 = result.getElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
-			textControl1.setValue("text1");
-
+			result.getBaseControlTestElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1).setValue("text1");
 			result.save(new TestDictionary1EditorSaveResult());
 		}
 	}

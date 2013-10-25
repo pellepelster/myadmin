@@ -87,8 +87,8 @@ public class DictionarySearchModuleTestUI<VOType extends IBaseVO> implements IMo
 
 	}
 
-	public TestTableRow<VOType> getResultTableRow(int rowIndex) {
-		return new TestTableRow<VOType>(module.getDictionarySearch().getDictionaryResult().getTableRow(rowIndex));
+	public TableRowTest<VOType> getResultTableRow(int rowIndex) {
+		return new TableRowTest<VOType>(module.getDictionarySearch().getDictionaryResult().getTableRow(rowIndex));
 	}
 
 }

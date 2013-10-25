@@ -23,7 +23,7 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 		return this.model;
 	}
 
-	protected VOWrapper<IBaseVO> getVOWrapper()
+	protected VOWrapper<? extends IBaseVO> getVOWrapper()
 	{
 		return getParent().getVOWrapper();
 	}

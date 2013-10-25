@@ -17,6 +17,8 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -68,9 +70,21 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 		return this.module.getTitle();
 	}
 
-	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
+	// public <ElementType> ElementType
+	// getElement(DictionaryDescriptor<ElementType> controlDescriptor)
+	// {
+	// return this.module.getElement(controlDescriptor);
+	// }
+
+	public <TableVOType extends IBaseVO> EditableTableTest<TableVOType> getEditableTableTest(DictionaryDescriptor<IEditableTable<TableVOType>> controlDescriptor)
 	{
-		return this.module.getElement(controlDescriptor);
+		return new EditableTableTest<TableVOType>(this.module.getElement(controlDescriptor));
+	}
+
+	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlElementTest<ElementType, Value> getBaseControlTestElement(
+			DictionaryDescriptor<ElementType> controlDescriptor)
+	{
+		return new BaseControlElementTest<ElementType, Value>(this.module.getElement(controlDescriptor));
 	}
 
 	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)

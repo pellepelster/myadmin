@@ -66,7 +66,7 @@
 		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.dictionaryfilters»
 		«ENDREM»
 		
-		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOR this.dictionaryresult»
+		«EXPAND dictionaryIDClass(parent + "." + dictionaryIDsConstantName(name)) FOR this.dictionaryresult»
 		
 	}
 	
@@ -100,7 +100,7 @@
 		
 	}
 	
-	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(this);
 	
 «ENDDEFINE»
 
@@ -126,7 +126,7 @@
 «DEFINE dictionaryDescriptor(String parent) FOR DictionaryEditableTable»
 
 	// DictionaryEditableTable '«this.name»'
-	public class «dictionaryIDsName()» extends DictionaryDescriptor<de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable> {
+	public class «dictionaryIDsName()» extends DictionaryDescriptor<de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable<«EXPAND templates::type::Type::webVORawType FOR entityattribute»>> {
 		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
