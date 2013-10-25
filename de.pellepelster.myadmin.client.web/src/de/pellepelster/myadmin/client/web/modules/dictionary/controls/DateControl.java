@@ -7,12 +7,12 @@ import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public class DateControl extends BaseControl<IDateControlModel, Date>
+public class DateControl extends BaseDictionaryControl<IDateControlModel, Date>
 {
 
-	public DateControl(IDateControlModel dateControlModel, BaseModelElement<? extends IBaseModel> parent)
+	public DateControl(IDateControlModel dateControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(dateControlModel, parent);
 	}

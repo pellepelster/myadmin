@@ -13,10 +13,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPopup<VOType>
@@ -25,9 +24,9 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 	private VOTable<VOType> voTable;
 
-	private static List<BaseControl<?, ?>> baseControls;
+	private static List<BaseDictionaryControl<?, ?>> baseControls;
 
-	private VOSelectionPopup(String voClassName, String message, List<BaseControl<?, ?>> baseControls, final SimpleCallback<VOType> voSelectHandler)
+	private VOSelectionPopup(String voClassName, String message, List<BaseDictionaryControl<?, ?>> baseControls, final SimpleCallback<VOType> voSelectHandler)
 	{
 		super(message, voSelectHandler);
 
@@ -54,7 +53,8 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 					@Override
 					public void onSuccess(List<VOType> result)
 					{
-						voTable.setContent(DictionaryElementUtil.vos2TableRows(result));
+						throw new RuntimeException("TODO");
+						// voTable.setContent(DictionaryElementUtil.vos2TableRows(result));
 					}
 				});
 	}

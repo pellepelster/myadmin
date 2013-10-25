@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
@@ -38,9 +38,9 @@ public class ControlHelper
 
 	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
-	private final BaseControl<IBaseControlModel, Object> baseControl;
+	private final BaseDictionaryControl<IBaseControlModel, Object> baseControl;
 
-	public ControlHelper(final Widget widget, final BaseControl baseControl, boolean addValueChangeListener, final Class<?> targetClass)
+	public ControlHelper(final Widget widget, final BaseDictionaryControl baseControl, boolean addValueChangeListener, final Class<?> targetClass)
 	{
 		this.uiObject = widget;
 		this.baseControl = baseControl;

@@ -4,12 +4,12 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseCont
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public abstract class BaseControl<ModelType extends IBaseControlModel, ValueType> extends BaseModelElement<ModelType> implements IBaseControl<ValueType>
+public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel, ValueType> extends BaseDictionaryElement<ModelType> implements IBaseControl<ValueType>
 {
 
-	public BaseControl(ModelType baseControlModel, BaseModelElement<? extends IBaseModel> parent)
+	public BaseDictionaryControl(ModelType baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(baseControlModel, parent);
 	}

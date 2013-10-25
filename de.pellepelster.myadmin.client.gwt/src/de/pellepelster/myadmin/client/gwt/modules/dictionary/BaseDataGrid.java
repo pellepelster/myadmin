@@ -23,7 +23,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
@@ -32,11 +32,11 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 
 	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(KEYPROVIDER);
 
-	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseControl baseControl);
+	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl);
 
-	private List<BaseControl<?, ?>> baseControls;
+	private List<BaseDictionaryControl<?, ?>> baseControls;
 
-	public BaseDataGrid(List<BaseControl<?, ?>> baseControls)
+	public BaseDataGrid(List<BaseDictionaryControl<?, ?>> baseControls)
 	{
 		super(KEYPROVIDER);
 		this.baseControls = baseControls;
@@ -44,7 +44,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 
 	protected void createModelColumns()
 	{
-		for (BaseControl baseControl : baseControls)
+		for (BaseDictionaryControl baseControl : baseControls)
 		{
 			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
 			addColumn(getColumn(baseControl), textHeader);

@@ -4,7 +4,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
 public class ContainerFactory
 {
@@ -20,7 +20,7 @@ public class ContainerFactory
 		return instance;
 	}
 
-	public static BaseContainer<? extends IBaseContainerModel> createContainer(IBaseContainerModel baseContainerModel, BaseModelElement parent)
+	public static BaseContainerElement<? extends IBaseContainerModel> createContainer(IBaseContainerModel baseContainerModel, BaseDictionaryElement parent)
 	{
 		if (baseContainerModel instanceof ICompositeModel)
 		{

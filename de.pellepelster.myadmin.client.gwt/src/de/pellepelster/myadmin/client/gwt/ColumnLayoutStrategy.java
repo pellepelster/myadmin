@@ -16,10 +16,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
 /**
  * GWT column based implementation for {@link IDictionaryLayoutStrategy}
@@ -28,20 +28,16 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseContro
  * @version $Rev$, $Date$
  * 
  */
-public class ColumnLayoutStrategy
-{
+public class ColumnLayoutStrategy {
 	private final LAYOUT_TYPE layoutType;
 
-	public ColumnLayoutStrategy(LAYOUT_TYPE layoutType)
-	{
+	public ColumnLayoutStrategy(LAYOUT_TYPE layoutType) {
 		this.layoutType = layoutType;
 	}
 
-	public void createLayout(Panel parent, BaseContainer<?> baseContainer)
-	{
+	public void createLayout(Panel parent, BaseContainerElement<?> baseContainer) {
 
-		if (!baseContainer.getControls().isEmpty())
-		{
+		if (!baseContainer.getControls().isEmpty()) {
 			// Create a table to layout the form options
 			FlexTable flexTable = new FlexTable();
 			flexTable.setCellSpacing(5);
@@ -50,19 +46,18 @@ public class ColumnLayoutStrategy
 			// flexTable.getFlexCellFormatter();ControlHandler.getInstance()
 
 			int row = 0;
-			for (BaseControl baseControl : baseContainer.getControls())
-			{
+			for (BaseDictionaryControl baseControl : baseContainer.getControls()) {
 
-				Widget control = ControlHandler.getInstance().createControl(baseControl, layoutType);
+				Widget control = ControlHandler.getInstance().createControl(
+						baseControl, layoutType);
 
-				switch (layoutType)
-				{
-					case EDITOR:
-						flexTable.setHTML(row, 0, baseControl.getEditorLabel());
-						break;
-					case FILTER:
-						flexTable.setHTML(row, 0, baseControl.getFilterLabel());
-						break;
+				switch (layoutType) {
+				case EDITOR:
+					flexTable.setHTML(row, 0, baseControl.getEditorLabel());
+					break;
+				case FILTER:
+					flexTable.setHTML(row, 0, baseControl.getFilterLabel());
+					break;
 				}
 				flexTable.setWidget(row, 1, control);
 
@@ -70,17 +65,16 @@ public class ColumnLayoutStrategy
 			}
 		}
 
-		if (!baseContainer.getChildren().isEmpty())
-		{
+		if (!baseContainer.getChildren().isEmpty()) {
 
-			for (BaseContainer lBaseContainer : baseContainer.getChildren())
-			{
+			for (BaseContainerElement<?> lBaseContainer : baseContainer.getChildren()) {
 
-				IContainer<Panel> container = ContainerFactory.createContainer(lBaseContainer);
+				IContainer<Panel> container = ContainerFactory
+						.createContainer(lBaseContainer);
 				parent.add(container.getContainer());
 
-				if (container.getContainer() instanceof Panel && !(lBaseContainer instanceof BaseTable))
-				{
+				if (container.getContainer() instanceof Panel
+						&& !(lBaseContainer instanceof BaseTable)) {
 					createLayout(container.getContainer(), lBaseContainer);
 				}
 			}

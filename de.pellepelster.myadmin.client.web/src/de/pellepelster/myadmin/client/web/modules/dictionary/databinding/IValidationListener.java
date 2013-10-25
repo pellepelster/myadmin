@@ -19,6 +19,7 @@ import de.pellepelster.myadmin.client.base.databinding.ValueChangeEvent;
  * @author pelle
  * 
  */
+@Deprecated
 public interface IValidationListener
 {
 

@@ -47,6 +47,7 @@
 		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
+		
 		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
 	}
 	
@@ -60,6 +61,43 @@
 		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
 			super("«name»", parent);
 		}
+		
+		«REM»
+		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.dictionaryfilters»
+		«ENDREM»
+		
+		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOR this.dictionaryresult»
+		
+	}
+	
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryFilter»
+
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+		
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.containercontents»
+	}
+	
+	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryIDClass(String parent) FOR DictionaryResult»
+
+	public class «dictionaryIDsName()» extends DictionaryDescriptor {
+		protected «dictionaryIDsName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+		«EXPAND dictionaryDescriptor(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.resultcolumns»
+		
 	}
 	
 	public «dictionaryIDsName()» «dictionaryIDsConstantName(name)» = new «dictionaryIDsName()»(null);

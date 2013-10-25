@@ -17,6 +17,7 @@ package de.pellepelster.myadmin.client.base.databinding;
  * @author pelle
  * 
  */
+@Deprecated
 public interface IValueChangeListener
 {
 	/**

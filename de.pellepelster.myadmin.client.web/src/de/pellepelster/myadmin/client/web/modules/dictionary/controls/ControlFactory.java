@@ -10,7 +10,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHi
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
 public class ControlFactory
 {
@@ -26,7 +26,7 @@ public class ControlFactory
 		return instance;
 	}
 
-	public static BaseControl createControl(IBaseControlModel baseControlModel, BaseModelElement<? extends IBaseModel> parent)
+	public static BaseDictionaryControl createControl(IBaseControlModel baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		if (baseControlModel instanceof ITextControlModel)
 		{

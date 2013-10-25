@@ -21,7 +21,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BooleanControl;
 
 /**
@@ -42,7 +42,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControlModel)
+	public boolean supports(BaseDictionaryControl baseControlModel)
 	{
 		return baseControlModel instanceof BooleanControl;
 	}

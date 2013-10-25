@@ -23,7 +23,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.EnumerationControl;
 
 /**
@@ -44,7 +44,7 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof EnumerationControl;
 	}

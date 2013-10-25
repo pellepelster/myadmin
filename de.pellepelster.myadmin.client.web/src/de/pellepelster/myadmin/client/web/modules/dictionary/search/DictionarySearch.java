@@ -10,11 +10,11 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTab
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class DictionarySearch<VOType extends IBaseVO> extends BaseModelElement<ISearchModel>
+public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElement<ISearchModel>
 {
 	private DictionaryResult<VOType> dictionaryResult;
 
@@ -41,4 +41,9 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseModelElement<I
 			}
 		});
 	}
+
+	public DictionaryResult<VOType> getDictionaryResult() {
+		return dictionaryResult;
+	}
+	
 }

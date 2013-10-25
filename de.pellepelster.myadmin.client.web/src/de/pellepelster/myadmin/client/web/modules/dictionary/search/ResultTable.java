@@ -11,30 +11,30 @@ import com.google.common.collect.Lists;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFactory;
 
-public class ResultTable extends BaseModelElement<IResultModel>
+public class ResultTable extends BaseDictionaryElement<IResultModel>
 {
-	private List<BaseControl<?, ?>> controls = Collections.emptyList();
+	private List<BaseDictionaryControl<?, ?>> controls = Collections.emptyList();
 
-	public ResultTable(IResultModel resultModel, BaseModelElement<IBaseModel> parent)
+	public ResultTable(IResultModel resultModel, BaseDictionaryElement<IBaseModel> parent)
 	{
 		super(resultModel, parent);
 
-		this.controls = Lists.transform(resultModel.getControls(), new Function<IBaseControlModel, BaseControl<?, ?>>()
+		this.controls = Lists.transform(resultModel.getControls(), new Function<IBaseControlModel, BaseDictionaryControl<?, ?>>()
 		{
 			@Override
 			@Nullable
-			public BaseControl<IBaseControlModel, ?> apply(IBaseControlModel baseControlModel)
+			public BaseDictionaryControl<IBaseControlModel, ?> apply(IBaseControlModel baseControlModel)
 			{
 				return ControlFactory.getInstance().createControl(baseControlModel, getParent());
 			}
 		});
 	}
 
-	public List<BaseControl<?, ?>> getControls()
+	public List<BaseDictionaryControl<?, ?>> getControls()
 	{
 		return this.controls;
 	}

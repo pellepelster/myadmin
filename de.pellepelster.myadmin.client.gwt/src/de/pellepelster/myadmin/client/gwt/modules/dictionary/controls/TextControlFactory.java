@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
@@ -49,7 +49,7 @@ public class TextControlFactory extends BaseControlFactory<ITextControlModel, Te
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof TextControl;
 	}

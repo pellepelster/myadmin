@@ -4,14 +4,14 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
-public abstract class BaseModelElement<ModelType extends IBaseModel>
+public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 {
 
 	private ModelType model;
 
-	private BaseModelElement<? extends IBaseModel> parent;
+	private BaseDictionaryElement<? extends IBaseModel> parent;
 
-	public BaseModelElement(ModelType model, BaseModelElement<? extends IBaseModel> parent)
+	public BaseDictionaryElement(ModelType model, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super();
 		this.model = model;
@@ -28,7 +28,7 @@ public abstract class BaseModelElement<ModelType extends IBaseModel>
 		return getParent().getVOWrapper();
 	}
 
-	protected BaseModelElement<? extends IBaseModel> getParent()
+	public BaseDictionaryElement<? extends IBaseModel> getParent()
 	{
 		return this.parent;
 	}

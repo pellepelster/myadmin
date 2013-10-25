@@ -12,9 +12,7 @@
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
@@ -22,8 +20,6 @@ import com.google.gwt.view.client.Range;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
-import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataProvider<IBaseTable.ITableRow<VOType>>
@@ -50,25 +46,29 @@ public class MyAdminAsyncDataProvider<VOType extends IBaseVO> extends AsyncDataP
 			genericFilterVO.setFirstResult(start);
 			genericFilterVO.setMaxResults(range.getLength());
 
-			MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<VOType>>()
-			{
-
-				/** {@inheritDoc} */
-				@Override
-				public void onFailure(Throwable caught)
-				{
-					updateRowData(start, new ArrayList<IBaseTable.ITableRow<VOType>>());
-					updateRowCount(0, true);
-				}
-
-				@Override
-				public void onSuccess(List<VOType> result)
-				{
-					updateRowData(start, DictionaryElementUtil.vos2TableRows(result));
-					updateRowCount(result.size(), true);
-					callResultsChangedCallback(result.size());
-				}
-			});
+			throw new RuntimeException("TODO");
+			// MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO,
+			// new AsyncCallback<List<VOType>>()
+			// {
+			//
+			// /** {@inheritDoc} */
+			// @Override
+			// public void onFailure(Throwable caught)
+			// {
+			// updateRowData(start, new
+			// ArrayList<IBaseTable.ITableRow<VOType>>());
+			// updateRowCount(0, true);
+			// }
+			//
+			// @Override
+			// public void onSuccess(List<VOType> result)
+			// {
+			// updateRowData(start,
+			// DictionaryElementUtil.vos2TableRows(result));
+			// updateRowCount(result.size(), true);
+			// callResultsChangedCallback(result.size());
+			// }
+			// });
 		}
 		else
 		{

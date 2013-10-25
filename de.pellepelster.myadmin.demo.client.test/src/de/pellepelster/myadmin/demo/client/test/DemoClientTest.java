@@ -70,7 +70,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
-			// result.getDictionarySearch().g
+			result.getResultTableRow(0).getElement(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_RESULT.CITY_NAME).assertValue("Hamburg");
 
 			finishTest();
 		}

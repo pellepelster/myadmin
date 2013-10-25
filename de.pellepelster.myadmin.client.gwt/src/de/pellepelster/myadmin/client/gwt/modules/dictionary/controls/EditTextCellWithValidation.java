@@ -36,7 +36,7 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 
 public class EditTextCellWithValidation<T> extends BaseCellControl<T>
@@ -53,11 +53,11 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private static Template template;
 
-	private final BaseControl<IBaseControlModel, Object> baseControl;
+	private final BaseDictionaryControl<IBaseControlModel, Object> baseControl;
 
 	private final SafeHtmlRenderer<String> renderer;
 
-	public EditTextCellWithValidation(BaseControl<IBaseControlModel, Object> baseControl, IValueHandler<T> valueFormatter)
+	public EditTextCellWithValidation(BaseDictionaryControl<IBaseControlModel, Object> baseControl, IValueHandler<T> valueFormatter)
 	{
 		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
 

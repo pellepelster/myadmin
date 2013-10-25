@@ -34,7 +34,7 @@ import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
@@ -125,7 +125,7 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseControl baseControl)
+	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl)
 	{
 		return (Column<IBaseTable.ITableRow<VOType>, ?>) ControlHandler.getInstance().createColumn(baseControl, true, dataProvider, this);
 	}

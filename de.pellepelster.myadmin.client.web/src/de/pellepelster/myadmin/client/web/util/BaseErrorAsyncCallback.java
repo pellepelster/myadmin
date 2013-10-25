@@ -1,49 +1,30 @@
 package de.pellepelster.myadmin.client.web.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public abstract class BaseErrorAsyncCallback<T> implements AsyncCallback<T>
 {
-	private List<AsyncCallback> parentCallbacks = new ArrayList<AsyncCallback>();
+	private AsyncCallback<?> parentCallback = null;
 
 	public BaseErrorAsyncCallback()
 	{
 	}
 
-	public BaseErrorAsyncCallback(AsyncCallback parentCallback)
+	public BaseErrorAsyncCallback(AsyncCallback<?> parentCallback)
 	{
-		this.parentCallbacks.add(parentCallback);
-	}
-
-	public void addParentCallback(AsyncCallback parentCallback)
-	{
-		this.parentCallbacks.add(parentCallback);
-	}
-
-	protected void callParentCallbacks(Object result)
-	{
-		for (AsyncCallback parentCallback : this.parentCallbacks)
-		{
-			parentCallback.onSuccess(result);
-		}
-		this.parentCallbacks.clear();
+		this.parentCallback = parentCallback;
 	}
 
 	@Override
 	public void onFailure(Throwable caught)
 	{
-		if (this.parentCallbacks.isEmpty())
+		if (parentCallback == null )
 		{
 			throw new RuntimeException(caught);
 		}
-
-		for (AsyncCallback parentCallback : this.parentCallbacks)
+		else
 		{
 			parentCallback.onFailure(caught);
 		}
-		this.parentCallbacks.clear();
 	}
 }

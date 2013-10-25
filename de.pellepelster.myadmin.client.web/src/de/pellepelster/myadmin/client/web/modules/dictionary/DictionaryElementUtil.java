@@ -3,13 +3,12 @@ package de.pellepelster.myadmin.client.web.modules.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainer;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
 public class DictionaryElementUtil
@@ -30,9 +29,9 @@ public class DictionaryElementUtil
 
 	}
 
-	private static <ElementType> ElementType getElement(List<BaseContainer<?>> baseContainers, List<String> modelIds, int level)
+	private static <ElementType> ElementType getElement(List<BaseContainerElement<?>> baseContainers, List<String> modelIds, int level)
 	{
-		for (BaseContainer<?> baseContainer : baseContainers)
+		for (BaseContainerElement<?> baseContainer : baseContainers)
 		{
 			if (baseContainer.getModel().getName().equals(modelIds.get(level)))
 			{
@@ -65,11 +64,11 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	private static BaseControl<?, ?> getControl(List<BaseControl<?, ?>> baseControls, List<String> modelIds, int level)
+	private static BaseDictionaryControl<?, ?> getControl(List<BaseDictionaryControl<?, ?>> baseControls, List<String> modelIds, int level)
 	{
 		if (level < modelIds.size())
 		{
-			for (BaseControl<?, ?> baseControl : baseControls)
+			for (BaseDictionaryControl<?, ?> baseControl : baseControls)
 			{
 				if (baseControl.getModel().getName().equals(modelIds.get(level)) && level == modelIds.size() - 1)
 				{
@@ -81,7 +80,7 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	private static List<String> getModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
+	public static List<String> getModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
 	{
 		List<String> modelIds = new ArrayList<String>();
 
@@ -95,17 +94,22 @@ public class DictionaryElementUtil
 
 		return modelIds;
 	}
-
-	public static <VOType extends IBaseVO> List<IBaseTable.ITableRow<VOType>> vos2TableRows(List<VOType> vos)
+	
+	public static List<String> getParentModelIds(BaseDictionaryElement<? extends IBaseModel> baseDictionaryElement)
 	{
-		List<IBaseTable.ITableRow<VOType>> result = new ArrayList<IBaseTable.ITableRow<VOType>>();
+		List<String> modelIds = new ArrayList<String>();
+		
+		BaseDictionaryElement<? extends IBaseModel> currentBaseDictionaryElement = baseDictionaryElement;
 
-		for (VOType vo : vos)
+		while (currentBaseDictionaryElement != null)
 		{
-			result.add(new TableRow<VOType>(vo));
+			modelIds.add(0, currentBaseDictionaryElement.getModel().getName());
+			currentBaseDictionaryElement = currentBaseDictionaryElement.getParent();
 		}
 
-		return result;
+		
+		return modelIds;
 	}
+
 
 }

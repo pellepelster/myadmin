@@ -3,13 +3,13 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
-public class ReferenceControl extends BaseControl<IReferenceControlModel, IBaseVO>
+public class ReferenceControl extends BaseDictionaryControl<IReferenceControlModel, IBaseVO>
 {
 
-	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseModelElement<? extends IBaseModel> parent)
+	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(referenceControlModel, parent);
 	}

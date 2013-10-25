@@ -15,7 +15,7 @@ import com.google.gwt.user.cellview.client.Column;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.ResultTable;
 
 public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOType>
@@ -32,7 +32,7 @@ public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOTyp
 	}
 
 	@Override
-	protected Column<VOType, ?> getColumn(BaseControl baseControl)
+	protected Column<VOType, ?> getColumn(BaseDictionaryControl baseControl)
 	{
 		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, null, this);
 	}

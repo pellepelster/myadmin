@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IntegerControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.BaseValidator;
@@ -97,7 +97,7 @@ public class IntegerControlFactory extends BaseControlFactory<IIntegerControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseControl baseControl)
+	public boolean supports(BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof IntegerControl;
 	}
