@@ -19,16 +19,7 @@ import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.gwt.ColumnLayoutStrategy;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryFilterUI;
 
-/**
- * Generic dictionary model based implementation of {@link IDictionaryFilterUI}
- * 
- * @author pelle
- * @version $Rev$, $Date$
- * 
- * @param <VOType>
- */
 public class DictionaryEditor<VOType extends IBaseVO>
 {
 

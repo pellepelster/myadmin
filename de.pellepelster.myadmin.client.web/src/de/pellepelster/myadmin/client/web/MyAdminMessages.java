@@ -67,7 +67,7 @@ public interface MyAdminMessages extends Messages
 	String searchCreate();
 
 	@DefaultMessage("{0} results")
-	// @AlternateMessage({ "=0", "{0} result" })
+	@AlternateMessage({ "=1", "{0} result" })
 	String searchResults(@PluralCount int resoultCount);
 
 	@DefaultMessage("Search")

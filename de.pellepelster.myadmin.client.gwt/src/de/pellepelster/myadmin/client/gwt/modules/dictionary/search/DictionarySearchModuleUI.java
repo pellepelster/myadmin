@@ -22,13 +22,11 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryResult;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.GwtDictionaryFilter;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryFilterPanel;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryResultPanel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
  * UI for the navigation module
@@ -36,7 +34,7 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  * @author pelle
  * 
  */
-public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule>
+public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>>
 {
 
 	private static final String DICTIONARY_CREATE_BUTTON_DEBUG_ID = "DictionaryCreateButton";
@@ -48,7 +46,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 	/**
 	 * @param module
 	 */
-	public DictionarySearchModuleUI(final DictionarySearchModule module)
+	public DictionarySearchModuleUI(final DictionarySearchModule<VOType> module)
 	{
 		super(module);
 
@@ -69,25 +67,16 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		final ISearchModel searchModel = module.getDictionaryModel().getSearchModel();
 
 		// searchModel.getResultModel()
-		final DictionaryResult<VOType> dictionaryResult = new DictionaryResult<VOType>(getModule().getDictionaryModel().getName(), null);
-		dictionaryResult.setResultsChangedCallback(new SimpleCallback<Integer>()
-		{
-
-			@Override
-			public void onCallback(Integer resultCount)
-			{
-				searchTitle.setText(DictionaryUtil.getSearchTitle(module.getDictionaryModel(), resultCount));
-			}
-		});
+		final DictionaryResultPanel<VOType> dictionaryResult = new DictionaryResultPanel<VOType>(getModule().getDictionaryModel().getName(), getModule()
+				.getDictionarySearch().getDictionaryResult());
 
 		if (!searchModel.getFilterModel().isEmpty())
 		{
 			// searchModel.getFilterModel().get(0)
-			final GwtDictionaryFilter<VOType> dictionaryFilter = new GwtDictionaryFilter<VOType>(null);
+			final DictionaryFilterPanel<VOType> dictionaryFilter = new DictionaryFilterPanel<VOType>(getModule().getDictionarySearch().getActiveFilter());
 
-			Panel filterPanel = dictionaryFilter.getContainer();
-			filterPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
-			verticalPanel.add(filterPanel);
+			dictionaryFilter.addStyleName(GwtStyles.VERTICAL_SPACING);
+			verticalPanel.add(dictionaryFilter);
 
 			actionBar.addButtonBarStart(MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
 			{
@@ -124,10 +113,9 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			}
 		}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_CREATE_BUTTON_DEBUG_ID);
 
-		Panel resultPanel = dictionaryResult.getContainer();
-		resultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
-		resultPanel.setWidth("100%");
-		verticalPanel.add(resultPanel);
+		dictionaryResult.addStyleName(GwtStyles.VERTICAL_SPACING);
+		dictionaryResult.setWidth("100%");
+		verticalPanel.add(dictionaryResult);
 	}
 
 	/** {@inheritDoc} */

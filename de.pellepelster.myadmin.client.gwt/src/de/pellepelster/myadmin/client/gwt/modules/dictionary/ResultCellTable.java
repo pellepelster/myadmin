@@ -16,17 +16,17 @@ import com.google.gwt.user.cellview.client.Column;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.search.ResultTable;
+import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 
 public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOType>
 {
 
-	private final ResultTable resultTable;
+	private final DictionaryResult<VOType> dictionaryResult;
 
-	public ResultCellTable(ResultTable resultTable)
+	public ResultCellTable(DictionaryResult<VOType> dictionaryResult)
 	{
-		super(resultTable.getControls());
-		this.resultTable = resultTable;
+		super(dictionaryResult.getControls());
+		this.dictionaryResult = dictionaryResult;
 
 		createModelColumns();
 	}

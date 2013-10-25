@@ -2,11 +2,13 @@ package de.pellepelster.myadmin.client.web.test;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 public class MyAdminTest
 {
@@ -41,6 +43,18 @@ public class MyAdminTest
 	{
 		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(dictionaryDescriptor.getId(), asyncCallback);
 		DictionaryEditorModuleFactory.openEditor(dictionaryDescriptor.getId());
+	}
+
+	public void deleteAllVOs(Class<? extends IBaseVO> voClass, final AsyncCallback asyncCallback)
+	{
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().deleteAll(voClass.getName(), new BaseErrorAsyncCallback()
+		{
+			@Override
+			public void onSuccess(Object result)
+			{
+				asyncCallback.onSuccess(null);
+			}
+		});
 	}
 
 	public void openSearch(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)

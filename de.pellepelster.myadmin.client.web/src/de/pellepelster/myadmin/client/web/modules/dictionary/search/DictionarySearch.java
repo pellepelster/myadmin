@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -7,10 +8,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
@@ -18,15 +21,23 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 {
 	private DictionaryResult<VOType> dictionaryResult;
 
+	private List<DictionaryFilter<VOType>> dictionaryFilters = new ArrayList<DictionaryFilter<VOType>>();
+
 	public DictionarySearch(ISearchModel searchModel)
 	{
 		super(searchModel, null);
 
 		this.dictionaryResult = new DictionaryResult<VOType>(searchModel.getResultModel(), this);
+
+		for (IFilterModel filterModel : searchModel.getFilterModel())
+		{
+			this.dictionaryFilters.add(new DictionaryFilter(filterModel, this));
+		}
 	}
 
 	public void search(final AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
 	{
+		@SuppressWarnings("unchecked")
 		GenericFilterVO<VOType> genericFilter = (GenericFilterVO<VOType>) ClientGenericFilterBuilder.createGenericFilter(getModel().getVOName())
 				.getGenericFilter();
 
@@ -42,8 +53,14 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 		});
 	}
 
-	public DictionaryResult<VOType> getDictionaryResult() {
-		return dictionaryResult;
+	public DictionaryFilter<VOType> getActiveFilter()
+	{
+		return this.dictionaryFilters.get(0);
 	}
-	
+
+	public DictionaryResult<VOType> getDictionaryResult()
+	{
+		return this.dictionaryResult;
+	}
+
 }

@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -19,7 +18,6 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.gwt.ColumnLayoutStrategy;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
-import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryFilterUI;
 
 /**
  * Generic dictionary model based implementation of {@link IDictionaryFilterUI}
@@ -29,43 +27,29 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.filter.IDictionaryF
  * 
  * @param <VOType>
  */
-public class GwtDictionaryFilter<VOType extends IBaseVO> implements IDictionaryFilterUI<VOType, Panel>
+public class DictionaryFilterPanel<VOType extends IBaseVO> extends VerticalPanel
 {
 
-	private final VerticalPanel verticalPanel = new VerticalPanel();
-
-	/** Filter model represented by this filter */
-	private final DictionaryFilter dictionaryFilter;
+	private final DictionaryFilter<VOType> dictionaryFilter;
 
 	private final ColumnLayoutStrategy layoutStrategy = new ColumnLayoutStrategy(LAYOUT_TYPE.FILTER);
 
 	/**
-	 * Constructor for {@link GwtDictionaryFilter}
+	 * Constructor for {@link DictionaryFilterPanel}
 	 * 
 	 * @param filterModel
 	 *            Model describing the filter
 	 */
-	public GwtDictionaryFilter(DictionaryFilter dictionaryFilter)
+	public DictionaryFilterPanel(DictionaryFilter<VOType> dictionaryFilter)
 	{
 		this.dictionaryFilter = dictionaryFilter;
-		layoutStrategy.createLayout(verticalPanel, dictionaryFilter.getRootComposite());
+		layoutStrategy.createLayout(this, dictionaryFilter.getRootComposite());
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public void clearFilter()
 	{
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public Panel getContainer()
-	{
-		return verticalPanel;
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public GenericFilterVO<VOType> getFilter()
 	{
 		@SuppressWarnings({ "rawtypes", "unchecked" })

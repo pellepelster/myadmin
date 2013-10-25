@@ -13,6 +13,8 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -87,8 +89,19 @@ public class DictionarySearchModuleTestUI<VOType extends IBaseVO> implements IMo
 
 	}
 
-	public TableRowTest<VOType> getResultTableRow(int rowIndex) {
-		return new TableRowTest<VOType>(module.getDictionarySearch().getDictionaryResult().getTableRow(rowIndex));
+	public TableRowTest<VOType> getResultTableRow(int rowIndex)
+	{
+		return new TableRowTest<VOType>(this.module.getDictionarySearch().getDictionaryResult().getTableRow(rowIndex));
+	}
+
+	public void assertTitle(String expectedTitle)
+	{
+		Assert.assertEquals(expectedTitle, this.module.getTitle());
+	}
+
+	public void assertResultCount(int expectedResultCount)
+	{
+		Assert.assertEquals(expectedResultCount, this.module.getDictionarySearch().getDictionaryResult().getRows().size());
 	}
 
 }

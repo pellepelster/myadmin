@@ -66,6 +66,8 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
+			result.assertResultCount(1);
+			result.assertTitle("CitySearch (1 result)");
 			result.getResultTableRow(0).getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_RESULT.CITY_NAME).assertValue("Hamburg");
 
 			finishTest();
@@ -78,6 +80,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
+			result.assertTitle("CitySearch (0 results)");
 			result.search(new TestCitySearchResult());
 		}
 	}
@@ -148,7 +151,14 @@ public class DemoClientTest extends GWTTestCase
 	@Test
 	public void testCity()
 	{
-		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.CITY, new TestCityEditorSave());
+		MyAdminTest.getInstance().deleteAllVOs(CityVO.class, new BaseErrorAsyncCallback()
+		{
+			@Override
+			public void onSuccess(Object result)
+			{
+				MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.CITY, new TestCityEditorSave());
+			}
+		});
 
 		delayTestFinish(2000);
 	}

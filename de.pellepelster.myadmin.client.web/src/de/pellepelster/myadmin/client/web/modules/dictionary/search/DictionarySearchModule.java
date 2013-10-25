@@ -89,7 +89,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 					@Override
 					public void onSuccess(List<IDictionaryModel> result)
 					{
-						DictionarySearchModule.this.dictionarySearch = new DictionarySearch(dictionaryModel.getSearchModel());
+						DictionarySearchModule.this.dictionarySearch = new DictionarySearch<VOType>(dictionaryModel.getSearchModel());
 						getModuleCallback().onSuccess(DictionarySearchModule.this);
 					}
 				});
@@ -100,7 +100,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getSearchTitle(this.dictionaryModel);
+		return DictionaryUtil.getSearchTitle(this.dictionaryModel, this.dictionarySearch.getDictionaryResult().getRows().size());
 	}
 
 	public DictionarySearch<VOType> getDictionarySearch()
