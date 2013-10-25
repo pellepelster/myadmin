@@ -9,7 +9,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 public class ReferenceControl extends BaseControl<IReferenceControlModel, IBaseVO>
 {
 
-	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseModelElement<IBaseModel> parent)
+	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(referenceControlModel, parent);
 	}

@@ -8,7 +8,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class HierarchicalControl extends BaseControl<IHierarchicalControlModel, IBaseVO>
 {
 
-	public HierarchicalControl(IHierarchicalControlModel hierarchicalControlModel, BaseModelElement<IBaseModel> parent)
+	public HierarchicalControl(IHierarchicalControlModel hierarchicalControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(hierarchicalControlModel, parent);
 	}

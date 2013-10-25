@@ -22,13 +22,13 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseVOKeyProvider;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {
-	public static BaseVOKeyProvider KEYPROVIDER = new BaseVOKeyProvider();
+	public static BaseTableRowKeyProvider KEYPROVIDER = new BaseTableRowKeyProvider();
 
 	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(KEYPROVIDER);
 

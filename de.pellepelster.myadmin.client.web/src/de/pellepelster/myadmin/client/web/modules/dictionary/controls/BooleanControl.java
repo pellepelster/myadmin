@@ -7,7 +7,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class BooleanControl extends BaseControl<IBooleanControlModel, BooleanControl>
 {
 
-	public BooleanControl(IBooleanControlModel booleanControlModel, BaseModelElement<IBaseModel> parent)
+	public BooleanControl(IBooleanControlModel booleanControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(booleanControlModel, parent);
 	}

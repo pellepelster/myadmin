@@ -22,6 +22,7 @@ import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
@@ -56,11 +57,11 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 
 	/** {@inheritDoc} */
 	@Override
-	public Column<IBaseVO, ?> createColumn(final ReferenceControl referenceControl, boolean editable, final ListDataProvider<?> listDataProvider,
+	public Column<TableRow<IBaseVO>, ?> createColumn(final ReferenceControl referenceControl, boolean editable, final ListDataProvider<?> listDataProvider,
 			final AbstractCellTable<?> abstractCellTable)
 	{
 
-		Column<IBaseVO, IBaseVO> column;
+		Column<TableRow<IBaseVO>, IBaseVO> column;
 
 		if (editable)
 		{
@@ -74,9 +75,9 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 							{
 
 								@Override
-								public String format(IBaseVO value)
+								public String format(IBaseVO vo)
 								{
-									return DictionaryUtil.getLabel(referenceControl.getModel(), value, "");
+									return DictionaryUtil.getLabel(referenceControl.getModel(), vo, "");
 								}
 
 								@Override
@@ -88,22 +89,22 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 					break;
 			}
 
-			column = new Column<IBaseVO, IBaseVO>(editTextCell)
+			column = new Column<TableRow<IBaseVO>, IBaseVO>(editTextCell)
 			{
 
 				@Override
-				public IBaseVO getValue(IBaseVO vo)
+				public IBaseVO getValue(TableRow<IBaseVO> tableRow)
 				{
-					return (IBaseVO) vo.get(referenceControl.getModel().getAttributePath());
+					return (IBaseVO) tableRow.getVO().get(referenceControl.getModel().getAttributePath());
 				}
 			};
 
-			FieldUpdater<IBaseVO, IBaseVO> fieldUpdater = new FieldUpdater<IBaseVO, IBaseVO>()
+			FieldUpdater<TableRow<IBaseVO>, IBaseVO> fieldUpdater = new FieldUpdater<TableRow<IBaseVO>, IBaseVO>()
 			{
 				@Override
-				public void update(int index, IBaseVO vo, IBaseVO value)
+				public void update(int index, TableRow<IBaseVO> tableRow, IBaseVO value)
 				{
-					vo.set(referenceControl.getModel().getAttributePath(), value);
+					tableRow.getVO().set(referenceControl.getModel().getAttributePath(), value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
@@ -111,12 +112,12 @@ public class ReferenceControlFactory extends BaseControlFactory<IReferenceContro
 		}
 		else
 		{
-			column = new Column<IBaseVO, IBaseVO>(new ReferenceCell(referenceControl.getModel()))
+			column = new Column<TableRow<IBaseVO>, IBaseVO>(new ReferenceCell(referenceControl.getModel()))
 			{
 				@Override
-				public IBaseVO getValue(IBaseVO vo)
+				public IBaseVO getValue(TableRow<IBaseVO> tableRow)
 				{
-					return (IBaseVO) vo.get(referenceControl.getModel().getAttributePath());
+					return (IBaseVO) tableRow.getVO().get(referenceControl.getModel().getAttributePath());
 				}
 			};
 		}

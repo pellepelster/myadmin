@@ -19,19 +19,19 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 {
 	private List<BaseControl<?, ?>> controls = Collections.emptyList();
 
-	private List<BaseContainer> children = Collections.emptyList();
+	private List<BaseContainer<?>> children = Collections.emptyList();
 
-	public BaseContainer(ModelType baseContainer, BaseModelElement<IBaseModel> parent)
+	public BaseContainer(ModelType baseContainer, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(baseContainer, parent);
 
 		if (!baseContainer.getChildren().isEmpty())
 		{
-			this.children = Lists.transform(baseContainer.getChildren(), new Function<IBaseContainerModel, BaseContainer>()
+			this.children = Lists.transform(baseContainer.getChildren(), new Function<IBaseContainerModel, BaseContainer<?>>()
 			{
 				@Override
 				@Nullable
-				public BaseContainer<IBaseContainerModel> apply(IBaseContainerModel baseContainerModel)
+				public BaseContainer<? extends IBaseContainerModel> apply(IBaseContainerModel baseContainerModel)
 				{
 					return ContainerFactory.getInstance().createContainer(baseContainerModel, BaseContainer.this);
 				}
@@ -56,7 +56,7 @@ public abstract class BaseContainer<ModelType extends IBaseContainerModel> exten
 		return this.controls;
 	}
 
-	public List<BaseContainer> getChildren()
+	public List<BaseContainer<?>> getChildren()
 	{
 		return this.children;
 	}

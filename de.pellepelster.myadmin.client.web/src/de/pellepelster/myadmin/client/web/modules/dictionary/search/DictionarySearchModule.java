@@ -19,7 +19,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -38,7 +37,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 {
 	private IDictionaryModel dictionaryModel;
 
-	private DictionarySearch dictionarySearch;
+	private DictionarySearch<VOType> dictionarySearch;
 
 	public DictionarySearchModule(String dictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
@@ -99,17 +98,12 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 		});
 	}
 
-	public void search(AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
-	{
-
-	}
-
 	public String getTitle()
 	{
 		return DictionaryUtil.getSearchTitle(this.dictionaryModel);
 	}
 
-	public DictionarySearch getDictionarySearch()
+	public DictionarySearch<VOType> getDictionarySearch()
 	{
 		return this.dictionarySearch;
 	}
@@ -118,6 +112,11 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 	public String getModuleId()
 	{
 		return this.dictionaryModel.getName();
+	}
+
+	public IDictionaryModel getDictionaryModel()
+	{
+		return this.dictionaryModel;
 	}
 
 }

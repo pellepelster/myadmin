@@ -9,7 +9,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public abstract class BaseControl<ModelType extends IBaseControlModel, ValueType> extends BaseModelElement<ModelType> implements IBaseControl<ValueType>
 {
 
-	public BaseControl(ModelType baseControlModel, BaseModelElement<IBaseModel> parent)
+	public BaseControl(ModelType baseControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(baseControlModel, parent);
 	}

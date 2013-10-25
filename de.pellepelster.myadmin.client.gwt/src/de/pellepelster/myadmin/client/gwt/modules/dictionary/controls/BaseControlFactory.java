@@ -20,13 +20,13 @@ import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.TypeHelper;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IUIControlFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
@@ -44,11 +44,11 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
 	@Override
-	public Column<IBaseVO, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
+	public Column<TableRow<IBaseVO>, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
 			final AbstractCellTable<?> abstractCellTable)
 	{
 
-		Column<IBaseVO, String> column;
+		Column<TableRow<IBaseVO>, String> column;
 
 		if (editable)
 		{
@@ -76,24 +76,24 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 				}
 			});
 
-			column = new Column<IBaseVO, String>(editTextCell)
+			column = new Column<TableRow<IBaseVO>, String>(editTextCell)
 			{
 
 				@Override
-				public String getValue(IBaseVO vo)
+				public String getValue(TableRow<IBaseVO> tableRow)
 				{
 					return baseControl.format();
 				}
 			};
 
-			FieldUpdater<IBaseVO, String> fieldUpdater = new FieldUpdater<IBaseVO, String>()
+			FieldUpdater<TableRow<IBaseVO>, String> fieldUpdater = new FieldUpdater<TableRow<IBaseVO>, String>()
 			{
 				@SuppressWarnings("unchecked")
 				@Override
-				public void update(int index, IBaseVO vo, String value)
+				public void update(int index, TableRow<IBaseVO> tableRow, String value)
 				{
 
-					Object key = BaseCellTable.KEYPROVIDER.getKey(vo);
+					Object key = BaseCellTable.KEYPROVIDER.getKey(tableRow);
 
 					List<IValidator> validators = createValidators(baseControl);
 					List<IValidationMessage> validationMessages = ValidationUtils.validate(validators, value, baseControl.getModel());
@@ -109,8 +109,9 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 					{
 						viewData.getValidationMessages().clear();
 
-						vo.set(baseControl.getModel().getAttributePath(),
-								TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(), value));
+						// vo.set(baseControl.getModel().getAttributePath(),
+						// TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(),
+						// value));
 					}
 
 					listDataProvider.refresh();
@@ -121,11 +122,11 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		}
 		else
 		{
-			column = new Column<IBaseVO, String>(new TextCell())
+			column = new Column<TableRow<IBaseVO>, String>(new TextCell())
 			{
 
 				@Override
-				public String getValue(IBaseVO vo)
+				public String getValue(TableRow<IBaseVO> tableRow)
 				{
 					return baseControl.format();
 				}

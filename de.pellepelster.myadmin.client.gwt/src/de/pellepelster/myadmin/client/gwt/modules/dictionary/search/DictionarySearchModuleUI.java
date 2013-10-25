@@ -140,6 +140,6 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 	@Override
 	public String getTitle()
 	{
-		return getModule().getDictionaryModel().getTitle();
+		return getModule().getTitle();
 	}
 }

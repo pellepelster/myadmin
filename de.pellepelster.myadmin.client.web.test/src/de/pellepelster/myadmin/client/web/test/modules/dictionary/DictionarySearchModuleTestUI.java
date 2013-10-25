@@ -11,10 +11,17 @@
  */
 package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearch;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * UI for the navigation module
@@ -62,9 +69,22 @@ public class DictionarySearchModuleTestUI<VOType extends IBaseVO> implements IMo
 		return this.module.getTitle();
 	}
 
-	public DictionarySearch getDictionarySearch()
+	public DictionarySearch<VOType> getDictionarySearch()
 	{
 		return this.module.getDictionarySearch();
+	}
+
+	public void search(final AsyncCallback<DictionarySearchModuleTestUI<VOType>> asyncCallback)
+	{
+		this.module.getDictionarySearch().search(new BaseErrorAsyncCallback<List<IBaseTable.ITableRow<VOType>>>()
+		{
+			@Override
+			public void onSuccess(List<ITableRow<VOType>> result)
+			{
+				asyncCallback.onSuccess(DictionarySearchModuleTestUI.this);
+			}
+		});
+
 	}
 
 }

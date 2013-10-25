@@ -12,7 +12,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class DateControl extends BaseControl<IDateControlModel, Date>
 {
 
-	public DateControl(IDateControlModel dateControlModel, BaseModelElement<IBaseModel> parent)
+	public DateControl(IDateControlModel dateControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(dateControlModel, parent);
 	}

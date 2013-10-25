@@ -7,7 +7,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class IntegerControl extends BaseControl<IIntegerControlModel, Integer>
 {
 
-	public IntegerControl(IIntegerControlModel integerControlModel, BaseModelElement<IBaseModel> parent)
+	public IntegerControl(IIntegerControlModel integerControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(integerControlModel, parent);
 	}

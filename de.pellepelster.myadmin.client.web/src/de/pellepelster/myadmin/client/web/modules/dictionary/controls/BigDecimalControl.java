@@ -11,7 +11,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class BigDecimalControl extends BaseControl<IBigDecimalControlModel, BigDecimal>
 {
 
-	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, BaseModelElement<IBaseModel> parent)
+	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(decimalControlModel, parent);
 	}

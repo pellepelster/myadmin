@@ -8,7 +8,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class TextControl extends BaseControl<ITextControlModel, String> implements ITextControl
 {
 
-	public TextControl(ITextControlModel textControlModel, BaseModelElement<IBaseModel> parent)
+	public TextControl(ITextControlModel textControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(textControlModel, parent);
 	}

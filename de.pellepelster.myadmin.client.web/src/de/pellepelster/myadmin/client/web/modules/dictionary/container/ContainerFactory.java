@@ -20,7 +20,7 @@ public class ContainerFactory
 		return instance;
 	}
 
-	public static BaseContainer createContainer(IBaseContainerModel baseContainerModel, BaseModelElement parent)
+	public static BaseContainer<? extends IBaseContainerModel> createContainer(IBaseContainerModel baseContainerModel, BaseModelElement parent)
 	{
 		if (baseContainerModel instanceof ICompositeModel)
 		{

@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
@@ -25,7 +26,7 @@ public class ControlFactory
 		return instance;
 	}
 
-	public static BaseControl createControl(IBaseControlModel baseControlModel, BaseModelElement parent)
+	public static BaseControl createControl(IBaseControlModel baseControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		if (baseControlModel instanceof ITextControlModel)
 		{

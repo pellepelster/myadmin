@@ -70,8 +70,8 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
-			result.getDictionarySearch().g
-			
+			// result.getDictionarySearch().g
+
 			finishTest();
 		}
 	}
@@ -82,7 +82,7 @@ public class DemoClientTest extends GWTTestCase
 		@Override
 		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
 		{
-			result.getDictionarySearch().search(new TestCitySearchResult());
+			result.search(new TestCitySearchResult());
 		}
 	}
 

@@ -12,10 +12,12 @@
 package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.controls.ControlModelFactory;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
@@ -31,7 +33,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryResultVO
 public class ResultModel extends BaseModel implements IResultModel
 {
 	private static final long serialVersionUID = 5301525147488261695L;
-	
+
 	private List<IBaseControlModel> controls = new ArrayList<IBaseControlModel>();
 	private DictionaryResultVO resultVO;
 	private String name;
@@ -51,11 +53,11 @@ public class ResultModel extends BaseModel implements IResultModel
 	{
 		super(parent);
 		this.resultVO = resultVO;
-		name = resultVO.getName();
+		this.name = resultVO.getName();
 
 		for (DictionaryControlVO controlVO : resultVO.getControls())
 		{
-			controls.add(ControlModelFactory.getControlModel(parent, controlVO));
+			this.controls.add(ControlModelFactory.getControlModel(parent, controlVO));
 		}
 	}
 
@@ -63,7 +65,7 @@ public class ResultModel extends BaseModel implements IResultModel
 	@Override
 	public List<IBaseControlModel> getControls()
 	{
-		return controls;
+		return this.controls;
 	}
 
 	/** {@inheritDoc} */
@@ -76,21 +78,33 @@ public class ResultModel extends BaseModel implements IResultModel
 	@Override
 	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int getPagingSize()
 	{
-		if (resultVO.getPagingSize() > 0)
+		if (this.resultVO.getPagingSize() > 0)
 		{
-			return resultVO.getPagingSize();
+			return this.resultVO.getPagingSize();
 		}
 		else
 		{
 			return IResultModel.DEFAULT_PAGING_SIZE;
 		}
+	}
+
+	@Override
+	public Integer getVisibleRows()
+	{
+		return null;
+	}
+
+	@Override
+	public List<IBaseContainerModel> getChildren()
+	{
+		return Collections.emptyList();
 	}
 
 }

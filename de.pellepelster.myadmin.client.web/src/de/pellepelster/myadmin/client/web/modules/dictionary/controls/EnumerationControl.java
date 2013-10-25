@@ -9,7 +9,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseModelEleme
 public class EnumerationControl extends BaseControl<IEnumerationControlModel, Enumeration>
 {
 
-	public EnumerationControl(IEnumerationControlModel enumerationControlModel, BaseModelElement<IBaseModel> parent)
+	public EnumerationControl(IEnumerationControlModel enumerationControlModel, BaseModelElement<? extends IBaseModel> parent)
 	{
 		super(enumerationControlModel, parent);
 	}

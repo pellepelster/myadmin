@@ -14,7 +14,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElem
 
 public class DictionaryElementUtil
 {
-	public static <ElementType> ElementType getElement(BaseRootElement baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
+	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
 		List<String> modelIds = getModelIds(dictionaryDescriptor);
 
@@ -30,7 +30,7 @@ public class DictionaryElementUtil
 
 	}
 
-	private static <ElementType> ElementType getElement(List<BaseContainer> baseContainers, List<String> modelIds, int level)
+	private static <ElementType> ElementType getElement(List<BaseContainer<?>> baseContainers, List<String> modelIds, int level)
 	{
 		for (BaseContainer<?> baseContainer : baseContainers)
 		{
@@ -85,7 +85,7 @@ public class DictionaryElementUtil
 	{
 		List<String> modelIds = new ArrayList<String>();
 
-		DictionaryDescriptor currentDescriptor = dictionaryDescriptor;
+		DictionaryDescriptor<?> currentDescriptor = dictionaryDescriptor;
 
 		while (currentDescriptor != null)
 		{
