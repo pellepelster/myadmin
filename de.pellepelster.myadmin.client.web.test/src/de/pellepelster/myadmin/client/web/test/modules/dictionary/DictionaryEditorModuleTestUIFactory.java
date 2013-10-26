@@ -23,7 +23,7 @@ public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Obj
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
 		return new DictionaryEditorModuleTestUI((DictionaryEditorModule) module);
 	}

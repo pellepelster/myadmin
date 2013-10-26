@@ -18,33 +18,53 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextHeader;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {
-	public static BaseTableRowKeyProvider KEYPROVIDER = new BaseTableRowKeyProvider();
+	private ListDataProvider<IBaseTable.ITableRow<VOType>> dataProvider = new ListDataProvider<IBaseTable.ITableRow<VOType>>();
 
-	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(KEYPROVIDER);
-
-	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl);
+	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel;
 
 	private List<BaseDictionaryControl<?, ?>> baseControls;
 
+	public BaseDataGrid(final BaseTableElement<VOType, ? extends IBaseTableModel> baseTable)
+	{
+		this(baseTable.getControls());
+
+		baseTable.addTableUpdateListeners(new TableUpdateListener()
+		{
+			@Override
+			public void onUpdate()
+			{
+				dataProvider.setList(baseTable.getRows());
+			}
+		});
+	}
+
 	public BaseDataGrid(List<BaseDictionaryControl<?, ?>> baseControls)
 	{
-		super(KEYPROVIDER);
+		super(new BaseTableRowKeyProvider<VOType>());
+
+		selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(getKeyProvider());
 		this.baseControls = baseControls;
+		dataProvider.addDataDisplay(this);
 	}
 
 	protected void createModelColumns()
 	{
-		for (BaseDictionaryControl baseControl : baseControls)
+		for (BaseDictionaryControl<?, ?> baseControl : baseControls)
 		{
 			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
 			addColumn(getColumn(baseControl), textHeader);
@@ -75,6 +95,18 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 	public IBaseTable.ITableRow<VOType> getCurrentSelection()
 	{
 		return selectionModel.getSelectedObject();
+	}
+
+	public ListDataProvider<IBaseTable.ITableRow<VOType>> getDataProvider()
+	{
+		return dataProvider;
+	}
+
+	protected abstract Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl);
+
+	public void setRows(List<ITableRow<VOType>> rows)
+	{
+		dataProvider.setList(rows);
 	}
 
 }

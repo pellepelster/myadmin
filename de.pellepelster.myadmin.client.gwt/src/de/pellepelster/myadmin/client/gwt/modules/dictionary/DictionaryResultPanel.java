@@ -16,8 +16,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
+import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
@@ -25,17 +27,13 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 
 	private final ResultCellTable<VOType> resultCellTable;
 
-	private final MyAdminAsyncDataProvider<VOType> dataProvider;
-
-	public DictionaryResultPanel(final String dictionaryModelName,
-			de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult<VOType> dictionaryResult)
+	public DictionaryResultPanel(final String dictionaryModelName, final DictionaryResult<VOType> dictionaryResult)
 	{
 
 		resultCellTable = new ResultCellTable<VOType>(dictionaryResult);
 		resultCellTable.setWidth("100%");
 		resultCellTable.addVOSelectHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 		{
-
 			/** {@inheritDoc} */
 			@Override
 			public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
@@ -44,8 +42,15 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 			}
 		});
 
-		dataProvider = new MyAdminAsyncDataProvider<VOType>();
-		dataProvider.addDataDisplay(resultCellTable);
+		dictionaryResult.addTableUpdateListeners(new TableUpdateListener()
+		{
+			@Override
+			public void onUpdate()
+			{
+				resultCellTable.setRows(dictionaryResult.getRows());
+			}
+		});
+
 		add(resultCellTable);
 	}
 
@@ -58,7 +63,6 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 
 	public void setFilter(GenericFilterVO<VOType> genericFilterVO)
 	{
-		dataProvider.setGenericFilterVO(genericFilterVO);
 		resultCellTable.setVisibleRangeAndClearData(resultCellTable.getVisibleRange(), true);
 	}
 

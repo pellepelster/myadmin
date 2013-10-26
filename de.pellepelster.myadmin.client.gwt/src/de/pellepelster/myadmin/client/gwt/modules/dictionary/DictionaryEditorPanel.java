@@ -20,32 +20,23 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryM
 import de.pellepelster.myadmin.client.gwt.ColumnLayoutStrategy;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
-public class DictionaryEditor<VOType extends IBaseVO>
+public class DictionaryEditorPanel<VOType extends IBaseVO> extends VerticalPanel
 {
-
-	private final VerticalPanel verticalPanel = new VerticalPanel();
-
 	private final IDictionaryModel dictionaryModel;
 
 	private final ColumnLayoutStrategy layoutStrategy = new ColumnLayoutStrategy(LAYOUT_TYPE.EDITOR);
 
 	/**
-	 * Constructor for {@link DictionaryEditor}
+	 * Constructor for {@link DictionaryEditorPanel}
 	 * 
 	 * @param dictionaryEditorModule
 	 */
-	public DictionaryEditor(DictionaryEditorModule<VOType> dictionaryEditorModule)
+	public DictionaryEditorPanel(DictionaryEditorModule<VOType> dictionaryEditorModule)
 	{
-
 		this.dictionaryModel = dictionaryEditorModule.getDictionaryModel();
 
-		verticalPanel.setWidth("100%");
-		layoutStrategy.createLayout(verticalPanel, dictionaryEditorModule.getDictionaryEditor().getRootComposite());
-	}
-
-	public Widget getContainer()
-	{
-		return verticalPanel;
+		setWidth("100%");
+		layoutStrategy.createLayout(this, dictionaryEditorModule.getDictionaryEditor().getRootComposite());
 	}
 
 }

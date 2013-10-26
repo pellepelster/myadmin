@@ -22,7 +22,7 @@ public class NavigationModuleTestUIFactory implements IModuleUIFactory<Object, M
 {
 
 	@Override
-	public IModuleUI<Object, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
 		return new NavigationModuleTestUI((ModuleNavigationModule) module);
 	}

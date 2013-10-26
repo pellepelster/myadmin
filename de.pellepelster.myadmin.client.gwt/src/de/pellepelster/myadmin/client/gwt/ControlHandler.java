@@ -40,14 +40,16 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  * 
  */
 @SuppressWarnings("unchecked")
-public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>>
-		implements IUIControlFactory<ControlModelType, ControlType> {
+public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> implements
+		IUIControlFactory<ControlModelType, ControlType>
+{
 
 	private static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> instance;
 
 	private static List<IUIControlFactory<?, ?>> controlFactories = new ArrayList<IUIControlFactory<?, ?>>();
 
-	private ControlHandler() {
+	private ControlHandler()
+	{
 		super();
 		controlFactories.add(new TextControlFactory());
 		controlFactories.add(new IntegerControlFactory());
@@ -59,8 +61,10 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		controlFactories.add(new HierarchicalControlFactory());
 	}
 
-	public static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> getInstance() {
-		if (instance == null) {
+	public static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>>();
 		}
 
@@ -70,42 +74,43 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("rawtypes")
-	public Column createColumn(ControlType baseControl, boolean editable,
-			ListDataProvider<?> listDataProvider,
-			AbstractCellTable<?> abstractCellTable) {
-		return getControlFactory(baseControl).createColumn(baseControl,
-				editable, listDataProvider, abstractCellTable);
+	public Column createColumn(ControlType baseControl, boolean editable, ListDataProvider<?> listDataProvider, AbstractCellTable<?> abstractCellTable)
+	{
+		return getControlFactory(baseControl).createColumn(baseControl, editable, listDataProvider, abstractCellTable);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType) {
-		return getControlFactory(baseControl).createControl(baseControl,
-				layoutType);
+	public Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType)
+	{
+		return getControlFactory(baseControl).createControl(baseControl, layoutType);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidator> createValidators(ControlType baseControl) {
+	public List<IValidator> createValidators(ControlType baseControl)
+	{
 		return getControlFactory(baseControl).createValidators(baseControl);
 	}
 
-	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(
-			BaseDictionaryControl<ControlModelType, ?> baseControl) {
+	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(BaseDictionaryControl<ControlModelType, ?> baseControl)
+	{
 
-		for (IUIControlFactory<?, ?> controlFactory : controlFactories) {
-			if (controlFactory.supports(baseControl)) {
+		for (IUIControlFactory<?, ?> controlFactory : controlFactories)
+		{
+			if (controlFactory.supports(baseControl))
+			{
 				return (IUIControlFactory<ControlModelType, ControlType>) controlFactory;
 			}
 		}
 
-		throw new RuntimeException("unsupported control model '"
-				+ baseControl.getModel().getClass().getName() + "'");
+		throw new RuntimeException("unsupported control model '" + baseControl.getModel().getClass().getName() + "'");
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControl) {
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
+	{
 		return true;
 	}
 

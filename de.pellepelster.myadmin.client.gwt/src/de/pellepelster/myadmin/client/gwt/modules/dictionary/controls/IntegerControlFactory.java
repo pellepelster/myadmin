@@ -97,7 +97,7 @@ public class IntegerControlFactory extends BaseControlFactory<IIntegerControlMod
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return baseControl instanceof IntegerControl;
 	}

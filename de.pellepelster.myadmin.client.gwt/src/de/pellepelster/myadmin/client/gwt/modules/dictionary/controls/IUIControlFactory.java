@@ -20,20 +20,20 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> {
+public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>>
+{
 
-	Column<TableRow<IBaseVO, ?>, ?> createColumn(ControlType baseControl,
-			boolean editable, ListDataProvider<?> listDataProvider,
+	Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(ControlType baseControl, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable);
 
 	Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType);
 
 	List<IValidator> createValidators(ControlType baseControl);
 
-	boolean supports(BaseDictionaryControl baseControl);
+	boolean supports(BaseDictionaryControl<?, ?> baseControl);
 }

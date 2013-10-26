@@ -19,10 +19,10 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
@@ -32,87 +32,92 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceC
  * @author pelle
  * 
  */
-public class ReferenceControlFactory extends
-		BaseControlFactory<IReferenceControlModel, ReferenceControl> {
+public class ReferenceControlFactory<VOType extends IBaseVO> extends BaseControlFactory<IReferenceControlModel, ReferenceControl<VOType>>
+{
 
 	/** {@inheritDoc} */
 	@Override
-	public Widget createControl(ReferenceControl referenceControl,
-			LAYOUT_TYPE layoutType) {
-		switch (referenceControl.getModel().getControlType()) {
-		case DROPDOWN:
-			return new ReferenceDropdownControl(referenceControl);
-		default:
-			return new ReferenceTextControl(referenceControl);
+	public Widget createControl(ReferenceControl<VOType> referenceControl, LAYOUT_TYPE layoutType)
+	{
+		switch (referenceControl.getModel().getControlType())
+		{
+			case DROPDOWN:
+				return new ReferenceDropdownControl(referenceControl);
+			default:
+				return new ReferenceTextControl(referenceControl);
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControl) {
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
+	{
 		return baseControl instanceof ReferenceControl;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Column<TableRow<IBaseVO, ?>, ?> createColumn(
-			final ReferenceControl referenceControl, boolean editable,
-			final ListDataProvider<?> listDataProvider,
-			final AbstractCellTable<?> abstractCellTable) {
+	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final ReferenceControl<VOType> referenceControl, boolean editable,
+			final ListDataProvider<?> listDataProvider, final AbstractCellTable<?> abstractCellTable)
+	{
 
-		Column<TableRow<IBaseVO, ?>, IBaseVO> column;
+		Column<IBaseTable.ITableRow<IBaseVO>, VOType> column;
 
-		if (editable) {
-			final BaseCellControl<IBaseVO> editTextCell;
+		if (editable)
+		{
+			final BaseCellControl<VOType> editTextCell;
 
-			switch (referenceControl.getModel().getControlType()) {
-			default:
-				editTextCell = new SuggestCellControl<IBaseVO>(
-						referenceControl.getModel(), new VOSuggestOracle(
-								referenceControl.getModel()),
-						new IValueHandler<IBaseVO>() {
+			switch (referenceControl.getModel().getControlType())
+			{
+				default:
+					editTextCell = new SuggestCellControl<VOType>(referenceControl.getModel(), new VOSuggestOracle(referenceControl.getModel()),
+							new IValueHandler<VOType>()
+							{
 
-							@Override
-							public String format(IBaseVO vo) {
-								return DictionaryUtil.getLabel(
-										referenceControl.getModel(), vo, "");
-							}
+								@Override
+								public String format(VOType vo)
+								{
+									return DictionaryUtil.getLabel(referenceControl.getModel(), vo, "");
+								}
 
-							@Override
-							public IBaseVO parse(String value) {
-								return null;
-							}
-						});
-				break;
+								@Override
+								public VOType parse(String value)
+								{
+									return null;
+								}
+							});
+					break;
 			}
 
-			column = new Column<TableRow<IBaseVO, ?>, IBaseVO>(editTextCell) {
+			column = new Column<IBaseTable.ITableRow<IBaseVO>, VOType>(editTextCell)
+			{
 
 				@Override
-				public IBaseVO getValue(TableRow<IBaseVO, ?> tableRow) {
-					return (IBaseVO) tableRow.getVO().get(
-							referenceControl.getModel().getAttributePath());
+				public VOType getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
+				{
+					return (VOType) tableRow.getElement(referenceControl.getModel()).getValue();
 				}
 			};
 
-			FieldUpdater<TableRow<IBaseVO, ?>, IBaseVO> fieldUpdater = new FieldUpdater<TableRow<IBaseVO, ?>, IBaseVO>() {
+			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, VOType> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, VOType>()
+			{
 				@Override
-				public void update(int index, TableRow<IBaseVO, ?> tableRow,
-						IBaseVO value) {
-					tableRow.getVO().set(
-							referenceControl.getModel().getAttributePath(),
-							value);
+				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, VOType value)
+				{
+					tableRow.getElement(referenceControl.getModel()).setValue(value);
 				}
 			};
 			column.setFieldUpdater(fieldUpdater);
 
-		} else {
-			column = new Column<TableRow<IBaseVO, ?>, IBaseVO>(
-					new ReferenceCell(referenceControl.getModel())) {
+		}
+		else
+		{
+			column = new Column<IBaseTable.ITableRow<IBaseVO>, VOType>(new ReferenceCell<VOType>(referenceControl.getModel()))
+			{
 				@Override
-				public IBaseVO getValue(TableRow<IBaseVO, ?> tableRow) {
-					return (IBaseVO) tableRow.getVO().get(
-							referenceControl.getModel().getAttributePath());
+				public VOType getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
+				{
+					return (VOType) tableRow.getElement(referenceControl.getModel()).getValue();
 				}
 			};
 		}

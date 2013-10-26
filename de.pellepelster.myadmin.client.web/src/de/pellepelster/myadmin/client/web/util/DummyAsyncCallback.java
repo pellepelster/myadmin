@@ -2,9 +2,14 @@ package de.pellepelster.myadmin.client.web.util;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-@SuppressWarnings("rawtypes")
-public class DummyAsyncCallback implements AsyncCallback
+public class DummyAsyncCallback<T> implements AsyncCallback<T>
 {
+	@SuppressWarnings("rawtypes")
+	private static DummyAsyncCallback instance = new DummyAsyncCallback();
+
+	private DummyAsyncCallback()
+	{
+	}
 
 	@Override
 	public void onFailure(Throwable caught)
@@ -14,6 +19,11 @@ public class DummyAsyncCallback implements AsyncCallback
 	@Override
 	public void onSuccess(Object result)
 	{
+	}
+
+	public static DummyAsyncCallback dummyAsyncCallback()
+	{
+		return instance;
 	}
 
 }

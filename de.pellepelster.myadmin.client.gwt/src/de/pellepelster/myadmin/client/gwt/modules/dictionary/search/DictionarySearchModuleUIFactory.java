@@ -25,9 +25,8 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySe
 public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> implements IModuleUIFactory<Panel, DictionaryEditorModule<VOType>>
 {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
 		return new DictionarySearchModuleUI((DictionarySearchModule) module);
 	}

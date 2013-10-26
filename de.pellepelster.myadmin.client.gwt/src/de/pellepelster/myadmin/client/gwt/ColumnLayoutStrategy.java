@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTable;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
@@ -74,7 +74,7 @@ public class ColumnLayoutStrategy {
 				parent.add(container.getContainer());
 
 				if (container.getContainer() instanceof Panel
-						&& !(lBaseContainer instanceof BaseTable)) {
+						&& !(lBaseContainer instanceof BaseTableElement)) {
 					createLayout(container.getContainer(), lBaseContainer);
 				}
 			}

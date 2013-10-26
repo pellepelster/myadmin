@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
@@ -14,7 +15,7 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEditableTableModel> implements IEditableTable<VOType>
+public class EditableTable<VOType extends IBaseVO> extends BaseTableElement<VOType, IEditableTableModel> implements IEditableTable<VOType>
 {
 	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
 
@@ -44,5 +45,11 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTable<VOType, IEd
 						// getSelectionModel().setSelected(newVO, true);
 					}
 				});
+	}
+
+	@Override
+	public void delete(IBaseTable.ITableRow<VOType> tableRow)
+	{
+		throw new RuntimeException("not implemented");
 	}
 }

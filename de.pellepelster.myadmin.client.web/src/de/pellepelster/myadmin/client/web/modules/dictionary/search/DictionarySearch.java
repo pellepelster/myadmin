@@ -16,6 +16,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionary
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
 
 public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElement<ISearchModel>
 {
@@ -33,6 +34,11 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 		{
 			this.dictionaryFilters.add(new DictionaryFilter(filterModel, this));
 		}
+	}
+
+	public void search()
+	{
+		search(DummyAsyncCallback.dummyAsyncCallback());
 	}
 
 	public void search(final AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
@@ -61,6 +67,11 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	public DictionaryResult<VOType> getDictionaryResult()
 	{
 		return this.dictionaryResult;
+	}
+
+	public boolean hasFilter()
+	{
+		return !this.dictionaryFilters.isEmpty();
 	}
 
 }

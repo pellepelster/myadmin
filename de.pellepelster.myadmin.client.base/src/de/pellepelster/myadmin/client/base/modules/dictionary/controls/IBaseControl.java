@@ -6,4 +6,6 @@ public interface IBaseControl<ValueType>
 
 	ValueType getValue();
 
+	String format();
+
 }

@@ -46,7 +46,7 @@ public class GwtEnumerationControl extends ListBox
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(getEnumForSelection());
+				enumarationControl.setValue(getEnumForSelection());
 			}
 		});
 

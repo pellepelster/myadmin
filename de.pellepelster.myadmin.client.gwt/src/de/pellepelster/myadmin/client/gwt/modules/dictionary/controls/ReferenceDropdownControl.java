@@ -31,7 +31,7 @@ public class ReferenceDropdownControl extends ListBox
 	private final ReferenceControl referenceControl;
 	private final ControlHelper gwtControlHelper;
 
-	public ReferenceDropdownControl(final ReferenceControl referenceControl)
+	public ReferenceDropdownControl(final ReferenceControl<?> referenceControl)
 	{
 		super(false);
 
@@ -46,7 +46,7 @@ public class ReferenceDropdownControl extends ListBox
 			@Override
 			public void onChange(ChangeEvent event)
 			{
-				gwtControlHelper.fireValueChangeListeners(null);
+				referenceControl.setValue(null);
 			}
 		});
 

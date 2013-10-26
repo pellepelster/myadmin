@@ -22,12 +22,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictio
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-/**
- * control factory for text controls
- * 
- * @author pelle
- * 
- */
 public class TextControlFactory extends BaseControlFactory<ITextControlModel, TextControl>
 {
 
@@ -49,7 +43,7 @@ public class TextControlFactory extends BaseControlFactory<ITextControlModel, Te
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControl)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControl)
 	{
 		return baseControl instanceof TextControl;
 	}

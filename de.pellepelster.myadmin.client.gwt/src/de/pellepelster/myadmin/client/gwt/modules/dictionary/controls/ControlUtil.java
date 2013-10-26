@@ -19,31 +19,32 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.GwtEditableTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
+import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 
 public class ControlUtil
 {
 
 	public static boolean hasFirstEditMarker(Context context, IBaseControlModel baseControlModel)
 	{
-		if (context.getKey() == null || !(context.getKey() instanceof IBaseVO))
+		if (context.getKey() == null || !(context.getKey() instanceof IBaseTable.ITableRow))
 		{
 			throw new RuntimeException("context key is null or not IBaseVO");
 		}
 
-		return hasFirstEditMarker((IBaseVO) context.getKey(), baseControlModel);
+		return hasFirstEditMarker((IBaseTable.ITableRow) context.getKey(), baseControlModel);
 	}
 
-	public static boolean hasFirstEditMarker(IBaseVO vo, IBaseControlModel baseControlModel)
+	public static boolean hasFirstEditMarker(IBaseTable.ITableRow tableRow, IBaseControlModel baseControlModel)
 	{
-		return vo.getData().containsKey(baseControlModel.getName())
-				&& vo.getData().get(baseControlModel.getName()).equals(GwtEditableTable.CONTROL_FIRST_EDIT_DATA_KEY);
+		return tableRow.getVO().getData().containsKey(baseControlModel.getName())
+				&& tableRow.getVO().getData().get(baseControlModel.getName()).equals(EditableTable.CONTROL_FIRST_EDIT_DATA_KEY);
 	}
 
 	public static void removeFirstEditMarker(Context context, IBaseControlModel baseControlModel)

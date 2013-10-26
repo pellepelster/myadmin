@@ -13,8 +13,6 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
 import java.util.Date;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
@@ -37,17 +35,6 @@ public class GwtDateControl extends DateBox
 
 		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(this.dateControl.getModel().getFormatPattern())));
 		gwtControlHelper = new ControlHelper(this, dateControl, false, Date.class);
-
-		addValueChangeHandler(new ValueChangeHandler<Date>()
-		{
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Date> event)
-			{
-				gwtControlHelper.fireValueChangeListeners(event.getValue());
-			}
-		});
-
 	}
 
 	/** {@inheritDoc} */

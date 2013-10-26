@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
@@ -64,13 +63,11 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		searchTitle.addStyleName(GwtStyles.SEARCH_TITLE);
 		verticalPanel.add(searchTitle);
 
-		final ISearchModel searchModel = module.getDictionaryModel().getSearchModel();
-
 		// searchModel.getResultModel()
-		final DictionaryResultPanel<VOType> dictionaryResult = new DictionaryResultPanel<VOType>(getModule().getDictionaryModel().getName(), getModule()
+		final DictionaryResultPanel<VOType> dictionaryResultPanel = new DictionaryResultPanel<VOType>(getModule().getDictionaryModel().getName(), getModule()
 				.getDictionarySearch().getDictionaryResult());
 
-		if (!searchModel.getFilterModel().isEmpty())
+		if (getModule().getDictionarySearch().hasFilter())
 		{
 			// searchModel.getFilterModel().get(0)
 			final DictionaryFilterPanel<VOType> dictionaryFilter = new DictionaryFilterPanel<VOType>(getModule().getDictionarySearch().getActiveFilter());
@@ -84,7 +81,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 				@Override
 				public void onClick(ClickEvent event)
 				{
-					dictionaryResult.setFilter(dictionaryFilter.getFilter());
+					module.getDictionarySearch().search();
 				}
 			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_BUTTON_DEBUG_ID);
 		}
@@ -96,7 +93,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 				@Override
 				public void onClick(ClickEvent event)
 				{
-					dictionaryResult.setFilter(dictionaryResult.getEmptyFilter(searchModel));
+					module.getDictionarySearch().search();
 				}
 			}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_SEARCH_BUTTON_DEBUG_ID);
 
@@ -113,9 +110,9 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			}
 		}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_CREATE_BUTTON_DEBUG_ID);
 
-		dictionaryResult.addStyleName(GwtStyles.VERTICAL_SPACING);
-		dictionaryResult.setWidth("100%");
-		verticalPanel.add(dictionaryResult);
+		dictionaryResultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
+		dictionaryResultPanel.setWidth("100%");
+		verticalPanel.add(dictionaryResultPanel);
 	}
 
 	/** {@inheritDoc} */

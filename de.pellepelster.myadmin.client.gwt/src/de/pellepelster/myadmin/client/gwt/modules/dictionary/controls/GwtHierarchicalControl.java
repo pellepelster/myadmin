@@ -55,7 +55,7 @@ public class GwtHierarchicalControl extends Anchor
 							public void onCallback(IHierarchicalVO vo)
 							{
 								setContent(vo);
-								controlHelper.fireValueChangeListeners(vo);
+								hierarchicalControl.setValue(vo);
 							}
 						});
 						result.show();

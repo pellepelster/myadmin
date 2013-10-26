@@ -23,14 +23,14 @@ import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceTextControl extends SuggestBox
+public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox
 {
 
-	private IBaseVO vo;
-	private final ReferenceControl referenceControl;
+	private VOType vo;
+	private final ReferenceControl<VOType> referenceControl;
 	private final ControlHelper gwtControlHelper;
 
-	public ReferenceTextControl(final ReferenceControl referenceControl)
+	public ReferenceTextControl(final ReferenceControl<VOType> referenceControl)
 	{
 		super(new VOSuggestOracle(referenceControl.getModel()));
 
@@ -46,9 +46,9 @@ public class ReferenceTextControl extends SuggestBox
 			{
 				if (selectionEvent.getSelectedItem() instanceof VOSuggestion)
 				{
-					VOSuggestion voSuggestion = (VOSuggestion) selectionEvent.getSelectedItem();
-					vo = voSuggestion.getVo();
-					gwtControlHelper.fireValueChangeListeners(vo);
+					VOSuggestion<VOType> voSuggestion = (VOSuggestion<VOType>) selectionEvent.getSelectedItem();
+					vo = voSuggestion.getValue();
+					referenceControl.setValue(vo);
 				}
 
 			}
@@ -56,13 +56,13 @@ public class ReferenceTextControl extends SuggestBox
 
 	}
 
-	public void setContent(Object content)
+	public void setContent(VOType content)
 	{
 		if (content != null)
 		{
 			if (content instanceof IBaseVO)
 			{
-				vo = (IBaseVO) content;
+				vo = content;
 				setText(DictionaryUtil.getLabel(referenceControl.getModel(), vo));
 			}
 			else

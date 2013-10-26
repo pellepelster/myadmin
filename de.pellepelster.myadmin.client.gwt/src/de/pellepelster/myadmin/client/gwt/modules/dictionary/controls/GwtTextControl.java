@@ -20,16 +20,12 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextContro
 public class GwtTextControl extends TextBox
 {
 
-	private final TextControl textControl;
-	private final ControlHelper gwtControlHelper;
-
 	public GwtTextControl(TextControl textControl)
 	{
 		super();
-		this.textControl = textControl;
-		gwtControlHelper = new ControlHelper(this, textControl, true, String.class);
-		ensureDebugId(DictionaryModelUtil.getDebugId(textControl.getModel()));
+		new ControlHelper(this, textControl, true, String.class);
 
+		ensureDebugId(DictionaryModelUtil.getDebugId(textControl.getModel()));
 		setMaxLength(textControl.getModel().getMaxLength());
 	}
 
@@ -37,7 +33,6 @@ public class GwtTextControl extends TextBox
 	{
 		if (content != null)
 		{
-
 			if (content instanceof String)
 			{
 				super.setValue((String) content);

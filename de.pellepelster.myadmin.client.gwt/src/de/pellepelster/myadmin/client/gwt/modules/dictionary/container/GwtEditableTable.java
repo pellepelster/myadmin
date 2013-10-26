@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -21,7 +22,6 @@ import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
@@ -36,6 +36,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableT
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
+import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
@@ -46,27 +47,21 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  */
 public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOType> implements IContainer<Panel>
 {
-	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
-
 	private final SimpleLayoutPanel simpleLayoutPanel = new SimpleLayoutPanel();
 
 	private final VerticalPanel verticalPanel = new VerticalPanel();
 
-	private final ListDataProvider<ITableRow<VOType>> dataProvider = new ListDataProvider<ITableRow<VOType>>();
-
 	private final EditableTable<VOType> editableTable;
 
-	public GwtEditableTable(EditableTable<VOType> editableTable)
+	public GwtEditableTable(final EditableTable<VOType> editableTable)
 	{
-		super(editableTable.getControls());
+		super(editableTable);
 
 		this.editableTable = editableTable;
 
 		createModelColumns();
 
 		setTableWidth(100d, Unit.PCT);
-
-		dataProvider.addDataDisplay(this);
 
 		simpleLayoutPanel.add(this);
 		simpleLayoutPanel.setWidth("99%");
@@ -78,14 +73,15 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 		createAddButton();
 
 		TextHeader textHeader = new TextHeader("");
-		Column<IBaseTable.ITableRow<VOType>, Void> column = new Column<IBaseTable.ITableRow<VOType>, Void>(new ImageActionCell(MyAdmin.RESOURCES.delete(),
-				new SimpleCallback<IBaseTable.ITableRow<VOType>>()
+
+		Column<IBaseTable.ITableRow<VOType>, Void> column = new Column<IBaseTable.ITableRow<VOType>, Void>(new ImageActionCell<VOType>(
+				MyAdmin.RESOURCES.delete(), new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 				{
 
 					@Override
-					public void onCallback(IBaseTable.ITableRow<VOType> vo)
+					public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
 					{
-						dataProvider.getList().remove(vo);
+						editableTable.delete(tableRow);
 					}
 				}))
 		{
@@ -98,6 +94,7 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 		};
 
 		addColumn(column, textHeader);
+		setRows(Collections.EMPTY_LIST);
 	}
 
 	private void createAddButton()
@@ -115,7 +112,7 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 					@Override
 					public void onSuccess(List<ITableRow<VOType>> result)
 					{
-						dataProvider.setList(result);
+						editableTable.add(DummyAsyncCallback.dummyAsyncCallback());
 					}
 				});
 			}
@@ -127,7 +124,7 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 	@Override
 	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl)
 	{
-		return (Column<IBaseTable.ITableRow<VOType>, ?>) ControlHandler.getInstance().createColumn(baseControl, true, dataProvider, this);
+		return (Column<IBaseTable.ITableRow<VOType>, ?>) ControlHandler.getInstance().createColumn(baseControl, true, getDataProvider(), this);
 	}
 
 	/** {@inheritDoc} */

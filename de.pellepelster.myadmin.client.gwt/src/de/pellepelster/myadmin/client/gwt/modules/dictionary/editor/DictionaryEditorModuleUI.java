@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditor;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditorPanel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
@@ -41,7 +41,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent
  */
 public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>>
 {
-
 	private final VerticalPanel verticalPanel;
 
 	private static final String DICTIONARY_SAVE_BUTTON_DEBUG_ID = "DictionarySaveButton";
@@ -83,8 +82,8 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		editorModule.getEventBus().addHandler(VOSavedEvent.TYPE, voEventHandler);
 		editorModule.getEventBus().addHandler(VOLoadEvent.TYPE, voEventHandler);
 
-		DictionaryEditor<VOType> dictionaryEditor = new DictionaryEditor<VOType>(getModule());
-		verticalPanel.add(dictionaryEditor.getContainer());
+		DictionaryEditorPanel<VOType> dictionaryEditorPanel = new DictionaryEditorPanel<VOType>(getModule());
+		verticalPanel.add(dictionaryEditorPanel);
 
 		if (previousModuleUI != null)
 		{
@@ -127,7 +126,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler()
 		{
-
 			@Override
 			public void onVOEvent(IBaseVO baseVO)
 			{

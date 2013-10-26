@@ -96,7 +96,7 @@ public class BigDecimalControlFactory extends BaseControlFactory<IBigDecimalCont
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControlModel)
+	public boolean supports(BaseDictionaryControl<?, ?> baseControlModel)
 	{
 		return baseControlModel instanceof BigDecimalControl;
 	}

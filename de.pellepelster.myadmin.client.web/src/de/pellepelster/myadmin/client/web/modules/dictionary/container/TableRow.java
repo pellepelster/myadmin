@@ -9,6 +9,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescript
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
@@ -22,7 +23,7 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 
 	private final VOWrapper<VOType> voWrapper;
 
-	public TableRow(VOType vo, BaseTable<VOType, ModelType> parent)
+	public TableRow(VOType vo, BaseTableElement<VOType, ModelType> parent)
 	{
 		super(parent.getModel(), parent);
 
@@ -49,7 +50,7 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <ElementType extends IBaseControl<?>> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
+	public <ElementType extends IBaseControl> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		List<String> parentModelIds = DictionaryElementUtil.getParentModelIds(getParent());
 		List<String> controlModelIds = DictionaryElementUtil.getModelIds(controlDescriptor);
@@ -57,6 +58,12 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 		DictionaryElementUtil.removeLeadingModelIds(parentModelIds, controlModelIds);
 
 		return (ElementType) DictionaryElementUtil.getControl(this, controlModelIds);
+	}
+
+	@Override
+	public <ElementType extends IBaseControl> ElementType getElement(IBaseControlModel baseControlModel)
+	{
+		return (ElementType) DictionaryElementUtil.getControl(this, Lists.newArrayList(baseControlModel.getName()));
 	}
 
 }

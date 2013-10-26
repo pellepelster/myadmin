@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFunction;
@@ -43,7 +44,7 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 		}
 	}
 
-	public List<BaseDictionaryControl<?, ?>> getControls()
+	public List<BaseDictionaryControl<? extends IBaseControlModel, ?>> getControls()
 	{
 		return this.controls;
 	}

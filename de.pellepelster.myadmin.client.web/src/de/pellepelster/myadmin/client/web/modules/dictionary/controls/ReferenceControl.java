@@ -6,7 +6,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
-public class ReferenceControl extends BaseDictionaryControl<IReferenceControlModel, IBaseVO>
+public class ReferenceControl<VOType extends IBaseVO> extends BaseDictionaryControl<IReferenceControlModel, VOType>
 {
 
 	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseDictionaryElement<? extends IBaseModel> parent)

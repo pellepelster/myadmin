@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 import com.google.gwt.user.cellview.client.Column;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
@@ -21,20 +22,18 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryRe
 public class ResultCellTable<VOType extends IBaseVO> extends BaseCellTable<VOType>
 {
 
-	private final DictionaryResult<VOType> dictionaryResult;
-
-	public ResultCellTable(DictionaryResult<VOType> dictionaryResult)
+	public ResultCellTable(final DictionaryResult<VOType> dictionaryResult)
 	{
 		super(dictionaryResult.getControls());
-		this.dictionaryResult = dictionaryResult;
 
 		createModelColumns();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected Column<VOType, ?> getColumn(BaseDictionaryControl baseControl)
+	protected Column<VOType, ?> getColumn(BaseDictionaryControl<? extends IBaseControlModel, ?> baseControl)
 	{
-		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn(baseControl, false, null, this);
+		return (Column<VOType, ?>) ControlHandler.getInstance().createColumn((BaseDictionaryControl<IBaseControlModel, ?>) baseControl, false, null, this);
 	}
 
 }

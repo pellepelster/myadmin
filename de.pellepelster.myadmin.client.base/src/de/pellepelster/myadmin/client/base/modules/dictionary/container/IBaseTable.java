@@ -5,6 +5,7 @@ import java.util.List;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
 public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
 {
@@ -15,14 +16,17 @@ public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
 
 	interface ITableRow<RowVOType extends IBaseVO>
 	{
+
 		RowVOType getVO();
-		
-		<ElementType extends IBaseControl<?>> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor);
+
+		<ElementType extends IBaseControl> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor);
+
+		<ElementType extends IBaseControl> ElementType getElement(IBaseControlModel baseControlModel);
 
 	}
 
 	void addTableUpdateListeners(TableUpdateListener tableUpdateListener);
 
 	List<ITableRow<VOType>> getRows();
-	
+
 }
