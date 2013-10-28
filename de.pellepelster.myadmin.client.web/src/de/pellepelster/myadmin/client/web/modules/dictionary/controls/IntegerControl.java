@@ -25,7 +25,7 @@ public class IntegerControl extends BaseDictionaryControl<IIntegerControlModel, 
 		catch (NumberFormatException e)
 		{
 			return new ParseResult(new ValidationMessage(IMessage.SEVERITY.ERROR, IntegerControl.class.getName(),
-					MyAdmin.MESSAGES.integerValidationError(valueString)));
+					MyAdmin.MESSAGES.integerParseError(valueString)));
 		}
 	}
 

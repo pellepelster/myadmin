@@ -25,6 +25,7 @@ public class VOTable<VOType extends IBaseVO> extends BaseDataGrid<VOType>
 	}
 
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Column<IBaseTable.ITableRow<VOType>, ?> getColumn(BaseDictionaryControl baseControl)
 	{
 		return (Column<IBaseTable.ITableRow<VOType>, ?>) ControlHandler.getInstance().createColumn(baseControl, false, dataProvider, this);

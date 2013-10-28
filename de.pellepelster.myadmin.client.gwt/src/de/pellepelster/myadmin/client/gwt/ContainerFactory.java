@@ -31,6 +31,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContaine
 public class ContainerFactory
 {
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static IContainer<Panel> createContainer(BaseContainerElement baseContainer)
 	{
 		IContainer<Panel> container;

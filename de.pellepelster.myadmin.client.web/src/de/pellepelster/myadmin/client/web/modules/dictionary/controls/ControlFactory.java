@@ -26,6 +26,7 @@ public class ControlFactory
 		return instance;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static BaseDictionaryControl createControl(IBaseControlModel baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		if (baseControlModel instanceof ITextControlModel)

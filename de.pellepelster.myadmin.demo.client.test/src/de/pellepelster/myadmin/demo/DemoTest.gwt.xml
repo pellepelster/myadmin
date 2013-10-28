@@ -3,6 +3,7 @@
 <module rename-to="DemoTest">
 
 	<inherits name='de.pellepelster.myadmin.demo.Demo' />
+	<inherits name="com.google.gwt.i18n.I18N"/>
 
 	<entry-point class="de.pellepelster.myadmin.demo.client.test.DemoTest" />
 

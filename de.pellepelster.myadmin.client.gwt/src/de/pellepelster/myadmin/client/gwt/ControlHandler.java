@@ -31,7 +31,6 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerCon
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ReferenceControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.TextControlFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
 /**
  * GWT based factory for {@link IBaseControlModel} derived controls
@@ -84,13 +83,6 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 	public Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType)
 	{
 		return getControlFactory(baseControl).createControl(baseControl, layoutType);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValidator> createValidators(ControlType baseControl)
-	{
-		return getControlFactory(baseControl).createValidators(baseControl);
 	}
 
 	private IGwtControlFactory<ControlModelType, ControlType> getControlFactory(BaseDictionaryControl<ControlModelType, ?> baseControl)

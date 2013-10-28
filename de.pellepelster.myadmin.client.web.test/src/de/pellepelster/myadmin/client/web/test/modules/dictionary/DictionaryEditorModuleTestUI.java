@@ -19,8 +19,13 @@ import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IDateControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BaseControlElementTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.DateControlElementTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlElementTest;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
@@ -70,12 +75,6 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 		return this.module.getTitle();
 	}
 
-	// public <ElementType> ElementType
-	// getElement(DictionaryDescriptor<ElementType> controlDescriptor)
-	// {
-	// return this.module.getElement(controlDescriptor);
-	// }
-
 	public <TableVOType extends IBaseVO> EditableTableTest<TableVOType> getEditableTableTest(DictionaryDescriptor<IEditableTable<TableVOType>> controlDescriptor)
 	{
 		return new EditableTableTest<TableVOType>(this.module.getElement(controlDescriptor));
@@ -85,6 +84,16 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 			DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		return new BaseControlElementTest<ElementType, Value>(this.module.getElement(controlDescriptor));
+	}
+
+	public TextControlElementTest getTextControlTestElement(DictionaryDescriptor<ITextControl> controlDescriptor)
+	{
+		return new TextControlElementTest(this.module.getElement(controlDescriptor));
+	}
+
+	public DateControlElementTest getDateControlTestElement(DictionaryDescriptor<IDateControl> controlDescriptor)
+	{
+		return new DateControlElementTest(this.module.getElement(controlDescriptor));
 	}
 
 	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)

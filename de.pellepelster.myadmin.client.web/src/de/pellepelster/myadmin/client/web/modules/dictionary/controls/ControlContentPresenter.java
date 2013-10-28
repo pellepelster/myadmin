@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
+@Deprecated
 public final class ControlContentPresenter
 {
 

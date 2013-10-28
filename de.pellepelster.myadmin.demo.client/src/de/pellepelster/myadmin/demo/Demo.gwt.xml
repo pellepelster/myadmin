@@ -4,7 +4,6 @@
 
 	<inherits name='de.pellepelster.myadmin.MyAdminClientGwt' />
 	<inherits name='com.google.gwt.user.theme.standard.Standard'/>
-			
 	<entry-point class="de.pellepelster.myadmin.demo.client.Demo" />
 
 </module>

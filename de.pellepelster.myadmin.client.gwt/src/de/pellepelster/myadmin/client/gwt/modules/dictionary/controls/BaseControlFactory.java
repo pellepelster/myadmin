@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.List;
-
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
@@ -20,15 +18,12 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
 
 /**
  * @author pelle
@@ -47,7 +42,6 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 		if (editable)
 		{
-
 			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl, new IValueHandler()
 			{
 
@@ -82,24 +76,23 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 					Object key = BaseCellTable.KEYPROVIDER.getKey(tableRow);
 
-					List<IValidator> validators = createValidators(baseControl);
-					List<IValidationMessage> validationMessages = ValidationUtils.validate(validators, value, baseControl.getModel());
-
 					ViewData<String> viewData = (ViewData<String>) editTextCell.getViewData(key);
 
-					if (validationMessages != null && ValidationUtils.hasError(validationMessages))
-					{
-						viewData.setValidationMessages(validationMessages);
-						// dataGrid.redraw();
-					}
-					else
-					{
-						viewData.getValidationMessages().clear();
-
-						// vo.set(baseControl.getModel().getAttributePath(),
-						// TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(),
-						// value));
-					}
+					// if (validationMessages != null &&
+					// ValidationUtils.hasError(validationMessages))
+					// {
+					// viewData.setValidationMessages(validationMessages);
+					// // dataGrid.redraw();
+					// }
+					// else
+					// {
+					// viewData.getValidationMessages().clear();
+					//
+					// // vo.set(baseControl.getModel().getAttributePath(),
+					// //
+					// TypeHelper.convert(vo.getAttributeDescriptor(baseControl.getModel().getAttributePath()).getAttributeType(),
+					// // value));
+					// }
 
 					listDataProvider.refresh();
 				}

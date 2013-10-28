@@ -14,7 +14,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionary
 public class BigDecimalControl extends BaseDictionaryControl<IBigDecimalControlModel, BigDecimal>
 {
 
-
 	public BigDecimalControl(IBigDecimalControlModel decimalControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(decimalControlModel, parent);
@@ -43,7 +42,7 @@ public class BigDecimalControl extends BaseDictionaryControl<IBigDecimalControlM
 		catch (NumberFormatException e)
 		{
 			return new ParseResult(new ValidationMessage(IMessage.SEVERITY.ERROR, BigDecimalControl.class.getName(),
-					MyAdmin.MESSAGES.floatValidationError(valueString)));
+					MyAdmin.MESSAGES.decimalParseError(valueString)));
 		}
 	}
 }

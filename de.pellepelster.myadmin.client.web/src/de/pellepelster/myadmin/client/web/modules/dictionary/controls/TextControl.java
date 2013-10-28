@@ -13,5 +13,10 @@ public class TextControl extends BaseDictionaryControl<ITextControlModel, String
 		super(textControlModel, parent);
 	}
 
+	@Override
+	protected ParseResult parseValueInternal(String valueString)
+	{
+		return new ParseResult(valueString);
+	}
 
 }

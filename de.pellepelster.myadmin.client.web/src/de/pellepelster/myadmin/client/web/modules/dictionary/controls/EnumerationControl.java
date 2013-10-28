@@ -33,16 +33,16 @@ public class EnumerationControl extends BaseDictionaryControl<IEnumerationContro
 	@Override
 	protected ParseResult parseValueInternal(String valueString)
 	{
-			for(Map.Entry<String, String> enumEntry : getModel().getEnumeration().entrySet())
+		for (Map.Entry<String, String> enumEntry : getModel().getEnumeration().entrySet())
+		{
+			if (enumEntry.getValue().equals(valueString))
 			{
-				if (enumEntry.getValue().equals(valueString))
-				{
-					return new ParseResult(enumEntry.getKey());
-				}
+				return new ParseResult(enumEntry.getKey());
 			}
-			
-			return new ParseResult(new ValidationMessage(IMessage.SEVERITY.ERROR, BooleanControl.class.getName(),
-					MyAdmin.MESSAGES.booleanValidationError(valueString)));
+		}
+
+		return new ParseResult(new ValidationMessage(IMessage.SEVERITY.ERROR, EnumerationControl.class.getName(),
+				MyAdmin.MESSAGES.enumerationParseError(valueString)));
 	}
 
 }

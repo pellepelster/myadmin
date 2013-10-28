@@ -13,7 +13,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFunction;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFactoryFunction;
 
 public abstract class BaseContainerElement<ModelType extends IBaseContainerModel> extends BaseDictionaryElement<ModelType>
 {
@@ -40,7 +40,7 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 		}
 		else if (!baseContainer.getControls().isEmpty())
 		{
-			this.controls = Lists.transform(baseContainer.getControls(), new ControlFunction(BaseContainerElement.this));
+			this.controls = Lists.transform(baseContainer.getControls(), new ControlFactoryFunction(BaseContainerElement.this));
 		}
 	}
 

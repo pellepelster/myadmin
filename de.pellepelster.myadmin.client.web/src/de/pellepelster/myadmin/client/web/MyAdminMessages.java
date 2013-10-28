@@ -53,15 +53,20 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("{0}")
 	String editorTitle(String editorTitle);
 
-	@DefaultMessage("''{0}'' is not a valid float")
-	String floatValidationError(String value);
+	@DefaultMessage("''{0}'' is not a valid date")
+	String dateParseError(String value);
+
+	@DefaultMessage("''{0}'' is not a valid decimal")
+	String decimalParseError(String value);
 
 	@DefaultMessage("''{0}'' is not a valid boolean")
-	String booleanValidationError(String value);
+	String booleanParseError(String value);
 
+	@DefaultMessage("''{0}'' is not a valid enumeration")
+	String enumerationParseError(String value);
 
 	@DefaultMessage("''{0}'' is not a valid integer")
-	String integerValidationError(String value);
+	String integerParseError(String value);
 
 	@Key(MANDATORY_MESSAGE_KEY)
 	@DefaultMessage("Input is needed for field \"{0}\"")

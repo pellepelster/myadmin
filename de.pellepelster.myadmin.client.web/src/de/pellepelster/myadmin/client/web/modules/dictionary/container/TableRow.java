@@ -13,7 +13,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFunction;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFactoryFunction;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
 
 public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseDictionaryElement<ModelType> implements
@@ -27,7 +27,7 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 	{
 		super(parent.getModel(), parent);
 
-		this.columns = Lists.transform(parent.getModel().getControls(), new ControlFunction(this));
+		this.columns = Lists.transform(parent.getModel().getControls(), new ControlFactoryFunction(this));
 		this.voWrapper = new VOWrapper<VOType>(vo);
 	}
 

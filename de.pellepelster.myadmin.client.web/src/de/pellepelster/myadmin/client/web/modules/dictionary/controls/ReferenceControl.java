@@ -26,4 +26,10 @@ public class ReferenceControl<VOType extends IBaseVO> extends BaseDictionaryCont
 			return super.format();
 		}
 	}
+
+	@Override
+	protected ParseResult parseValueInternal(String valueString)
+	{
+		throw new RuntimeException("not implemented");
+	}
 }

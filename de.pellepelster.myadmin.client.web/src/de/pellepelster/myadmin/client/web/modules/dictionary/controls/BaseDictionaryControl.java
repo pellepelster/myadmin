@@ -14,13 +14,15 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionary
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
 
-public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel, ValueType> extends BaseDictionaryElement<ModelType> implements IBaseControl<ValueType>
+public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel, ValueType> extends BaseDictionaryElement<ModelType> implements
+		IBaseControl<ValueType>
 {
-	
-	protected class ParseResult {
-		
+
+	protected class ParseResult
+	{
+
 		private IValidationMessage validationMessage;
-		
+
 		private ValueType value;
 
 		public ParseResult(ValueType value)
@@ -37,14 +39,14 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 		public IValidationMessage getValidationMessage()
 		{
-			return validationMessage;
+			return this.validationMessage;
 		}
 
 		public ValueType getValue()
 		{
-			return value;
+			return this.value;
 		}
-		
+
 	}
 
 	private List<IValidator> validators = new ArrayList<IValidator>();
@@ -52,14 +54,14 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
-	
+
 	public BaseDictionaryControl(ModelType baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(baseControlModel, parent);
-		
+
 		if (baseControlModel.isMandatory())
 		{
-			validators.add(MANDATORY_VALIDATOR);
+			this.validators.add(MANDATORY_VALIDATOR);
 		}
 
 	}
@@ -75,7 +77,6 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 		return label;
 	}
-
 
 	public String getFilterLabel()
 	{
@@ -101,25 +102,17 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		return super.getModel();
 	}
 
+	@Override
 	public String format()
 	{
-		if (getValue() != null)
-		{
-			return getValue().toString();
-		}
-		else
-		{
-			return "";
-		}
+		return getValue() != null ? getValue().toString() : "";
 	}
 
 	protected void addValidationMessage(IValidationMessage validationMessage)
 	{
-		validationMessages.add(validationMessage);
+		this.validationMessages.add(validationMessage);
 	}
 
-	protected abstract ParseResult parseValueInternal(String valueString);
-	
 	@Override
 	public void parseValue(String valueString)
 	{
@@ -131,7 +124,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		{
 			ParseResult parseResult = parseValueInternal(valueString);
 
-			if (parseResult.getValidationMessage() != null)
+			if (parseResult.getValidationMessage() == null)
 			{
 				setValue(parseResult.getValue());
 			}
@@ -141,5 +134,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 			}
 		}
 	}
-	
+
+	protected abstract ParseResult parseValueInternal(String valueString);
+
 }

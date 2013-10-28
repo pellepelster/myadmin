@@ -11,12 +11,10 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.base.util.MessageFormat;
@@ -52,18 +50,6 @@ public final class ValidationUtils
 
 		return result;
 
-	}
-
-	public static List<IValidationMessage> validate(List<IValidator> validators, Object value, IDatabindingAwareModel databindingAwareModel)
-	{
-		List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
-
-		for (IValidator validator : validators)
-		{
-			validationMessages.addAll(validator.validate(value, databindingAwareModel));
-		}
-
-		return validationMessages;
 	}
 
 	/**
