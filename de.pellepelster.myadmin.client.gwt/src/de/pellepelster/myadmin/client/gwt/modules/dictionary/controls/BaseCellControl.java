@@ -17,21 +17,20 @@ import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
 public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewData<T>>
 {
-	public interface IValueHandler<T>
-	{
-		String format(T value);
-
-		T parse(String value);
-	}
 
 	static class ViewData<T>
 	{
@@ -48,16 +47,6 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 		public ViewData(T value)
 		{
 			this.value = value;
-		}
-
-		public T getOriginal()
-		{
-			return original;
-		}
-
-		public T getValue()
-		{
-			return value;
 		}
 
 		public boolean isEditing()
@@ -82,11 +71,6 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 			}
 		}
 
-		public void setValue(T value)
-		{
-			this.value = value;
-		}
-
 		public List<IValidationMessage> getValidationMessages()
 		{
 			return validationMessages;
@@ -99,20 +83,25 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 
 	}
 
-	private final IValueHandler<T> valueHandler;
+	private final IBaseControlModel baseControlModel;
 
-	public BaseCellControl(IValueHandler<T> valueHandler, Set<String> consumedEvents)
+	public BaseCellControl(IBaseControlModel baseControlModel, Set<String> consumedEvents)
 	{
 		super(consumedEvents);
 
-		this.valueHandler = valueHandler;
+		this.baseControlModel = baseControlModel;
 	}
 
-	public BaseCellControl(IValueHandler<T> valueHandler, String... consumedEvents)
+	public BaseCellControl(IBaseControlModel baseControlModel, String... consumedEvents)
 	{
 		super(consumedEvents);
 
-		this.valueHandler = valueHandler;
+		this.baseControlModel = baseControlModel;
+	}
+
+	protected InputElement getInputElement(Element parent)
+	{
+		return parent.getFirstChild().<InputElement> cast();
 	}
 
 	@Override
@@ -144,9 +133,18 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 		return getViewData(context.getKey());
 	}
 
-	public IValueHandler<T> getValueHandler()
+	protected IBaseTable.ITableRow<?> getTableRow(Context context)
 	{
-		return valueHandler;
+		if (context.getKey() instanceof IBaseTable.ITableRow)
+		{
+			return (ITableRow<?>) context.getKey();
+		}
+
+		throw new RuntimeException("ITableRow expexted as context key");
 	}
 
+	protected BaseDictionaryControl<IBaseControlModel, T> getBaseControl(Context context)
+	{
+		return getTableRow(context).getElement(baseControlModel);
+	}
 }

@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwareModel;
 
 /**
  * Model for a control element
@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabinding
  * @version $Rev$, $Date$
  * 
  */
-public interface IBaseControlModel extends IBaseModel, IDatabindingAwareModel
+public interface IBaseControlModel extends IBaseModel, IContentAwareModel
 {
 
 	static final String EDITOR_LABEL_MESSAGE_KEY = "dictionaryControlEditorLabel";

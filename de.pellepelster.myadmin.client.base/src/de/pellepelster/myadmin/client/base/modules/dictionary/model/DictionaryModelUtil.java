@@ -124,9 +124,9 @@ public final class DictionaryModelUtil
 
 		for (IBaseContainerModel lBaseContainerModel : baseContainerModel.getChildren())
 		{
-			if (lBaseContainerModel instanceof IDatabindingAwareModel)
+			if (lBaseContainerModel instanceof IContentAwareModel)
 			{
-				IDatabindingAwareModel databindingAwareModel = (IDatabindingAwareModel) lBaseContainerModel;
+				IContentAwareModel databindingAwareModel = (IContentAwareModel) lBaseContainerModel;
 				IAssociation lAssociation = association.addAssociation(databindingAwareModel.getAttributePath());
 
 				populateAssociations(lAssociation, lBaseContainerModel);

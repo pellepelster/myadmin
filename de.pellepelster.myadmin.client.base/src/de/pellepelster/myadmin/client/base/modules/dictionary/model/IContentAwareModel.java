@@ -17,7 +17,7 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model;
  * @author pelle
  * 
  */
-public interface IDatabindingAwareModel extends IBaseModel
+public interface IContentAwareModel extends IBaseModel
 {
 
 	/**

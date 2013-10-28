@@ -67,9 +67,10 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 
 	private IReferenceControlModel referenceControlModel;
 
-	public ReferenceDropDownCellControl(IReferenceControlModel referenceControlModel, SafeHtmlRenderer<String> renderer, IValueHandler<T> valueFormatter)
+	public ReferenceDropDownCellControl(IReferenceControlModel referenceControlModel, SafeHtmlRenderer<String> renderer)
 	{
-		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
+		super(referenceControlModel, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType()
+				.getName());
 
 		this.referenceControlModel = referenceControlModel;
 		this.renderer = renderer;
@@ -85,19 +86,18 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		}
 	}
 
-	public ReferenceDropDownCellControl(IReferenceControlModel referenceControlModel, IValueHandler<T> valueFormatter)
+	public ReferenceDropDownCellControl(IReferenceControlModel referenceControlModel)
 	{
-		this(referenceControlModel, SimpleSafeHtmlRenderer.getInstance(), valueFormatter);
+		this(referenceControlModel, SimpleSafeHtmlRenderer.getInstance());
 	}
 
-	private void cancel(Context context, Element parent, T value)
+	private void cancel(Context context, Element parent)
 	{
 		ViewData<T> viewData = getAndInitViewData(context);
-		viewData.setValue(value);
 		viewData.setEditing(false);
 
 		clearListBox();
-		setValue(context, parent, value);
+		setValue(context, parent, getBaseControl(context).getValue());
 	}
 
 	// private native void clearInput(Element input) /*-{ if
@@ -116,16 +116,14 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		listBox = null;
 	}
 
-	private void commit(T value, Context context, Element parent, ValueUpdater<T> valueUpdater)
+	private void commit(Context context, Element parent)
 	{
 		ViewData<T> viewData = getAndInitViewData(context);
-		viewData.setValue(value);
 		viewData.setEditing(false);
 
 		clearListBox();
 
-		setValue(context, parent, viewData.getValue());
-		valueUpdater.update(value);
+		setValue(context, parent, getBaseControl(context).getValue());
 	}
 
 	protected void createListBox(final Context context, final Element parent, T value, final ValueUpdater<T> valueUpdater)
@@ -185,19 +183,16 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		{
 			if (keyUp && keyCode == KeyCodes.KEY_ESCAPE)
 			{
-				T originalValue = viewData.getOriginal();
-
 				if (viewData.isEditingAgain())
 				{
-					viewData.setValue(originalValue);
 					viewData.setEditing(false);
 				}
 
-				cancel(context, parent, value);
+				cancel(context, parent);
 			}
 			else if (keyCode == KeyCodes.KEY_ENTER)
 			{
-				commit(viewData.getValue(), context, parent, valueUpdater);
+				commit(context, parent);
 			}
 			else
 			{
@@ -212,7 +207,7 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 				Element target = Element.as(eventTarget);
 				if ("select".equals(target.getTagName().toLowerCase()))
 				{
-					commit(viewData.getValue(), context, parent, valueUpdater);
+					commit(context, parent);
 				}
 			}
 		}
@@ -225,11 +220,6 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		{
 			DomEvent.fireNativeEvent(event, listBox);
 		}
-	}
-
-	private InputElement getInputElement(Element parent)
-	{
-		return parent.getFirstChild().<InputElement> cast();
 	}
 
 	private boolean hasListBox()
@@ -278,12 +268,12 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		if (viewData.isEditing())
 		{
 			sb.append(template.inputStart());
-			sb.append(template.selected(getValueHandler().format(value)));
+			sb.append(template.selected(getBaseControl(context).format()));
 			sb.append(template.inputEnd());
 		}
 		else
 		{
-			sb.append(renderer.render(getValueHandler().format(value)));
+			sb.append(renderer.render(getBaseControl(context).format()));
 		}
 	}
 

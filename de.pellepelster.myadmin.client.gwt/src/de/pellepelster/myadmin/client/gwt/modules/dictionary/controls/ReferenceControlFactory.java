@@ -21,8 +21,6 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
@@ -70,22 +68,7 @@ public class ReferenceControlFactory<VOType extends IBaseVO> extends BaseControl
 			switch (referenceControl.getModel().getControlType())
 			{
 				default:
-					editTextCell = new SuggestCellControl<VOType>(referenceControl.getModel(), new VOSuggestOracle(referenceControl.getModel()),
-							new IValueHandler<VOType>()
-							{
-
-								@Override
-								public String format(VOType vo)
-								{
-									return DictionaryUtil.getLabel(referenceControl.getModel(), vo, "");
-								}
-
-								@Override
-								public VOType parse(String value)
-								{
-									return null;
-								}
-							});
+					editTextCell = new SuggestCellControl<VOType>(referenceControl.getModel(), new VOSuggestOracle(referenceControl.getModel()));
 					break;
 			}
 

@@ -76,8 +76,17 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			// date control
 			DateControlElementTest dateControl = result
 					.getDateControlTestElement(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
+
+			// parse date
 			Date now = new Date();
 			dateControl.parse(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM).format(now));
+			dateControl.assertValueWithoutMillies(now);
+
+			// parse incorrect date
+			dateControl.parse("xxx");
+			dateControl.assertValue(null);
+
+			dateControl.setValue(now);
 			dateControl.assertValue(now);
 
 			result.save(new TestDictionary1EditorSaveResult());

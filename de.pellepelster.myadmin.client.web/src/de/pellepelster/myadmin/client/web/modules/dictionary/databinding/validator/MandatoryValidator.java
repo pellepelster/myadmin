@@ -17,7 +17,7 @@ import java.util.List;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDatabindingAwareModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwareModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 
@@ -30,7 +30,7 @@ public class MandatoryValidator extends BaseValidator
 
 	/** {@inheritDoc} */
 	@Override
-	public List<IValidationMessage> validate(Object value, IDatabindingAwareModel databindingAwareModel)
+	public List<IValidationMessage> validate(Object value, IContentAwareModel databindingAwareModel)
 	{
 		if (isEmpty(value) && databindingAwareModel instanceof IBaseControlModel)
 		{

@@ -149,10 +149,10 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 	private IReferenceControlModel referenceControlModel;
 
-	public SuggestCellControl(IReferenceControlModel referenceControlModel, SafeHtmlRenderer<String> renderer, SuggestOracle suggestOracle,
-			IValueHandler<T> valueFormatter)
+	public SuggestCellControl(IReferenceControlModel referenceControlModel, SafeHtmlRenderer<String> renderer, SuggestOracle suggestOracle)
 	{
-		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
+		super(referenceControlModel, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType()
+				.getName());
 
 		this.referenceControlModel = referenceControlModel;
 		this.suggestOracle = suggestOracle;
@@ -169,20 +169,20 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		}
 	}
 
-	public SuggestCellControl(IReferenceControlModel referenceControlModel, SuggestOracle suggestOracle, IValueHandler<T> valueFormatter)
+	public SuggestCellControl(IReferenceControlModel referenceControlModel, SuggestOracle suggestOracle)
 	{
-		this(referenceControlModel, ControlHtmlRenderer.getInstance(), suggestOracle, valueFormatter);
+		this(referenceControlModel, ControlHtmlRenderer.getInstance(), suggestOracle);
 	}
 
-	private void cancel(Context context, Element parent, T value)
+	private void cancel(Context context, Element parent)
 	{
 		ViewData<T> viewData = getAndInitViewData(context);
-		viewData.setValue(value);
 		viewData.setEditing(false);
 
 		clearInput(getInputElement(parent));
 		clearSuggestBox();
-		setValue(context, parent, value);
+
+		setValue(context, parent, getBaseControl(context).getValue());
 	}
 
 	private native void clearInput(Element input) /*-{ if (input.selectionEnd) input.selectionEnd = input.selectionStart; 
@@ -200,17 +200,15 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		suggestBox = null;
 	}
 
-	private void commit(T value, Context context, Element parent, ValueUpdater<T> valueUpdater)
+	private void commit(Context context, Element parent)
 	{
 
 		ViewData<T> viewData = getAndInitViewData(context);
-		viewData.setValue(value);
 		viewData.setEditing(false);
 
 		clearSuggestBox();
 
-		setValue(context, parent, viewData.getValue());
-		valueUpdater.update(value);
+		setValue(context, parent, getBaseControl(context).getValue());
 	}
 
 	protected void createSuggestBox(final Context context, final Element parent, T value, final ValueUpdater<T> valueUpdater)
@@ -233,7 +231,8 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 				if (event.getSelectedItem() instanceof SuggestCellSuggestion)
 				{
 					SuggestCellSuggestion<T> suggestCellSuggestions = (SuggestCellSuggestion<T>) event.getSelectedItem();
-					commit(suggestCellSuggestions.getValue(), context, parent, valueUpdater);
+					getBaseControl(context).setValue(suggestCellSuggestions.getValue());
+					commit(context, parent);
 				}
 			}
 		});
@@ -269,15 +268,12 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		{
 			if (keyUp && keyCode == KeyCodes.KEY_ESCAPE)
 			{
-				T originalValue = viewData.getOriginal();
-
 				if (viewData.isEditingAgain())
 				{
-					viewData.setValue(originalValue);
 					viewData.setEditing(false);
 				}
 
-				cancel(context, parent, value);
+				cancel(context, parent);
 			}
 			else if (keyCode == KeyCodes.KEY_ENTER)
 			{
@@ -285,10 +281,10 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 				{
 					if (suggestBox.getText() == null || suggestBox.getText().isEmpty())
 					{
-						viewData.setValue(null);
+						getBaseControl(context).setValue(null);
 					}
 
-					commit(viewData.getValue(), context, parent, valueUpdater);
+					commit(context, parent);
 				}
 			}
 			else
@@ -305,7 +301,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 				if ("input".equals(target.getTagName().toLowerCase()) && !suggestBox.isSuggestionListShowing())
 				{
 
-					commit(viewData.getValue(), context, parent, valueUpdater);
+					commit(context, parent);
 				}
 			}
 		}
@@ -318,11 +314,6 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		{
 			DomEvent.fireNativeEvent(event, suggestBox.getTextBox());
 		}
-	}
-
-	private InputElement getInputElement(Element parent)
-	{
-		return parent.getFirstChild().<InputElement> cast();
 	}
 
 	private boolean hasSuggestBox()
@@ -372,11 +363,11 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 		if (viewData.isEditing())
 		{
-			sb.append(template.input(getValueHandler().format(value)));
+			sb.append(template.input(getBaseControl(context).format()));
 		}
 		else
 		{
-			sb.append(renderer.render(getValueHandler().format(value)));
+			sb.append(renderer.render(getBaseControl(context).format()));
 		}
 	}
 

@@ -113,6 +113,11 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		this.validationMessages.add(validationMessage);
 	}
 
+	protected void clearValidationMessage()
+	{
+		this.validationMessages.clear();
+	}
+
 	@Override
 	public void parseValue(String valueString)
 	{
@@ -127,9 +132,11 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 			if (parseResult.getValidationMessage() == null)
 			{
 				setValue(parseResult.getValue());
+				clearValidationMessage();
 			}
 			else
 			{
+				setValue(null);
 				addValidationMessage(parseResult.getValidationMessage());
 			}
 		}

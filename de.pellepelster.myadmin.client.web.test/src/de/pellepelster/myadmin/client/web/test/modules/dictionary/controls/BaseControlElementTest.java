@@ -13,9 +13,14 @@ public class BaseControlElementTest<ElementType extends IBaseControl<ValueType>,
 		this.baseControl = baseControl;
 	}
 
-	public void assertValue(Object expectedValue)
+	public void assertValue(ValueType expectedValue)
 	{
 		Assert.assertEquals(expectedValue, this.baseControl.getValue());
+	}
+
+	public ValueType getValue()
+	{
+		return this.baseControl.getValue();
 	}
 
 	public void setValue(ValueType value)

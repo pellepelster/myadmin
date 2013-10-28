@@ -21,7 +21,6 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.IValueHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellControl.ViewData;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
@@ -42,28 +41,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 		if (editable)
 		{
-			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl, new IValueHandler()
-			{
-
-				@Override
-				public String format(Object value)
-				{
-					if (value != null)
-					{
-						return value.toString();
-					}
-					else
-					{
-						return "";
-					}
-				}
-
-				@Override
-				public Object parse(String value)
-				{
-					return value.toString();
-				}
-			});
+			final EditTextCellWithValidation editTextCell = new EditTextCellWithValidation(baseControl);
 
 			column = new TableRowColumn(baseControl.getModel(), editTextCell);
 
