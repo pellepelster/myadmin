@@ -35,7 +35,7 @@ public class ControlUtil
 	{
 		if (context.getKey() == null || !(context.getKey() instanceof IBaseTable.ITableRow))
 		{
-			throw new RuntimeException("context key is null or not IBaseVO");
+			throw new RuntimeException("context key is null or not IBaseTable.ITableRow");
 		}
 
 		return hasFirstEditMarker((IBaseTable.ITableRow) context.getKey(), baseControlModel);
@@ -49,17 +49,17 @@ public class ControlUtil
 
 	public static void removeFirstEditMarker(Context context, IBaseControlModel baseControlModel)
 	{
-		if (context.getKey() == null || !(context.getKey() instanceof IBaseVO))
+		if (context.getKey() == null || !(context.getKey() instanceof IBaseTable.ITableRow))
 		{
-			throw new RuntimeException("context key is null or not IBaseVO");
+			throw new RuntimeException("context key is null or not IBaseTable.ITableRow");
 		}
 
-		removeFirstEditMarker((IBaseVO) context.getKey(), baseControlModel);
+		removeFirstEditMarker((IBaseTable.ITableRow) context.getKey(), baseControlModel);
 	}
 
-	public static void removeFirstEditMarker(IBaseVO vo, IBaseControlModel baseControlModel)
+	public static void removeFirstEditMarker(IBaseTable.ITableRow tableRow, IBaseControlModel baseControlModel)
 	{
-		vo.getData().remove(baseControlModel.getName());
+		tableRow.getVO().getData().remove(baseControlModel.getName());
 	}
 
 	public static void populateListBox(final IReferenceControlModel referenceControlModel, final ListBox listBox)

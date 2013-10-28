@@ -58,6 +58,8 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 		super(new BaseTableRowKeyProvider<VOType>());
 
 		selectionModel = new SingleSelectionModel<IBaseTable.ITableRow<VOType>>(getKeyProvider());
+		setSelectionModel(selectionModel);
+
 		this.baseControls = baseControls;
 		dataProvider.addDataDisplay(this);
 	}

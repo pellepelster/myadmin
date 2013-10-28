@@ -20,6 +20,7 @@ public class ContainerFactory
 		return instance;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static BaseContainerElement<? extends IBaseContainerModel> createContainer(IBaseContainerModel baseContainerModel, BaseDictionaryElement parent)
 	{
 		if (baseContainerModel instanceof ICompositeModel)

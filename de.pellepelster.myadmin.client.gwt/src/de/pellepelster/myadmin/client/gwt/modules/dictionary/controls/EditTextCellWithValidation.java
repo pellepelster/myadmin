@@ -16,11 +16,11 @@ import java.util.List;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -59,7 +59,8 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	public EditTextCellWithValidation(BaseDictionaryControl<IBaseControlModel, Object> baseControl, IValueHandler<T> valueFormatter)
 	{
-		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), BlurEvent.getType().getName());
+		super(valueFormatter, ClickEvent.getType().getName(), KeyUpEvent.getType().getName(), KeyDownEvent.getType().getName(), FocusEvent.getType().getName(),
+				BlurEvent.getType().getName());
 
 		if (template == null)
 		{
@@ -77,21 +78,51 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 		String type = event.getType();
 		int keyCode = event.getKeyCode();
+
 		boolean enterPressed = KeyUpEvent.getType().getName().equals(type) && keyCode == KeyCodes.KEY_ENTER;
 		boolean hasFirstEditMarker = ControlUtil.hasFirstEditMarker(context, baseControl.getModel());
 		boolean startEdit = ClickEvent.getType().getName().equals(type) || enterPressed;
+		boolean eventTargetIsDiv = false;
+		boolean eventTargetIsInput = false;
 
-		if (viewData.isEditing() || hasFirstEditMarker)
+		if (Element.is(event.getEventTarget()))
 		{
-			editEvent(context, parent, value, viewData, event, valueUpdater);
+			Element target = Element.as(event.getEventTarget());
+			GWT.log("target: " + target.getTagName() + "(" + target.getId() + "), eventType: " + type);
+
+			eventTargetIsDiv = "div".equals(target.getTagName().toLowerCase());
+			eventTargetIsInput = "input".equals(target.getTagName().toLowerCase());
+
+		}
+
+		if (BlurEvent.getType().getName().equals(type))
+		{
+			if (eventTargetIsInput)
+			{
+				commit(context, parent, viewData, valueUpdater);
+			}
+
+		}
+		else if (FocusEvent.getType().getName().equals(type))
+		{
+			getInputElement(parent).focus();
 		}
 		else
 		{
-			if (startEdit)
+			if (viewData.isEditing() || hasFirstEditMarker)
 			{
-				startEdit(context, parent, value);
+				editEvent(context, parent, value, viewData, event, valueUpdater);
+
+			}
+			else
+			{
+				if (startEdit)
+				{
+					startEdit(context, parent, value);
+				}
 			}
 		}
+
 	}
 
 	@Override
@@ -142,6 +173,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 	private void focus(Element parent)
 	{
 		InputElement input = getInputElement(parent);
+
 		input.focus();
 		input.select();
 	}
@@ -211,19 +243,6 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 			{
 				// Update the text in the view data on each key.
 				updateViewData(parent, viewData, true);
-			}
-		}
-		else if (BlurEvent.getType().getName().equals(type))
-		{
-			EventTarget eventTarget = event.getEventTarget();
-
-			if (Element.is(eventTarget))
-			{
-				Element target = Element.as(eventTarget);
-				if ("input".equals(target.getTagName().toLowerCase()))
-				{
-					commit(context, parent, viewData, valueUpdater);
-				}
 			}
 		}
 	}

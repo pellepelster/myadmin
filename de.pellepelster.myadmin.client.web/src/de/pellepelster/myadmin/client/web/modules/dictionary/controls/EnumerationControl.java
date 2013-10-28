@@ -12,4 +12,17 @@ public class EnumerationControl extends BaseDictionaryControl<IEnumerationContro
 		super(enumerationControlModel, parent);
 	}
 
+	@Override
+	public String format()
+	{
+		if (getValue() == null)
+		{
+			return "";
+		}
+		else
+		{
+			return getModel().getEnumeration().get(getValue()).toString();
+		}
+	}
+
 }

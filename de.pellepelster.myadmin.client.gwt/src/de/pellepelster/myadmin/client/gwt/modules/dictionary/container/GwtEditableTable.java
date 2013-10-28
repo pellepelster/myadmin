@@ -12,7 +12,6 @@
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
 import java.util.Collections;
-import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
@@ -35,7 +33,6 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
@@ -106,15 +103,7 @@ public class GwtEditableTable<VOType extends IBaseVO> extends BaseDataGrid<VOTyp
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				editableTable.add(new BaseErrorAsyncCallback<List<IBaseTable.ITableRow<VOType>>>()
-				{
-
-					@Override
-					public void onSuccess(List<ITableRow<VOType>> result)
-					{
-						editableTable.add(DummyAsyncCallback.dummyAsyncCallback());
-					}
-				});
+				editableTable.add(DummyAsyncCallback.dummyAsyncCallback());
 			}
 		});
 		verticalPanel.add(addButton);

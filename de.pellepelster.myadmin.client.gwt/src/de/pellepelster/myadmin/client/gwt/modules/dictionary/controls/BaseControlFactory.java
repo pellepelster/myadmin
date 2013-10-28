@@ -75,15 +75,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 				}
 			});
 
-			column = new Column<IBaseTable.ITableRow<IBaseVO>, String>(editTextCell)
-			{
-
-				@Override
-				public String getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
-				{
-					return tableRow.getElement(baseControl.getModel()).format();
-				}
-			};
+			column = new TableRowColumn(baseControl.getModel(), editTextCell);
 
 			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String>()
 			{
@@ -121,15 +113,7 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 		}
 		else
 		{
-			column = new Column<IBaseTable.ITableRow<IBaseVO>, String>(new TextCell())
-			{
-
-				@Override
-				public String getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
-				{
-					return tableRow.getElement(baseControl.getModel()).format();
-				}
-			};
+			column = new TableRowColumn(baseControl.getModel(), new TextCell());
 		}
 
 		return column;
