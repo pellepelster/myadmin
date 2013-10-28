@@ -9,10 +9,12 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseContainerElement<ModelType> implements IBaseTable<VOType>
+public abstract class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseContainerElement<ModelType> implements IBaseTable<VOType>
 {
 
 	private List<ITableRow<VOType>> rows = new ArrayList<ITableRow<VOType>>();
+
+	private List<ITableRow<VOType>> selection = new ArrayList<ITableRow<VOType>>();
 
 	private List<TableUpdateListener> tableUpdateListeners = new ArrayList<TableUpdateListener>();
 
@@ -49,11 +51,18 @@ public class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTab
 		fireTableUpdateListeners();
 	}
 
+	public void setSelection(ITableRow<VOType> tableRow)
+	{
+		selection.clear();
+		selection.add(tableRow);
+	}
+	
 	protected ITableRow<VOType> addRow(VOType vo)
 	{
 		TableRow<VOType, ModelType> tableRow = new TableRow<VOType, ModelType>(vo, this);
 		this.rows.add(tableRow);
-
+		setSelection(tableRow);
+		
 		fireTableUpdateListeners();
 
 		return tableRow;
@@ -74,6 +83,12 @@ public class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTab
 	public ITableRow<VOType> getTableRow(int rowIndex)
 	{
 		return this.rows.get(rowIndex);
+	}
+
+	@Override
+	public List<ITableRow<VOType>> getSelection()
+	{
+		return selection;
 	}
 
 }

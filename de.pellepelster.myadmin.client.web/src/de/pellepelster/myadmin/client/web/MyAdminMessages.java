@@ -56,6 +56,13 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("''{0}'' is not a valid float")
 	String floatValidationError(String value);
 
+	@DefaultMessage("''{0}'' is not a valid boolean")
+	String booleanValidationError(String value);
+
+
+	@DefaultMessage("''{0}'' is not a valid integer")
+	String integerValidationError(String value);
+
 	@Key(MANDATORY_MESSAGE_KEY)
 	@DefaultMessage("Input is needed for field \"{0}\"")
 	String mandatoryMessage(@Optional String fieldLabel);

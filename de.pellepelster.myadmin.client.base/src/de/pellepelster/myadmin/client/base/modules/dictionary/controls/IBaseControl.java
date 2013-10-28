@@ -7,5 +7,7 @@ public interface IBaseControl<ValueType>
 	ValueType getValue();
 
 	String format();
+	
+	void parseValue(String valueString);
 
 }

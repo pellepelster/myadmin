@@ -11,8 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.List;
-
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,17 +21,14 @@ import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 
-public interface IUIControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>>
+public interface IGwtControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>>
 {
 
 	Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(ControlType baseControl, boolean editable, ListDataProvider<?> listDataProvider,
 			AbstractCellTable<?> abstractCellTable);
 
 	Widget createControl(ControlType baseControl, LAYOUT_TYPE layoutType);
-
-	List<IValidator> createValidators(ControlType baseControl);
 
 	boolean supports(BaseDictionaryControl<?, ?> baseControl);
 }

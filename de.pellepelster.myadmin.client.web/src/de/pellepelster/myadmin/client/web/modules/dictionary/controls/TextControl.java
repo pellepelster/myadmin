@@ -13,4 +13,5 @@ public class TextControl extends BaseDictionaryControl<ITextControlModel, String
 		super(textControlModel, parent);
 	}
 
+
 }

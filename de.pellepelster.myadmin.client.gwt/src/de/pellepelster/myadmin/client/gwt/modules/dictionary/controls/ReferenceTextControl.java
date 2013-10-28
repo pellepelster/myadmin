@@ -37,7 +37,7 @@ public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox
 		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
 		setLimit(5);
 		this.referenceControl = referenceControl;
-		gwtControlHelper = new ControlHelper(this, referenceControl, false, IBaseVO.class);
+		gwtControlHelper = new ControlHelper(this, referenceControl, false);
 
 		addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>()
 		{

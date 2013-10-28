@@ -29,4 +29,6 @@ public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
 
 	List<ITableRow<VOType>> getRows();
 
+	List<ITableRow<VOType>> getSelection();
+
 }

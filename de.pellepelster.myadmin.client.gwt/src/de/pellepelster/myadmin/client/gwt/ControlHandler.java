@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BooleanCon
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.DateControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.EnumerationControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.HierarchicalControlFactory;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IUIControlFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IGwtControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.ReferenceControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.TextControlFactory;
@@ -41,12 +41,12 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
  */
 @SuppressWarnings("unchecked")
 public class ControlHandler<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> implements
-		IUIControlFactory<ControlModelType, ControlType>
+		IGwtControlFactory<ControlModelType, ControlType>
 {
 
 	private static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> instance;
 
-	private static List<IUIControlFactory<?, ?>> controlFactories = new ArrayList<IUIControlFactory<?, ?>>();
+	private static List<IGwtControlFactory<?, ?>> controlFactories = new ArrayList<IGwtControlFactory<?, ?>>();
 
 	private ControlHandler()
 	{
@@ -93,14 +93,14 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		return getControlFactory(baseControl).createValidators(baseControl);
 	}
 
-	private IUIControlFactory<ControlModelType, ControlType> getControlFactory(BaseDictionaryControl<ControlModelType, ?> baseControl)
+	private IGwtControlFactory<ControlModelType, ControlType> getControlFactory(BaseDictionaryControl<ControlModelType, ?> baseControl)
 	{
 
-		for (IUIControlFactory<?, ?> controlFactory : controlFactories)
+		for (IGwtControlFactory<?, ?> controlFactory : controlFactories)
 		{
 			if (controlFactory.supports(baseControl))
 			{
-				return (IUIControlFactory<ControlModelType, ControlType>) controlFactory;
+				return (IGwtControlFactory<ControlModelType, ControlType>) controlFactory;
 			}
 		}
 

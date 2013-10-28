@@ -96,8 +96,6 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		viewData.setValue(value);
 		viewData.setEditing(false);
 
-		ControlUtil.removeFirstEditMarker(context, referenceControlModel);
-
 		clearListBox();
 		setValue(context, parent, value);
 	}
@@ -123,8 +121,6 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		ViewData<T> viewData = getAndInitViewData(context);
 		viewData.setValue(value);
 		viewData.setEditing(false);
-
-		ControlUtil.removeFirstEditMarker(context, referenceControlModel);
 
 		clearListBox();
 
@@ -246,10 +242,9 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 	{
 		final ViewData<T> viewData = getAndInitViewData(context, value);
 
-		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing() + ", firstEdit: "
-				+ ControlUtil.hasFirstEditMarker(context, referenceControlModel));
+		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing());
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, referenceControlModel))
+		if (viewData.isEditing())
 		{
 			if (!hasListBox())
 			{
@@ -280,7 +275,7 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 			clearListBox();
 		}
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, referenceControlModel))
+		if (viewData.isEditing())
 		{
 			sb.append(template.inputStart());
 			sb.append(template.selected(getValueHandler().format(value)));

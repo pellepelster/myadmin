@@ -36,7 +36,7 @@ public class GwtHierarchicalControl extends Anchor
 	public GwtHierarchicalControl(final HierarchicalControl hierarchicalControl)
 	{
 		this.hierarchicalControl = hierarchicalControl;
-		controlHelper = new ControlHelper(this, hierarchicalControl, true, String.class);
+		controlHelper = new ControlHelper(this, hierarchicalControl, true);
 
 		addClickHandler(new ClickHandler()
 		{

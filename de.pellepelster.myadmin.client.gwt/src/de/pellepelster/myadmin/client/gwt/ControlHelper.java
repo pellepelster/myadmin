@@ -34,8 +34,7 @@ public class ControlHelper
 
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
 
-	public <ValueType> ControlHelper(final Widget widget, final BaseDictionaryControl<?, ValueType> baseControl, boolean addValueChangeListener,
-			final Class<?> targetClass)
+	public <ValueType> ControlHelper(final Widget widget, final BaseDictionaryControl<?, ValueType> baseControl, boolean addValueChangeListener)
 	{
 		this.uiObject = widget;
 

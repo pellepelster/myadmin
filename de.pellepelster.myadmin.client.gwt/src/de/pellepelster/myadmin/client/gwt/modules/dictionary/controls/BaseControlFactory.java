@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.controls;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.cell.client.FieldUpdater;
@@ -30,17 +29,14 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BaseCellCo
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
 
 /**
  * @author pelle
  * 
  */
 public abstract class BaseControlFactory<ControlModelType extends IBaseControlModel, ControlType extends BaseDictionaryControl<ControlModelType, ?>> implements
-		IUIControlFactory<ControlModelType, ControlType>
+		IGwtControlFactory<ControlModelType, ControlType>
 {
-
-	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
 	@Override
 	public Column<IBaseTable.ITableRow<IBaseVO>, ?> createColumn(final ControlType baseControl, boolean editable, final ListDataProvider<?> listDataProvider,
@@ -118,34 +114,6 @@ public abstract class BaseControlFactory<ControlModelType extends IBaseControlMo
 
 		return column;
 
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public List<IValidator> createValidators(ControlType baseControl)
-	{
-		return createBaseValidators(baseControl);
-	}
-
-	public List<IValidator> createBaseValidators(BaseDictionaryControl<ControlModelType, ?> baseControl)
-	{
-		List<IValidator> validators = new ArrayList<IValidator>();
-
-		if (baseControl.getModel().isMandatory())
-		{
-			validators.add(MANDATORY_VALIDATOR);
-		}
-		return validators;
-	}
-
-	protected List<IValidator> addValidators(BaseDictionaryControl<ControlModelType, ?> baseControl, List<IValidator> validators)
-	{
-
-		List<IValidator> validatorsResult = new ArrayList<IValidator>();
-		validatorsResult.addAll(validators);
-		validatorsResult.addAll(createBaseValidators(baseControl));
-
-		return validatorsResult;
 	}
 
 }

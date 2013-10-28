@@ -28,7 +28,7 @@ public class GwtBigDecimalControl extends TextBox
 	public GwtBigDecimalControl(BigDecimalControl bigDecimalControl)
 	{
 		this.bigDecimalControl = bigDecimalControl;
-		gwtControlHelper = new ControlHelper(this, bigDecimalControl, true, BigDecimal.class);
+		gwtControlHelper = new ControlHelper(this, bigDecimalControl, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControl.getModel()));
 	}
 

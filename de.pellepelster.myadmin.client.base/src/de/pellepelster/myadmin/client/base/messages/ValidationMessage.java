@@ -37,6 +37,7 @@ public class ValidationMessage implements IValidationMessage, Serializable
 
 	private Map<String, Object> context;
 
+	@SuppressWarnings("unused")
 	private ValidationMessage()
 	{
 	}

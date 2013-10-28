@@ -49,6 +49,20 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 			public void onUpdate()
 			{
 				dataProvider.setList(baseTable.getRows());
+
+				if (!baseTable.getSelection().isEmpty())
+				{
+					if (baseTable.getSelection().size() == 1)
+					{
+						selectionModel.setSelected(baseTable.getSelection().get(0), true);
+					}
+					else
+					{
+						throw new RuntimeException("more than one table row selcted");
+					}
+
+				}
+
 			}
 		});
 	}

@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary.container;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +23,6 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import de.pellepelster.myadmin.client.base.databinding.IValueChangeListener;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
@@ -46,8 +44,6 @@ import de.pellepelster.myadmin.client.web.util.SimpleCallback;
  */
 public class GwtAssignmentTable<VOType extends IBaseVO> extends BaseCellTable<VOType> implements IContainer<Panel>
 {
-
-	private final List<IValueChangeListener> valueChangeListeners = new ArrayList<IValueChangeListener>();
 
 	private final AssignmentTable<VOType> assignmentTable;
 

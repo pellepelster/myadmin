@@ -26,15 +26,13 @@ public class GwtDateControl extends DateBox
 
 	private final DateControl dateControl;
 
-	private final ControlHelper gwtControlHelper;
-
 	public GwtDateControl(final DateControl dateControl)
 	{
 		this.dateControl = dateControl;
 		ensureDebugId(DictionaryModelUtil.getDebugId(dateControl.getModel()));
 
 		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(this.dateControl.getModel().getFormatPattern())));
-		gwtControlHelper = new ControlHelper(this, dateControl, false, Date.class);
+		new ControlHelper(this, dateControl, false);
 	}
 
 	/** {@inheritDoc} */

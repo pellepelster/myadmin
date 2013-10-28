@@ -80,7 +80,6 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 		int keyCode = event.getKeyCode();
 
 		boolean enterPressed = KeyUpEvent.getType().getName().equals(type) && keyCode == KeyCodes.KEY_ENTER;
-		boolean hasFirstEditMarker = ControlUtil.hasFirstEditMarker(context, baseControl.getModel());
 		boolean startEdit = ClickEvent.getType().getName().equals(type) || enterPressed;
 		boolean eventTargetIsDiv = false;
 		boolean eventTargetIsInput = false;
@@ -109,7 +108,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 		}
 		else
 		{
-			if (viewData.isEditing() || hasFirstEditMarker)
+			if (viewData.isEditing())
 			{
 				editEvent(context, parent, value, viewData, event, valueUpdater);
 
@@ -138,7 +137,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 			styles.appendTrustedString(GwtStyles.CELL_ERROR_STYLE);
 		}
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, baseControl.getModel()))
+		if (viewData.isEditing())
 		{
 			sb.append(template.input(getValueHandler().format(viewData.getValue()), styles.toSafeStyles()));
 		}
@@ -152,7 +151,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 	@Override
 	public boolean resetFocus(Context context, Element parent, T value)
 	{
-		if (isEditing(context, parent, value) || ControlUtil.hasFirstEditMarker(context, baseControl.getModel()))
+		if (isEditing(context, parent, value))
 		{
 			getInputElement(parent).focus();
 			return true;
@@ -180,7 +179,6 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private void cancel(Context context, Element parent, T value)
 	{
-		ControlUtil.removeFirstEditMarker(context, baseControl.getModel());
 		clearInput(getInputElement(parent));
 		setValue(context, parent, value);
 	}
@@ -195,8 +193,6 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 	private void commit(Context context, Element parent, ViewData<T> viewData, ValueUpdater<T> valueUpdater)
 	{
 		T value = updateViewData(parent, viewData, false);
-
-		ControlUtil.removeFirstEditMarker(context, baseControl.getModel());
 
 		clearInput(getInputElement(parent));
 

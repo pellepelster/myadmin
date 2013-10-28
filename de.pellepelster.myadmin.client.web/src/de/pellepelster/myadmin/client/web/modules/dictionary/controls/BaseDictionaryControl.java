@@ -1,17 +1,67 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Strings;
+
+import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
 
 public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel, ValueType> extends BaseDictionaryElement<ModelType> implements IBaseControl<ValueType>
 {
+	
+	protected class ParseResult {
+		
+		private IValidationMessage validationMessage;
+		
+		private ValueType value;
 
+		public ParseResult(ValueType value)
+		{
+			super();
+			this.value = value;
+		}
+
+		public ParseResult(IValidationMessage validationMessage)
+		{
+			super();
+			this.validationMessage = validationMessage;
+		}
+
+		public IValidationMessage getValidationMessage()
+		{
+			return validationMessage;
+		}
+
+		public ValueType getValue()
+		{
+			return value;
+		}
+		
+	}
+
+	private List<IValidator> validators = new ArrayList<IValidator>();
+
+	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
+
+	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
+	
 	public BaseDictionaryControl(ModelType baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(baseControlModel, parent);
+		
+		if (baseControlModel.isMandatory())
+		{
+			validators.add(MANDATORY_VALIDATOR);
+		}
+
 	}
 
 	public String getEditorLabel()
@@ -26,11 +76,13 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		return label;
 	}
 
+
 	public String getFilterLabel()
 	{
 		return getModel().getFilterLabel();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ValueType getValue()
 	{
@@ -60,4 +112,34 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 			return "";
 		}
 	}
+
+	protected void addValidationMessage(IValidationMessage validationMessage)
+	{
+		validationMessages.add(validationMessage);
+	}
+
+	protected abstract ParseResult parseValueInternal(String valueString);
+	
+	@Override
+	public void parseValue(String valueString)
+	{
+		if (Strings.isNullOrEmpty(valueString))
+		{
+			setValue(null);
+		}
+		else
+		{
+			ParseResult parseResult = parseValueInternal(valueString);
+
+			if (parseResult.getValidationMessage() != null)
+			{
+				setValue(parseResult.getValue());
+			}
+			else
+			{
+				addValidationMessage(parseResult.getValidationMessage());
+			}
+		}
+	}
+	
 }

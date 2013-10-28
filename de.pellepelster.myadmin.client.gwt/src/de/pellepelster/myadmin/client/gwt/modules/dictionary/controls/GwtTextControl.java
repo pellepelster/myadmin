@@ -23,7 +23,7 @@ public class GwtTextControl extends TextBox
 	public GwtTextControl(TextControl textControl)
 	{
 		super();
-		new ControlHelper(this, textControl, true, String.class);
+		new ControlHelper(this, textControl, true);
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(textControl.getModel()));
 		setMaxLength(textControl.getModel().getMaxLength());

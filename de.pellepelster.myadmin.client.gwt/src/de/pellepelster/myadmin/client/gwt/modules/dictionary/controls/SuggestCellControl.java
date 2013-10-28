@@ -180,8 +180,6 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		viewData.setValue(value);
 		viewData.setEditing(false);
 
-		ControlUtil.removeFirstEditMarker(context, referenceControlModel);
-
 		clearInput(getInputElement(parent));
 		clearSuggestBox();
 		setValue(context, parent, value);
@@ -208,8 +206,6 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 		ViewData<T> viewData = getAndInitViewData(context);
 		viewData.setValue(value);
 		viewData.setEditing(false);
-
-		ControlUtil.removeFirstEditMarker(context, referenceControlModel);
 
 		clearSuggestBox();
 
@@ -339,10 +335,9 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 	{
 		final ViewData<T> viewData = getAndInitViewData(context, value);
 
-		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing() + ", firstEdit: "
-				+ ControlUtil.hasFirstEditMarker(context, referenceControlModel));
+		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing());
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, referenceControlModel))
+		if (viewData.isEditing())
 		{
 			if (!hasSuggestBox())
 			{
@@ -375,7 +370,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 			clearSuggestBox();
 		}
 
-		if (viewData.isEditing() || ControlUtil.hasFirstEditMarker(context, referenceControlModel))
+		if (viewData.isEditing())
 		{
 			sb.append(template.input(getValueHandler().format(value)));
 		}

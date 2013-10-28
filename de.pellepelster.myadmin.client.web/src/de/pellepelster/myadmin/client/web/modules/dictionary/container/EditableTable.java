@@ -10,14 +10,12 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTab
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 public class EditableTable<VOType extends IBaseVO> extends BaseTableElement<VOType, IEditableTableModel> implements IEditableTable<VOType>
 {
-	public final static String CONTROL_FIRST_EDIT_DATA_KEY = "CONTROL_FIRST_EDIT_DATA_KEY";
 
 	public EditableTable(IEditableTableModel editableTableModel, BaseDictionaryElement<IBaseModel> parent)
 	{
@@ -35,10 +33,6 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTableElement<VOTy
 					@Override
 					public void onSuccess(IBaseVO newVO)
 					{
-						for (IBaseControlModel baseControlModel : getModel().getControls())
-						{
-							newVO.getData().put(baseControlModel.getName(), CONTROL_FIRST_EDIT_DATA_KEY);
-						}
 						addRow((VOType) newVO);
 
 						asyncCallback.onSuccess(EditableTable.this.getRows());

@@ -22,7 +22,7 @@ public class GwtBooleanControl extends CheckBox
 
 	public GwtBooleanControl(BooleanControl booleanControl)
 	{
-		new ControlHelper(this, booleanControl, true, Boolean.class);
+		new ControlHelper(this, booleanControl, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(booleanControl.getModel()));
 
 	}
