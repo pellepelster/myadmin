@@ -176,11 +176,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 	private void cancel(Context context, Element parent)
 	{
-<<<<<<< HEAD
 		ViewData<T> viewData = getOrInitViewData(context);
-=======
-		ViewData<T> viewData = getAndInitViewData(context);
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 		viewData.setEditing(false);
 
 		clearInput(getInputElement(parent));
@@ -206,12 +202,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 
 	private void commit(Context context, Element parent)
 	{
-<<<<<<< HEAD
 		ViewData<T> viewData = getOrInitViewData(context);
-=======
-
-		ViewData<T> viewData = getAndInitViewData(context);
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 		viewData.setEditing(false);
 
 		clearSuggestBox();
@@ -332,13 +323,7 @@ public class SuggestCellControl<T extends IBaseVO> extends BaseCellControl<T>
 	@Override
 	public void onBrowserEvent(final Context context, final Element parent, final T value, final NativeEvent event, final ValueUpdater<T> valueUpdater)
 	{
-<<<<<<< HEAD
 		final ViewData<T> viewData = getOrInitViewData(context);
-=======
-		final ViewData<T> viewData = getAndInitViewData(context, value);
-
-		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing());
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 
 		if (viewData.isEditing())
 		{

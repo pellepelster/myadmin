@@ -51,40 +51,6 @@ public final class ValidationUtils
 
 	}
 
-<<<<<<< HEAD
-=======
-	/**
-	 * Returns the validation status with the highest priority
-	 * 
-	 * @param validationMessages
-	 * @return
-	 */
-	public static IMessage.SEVERITY getSeverity(List<IValidationMessage> validationMessages)
-	{
-		IMessage.SEVERITY severity = IMessage.SEVERITY.NONE;
-
-		for (IValidationMessage validationMessage : validationMessages)
-		{
-			if (validationMessage.getSeverity().getOrder() > severity.getOrder())
-			{
-				severity = validationMessage.getSeverity();
-			}
-		}
-
-		return severity;
-	}
-
-	public static boolean hasError(IMessage.SEVERITY severity)
-	{
-		return severity.getOrder() >= IMessage.SEVERITY.ERROR.getOrder();
-	}
-
-	public static boolean hasError(IValidationMessage validationMessage)
-	{
-		return hasError(validationMessage.getSeverity());
-	}
-
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 	private ValidationUtils()
 	{
 	}

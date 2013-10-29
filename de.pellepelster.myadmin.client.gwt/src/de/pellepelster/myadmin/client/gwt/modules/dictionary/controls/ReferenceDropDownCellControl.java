@@ -91,11 +91,7 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 
 	private void cancel(Context context, Element parent)
 	{
-<<<<<<< HEAD
-		ViewData<T> viewData = getViewData(context);
-=======
-		ViewData<T> viewData = getAndInitViewData(context);
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
+		ViewData<T> viewData = getOrInitViewData(context);
 		viewData.setEditing(false);
 
 		clearListBox();
@@ -120,11 +116,7 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 
 	private void commit(Context context, Element parent)
 	{
-<<<<<<< HEAD
-		ViewData<T> viewData = getViewData(context);
-=======
-		ViewData<T> viewData = getAndInitViewData(context);
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
+		ViewData<T> viewData = getOrInitViewData(context);
 		viewData.setEditing(false);
 
 		clearListBox();
@@ -222,13 +214,7 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 	@Override
 	public void onBrowserEvent(final Context context, final Element parent, final T value, final NativeEvent event, final ValueUpdater<T> valueUpdater)
 	{
-<<<<<<< HEAD
 		final ViewData<T> viewData = getOrInitViewData(context);
-=======
-		final ViewData<T> viewData = getAndInitViewData(context, value);
-
-		GWT.log("onBrowserEvent: eventType: " + event.getType() + ", isEditing: " + viewData.isEditing());
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 
 		if (viewData.isEditing())
 		{
@@ -264,20 +250,12 @@ public class ReferenceDropDownCellControl<T extends IBaseVO> extends BaseCellCon
 		if (viewData.isEditing())
 		{
 			sb.append(template.inputStart());
-<<<<<<< HEAD
 			sb.append(template.selected(format(context)));
-=======
-			sb.append(template.selected(getBaseControl(context).format()));
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			sb.append(template.inputEnd());
 		}
 		else
 		{
-<<<<<<< HEAD
 			sb.append(renderer.render(format(context)));
-=======
-			sb.append(renderer.render(getBaseControl(context).format()));
->>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 		}
 	}
 
