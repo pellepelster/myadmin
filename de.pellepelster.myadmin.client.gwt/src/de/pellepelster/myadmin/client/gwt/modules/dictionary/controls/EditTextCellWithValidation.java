@@ -35,6 +35,10 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseCont
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
+<<<<<<< HEAD
+=======
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 
 public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 {
@@ -88,6 +92,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 			eventTargetIsDiv = "div".equals(target.getTagName().toLowerCase());
 			eventTargetIsInput = "input".equals(target.getTagName().toLowerCase());
+<<<<<<< HEAD
 
 		}
 
@@ -101,10 +106,26 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 		}
 		else if (FocusEvent.getType().getName().equals(type))
 		{
+=======
+
+		}
+
+		if (BlurEvent.getType().getName().equals(type))
+		{
+			if (eventTargetIsInput)
+			{
+				commit(context, parent, viewData, valueUpdater);
+			}
+
+		}
+		else if (FocusEvent.getType().getName().equals(type))
+		{
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			getInputElement(parent).focus();
 		}
 		else
 		{
+<<<<<<< HEAD
 			if (isEditing(context, parent, value))
 			{
 				editEvent(context, parent, value, event, valueUpdater);
@@ -112,6 +133,15 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 			}
 			else
 			{
+=======
+			if (viewData.isEditing())
+			{
+				editEvent(context, parent, value, viewData, event, valueUpdater);
+
+			}
+			else
+			{
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 				if (startEdit)
 				{
 					startEdit(context, parent, value);
@@ -188,12 +218,15 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 	private void commit(Context context, Element parent, ValueUpdater<T> valueUpdater)
 	{
+<<<<<<< HEAD
 		ViewData<T> viewData = getOrInitViewData(context);
 		viewData.setEditing(false);
 
 		IBaseControl<?> baseControl = getBaseControl(context);
 		baseControl.parseValue(getInputElement(parent).getValue());
 
+=======
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 		clearInput(getInputElement(parent));
 
 		setValue(context, parent, getBaseControl(context).getValue());

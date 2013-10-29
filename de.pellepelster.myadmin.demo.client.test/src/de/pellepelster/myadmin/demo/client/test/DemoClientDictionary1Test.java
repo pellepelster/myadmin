@@ -48,7 +48,12 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
+<<<<<<< HEAD
 			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+=======
+			TextControlTest textControl = result
+					.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			textControl.assertValue("text1");
 
 			final EditableTableTest<Test3VO> editableTable = result
@@ -74,6 +79,7 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
 			// text control
+<<<<<<< HEAD
 			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			textControl.assertMandatory();
 
@@ -98,10 +104,35 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			// date control
 			DateControlTest dateControl = result.getDateControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
 
+=======
+			TextControlTest textControl = result
+					.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+			textControl.assertMandatory();
+			
+			textControl.assertHasNoErrors();
+			textControl.setValue("text1");
+			
+			textControl.assertHasNoErrors();
+			textControl.setValue(null);
+
+			// big decimal control
+			BigDecimalControlTest  bigDecimalControl = result
+					.getBigDecimalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
+
+			// boolean control
+			BooleanControlTest  booleanControl = result
+					.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);
+
+			// date control
+			DateControlTest dateControl = result
+					.getDateControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
+			
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			// parse date
 			Date now = new Date();
 			dateControl.parse(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM).format(now));
 			dateControl.assertValueWithoutMillies(now);
+<<<<<<< HEAD
 
 			// parse incorrect date
 			dateControl.parse("xxx");
@@ -110,13 +141,31 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			dateControl.setValue(now);
 			dateControl.assertValue(now);
 
+=======
+			
+			// parse incorrect date
+			dateControl.parse("xxx");
+			dateControl.assertValue(null);
+			
+			dateControl.setValue(now);
+			dateControl.assertValue(now);
+
+
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			// enumeration control
 			EnumerationControlTest enumerationControl = result
 					.getEnumerationControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1);
 
+<<<<<<< HEAD
 			// hierarchical control
 			// HierarchicalControlTest hierarchicalControl = result
 			// .getHierarchicalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.);
+=======
+
+			// hierarchical control
+			//			HierarchicalControlTest hierarchicalControl = result
+			//					.getHierarchicalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.);
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 
 			// integer control
 			IntegerControlTest integerControl = result
@@ -125,7 +174,11 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			// reference control
 			ReferenceControlTest<Test2VO> referenceControl = result
 					.getReferenceControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1);
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 			result.save(new TestDictionary1EditorSaveResult());
 		}
 	}

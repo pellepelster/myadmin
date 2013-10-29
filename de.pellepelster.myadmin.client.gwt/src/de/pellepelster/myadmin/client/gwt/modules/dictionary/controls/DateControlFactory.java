@@ -64,6 +64,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 				@Override
 				public Date getValue(IBaseTable.ITableRow<IBaseVO> tableRow)
 				{
+<<<<<<< HEAD
 					Object date = tableRow.getElement(dateControl.getModel()).getValue();
 
 					if (date == null)
@@ -75,6 +76,9 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 						return (Date) date;
 					}
 
+=======
+					return (Date) tableRow.getElement(dateControl.getModel()).getValue();
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 				}
 			};
 

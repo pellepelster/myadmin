@@ -10,7 +10,11 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEn
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
+<<<<<<< HEAD
 public class EnumerationControl extends BaseDictionaryControl<IEnumerationControlModel, Object> implements IEnumerationControl
+=======
+public class EnumerationControl extends BaseDictionaryControl<IEnumerationControlModel, Object>  implements IEnumerationControl
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 {
 
 	public EnumerationControl(IEnumerationControlModel enumerationControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
@@ -27,7 +31,11 @@ public class EnumerationControl extends BaseDictionaryControl<IEnumerationContro
 		}
 		else
 		{
+<<<<<<< HEAD
 			return getModel().getEnumeration().get(getValue().toString()).toString();
+=======
+			return getModel().getEnumeration().get(getValue()).toString();
+>>>>>>> 62ad7c38b04e794970ceaee75309670b4db85f86
 		}
 	}
 
