@@ -19,13 +19,25 @@ import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBigDecimalControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBooleanControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IDateControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IEnumerationControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IHierarchicalControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IIntegerControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BaseControlElementTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.DateControlElementTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlElementTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BaseControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BigDecimalControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BooleanControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.DateControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.EnumerationControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.HierarchicalControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.IntegerControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.ReferenceControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTest;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
@@ -80,22 +92,52 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 		return new EditableTableTest<TableVOType>(this.module.getElement(controlDescriptor));
 	}
 
-	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlElementTest<ElementType, Value> getBaseControlTestElement(
+	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
 			DictionaryDescriptor<ElementType> controlDescriptor)
 	{
-		return new BaseControlElementTest<ElementType, Value>(this.module.getElement(controlDescriptor));
+		return new BaseControlTest<ElementType, Value>(this.module.getElement(controlDescriptor));
 	}
 
-	public TextControlElementTest getTextControlTestElement(DictionaryDescriptor<ITextControl> controlDescriptor)
+	public TextControlTest getTextControlTest(DictionaryDescriptor<ITextControl> controlDescriptor)
 	{
-		return new TextControlElementTest(this.module.getElement(controlDescriptor));
+		return new TextControlTest(this.module.getElement(controlDescriptor));
 	}
 
-	public DateControlElementTest getDateControlTestElement(DictionaryDescriptor<IDateControl> controlDescriptor)
+	public BigDecimalControlTest getBigDecimalControlTest(DictionaryDescriptor<IBigDecimalControl> controlDescriptor)
 	{
-		return new DateControlElementTest(this.module.getElement(controlDescriptor));
+		return new BigDecimalControlTest(this.module.getElement(controlDescriptor));
 	}
 
+	public BooleanControlTest getBooleanControlTest(DictionaryDescriptor<IBooleanControl> controlDescriptor)
+	{
+		return new BooleanControlTest(this.module.getElement(controlDescriptor));
+	}
+	
+	public DateControlTest getDateControlTest(DictionaryDescriptor<IDateControl> controlDescriptor)
+	{
+		return new DateControlTest(this.module.getElement(controlDescriptor));
+	}
+
+	public EnumerationControlTest getEnumerationControlTest(DictionaryDescriptor<IEnumerationControl> controlDescriptor)
+	{
+		return new EnumerationControlTest(this.module.getElement(controlDescriptor));
+	}
+
+	public HierarchicalControlTest getHierarchicalControlTest(DictionaryDescriptor<IHierarchicalControl> controlDescriptor)
+	{
+		return new HierarchicalControlTest(this.module.getElement(controlDescriptor));
+	}
+
+	public IntegerControlTest getIntegerControlTest(DictionaryDescriptor<IIntegerControl> controlDescriptor)
+	{
+		return new IntegerControlTest(this.module.getElement(controlDescriptor));
+	}
+	
+	public <ReferenceVOType extends IBaseVO> ReferenceControlTest<ReferenceVOType> getReferenceControlTest(DictionaryDescriptor<IReferenceControl<ReferenceVOType>> controlDescriptor)
+	{
+		return new ReferenceControlTest<ReferenceVOType>(this.module.getElement(controlDescriptor));
+	}
+	
 	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)
 	{
 		this.module.save(new BaseErrorAsyncCallback<Result<VOType>>(asyncCallback)

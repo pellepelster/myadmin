@@ -3,12 +3,12 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary.controls;
 import junit.framework.Assert;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 
-public class BaseControlElementTest<ElementType extends IBaseControl<ValueType>, ValueType>
+public class BaseControlTest<ElementType extends IBaseControl<ValueType>, ValueType>
 {
 
 	private ElementType baseControl;
 
-	public BaseControlElementTest(ElementType baseControl)
+	public BaseControlTest(ElementType baseControl)
 	{
 		this.baseControl = baseControl;
 	}
@@ -21,6 +21,11 @@ public class BaseControlElementTest<ElementType extends IBaseControl<ValueType>,
 	public ValueType getValue()
 	{
 		return this.baseControl.getValue();
+	}
+
+	protected ElementType getBaseControl()
+	{
+		return baseControl;
 	}
 
 	public void setValue(ValueType value)

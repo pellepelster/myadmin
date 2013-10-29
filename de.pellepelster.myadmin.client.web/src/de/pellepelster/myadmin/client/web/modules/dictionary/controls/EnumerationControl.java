@@ -4,12 +4,13 @@ import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IEnumerationControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public class EnumerationControl extends BaseDictionaryControl<IEnumerationControlModel, Object>
+public class EnumerationControl extends BaseDictionaryControl<IEnumerationControlModel, Object>  implements IEnumerationControl
 {
 
 	public EnumerationControl(IEnumerationControlModel enumerationControlModel, BaseDictionaryElement<? extends IBaseModel> parent)

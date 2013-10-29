@@ -78,11 +78,6 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 			}
 		}
 
-		public int getSize()
-		{
-			return size;
-		}
-
 		public StackLayoutPanel getStackLayoutPanel()
 		{
 			if (widget instanceof StackLayoutPanel)
@@ -107,8 +102,6 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 	private final DockLayoutPanel rootPanel;
 
-	private final Unit unit;
-
 	/**
 	 * Constructor for {@link GWTLayoutFactory}
 	 * 
@@ -116,8 +109,6 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 	 */
 	public GWTLayoutFactory(Unit unit)
 	{
-		this.unit = unit;
-
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleUIFactory());
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.class, new DictionarySearchModuleUIFactory());
 		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.class, new DictionaryEditorModuleUIFactory());

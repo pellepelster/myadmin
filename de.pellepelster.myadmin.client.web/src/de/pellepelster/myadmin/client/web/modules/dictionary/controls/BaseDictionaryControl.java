@@ -142,6 +142,20 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		}
 	}
 
+	@Override
+	public boolean isMandatory()
+	{
+		return getModel().isMandatory();
+	}
+
+	
+	@Override
+	public List<IValidationMessage> getValidationMessages()
+	{
+		return validationMessages;
+	}
+
 	protected abstract ParseResult parseValueInternal(String valueString);
 
+	
 }

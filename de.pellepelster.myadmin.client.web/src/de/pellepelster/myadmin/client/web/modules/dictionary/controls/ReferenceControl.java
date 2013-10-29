@@ -1,12 +1,13 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
-public class ReferenceControl<VOType extends IBaseVO> extends BaseDictionaryControl<IReferenceControlModel, VOType>
+public class ReferenceControl<VOType extends IBaseVO> extends BaseDictionaryControl<IReferenceControlModel, VOType>  implements IReferenceControl<VOType>
 {
 
 	public ReferenceControl(IReferenceControlModel referenceControlModel, BaseDictionaryElement<? extends IBaseModel> parent)

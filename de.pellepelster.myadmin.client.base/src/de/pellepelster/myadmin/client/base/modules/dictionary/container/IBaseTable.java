@@ -19,8 +19,10 @@ public interface IBaseTable<VOType extends IBaseVO> extends IBaseContainer
 
 		RowVOType getVO();
 
+		@SuppressWarnings("rawtypes")
 		<ElementType extends IBaseControl> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor);
 
+		@SuppressWarnings("rawtypes")
 		<ElementType extends IBaseControl> ElementType getElement(IBaseControlModel baseControlModel);
 
 	}

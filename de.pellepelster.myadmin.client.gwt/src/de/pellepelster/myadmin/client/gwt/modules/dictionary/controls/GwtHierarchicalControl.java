@@ -29,14 +29,12 @@ public class GwtHierarchicalControl extends Anchor
 {
 	private final HierarchicalControl hierarchicalControl;
 
-	private final ControlHelper controlHelper;
-
 	private IHierarchicalVO hierarchicalVO;
 
 	public GwtHierarchicalControl(final HierarchicalControl hierarchicalControl)
 	{
 		this.hierarchicalControl = hierarchicalControl;
-		controlHelper = new ControlHelper(this, hierarchicalControl, true);
+		new ControlHelper(this, hierarchicalControl, true);
 
 		addClickHandler(new ClickHandler()
 		{
