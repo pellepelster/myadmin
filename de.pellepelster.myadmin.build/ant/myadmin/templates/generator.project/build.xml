@@ -2,6 +2,7 @@
 
 	<import file="@ant.common.file@" />
 	<import file="../@organisation.name@.@project.name@.build/ant/myadmin/GeneratorCommon.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseGenerator.xml" />
 
 	<path id="jar.files">
 		<fileset dir="${classes.dir}" />

@@ -6,6 +6,7 @@
 		<exclude name="de.pellepelster.myadmin.lib.project/**/*" />
 		<exclude name="de.pellepelster.myadmin.dsl.ui/**/*" />
 		<exclude name="de.pellepelster.myadmin.demo.*/**/*" />
+		<exclude name="de.pellepelster.myadmin.documentation/**/*" />
 	</fileset>
 
 	<fileset dir="../" includes="**/build_ivy.xml" id="publish.fileset.fast">

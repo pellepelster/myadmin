@@ -2,11 +2,7 @@
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../de.pellepelster.myadmin.demo.build/ant/myadmin/GeneratorCommon.xml" />
-
-	<path id="jar.files">
-		<fileset dir="${classes.dir}" />
-		<fileset dir="${src.dir}" includes="*.msl" />
-	</path>
+	<import file="../de.pellepelster.myadmin.build/ant/myadmin/BaseGenerator.xml" />
 
 	<path id="local.lib.path.id">
 		<path refid="lib.path.id" />

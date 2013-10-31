@@ -5,6 +5,7 @@
 	<property file="build.properties" />
 
 	<import file="@ant.common.file@" />
+	<import file="../${build.project}/ant/myadmin/ServerTestCommon.xml" />
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
 
 	<target name="tomcat.local.run" depends="resolve">

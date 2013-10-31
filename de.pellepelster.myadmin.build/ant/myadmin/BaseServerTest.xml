@@ -1,0 +1,42 @@
+<project name="BaseServer" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<target name="post.publish">
+		<antcall target="test" />
+	</target>
+
+	<path id="lib.test.extra.path.id">
+	</path>
+
+	<target name="pre.test">
+	</target>
+
+	<target name="post.test">
+	</target>
+		
+	<target name="test" if="test.suite.name">
+
+		<delete dir="${test.dir}" />
+		<mkdir dir="${test.dir}" />
+
+		<antcall target="pre.test" />
+
+		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true" showoutput="true">
+
+			<classpath refid="lib.path.id" />
+
+			<classpath>
+				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
+			</classpath>
+
+			<formatter type="xml" />
+
+			<test name="${test.suite.name}" haltonfailure="yes" outfile="${test.dir}/${test.suite.name}" />
+
+		</junit>
+
+		<antcall target="post.test" />
+		
+	</target>
+
+
+</project>

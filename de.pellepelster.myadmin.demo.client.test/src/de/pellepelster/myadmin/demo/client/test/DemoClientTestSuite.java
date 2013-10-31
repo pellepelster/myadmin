@@ -16,11 +16,11 @@ import junit.framework.TestSuite;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
-public class DemoClientTest extends GWTTestSuite
+public class DemoClientTestSuite extends GWTTestSuite
 {
 	public static Test suite()
 	{
-		TestSuite suite = new TestSuite(DemoClientTest.class.getName());
+		TestSuite suite = new TestSuite(DemoClientTestSuite.class.getName());
 
 		suite.addTestSuite(DemoClientCityTest.class);
 		suite.addTestSuite(DemoClientDictionary1Test.class);

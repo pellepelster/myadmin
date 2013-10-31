@@ -1,6 +1,7 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="@ant.common.file@" />
+	<import file="../${build.project}/ant/myadmin/BaseClient.xml" />
 
 	<path id="lib.client.path.id">
 		<fileset dir="${lib.dir}" includes="*.jar" />

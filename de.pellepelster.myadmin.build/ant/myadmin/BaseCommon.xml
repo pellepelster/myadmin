@@ -98,6 +98,10 @@
 		<fileset dir="${lib.dir}" excludes="*-source.jar" />
 	</path>
 
+	<path id="lib.src.path.id">
+		<fileset dir="${lib.dir}" includes="*-source.jar" />
+	</path>
+
 	<path id="run.path.id">
 		<path refid="lib.path.id" />
 		<path location="${classes.dir}" />
@@ -162,36 +166,6 @@
 
 	</target>
 
-	<target name="pre.test">
-	</target>
-
-	<target name="post.test">
-	</target>
-		
-	<target name="test" if="test.suite.name" depends="jar">
-
-		<delete dir="${test.dir}" />
-		<mkdir dir="${test.dir}" />
-
-		<antcall target="pre.test" />
-
-		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
-
-			<classpath refid="lib.path.id" />
-			<classpath>
-				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-			</classpath>
-
-			<formatter type="xml" />
-
-			<test name="${test.suite.name}" haltonfailure="yes" outfile="${test.dir}/${test.suite.name}" />
-
-		</junit>
-
-		<antcall target="post.test" />
-
-	</target>
-
 	<target name="pre.jar">
 	</target>
 
@@ -222,9 +196,17 @@
 
 	</target>
 
-	<target name="publish" depends="new.version, jar, test">
+	<target name="pre.publish">
+	</target>
+
+	<target name="post.publish">
+	</target>
+	
+	<target name="publish" depends="new.version, jar">
+		<antcall target="pre.publish" />
 		<ivy:publish settingsref="ivy.settings" artifactspattern="${build.dir}/[artifact].[ext]" resolver="${ivy.resolver.publish}" pubrevision="${version}" pubdate="${build.timestamp}" status="integration" forcedeliver="true" />
 		<echo message="project ${ant.project.name} published to ${ivy.resolver.publish} with version ${version}" />
+		<antcall target="post.publish" />
 	</target>
 
 	<target name="clean.local">
