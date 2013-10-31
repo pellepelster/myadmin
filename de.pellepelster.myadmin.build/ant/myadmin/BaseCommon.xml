@@ -7,10 +7,29 @@
 	<property name="build.project.root.dir" value="${BaseCommon.imported.basedir}/../.." />
 	<property name="projects.root.dir" value="${build.project.root.dir}/.." />
 	<property name="build.project.ant.dir" value="${build.project.root.dir}/ant" />
-	
+
 	<property name="templates.dir" value="${BaseCommon.imported.basedir}/templates" />
 	<property name="bootstrap.lib.dir" value="${build.project.root.dir}/lib-bootstrap" />
 	<property name="ivy.settings.file" value="${build.project.ant.dir}/ivysettings.xml" />
+
+	<!-- task and type defs -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" onerror="ignore">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+
+	<taskdef name="stringutil" classname="ise.antelope.tasks.StringUtilTask" onerror="ignore">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+		<classpath>
+			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
 
 	<!-- ivy configuration -->
 	<ivy:settings id="ivy.settings" file="${ivy.settings.file}" />
@@ -22,19 +41,19 @@
 
 	<!-- write property file for ivy settings -->
 	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
-		<isset property="env.WORKSPACE"/>
+		<isset property="env.WORKSPACE" />
 	</condition>
-	
+
 	<tstamp>
 		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
 	</tstamp>
-	
+
 	<!-- version configuration -->
 	<property name="version.file" value="${build.project.root.dir}/version.properties" />
 	<fail message="version file '${version.file}' is missing">
 		<condition>
 			<not>
-				<available file="${version.file}"  />
+				<available file="${version.file}" />
 			</not>
 		</condition>
 	</fail>
@@ -53,19 +72,19 @@
 			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
 		</classpath>
 	</taskdef>
-	
+
 	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
 		<classpath>
 			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
 		</classpath>
 	</taskdef>
-	
+
 	<condition property="no.compile">
 		<not>
 			<available file="${src.dir}" type="dir" />
 		</not>
 	</condition>
-	
+
 	<!-- defaults for compile/jaring -->
 	<path id="jar.files">
 		<fileset dir="${classes.dir}" />
@@ -171,7 +190,7 @@
 
 	<target name="post.test">
 	</target>
-		
+
 	<target name="test" if="test.suite.name" depends="jar">
 
 		<delete dir="${test.dir}" />
@@ -201,7 +220,7 @@
 
 	<target name="post.jar">
 	</target>
-	
+
 	<target name="jar" depends="version, compile" unless="no.compile">
 
 		<antcall target="pre.jar" />
