@@ -1,0 +1,41 @@
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	
+	<info organisation="@organisation.name@" module="@project.name@.generator" status="integration"></info>
+
+	<configurations>
+		<conf name="generated.client.web" extends="generated.client.base" />
+		<conf name="generated.client.mobile" />
+		<conf name="generated.client.base" />
+		<conf name="generated.xml" />
+		<conf name="generated.server" extends="generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
+		<conf name="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+		<conf name="compile" extends="default" />
+ 		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
+	</configurations>
+
+	<publications>
+		<artifact name="@organisation.name@.@project.name@.generator" type="jar" ext="jar" conf="master" />
+		<artifact name="@organisation.name@.@project.name@-mobile-client-gen" type="jar" ext="jar" conf="generated.client.mobile" />
+		<artifact name="@organisation.name@.@project.name@-web-client-gen" type="jar" ext="jar" conf="generated.client.web" />
+		<artifact name="@organisation.name@.@project.name@-client-base-gen" type="jar" ext="jar" conf="generated.client.base" />
+		<artifact name="@organisation.name@.@project.name@-server-gen" type="jar" ext="jar" conf="generated.server" />
+		<artifact name="@organisation.name@.@project.name@-xml-gen" type="jar" ext="jar" conf="generated.xml" />
+
+		<artifact name="@organisation.name@.@project.name@.generator-source" type="jar" ext="jar" conf="sources" />
+		<artifact name="@organisation.name@.@project.name@-mobile-client-gen-source" type="jar" ext="jar" conf="sources" />
+		<artifact name="@organisation.name@.@project.name@-web-client-gen-source" type="jar" ext="jar" conf="sources" />
+		<artifact name="@organisation.name@.@project.name@-client-base-gen-source" type="jar" ext="jar" conf="sources" />
+		<artifact name="@organisation.name@.@project.name@-server-gen-source" type="jar" ext="jar" conf="sources" />
+		<artifact name="@organisation.name@.@project.name@-xml-gen-source" type="jar" ext="jar" conf="sources" />
+	</publications>
+	
+	<dependencies defaultconf="*->default">
+
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->default,compile,generated.server" />
+
+	</dependencies>
+
+</ivy-module>

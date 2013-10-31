@@ -5,8 +5,8 @@
 	<property file="build.properties" />
 
 	<import file="@ant.common.file@" />
-	<import file="../${build.project}/ant/myadmin/ServerTestCommon.xml" />
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
 
 	<target name="tomcat.local.run" depends="resolve">
 		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>

@@ -1,0 +1,40 @@
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="@organisation.name@" module="@project.name@.client" status="integration"></info>
+
+	<configurations>
+		<conf name="master" />
+		<conf name="runtime" />
+		<conf name="sources" />
+		<conf name="compile" extends="default" />
+		<conf name="test" extends="compile" />
+		<conf name="default" extends="master, runtime" />
+	</configurations>
+
+	<publications>
+		<artifact name="@organisation.name@.@project.name@.client" type="jar" ext="jar" conf="master" />
+		<artifact name="@organisation.name@.@project.name@.client-source" type="source" ext="jar" conf="sources" />
+	</publications>
+
+	<dependencies defaultconf="*->default">
+
+		<dependency name="@project.name@.generator" rev="latest.integration" conf="compile->generated.client.web" />
+
+		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->default,sources" />
+
+		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->generated.client.web" />
+
+		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.1"/>
+
+		<dependency org="commons-httpclient" name="commons-httpclient" rev="3.1">
+			<artifact name="commons-httpclient" type="jar" />
+		</dependency>
+
+		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2.2">
+			<artifact name="commons-fileupload" type="jar" />
+		</dependency>
+
+	</dependencies>
+
+</ivy-module>

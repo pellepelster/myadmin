@@ -1,7 +1,7 @@
 <project name="de.pellepelster.myadmin.demo.server" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-	<import file="../de.pellepelster.myadmin.build/ant/myadmin/BaseServer.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseServer.xml" />
 	
 	<target name="post.jar">
 		<antcall target="war" />

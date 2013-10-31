@@ -1,0 +1,2 @@
+# Module de.pellepelster.myadmin.demo.DemoTest.JUnit
+# RPC service class, partial path of RPC policy file

@@ -1,18 +1,12 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="@ant.common.file@" />
-	<import file="../@organisation.name@.@project.name@.build/ant/myadmin/GeneratorCommon.xml" />
+	<import file="../${build.project}/ant/myadmin/GeneratorCommon.xml" />
 	<import file="../${build.project}/ant/myadmin/BaseGenerator.xml" />
-
-	<path id="jar.files">
-		<fileset dir="${classes.dir}" />
-		<fileset dir="${src.dir}" includes="*.msl" />
-	</path>
 
 	<path id="local.lib.path.id">
 		<path refid="lib.path.id" />
 		<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-
 	</path>
 
 	<path id="xjc.classpath">

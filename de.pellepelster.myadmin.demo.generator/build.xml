@@ -1,8 +1,8 @@
 <project name="de.pellepelster.myadmin.demo.generator" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-	<import file="../de.pellepelster.myadmin.demo.build/ant/myadmin/GeneratorCommon.xml" />
-	<import file="../de.pellepelster.myadmin.build/ant/myadmin/BaseGenerator.xml" />
+	<import file="../${build.project}/ant/myadmin/GeneratorCommon.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseGenerator.xml" />
 
 	<path id="local.lib.path.id">
 		<path refid="lib.path.id" />

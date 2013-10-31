@@ -1,27 +1,8 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<property name="gwt.module.name" value="@project.package@.@project.name.camelcase@" />
+
 	<import file="@ant.common.file@" />
 	<import file="../${build.project}/ant/myadmin/BaseClient.xml" />
-
-	<path id="lib.client.path.id">
-		<fileset dir="${lib.dir}" includes="*.jar" />
-	</path>
-			
-	<target name="pre.jar">
-
-		<delete dir="gwt-unitCache" />
-
-		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
-			<classpath>
-				<pathelement path="src/" />
-				<path refid="lib.client.path.id" />
-			</classpath>
-			<jvmarg value="-Xmx768M" />
-			<arg value="-localWorkers" />
-			<arg value="2" />
-			<arg line="@project.package@.@project.name.camelcase@" />
-		</java>
-		
-	</target>
 
 </project>

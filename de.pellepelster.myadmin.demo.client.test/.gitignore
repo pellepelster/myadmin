@@ -10,3 +10,4 @@ build
 /tomcat
 /war_tmp
 /derby.log
+/test

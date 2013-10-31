@@ -1,0 +1,59 @@
+<project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish.all">
+
+	<import file="@ant.common.file@" />
+
+	<fileset dir="../" id="publish.fileset.all">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+	</fileset>
+
+	<fileset dir="../" id="publish.fileset.fast">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.client/build.xml" />
+		<exclude name="d@organisation.name@.@project.name@.*.test/build.xml" />
+	</fileset>
+
+	<fileset dir="../" id="publish.fileset.fast.no.generate">
+		<include name="@organisation.name@.@project.name@.*/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.client/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.*.test/build.xml" />
+		<exclude name="@organisation.name@.@project.name@.generator/build.xml" />
+	</fileset>
+
+	<macrodef name="buildlist">
+		<attribute name="fileset" />
+		<sequential>
+			<ivy:buildlist settingsref="ivy.settings" reference="build.path">
+				<fileset refid="@{fileset}" />
+			</ivy:buildlist>
+		</sequential>	
+	</macrodef>
+
+	<target name="publish.all">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.all" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="publish.fast">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+
+	<target name="publish.fast.no.generate">
+		<antcall target="info" />
+		<buildlist fileset="publish.fileset.fast.no.generate" />
+		<subant target="publish" buildpathref="build.path" />
+	</target>
+		
+	<target name="clean.all">
+		<buildlist fileset="publish.fileset.all" />
+		<subant target="clean" buildpathref="build.path" />
+	</target>
+
+	<target name="clean" depends="clean.all">
+		<delete dir="repository" />
+		<ivy:cleancache />
+	</target>
+
+</project>

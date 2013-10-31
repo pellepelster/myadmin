@@ -1,0 +1,2 @@
+serviceClass: de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT
+path: 42A40B88D06E83FBF3B1813FE5533589.gwt.rpc

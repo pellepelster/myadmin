@@ -1,0 +1,20 @@
+
+.humanizedMessage {
+	font-size: 3em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+	border: 0px;
+	padding: 1em;
+}
+
+.humanizedMessageError {
+	background-color: #FF9999;
+}
+
+.humanizedMessageWarning {
+	background-color: #FBFFA8;
+}
+
+.humanizedMessageInfo {
+	background-color: #9999FF;
+}

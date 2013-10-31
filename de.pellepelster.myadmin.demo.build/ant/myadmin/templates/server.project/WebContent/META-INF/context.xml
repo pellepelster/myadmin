@@ -1,0 +1,3 @@
+<Context path="/@organisation.name@.@project.name@" docBase="@organisation.name@.@project.name@" reloadable="true" antiJARLocking="true" antiResourceLocking="true">
+	<ResourceLink name="jdbc/@project.name.camelcase@" global="jdbc/@project.name.camelcase@" type="javax.sql.DataSource" />
+</Context>

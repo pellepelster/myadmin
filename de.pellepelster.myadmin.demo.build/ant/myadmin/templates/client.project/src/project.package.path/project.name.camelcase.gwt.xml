@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.6.4//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.6.4/distro-source/core/src/gwt-module.dtd">
+<module rename-to="@project.name.camelcase@">
+
+	<inherits name='de.pellepelster.myadmin.MyAdminClientGwt' />
+	<inherits name='com.google.gwt.user.theme.standard.Standard'/>
+			
+	
+	<entry-point class="@project.package@.client.@project.name.camelcase@" />
+
+</module>

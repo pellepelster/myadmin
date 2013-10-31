@@ -19,7 +19,7 @@
 
 	<dependencies defaultconf="*->default">
 	
-		<dependency name="client-web" rev="latest.integration" conf="*->@,sources" />
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
 
 		<dependency org="com.googlecode.gwtquery" name="gwtquery" rev="1.4.0-SNAPSHOT" transitive="false" />	
 		

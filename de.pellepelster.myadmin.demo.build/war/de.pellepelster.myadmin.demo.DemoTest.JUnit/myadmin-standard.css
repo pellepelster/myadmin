@@ -1,0 +1,84 @@
+.docklayoutpanel-center {
+	margin: 1em;
+}
+
+.docklayoutpanel-east {
+	margin-left: 1em;
+}
+
+.docklayoutpanel-north {
+	margin-bottom: 1em;
+}
+
+.docklayoutpanel-south {
+	margin-top: 1em;
+}
+
+.docklayoutpanel-west {
+	margin-right: 1em;
+}
+
+.docklayoutpanel-line_end {
+	margin-top: 1em;
+}
+
+.docklayoutpanel-line_start {
+	margin-bottom: 1em;
+}
+
+.seperator-border-bottom {
+	border-bottom: 1px solid #E5E5E5;
+	
+}
+
+.seperator-border-top {
+/*	border-top: 1px solid #E5E5E5; */
+}
+
+.seperator-border-left {
+	border-left: 1px solid #E5E5E5;
+}
+
+.seperator-border-right {
+	border-right: 1px solid #E5E5E5;
+}
+
+.debug-border {
+	border: 1px solid #FF0000;
+}
+
+.module {
+	padding: 1em;
+}
+
+.vertical-spacing {
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+/*  when changing the error styles don't forget to also change the following styles:
+	 - .dateBoxFormatError
+*/
+.control-error {
+	background: #ffcccc;
+}
+
+.search-title {
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+}
+
+.editor-title {
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+}
+
+.gwt-PopupPanelGlass {
+	background-color: #000;
+	opacity: 0.3;
+	filter: literal("alpha(opacity=30)");
+}

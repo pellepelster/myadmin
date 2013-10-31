@@ -1,6 +1,6 @@
 <project name="de.pellepelster.myadmin.demo.deploy" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-	<import file="../de.pellepelster.myadmin.build/ant/myadmin/BaseDeploy.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseDeploy.xml" />
 
 </project>

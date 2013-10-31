@@ -1,0 +1,103 @@
+<project name="MyAdminProjectTemplates" xmlns:ivy="antlib:org.apache.ivy.ant" default="build">
+
+	<property name="overwrite.all" value="false" />
+	
+	<dirname property="MyAdminProjectTemplates.imported.basedir" file="${ant.file.MyAdminProjectTemplates}" />
+	<import file="${MyAdminProjectTemplates.imported.basedir}/MyAdminProjectCommon.xml" />
+
+	<stringutil string="${project.name}" property="project.name.first.uppercase">
+		<uppercase />
+		<substring beginindex="0" endindex="1" />
+	</stringutil>
+
+	<stringutil string="${project.name}" property="roject.name">
+		<substring beginindex="1" />
+	</stringutil>
+	
+	<property name="project.name.camelcase" value="${project.name.first.uppercase}${roject.name}" />
+	<property name="project.package" value="${organisation.name}.${project.name}" />
+
+	<stringutil string="${project.package}" property="project.package.path">
+		<replace regex="\." replacement="/" />
+	</stringutil>
+	
+	<filterset id="myadmin.tokens">
+		<filter token="organisation.name" value="${organisation.name}" />
+		<filter token="project.name" value="${project.name}" />
+		<filter token="project.package" value="${project.package}" />
+		<filter token="project.package.path" value="${project.package.path}" />
+		<filter token="project.name.camelcase" value="${project.name.camelcase}" />
+		<filter token="ant.common.file" value="../${build.project}/ant/${project.name}.xml" />
+	</filterset>
+
+	<filtermapper id="myadmin.filtermapper">
+		<replacestring from="project.name.camelcase" to="${project.name.camelcase}" />
+		<replacestring from="project.package.path" to="${project.package.path}" />
+		<replacestring from="project.name" to="${project.name}" />
+		<replacestring from="project.package" to="${project.package}" />
+	</filtermapper>
+
+	<target name="copy.project.templates">
+
+		<echo message="project: ${organisation.name}.${project.name}.${project.name.postifx}" />
+
+		<!-- copy templates (never overwrite) --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="false">
+			<fileset dir="${templates.dir}/${project.name.postifx}.project">
+				<include name="**/*.msl" />
+			</fileset>
+			<filterset refid="myadmin.tokens" />
+			<filterset>
+				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
+			</filterset>
+			<filtermapper refid="myadmin.filtermapper" />
+		</copy>
+
+		<!-- copy one time templates --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="${overwrite.all}">
+			<fileset dir="${templates.dir}/${project.name.postifx}.project">
+				<include name="**/*" />
+				<exclude name="**/*.msl" />
+			</fileset>
+			<filterset refid="myadmin.tokens" />
+			<filterset>
+				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
+			</filterset>
+			<filtermapper refid="myadmin.filtermapper" />
+		</copy>
+
+		<!-- copy (and overwrite) base templates --> 
+		<copy todir="${projects.root.dir}/${organisation.name}.${project.name}.${project.name.postifx}" overwrite="true">
+			<fileset dir="${templates.dir}/${project.name.postifx}.project" includes="**/*.overwrite" />
+			<filterset refid="myadmin.tokens" />
+			<filterset>
+				<filter token="ant.project.name" value="${organisation.name}.${project.name}.${project.name.postifx}" />
+			</filterset>
+			<filtermapper refid="myadmin.filtermapper" />
+		</copy>
+
+	</target>
+
+	<target name="build">
+		<echo>overwrite.all = ${overwrite.all}</echo>
+		<antcall target="copy.templates" />
+	</target>
+
+	<target name="copy.templates">
+
+		<foreach list="build,deploy,client,client.test,server,server.test,generator" param="project.name.postifx" target="copy.project.templates">
+		</foreach>
+
+		<!-- build -->
+		<copy todir="${build.project.ant.dir}" overwrite="false">
+			<fileset dir="${templates.dir}">
+				<include name="*.xml" />
+				<include name="*.properties" />
+			</fileset>
+			<filtermapper refid="myadmin.filtermapper" />
+			<filterset refid="myadmin.tokens" />
+		</copy>
+
+	</target>
+
+</project>

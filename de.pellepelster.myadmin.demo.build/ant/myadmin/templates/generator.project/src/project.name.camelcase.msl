@@ -1,0 +1,6 @@
+project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.name@/schema" {
+	
+	package @organisation.name@.@project.name@ {
+
+	}
+}

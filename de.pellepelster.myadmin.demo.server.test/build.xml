@@ -1,8 +1,9 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<dirname property="imported.basedir.local" file="${ant.file.de.pellepelster.myadmin.demo.server.test}" />
+
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.test.DemoTestsuite" />
-	
-	<property file="build.properties" />
+	<property file="${imported.basedir.local}/build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />

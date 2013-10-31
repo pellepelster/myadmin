@@ -1,0 +1,140 @@
+<project name="IvyJarImport" xmlns:ivy="antlib:org.apache.ivy.ant">
+	
+	<property name="artifact.log.file" value="${java.io.tmpdir}/artifact.log" />
+	<property name="artifact.temp.dir" value="${java.io.tmpdir}/artifact/" />
+
+	<macrodef name="IvyJarImport">
+
+		<attribute name="baseArtifactDir" />
+		<attribute name="versionDelimiter" default="_" />
+		<attribute name="targetResolver" default="shared" />
+		<attribute name="sourceResolver" default="localjars" />
+		<attribute name="ivySettings" />
+
+		<sequential>
+
+			<property name="extension" value="jar" />
+
+			<delete file="${artifact.log.file}" failonerror="false" />
+			<delete dir="${artifact.temp.dir}" failonerror="false" />
+
+			<echo message="searching for '${extension}' artifacts in '@{baseArtifactDir}" />
+			<echo message="expected format is '@{baseArtifactDir}/[organisation name]/[module name]@{versionDelimiter}[version].${extension}" />
+			<echo message="source resolver is '@{targetResolver}" />
+			<echo message="target resolver is '@{sourceResolver}" />
+
+			<foreach target="iterateBaseArtifactDir" param="organisation.dir" inheritall="true">
+				<path>
+					<dirset dir="@{baseArtifactDir}" />
+				</path>
+				<param name="baseArtifactDir" value="@{baseArtifactDir}" />
+				<param name="versionDelimiter" value="@{versionDelimiter}" />
+				<param name="targetResolver" value="@{targetResolver}" />
+				<param name="sourceResolver" value="@{sourceResolver}" />
+				<param name="extension" value="${extension}" />
+				<param name="ivySettings" value="@{ivySettings}" />
+			</foreach>
+
+			<ant antfile="${ant.file}" target="show.log" />
+
+			<delete file="${artifact.log.file}" failonerror="false" />
+			<delete dir="${artifact.temp.dir}" failonerror="false" />
+
+		</sequential>
+
+	</macrodef>
+
+	<target name="show.log">
+		<if>
+			<available file="${artifact.log.file}" />
+			<then>
+				<loadfile srcfile="${artifact.log.file}" property="artifact.log" />
+
+				<echo message="#######################################################################################################" />
+				<echo message="module import successfull, the imported modules can be used with the following dependency declarations" />
+				<echo message="-------------------------------------------------------------------------------------------------------" />
+				<echo message="${artifact.log}" />
+				<echo message="#######################################################################################################" />
+			</then>
+			<else>
+				<echo message="no modules found" />
+			</else>
+		</if>
+	</target>
+
+	<target name="iterateBaseArtifactDir">
+
+		<stringutil string="${baseArtifactDir}" property="baseArtifactDir.length">
+			<length />
+		</stringutil>
+
+		<stringutil string="${organisation.dir}" property="organisation">
+			<substring beginindex="${baseArtifactDir.length}" />
+			<replace regex="\\" replacement="" />
+			<replace regex="/" replacement="" />
+		</stringutil>
+
+		<if>
+			<equals arg1="${baseArtifactDir}" arg2="${organisation.dir}" />
+			<then>
+				<echo message="ignoring root folder '${organisation.dir}'" />
+			</then>
+			<else>
+				<echo message="found organisation folder '${organisation.dir}'" />
+
+				<foreach target="jar.install" param="artefact.location" inheritall="true">
+					<path>
+						<fileset dir="${organisation.dir}" includes="*.${extension}" />
+					</path>
+					<param name="baseArtifactDir" value="${baseArtifactDir}" />
+					<param name="versionDelimiter" value="${versionDelimiter}" />
+					<param name="targetResolver" value="${targetResolver}" />
+					<param name="sourceResolver" value="${sourceResolver}" />
+					<param name="extension" value="${extension}" />
+					<param name="ivySettings" value="${ivySettings}" />
+				</foreach>
+			</else>
+		</if>
+	</target>
+
+
+	<target name="jar.install">
+
+		<echo message="found file '${artefact.location}'" />
+		<basename property="artefact.filename" file="${artefact.location}" />
+		<basename property="artefact.basename" file="${artefact.location}" suffix="${extension}" />
+
+		<stringutil string="${artefact.basename}" property="delimiter.index">
+			<indexof string="${versionDelimiter}" />
+		</stringutil>
+
+		<if>
+			<equals arg1="${delimiter.index}" arg2="-1" />
+			<then>
+				<echo message="version delmiter '${versionDelimiter}' not found in filename '${artefact.filename}' ignoring" />
+			</then>
+			<else>
+				<stringutil string="${artefact.basename}" property="version">
+					<substring beginindex="${delimiter.index}" />
+					<substring beginindex="1" />
+				</stringutil>
+
+				<stringutil string="${artefact.basename}" property="artefact.name">
+					<substring endindex="${delimiter.index}" />
+				</stringutil>
+
+				<echo message="detected organisation: ${organisation}" />
+				<echo message="detected module name: ${artefact.name}" />
+				<echo message="detected version: ${version}" />
+
+				<echo file="${artifact.log.file}" append="true">&lt;dependency org="${organisation}" name="${artefact.name}" rev="${version}" /&gt;${line.separator}</echo>
+
+				<copy tofile="${artifact.temp.dir}/${artefact.name}.${extension}" file="${artefact.location}" />
+				<ivy:install settingsref="${ivySettings}" overwrite="true" organisation="${organisation}" module="${artefact.name}" type="${extension}" revision="${version}" from="${sourceResolver}" to="${targetResolver}" />
+			</else>
+		</if>
+
+
+	</target>
+
+</project>

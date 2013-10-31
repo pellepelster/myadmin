@@ -1,0 +1,2 @@
+serviceClass: de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWT
+path: AC7916EB44DE357B774A0B404EE57817.gwt.rpc

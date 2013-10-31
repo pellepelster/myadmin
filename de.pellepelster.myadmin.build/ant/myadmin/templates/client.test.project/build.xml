@@ -1,6 +1,21 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<property name="client.test.suite.name" value="@project.package@.@project.name.camelcase@ClientTestSuite" />
+
 	<import file="@ant.common.file@" />
 	<import file="../${build.project}/ant/myadmin/BaseClientTest.xml" />
+
+	<target name="test" if="test.suite.name" depends="jar">
+
+		<antcall target="pre.test" />
+
+		<ant antfile="../${server.test.project}/build.xml" target="tomcat.local.start" />
+		<ant antfile="../${server.test.project}/build.xml" target="import.dictionary" />
+
+		<gwt.test test.suite.name="${test.suite.name}" />
+
+		<antcall target="post.test" />
+
+	</target>
 
 </project>
