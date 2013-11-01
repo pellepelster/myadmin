@@ -6,8 +6,10 @@
 	<macrodef name="gwt.test">
 
 		<attribute name="test.suite.name" />
-		
+
 		<sequential>
+
+			<echo message="build dir: ${basedir}/${build.dir}" />
 
 			<delete dir="${test.dir}" />
 			<mkdir dir="${test.dir}" />
@@ -16,10 +18,13 @@
 
 				<classpath refid="lib.src.path.id" />
 				<classpath>
-					<fileset dir="${build.dir}" includes="*.jar" />
+					<fileset dir="${basedir}/${build.dir}" includes="*.jar" />
 				</classpath>
 
 				<formatter type="xml" />
+
+				<sysproperty key="gwt.args" value="-war ${basedir}/war" />
+				<sysproperty key="java.awt.headless" value="true" />
 
 				<test name="${test.suite.name}" haltonfailure="yes" outfile="${test.dir}/${test.suite.name}" />
 
@@ -27,7 +32,7 @@
 
 		</sequential>
 	</macrodef>
-	
+
 	<target name="post.jar" if="test.suite.name">
 		<antcall target="test" />
 	</target>
@@ -37,7 +42,7 @@
 
 	<target name="post.test">
 	</target>
-	
+
 	<target name="test">
 
 		<antcall target="pre.test" />

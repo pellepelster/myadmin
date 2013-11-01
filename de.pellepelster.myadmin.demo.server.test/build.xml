@@ -9,12 +9,6 @@
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
 	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
 
-	
-	<path id="local.lib.path.id">
-		<path refid="lib.path.id" />
-		<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-	</path>
-	
 	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
 	
 	<target name="tomcat.local.run" depends="resolve">
@@ -43,13 +37,12 @@
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
 	
-	<target name="post.test">
-		<antcall target="test.remote.local" />
-	</target>
-
 	<target name="test.remote.local" depends="jar, tomcat.local.start, import.dictionary">
 
 		<!--
+	<target name="post.test">
+		<antcall target="test.remote.local" />
+	</target>
 		<mkdir dir="${test.dir}"/>
 		
 		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
