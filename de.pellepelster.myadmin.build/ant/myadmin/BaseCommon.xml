@@ -3,14 +3,36 @@
 	<dirname property="BaseCommon.imported.basedir" file="${ant.file.BaseCommon}" />
 	<property file="${BaseCommon.imported.basedir}/BaseCommon.properties" />
 
-	<!-- default file locations -->
-	<property name="build.project.root.dir" value="${BaseCommon.imported.basedir}/../.." />
-	<property name="projects.root.dir" value="${build.project.root.dir}/.." />
-	<property name="build.project.ant.dir" value="${build.project.root.dir}/ant" />
+	<import file="${BaseCommon.imported.basedir}/BaseCore.xml"/>
 
-	<property name="templates.dir" value="${BaseCommon.imported.basedir}/templates" />
-	<property name="bootstrap.lib.dir" value="${build.project.root.dir}/lib-bootstrap" />
-	<property name="ivy.settings.file" value="${build.project.ant.dir}/ivysettings.xml" />
+	<!-- ivy configuration -->
+	<ivy:settings id="ivy.settings" file="${ivy.settings.file}" />
+
+	<!-- property defaults -->
+	<property environment="env" />
+	<property file="${build.project.ant.dir}/properties/${user.name}.build.properties" />
+	<property file="${build.project.ant.dir}/properties/default.build.properties" />
+
+	<!-- write property file for ivy settings -->
+	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
+		<isset property="env.WORKSPACE"/>
+	</condition>
+	
+	<tstamp>
+		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
+	</tstamp>
+	
+	<!-- version configuration -->
+	<property name="version.file" value="${build.project.root.dir}/version.properties" />
+	<fail message="version file '${version.file}' is missing">
+		<condition>
+			<not>
+				<available file="${version.file}"  />
+			</not>
+		</condition>
+	</fail>
+	<property file="${version.file}" />
+	<property name="module.version" value="${module.version.major}.${module.version.minor}.${module.version.micro}" />
 
 	<!-- task and type defs -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" onerror="ignore">
@@ -24,48 +46,19 @@
 			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
 		</classpath>
 	</taskdef>
-
+	
 	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
 		<classpath>
 			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
 		</classpath>
 	</taskdef>
-
-	<!-- ivy configuration -->
-	<ivy:settings id="ivy.settings" file="${ivy.settings.file}" />
-
-	<!-- property defaults -->
-	<property environment="env" />
-	<property file="${build.project.ant.dir}/properties/${user.name}.build.properties" />
-	<property file="${build.project.ant.dir}/properties/default.build.properties" />
-
-	<!-- write property file for ivy settings -->
-	<condition property="ivy.staging.repository.root" value="${env.WORKSPACE}/ivy" else="${java.io.tmpdir}/${ant.project.name}">
-		<isset property="env.WORKSPACE" />
-	</condition>
-
-	<tstamp>
-		<format property="build.timestamp" pattern="yyyyMMddHHmmss" />
-	</tstamp>
-
-	<!-- version configuration -->
-	<property name="version.file" value="${build.project.root.dir}/version.properties" />
-	<fail message="version file '${version.file}' is missing">
-		<condition>
-			<not>
-				<available file="${version.file}" />
-			</not>
-		</condition>
-	</fail>
-	<property file="${version.file}" />
-	<property name="module.version" value="${module.version.major}.${module.version.minor}.${module.version.micro}" />
-
+	
 	<condition property="no.compile">
 		<not>
 			<available file="${src.dir}" type="dir" />
 		</not>
 	</condition>
-
+	
 	<!-- defaults for compile/jaring -->
 	<path id="jar.files">
 		<fileset dir="${classes.dir}" />
@@ -166,42 +159,12 @@
 
 	</target>
 
-	<target name="pre.test">
-	</target>
-
-	<target name="post.test">
-	</target>
-
-	<target name="test" if="test.suite.name" depends="jar">
-
-		<delete dir="${test.dir}" />
-		<mkdir dir="${test.dir}" />
-
-		<antcall target="pre.test" />
-
-		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
-
-			<classpath refid="lib.path.id" />
-			<classpath>
-				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-			</classpath>
-
-			<formatter type="xml" />
-
-			<test name="${test.suite.name}" haltonfailure="yes" outfile="${test.dir}/${test.suite.name}" />
-
-		</junit>
-
-		<antcall target="post.test" />
-
-	</target>
-
 	<target name="pre.jar">
 	</target>
 
 	<target name="post.jar">
 	</target>
-
+	
 	<target name="jar" depends="version, compile" unless="no.compile">
 
 		<antcall target="pre.jar" />
@@ -226,9 +189,11 @@
 
 	</target>
 
-	<target name="publish" depends="new.version, jar, test">
+	<target name="publish" depends="new.version, jar">
+
 		<ivy:publish settingsref="ivy.settings" artifactspattern="${build.dir}/[artifact].[ext]" resolver="${ivy.resolver.publish}" pubrevision="${version}" pubdate="${build.timestamp}" status="integration" forcedeliver="true" />
 		<echo message="project ${ant.project.name} published to ${ivy.resolver.publish} with version ${version}" />
+
 	</target>
 
 	<target name="clean.local">

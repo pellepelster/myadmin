@@ -1,8 +1,8 @@
 <project name="MyAdminProjectCommon" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<dirname property="imported.basedir" file="${ant.file.MyAdminProjectCommon}" />
-	<import file="${imported.basedir}/BaseCommon.xml" />
-
+	<import file="${imported.basedir}/BaseCore.xml" />
+	
 	<!-- read myadmin properties file or fail -->
 	<property name="myadmin.properties.file" value="${build.project.root.dir}/myadmin.properties" />
 	<fail message="myadmin properties file '${myadmin.properties.file}' is missing">

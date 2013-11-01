@@ -1,5 +1,8 @@
 <project name="BaseClient" xmlns:ivy="antlib:org.apache.ivy.ant">
-	
+
+	<dirname property="BaseClient.imported.basedir" file="${ant.file.BaseClient}" />
+	<import file="${BaseClient.imported.basedir}/BaseCommon.xml" />
+
 	<macrodef name="gwt.compile">
 		
 		<attribute name="gwt.module.name" />
@@ -17,7 +20,7 @@
 				<jvmarg value="-Xmx768M" />
 				<arg value="-localWorkers" />
 				<arg value="2" />
-				<arg line="@{module.name}" />
+				<arg line="@{gwt.module.name}" />
 			</java>
 			
 		</sequential>

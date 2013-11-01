@@ -1,21 +1,28 @@
 <project name="BaseServer" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<!--
-	<target name="post.publish">
+	<dirname property="BaseServer.imported.basedir" file="${ant.file.BaseServer}" />
+	<import file="${BaseServer.imported.basedir}/BaseCommon.xml" />
+
+	<target name="post.jar" if="test.suite.name">
 		<antcall target="test" />
 	</target>
 
-	<target name="test" if="test.suite.name">
+	<target name="pre.test">
+	</target>
+
+	<target name="post.test">
+	</target>
+		
+	<target name="test">
 
 		<delete dir="${test.dir}" />
 		<mkdir dir="${test.dir}" />
 
 		<antcall target="pre.test" />
 
-		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true" showoutput="true">
+		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
 
 			<classpath refid="lib.path.id" />
-
 			<classpath>
 				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
 			</classpath>
@@ -27,8 +34,7 @@
 		</junit>
 
 		<antcall target="post.test" />
-		
+
 	</target>
-	-->
 
 </project>

@@ -27,5 +27,29 @@
 
 		</sequential>
 	</macrodef>
+	
+	<target name="post.jar" if="test.suite.name">
+		<antcall target="test" />
+	</target>
+
+	<target name="pre.test">
+	</target>
+
+	<target name="post.test">
+	</target>
+	
+	<target name="test">
+
+		<antcall target="pre.test" />
+
+		<ant antfile="../${server.test.project}/build.xml" target="tomcat.local.start" />
+		<ant antfile="../${server.test.project}/build.xml" target="import.dictionary" />
+
+		<gwt.test test.suite.name="${test.suite.name}" />
+
+		<antcall target="post.test" />
+
+	</target>
+
 
 </project>

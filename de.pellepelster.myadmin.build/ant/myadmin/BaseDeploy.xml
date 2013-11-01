@@ -1,2 +1,6 @@
 <project name="BaseDeploy" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<dirname property="BaseDeploy.imported.basedir" file="${ant.file.BaseDeploy}" />
+	<import file="${BaseDeploy.imported.basedir}/BaseCommon.xml" />
+
 </project>

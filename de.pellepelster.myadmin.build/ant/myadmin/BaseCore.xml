@@ -1,0 +1,16 @@
+<project name="BaseCore" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<dirname property="BaseCore.imported.basedir" file="${ant.file.BaseCore}" />
+	<property file="${BaseCore.imported.basedir}/BaseCore.properties" />
+
+	<!-- default file locations -->
+	<property name="build.project.root.dir" value="${BaseCore.imported.basedir}/../.." />
+	<property name="projects.root.dir" value="${build.project.root.dir}/.." />
+	<property name="build.project.ant.dir" value="${build.project.root.dir}/ant" />
+	
+	<property name="templates.dir" value="${BaseCore.imported.basedir}/templates" />
+	<property name="bootstrap.lib.dir" value="${build.project.root.dir}/lib-bootstrap" />
+	<property name="ivy.settings.file" value="${build.project.ant.dir}/ivysettings.xml" />
+
+	
+</project>

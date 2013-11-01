@@ -1,6 +1,7 @@
 <project name="de.pellepelster.myadmin.demo.build" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish.all">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseBuild.xml" />
 
 	<fileset dir="../" id="publish.fileset.all">
 		<include name="de.pellepelster.myadmin.demo.*/build.xml" />
