@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.container;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 		{
 			this.children = Lists.transform(baseContainer.getChildren(), new Function<IBaseContainerModel, BaseContainerElement<?>>()
 			{
-				@SuppressWarnings({ "static-access", "static-access" })
+				@SuppressWarnings({ "static-access" })
 				@Override
 				@Nullable
 				public BaseContainerElement<? extends IBaseContainerModel> apply(IBaseContainerModel baseContainerModel)
@@ -52,6 +53,17 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 	public List<BaseContainerElement<?>> getChildren()
 	{
 		return this.children;
+	}
+
+	@Override
+	public List<? extends BaseDictionaryElement<?>> getAllChildren()
+	{
+		List<? extends BaseDictionaryElement<?>> allChildren = new ArrayList<BaseDictionaryElement<?>>();
+
+		allChildren.addAll(this.children);
+		allChildren.addAll(this.controls);
+
+		return allChildren;
 	}
 
 }

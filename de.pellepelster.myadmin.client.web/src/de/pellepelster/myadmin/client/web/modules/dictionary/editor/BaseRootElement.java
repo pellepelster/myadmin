@@ -1,5 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
+import java.util.List;
+
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseRootModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
@@ -19,5 +21,11 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 	public Composite getRootComposite()
 	{
 		return this.rootComposite;
+	}
+
+	@Override
+	public List<? extends BaseDictionaryElement<?>> getAllChildren()
+	{
+		return this.rootComposite.getAllChildren();
 	}
 }

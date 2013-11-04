@@ -66,4 +66,10 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 		return (ElementType) DictionaryElementUtil.getControl(this, Lists.newArrayList(baseControlModel.getName()));
 	}
 
+	@Override
+	public List<? extends BaseDictionaryElement<?>> getAllChildren()
+	{
+		return this.columns;
+	}
+
 }

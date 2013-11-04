@@ -112,7 +112,7 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 	{
 		return new BooleanControlTest(this.module.getElement(controlDescriptor));
 	}
-	
+
 	public DateControlTest getDateControlTest(DictionaryDescriptor<IDateControl> controlDescriptor)
 	{
 		return new DateControlTest(this.module.getElement(controlDescriptor));
@@ -132,12 +132,13 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 	{
 		return new IntegerControlTest(this.module.getElement(controlDescriptor));
 	}
-	
-	public <ReferenceVOType extends IBaseVO> ReferenceControlTest<ReferenceVOType> getReferenceControlTest(DictionaryDescriptor<IReferenceControl<ReferenceVOType>> controlDescriptor)
+
+	public <ReferenceVOType extends IBaseVO> ReferenceControlTest<ReferenceVOType> getReferenceControlTest(
+			DictionaryDescriptor<IReferenceControl<ReferenceVOType>> controlDescriptor)
 	{
 		return new ReferenceControlTest<ReferenceVOType>(this.module.getElement(controlDescriptor));
 	}
-	
+
 	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)
 	{
 		this.module.save(new BaseErrorAsyncCallback<Result<VOType>>(asyncCallback)
@@ -153,6 +154,12 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 	@Override
 	public void onUpdate()
 	{
+	}
+
+	public void assertHasNoErrors()
+	{
+		// TODO Auto-generated method stub
+
 	}
 
 }

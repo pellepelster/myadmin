@@ -1,5 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.base;
 
+import java.util.List;
+
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
@@ -32,4 +34,6 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 	{
 		return this.parent;
 	}
+
+	public abstract List<? extends BaseDictionaryElement<?>> getAllChildren();
 }

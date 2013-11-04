@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.demo.client.test;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
@@ -90,6 +91,14 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			// big decimal control
 			BigDecimalControlTest bigDecimalControl = result
 					.getBigDecimalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
+			bigDecimalControl.assertHasNoErrors();
+			bigDecimalControl.parse("1");
+			bigDecimalControl.assertHasNoErrors();
+			bigDecimalControl.assertValue(new BigDecimal(1));
+
+			bigDecimalControl.parse("x");
+			bigDecimalControl.assertHasErrorWithText("'x' is not a valid decimal");
+			bigDecimalControl.assertValue(null);
 
 			// boolean control
 			BooleanControlTest booleanControl = result

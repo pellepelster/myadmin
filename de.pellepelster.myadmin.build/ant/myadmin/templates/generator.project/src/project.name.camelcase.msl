@@ -2,5 +2,115 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 	
 	package @organisation.name@.@project.name@ {
 
+		package entites {
+
+			// currency
+			textdatatype CurrencyName { }
+			textdatatype CurrencyIsoCode { 
+				maxLength 3
+			}
+	
+			entity Currency {
+				datatype CurrencyName currencyName
+				datatype CurrencyIsoCode currencyIsoCode
+			}
+
+			// country datatypes
+			textdatatype CountryName { }
+			
+			textdatatype CountryIsoCode { 
+				maxLength 2
+			}
+			
+			referencedatatype Currency {
+				entity Currency
+			}
+	
+			entity Country {
+				datatype CountryName countryName
+				datatype CountryIsoCode countryIsoCode
+				datatype Currency currency
+			}
+	
+		}
+
+		package dictionaries {
+
+			dictionary Currency {
+				
+				entity entites.Currency
+				
+				// define some control that can be reused in this dictionary
+				dictionarycontrols {
+					
+					textcontrol CurrencyName { 
+						entityattribute entites.Currency.currencyName
+					}
+
+					textcontrol CountryIsoCode { 
+						entityattribute entites.Currency.currencyIsoCode
+					}
+					
+				}
+				
+				dictionarysearch CurrencySearch {
+					
+					dictionaryfilter CurrencyFilter {
+						textcontrol ref CurrencyName	
+					}
+					
+					dictionaryresult CurrencyResult {
+						textcontrol ref CurrencyName
+						textcontrol ref CountryIsoCode
+					}
+				}
+				
+				dictionaryeditor CountryEditor {
+					textcontrol ref CurrencyName
+					textcontrol ref CountryIsoCode
+				}
+			}
+		}
+			
+			
+		dictionary Country {
+			
+			entity entites.Country
+			
+			// define some control that can be reused in this dictionary
+			dictionarycontrols {
+				
+				textcontrol CountryName { 
+					entityattribute entites.Country.countryName
+				}
+
+				textcontrol CountryIsoCode { 
+					entityattribute entites.Country.countryIsoCode
+				}
+				
+				referencecontrol Currency {
+					entityattribute entites.Country.currency
+					dictionary dictionaries.Currency
+				}
+				
+			}
+			
+			dictionarysearch CountrySearch {
+				
+				dictionaryfilter CountryFilter {
+					textcontrol ref CountryName	
+				}
+				
+				dictionaryresult CountryResult {
+					textcontrol ref CountryName
+					textcontrol ref CountryIsoCode
+				}
+			}
+			
+			dictionaryeditor CountryEditor {
+				textcontrol ref CountryName
+				textcontrol ref CountryIsoCode
+			}
+		}
 	}
 }

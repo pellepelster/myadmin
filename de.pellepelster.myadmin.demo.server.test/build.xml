@@ -6,8 +6,8 @@
 	<property file="${imported.basedir.local}/build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
 	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
+	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
 
 	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
 	

@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.controls;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Strings;
@@ -158,6 +159,12 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 	public boolean isMandatory()
 	{
 		return getModel().isMandatory();
+	}
+
+	@Override
+	public List<BaseDictionaryElement<?>> getAllChildren()
+	{
+		return Collections.emptyList();
 	}
 
 	@Override

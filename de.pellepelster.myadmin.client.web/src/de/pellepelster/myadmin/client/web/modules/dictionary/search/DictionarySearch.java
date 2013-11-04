@@ -74,4 +74,15 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 		return !this.dictionaryFilters.isEmpty();
 	}
 
+	@Override
+	public List<? extends BaseDictionaryElement<?>> getAllChildren()
+	{
+		List<BaseDictionaryElement<?>> allControls = new ArrayList<BaseDictionaryElement<?>>();
+
+		allControls.addAll(this.children);
+		allControls.addAll(this.controls);
+
+		return this.controls;
+	}
+
 }
