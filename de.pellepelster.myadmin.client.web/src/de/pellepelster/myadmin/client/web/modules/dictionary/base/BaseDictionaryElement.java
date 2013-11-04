@@ -5,6 +5,7 @@ import java.util.List;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
 public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 {
@@ -33,6 +34,11 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 	public BaseDictionaryElement<? extends IBaseModel> getParent()
 	{
 		return this.parent;
+	}
+	
+	public BaseRootElement<?> getRootElement()
+	{
+		return getParent().getRootElement();
 	}
 
 	public abstract List<? extends BaseDictionaryElement<?>> getAllChildren();

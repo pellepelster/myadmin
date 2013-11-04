@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
 
-public class ValidationMessages implements IValidationMessages
+public class ValidationMessages extends BaseValidationMessages implements IValidationMessages
 {
 	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
 
@@ -33,43 +32,11 @@ public class ValidationMessages implements IValidationMessages
 		this.validationMessages.addAll(validationMessages);
 	}
 
-	public IMessage.SEVERITY getSeverity(List<IValidationMessage> validationMessages)
-	{
-		IMessage.SEVERITY severity = IMessage.SEVERITY.NONE;
-
-		for (IValidationMessage validationMessage : validationMessages)
-		{
-			if (validationMessage.getSeverity().getOrder() > severity.getOrder())
-			{
-				severity = validationMessage.getSeverity();
-			}
-		}
-
-		return severity;
-	}
-
-	private boolean hasError(IMessage.SEVERITY severity)
-	{
-		return severity.getOrder() >= IMessage.SEVERITY.ERROR.getOrder();
-	}
-
-	private boolean hasError(IValidationMessage validationMessage)
-	{
-		return hasError(validationMessage.getSeverity());
-	}
 
 	@Override
-	public boolean hasError()
+	public boolean hasErrors()
 	{
-		for (IValidationMessage validationMessage : this.validationMessages)
-		{
-			if (hasError(validationMessage))
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return hasError(validationMessages.iterator());
 	}
 
 	@Override

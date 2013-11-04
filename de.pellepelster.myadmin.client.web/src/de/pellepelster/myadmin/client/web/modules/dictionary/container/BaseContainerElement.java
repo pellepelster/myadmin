@@ -58,7 +58,7 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 	@Override
 	public List<? extends BaseDictionaryElement<?>> getAllChildren()
 	{
-		List<? extends BaseDictionaryElement<?>> allChildren = new ArrayList<BaseDictionaryElement<?>>();
+		List<BaseDictionaryElement<?>> allChildren = new ArrayList<BaseDictionaryElement<?>>();
 
 		allChildren.addAll(this.children);
 		allChildren.addAll(this.controls);

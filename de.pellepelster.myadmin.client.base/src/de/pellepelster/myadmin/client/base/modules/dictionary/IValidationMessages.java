@@ -4,7 +4,7 @@ import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 
 public interface IValidationMessages extends Iterable<IValidationMessage>
 {
-	boolean hasError();
+	boolean hasErrors();
 
 	int count();
 }

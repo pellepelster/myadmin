@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
+import junit.framework.Assert;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -158,8 +160,12 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 
 	public void assertHasNoErrors()
 	{
-		// TODO Auto-generated method stub
+		Assert.assertFalse(module.getValidationMessages().hasErrors());
+	}
 
+	public void assertHasErrors(int errorCount)
+	{
+		Assert.assertEquals(errorCount, module.getValidationMessages().count());
 	}
 
 }

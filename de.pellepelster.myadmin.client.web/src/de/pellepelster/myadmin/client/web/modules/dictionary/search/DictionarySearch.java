@@ -77,12 +77,16 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	@Override
 	public List<? extends BaseDictionaryElement<?>> getAllChildren()
 	{
-		List<BaseDictionaryElement<?>> allControls = new ArrayList<BaseDictionaryElement<?>>();
+		List<BaseDictionaryElement<?>> allChildren = new ArrayList<BaseDictionaryElement<?>>();
 
-		allControls.addAll(this.children);
-		allControls.addAll(this.controls);
+		for(DictionaryFilter<VOType> dictionaryFilter : dictionaryFilters)
+		{
+			allChildren.addAll(dictionaryFilter.getAllChildren());
+		}
+		
+		allChildren.addAll(dictionaryResult.getAllChildren());
 
-		return this.controls;
+		return allChildren;
 	}
 
 }

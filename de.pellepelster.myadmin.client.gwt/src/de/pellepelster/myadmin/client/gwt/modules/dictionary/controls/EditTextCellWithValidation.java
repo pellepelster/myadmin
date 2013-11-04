@@ -128,7 +128,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 
 		SafeStylesBuilder styles = new SafeStylesBuilder();
 
-		if (getBaseControl(context).getValidationMessages().hasError())
+		if (getBaseControl(context).getValidationMessages().hasErrors())
 		{
 			styles.appendTrustedString(GwtStyles.CELL_ERROR_STYLE);
 		}

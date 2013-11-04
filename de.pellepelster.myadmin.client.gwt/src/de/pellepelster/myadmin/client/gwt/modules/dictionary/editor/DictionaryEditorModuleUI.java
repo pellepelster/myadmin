@@ -137,7 +137,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 	private void save()
 	{
-		if (getModule().hasErrors())
+		if (getModule().getValidationMessages().hasErrors())
 		{
 			HumanizedMessagePopup.showMessageAndFadeAfterMouseMove(MyAdmin.MESSAGES.editorContainsErrors(), MESSAGE_TYPE.ERROR);
 		}

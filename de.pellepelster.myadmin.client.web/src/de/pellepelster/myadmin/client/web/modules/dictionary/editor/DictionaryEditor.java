@@ -21,4 +21,10 @@ public class DictionaryEditor extends BaseRootElement<IEditorModel>
 		return this.voWrapper;
 	}
 
+	@Override
+	public BaseRootElement<?> getRootElement()
+	{
+		return this;
+	}
+
 }

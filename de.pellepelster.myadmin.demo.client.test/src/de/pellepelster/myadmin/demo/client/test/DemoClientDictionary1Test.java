@@ -74,6 +74,8 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
+			result.assertHasNoErrors();
+			
 			// text control
 			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			textControl.assertMandatory();
@@ -84,9 +86,11 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			textControl.assertHasNoErrors();
 			textControl.setValue(null);
 			textControl.assertHasErrorWithText("Input is needed for field \"TextControl1\"");
+			result.assertHasErrors(1);
 
 			textControl.setValue("text1");
 			textControl.assertHasNoErrors();
+			result.assertHasErrors(0);
 
 			// big decimal control
 			BigDecimalControlTest bigDecimalControl = result
@@ -100,6 +104,7 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			bigDecimalControl.assertHasErrorWithText("'x' is not a valid decimal");
 			bigDecimalControl.assertValue(null);
 
+			
 			// boolean control
 			BooleanControlTest booleanControl = result
 					.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);

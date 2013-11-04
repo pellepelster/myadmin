@@ -12,7 +12,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseCont
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.ValidationMessages;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValidator;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
@@ -56,8 +55,6 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 	private static final MandatoryValidator MANDATORY_VALIDATOR = new MandatoryValidator();
 
-	private ValidationMessages validationMessages = new ValidationMessages();
-
 	public BaseDictionaryControl(ModelType baseControlModel, BaseDictionaryElement<? extends IBaseModel> parent)
 	{
 		super(baseControlModel, parent);
@@ -66,7 +63,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 		{
 			this.validators.add(MANDATORY_VALIDATOR);
 		}
-
+		
 	}
 
 	public String getEditorLabel()
@@ -101,11 +98,11 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 	private void setValueInternal(ValueType value)
 	{
-		this.validationMessages.clear();
+		getRootElement().clearValidationMessages(this);
 
 		validate(value);
 
-		if (!this.validationMessages.hasError())
+		if (!getRootElement().getValidationMessages(this).hasErrors())
 		{
 			getVOWrapper().set(getModel().getAttributePath(), value);
 		}
@@ -116,7 +113,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 	{
 		for (IValidator validator : this.validators)
 		{
-			this.validationMessages.addAll(validator.validate(value, getModel()));
+			getRootElement().addValidationMessages(this,  validator.validate(value, getModel()));
 		}
 	}
 
@@ -150,7 +147,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 			else
 			{
 				setValue(null);
-				this.validationMessages.addValidationMessage(parseResult.getValidationMessage());
+				getRootElement().getValidationMessages(this).addValidationMessage(parseResult.getValidationMessage());
 			}
 		}
 	}
@@ -170,7 +167,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 	@Override
 	public IValidationMessages getValidationMessages()
 	{
-		return this.validationMessages;
+		return getRootElement().getValidationMessages(this);
 	}
 
 	protected abstract ParseResult parseValueInternal(String valueString);

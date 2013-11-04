@@ -23,9 +23,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -404,15 +404,9 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	}
 
 	@Override
-	public List<IValidationMessage> getValidationMessages()
+	public IValidationMessages getValidationMessages()
 	{
-		return null;
+		return dictionaryEditor.getValidationMessages();
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public boolean hasErrors()
-	{
-		return false; // this.dataBindingContext.hasErrors();
-	}
 }

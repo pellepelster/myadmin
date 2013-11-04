@@ -11,10 +11,8 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
-import java.util.List;
-
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
 
 /**
  * basic dictionary editor funktionality
@@ -26,12 +24,7 @@ import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 public interface IDictionaryEditor<VOType extends IBaseVO>
 {
 
-	/**
-	 * True if the editor contains errors
-	 */
-	boolean hasErrors();
-
-	List<IValidationMessage> getValidationMessages();
+	IValidationMessages getValidationMessages();
 
 	/**
 	 * Loads the VO with the given id into the editor
