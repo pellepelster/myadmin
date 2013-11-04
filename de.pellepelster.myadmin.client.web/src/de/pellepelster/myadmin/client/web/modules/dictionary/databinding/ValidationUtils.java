@@ -11,12 +11,7 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
 
-import java.util.List;
-
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.base.util.CollectionUtils;
-import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
 /**
  * Utilities for validator handling
@@ -26,30 +21,6 @@ import de.pellepelster.myadmin.client.base.util.MessageFormat;
  */
 public final class ValidationUtils
 {
-
-	/**
-	 * Creates the validation message for a list of error messages
-	 * 
-	 * @param validationMessages
-	 * @return
-	 */
-	public static String getValidationMessageString(List<IValidationMessage> validationMessages, IBaseControlModel baseControlModel)
-	{
-
-		String result = "";
-		String delimiter = "";
-
-		for (IValidationMessage validationMessage : validationMessages)
-		{
-			result += delimiter
-					+ MessageFormat.format(validationMessage.getHumanMessage(),
-							CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControlModel.getEditorLabel()));
-			delimiter = "\r\n";
-		}
-
-		return result;
-
-	}
 
 	private ValidationUtils()
 	{

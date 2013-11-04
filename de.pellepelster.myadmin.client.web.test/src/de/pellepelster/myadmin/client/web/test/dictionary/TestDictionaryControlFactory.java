@@ -32,10 +32,15 @@ public class TestDictionaryControlFactory
 
 	public static DictionaryControlVO createTextControl(String label, String attributePath)
 	{
+		return createTextControl(label, attributePath, false);
+	}
+
+	public static DictionaryControlVO createTextControl(String label, String attributePath, boolean mandatory)
+	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(label);
 		dictionaryControlVO.setColumnLabel(label);
-		dictionaryControlVO.setMandatory(false);
+		dictionaryControlVO.setMandatory(mandatory);
 		dictionaryControlVO.setName(label);
 
 		dictionaryControlVO.setAttributePath(attributePath);

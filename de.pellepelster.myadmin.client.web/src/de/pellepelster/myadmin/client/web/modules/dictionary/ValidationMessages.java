@@ -3,9 +3,11 @@ package de.pellepelster.myadmin.client.web.modules.dictionary;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
+import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
 public class ValidationMessages extends BaseValidationMessages implements IValidationMessages
 {
@@ -32,11 +34,10 @@ public class ValidationMessages extends BaseValidationMessages implements IValid
 		this.validationMessages.addAll(validationMessages);
 	}
 
-
 	@Override
 	public boolean hasErrors()
 	{
-		return hasError(validationMessages.iterator());
+		return hasError(this.validationMessages.iterator());
 	}
 
 	@Override
@@ -45,4 +46,20 @@ public class ValidationMessages extends BaseValidationMessages implements IValid
 		return this.validationMessages.size();
 	}
 
+	@Override
+	public String getValidationMessageString(Map<String, Object> context)
+	{
+
+		String result = "";
+		String delimiter = "";
+
+		for (IValidationMessage validationMessage : this.validationMessages)
+		{
+			result += delimiter + MessageFormat.format(validationMessage.getHumanMessage(), context);
+			delimiter = "\r\n";
+		}
+
+		return result;
+
+	}
 }

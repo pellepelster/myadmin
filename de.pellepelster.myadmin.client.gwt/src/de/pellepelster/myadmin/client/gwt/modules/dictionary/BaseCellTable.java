@@ -77,7 +77,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IB
 		return selectionModel.getSelectedObject();
 	}
 
-	public void addVOSelectHandler(final SimpleCallback<IBaseTable.ITableRow<VOType>> voDoubleClickHandler)
+	public void addVOActivationHandler(final SimpleCallback<IBaseTable.ITableRow<VOType>> voActivationHandler)
 	{
 		addDomHandler(new DoubleClickHandler()
 		{
@@ -89,7 +89,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IB
 
 				if (selectionModel.getSelectedObject() != null)
 				{
-					voDoubleClickHandler.onCallback(selectionModel.getSelectedObject());
+					voActivationHandler.onCallback(selectionModel.getSelectedObject());
 				}
 			}
 		}, DoubleClickEvent.getType());

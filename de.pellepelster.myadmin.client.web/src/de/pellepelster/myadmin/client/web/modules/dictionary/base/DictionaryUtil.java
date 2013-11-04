@@ -26,7 +26,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlContentPresenter;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditor;
 
 /**
  * Utilities for dictionary model handling
@@ -106,10 +106,10 @@ public final class DictionaryUtil
 
 	}
 
-	public static String getEditorTitle(IDictionaryModel dictionaryModel, VOWrapper<?> voWrapper)
+	public static String getEditorTitle(IDictionaryModel dictionaryModel, DictionaryEditor<?> dictionaryEditor)
 	{
 
-		IBaseVO vo = voWrapper.getVO();
+		IBaseVO vo = dictionaryEditor.getVO();
 
 		String title = getTitle(dictionaryModel.getEditorModel().getTitle(), dictionaryModel.getTitle());
 
@@ -122,7 +122,7 @@ public final class DictionaryUtil
 			title += " " + getLabel(dictionaryModel.getLabelControls(), vo, Long.toString(vo.getId()));
 		}
 
-		if (voWrapper.isDirty())
+		if (dictionaryEditor.isDirty())
 		{
 			title += " " + MyAdmin.MESSAGES.editorDirtyMarker();
 		}

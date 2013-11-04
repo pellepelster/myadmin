@@ -45,7 +45,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean supports(BaseDictionaryControl baseControl)
+	public boolean supports(@SuppressWarnings("rawtypes") BaseDictionaryControl baseControl)
 	{
 		return baseControl instanceof DateControl;
 	}

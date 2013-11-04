@@ -307,7 +307,6 @@ public class DictionaryImportRunner
 
 	private void createNavigationTree(List<NavigationNode> navigationNodes, List<ModuleNavigationVO> parentNavigationList, int logIdentation)
 	{
-
 		for (NavigationNode navigationNode : navigationNodes)
 		{
 			ToolUtils.logInfo(LOG, String.format("creating navigation node '%s'", navigationNode.getName()), logIdentation);
@@ -335,7 +334,7 @@ public class DictionaryImportRunner
 
 				ModuleVO moduleVO = getOrCreateSimpleModuleVO(DictionaryEditorModule.MODULE_ID,
 						String.format("%s_%s", dictionaryName, navigationNode.getDictionaryEditor().getName()),
-						DictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, navigationNode.getDictionaryEditor().getName());
+						DictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, dictionaryName);
 
 				moduleNavigationVO.setModule(moduleVO);
 			}
@@ -346,7 +345,7 @@ public class DictionaryImportRunner
 
 				ModuleVO moduleVO = getOrCreateSimpleModuleVO(DictionarySearchModule.MODULE_ID,
 						String.format("%s_%s", dictionaryName, navigationNode.getDictionarySearch().getName()),
-						DictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID, navigationNode.getDictionarySearch().getName());
+						DictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID, dictionaryName);
 				moduleNavigationVO.setModule(moduleVO);
 			}
 

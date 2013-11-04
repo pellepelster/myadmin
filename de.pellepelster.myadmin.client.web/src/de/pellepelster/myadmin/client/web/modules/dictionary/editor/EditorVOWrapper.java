@@ -9,31 +9,26 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
+package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
 import de.pellepelster.myadmin.client.base.VOBeanUtil;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
 
-public class VOWrapper<VOTYpe extends IBaseVO>
+public class EditorVOWrapper<VOType extends IBaseVO> implements IVOWrapper<VOType>
 {
-
 	private boolean dirty = false;
 
-	private VOTYpe vo;
+	private VOType vo;
 
-	public VOWrapper()
+	public EditorVOWrapper()
 	{
 	}
 
-	public VOWrapper(VOTYpe vo)
+	public EditorVOWrapper(VOType vo)
 	{
 		super();
 		this.vo = vo;
-	}
-
-	public Object get(String name)
-	{
-		return this.vo.get(name);
 	}
 
 	public long getId()
@@ -41,7 +36,7 @@ public class VOWrapper<VOTYpe extends IBaseVO>
 		return this.vo.getId();
 	}
 
-	public VOTYpe getVO()
+	public VOType getVO()
 	{
 		return this.vo;
 	}
@@ -61,19 +56,21 @@ public class VOWrapper<VOTYpe extends IBaseVO>
 		return this.dirty;
 	}
 
-	public void set(String attributePath, Object value)
+	@Override
+	public Object get(String attribute)
 	{
-		set(attributePath, value, true);
+		return this.vo.get(attribute);
 	}
 
-	private void set(String attributePath, Object value, boolean fireValueChangeEvents)
+	@Override
+	public void set(String attribute, Object value)
 	{
-		VOBeanUtil.set(this.vo, attributePath, value);
+		VOBeanUtil.set(this.vo, attribute, value);
 
 		markDirty();
 	}
 
-	public void setVo(VOTYpe vo)
+	public void setVO(VOType vo)
 	{
 		this.vo = vo;
 		markClean();

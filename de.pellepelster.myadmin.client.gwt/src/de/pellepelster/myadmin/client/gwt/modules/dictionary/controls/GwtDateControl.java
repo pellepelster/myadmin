@@ -20,8 +20,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.core.utils.DateTimeFormat;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.DateControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 
-public class GwtDateControl extends DateBox
+public class GwtDateControl extends DateBox implements IGwtControl
 {
 
 	private final DateControl dateControl;
@@ -32,7 +33,7 @@ public class GwtDateControl extends DateBox
 		ensureDebugId(DictionaryModelUtil.getDebugId(dateControl.getModel()));
 
 		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(this.dateControl.getModel().getFormatPattern())));
-		new ControlHelper(this, dateControl, false);
+		new ControlHelper(this, dateControl, this, false);
 	}
 
 	/** {@inheritDoc} */
@@ -42,6 +43,7 @@ public class GwtDateControl extends DateBox
 		return this;
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)

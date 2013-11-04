@@ -117,7 +117,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				getModule().refresh();
+				getModule().getDictionaryEditor().refresh();
 			}
 
 		}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_BUTTON_DEBUG_ID);
@@ -137,13 +137,13 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 	private void save()
 	{
-		if (getModule().getValidationMessages().hasErrors())
+		if (getModule().getDictionaryEditor().getValidationMessages().hasErrors())
 		{
 			HumanizedMessagePopup.showMessageAndFadeAfterMouseMove(MyAdmin.MESSAGES.editorContainsErrors(), MESSAGE_TYPE.ERROR);
 		}
 		else
 		{
-			getModule().save();
+			getModule().getDictionaryEditor().save();
 		}
 	}
 
@@ -152,7 +152,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 	public boolean close()
 	{
 
-		if (getModule().isDirty())
+		if (getModule().getDictionaryEditor().isDirty())
 		{
 			return Window.confirm(MyAdmin.MESSAGES.editorClose());
 		}

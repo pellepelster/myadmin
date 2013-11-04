@@ -14,25 +14,25 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUt
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlFactoryFunction;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.EditorVOWrapper;
 
 public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseDictionaryElement<ModelType> implements
 		IBaseTable.ITableRow<VOType>
 {
 	private List<BaseDictionaryControl<?, ?>> columns;
 
-	private final VOWrapper<VOType> voWrapper;
+	private final EditorVOWrapper<VOType> voWrapper;
 
 	public TableRow(VOType vo, BaseTableElement<VOType, ModelType> parent)
 	{
 		super(parent.getModel(), parent);
 
 		this.columns = Lists.transform(parent.getModel().getControls(), new ControlFactoryFunction(this));
-		this.voWrapper = new VOWrapper<VOType>(vo);
+		this.voWrapper = new EditorVOWrapper<VOType>(vo);
 	}
 
 	@Override
-	protected VOWrapper<VOType> getVOWrapper()
+	protected EditorVOWrapper<VOType> getVOWrapper()
 	{
 		return this.voWrapper;
 	}

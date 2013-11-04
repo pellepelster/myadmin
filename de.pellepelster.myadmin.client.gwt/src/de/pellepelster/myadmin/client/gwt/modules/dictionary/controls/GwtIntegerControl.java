@@ -15,9 +15,10 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IntegerControl;
 
-public class GwtIntegerControl extends TextBox
+public class GwtIntegerControl extends TextBox implements IGwtControl
 {
 
 	private final IntegerControl integerControl;
@@ -26,10 +27,11 @@ public class GwtIntegerControl extends TextBox
 	public GwtIntegerControl(IntegerControl integerControl)
 	{
 		this.integerControl = integerControl;
-		gwtControlHelper = new ControlHelper(this, integerControl, true);
+		gwtControlHelper = new ControlHelper(this, integerControl, this, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(integerControl.getModel()));
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)

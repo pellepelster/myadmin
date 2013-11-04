@@ -32,7 +32,7 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 
 		resultCellTable = new ResultCellTable<VOType>(dictionaryResult);
 		resultCellTable.setWidth("100%");
-		resultCellTable.addVOSelectHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
+		resultCellTable.addVOActivationHandler(new SimpleCallback<IBaseTable.ITableRow<VOType>>()
 		{
 			/** {@inheritDoc} */
 			@Override

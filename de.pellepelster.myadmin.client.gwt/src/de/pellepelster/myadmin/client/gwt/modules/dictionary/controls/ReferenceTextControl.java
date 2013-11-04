@@ -21,9 +21,10 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox
+public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox implements IGwtControl
 {
 
 	private VOType vo;
@@ -37,7 +38,7 @@ public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox
 		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
 		setLimit(5);
 		this.referenceControl = referenceControl;
-		gwtControlHelper = new ControlHelper(this, referenceControl, false);
+		gwtControlHelper = new ControlHelper(this, referenceControl, this, false);
 
 		addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>()
 		{
@@ -56,13 +57,14 @@ public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox
 
 	}
 
-	public void setContent(VOType content)
+	@Override
+	public void setContent(Object content)
 	{
 		if (content != null)
 		{
 			if (content instanceof IBaseVO)
 			{
-				vo = content;
+				vo = (VOType) content;
 				setText(DictionaryUtil.getLabel(referenceControl.getModel(), vo));
 			}
 			else

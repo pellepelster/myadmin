@@ -18,8 +18,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BigDecimalControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 
-public class GwtBigDecimalControl extends TextBox
+public class GwtBigDecimalControl extends TextBox implements IGwtControl
 {
 	private final BigDecimalControl bigDecimalControl;
 
@@ -28,10 +29,11 @@ public class GwtBigDecimalControl extends TextBox
 	public GwtBigDecimalControl(BigDecimalControl bigDecimalControl)
 	{
 		this.bigDecimalControl = bigDecimalControl;
-		gwtControlHelper = new ControlHelper(this, bigDecimalControl, true);
+		gwtControlHelper = new ControlHelper(this, bigDecimalControl, this, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControl.getModel()));
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)

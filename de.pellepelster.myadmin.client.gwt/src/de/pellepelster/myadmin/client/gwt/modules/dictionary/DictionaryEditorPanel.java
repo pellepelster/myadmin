@@ -12,17 +12,14 @@
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.LAYOUT_TYPE;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.gwt.ColumnLayoutStrategy;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
 public class DictionaryEditorPanel<VOType extends IBaseVO> extends VerticalPanel
 {
-	private final IDictionaryModel dictionaryModel;
 
 	private final ColumnLayoutStrategy layoutStrategy = new ColumnLayoutStrategy(LAYOUT_TYPE.EDITOR);
 
@@ -33,8 +30,6 @@ public class DictionaryEditorPanel<VOType extends IBaseVO> extends VerticalPanel
 	 */
 	public DictionaryEditorPanel(DictionaryEditorModule<VOType> dictionaryEditorModule)
 	{
-		this.dictionaryModel = dictionaryEditorModule.getDictionaryModel();
-
 		setWidth("100%");
 		layoutStrategy.createLayout(this, dictionaryEditorModule.getDictionaryEditor().getRootComposite());
 	}

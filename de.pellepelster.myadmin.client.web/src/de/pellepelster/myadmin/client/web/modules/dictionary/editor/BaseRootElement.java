@@ -17,16 +17,16 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 	private final Composite rootComposite;
 
 	private Map<BaseDictionaryElement<?>, ValidationMessages> validationMessagesMap = new HashMap<BaseDictionaryElement<?>, ValidationMessages>();
-	
+
 	private RootElementValidationMessages rootElementValidationMessages;
-	
+
 	public BaseRootElement(ModelType baseRootModel, BaseDictionaryElement<IBaseModel> parent)
 	{
 		super(baseRootModel, parent);
 
 		this.rootComposite = new Composite(baseRootModel.getCompositeModel(), this);
-		
-		rootElementValidationMessages = new RootElementValidationMessages(validationMessagesMap);
+
+		this.rootElementValidationMessages = new RootElementValidationMessages(this.validationMessagesMap);
 	}
 
 	public Composite getRootComposite()
@@ -42,15 +42,15 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 
 	public ValidationMessages getValidationMessages(BaseDictionaryElement<?> baseDictionaryElement)
 	{
-		if (!validationMessagesMap.containsKey(baseDictionaryElement))
+		if (!this.validationMessagesMap.containsKey(baseDictionaryElement))
 		{
-			validationMessagesMap.put(baseDictionaryElement, new ValidationMessages());
+			this.validationMessagesMap.put(baseDictionaryElement, new ValidationMessages());
 		}
-		
-		return validationMessagesMap.get(baseDictionaryElement);
+
+		return this.validationMessagesMap.get(baseDictionaryElement);
 	}
-	
-	public void addValidationMessages(BaseDictionaryElement<?> baseDictionaryElement,  List<IValidationMessage> elementValidationMessages)
+
+	public void addValidationMessages(BaseDictionaryElement<?> baseDictionaryElement, List<IValidationMessage> elementValidationMessages)
 	{
 		getValidationMessages(baseDictionaryElement).addAll(elementValidationMessages);
 	}
@@ -58,12 +58,12 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 	public void clearValidationMessages(BaseDictionaryElement<?> baseDictionaryElement)
 	{
 		getValidationMessages(baseDictionaryElement).clear();
-		validationMessagesMap.remove(baseDictionaryElement);
+		this.validationMessagesMap.remove(baseDictionaryElement);
 	}
-	
+
 	public IValidationMessages getValidationMessages()
 	{
-		return rootElementValidationMessages;
+		return this.rootElementValidationMessages;
 	}
 
 }

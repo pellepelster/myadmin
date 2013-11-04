@@ -54,7 +54,6 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 		{
 			selectionModel.addSelectionChangeHandler(new Handler()
 			{
-
 				/** {@inheritDoc} */
 				@Override
 				public void onSelectionChange(SelectionChangeEvent event)
@@ -85,7 +84,6 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 			};
 
 			return cell;
-
 		}
 
 		/**

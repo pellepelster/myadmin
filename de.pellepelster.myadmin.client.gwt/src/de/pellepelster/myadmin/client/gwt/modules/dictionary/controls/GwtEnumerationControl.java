@@ -24,8 +24,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.EnumerationControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 
-public class GwtEnumerationControl extends ListBox
+public class GwtEnumerationControl extends ListBox implements IGwtControl
 {
 
 	private final EnumerationControl enumarationControl;
@@ -38,7 +39,7 @@ public class GwtEnumerationControl extends ListBox
 		this.enumarationControl = enumarationControl;
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControl.getModel()));
-		gwtControlHelper = new ControlHelper(this, enumarationControl, false);
+		gwtControlHelper = new ControlHelper(this, enumarationControl, this, false);
 
 		addChangeHandler(new ChangeHandler()
 		{
@@ -94,6 +95,7 @@ public class GwtEnumerationControl extends ListBox
 		return getEnumForText(enumarationControl.getModel(), text);
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)

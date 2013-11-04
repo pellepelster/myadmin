@@ -24,9 +24,10 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox
+public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox implements IGwtControl
 {
 
 	public ReferenceDropdownControl(final ReferenceControl<VOType> referenceControl)
@@ -34,7 +35,7 @@ public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox
 		super(false);
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
-		new ControlHelper(this, referenceControl, false);
+		new ControlHelper(this, referenceControl, this, false);
 
 		addChangeHandler(new ChangeHandler()
 		{
@@ -75,11 +76,11 @@ public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox
 		throw new RuntimeException("no enum found for text '" + text + "'");
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
 		{
-
 			if (content instanceof String || content instanceof Enum<?>)
 			{
 
@@ -90,7 +91,6 @@ public class ReferenceDropdownControl<VOType extends IBaseVO> extends ListBox
 						setSelectedIndex(i);
 					}
 				}
-
 			}
 			else
 			{

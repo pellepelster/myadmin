@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.VOWrapper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
 public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
@@ -26,7 +26,7 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 		return this.model;
 	}
 
-	protected VOWrapper<? extends IBaseVO> getVOWrapper()
+	protected IVOWrapper<? extends IBaseVO> getVOWrapper()
 	{
 		return getParent().getVOWrapper();
 	}
@@ -35,7 +35,7 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 	{
 		return this.parent;
 	}
-	
+
 	public BaseRootElement<?> getRootElement()
 	{
 		return getParent().getRootElement();

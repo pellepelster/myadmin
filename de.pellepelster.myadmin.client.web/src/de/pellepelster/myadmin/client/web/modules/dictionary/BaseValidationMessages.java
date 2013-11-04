@@ -39,16 +39,15 @@ public abstract class BaseValidationMessages implements IValidationMessages
 		while (validationMessageIterator.hasNext())
 		{
 			IValidationMessage validationMessage = validationMessageIterator.next();
-			
+
 			if (hasError(validationMessage))
 			{
 				return true;
 			}
-			
+
 		}
 
 		return false;
 	}
-
 
 }

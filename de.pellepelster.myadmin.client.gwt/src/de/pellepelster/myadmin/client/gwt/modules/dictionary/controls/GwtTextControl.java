@@ -15,15 +15,16 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.TextControl;
 
-public class GwtTextControl extends TextBox
+public class GwtTextControl extends TextBox implements IGwtControl
 {
 
 	public GwtTextControl(TextControl textControl)
 	{
 		super();
-		new ControlHelper(this, textControl, true);
+		new ControlHelper(this, textControl, this, true);
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(textControl.getModel()));
 		setMaxLength(textControl.getModel().getMaxLength());

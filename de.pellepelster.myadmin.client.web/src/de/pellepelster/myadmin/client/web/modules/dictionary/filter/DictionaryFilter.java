@@ -7,8 +7,9 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
-public class DictionaryFilter<VOType extends IBaseVO> extends BaseDictionaryElement<IFilterModel>
+public class DictionaryFilter<VOType extends IBaseVO> extends BaseRootElement<IFilterModel>
 {
 	private final Composite rootComposite;
 
@@ -16,9 +17,10 @@ public class DictionaryFilter<VOType extends IBaseVO> extends BaseDictionaryElem
 	{
 		super(filterModel, parent);
 
-		this.rootComposite = new Composite(filterModel.getCompositeModel(), parent);
+		this.rootComposite = new Composite(filterModel.getCompositeModel(), this);
 	}
 
+	@Override
 	public Composite getRootComposite()
 	{
 		return this.rootComposite;
@@ -28,6 +30,12 @@ public class DictionaryFilter<VOType extends IBaseVO> extends BaseDictionaryElem
 	public List<? extends BaseDictionaryElement<?>> getAllChildren()
 	{
 		return this.rootComposite.getAllChildren();
+	}
+
+	@Override
+	public BaseRootElement<?> getRootElement()
+	{
+		return this;
 	}
 
 }

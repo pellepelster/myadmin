@@ -13,6 +13,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -23,6 +24,8 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	private DictionaryResult<VOType> dictionaryResult;
 
 	private List<DictionaryFilter<VOType>> dictionaryFilters = new ArrayList<DictionaryFilter<VOType>>();
+
+	private SearchVOWrapper<VOType> voWrapper = new SearchVOWrapper<VOType>();
 
 	public DictionarySearch(ISearchModel searchModel)
 	{
@@ -75,16 +78,22 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	}
 
 	@Override
+	protected IVOWrapper<? extends IBaseVO> getVOWrapper()
+	{
+		return this.voWrapper;
+	}
+
+	@Override
 	public List<? extends BaseDictionaryElement<?>> getAllChildren()
 	{
 		List<BaseDictionaryElement<?>> allChildren = new ArrayList<BaseDictionaryElement<?>>();
 
-		for(DictionaryFilter<VOType> dictionaryFilter : dictionaryFilters)
+		for (DictionaryFilter<VOType> dictionaryFilter : this.dictionaryFilters)
 		{
 			allChildren.addAll(dictionaryFilter.getAllChildren());
 		}
-		
-		allChildren.addAll(dictionaryResult.getAllChildren());
+
+		allChildren.addAll(this.dictionaryResult.getAllChildren());
 
 		return allChildren;
 	}

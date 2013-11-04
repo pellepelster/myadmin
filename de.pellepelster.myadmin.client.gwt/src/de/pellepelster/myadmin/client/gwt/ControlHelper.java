@@ -11,84 +11,123 @@
  */
 package de.pellepelster.myadmin.client.gwt;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.ValidationUtils;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl.IControlUpdateListener;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
 
-public class ControlHelper
+public class ControlHelper implements IControlUpdateListener
 {
+	private BaseDictionaryControl baseControl;
+
 	private final UIObject uiObject;
 
-	private List<IValidationMessage> validationMessages = new ArrayList<IValidationMessage>();
+	private final IGwtControl gwtControl;
 
-	public <ValueType> ControlHelper(final Widget widget, final BaseDictionaryControl<?, ValueType> baseControl, boolean addValueChangeListener)
+	private boolean isUpdating = false;
+
+	public <ValueType> ControlHelper(final Widget uiObject, final BaseDictionaryControl<?, ValueType> baseControl, IGwtControl gwtControl,
+			boolean addValueChangeListener)
 	{
-		this.uiObject = widget;
+		this.uiObject = uiObject;
+		this.baseControl = baseControl;
+		this.gwtControl = gwtControl;
 
-		widget.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControl.getModel()));
+		uiObject.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControl.getModel()));
 
-		if (widget instanceof HasValue<?>)
+		onUpdate();
+
+		baseControl.addUpdateListener(this);
+
+		if (uiObject instanceof HasValue<?>)
 		{
-			final HasValue<ValueType> hasValueWidget = (HasValue<ValueType>) widget;
+			final HasValue<ValueType> hasValueWidget = (HasValue<ValueType>) uiObject;
 
 			if (addValueChangeListener)
 			{
-				widget.addDomHandler(new BlurHandler()
+				if (uiObject instanceof FocusWidget)
 				{
-					@Override
-					public void onBlur(BlurEvent event)
-					{
-						if (hasValueWidget.getValue() == null || hasValueWidget.getValue().toString().isEmpty())
-						{
-							baseControl.setValue(hasValueWidget.getValue());
-						}
-					}
-				}, BlurEvent.getType());
+					FocusWidget focusWidget = (FocusWidget) uiObject;
 
-				widget.addDomHandler(new ChangeHandler()
-				{
-					/** {@inheritDoc} */
-					@Override
-					public void onChange(ChangeEvent event)
+					focusWidget.addKeyUpHandler(new KeyUpHandler()
 					{
-						baseControl.setValue(hasValueWidget.getValue());
-					}
-				}, ChangeEvent.getType());
+						@Override
+						public void onKeyUp(KeyUpEvent event)
+						{
+							setParseValue(hasValueWidget.getValue());
+						}
+					});
+
+				}
+
+				// uiObject.addDomHandler(new BlurHandler()
+				// {
+				// @Override
+				// public void onBlur(BlurEvent event)
+				// {
+				// setParseValue(hasValueWidget.getValue());
+				// }
+				// }, BlurEvent.getType());
+				//
+				// hasValueWidget.addValueChangeHandler(new
+				// ValueChangeHandler<ValueType>()
+				// {
+				//
+				// @Override
+				// public void onValueChange(ValueChangeEvent<ValueType> event)
+				// {
+				// setParseValue(event.getValue());
+				// }
+				// });
+
 			}
 		}
 	}
 
-	public void removeAllValidationMessages()
+	private void setParseValue(Object value)
 	{
-		validationMessages.clear();
+		if (!isUpdating)
+		{
+			if (value != null)
+			{
+				baseControl.parseValue(value.toString());
+			}
+			else
+			{
+				baseControl.setValue(null);
+			}
+		}
 	}
 
-	public void setValidationMessages(List<IValidationMessage> validationMessages, IBaseControlModel baseControlModel)
+	@Override
+	public void onUpdate()
 	{
-		this.validationMessages = validationMessages;
+		isUpdating = true;
+		gwtControl.setContent(baseControl.getValue());
 
-		if (validationMessages.isEmpty())
+		if (baseControl.getValidationMessages().hasErrors())
+		{
+			uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
+			Map<String, Object> context = CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControl.getModel().getEditorLabel());
+			uiObject.setTitle(baseControl.getValidationMessages().getValidationMessageString(context));
+		}
+		else
 		{
 			uiObject.removeStyleName(GwtStyles.CONTROL_ERROR_STYLE);
 			uiObject.setTitle("");
 		}
-		else
-		{
-			uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
-			uiObject.setTitle(ValidationUtils.getValidationMessageString(validationMessages, baseControlModel));
-		}
+		isUpdating = false;
 	}
+
 }

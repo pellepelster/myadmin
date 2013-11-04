@@ -143,7 +143,7 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 
 	public void save(final AsyncCallback<DictionaryEditorModuleTestUI<VOType>> asyncCallback)
 	{
-		this.module.save(new BaseErrorAsyncCallback<Result<VOType>>(asyncCallback)
+		this.module.getDictionaryEditor().save(new BaseErrorAsyncCallback<Result<VOType>>(asyncCallback)
 		{
 			@Override
 			public void onSuccess(Result<VOType> result)
@@ -160,12 +160,11 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 
 	public void assertHasNoErrors()
 	{
-		Assert.assertFalse(module.getValidationMessages().hasErrors());
+		Assert.assertFalse(this.module.getDictionaryEditor().getValidationMessages().hasErrors());
 	}
 
 	public void assertHasErrors(int errorCount)
 	{
-		Assert.assertEquals(errorCount, module.getValidationMessages().count());
+		Assert.assertEquals(errorCount, this.module.getDictionaryEditor().getValidationMessages().count());
 	}
-
 }

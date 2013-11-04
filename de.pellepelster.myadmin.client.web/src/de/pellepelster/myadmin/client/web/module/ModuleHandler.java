@@ -34,8 +34,6 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 public final class ModuleHandler
 {
 
-	public static final String FAKE_MODULE_MARKER = "FAKE_MODULE#";
-
 	private static ModuleHandler instance;
 
 	public static ModuleHandler getInstance()

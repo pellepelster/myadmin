@@ -147,7 +147,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		{
 
 			List<DictionaryControlVO> dictionaryControl1VOs = new ArrayList<DictionaryControlVO>();
-			dictionaryControl1VOs.add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string1"));
+			dictionaryControl1VOs.add(TestDictionaryControlFactory.createTextControl("Textcontrol", "string1", true));
 			dictionaryControl1VOs.add(getIntegerControl("IntegerControl", "integer1"));
 			dictionaryControl1VOs.add(getBigDecimalControl("BigDecimalControl", "bigDecimal1"));
 			dictionaryControl1VOs.add(getDateControl("DateControl", "date1"));

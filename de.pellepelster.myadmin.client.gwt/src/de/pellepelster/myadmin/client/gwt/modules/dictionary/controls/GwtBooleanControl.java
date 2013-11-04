@@ -16,17 +16,19 @@ import com.google.gwt.user.client.ui.CheckBox;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BooleanControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 
-public class GwtBooleanControl extends CheckBox
+public class GwtBooleanControl extends CheckBox implements IGwtControl
 {
 
 	public GwtBooleanControl(BooleanControl booleanControl)
 	{
-		new ControlHelper(this, booleanControl, true);
+		new ControlHelper(this, booleanControl, this, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(booleanControl.getModel()));
 
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)

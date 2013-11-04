@@ -25,21 +25,18 @@ public class RootElementValidationMessages extends BaseValidationMessages implem
 		this.validationMessages = validationMessages;
 	}
 
-
 	private List<IValidationMessage> getAllValidationMessages()
 	{
 		List<IValidationMessage> result = new ArrayList<IValidationMessage>();
-		
-		for(Map.Entry<BaseDictionaryElement<?>, ValidationMessages> validationMessageEntry : validationMessages.entrySet())
+
+		for (Map.Entry<BaseDictionaryElement<?>, ValidationMessages> validationMessageEntry : this.validationMessages.entrySet())
 		{
 			result.addAll(Lists.newArrayList(validationMessageEntry.getValue().iterator()));
 		}
-		
-		
+
 		return result;
 	}
 
-	
 	@Override
 	public Iterator<IValidationMessage> iterator()
 	{
@@ -49,18 +46,18 @@ public class RootElementValidationMessages extends BaseValidationMessages implem
 	@Override
 	public boolean hasErrors()
 	{
-		Iterator<ValidationMessages> iterator = validationMessages.values().iterator();
-		
-		while(iterator.hasNext())
+		Iterator<ValidationMessages> iterator = this.validationMessages.values().iterator();
+
+		while (iterator.hasNext())
 		{
 			ValidationMessages tmpValidationMessages = iterator.next();
-			
+
 			if (tmpValidationMessages.hasErrors())
 			{
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -68,6 +65,25 @@ public class RootElementValidationMessages extends BaseValidationMessages implem
 	public int count()
 	{
 		return getAllValidationMessages().size();
+	}
+
+	@Override
+	public String getValidationMessageString(Map<String, Object> context)
+	{
+		String result = "";
+		Iterator<ValidationMessages> iterator = this.validationMessages.values().iterator();
+
+		while (iterator.hasNext())
+		{
+			ValidationMessages tmpValidationMessages = iterator.next();
+
+			if (tmpValidationMessages.hasErrors())
+			{
+				result += tmpValidationMessages.getValidationMessageString(context);
+			}
+		}
+
+		return result;
 	}
 
 }

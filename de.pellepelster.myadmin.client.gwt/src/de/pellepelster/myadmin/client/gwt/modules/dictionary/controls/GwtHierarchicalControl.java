@@ -23,9 +23,10 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.Hierarchi
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.HierarchicalControl;
+import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
-public class GwtHierarchicalControl extends Anchor
+public class GwtHierarchicalControl extends Anchor implements IGwtControl
 {
 	private final HierarchicalControl hierarchicalControl;
 
@@ -34,7 +35,7 @@ public class GwtHierarchicalControl extends Anchor
 	public GwtHierarchicalControl(final HierarchicalControl hierarchicalControl)
 	{
 		this.hierarchicalControl = hierarchicalControl;
-		new ControlHelper(this, hierarchicalControl, true);
+		new ControlHelper(this, hierarchicalControl, this, true);
 
 		addClickHandler(new ClickHandler()
 		{
@@ -71,11 +72,11 @@ public class GwtHierarchicalControl extends Anchor
 		ensureDebugId(DictionaryModelUtil.getDebugId(hierarchicalControl.getModel()));
 	}
 
+	@Override
 	public void setContent(Object content)
 	{
 		if (content != null)
 		{
-
 			if (content instanceof IHierarchicalVO)
 			{
 				hierarchicalVO = (IHierarchicalVO) content;
