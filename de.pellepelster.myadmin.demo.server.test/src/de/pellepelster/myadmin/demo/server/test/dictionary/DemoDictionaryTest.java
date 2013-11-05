@@ -69,6 +69,9 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 		Assert.assertEquals("Country", countryModuleNavigationVO.getTitle());
 		Assert.assertFalse(countryModuleNavigationVO.getModule().getProperties().isEmpty());
 
+		ModuleNavigationVO stateModuleNavigationVO = result.get(1).getChildren().get(0).getChildren().get(1);
+		Assert.assertEquals("Search State", stateModuleNavigationVO.getTitle());
+
 	}
 
 	@Test

@@ -29,13 +29,13 @@
 
 	<dependencies defaultconf="compile->default">
 
-		<dependency name="dsl-generator" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
+		<dependency name="dsl-generator" rev="latest.integration" conf="compile->compile;runtime->runtime" />
 
-		<dependency name="client-base" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
+		<dependency name="client-base" rev="latest.integration" conf="compile->compile;runtime->runtime" />
 
-		<dependency name="server-base" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
+		<dependency name="server-base" rev="latest.integration" conf="compile->compile;runtime->runtime" />
 
-		<dependency name="db" rev="latest.integration" conf="runtime.jaxb->default;compile->compile;runtime->runtime" />
+		<dependency name="db" rev="latest.integration" conf="compile->compile;runtime->runtime" />
 
 		<dependency org="ant" name="ant" rev="1.6.5" >
 			<artifact name="ant" type="jar" />

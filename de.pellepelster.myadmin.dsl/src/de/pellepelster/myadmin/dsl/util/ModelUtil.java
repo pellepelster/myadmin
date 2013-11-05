@@ -107,9 +107,15 @@ public class ModelUtil
 	{
 		EObject currentEObject = eObject;
 
+		int count = 0;
 		while (currentEObject != null && !eObjectClass.isAssignableFrom(currentEObject.getClass()))
 		{
-			currentEObject = eObject.eContainer();
+			// see EcoreUtil.getRootContainer(EObject)
+			if (++count > 100000)
+			{
+				break;
+			}
+			currentEObject = currentEObject.eContainer();
 		}
 
 		if (currentEObject != null)
@@ -118,7 +124,7 @@ public class ModelUtil
 		}
 		else
 		{
-			throw new RuntimeException(String.format("no parent dictionary found for '%s'", eObject.toString()));
+			throw new RuntimeException(String.format("no parent object of type '%s' found for '%s'", eObjectClass.getName(), eObject.toString()));
 
 		}
 	}

@@ -56,6 +56,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleDefinition;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleParameter;
 import de.pellepelster.myadmin.dsl.myAdminDsl.NavigationNode;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
+import de.pellepelster.myadmin.server.Messages;
 import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
@@ -314,14 +315,32 @@ public class DictionaryImportRunner
 			ModuleNavigationVO moduleNavigationVO = new ModuleNavigationVO();
 			parentNavigationList.add(moduleNavigationVO);
 
-			if (StringUtils.isEmpty(navigationNode.getTitle()))
+			String title = navigationNode.getName();
+
+			if (!StringUtils.isEmpty(navigationNode.getTitle()))
 			{
-				moduleNavigationVO.setTitle(navigationNode.getName());
+				title = navigationNode.getTitle();
 			}
-			else
+			else if (navigationNode.getDictionarySearch() != null)
 			{
-				moduleNavigationVO.setTitle(navigationNode.getTitle());
+				Dictionary dictionary = ModelUtil.getParentDictionary(navigationNode.getDictionarySearch());
+
+				if (dictionary.getTitle() != null)
+				{
+					title = Messages.getString(Messages.NAVIGATION_TITLE_SEARCH, dictionary.getTitle());
+				}
 			}
+			else if (navigationNode.getDictionaryEditor() != null)
+			{
+				Dictionary dictionary = ModelUtil.getParentDictionary(navigationNode.getDictionaryEditor());
+
+				if (dictionary.getTitle() != null)
+				{
+					title = Messages.getString(Messages.NAVIGATION_TITLE_ADD, dictionary.getTitle());
+				}
+			}
+
+			moduleNavigationVO.setTitle(title);
 
 			if (navigationNode.getModule() != null && this.moduleVOs.containsKey((navigationNode.getModule().getName())))
 			{

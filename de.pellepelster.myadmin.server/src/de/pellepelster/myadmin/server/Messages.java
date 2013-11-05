@@ -22,6 +22,10 @@ public class Messages
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
+	public static final String NAVIGATION_TITLE_ADD = "navigation.title.add";
+
+	public static final String NAVIGATION_TITLE_SEARCH = "navigation.title.search";
+
 	public static String getString(String key)
 	{
 		try

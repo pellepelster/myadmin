@@ -461,34 +461,35 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 		}
 
-		package modules {
-
-			import MyAdmin.de.pellepelster.myadmin.modules.^dictionary.* import MyAdmin.de.pellepelster.myadmin.modules.^dictionary.DictionarySearch.* module
-			StateSearch { moduledefinition DictionarySearch parameters { SearchDictionaryName = "State" } } module CitySearch { moduledefinition DictionarySearch
-			parameters { SearchDictionaryName = "City" } } module RegionSearch { moduledefinition DictionarySearch parameters { SearchDictionaryName = "Region" } }
-			module Dictionary1 { moduledefinition DictionarySearch parameters { SearchDictionaryName = "Dictionary1" } }
-		}
-
 		package navigation {
 
-			import modules.* import dictionaries.Country.* import MyAdmin.de.pellepelster.myadmin.modules.*
+			import modules.* 
+			import dictionaries.Country.* 
+			import MyAdmin.de.pellepelster.myadmin.modules.*
 		
 			navigationnode Masterdata {
-				title "Masterdata" navigationnode Adress {
-					title "Address" navigationnode Country {
-						title "Country" dictionarySearch CountrySearch
-					}
+				title "Masterdata" 
+				
+					navigationnode Adress {
+						title "Address" 
+						
+						navigationnode Country {
+							title "Country" 
+							dictionarySearch CountrySearch
+						}
 
-					navigationnode State {
-						title "State" module StateSearch
-					}
+						navigationnode State {
+							dictionarySearch dictionaries.State.StateSearch
+						}
 
 					navigationnode City {
-						title "City" module CitySearch
+						title "City" 
+						dictionarySearch dictionaries.City.CitySearch
 					}
 
 					navigationnode Region {
-						title "Region" module RegionSearch
+						title "Region" 
+						dictionarySearch dictionaries.Region.RegionSearch
 					}
 
 					navigationnode User {
@@ -614,7 +615,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Country {
 
 				entity Country
-				title "Land" dictionarycontrols {
+				title "Country"
+				dictionarycontrols {
 
 					textcontrol CountryName {
 						entityattribute countryName label "Name" mandatory
@@ -822,7 +824,9 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary State {
 
 				entity State
-				title "Bundesland" dictionarycontrols {
+				title "State"
+				
+				dictionarycontrols {
 
 					textcontrol StateName {
 						entityattribute stateName label "Name"
