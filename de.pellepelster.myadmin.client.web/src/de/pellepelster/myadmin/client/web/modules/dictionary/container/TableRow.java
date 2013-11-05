@@ -52,8 +52,8 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 	@Override
 	public <ElementType extends IBaseControl> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
-		List<String> parentModelIds = DictionaryElementUtil.getParentModelIds(getParent());
-		List<String> controlModelIds = DictionaryElementUtil.getModelIds(controlDescriptor);
+		List<String> parentModelIds = DictionaryElementUtil.getParentModelIds(getParent().getModel());
+		List<String> controlModelIds = DictionaryElementUtil.getParentModelIds(controlDescriptor);
 
 		DictionaryElementUtil.removeLeadingModelIds(parentModelIds, controlModelIds);
 

@@ -17,20 +17,17 @@ public class DictionaryElementUtil
 {
 	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
-		List<String> modelIds = getModelIds(dictionaryDescriptor);
-
-		String firstModelId = modelIds.get(0);
-		modelIds.remove(0);
-
-		if (!baseRootElement.getModel().getName().equals(firstModelId))
-		{
-			return null;
-		}
-
-		return getElement(baseRootElement.getRootComposite().getChildren(), modelIds, 0);
+		List<String> descriptorModelIds = getParentModelIds(dictionaryDescriptor);
+		
+		List<String> modelIds = DictionaryElementUtil.getParentModelIds(baseRootElement.getModel());
+		
+		removeLeadingModelIds(modelIds, descriptorModelIds);
+		
+		return getElement(baseRootElement.getRootComposite().getChildren(), descriptorModelIds, 0);
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <ElementType> ElementType getElement(List<BaseContainerElement<?>> baseContainers, List<String> modelIds, int level)
 	{
 		for (BaseContainerElement<?> baseContainer : baseContainers)
@@ -63,7 +60,7 @@ public class DictionaryElementUtil
 			}
 		}
 
-		return null;
+		throw new RuntimeException("element '" + modelIds.toString() + "' not found");
 	}
 
 	public static BaseDictionaryControl<?, ?> getControl(TableRow<?, ?> tableRow, List<String> modelIds)
@@ -87,7 +84,7 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	public static List<String> getModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
+	public static List<String> getParentModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
 	{
 		List<String> modelIds = new ArrayList<String>();
 
@@ -97,6 +94,21 @@ public class DictionaryElementUtil
 		{
 			modelIds.add(0, currentDescriptor.getId());
 			currentDescriptor = currentDescriptor.getParent();
+		}
+
+		return modelIds;
+	}
+
+	public static List<String> getParentModelIds(IBaseModel baseModel)
+	{
+		List<String> modelIds = new ArrayList<String>();
+
+		IBaseModel currentModel = baseModel;
+
+		while (currentModel != null)
+		{
+			modelIds.add(0, currentModel.getName());
+			currentModel = currentModel.getParent();
 		}
 
 		return modelIds;

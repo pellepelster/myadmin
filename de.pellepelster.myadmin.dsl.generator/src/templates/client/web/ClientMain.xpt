@@ -33,9 +33,6 @@
 	«info("generating dictionary debug identifiers")»
 	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID({String}) FOREACH allElements().typeSelect(Dictionary)»
 
-	«info("generating dictionary hook registrations")»
-	«EXPAND dictionary::Hooks::hookRegistration FOREACH allElements().typeSelect(Dictionary)»
-
 	«EXPAND GwtModule::clientGeneratedModuleDefinition FOR this»
 	
 
