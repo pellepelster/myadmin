@@ -29,9 +29,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModul
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditorPanel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
 
 /**
  * UI for the navigation module
@@ -68,19 +66,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		final HTML editorTitle = new HTML(editorModule.getTitle());
 		editorTitle.addStyleName(GwtStyles.EDITOR_TITLE);
 		verticalPanel.add(editorTitle);
-
-		VOEventHandler voEventHandler = new VOEventHandler()
-		{
-
-			@Override
-			public void onVOEvent(IBaseVO baseVO)
-			{
-				editorTitle.setText(getModule().getTitle());
-			}
-		};
-
-		editorModule.getEventBus().addHandler(VOSavedEvent.TYPE, voEventHandler);
-		editorModule.getEventBus().addHandler(VOLoadEvent.TYPE, voEventHandler);
 
 		DictionaryEditorPanel<VOType> dictionaryEditorPanel = new DictionaryEditorPanel<VOType>(getModule());
 		verticalPanel.add(dictionaryEditorPanel);
@@ -124,12 +109,14 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		// refreshButton.setEnabled(false);
 
-		getModule().getEventBus().addHandler(VOSavedEvent.TYPE, new VOEventHandler()
+		getModule().addUpdateListener(new IEditorUpdateListener()
 		{
+
 			@Override
-			public void onVOEvent(IBaseVO baseVO)
+			public void onUpdate()
 			{
-				refreshButton.setEnabled(!baseVO.isNew());
+				// refreshButton.setEnabled(!baseVO.isNew());
+				editorTitle.setText(getModule().getTitle());
 			}
 		});
 

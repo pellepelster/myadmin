@@ -11,13 +11,9 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -40,7 +36,6 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  */
 public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule
 {
-	private EventBus eventBus = GWT.create(SimpleEventBus.class);
 
 	public enum EditorMode
 	{
@@ -52,8 +47,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	private DictionaryEditor<VOType> dictionaryEditor;
 
 	private IDictionaryModel dictionaryModel;
-
-	private List<IEditorUpdateListener> updateListeners = new ArrayList<IEditorUpdateListener>();
 
 	public DictionaryEditorModule(IDictionaryModel dictionaryModel, long voId, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
@@ -136,11 +129,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	}
 
-	public EventBus getEventBus()
-	{
-		return this.eventBus;
-	}
-
 	public DictionaryEditor<VOType> getDictionaryEditor()
 	{
 		return this.dictionaryEditor;
@@ -166,15 +154,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public void addUpdateListener(IEditorUpdateListener updateListener)
 	{
-		this.updateListeners.add(updateListener);
-	}
-
-	private void fireUpdateListeners()
-	{
-		for (IEditorUpdateListener updateListener : this.updateListeners)
-		{
-			updateListener.onUpdate();
-		}
+		this.dictionaryEditor.addUpdateListener(updateListener);
 	}
 
 }

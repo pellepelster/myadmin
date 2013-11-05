@@ -471,7 +471,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			Result<Test1VO> result = new Result<Test1VO>();
 
 			Test1VO test1vo = (Test1VO) vo;
-			result.setVo(test1vo);
+			result.setVO(test1vo);
 
 			if (test1vo.getString1() != null && test1vo.getString1().contains("error")) {
 				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "error", CollectionUtils.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));
@@ -485,7 +485,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		} else if (vo instanceof HierarchicalTest1VO) {
 			Result<HierarchicalTest1VO> result = new Result<HierarchicalTest1VO>();
 			HierarchicalTest1VO hierarchicalTest1VO = (HierarchicalTest1VO) vo;
-			result.setVo(hierarchicalTest1VO);
+			result.setVO(hierarchicalTest1VO);
 			hierarchicalTest1VOs.add((HierarchicalTest1VO) vo);
 			hierarchicalTest1VO.setId(hierarchicalTest1VOs.size());
 
@@ -493,14 +493,14 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 		} else if (vo instanceof HierarchicalTest2VO) {
 			Result<HierarchicalTest2VO> result = new Result<HierarchicalTest2VO>();
 			HierarchicalTest2VO hierarchicalTest2VO = (HierarchicalTest2VO) vo;
-			result.setVo(hierarchicalTest2VO);
+			result.setVO(hierarchicalTest2VO);
 			hierarchicalTest2VOs.add((HierarchicalTest2VO) vo);
 			hierarchicalTest2VO.setId(hierarchicalTest2VOs.size());
 			callback.onSuccess((Result<ValidateAndCreateVOType>) result);
 		} else if (vo instanceof HierarchicalTest3VO) {
 			Result<HierarchicalTest3VO> result = new Result<HierarchicalTest3VO>();
 			HierarchicalTest3VO hierarchicalTest3VO = (HierarchicalTest3VO) vo;
-			result.setVo(hierarchicalTest3VO);
+			result.setVO(hierarchicalTest3VO);
 			hierarchicalTest3VOs.add((HierarchicalTest3VO) vo);
 			hierarchicalTest3VO.setId(hierarchicalTest3VOs.size());
 			callback.onSuccess((Result<ValidateAndCreateVOType>) result);
@@ -517,7 +517,7 @@ public class TestBaseEntityServiceGWTAsync implements IBaseEntityServiceGWTAsync
 			Result<Test1VO> result = new Result<Test1VO>();
 
 			Test1VO test1vo = (Test1VO) vo;
-			result.setVo(test1vo);
+			result.setVO(test1vo);
 
 			if (test1vo.getString1().contains("error")) {
 				ValidationMessage validationMessage = new ValidationMessage(IMessage.SEVERITY.ERROR, "error", "error", "error", CollectionUtils.getMap(IValidationMessage.ATTRIBUTE_CONTEXT_KEY, "string1"));

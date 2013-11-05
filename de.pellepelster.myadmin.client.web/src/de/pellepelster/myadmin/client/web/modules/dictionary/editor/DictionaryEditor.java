@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule.EditorMode;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOLoadEvent;
-import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
@@ -22,6 +21,8 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 {
 
 	private final EditorVOWrapper<VOType> voWrapper = new EditorVOWrapper<VOType>();
+
+	private List<IEditorUpdateListener> updateListeners = new ArrayList<IEditorUpdateListener>();
 
 	private Map<String, Object> context;
 
@@ -71,14 +72,13 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 			@Override
 			public void onSuccess(VOType result)
 			{
-				DictionaryEditor.this.voWrapper.setVO(result);
-
-				MyAdmin.EVENT_BUS.fireEvent(new VOLoadEvent(result));
+				setVO(result);
 
 				if (callback != null)
 				{
 					callback.onSuccess(null);
 				}
+
 			}
 		};
 
@@ -106,9 +106,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 			{
 				if (result.size() == 1)
 				{
-					DictionaryEditor.this.voWrapper.setVO(result.get(0));
-					DictionaryEditor.this.voWrapper.markClean();
-					MyAdmin.EVENT_BUS.fireEvent(new VOLoadEvent(result.get(0)));
+					setVO(result.get(0));
 				}
 				else
 				{
@@ -140,13 +138,9 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 		{
 			if (result.getValidationMessages().isEmpty())
 			{
-				DictionaryEditor.this.voWrapper.setVO(result.getVo());
-				DictionaryEditor.this.voWrapper.markClean();
-
-				MyAdmin.EVENT_BUS.fireEvent(new VOSavedEvent(result.getVo()));
+				setVO(result.getVO());
 
 				super.callParentCallbacks(result);
-
 			}
 			else
 			{
@@ -155,6 +149,13 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 
 		}
 	};
+
+	private void setVO(VOType vo)
+	{
+		DictionaryEditor.this.voWrapper.setVO(vo);
+		DictionaryEditor.this.voWrapper.markClean();
+		fireUpdateListeners();
+	}
 
 	public void save(AsyncCallback<Result<VOType>> asyncCallback)
 	{
@@ -205,6 +206,19 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 	public IBaseVO getVO()
 	{
 		return this.voWrapper.getVO();
+	}
+
+	public void addUpdateListener(IEditorUpdateListener updateListener)
+	{
+		this.updateListeners.add(updateListener);
+	}
+
+	private void fireUpdateListeners()
+	{
+		for (IEditorUpdateListener updateListener : this.updateListeners)
+		{
+			updateListener.onUpdate();
+		}
 	}
 
 }

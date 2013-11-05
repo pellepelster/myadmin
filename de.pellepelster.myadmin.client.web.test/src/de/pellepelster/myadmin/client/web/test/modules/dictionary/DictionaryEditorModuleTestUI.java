@@ -167,4 +167,9 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> implements IMo
 	{
 		Assert.assertEquals(errorCount, this.module.getDictionaryEditor().getValidationMessages().count());
 	}
+
+	public void assertTitle(String expectedTitle)
+	{
+		Assert.assertEquals(expectedTitle, this.module.getTitle());
+	}
 }

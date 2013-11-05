@@ -32,7 +32,7 @@ public class Result<VOType extends IBaseVO> implements Serializable
 		return validationMessages;
 	}
 
-	public VOType getVo()
+	public VOType getVO()
 	{
 		return vo;
 	}
@@ -42,7 +42,7 @@ public class Result<VOType extends IBaseVO> implements Serializable
 		this.validationMessages = validationMessages;
 	}
 
-	public void setVo(VOType vo)
+	public void setVO(VOType vo)
 	{
 		this.vo = vo;
 	}

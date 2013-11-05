@@ -49,6 +49,8 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		@Override
 		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
+			result.assertTitle("Dictionary1Editor text1");
+
 			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			textControl.assertValue("text1");
 
@@ -75,7 +77,8 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
 		{
 			result.assertHasNoErrors();
-			
+			result.assertTitle("Dictionary1Editor (New)");
+
 			// text control
 			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 			textControl.assertMandatory();
@@ -104,7 +107,6 @@ public class DemoClientDictionary1Test extends GWTTestCase
 			bigDecimalControl.assertHasErrorWithText("'x' is not a valid decimal");
 			bigDecimalControl.assertValue(null);
 
-			
 			// boolean control
 			BooleanControlTest booleanControl = result
 					.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);

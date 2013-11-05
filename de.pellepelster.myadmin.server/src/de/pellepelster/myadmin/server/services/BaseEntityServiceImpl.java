@@ -250,7 +250,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		{
 			newVO = create(vo);
 		}
-		result.setVo(newVO);
+		result.setVO(newVO);
 
 		return result;
 	}
@@ -269,7 +269,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		{
 			vo = save(vo);
 		}
-		result.setVo(vo);
+		result.setVO(vo);
 
 		return result;
 	}
