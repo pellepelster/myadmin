@@ -8,18 +8,19 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
 
-public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElement<ISearchModel>
+public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElement<IDictionaryModel>
 {
 	private DictionaryResult<VOType> dictionaryResult;
 
@@ -27,13 +28,15 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 
 	private SearchVOWrapper<VOType> voWrapper = new SearchVOWrapper<VOType>();
 
-	public DictionarySearch(ISearchModel searchModel)
+	private List<ISearchUpdateListener> updateListeners = new ArrayList<ISearchUpdateListener>();
+
+	public DictionarySearch(IDictionaryModel dictionaryModel)
 	{
-		super(searchModel, null);
+		super(dictionaryModel, null);
 
-		this.dictionaryResult = new DictionaryResult<VOType>(searchModel.getResultModel(), this);
+		this.dictionaryResult = new DictionaryResult<VOType>(getModel().getSearchModel().getResultModel(), this);
 
-		for (IFilterModel filterModel : searchModel.getFilterModel())
+		for (IFilterModel filterModel : getModel().getSearchModel().getFilterModel())
 		{
 			this.dictionaryFilters.add(new DictionaryFilter(filterModel, this));
 		}
@@ -58,6 +61,7 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 			{
 				DictionarySearch.this.dictionaryResult.setRows(result);
 				asyncCallback.onSuccess(DictionarySearch.this.dictionaryResult.getRows());
+				fireUpdateListeners();
 			}
 		});
 	}
@@ -96,6 +100,24 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 		allChildren.addAll(this.dictionaryResult.getAllChildren());
 
 		return allChildren;
+	}
+
+	public String getTitle()
+	{
+		return DictionaryUtil.getSearchTitle(getModel(), getDictionaryResult().getRows().size());
+	}
+
+	private void fireUpdateListeners()
+	{
+		for (ISearchUpdateListener updateListener : this.updateListeners)
+		{
+			updateListener.onUpdate();
+		}
+	}
+
+	public void addUpdateListener(ISearchUpdateListener updateListener)
+	{
+		this.updateListeners.add(updateListener);
 	}
 
 }

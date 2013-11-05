@@ -26,6 +26,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryResultPan
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdateListener;
 
 /**
  * UI for the navigation module
@@ -33,7 +34,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySe
  * @author pelle
  * 
  */
-public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>>
+public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements ISearchUpdateListener
 {
 
 	private static final String DICTIONARY_CREATE_BUTTON_DEBUG_ID = "DictionaryCreateButton";
@@ -41,6 +42,8 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 	private static final String DICTIONARY_SEARCH_BUTTON_DEBUG_ID = "DictionarySearchButton";
 
 	private final VerticalPanel verticalPanel;
+
+	private final HTML searchTitle;
 
 	/**
 	 * @param module
@@ -59,7 +62,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		verticalPanel.add(actionBar);
 
 		// - title -------------------------------------------------------------
-		final HTML searchTitle = new HTML(module.getTitle());
+		searchTitle = new HTML(module.getTitle());
 		searchTitle.addStyleName(GwtStyles.SEARCH_TITLE);
 		verticalPanel.add(searchTitle);
 
@@ -113,6 +116,8 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		dictionaryResultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
 		dictionaryResultPanel.setWidth("100%");
 		verticalPanel.add(dictionaryResultPanel);
+
+		getModule().getDictionarySearch().addUpdateListener(this);
 	}
 
 	/** {@inheritDoc} */
@@ -126,5 +131,11 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 	public String getTitle()
 	{
 		return getModule().getTitle();
+	}
+
+	@Override
+	public void onUpdate()
+	{
+		searchTitle.setText(getModule().getTitle());
 	}
 }

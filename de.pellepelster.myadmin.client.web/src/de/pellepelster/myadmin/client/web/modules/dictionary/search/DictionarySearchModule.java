@@ -14,7 +14,6 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -24,7 +23,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryM
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * Dictionary search module
@@ -75,21 +74,13 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 				List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel);
 
-				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new AsyncCallback<List<IDictionaryModel>>()
+				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new BaseErrorAsyncCallback<List<IDictionaryModel>>()
 				{
-
-					/** {@inheritDoc} */
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						GWT.log("error retrieving dictionary model", caught);
-					}
-
 					/** {@inheritDoc} */
 					@Override
 					public void onSuccess(List<IDictionaryModel> result)
 					{
-						DictionarySearchModule.this.dictionarySearch = new DictionarySearch<VOType>(dictionaryModel.getSearchModel());
+						DictionarySearchModule.this.dictionarySearch = new DictionarySearch<VOType>(dictionaryModel);
 						getModuleCallback().onSuccess(DictionarySearchModule.this);
 					}
 				});
@@ -100,7 +91,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getSearchTitle(this.dictionaryModel, this.dictionarySearch.getDictionaryResult().getRows().size());
+		return this.dictionarySearch.getTitle();
 	}
 
 	public DictionarySearch<VOType> getDictionarySearch()
