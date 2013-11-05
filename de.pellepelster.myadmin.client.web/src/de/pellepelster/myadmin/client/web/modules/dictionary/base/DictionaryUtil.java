@@ -12,13 +12,13 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.base;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
@@ -37,66 +37,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
  */
 public final class DictionaryUtil
 {
-
-	public static String[][] getData(List<? extends IBaseVO> list, List<IBaseControlModel> controlModels, Map<String, IDictionaryModel> dictionaerModels)
-	{
-		String[][] result = new String[list.size()][controlModels.size() + 1];
-
-		int i = 0;
-		for (IBaseVO baseVO : list)
-		{
-			String[] cols = new String[controlModels.size() + 1];
-
-			// first array element represents the id of the baseVO and will not
-			// be displayed
-			cols[0] = Long.toString(baseVO.getId());
-
-			// for (IBaseControlModel controlModel : controlModels) {
-			// if (controlModel.getLookupModel() != null) {
-			// IDictionaryModel dictionaryModel = dictionaerModels
-			// .get(controlModel.getLookupModel()
-			// .getDictionaryName());
-			//
-			// String label = "";
-			// String delimiter = "";
-			// for (IBaseControlModel labelControlModel : dictionaryModel
-			// .getLabelControls()) {
-			// try {
-			// label += delimiter
-			// + ((IBaseVO) baseVO.get(controlModel
-			// .getAttributeName()))
-			// .get(labelControlModel
-			// .getAttributeName());
-			// } catch (Exception e) {
-			// throw new RuntimeException(e);
-			// }
-			// delimiter = " ";
-			// }
-			// cols[n] = label;
-			//
-			// } else {
-			// try {
-			//
-			// Object o = baseVO.get(controlModel.getAttributeName());
-			//
-			// if (o == null) {
-			// cols[n] = "";
-			//
-			// } else {
-			// cols[n] = o.toString();
-			// }
-			// } catch (Exception e) {
-			// throw new RuntimeException(e);
-			// }
-			// }
-			// n++;
-			// }
-
-			result[i++] = cols;
-		}
-
-		return result;
-	}
 
 	public static String getDictionaryAdd(IDictionaryModel dictionaryModel)
 	{
@@ -152,15 +92,17 @@ public final class DictionaryUtil
 
 	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo, String defaultLabel)
 	{
-		List<IBaseControlModel> labelControlModels = referenceControlModel.getLabelControls();
+		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(referenceControlModel.getDictionaryName());
 
-		if (labelControlModels.isEmpty())
-		{
-			labelControlModels = DictionaryModelProvider.getCachedDictionaryModel(referenceControlModel.getDictionaryName()).getLabelControls();
-		}
+		List<IBaseControlModel> labelControlModels = DictionaryModelUtil.getLabelControlsWithFallback(referenceControlModel, dictionaryModel);
 
 		return DictionaryUtil.getLabel(labelControlModels, vo, defaultLabel);
 	}
+
+	public static String getLabel(List<IBaseControlModel> labelControlModels, IBaseVO vo)
+	{
+		return getLabel(labelControlModels, vo, null);
+	};
 
 	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo, String defaultLabel)
 	{
@@ -229,17 +171,9 @@ public final class DictionaryUtil
 
 	}
 
-	/**
-	 * Constructor for <code>DictionaryUtil</code>
-	 */
 	private DictionaryUtil()
 	{
 		super();
 	}
-
-	public static String getLabel(List<IBaseControlModel> labelControlModels, IBaseVO vo)
-	{
-		return getLabel(labelControlModels, vo, null);
-	};
 
 }
