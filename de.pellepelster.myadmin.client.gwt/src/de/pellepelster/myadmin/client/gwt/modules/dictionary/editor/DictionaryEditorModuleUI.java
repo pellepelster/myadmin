@@ -37,7 +37,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdat
  * @author pelle
  * 
  */
-public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>>
+public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>> implements IEditorUpdateListener
 {
 	private final VerticalPanel verticalPanel;
 
@@ -46,6 +46,8 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 	private static final String DICTIONARY_BACK_BUTTON_DEBUG_ID = "DictionaryBackButton";
 
 	private static final String DICTIONARY_REFRESH_BUTTON_DEBUG_ID = "DictionaryRefreshButton";
+
+	private final HTML editorTitle;
 
 	@SuppressWarnings("rawtypes")
 	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI)
@@ -63,7 +65,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		verticalPanel.add(actionBar);
 
 		// - title -------------------------------------------------------------
-		final HTML editorTitle = new HTML(editorModule.getTitle());
+		editorTitle = new HTML(editorModule.getTitle());
 		editorTitle.addStyleName(GwtStyles.EDITOR_TITLE);
 		verticalPanel.add(editorTitle);
 
@@ -109,17 +111,14 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		// refreshButton.setEnabled(false);
 
-		getModule().addUpdateListener(new IEditorUpdateListener()
-		{
+		getModule().addUpdateListener(this);
+	}
 
-			@Override
-			public void onUpdate()
-			{
-				// refreshButton.setEnabled(!baseVO.isNew());
-				editorTitle.setText(getModule().getTitle());
-			}
-		});
-
+	@Override
+	public void onUpdate()
+	{
+		// refreshButton.setEnabled(!baseVO.isNew());
+		editorTitle.setText(getModule().getTitle());
 	}
 
 	private void save()
