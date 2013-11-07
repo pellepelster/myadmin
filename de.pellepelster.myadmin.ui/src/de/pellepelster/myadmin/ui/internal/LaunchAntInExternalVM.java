@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.ui.internal;
 
 import java.io.File;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import org.eclipse.ant.launching.IAntLaunchConstants;
@@ -29,6 +30,8 @@ public class LaunchAntInExternalVM
 	public static void launchAntInExternalVM(IFile buildFile, IProgressMonitor monitor, boolean captureOutput, String targets) throws CoreException,
 			InterruptedException
 	{
+		final String launchUUID = UUID.randomUUID().toString();
+
 		ILaunchConfigurationWorkingCopy workingCopy = null;
 		final CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -53,11 +56,17 @@ public class LaunchAntInExternalVM
 			@Override
 			public void launchesTerminated(ILaunch[] launches)
 			{
-				countDownLatch.countDown();
+				for (ILaunch launch : launches)
+				{
+					if (launchUUID.equals(launch.getLaunchConfiguration().getName()))
+					{
+						countDownLatch.countDown();
+					}
+				}
 			}
 		});
 
-		workingCopy = LaunchAntInExternalVM.createDefaultLaunchConfiguration(buildFile, captureOutput, targets);
+		workingCopy = LaunchAntInExternalVM.createDefaultLaunchConfiguration(buildFile, captureOutput, targets, launchUUID);
 		ILaunch launch = workingCopy.launch(ILaunchManager.RUN_MODE, new SubProgressMonitor(monitor, 1));
 		if (!captureOutput)
 		{
@@ -68,7 +77,7 @@ public class LaunchAntInExternalVM
 		countDownLatch.await();
 	}
 
-	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(IFile buildFile, boolean captureOutput, String targets)
+	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(IFile buildFile, boolean captureOutput, String targets, String launchUUID)
 			throws CoreException
 	{
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
@@ -76,7 +85,7 @@ public class LaunchAntInExternalVM
 
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
 
-		ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, buildFile.getProject().getName());
+		ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, launchUUID);
 
 		String antFileName = buildFile.getFullPath().toString();
 		File fullAntFile = new File(workspace.getRoot().getLocation().toFile(), antFileName);
