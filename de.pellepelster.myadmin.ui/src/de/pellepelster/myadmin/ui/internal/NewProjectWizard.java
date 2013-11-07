@@ -13,7 +13,6 @@ package de.pellepelster.myadmin.ui.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,20 +23,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 
 import org.apache.ivyde.eclipse.IvyNature;
 import org.apache.ivyde.eclipse.cpcontainer.IvyClasspathContainerConfAdapter;
 import org.apache.ivyde.eclipse.cpcontainer.IvyClasspathContainerConfiguration;
-import org.eclipse.ant.launching.IAntLaunchConstants;
-import org.eclipse.core.externaltools.internal.IExternalToolConstants;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -49,18 +44,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.ILaunchesListener2;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter;
-import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -240,10 +228,11 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				{
 					try
 					{
-						runAnt(myadminAntFolder.getFile(Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor);
+						LaunchAntInExternalVM.launchAntInExternalVM(myadminAntFolder.getFile(Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor, true, "");
+
 						refreshProjects(monitor);
 
-						runAnt(buildProject.getFile("build.xml"), monitor);
+						LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFile("build.xml"), monitor, true, "");
 						refreshProjects(monitor);
 
 						for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
@@ -272,9 +261,9 @@ public class NewProjectWizard extends Wizard implements INewWizard
 						}
 
 					}
-					catch (Exception coreException)
+					catch (Exception e)
 					{
-						return Status.CANCEL_STATUS;
+						return new Status(Status.ERROR, Activator.PLUGIN_ID, 1, e.getMessage(), e);
 					}
 
 					return Status.OK_STATUS;
@@ -330,53 +319,6 @@ public class NewProjectWizard extends Wizard implements INewWizard
 	private String getProjectName(String organization, String projectName, Constants.PROJECT_NAME_POSTFIXES projectNamePostfix)
 	{
 		return String.format("%s.%s.%s", organization, projectName, projectNamePostfix.toString());
-	}
-
-	private void runAnt(IFile antFile, IProgressMonitor monitor) throws Exception
-	{
-
-		final CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-
-		String antFileName = antFile.getFullPath().toString();
-		File fullAntFile = new File(workspace.getRoot().getLocation().toFile(), antFileName);
-
-		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		ILaunchConfigurationType lcType = launchManager.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
-		launchManager.addLaunchListener(new ILaunchesListener2()
-		{
-
-			@Override
-			public void launchesRemoved(ILaunch[] launches)
-			{
-			}
-
-			@Override
-			public void launchesChanged(ILaunch[] launches)
-			{
-			}
-
-			@Override
-			public void launchesAdded(ILaunch[] launches)
-			{
-			}
-
-			@Override
-			public void launchesTerminated(ILaunch[] launches)
-			{
-				countDownLatch.countDown();
-			}
-		});
-
-		String name = launchManager.generateLaunchConfigurationName(Messages.RunAnt);
-		ILaunchConfigurationWorkingCopy wc = lcType.newInstance(null, name);
-		wc.setAttribute(ILaunchManager.ATTR_PRIVATE, true);
-		wc.setAttribute(IExternalToolConstants.ATTR_LOCATION, fullAntFile.toString());
-		wc.launch(ILaunchManager.RUN_MODE, monitor);
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-Xmx512M -XX:MaxPermSize=128M");
-
-		countDownLatch.await();
 	}
 
 	private void refreshProjects(IProgressMonitor monitor) throws CoreException
