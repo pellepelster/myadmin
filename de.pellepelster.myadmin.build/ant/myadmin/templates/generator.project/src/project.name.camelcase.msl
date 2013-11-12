@@ -2,7 +2,7 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 	
 	package @organisation.name@.@project.name@ {
 
-		package entites {
+		package entities {
 
 			// currency
 			textdatatype CurrencyName { }
@@ -38,17 +38,17 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 
 			dictionary Currency {
 				
-				entity entites.Currency
+				entity entities.Currency
 				
 				// define some control that can be reused in this dictionary
 				dictionarycontrols {
 					
 					textcontrol CurrencyName { 
-						entityattribute entites.Currency.currencyName
+						entityattribute entities.Currency.currencyName
 					}
 
 					textcontrol CountryIsoCode { 
-						entityattribute entites.Currency.currencyIsoCode
+						entityattribute entities.Currency.currencyIsoCode
 					}
 					
 				}
@@ -75,21 +75,21 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 			
 		dictionary Country {
 			
-			entity entites.Country
+			entity entities.Country
 			
 			// define some control that can be reused in this dictionary
 			dictionarycontrols {
 				
 				textcontrol CountryName { 
-					entityattribute entites.Country.countryName
+					entityattribute entities.Country.countryName
 				}
 
 				textcontrol CountryIsoCode { 
-					entityattribute entites.Country.countryIsoCode
+					entityattribute entities.Country.countryIsoCode
 				}
 				
 				referencecontrol Currency {
-					entityattribute entites.Country.currency
+					entityattribute entities.Country.currency
 					dictionary dictionaries.Currency
 				}
 				
