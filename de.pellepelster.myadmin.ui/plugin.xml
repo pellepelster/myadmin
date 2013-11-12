@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ant.core.antProperties">
-      <antProperty
-            class="de.pellepelster.myadmin.ui.internal.MyAdminAntPropertyValueProvider"
-            eclipseRuntime="false"
-            headless="true"
-            name="myadmin.artefact.suffix">
-      </antProperty>
-      <antProperty
-            class="de.pellepelster.myadmin.ui.internal.MyAdminAntPropertyValueProvider"
-            eclipseRuntime="false"
-            headless="true"
-            name="myadmin.home.location">
-      </antProperty>
-   </extension>
    
    <extension
          point="org.eclipse.ui.newWizards">
