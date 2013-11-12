@@ -70,47 +70,57 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 					textcontrol ref CountryIsoCode
 				}
 			}
-		}
 			
-			
-		dictionary Country {
-			
-			entity entities.Country
-			
-			// define some control that can be reused in this dictionary
-			dictionarycontrols {
+			dictionary Country {
 				
-				textcontrol CountryName { 
-					entityattribute entities.Country.countryName
-				}
-
-				textcontrol CountryIsoCode { 
-					entityattribute entities.Country.countryIsoCode
-				}
+				entity entities.Country
 				
-				referencecontrol Currency {
-					entityattribute entities.Country.currency
-					dictionary dictionaries.Currency
-				}
-				
-			}
-			
-			dictionarysearch CountrySearch {
-				
-				dictionaryfilter CountryFilter {
-					textcontrol ref CountryName	
+				// define some control that can be reused in this dictionary
+				dictionarycontrols {
+					
+					textcontrol CountryName { 
+						entityattribute entities.Country.countryName
+					}
+	
+					textcontrol CountryIsoCode { 
+						entityattribute entities.Country.countryIsoCode
+					}
+					
+					referencecontrol Currency {
+						entityattribute entities.Country.currency
+						dictionary dictionaries.Currency
+					}
+					
 				}
 				
-				dictionaryresult CountryResult {
+				dictionarysearch CountrySearch {
+					
+					dictionaryfilter CountryFilter {
+						textcontrol ref CountryName	
+					}
+					
+					dictionaryresult CountryResult {
+						textcontrol ref CountryName
+						textcontrol ref CountryIsoCode
+					}
+				}
+				
+				dictionaryeditor CountryEditor {
 					textcontrol ref CountryName
 					textcontrol ref CountryIsoCode
 				}
 			}
-			
-			dictionaryeditor CountryEditor {
-				textcontrol ref CountryName
-				textcontrol ref CountryIsoCode
-			}
 		}
+			
+			
+		
+		navigationnode Country {
+			dictionarySearch dictionaries.Country.CountrySearch
+		}
+
+		navigationnode Currency {
+			dictionarySearch dictionaries.Currency.CurrencySearch
+		}
+		
 	}
 }
