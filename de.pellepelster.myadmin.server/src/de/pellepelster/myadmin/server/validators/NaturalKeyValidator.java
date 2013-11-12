@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 /**
  * Checks all {@link IBaseVO} derived Vo's whether they contain values in
@@ -37,7 +37,7 @@ import de.pellepelster.myadmin.db.IBaseVODAO;
 public class NaturalKeyValidator implements IValidator
 {
 	@Resource
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	/** {@inheritDoc} */
 	@Override
@@ -46,7 +46,7 @@ public class NaturalKeyValidator implements IValidator
 		return IBaseVO.class.isAssignableFrom(o.getClass());
 	}
 
-	protected void setBaseVODAO(IBaseVODAO baseVODAO)
+	protected void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

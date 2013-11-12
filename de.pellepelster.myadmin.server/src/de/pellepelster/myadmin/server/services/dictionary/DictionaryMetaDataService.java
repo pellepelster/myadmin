@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -28,7 +27,7 @@ import com.google.common.base.Optional;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
@@ -39,8 +38,6 @@ import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElemen
 public class DictionaryMetaDataService implements InitializingBean, ApplicationListener<DictionaryEvent>
 {
 
-	private final static Logger LOG = Logger.getLogger(DictionaryMetaDataService.class);
-
 	private Map<Class<? extends IBaseVO>, List<IDictionaryModel>> vosToDictionaryModels;
 
 	@Autowired
@@ -50,7 +47,7 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 	private Optional<ISearchIndexService> searchIndexService = Optional.absent();
 
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	@Override
 	public void afterPropertiesSet() throws Exception

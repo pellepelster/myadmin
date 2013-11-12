@@ -16,14 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.daos.IVODaoDecorator;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 public class HierarchicalVODecorator implements IVODaoDecorator
 {
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	@Autowired
 	private IHierachicalService hierachicalService;
@@ -45,7 +45,7 @@ public class HierarchicalVODecorator implements IVODaoDecorator
 		hierarchicalVO.setHasChildren(this.hierachicalService.hasChildren(vo.getClass().getName(), vo.getId()));
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

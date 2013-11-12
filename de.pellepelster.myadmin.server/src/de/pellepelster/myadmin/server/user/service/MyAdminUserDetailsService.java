@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 /**
  * Database based implementation of {@link UserDetailsService}
@@ -42,7 +42,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 	public final static String SYSTEM_GROUP_NAME = "ROLE_ADMIN";
 
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	/** {@inheritDoc} */
 	@Override
@@ -112,7 +112,7 @@ public class MyAdminUserDetailsService implements UserDetailsService
 
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

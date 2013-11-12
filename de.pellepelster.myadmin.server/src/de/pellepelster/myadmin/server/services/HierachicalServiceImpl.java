@@ -33,7 +33,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWT;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
 
 public class HierachicalServiceImpl implements IHierachicalServiceGWT, InitializingBean
@@ -42,7 +42,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	@Autowired
 	private IDictionaryService dictionaryService;
@@ -287,7 +287,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		return this.voHierarchies;
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

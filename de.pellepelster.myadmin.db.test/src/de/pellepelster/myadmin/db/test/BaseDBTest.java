@@ -25,7 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // @TransactionConfiguration(transactionManager="transactionManager")
@@ -63,14 +63,14 @@ public abstract class BaseDBTest extends AbstractTransactionalJUnit4SpringContex
 	}
 
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
-	public IBaseVODAO getBaseVODAO()
+	public BaseVODAO getBaseVODAO()
 	{
 		return this.baseVODAO;
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

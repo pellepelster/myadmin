@@ -20,7 +20,7 @@ import org.springframework.core.io.Resource;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IDictionaryService;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
@@ -39,7 +39,7 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
 	@Autowired
-	protected IBaseVODAO baseVODAO;
+	protected BaseVODAO baseVODAO;
 
 	public IBaseEntityService getBaseEntityService()
 	{

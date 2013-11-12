@@ -19,12 +19,12 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.services.IModuleService;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 public class ModuleServiceImpl implements IModuleService
 {
 	@Resource
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	/** {@inheritDoc} */
 	@Override
@@ -36,15 +36,10 @@ public class ModuleServiceImpl implements IModuleService
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
 		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE).addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
 
-		return baseVODAO.filter(genericFilterVO);
+		return this.baseVODAO.filter(genericFilterVO);
 	}
 
-	/**
-	 * Sets the {@link IBaseVODAO} implementation
-	 * 
-	 * @param baseDAO
-	 */
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

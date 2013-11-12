@@ -29,7 +29,7 @@ import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.core.utils.HierarchicalUtils;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.validators.IValidator;
 
@@ -45,7 +45,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	private final static Logger LOG = Logger.getLogger(BaseEntityServiceImpl.class);
 
 	@Resource
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	/*
 	 * @Override public LimitFilterResult filter(GenericFilterVO
@@ -208,7 +208,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		return this.baseVODAO.save(vo);
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

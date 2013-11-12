@@ -31,7 +31,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryResultVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWT;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.search.SolrSearchIndexService;
@@ -42,7 +42,7 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT
 	private final static Logger LOG = Logger.getLogger(SolrSearchIndexService.class);
 
 	@Autowired
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	@Autowired(required = false)
 	private ISearchIndexService searchIndexService;
@@ -145,7 +145,7 @@ public class DictionaryServiceImpl implements IDictionaryServiceGWT
 		}
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.demo.server.test.dictionary;
 
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
@@ -22,7 +21,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
@@ -36,7 +35,7 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 	protected ISearchIndexService searchIndexService;
 
 	@Autowired
-	protected IBaseVODAO baseVODAO;
+	protected BaseVODAO baseVODAO;
 
 	@Test
 	public void testDeleteAll()
@@ -147,7 +146,7 @@ public final class DemoSearchIndexTest extends BaseDemoDictionaryTest
 	}
 
 	@Override
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

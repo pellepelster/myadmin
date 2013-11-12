@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
 import de.pellepelster.myadmin.db.IBaseClientEntity;
-import de.pellepelster.myadmin.db.IBaseDAO;
 import de.pellepelster.myadmin.db.IBaseEntity;
 import de.pellepelster.myadmin.db.IBaseInfoEntity;
 import de.pellepelster.myadmin.db.IUser;
@@ -48,25 +47,16 @@ import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject;
 
-/**
- * Implementation for {@link IBaseDAO}
- * 
- * @author pelle
- * @version $Rev$, $Date$
- * 
- */
 @Transactional()
-public class BaseDAOImpl implements IBaseDAO
+public class BaseDAO
 {
-	private static Logger LOG = Logger.getLogger(BaseDAOImpl.class);
+	private static Logger LOG = Logger.getLogger(BaseDAO.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	private final String UNKNOWN_USERNAME = "<unknown>";
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> long aggregate(List<IConditionalExpression> conditionalExpressions, Class<T> entityClass, String field,
 			AGGREGATE_TYPE aggregateType)
 	{
@@ -82,8 +72,6 @@ public class BaseDAOImpl implements IBaseDAO
 		return result;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> T create(T entity)
 	{
 		if (entity instanceof IBaseClientEntity)
@@ -117,8 +105,6 @@ public class BaseDAOImpl implements IBaseDAO
 		return result;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> void delete(T entity)
 	{
 		LOG.debug(String.format("deleting entity '%s' with id '%d'", entity.getClass().getName(), entity.getId()));
@@ -127,8 +113,6 @@ public class BaseDAOImpl implements IBaseDAO
 		this.entityManager.remove(entityToDelete);
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public void deleteAll(Class<? extends IBaseEntity> entityClass)
 	{
 		LOG.debug(String.format("deleting all '%s' entities", entityClass.getName()));
@@ -165,9 +149,6 @@ public class BaseDAOImpl implements IBaseDAO
 		// }
 	}
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
 	public <T extends IBaseEntity> List<T> filter(SelectQuery selectQuery, int start, int limit)
 	{
 
@@ -232,8 +213,6 @@ public class BaseDAOImpl implements IBaseDAO
 		return result;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> List<T> getAll(Class<T> entityClass)
 	{
 		return filter(new SelectQuery(entityClass), -1, -1);
@@ -244,8 +223,6 @@ public class BaseDAOImpl implements IBaseDAO
 		return new ConditionalExpression("client", getCurrentUser().getClient());
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public long getCount(Class<? extends IBaseEntity> entityClass, List<IConditionalExpression> conditionalExpressions)
 	{
 		CountQuery countQuery = new CountQuery(entityClass, LogicalOperatorVO.AND);
@@ -343,8 +320,6 @@ public class BaseDAOImpl implements IBaseDAO
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> T read(long id, Class<T> entityClass)
 	{
 
@@ -374,8 +349,6 @@ public class BaseDAOImpl implements IBaseDAO
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseEntity> T save(T entity)
 	{
 
@@ -477,9 +450,6 @@ public class BaseDAOImpl implements IBaseDAO
 		}
 	}
 
-	/**
-	 * @param entityManager
-	 */
 	public void setEntityManager(EntityManager entityManager)
 	{
 		this.entityManager = entityManager;

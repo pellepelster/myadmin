@@ -20,9 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
-import de.pellepelster.myadmin.db.IBaseDAO;
 import de.pellepelster.myadmin.db.IBaseEntity;
-import de.pellepelster.myadmin.db.IBaseVODAO;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery.AGGREGATE_TYPE;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
@@ -38,7 +36,7 @@ import de.pellepelster.myadmin.db.util.EntityVOMapper;
  * @version $Rev: 1031 $, $Date: 2011-04-27 17:42:03 +0200 (Wed, 27 Apr 2011) $
  * 
  */
-public class BaseVODAOImpl implements IBaseVODAO
+public class BaseVODAO
 {
 	private List<IVODAOCallback> voDAOCallbacks = new ArrayList<IVODAOCallback>();
 
@@ -46,10 +44,8 @@ public class BaseVODAOImpl implements IBaseVODAO
 	private List<IVODaoDecorator> voDaoDecorators = new ArrayList<IVODaoDecorator>();
 
 	@Autowired
-	private IBaseDAO baseDAO;
+	private BaseDAO baseDAO;
 
-	/** {@inheritDoc} */
-	@Override
 	public long aggregate(GenericFilterVO<?> genericFilterVO, String field, AGGREGATE_TYPE aggregateType)
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
@@ -66,9 +62,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations);
 	}
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
 	public <T extends IBaseVO> T create(T vo)
 	{
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
@@ -92,8 +85,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseVO> void delete(T vo)
 	{
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
@@ -104,9 +95,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 
 	}
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
 	public void deleteAll(Class<? extends IBaseVO> voClass)
 	{
 		Class<? extends IBaseEntity> entityClass = (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
@@ -115,9 +103,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		callOnDeleteAll(voClass);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	@SuppressWarnings("unchecked")
 	public <T extends IBaseVO> List<T> filter(GenericFilterVO<?> genericFilterVO)
 	{
 
@@ -140,8 +125,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return result;
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
 	public <T extends IBaseVO> List<T> getAll(Class<T> voClass)
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(voClass);
@@ -155,8 +138,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return result;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public long getCount(Class<? extends IBaseVO> voClass)
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(voClass);
@@ -164,8 +145,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return this.baseDAO.getCount(entityClass, new ArrayList<IConditionalExpression>());
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public long getCount(GenericFilterVO<?> genericFilterVO)
 	{
 		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
@@ -173,8 +152,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return this.baseDAO.getCount(entityClass, ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria()));
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public <T extends IBaseVO> T read(GenericFilterVO<T> genericFilterVO)
 	{
 		List<T> result = filter(genericFilterVO);
@@ -193,9 +170,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		}
 	}
 
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	@Override
 	public <T extends IBaseVO> T read(long id, Class<T> voClass)
 	{
 
@@ -215,9 +189,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		}
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	@SuppressWarnings("unchecked")
 	public <T extends IBaseVO> T save(T vo)
 	{
 		Class<?> voClass = vo.getClass();
@@ -230,7 +201,7 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return voResult;
 	}
 
-	public void setBaseDAO(IBaseDAO baseDAO)
+	public void setBaseDAO(BaseDAO baseDAO)
 	{
 		this.baseDAO = baseDAO;
 	}
@@ -240,7 +211,6 @@ public class BaseVODAOImpl implements IBaseVODAO
 		return this.voDaoDecorators;
 	}
 
-	@Override
 	public List<IVODAOCallback> getVODAOCallbacks()
 	{
 		return this.voDAOCallbacks;

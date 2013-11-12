@@ -76,18 +76,20 @@
 	  	</tx:attributes>
   	</tx:advice>
   
+ 	<!--
 	<aop:config>
-	  <aop:pointcut id="remoteServiceMethods" expression="execution(* de.pellepelster.myadmin.db.IBaseVODAO.*(..))"/>
+	  <aop:pointcut id="remoteServiceMethods" expression="execution(* de.pellepelster.myadmin.db.BaseVODAO.*(..))"/>
 	  <aop:advisor advice-ref="txAdvice" pointcut-ref="remoteServiceMethods"/>
 	</aop:config>
-  
+  	-->
+  	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<context:annotation-config />
 
-	<bean id="baseDAO" class="de.pellepelster.myadmin.db.daos.BaseDAOImpl" />
+	<bean id="baseDAO" class="de.pellepelster.myadmin.db.daos.BaseDAO" />
 
-	<bean id="baseVODAO" class="de.pellepelster.myadmin.db.daos.BaseVODAOImpl">
+	<bean id="baseVODAO" class="de.pellepelster.myadmin.db.daos.BaseVODAO">
 		<property name="baseDAO" ref="baseDAO" />
 	</bean>
 

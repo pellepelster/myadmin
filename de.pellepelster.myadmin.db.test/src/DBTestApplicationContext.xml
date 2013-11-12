@@ -57,7 +57,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean class="de.pellepelster.myadmin.db.daos.BaseVODAOImpl" id="baseVODAO">
+	<bean class="de.pellepelster.myadmin.db.daos.BaseVODAO" id="baseVODAO">
 		<property name="baseDAO" ref="baseDAO" />
 	</bean>
 

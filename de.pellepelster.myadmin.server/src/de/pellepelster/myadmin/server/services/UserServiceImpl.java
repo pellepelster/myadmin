@@ -20,7 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import de.pellepelster.myadmin.client.base.user.IMyAdminUserClientDetails;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
-import de.pellepelster.myadmin.db.IBaseVODAO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.user.service.MyAdminUserDetails;
 
@@ -33,7 +33,7 @@ import de.pellepelster.myadmin.server.user.service.MyAdminUserDetails;
 public class UserServiceImpl implements IUserService
 {
 	@Resource
-	private IBaseVODAO baseVODAO;
+	private BaseVODAO baseVODAO;
 
 	private final static Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
@@ -69,7 +69,7 @@ public class UserServiceImpl implements IUserService
 		}
 	}
 
-	public void setBaseVODAO(IBaseVODAO baseVODAO)
+	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
 	}

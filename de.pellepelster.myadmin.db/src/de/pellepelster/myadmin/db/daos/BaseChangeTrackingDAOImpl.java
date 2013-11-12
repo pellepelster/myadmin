@@ -13,8 +13,6 @@ package de.pellepelster.myadmin.db.daos;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import de.pellepelster.myadmin.db.IBaseVODAO;
-
 /**
  * Implementation for {@link IBaseVODAO} that logs all changes for an entity
  * 
