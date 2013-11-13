@@ -29,7 +29,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalcula
 
 public class ControlHelper implements IControlUpdateListener
 {
-	private BaseDictionaryControl baseControl;
+	private BaseDictionaryControl<?, ?> baseControl;
 
 	private final UIObject uiObject;
 
@@ -68,29 +68,7 @@ public class ControlHelper implements IControlUpdateListener
 							setParseValue(hasValueWidget.getValue());
 						}
 					});
-
 				}
-
-				// uiObject.addDomHandler(new BlurHandler()
-				// {
-				// @Override
-				// public void onBlur(BlurEvent event)
-				// {
-				// setParseValue(hasValueWidget.getValue());
-				// }
-				// }, BlurEvent.getType());
-				//
-				// hasValueWidget.addValueChangeHandler(new
-				// ValueChangeHandler<ValueType>()
-				// {
-				//
-				// @Override
-				// public void onValueChange(ValueChangeEvent<ValueType> event)
-				// {
-				// setParseValue(event.getValue());
-				// }
-				// });
-
 			}
 		}
 	}
@@ -99,6 +77,8 @@ public class ControlHelper implements IControlUpdateListener
 	{
 		if (!isUpdating)
 		{
+			isUpdating = true;
+
 			if (value != null)
 			{
 				baseControl.parseValue(value.toString());
@@ -107,27 +87,33 @@ public class ControlHelper implements IControlUpdateListener
 			{
 				baseControl.setValue(null);
 			}
+
+			isUpdating = false;
 		}
 	}
 
 	@Override
 	public void onUpdate()
 	{
-		isUpdating = true;
-		gwtControl.setContent(baseControl.getValue());
+		if (!isUpdating)
+		{
+			isUpdating = true;
 
-		if (baseControl.getValidationMessages().hasErrors())
-		{
-			uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
-			Map<String, Object> context = CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControl.getModel().getEditorLabel());
-			uiObject.setTitle(baseControl.getValidationMessages().getValidationMessageString(context));
+			gwtControl.setContent(baseControl.getValue());
+
+			if (baseControl.getValidationMessages().hasErrors())
+			{
+				uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
+				Map<String, Object> context = CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControl.getModel().getEditorLabel());
+				uiObject.setTitle(baseControl.getValidationMessages().getValidationMessageString(context));
+			}
+			else
+			{
+				uiObject.removeStyleName(GwtStyles.CONTROL_ERROR_STYLE);
+				uiObject.setTitle("");
+			}
+
+			isUpdating = false;
 		}
-		else
-		{
-			uiObject.removeStyleName(GwtStyles.CONTROL_ERROR_STYLE);
-			uiObject.setTitle("");
-		}
-		isUpdating = false;
 	}
-
 }
