@@ -51,7 +51,7 @@
 
 	<tx:annotation-driven />
 
-	<bean class="de.pellepelster.myadmin.db.daos.BaseDAOImpl" id="baseDAO" />
+	<bean class="de.pellepelster.myadmin.db.daos.BaseDAO" id="baseDAO" />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />

@@ -1,4 +1,4 @@
-<project name="myadmin-ui-libs" default="compile">
+<project name="myadmin-ui-libs" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml" />
 

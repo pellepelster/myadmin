@@ -25,7 +25,6 @@ import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTRO
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
@@ -196,21 +195,6 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 
 		Assert.assertTrue(oldList == newList);
 		Assert.assertArrayEquals(oldList.toArray(), newList.toArray());
-	}
-
-	@Test
-	public void testModule1()
-	{
-
-		GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, "module1")
-				.getGenericFilter();
-		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
-
-		List<ModuleVO> result = this.baseEntityService.filter(genericFilterVO);
-
-		Assert.assertEquals(1, result.size());
-		Assert.assertEquals("value1", result.get(0).getProperties().get("key1"));
-
 	}
 
 }

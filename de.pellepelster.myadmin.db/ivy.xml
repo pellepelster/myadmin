@@ -29,6 +29,10 @@
 			<artifact name="spring-orm" type="jar" />
 		</dependency>
 
+		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-asm" type="jar" />
+		</dependency>
+
 		<dependency org="org.springframework" name="spring-tx" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-tx" type="jar" />
 		</dependency>
@@ -45,6 +49,14 @@
 			<artifact name="spring-beans" type="jar" />
 		</dependency>
 
+		<dependency org="org.springframework" name="spring-expression" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-expression" type="jar" />
+		</dependency>
+
+		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false">
+			<artifact name="spring-aop" type="jar" />
+		</dependency>
+
 		<dependency org="org.springframework.security" name="spring-security-core" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-security-core" type="jar" />
 		</dependency>
@@ -52,6 +64,12 @@
 		<dependency org="commons-lang" name="commons-lang" rev="2.6">
 			<artifact name="commons-lang" type="jar" />
 		</dependency>
+
+		<dependency org="aopalliance" name="aopalliance" rev="1.0">
+			<artifact name="aopalliance" type="jar" />
+		</dependency>
+		
+		<dependency org="cglib" name="cglib" rev="2.2" />
 
 		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false">
 			<artifact name="log4j" type="jar" />

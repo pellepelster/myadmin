@@ -10,13 +10,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocations">
@@ -62,26 +58,11 @@
 
 	<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 
-	<tx:annotation-driven />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="dataSource" ref="dataSource"/>
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
-  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-	    	<tx:method name="get*" read-only="true"/>
-	    	<tx:method name="*"/>
-	  	</tx:attributes>
-  	</tx:advice>
-  
- 	<!--
-	<aop:config>
-	  <aop:pointcut id="remoteServiceMethods" expression="execution(* de.pellepelster.myadmin.db.BaseVODAO.*(..))"/>
-	  <aop:advisor advice-ref="txAdvice" pointcut-ref="remoteServiceMethods"/>
-	</aop:config>
-  	-->
   	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 

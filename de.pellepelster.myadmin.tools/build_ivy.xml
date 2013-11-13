@@ -1,4 +1,4 @@
-<project name="tools" default="compile">
+<project name="tools" default="publish">
 	
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	

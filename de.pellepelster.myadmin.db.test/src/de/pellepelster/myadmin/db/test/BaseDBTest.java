@@ -22,15 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-// @TransactionConfiguration(transactionManager="transactionManager")
-// @Transactional
 @ContextConfiguration(locations = { "classpath:/DBTestApplicationContext.xml", "classpath:/DBTestVOMapper.xml" })
+@TransactionConfiguration(defaultRollback = false)
+@Transactional
+@TestExecutionListeners({ TransactionalTestExecutionListener.class })
 public abstract class BaseDBTest extends AbstractTransactionalJUnit4SpringContextTests
 {
 

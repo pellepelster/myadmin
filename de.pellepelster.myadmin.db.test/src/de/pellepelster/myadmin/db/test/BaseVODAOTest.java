@@ -27,9 +27,9 @@ public class BaseVODAOTest extends BaseDBTest
 	@Before
 	public void initData()
 	{
-		getBaseVODAO().deleteAll(DBTest1VO.class);
 		getBaseVODAO().deleteAll(DBTest2VO.class);
 		getBaseVODAO().deleteAll(DBTest3VO.class);
+		getBaseVODAO().deleteAll(DBTest1VO.class);
 	}
 
 	@Test

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
@@ -29,13 +31,7 @@ import de.pellepelster.myadmin.db.util.CopyBean;
 import de.pellepelster.myadmin.db.util.DBUtil;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
 
-/**
- * Implementation for {@link IBaseVODAO}
- * 
- * @author pelle
- * @version $Rev: 1031 $, $Date: 2011-04-27 17:42:03 +0200 (Wed, 27 Apr 2011) $
- * 
- */
+@Transactional(propagation = Propagation.REQUIRED)
 public class BaseVODAO
 {
 	private List<IVODAOCallback> voDAOCallbacks = new ArrayList<IVODAOCallback>();

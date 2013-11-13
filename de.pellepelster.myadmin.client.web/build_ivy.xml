@@ -1,4 +1,4 @@
-<project name="client-web" default="compile">
+<project name="client-web" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	

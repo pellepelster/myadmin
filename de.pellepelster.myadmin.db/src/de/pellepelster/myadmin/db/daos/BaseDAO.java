@@ -32,7 +32,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
 import de.pellepelster.myadmin.db.IBaseClientEntity;
@@ -47,7 +46,6 @@ import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject;
 
-@Transactional()
 public class BaseDAO
 {
 	private static Logger LOG = Logger.getLogger(BaseDAO.class);

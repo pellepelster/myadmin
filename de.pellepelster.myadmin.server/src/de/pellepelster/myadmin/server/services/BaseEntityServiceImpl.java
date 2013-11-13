@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -27,19 +28,12 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.core.utils.HierarchicalUtils;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.validators.IValidator;
 
-/**
- * Implementation for {@link IBaseEntityService}
- * 
- * @author pelle
- * 
- */
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 {
 	private final static Logger LOG = Logger.getLogger(BaseEntityServiceImpl.class);

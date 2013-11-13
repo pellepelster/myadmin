@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.user.IMyAdminUserClientDetails;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
 import de.pellepelster.myadmin.client.web.services.IUserService;
@@ -123,7 +124,9 @@ public class UserServiceImpl implements IUserService
 	@Override
 	public MyAdminUserVO getUserByName(String userName)
 	{
-		return this.baseVODAO.read(ServerGenericFilterBuilder.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, userName)
-				.getGenericFilter());
+		GenericFilterVO<MyAdminUserVO> genericFilter = ServerGenericFilterBuilder.createGenericFilter(MyAdminUserVO.class).addCriteria(MyAdminUserVO.FIELD_USERNAME, userName).getGenericFilter();
+		genericFilter.addAssociation(MyAdminUserVO.FIELD_USERGROUPS);
+				
+		return this.baseVODAO.read(genericFilter);
 	}
 }

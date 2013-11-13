@@ -1,4 +1,4 @@
-<project name="db" default="compile">
+<project name="db" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	

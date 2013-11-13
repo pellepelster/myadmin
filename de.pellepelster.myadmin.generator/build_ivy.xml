@@ -1,4 +1,4 @@
-<project name="generator" default="compile">
+<project name="generator" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	<include file="../de.pellepelster.myadmin.build/ant/myadmin/GeneratorCommon.xml" />

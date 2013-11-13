@@ -1,4 +1,4 @@
-<project name="dsl-generator" default="compile">
+<project name="dsl-generator" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 

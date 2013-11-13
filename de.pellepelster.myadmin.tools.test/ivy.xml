@@ -16,7 +16,7 @@
 
 		<dependency name="tools" rev="latest.integration" conf="*->@" />
 
-		<dependency name="server-test" rev="latest.integration" conf="*->@" />
+		<dependency name="server-test" rev="latest.integration" conf="runtime->runtime;compile->@" />
 
 		<dependency org="junit" name="junit" rev="4.10">
 			<artifact name="junit" type="jar" />

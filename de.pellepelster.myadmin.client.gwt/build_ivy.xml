@@ -1,4 +1,4 @@
-<project name="client-gwt" default="compile"  xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="client-gwt" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish">
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	
