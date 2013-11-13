@@ -81,9 +81,6 @@ public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFa
 	{
 		SearchIndexElement indexElement = new SearchIndexElement(SEARCH_INDEX_ELEMENT_TYPE);
 
-		// document.setField(SEARCH_INDEX_ID_FIELD_NAME,
-		// UUID.randomUUID().toString());
-
 		indexElement.setText(SolrUtils.getDynamicStringField(solrDocument, ISearchIndexElementFactory.SEARCH_INDEX_ELEMENT_TEXT_FIELD_NAME));
 
 		SolrUtils.setDynamicStringField(indexElement, solrDocument, DICTIONARY_NAME_FIELD_NAME);

@@ -23,6 +23,7 @@ public class DemoClientTestSuite extends GWTTestSuite
 		TestSuite suite = new TestSuite(DemoClientTestSuite.class.getName());
 
 		suite.addTestSuite(DemoClientCityTest.class);
+		suite.addTestSuite(DemoClientCity1Test.class);
 		suite.addTestSuite(DemoClientDictionary1Test.class);
 		suite.addTestSuite(DemoClientNavigationTest.class);
 

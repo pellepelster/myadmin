@@ -10,6 +10,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class MyAdminTest
 {
 	private static MyAdminTest instance;
@@ -57,9 +58,14 @@ public class MyAdminTest
 		});
 	}
 
-	public void openSearch(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
+	public void setLayoutFactoryOneTimeCallback(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
 	{
 		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(dictionaryDescriptor.getId(), asyncCallback);
+	}
+
+	public void openSearch(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
+	{
+		setLayoutFactoryOneTimeCallback(dictionaryDescriptor, asyncCallback);
 		DictionarySearchModuleFactory.openSearch(dictionaryDescriptor.getId());
 	}
 
