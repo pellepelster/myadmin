@@ -69,9 +69,7 @@
 			super("«name»", parent);
 		}
 		
-		«REM»
-		«EXPAND dictionaryIDClass(parent+ "." + dictionaryIDsConstantName(name)) FOREACH this.dictionaryfilters»
-		«ENDREM»
+		«EXPAND dictionaryIDClass(parent + "." + dictionaryIDsConstantName(name)) FOREACH this.dictionaryfilters»
 		
 		«EXPAND dictionaryIDClass(parent + "." + dictionaryIDsConstantName(name)) FOR this.dictionaryresult»
 		
