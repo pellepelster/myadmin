@@ -17,37 +17,16 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.UUID;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 @SuppressWarnings("rawtypes")
-public class DictionarySearchModuleTestUIAsyncHelper<VOType extends IBaseVO> extends BaseAsyncHelper<DictionarySearchModuleTestUI>
+public class DictionarySearchModuleTestUIAsyncHelper<VOType extends IBaseVO> extends
+		BaseDictionaryModuleTestUIAsyncHelper<DictionarySearchModuleTestUI, VOType>
 {
 	public DictionarySearchModuleTestUIAsyncHelper(String parentUuid, LinkedList<AsyncTestItem> asyncTestItems, Map<String, Object> asyncTestItemResults)
 	{
 		super(parentUuid, asyncTestItems, asyncTestItemResults);
-	}
-
-	public TextControlTestAsyncHelper getTextControlTest(final DictionaryDescriptor<ITextControl> controlDescriptor)
-	{
-		final String uuid = UUID.uuid();
-
-		this.addAsyncTestItem(new AsyncTestItem()
-		{
-			@Override
-			public void run(AsyncCallback<Object> asyncCallback)
-			{
-				DictionarySearchModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
-						.put(uuid, getAsyncTestItemResult().getTextControlTest(controlDescriptor));
-				asyncCallback.onSuccess(getAsyncTestItemResult());
-			}
-		});
-
-		return new TextControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
 	public void assertTitle(final String expectedTitle)

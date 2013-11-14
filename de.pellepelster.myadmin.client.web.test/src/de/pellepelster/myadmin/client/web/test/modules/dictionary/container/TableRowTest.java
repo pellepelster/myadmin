@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.client.web.test.modules.dictionary;
+package de.pellepelster.myadmin.client.web.test.modules.dictionary.container;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;

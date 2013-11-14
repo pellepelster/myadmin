@@ -25,6 +25,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
@@ -34,7 +35,7 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  * @version $Rev$, $Date$
  * 
  */
-public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule
+public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule implements IBaseDictionaryModule
 {
 	private IDictionaryModel dictionaryModel;
 
@@ -101,6 +102,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 		return this.dictionarySearch;
 	}
 
+	@Override
 	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		return DictionaryElementUtil.getElement(this.dictionarySearch.getActiveFilter(), controlDescriptor);

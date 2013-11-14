@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.client.web.test.modules.dictionary;
+package de.pellepelster.myadmin.client.web.test.modules.dictionary.container;
 
 import java.util.List;
 

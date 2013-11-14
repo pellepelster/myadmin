@@ -25,6 +25,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
+import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
@@ -34,7 +35,7 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  * @author pelle
  * 
  */
-public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule
+public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule implements IBaseDictionaryModule
 {
 
 	public enum EditorMode
@@ -147,6 +148,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		}
 	}
 
+	@Override
 	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		return DictionaryElementUtil.getElement(this.dictionaryEditor, controlDescriptor);

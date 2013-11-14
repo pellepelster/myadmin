@@ -17,25 +17,22 @@ import java.util.Date;
 import org.junit.Test;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.junit.client.GWTTestCase;
 
-import de.pellepelster.myadmin.client.web.test.MyAdminTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.EditableTableTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BigDecimalControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BooleanControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.DateControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.EnumerationControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.IntegerControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.ReferenceControlTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTest;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
+import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.EditableTableTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BigDecimalControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BooleanControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.DateControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.EnumerationControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.IntegerControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.ReferenceControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
-import de.pellepelster.myadmin.demo.client.web.test1.Test2VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test3VO;
 
-public class DemoClientDictionary1Test extends GWTTestCase
+public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 {
 
 	@Override
@@ -44,114 +41,127 @@ public class DemoClientDictionary1Test extends GWTTestCase
 		return "de.pellepelster.myadmin.demo.DemoTest";
 	}
 
-	private class TestDictionary1EditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<Test1VO>>
+	@Test
+	public void testEditableTableBase()
 	{
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
-		{
-			result.assertTitle("Dictionary1Editor text1");
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
 
-			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
-			textControl.assertValue("text1");
+		final EditableTableTestAsyncHelper<Test3VO> editableTable = editor
+				.getEditableTableTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
 
-			final EditableTableTest<Test3VO> editableTable = result
-					.getEditableTableTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
-
-			editableTable.add(new BaseErrorAsyncCallback<EditableTableTest<Test3VO>>()
-			{
-				@Override
-				public void onSuccess(EditableTableTest<Test3VO> result)
-				{
-					editableTable.assertRowCount(1);
-
-					finishTest();
-				}
-			});
-
-		}
-	}
-
-	private class TestDictionary1EditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<Test1VO>>
-	{
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<Test1VO> result)
-		{
-			result.assertHasNoErrors();
-			result.assertTitle("Dictionary1Editor (New)");
-
-			// text control
-			TextControlTest textControl = result.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
-			textControl.assertMandatory();
-
-			textControl.assertHasNoErrors();
-			textControl.setValue("xxx");
-
-			textControl.assertHasNoErrors();
-			textControl.setValue(null);
-			textControl.assertHasErrorWithText("Input is needed for field \"TextControl1\"");
-			result.assertHasErrors(1);
-
-			textControl.setValue("text1");
-			textControl.assertHasNoErrors();
-			result.assertHasErrors(0);
-
-			// big decimal control
-			BigDecimalControlTest bigDecimalControl = result
-					.getBigDecimalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
-			bigDecimalControl.assertHasNoErrors();
-			bigDecimalControl.parse("1");
-			bigDecimalControl.assertHasNoErrors();
-			bigDecimalControl.assertValue(new BigDecimal(1));
-
-			bigDecimalControl.parse("x");
-			bigDecimalControl.assertHasErrorWithText("'x' is not a valid decimal");
-			bigDecimalControl.assertValue(null);
-
-			// boolean control
-			BooleanControlTest booleanControl = result
-					.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);
-
-			// date control
-			DateControlTest dateControl = result.getDateControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
-
-			// parse date
-			Date now = new Date();
-			dateControl.parse(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM).format(now));
-			dateControl.assertValueWithoutMillies(now);
-
-			// parse incorrect date
-			dateControl.parse("xxx");
-			dateControl.assertValue(null);
-
-			dateControl.setValue(now);
-			dateControl.assertValue(now);
-
-			// enumeration control
-			EnumerationControlTest enumerationControl = result
-					.getEnumerationControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1);
-
-			// hierarchical control
-			// HierarchicalControlTest hierarchicalControl = result
-			// .getHierarchicalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.);
-
-			// integer control
-			IntegerControlTest integerControl = result
-					.getIntegerControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1);
-
-			// reference control
-			ReferenceControlTest<Test2VO> referenceControl = result
-					.getReferenceControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1);
-
-			result.save(new TestDictionary1EditorSaveResult());
-		}
+		editableTable.add();
+		editableTable.assertRowCount(1);
+		runAsyncTests();
 	}
 
 	@Test
-	public void testDictionary1()
+	public void testIntegerControl()
 	{
-		MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.DICTIONARY1, new TestDictionary1EditorSave());
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
 
-		delayTestFinish(2000);
+		IntegerControlTestAsyncHelper integerControl = editor
+				.getIntegerControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1);
+		integerControl.assertHasNoErrors();
+		runAsyncTests();
 	}
 
+	@Test
+	public void testReferenceControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		ReferenceControlTestAsyncHelper referenceControl = editor
+				.getReferenceControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1);
+		referenceControl.assertHasNoErrors();
+		runAsyncTests();
+	}
+
+	@Test
+	public void testEnumerationControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		EnumerationControlTestAsyncHelper enumerationControl = editor
+				.getEnumerationControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1);
+		enumerationControl.assertHasNoErrors();
+		runAsyncTests();
+	}
+
+	@Test
+	public void testDateControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		DateControlTestAsyncHelper dateControl = editor
+				.getDateControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
+		dateControl.assertHasNoErrors();
+
+		// parse date
+		Date now = new Date();
+		dateControl.parse(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM).format(now));
+		dateControl.assertValueWithoutMillies(now);
+
+		// parse incorrect date
+		dateControl.parse("xxx");
+		dateControl.assertValue(null);
+
+		dateControl.setValue(now);
+		dateControl.assertValue(now);
+		runAsyncTests();
+	}
+
+	@Test
+	public void testBooleanControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		BooleanControlTestAsyncHelper booleanControl = editor
+				.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);
+		booleanControl.assertHasNoErrors();
+		runAsyncTests();
+	}
+
+	@Test
+	public void testBigDecimalControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		BigDecimalControlTestAsyncHelper bigDecimalControl = editor
+				.getBigDecimalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
+		bigDecimalControl.assertHasNoErrors();
+		bigDecimalControl.parse("1");
+		bigDecimalControl.assertHasNoErrors();
+		bigDecimalControl.assertValue(new BigDecimal(1));
+
+		bigDecimalControl.parse("x");
+		bigDecimalControl.assertHasErrorWithText("'x' is not a valid decimal");
+		bigDecimalControl.assertValue(null);
+
+		runAsyncTests();
+	}
+
+	@Test
+	public void testTextControl()
+	{
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+
+		// text control
+		TextControlTestAsyncHelper textControl = editor
+				.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+		textControl.assertMandatory();
+
+		textControl.assertHasNoErrors();
+		textControl.setValue("xxx");
+
+		textControl.assertHasNoErrors();
+		textControl.setValue(null);
+		textControl.assertHasErrorWithText("Input is needed for field \"TextControl1\"");
+		editor.assertHasErrors(1);
+
+		textControl.setValue("text1");
+		textControl.assertHasNoErrors();
+		editor.assertHasErrors(0);
+
+		runAsyncTests();
+	}
 }

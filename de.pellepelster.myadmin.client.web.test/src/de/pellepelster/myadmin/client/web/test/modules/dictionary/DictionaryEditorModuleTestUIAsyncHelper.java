@@ -19,36 +19,19 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.EditableTableTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 @SuppressWarnings("rawtypes")
-public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> extends BaseAsyncHelper<DictionaryEditorModuleTestUI>
+public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> extends
+		BaseDictionaryModuleTestUIAsyncHelper<DictionaryEditorModuleTestUI, VOType>
 {
 	public DictionaryEditorModuleTestUIAsyncHelper(String asynTestItemResultId, LinkedList<AsyncTestItem> asyncTestItems,
 			Map<String, Object> asyncTestItemResults)
 	{
 		super(asynTestItemResultId, asyncTestItems, asyncTestItemResults);
-	}
-
-	public TextControlTestAsyncHelper getTextControlTest(final DictionaryDescriptor<ITextControl> controlDescriptor)
-	{
-		final String uuid = UUID.uuid();
-
-		this.addAsyncTestItem(new AsyncTestItem()
-		{
-			@Override
-			public void run(AsyncCallback<Object> asyncCallback)
-			{
-				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
-						.put(uuid, getAsyncTestItemResult().getTextControlTest(controlDescriptor));
-				asyncCallback.onSuccess(getAsyncTestItemResult());
-			}
-		});
-
-		return new TextControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
 	public void assertTitle(final String expectedTitle)
@@ -62,6 +45,51 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
+	}
+
+	public void assertHasNoErrors()
+	{
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(AsyncCallback<Object> asyncCallback)
+			{
+				getAsyncTestItemResult().assertHasNoErrors();
+				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+		});
+	}
+
+	public void assertHasErrors(final int errorCount)
+	{
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(AsyncCallback<Object> asyncCallback)
+			{
+				getAsyncTestItemResult().assertHasErrors(errorCount);
+				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+		});
+	}
+
+	public <TableVOType extends IBaseVO> EditableTableTestAsyncHelper<TableVOType> getEditableTableTest(
+			final DictionaryDescriptor<IEditableTable<TableVOType>> tableDescriptor)
+	{
+		final String uuid = UUID.uuid();
+
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(AsyncCallback<Object> asyncCallback)
+			{
+				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
+						.put(uuid, getAsyncTestItemResult().getEditableTableTest(tableDescriptor));
+				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+		});
+
+		return new EditableTableTestAsyncHelper<TableVOType>(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
 	public void save()

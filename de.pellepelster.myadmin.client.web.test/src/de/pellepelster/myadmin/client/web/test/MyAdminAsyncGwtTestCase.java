@@ -115,6 +115,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 			@Override
 			public void onSuccess(Object result)
 			{
+				MyAdminAsyncGwtTestCase.this.asyncTestItemResults.clear();
 				finishTest();
 			}
 		}));

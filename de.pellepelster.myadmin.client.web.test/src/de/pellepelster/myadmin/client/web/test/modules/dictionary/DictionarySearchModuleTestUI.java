@@ -19,13 +19,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearch;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTest;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.TableRowTest;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
@@ -34,13 +32,14 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  * @author pelle
  * 
  */
-public class DictionarySearchModuleTestUI<VOType extends IBaseVO> implements IModuleUI<Object, DictionarySearchModule<VOType>>
+public class DictionarySearchModuleTestUI<VOType extends IBaseVO> extends BaseDictionaryModuleTestUI implements
+		IModuleUI<Object, DictionarySearchModule<VOType>>
 {
 	private DictionarySearchModule<VOType> module;
 
 	public DictionarySearchModuleTestUI(DictionarySearchModule<VOType> module)
 	{
-		super();
+		super(module);
 		this.module = module;
 	}
 
@@ -77,11 +76,6 @@ public class DictionarySearchModuleTestUI<VOType extends IBaseVO> implements IMo
 	public DictionarySearch<VOType> getDictionarySearch()
 	{
 		return this.module.getDictionarySearch();
-	}
-
-	public TextControlTest getTextControlTest(DictionaryDescriptor<ITextControl> controlDescriptor)
-	{
-		return new TextControlTest(this.module.getElement(controlDescriptor));
 	}
 
 	public void search(final AsyncCallback<DictionarySearchModuleTestUI<VOType>> asyncCallback)
