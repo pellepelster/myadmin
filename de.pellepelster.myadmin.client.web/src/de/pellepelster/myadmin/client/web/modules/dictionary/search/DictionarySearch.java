@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -52,6 +53,11 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 		@SuppressWarnings("unchecked")
 		GenericFilterVO<VOType> genericFilter = (GenericFilterVO<VOType>) ClientGenericFilterBuilder.createGenericFilter(getModel().getVOName())
 				.getGenericFilter();
+
+		for (Map.Entry<String, Object> filterEntry : this.voWrapper.getFilterValues().entrySet())
+		{
+			genericFilter.addCriteria(filterEntry.getKey(), filterEntry.getValue());
+		}
 
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilter, new BaseErrorAsyncCallback<List<VOType>>()
 		{
