@@ -18,14 +18,12 @@
 	<property name="src.index.name" value="MyAdmin" />
 	<property name="src.index.file" value="${src.index.name}.xml" />
 	<property name="src.index.merged.file" value="${src.index.name}.xml" />
-	<property name="docbook.xsl.dir" value="${basedir}/xsl" />
+	<property name="docbook.xsl.dir" value="${basedir}/docbook-xsl-1.78.1" />
 	<property name="output.temp.dir" value="${basedir}/temp" />
 
 	<fileset id="src.files" dir="${output.temp.dir}" includes="${src.index.merged.file}" />
 
-	<property name="html.stylesheet" value="${docbook.xsl.dir}/jboss/xhtml-single.xsl" />
-	<property name="chunk-html.stylesheet" value="${docbook.xsl.dir}/jboss/xhtml.xsl" />
-
+	<property name="html.stylesheet" value="${docbook.xsl.dir}/xhtml/chunk.xsl" />
 
 	<property name="fo.stylesheet" value="${docbook.xsl.dir}/jboss/pdf.xsl" />
 	<property name="eclipse.stylesheet" value="${docbook.xsl.dir}/eclipse/eclipse.xsl" />

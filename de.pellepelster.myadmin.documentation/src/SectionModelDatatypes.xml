@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
 
 	<title>Datatypes</title>
-
+ 
 	<para>As type information is needed over several places in the model (for example the information that the countries name is a 
 	string is needed in the entity and the UI definition) central datatypes can be defined and referenced from the needed locations.</para>
 

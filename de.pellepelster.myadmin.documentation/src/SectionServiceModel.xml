@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd" version="4.5">
 
 	<title>Services</title>
-
+ 
 	<para>Though there is no need to model the services you use, it will make things a lot easier if you do. For modeled services MyAdmin 
 	generates interfaces, GWT asynchronous interfaces, RemoteServiceLocators (that will make it easier to user you services) as well as 
 	Rest and XML based webservices. This chapter will explain how to model services and what you can do with the generetd artifacts.</para>

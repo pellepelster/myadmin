@@ -5,7 +5,7 @@
 	version="4.5" id="building_myadmin">
 
 	<title>Building MyAdmin</title>
-
+ 
 	<section id="building_myadmin_environment_setup">
 		<title>Setting up the environment</title>
 		<para>
