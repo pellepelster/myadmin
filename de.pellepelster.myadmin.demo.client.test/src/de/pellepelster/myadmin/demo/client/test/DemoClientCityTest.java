@@ -13,16 +13,13 @@ package de.pellepelster.myadmin.demo.client.test;
 
 import org.junit.Test;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
-import de.pellepelster.myadmin.client.web.test.MyAdminTest;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
-import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUI;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
+import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIAsyncHelper;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUIAsyncHelper;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 
-public class DemoClientCityTest extends GWTTestCase
+public class DemoClientCityTest extends MyAdminAsyncGwtTestCase<CityVO>
 {
 
 	@Override
@@ -31,64 +28,31 @@ public class DemoClientCityTest extends GWTTestCase
 		return "de.pellepelster.myadmin.demo.DemoTest";
 	}
 
-	private class TestCitySearchResult extends BaseErrorAsyncCallback<DictionarySearchModuleTestUI<CityVO>>
-	{
-
-		@Override
-		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
-		{
-			result.assertResultCount(1);
-			result.assertTitle("CitySearch (1 result)");
-			result.getResultTableRow(0).getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_RESULT.CITY_NAME).assertValue("Hamburg");
-
-			finishTest();
-		}
-	}
-
-	private class TestCitySearch extends BaseErrorAsyncCallback<DictionarySearchModuleTestUI<CityVO>>
-	{
-
-		@Override
-		public void onSuccess(DictionarySearchModuleTestUI<CityVO> result)
-		{
-			result.assertTitle("CitySearch (0 results)");
-			result.search(new TestCitySearchResult());
-		}
-	}
-
-	private class TestCityEditorSaveResult extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<CityVO>>
-	{
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
-		{
-			result.getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).assertValue("Hamburg");
-			MyAdminTest.getInstance().openSearch(DemoDictionaryIDs.CITY, new TestCitySearch());
-		}
-	}
-
-	private class TestCityEditorSave extends BaseErrorAsyncCallback<DictionaryEditorModuleTestUI<CityVO>>
-	{
-		@Override
-		public void onSuccess(DictionaryEditorModuleTestUI<CityVO> result)
-		{
-			result.getBaseControlTestElement(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).setValue("Hamburg");
-			result.save(new TestCityEditorSaveResult());
-		}
-	}
-
 	@Test
-	public void testCity()
+	public void testCreateAndSearch()
 	{
-		MyAdminTest.getInstance().deleteAllVOs(CityVO.class, new BaseErrorAsyncCallback()
-		{
-			@Override
-			public void onSuccess(Object result)
-			{
-				MyAdminTest.getInstance().openEditor(DemoDictionaryIDs.CITY, new TestCityEditorSave());
-			}
-		});
+		deleteAllVOs(CityVO.class);
 
-		delayTestFinish(2000);
+		DictionarySearchModuleTestUIAsyncHelper<CityVO> search = openSearch(DemoDictionaryIDs.CITY);
+		search.assertTitle("CitySearch (0 results)");
+		search.assertResultCount(0);
+
+		DictionaryEditorModuleTestUIAsyncHelper<CityVO> editor = openEditor(DemoDictionaryIDs.CITY);
+		editor.assertTitle("CityEditor (New)");
+
+		editor.getTextControlTest(DemoDictionaryIDs.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).setValue("xxx");
+		editor.assertTitle("CityEditor (New) *");
+		editor.save();
+
+		search.execute();
+		search.assertTitle("CitySearch (1 result)");
+		search.assertResultCount(1);
+
+		search.getTextControlTest(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_FILTER.COMPOSITE1.CITY_NAME).setValue("yyy");
+		search.execute();
+		search.assertTitle("CitySearch (0 results)");
+		search.assertResultCount(0);
+
+		runAsyncTests();
 	}
-
 }

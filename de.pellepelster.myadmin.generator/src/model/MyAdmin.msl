@@ -508,7 +508,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					}
 				}
 	
-				dictionarysearch MyAdminGroupFilter {
+				dictionarysearch MyAdminGroupSearch {
 	
 					dictionaryfilter MyAdminGroupFilter {
 						textcontrol ref GroupName

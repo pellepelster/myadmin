@@ -31,7 +31,7 @@ public class RecursiveAsyncCallback implements AsyncCallback<Object>
 	{
 		if (!this.asyncTestItems.isEmpty())
 		{
-			this.asyncTestItems.removeFirst().run(new RecursiveAsyncCallback(this.asyncTestItems, this.finalCallback), result);
+			this.asyncTestItems.removeFirst().run(new RecursiveAsyncCallback(this.asyncTestItems, this.finalCallback));
 		}
 		else
 		{

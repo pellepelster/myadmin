@@ -12,51 +12,74 @@
 package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
 import java.util.LinkedList;
-
-import junit.framework.Assert;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.UUID;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
+import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 @SuppressWarnings("rawtypes")
-public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO>
+public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> extends BaseAsyncHelper<DictionaryEditorModuleTestUI>
 {
-	private LinkedList<AsyncTestItem> asyncTestItems;
-
-	public DictionaryEditorModuleTestUIAsyncHelper(LinkedList<AsyncTestItem> asyncTestItems)
+	public DictionaryEditorModuleTestUIAsyncHelper(String asynTestItemResultId, LinkedList<AsyncTestItem> asyncTestItems,
+			Map<String, Object> asyncTestItemResults)
 	{
-		super();
-		this.asyncTestItems = asyncTestItems;
+		super(asynTestItemResultId, asyncTestItems, asyncTestItemResults);
 	}
 
-	// public TextControlTest
-	// getTextControlTest(DictionaryDescriptor<ITextControl> controlDescriptor)
-	// {
-	// this.asyncTestItems.add(new AsyncTestItem<DictionaryEditorModuleTestUI>()
-	// {
-	// @Override
-	// public void run(AsyncCallback<Object> asyncCallback,
-	// DictionaryEditorModuleTestUI lastResult)
-	// {
-	// Assert.assertEquals(expectedTitle, lastResult.getTitle());
-	// asyncCallback.onSuccess(DictionaryEditorModuleTestUIAsyncHelper.this);
-	// }
-	// });
-	//
-	// return new TextControlTest(this.module.getElement(controlDescriptor));
-	// }
+	public TextControlTestAsyncHelper getTextControlTest(final DictionaryDescriptor<ITextControl> controlDescriptor)
+	{
+		final String uuid = UUID.uuid();
+
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(AsyncCallback<Object> asyncCallback)
+			{
+				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
+						.put(uuid, getAsyncTestItemResult().getTextControlTest(controlDescriptor));
+				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+		});
+
+		return new TextControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
+	}
 
 	public void assertTitle(final String expectedTitle)
 	{
-		this.asyncTestItems.add(new AsyncTestItem<DictionaryEditorModuleTestUI>()
+		this.addAsyncTestItem(new AsyncTestItem()
 		{
 			@Override
-			public void run(AsyncCallback<Object> asyncCallback, DictionaryEditorModuleTestUI lastResult)
+			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				Assert.assertEquals(expectedTitle, lastResult.getTitle());
-				asyncCallback.onSuccess(DictionaryEditorModuleTestUIAsyncHelper.this);
+				getAsyncTestItemResult().assertTitle(expectedTitle);
+				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+		});
+	}
+
+	public void save()
+	{
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(final AsyncCallback<Object> asyncCallback)
+			{
+				getAsyncTestItemResult().save(new BaseErrorAsyncCallback<DictionaryEditorModuleTestUI>()
+				{
+
+					@Override
+					public void onSuccess(DictionaryEditorModuleTestUI result)
+					{
+						asyncCallback.onSuccess(getAsyncTestItemResult());
+					}
+				});
 			}
 		});
 	}
