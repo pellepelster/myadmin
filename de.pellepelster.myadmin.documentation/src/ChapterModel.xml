@@ -7,26 +7,25 @@
 	<section>
 		<title>Overview</title>
 		<para>
-			This chapter will explain the model that is essential for every MyAdmin based application. Starting with a basic 
-			model that will be extended step by step to show new features until it meets all requirements for the demo project.
+			This chapter will explain the model that is essential for every MyAdmin based application.
 		</para>
 		
 		<formalpara>
 			<title>Basic model sample</title>
   
 			<programlisting language="Java">
-project Demo {
-	package de.pellepelster.myadmin.demo {
+project Project1 {
+	package org.example.project1 {
 	}
 }
 			</programlisting>
 		</formalpara>
 
 		<para>
-			This basic (and completely useless) model only consists of the model name <varname>Demo</varname> and an empty package. The model name is typically 
-			used when referencing the model in MWE Workflows. This model also defines an empty package <varname>de.pellepelster.myadmin.demo</varname>, as this is 
+			This basic (and completely useless) model only consists of the model name <varname>Project1</varname> and an empty package. The model name is used when 
+			referencing the model in MWE Workflows. This model also defines an empty package <varname>org.example.project1</varname>, as this is 
 			the topmost package it will automatically be used as root package path. So for this model all generated Java artifacts will be located somewhere under
-			<emphasis>de.pellepelster.myadmin.demo.*</emphasis>.
+			<emphasis>org.example.project1.*</emphasis>.
 		</para>
 
 		<section>
@@ -80,12 +79,12 @@ entity Country {
 			<programlisting language="Java">
 @javax.persistence.Entity
 @javax.persistence.Table(name = "country")
-public class Country implements de.pellepelster.myadmin.db.IBaseEntity {
+public class Country implements IBaseEntity {
 
-		@javax.persistence.Id
-		@javax.persistence.Column(name = "country_id")
-		@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.TABLE, generator = "country_id_seq")
-		@javax.persistence.SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
+		@Id
+		@Column(name = "country_id")
+		@GeneratedValue(strategy = javax.persistence.GenerationType.TABLE, generator = "country_id_seq")
+		@SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
 		private long id;
 		
 		public long getId() {
@@ -111,8 +110,8 @@ public class Country implements de.pellepelster.myadmin.db.IBaseEntity {
 		</formalpara>
 
 		<para>
-			If you only need an entity without a UI without the overhead of defining datatypes you can use the keyword <literal>simpletype</literal> 
-			followed by the needed type
+			If you only need an entity without a CRUD UI and without the overhead of defining datatypes you can use the keyword <literal>simpletype</literal> 
+			followed by the needed type.
 		</para>
 
 

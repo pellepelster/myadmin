@@ -15,10 +15,11 @@
 			To create a new project fire up the new project dialog via <menuchoice><guisubmenu>New</guisubmenu><guisubmenu>Project</guisubmenu>
 			<guimenuitem>MyAdmin</guimenuitem><guimenuitem>New MyAdmin project</guimenuitem></menuchoice>.
 			
-			The project names for our project should all start with <package>de.pellepelster.myadmin.demo</package> so in the
-			<guilabel>New Project dialog</guilabel> enter <parameter>de.pellepelster.myadmin</parameter> as <guilabel>Organisation name</guilabel>
-			and <parameter>demo</parameter> as <guilabel>project name</guilabel>. After clicking <guibutton>finish</guibutton> MyAdmin creates 
-			it basic default project structure which will be explained in the next section.
+			The <guilabel>Organization Name</guilabel> and <guilabel>Project Name</guilabel> basically describe you base project package names and paths. For example 
+			when you enter <literal>org.example</literal> as your <guilabel>Organization Name</guilabel> and <literal>Project1</literal> as <guilabel>Project Name</guilabel> 
+			the root package path for all your projects will be <varname>org.example.project1</varname>
+			
+			After clicking <guibutton>finish</guibutton> MyAdmin creates its basic default project structure which will be explained in the next section.
 		</para>
 		
 		<section id="building_project_layout">
