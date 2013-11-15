@@ -4,7 +4,7 @@
 
 	<property name="bootstrap.ivy.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivy.xml" />
 	<property name="bootstrap.ivy.settings.temp.file" value="${java.io.tmpdir}/${ant.project.name}_ivysettings.xml" />
-	<property name="bootstrap.lib.dir" value="${bootstrap.imported.basedir}/../../lib-bootstrap" />
+	<property name="bootstrap.lib.dir" value="${bootstrap.imported.basedir}/../lib-bootstrap" />
 	<property name="ivy.jar.file" value="${bootstrap.lib.dir}/ivy.jar" />
 	<property name="ivy.version" value="2.3.0" />
 
@@ -29,32 +29,31 @@
 
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.bootstrap.lib.path" />
 
-		<ivy:settings id="ivy.settings" file="${bootstrap.imported.basedir}/ivysettings.xml" />
 		<ivy:settings id="bootstrap.ivy.settings" file="${bootstrap.ivy.settings.temp.file}" />
 
 		<ivy:resolve settingsref="bootstrap.ivy.settings" file="${bootstrap.ivy.temp.file}" checkifchanged="true" conf="default" />
 		<ivy:retrieve settingsref="bootstrap.ivy.settings" overwriteMode="always" pattern="${bootstrap.lib.dir}/[artifact]-[type].[ext]" conf="default" />
 		
-		<ant antfile="MyAdminProjectTemplates.xml">
+		<ant antfile="myadmin/MyAdminProjectTemplates.xml">
 			 <property name="overwrite" value="false"/>
 		</ant>
 		
 	</target>
 
 	<target name="bootstrap" depends="resolve">
-		<ant antfile="MyAdminProjectTemplates.xml">
+		<ant antfile="myadmin/MyAdminProjectTemplates.xml">
 			 <property name="overwrite.all" value="false"/>
 		</ant>
 	</target>
 
 	<target name="bootstrap.overwrite.all" depends="resolve">
-		<ant antfile="MyAdminProjectTemplates.xml">
+		<ant antfile="myadmin/MyAdminProjectTemplates.xml">
 			 <property name="overwrite.all" value="true"/>
 		</ant>
 	</target>
 
 	<target name="unzip">
-		<unzip src="${file}" dest="${basedir}" overwrite="true" />
+		<unzip src="${file}" dest="${bootstrap.imported.basedir}/myadmin" overwrite="true" />
 	</target>
 
 </project>

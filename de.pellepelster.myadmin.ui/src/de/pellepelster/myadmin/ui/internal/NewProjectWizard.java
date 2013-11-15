@@ -228,7 +228,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				{
 					try
 					{
-						LaunchAntInExternalVM.launchAntInExternalVM(myadminAntFolder.getFile(Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor, true, "");
+						LaunchAntInExternalVM.launchAntInExternalVM(myadminAntFolder.getFile("../" + Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor, true,
+								"");
 
 						refreshProjects(monitor);
 
@@ -288,7 +289,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 		baseAntFolder.create(true, true, monitor);
 		final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
 		myadminAntFolder.create(true, true, monitor);
-		write(myadminAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
+		write(baseAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
 
 		// version properties
 		Properties versionProperties = new Properties();
