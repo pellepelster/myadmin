@@ -56,7 +56,10 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 
 		for (Map.Entry<String, Object> filterEntry : this.voWrapper.getFilterValues().entrySet())
 		{
-			genericFilter.addCriteria(filterEntry.getKey(), filterEntry.getValue());
+			if (filterEntry.getValue() != null && !filterEntry.getValue().toString().isEmpty())
+			{
+				genericFilter.addCriteria(filterEntry.getKey(), filterEntry.getValue());
+			}
 		}
 
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilter, new BaseErrorAsyncCallback<List<VOType>>()

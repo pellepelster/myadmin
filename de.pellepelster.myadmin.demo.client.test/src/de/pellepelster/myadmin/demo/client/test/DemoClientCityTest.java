@@ -53,6 +53,10 @@ public class DemoClientCityTest extends MyAdminAsyncGwtTestCase<CityVO>
 		search.assertTitle("CitySearch (0 results)");
 		search.assertResultCount(0);
 
+		search.getTextControlTest(DemoDictionaryIDs.CITY.CITY_SEARCH.CITY_FILTER.COMPOSITE1.CITY_NAME).setValue("");
+		search.execute();
+		search.assertResultCount(1);
+
 		runAsyncTests();
 	}
 }

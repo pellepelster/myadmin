@@ -48,44 +48,44 @@ public abstract class BaseEntityAssociationVO implements Serializable, IAssociat
 	{
 
 		AssociationVO associationVO = new AssociationVO(field);
-		associations.add(associationVO);
+		this.associations.add(associationVO);
 
 		return associationVO;
 	}
 
 	public void addCriteria(IConditionalExpressionVO conditionalExpressionVO)
 	{
-		conditionalExpressions.add(conditionalExpressionVO);
+		this.conditionalExpressions.add(conditionalExpressionVO);
 	}
 
 	public void addCriteria(List<IConditionalExpressionVO> conditionalExpressionVOs)
 	{
-		conditionalExpressions.addAll(conditionalExpressionVOs);
+		this.conditionalExpressions.addAll(conditionalExpressionVOs);
 	}
 
 	public void addCriteria(String field, Object value)
 	{
-		conditionalExpressions.add(new ConditionalExpressionVO(field, value));
+		this.conditionalExpressions.add(new ConditionalExpressionVO(field, value));
 	}
 
 	public void addCriteria(String field, Object value, RelationalOperator relationalOperator)
 	{
-		conditionalExpressions.add(new ConditionalExpressionVO(field, value, relationalOperator));
+		this.conditionalExpressions.add(new ConditionalExpressionVO(field, value, relationalOperator));
 	}
 
 	public void addCriteria(String voClass, String field, Object value, RelationalOperator relationalOperator)
 	{
-		conditionalExpressions.add(new ConditionalExpressionVO(field, value, relationalOperator));
+		this.conditionalExpressions.add(new ConditionalExpressionVO(field, value, relationalOperator));
 	}
 
 	public List<AssociationVO> getAssociations()
 	{
-		return associations;
+		return this.associations;
 	}
 
 	public List<IConditionalExpressionVO> getCriteria()
 	{
-		return conditionalExpressions;
+		return this.conditionalExpressions;
 	}
 
 }
