@@ -19,63 +19,115 @@
 			when you enter <literal>org.example</literal> as your <guilabel>Organization Name</guilabel> and <literal>Project1</literal> as <guilabel>Project Name</guilabel> 
 			the root package path for all your projects will be <varname>org.example.project1</varname>
 			
-			After clicking <guibutton>finish</guibutton> MyAdmin creates its basic default project structure which will be explained in the next section.
+			After clicking <guibutton>finish</guibutton> MyAdmin creates its basic default project structure and starts the bootstrap build.
+		</para>
+	</section>	
+		
+	<section id="initial_project_setup_bootstrap_scripts">
+
+		<title>Bootstrapping</title>
+		<para>
+			After the New Project Wizard has successfully created all projects it runs the the <filename>MyAdminProjectBuildBootstrap.xml</filename> ant file contained 
+			in the build project inside the <filename>ant</filename> folder, that downloads and extracts the MyAdmin build ivy module containing all generic and project specific build files
+			needed to build an MyAdmin based project. All dependencies that are needed to run the build itself (e.g. Apache Ivy and some ant tasks) 
+			are also downloaded as dependencies of the MyAdmin build project, so after bootstrapping the project is ready to build. All build files 
+			that are not specific to a concrete project are stored inside the <filename>ant/myadmin</filename> folder in the build project and will be overwritten, when 
+			you rerun MyAdminProjectBuildBootstrap.xml. The <filename>build.xml</filename> and <filename>ivy.xml</filename> files inside each project are only written once to preserve changes 
+			that may have occurred inside these files. To force overwrite of this files, run the <guibutton>bootstrap.overwrite.all</guibutton> target in <filename>MyAdminProjectBuildBootstrap.xml</filename>.
 		</para>
 		
-		<section id="building_project_layout">
-			<title>Project layout</title>
-			<para>
-				The default MyAdmin project setup consists of six different projects that are automatically created on initial project setup.
-				<!-- 
-				 . The file <filename>myadmin.properties</filename> 
-				containing all the project names is automatically created on initial project setup. The file also contains the project name
-				as well as the organisation name. -->
-			</para>
-			<section>
-				<title>Server project</title>
-				<para>
-					Contains all server code.
-					<!-- <varname>server.project</varname>   -->
-				</para>
-			</section>
-			<section>
-				<title>Server test project</title>
-				<para>
-					JUnit tests for the server as well as everything needed to set up a local web container and automatically deploy the application to it.
-					<!-- <varname>server.test.project</varname>   -->
-				</para>
-			</section>
-			<section>
-				<title>Client project</title>
-				<para>
-					Code for the client side. As the client code is later compiled using the GWT compiler it is very important to keep in mind
-					that GWT compiler only emulates a <ulink href="https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasics#DevGuideJavaCompatibility">subset of the Java runtime library</ulink>.
-					If a JRE class or method is not supported, the compiler will emit an error.
+		<!-- 
+		<title>Set up Ivy</title>
+		<para>
+			Some dependencies are not available in any public repositories and therefore not 
+			resolvable by Ivy. A custom <filename>ivysettings.xml</filename> containing repositories 
+			for all needed dependencies is provided. To use it choose <menuchoice><guimenu>Window</guimenu>
+			<guisubmenu>Preferences</guisubmenu><guimenuitem>Ivy</guimenuitem><guimenuitem>Settings</guimenuitem>
+			</menuchoice> from the main menu bar and add the <filename>ivysettings.xml</filename> by using the 
+			<guibutton>workspace</guibutton> button and selecting the file from <filename>${build.project}/ant</filename>
+		</para>
+		 -->
+	</section>
 
-				<!--  <varname>client.project</varname>  -->
-				</para>
-			</section>
-			<section>
-				<title>Client test project</title>
-				<para>
-					JUnit test for the client, for the source code the same limitations as in the client project apply.
-				<!-- <varname>client.test.project</varname>  -->
-				</para>
-			</section>
-			<section>
-				<title>Build project</title>
-				<para>
-					Ant scripts to compile and package the projects.
-				<!-- <varname>build.project</varname>   -->
-				</para>
-			</section>
-			<section>
-				<title>Deploy project</title>
-				<para>
-					Ant scripts to compile and package the projects.
-					<!-- <varname>deploy.project</varname>  -->
-				</para>
-			</section>
+	<section id="initial_project_setup_project_buildfiles">
+
+		<title>Project buildfiles</title>
+		<para>
+			The generated <filename>build.xml</filename> files inside each projects is as small as possible. All the common functionality needed for the respective project 
+			build is found inside a <filename>Base*.xml</filename> for every project. For example the <filename>build.xml</filename> for the client project looks like this:
+			
+			<programlisting language="Java">
+&lt;project name="de.pellepelster.myadmin.demo.client" xmlns:ivy="antlib:org.apache.ivy.ant"&gt;
+
+		&lt;property name="gwt.module.name" value="de.pellepelster.myadmin.demo.Demo" /&gt;
+
+		&lt;import file="../org.example.project1.build/ant/project1.xml" /&gt;
+		&lt;import file="../${build.project}/ant/myadmin/BaseClient.xml" /&gt;
+&lt;/project&gt;
+			</programlisting>
+
+			Beside the project specific common build file <filename>project1.xml</filename> the MyAdmin base build file <filename>BaseClient.xml</filename> is imported 
+			which itself imports other build files needed to build the client project. This setup makes it easy to integrate new build files from MyAdmin without 
+			overwriting probably manually modified project specific files. It is also easy possible to hook into the build process by overwriting the targets provided by MyAdmin.
+			
+		</para>
+		
+	</section>
+		
+	<section id="initial_project_setup_project_layout">
+	
+		<title>Project layout</title>
+		<para>
+			The default MyAdmin project setup consists of six different projects that are automatically created on initial project setup.
+			<!-- 
+			 . The file <filename>myadmin.properties</filename> 
+			containing all the project names is automatically created on initial project setup. The file also contains the project name
+			as well as the organisation name. -->
+		</para>
+		<section>
+			<title>Server project</title>
+			<para>
+				Contains all server code.
+				<!-- <varname>server.project</varname>   -->
+			</para>
 		</section>
-	</section>	
+		<section>
+			<title>Server test project</title>
+			<para>
+				JUnit tests for the server as well as everything needed to set up a local web container and automatically deploy the application to it.
+				<!-- <varname>server.test.project</varname>   -->
+			</para>
+		</section>
+		<section>
+			<title>Client project</title>
+			<para>
+				Code for the client side. As the client code is later compiled using the GWT compiler it is very important to keep in mind
+				that GWT compiler only emulates a <ulink href="https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasics#DevGuideJavaCompatibility">subset of the Java runtime library</ulink>.
+				If a JRE class or method is not supported, the compiler will emit an error.
+
+			<!--  <varname>client.project</varname>  -->
+			</para>
+		</section>
+		<section>
+			<title>Client test project</title>
+			<para>
+				JUnit test for the client, for the source code the same limitations as in the client project apply.
+			<!-- <varname>client.test.project</varname>  -->
+			</para>
+		</section>
+		<section>
+			<title>Build project</title>
+			<para>
+				Ant scripts to compile and package the projects.
+			<!-- <varname>build.project</varname>   -->
+			</para>
+		</section>
+		<section>
+			<title>Deploy project</title>
+			<para>
+				Ant scripts to compile and package the projects.
+				<!-- <varname>deploy.project</varname>  -->
+			</para>
+		</section>
+	</section>
 </chapter>
