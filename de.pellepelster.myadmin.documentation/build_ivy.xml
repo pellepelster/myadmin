@@ -26,7 +26,6 @@
 	<property name="html.stylesheet" value="${docbook.xsl.dir}/xhtml/chunk.xsl" />
 
 	<property name="fo.stylesheet" value="${docbook.xsl.dir}/jboss/pdf.xsl" />
-	<property name="eclipse.stylesheet" value="${docbook.xsl.dir}/eclipse/eclipse.xsl" />
 
 	<target name="clean" description="Cleans up generated files.">
 		<delete dir="${output.temp.dir}" />
@@ -36,10 +35,15 @@
 		<mkdir dir="${output.temp.dir}" />
 	</target>
 
-	<target name="copy.images">
+	<target name="copy.static.artifacts">
 		<copy todir="${output.temp.dir}">
 			<fileset dir="${src.dir}">
 				<include name="**/images/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${output.temp.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/css/*.*" />
 			</fileset>
 		</copy>
 	</target>
@@ -58,13 +62,11 @@
 				<attribute name="http://xml.apache.org/xalan/features/optimize" value="true" />
 			</factory>
 
+			<param name="html.stylesheet" expression="css/myadmin.css"/>
 			<fileset refid="src.files" />
 		</xslt>
 
-		<copy todir="${output.temp.dir}">
-			<fileset dir="output-lib" includes="**/*" />
-		</copy>
-
+		<antcall target="copy.static.artifacts" />
 	</target>
 
 	<target name="build.pdf" depends="init, merge" description="Generates HTML files from DocBook XML">
@@ -92,7 +94,7 @@
 		</fop>
 	</target>
 
-	<target name="compile" depends="clean.build, resolve, copy.images, build.html">
+	<target name="compile" depends="clean.build, resolve, build.html">
 	</target>
 
 	<target name="jar" depends="version, compile" unless="no.compile">
