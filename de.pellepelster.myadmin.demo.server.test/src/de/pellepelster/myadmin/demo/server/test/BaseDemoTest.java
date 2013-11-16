@@ -5,9 +5,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import de.pellepelster.myadmin.server.test.base.BaseJndiContextTest;
 
-@ContextConfiguration(locations = { "classpath:/DemoServerApplicationContext.xml", "classpath:/DemoServerTestApplicationContext.xml",
-		"classpath:/DemoServerApplicationContext-gen.xml", "classpath:/MyAdminServerApplicationContext.xml",
-		"classpath:/DemoServerApplicationContextServices-gen.xml", "classpath:/DemoDB-gen.xml" })
+@ContextConfiguration(locations = { "classpath:/DemoServerApplicationContext-gen.xml", "classpath:/DemoServerApplicationContextServices-gen.xml",
+		"classpath:/DemoDB-gen.xml" })
 public abstract class BaseDemoTest extends BaseJndiContextTest
 {
 

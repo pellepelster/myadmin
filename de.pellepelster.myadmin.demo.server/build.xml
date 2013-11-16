@@ -2,7 +2,7 @@
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../${build.project}/ant/myadmin/BaseServer.xml" />
-	
+
 	<target name="post.jar">
 		<antcall target="war" />
 	</target>

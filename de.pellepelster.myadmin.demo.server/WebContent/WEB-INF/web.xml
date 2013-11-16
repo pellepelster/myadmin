@@ -22,8 +22,11 @@
 			classpath:MyAdminServerApplicationContext-gen.xml, 
 			classpath:MyAdminServerApplicationContextServices-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 
+			classpath:MyAdminRestServices-gen.xml, 
+			classpath:DemoServerApplicationContext.xml, 
 			classpath:DemoServerApplicationContext-gen.xml, 
 			classpath:DemoServerApplicationContextServices-gen.xml, 
+			classpath:DemoRestServices-gen.xml, 
 			classpath:MyAdminServerGWTServices-gen.xml, 
 			classpath:MyAdminServerInvokerServices-gen.xml, 
 			classpath:DemoDB-gen.xml
