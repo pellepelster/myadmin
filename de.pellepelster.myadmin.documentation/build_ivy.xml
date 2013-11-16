@@ -63,6 +63,7 @@
 			</factory>
 
 			<param name="html.stylesheet" expression="css/myadmin.css"/>
+			<param name="chunk.section.depth" expression="0"/>
 			<fileset refid="src.files" />
 		</xslt>
 
