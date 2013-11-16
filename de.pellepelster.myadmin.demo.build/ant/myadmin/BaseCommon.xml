@@ -34,25 +34,6 @@
 	<property file="${version.file}" />
 	<property name="module.version" value="${module.version.major}.${module.version.minor}.${module.version.micro}" />
 
-	<!-- task and type defs -->
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties" onerror="ignore">
-		<classpath>
-			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
-		</classpath>
-	</taskdef>
-
-	<taskdef name="stringutil" classname="ise.antelope.tasks.StringUtilTask" onerror="ignore">
-		<classpath>
-			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
-		</classpath>
-	</taskdef>
-	
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
-		<classpath>
-			<fileset dir="${bootstrap.lib.dir}" includes="*.jar" />
-		</classpath>
-	</taskdef>
-	
 	<condition property="no.compile">
 		<not>
 			<available file="${src.dir}" type="dir" />

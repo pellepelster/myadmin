@@ -1,6 +1,7 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish.all">
 
 	<import file="@ant.common.file@" />
+	<import file="../${build.project}/ant/myadmin/BaseBuild.xml" />
 
 	<fileset dir="../" id="publish.fileset.all">
 		<include name="@organisation.name@.@project.name@.*/build.xml" />

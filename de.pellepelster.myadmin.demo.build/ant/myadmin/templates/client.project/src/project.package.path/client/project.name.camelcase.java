@@ -15,12 +15,10 @@ public class @project.name.camelcase@ implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PX);
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
-		MyAdmin.getInstance().setControlHandler(new ControlHandler());
 
-		gwtLayoutFactory.startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
+		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 
 	}
 }

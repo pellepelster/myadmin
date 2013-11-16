@@ -1,71 +1,54 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<dirname property="imported.basedir.local" file="${ant.file.de.pellepelster.myadmin.demo.server.test}" />
-
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.test.DemoTestsuite" />
-	<property file="${imported.basedir.local}/build.properties" />
+	
+	<property file="build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
-	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
+	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
 
-	<property name="war.file" value="../de.pellepelster.myadmin.demo.server/${build.dir}/de.pellepelster.myadmin.demo.war"/>
-	
 	<target name="tomcat.local.run" depends="resolve">
-		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
+		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
 	</target>
 	
 	<target name="tomcat.local.run.debug" depends="resolve">
-		<tomcat.local action="run" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
+		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
 	</target>
 
 	<target name="tomcat.local.start" depends="resolve">
-		<tomcat.local action="start" war.file="${war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
+		<tomcat.local action="start" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
 		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
 		<dictionaryimporter classpathref="lib.path.id" modelfile="file:/${basedir}/../de.pellepelster.myadmin.demo.generator/src/Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
 	</target>
-	
-	<target name="import.testdata" depends="resolve">
-		<taskdef name="entityimport" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.EntityImport" />
-		<entityimport importDir="${basedir}/testdata" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
-	</target>
-	
+
 	<target name="start.client">
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
 	
-	<target name="test.remote.local" depends="jar, tomcat.local.start, import.dictionary">
+	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
 
-		<!--
-	<target name="post.test">
-		<antcall target="test.remote.local" />
-	</target>
 		<mkdir dir="${test.dir}"/>
 		
 		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
 
-			<classpath refid="local.lib.path.id" />
+			<classpath refid="lib.path.id" />
 			
 			<classpath>
 				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
 			</classpath>
 
-			<sysproperty key="selenium.report.dir" value="${basedir}/${test.dir}"/>
+			<sysproperty key="screenshot.dir" value="${test.dir}"/>
 			<sysproperty key="remote.url" value="${remote.url}"/>
-
-			<sysproperty key="remote.path" value="${remote.path}"/>
-			<sysproperty key="remote.port" value="${remote.port}"/>
-			<sysproperty key="remote.server" value="${remote.server}"/>
 
 			<formatter type="xml" />
 
-			<test name="de.pellepelster.myadmin.demo.server.test.remote.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
+			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
 
 		</junit>
-		-->
 	</target>
 	
 

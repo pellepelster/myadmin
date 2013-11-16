@@ -1,6 +1,7 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="@ant.common.file@" />
+	<import file="../${build.project}/ant/myadmin/BaseServer.xml" />
 
 	<target name="post.jar">
 		<antcall target="war" />

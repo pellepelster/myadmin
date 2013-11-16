@@ -1,4 +1,4 @@
-<project name="de.pellepelster.myadmin.demo.generator" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish">
+<project name="de.pellepelster.myadmin.demo.generator" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../${build.project}/ant/myadmin/GeneratorCommon.xml" />

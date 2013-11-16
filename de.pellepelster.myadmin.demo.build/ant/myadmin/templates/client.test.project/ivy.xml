@@ -25,6 +25,10 @@
 
 		<dependency org="de.pellepelster.myadmin" name="gwt-test" rev="latest.integration" conf="*->default,sources" />
 
+		<dependency org="de.pellepelster.myadmin" name="server-test" rev="latest.integration" conf="*->@" />
+
+		<dependency org="de.pellepelster.myadmin" name="tools" rev="latest.integration" conf="*->@" />
+		
 	</dependencies>
 
 </ivy-module>

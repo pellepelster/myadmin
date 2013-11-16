@@ -1,20 +1,8 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<property name="gwt.module.name" value="@project.package@.@project.name.camelcase@" />
+
 	<import file="@ant.common.file@" />
-
-	<target name="pre.jar">
-
-		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
-			<classpath>
-				<pathelement path="src/" />
-				<path refid="lib.path.id" />
-			</classpath>
-			<jvmarg value="-Xmx768M" />
-			<arg value="-localWorkers" />
-			<arg value="2" />
-			<arg line="@project.package@.@project.name.camelcase@" />
-		</java>
-		
-	</target>
+	<import file="../${build.project}/ant/myadmin/BaseClient.xml" />
 
 </project>
