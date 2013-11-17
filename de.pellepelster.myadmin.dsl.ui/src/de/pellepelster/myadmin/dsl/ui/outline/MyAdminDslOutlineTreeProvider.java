@@ -11,8 +11,11 @@
  */
 package de.pellepelster.myadmin.dsl.ui.outline;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
+
+import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 
 /**
  * customization of the default outline structure
@@ -20,4 +23,20 @@ import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
  */
 public class MyAdminDslOutlineTreeProvider extends DefaultOutlineTreeProvider
 {
+
+	protected boolean _isLeaf(Datatype element)
+	{
+		return true;
+	}
+
+	protected boolean _isLeaf(EntityAttribute element)
+	{
+		return true;
+	}
+
+	protected boolean _isLeaf(DictionaryControl element)
+	{
+		return true;
+	}
+
 }
