@@ -2,10 +2,16 @@
 
 	<properties file="properties/${user.name}.build.properties" />
 	<include url="myadmin/ivysettings-myadmin-base.xml" />
+	
 	<settings defaultResolver="${ivy.resolver.default}" />
 
 	<resolvers>
 
+		<url name="myadmin_ci_repository">
+			<ivy pattern="http://myadmin.pelle.io/myadmin_ci/ivy/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin.pelle.io/myadmin_ci/ivy/${ivy.local.default.artifact.pattern}" />
+		</url>
+		
 		<filesystem name="demo_staging_repository">
 			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
 			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
@@ -14,14 +20,15 @@
 		<chain name="demo_default" returnFirst="true" checkmodified="true">
 			<resolver ref="default" />
 			<resolver ref="myadmin_dependencies" />
+			<resolver ref="myadmin_ci_repository" />			
 		</chain>
 
-		<chain name="demo_release" returnFirst="true" checkmodified="true">
-			<resolver ref="demo_staging_repository" />
-			<resolver ref="myadmin_dependencies" />
+		<chain name="demo_staging" returnFirst="true" checkmodified="true">
+			<resolver ref="demo_staging_repository" />			
 			<resolver ref="default" />
+			<resolver ref="myadmin_dependencies" />
+			<resolver ref="myadmin_ci_repository" />			
 		</chain>
-		
 	</resolvers>
 
 </ivysettings>
