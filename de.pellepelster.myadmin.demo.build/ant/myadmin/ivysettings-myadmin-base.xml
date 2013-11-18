@@ -13,8 +13,8 @@
 	<resolvers>
 	
 		<url name="myadmin_dependencies_repository">
-			<ivy pattern="http://myadmin.pelle.io/ivy_repositories/myadmin_dependencies/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://myadmin.pelle.io/ivy_repositories/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
+			<ivy pattern="http://myadmin.pelle.io/ivy/myadmin_dependencies/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin.pelle.io/ivy/myadmin_dependencies/${ivy.local.default.artifact.pattern}" />
 		</url>
 
 		<url name="gwt-commons">

@@ -1,8 +1,11 @@
 <project name="@project.name@.build" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<dirname property="@project.name@.build.imported.basedir" file="${ant.file.@project.name@.build}" />
+
+	<property file="${@project.name@.build.imported.basedir}/properties/${user.name}.build.properties" />
 	<property file="${@project.name@.build.imported.basedir}/@project.name@.properties" />
 
 	<import file="myadmin/MyAdminProjectCommon.xml" />
+
 
 </project>
