@@ -13,6 +13,16 @@
 	
 	<resolvers>
 
+		<url name="myadmin_ci_repository">
+			<ivy pattern="http://myadmin.pelle.io/myadmin_ci/ivy/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://myadmin.pelle.io/myadmin_ci/ivy/${ivy.local.default.artifact.pattern}" />
+		</url>
+
+		<filesystem name="myadmin">
+			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+		
 		<filesystem name="staging_repository">
 			<ivy pattern="${ivy.staging.repository.root}/${ivy.local.default.ivy.pattern}" />
 			<artifact pattern="${ivy.staging.repository.root}/${ivy.local.default.artifact.pattern}" />
@@ -21,6 +31,7 @@
 		<chain name="bootstrap_default" returnFirst="true" checkmodified="true">
 			<resolver ref="default" />
 			<resolver ref="staging_repository" />
+			<resolver ref="myadmin_ci_repository" />
 		</chain>
 	</resolvers>
 	
