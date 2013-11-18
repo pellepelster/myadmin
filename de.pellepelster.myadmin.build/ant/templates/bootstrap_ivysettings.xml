@@ -24,8 +24,8 @@
 		</filesystem>
 	
 		<chain name="bootstrap_default" returnFirst="true" checkmodified="true">
-			<resolver ref="default" />
 			<resolver ref="staging_repository" />
+			<resolver ref="default" />
 			<resolver ref="myadmin_ci_repository" />
 		</chain>
 	</resolvers>
