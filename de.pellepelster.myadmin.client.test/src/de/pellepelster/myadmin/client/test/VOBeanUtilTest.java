@@ -18,7 +18,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import de.pellepelster.myadmin.client.base.VOBeanUtil;
-import de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
@@ -139,7 +138,7 @@ public class VOBeanUtilTest
 		Assert.assertEquals("xxx", groups.get(0).getGroupName());
 	}
 
-	@Test(expected = UnknownAttributeException.class)
+	@Test(expected = RuntimeException.class)
 	public void testNestedFail()
 	{
 		MyAdminUserVO userVO = new MyAdminUserVO();

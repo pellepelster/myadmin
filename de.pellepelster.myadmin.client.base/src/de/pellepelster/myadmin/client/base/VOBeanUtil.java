@@ -18,7 +18,6 @@ import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException;
 
 public class VOBeanUtil
 {
@@ -50,7 +49,7 @@ public class VOBeanUtil
 		{
 			if ("list".equals(name))
 			{
-				return list;
+				return this.list;
 			}
 			return null;
 		}
@@ -123,7 +122,7 @@ public class VOBeanUtil
 		{
 			super();
 			this.listAttributePath = listAttributePath;
-			listQualifierType = LIST_QUALIFIER_TYPE.NEW_ITEM;
+			this.listQualifierType = LIST_QUALIFIER_TYPE.NEW_ITEM;
 		}
 
 		public ListAndQualifierResult(String listAttributePath, Integer index)
@@ -131,7 +130,7 @@ public class VOBeanUtil
 			super();
 			this.listAttributePath = listAttributePath;
 			this.index = index;
-			listQualifierType = LIST_QUALIFIER_TYPE.INDEX;
+			this.listQualifierType = LIST_QUALIFIER_TYPE.INDEX;
 		}
 
 		public ListAndQualifierResult(String listAttributePath, Map<String, String> attributes)
@@ -139,27 +138,27 @@ public class VOBeanUtil
 			super();
 			this.listAttributePath = listAttributePath;
 			this.attributes = attributes;
-			listQualifierType = LIST_QUALIFIER_TYPE.ATTRIBUTES;
+			this.listQualifierType = LIST_QUALIFIER_TYPE.ATTRIBUTES;
 		}
 
 		public Map<String, String> getAttributes()
 		{
-			return attributes;
+			return this.attributes;
 		}
 
 		public Integer getIndex()
 		{
-			return index;
+			return this.index;
 		}
 
 		public String getListAttributePath()
 		{
-			return listAttributePath;
+			return this.listAttributePath;
 		}
 
 		public LIST_QUALIFIER_TYPE getListQualifierType()
 		{
-			return listQualifierType;
+			return this.listQualifierType;
 		}
 
 	}
@@ -184,9 +183,9 @@ public class VOBeanUtil
 			}
 
 		}
-		catch (UnknownAttributeException e)
+		catch (RuntimeException e)
 		{
-			throw new UnknownAttributeException("incorrect attribute path '" + attributePath + "' for VO '" + vo.getClass().getName() + "'", e);
+			throw new RuntimeException("incorrect attribute path '" + attributePath + "' for VO '" + vo.getClass().getName() + "'", e);
 		}
 
 		return result;
@@ -214,7 +213,7 @@ public class VOBeanUtil
 
 				break;
 			default:
-				throw new UnknownAttributeException("unsupported list qualifier type '" + lqr.getListQualifierType() + "'");
+				throw new RuntimeException("unsupported list qualifier type '" + lqr.getListQualifierType() + "'");
 		}
 
 		return result;
@@ -225,7 +224,7 @@ public class VOBeanUtil
 		Object listObject = vo.get(listAttributePath);
 		if (!(listObject instanceof List))
 		{
-			throw new UnknownAttributeException("attribute path '" + listAttributePath + "' is not an list type");
+			throw new RuntimeException("attribute path '" + listAttributePath + "' is not an list type");
 		}
 
 		@SuppressWarnings("unchecked")
@@ -269,7 +268,7 @@ public class VOBeanUtil
 			}
 		}
 
-		throw new UnknownAttributeException("unsupported list qulifier in list attribute path '" + attributePath + "'");
+		throw new RuntimeException("unsupported list qulifier in list attribute path '" + attributePath + "'");
 	}
 
 	private static IBaseVO getSingleFromList(ListAndQualifierResult lqr, List<IBaseVO> list)
@@ -284,11 +283,11 @@ public class VOBeanUtil
 		{
 			if (result.size() == 0)
 			{
-				throw new UnknownAttributeException("list qualifier did not match any element");
+				throw new RuntimeException("list qualifier did not match any element");
 			}
 			else
 			{
-				throw new UnknownAttributeException("list qualifier refers to more than on element");
+				throw new RuntimeException("list qualifier refers to more than on element");
 			}
 		}
 
@@ -324,7 +323,7 @@ public class VOBeanUtil
 
 				if (!(value instanceof IBaseVO))
 				{
-					throw new UnknownAttributeException("value is not a IBaseVo type");
+					throw new RuntimeException("value is not a IBaseVo type");
 				}
 
 				switch (lqr.getListQualifierType())
@@ -339,7 +338,7 @@ public class VOBeanUtil
 
 						if (list.size() - 1 < lqr.getIndex())
 						{
-							throw new UnknownAttributeException("list qualifier is '" + lqr.getIndex() + "' but list has only '" + list.size() + "' elements");
+							throw new RuntimeException("list qualifier is '" + lqr.getIndex() + "' but list has only '" + list.size() + "' elements");
 						}
 
 						list.set(lqr.index, (IBaseVO) value);
@@ -348,7 +347,7 @@ public class VOBeanUtil
 						list.add((IBaseVO) value);
 						break;
 					default:
-						throw new UnknownAttributeException("unsupported list qualifier type '" + lqr.getListQualifierType() + "'");
+						throw new RuntimeException("unsupported list qualifier type '" + lqr.getListQualifierType() + "'");
 				}
 
 			}
@@ -357,9 +356,9 @@ public class VOBeanUtil
 				tempVO.set(lastAttributePath, value);
 			}
 		}
-		catch (UnknownAttributeException e)
+		catch (RuntimeException e)
 		{
-			throw new UnknownAttributeException("could not set value for attribute path '" + attributePath + "' on VO '" + vo.getClass().getName() + "'", e);
+			throw new RuntimeException("could not set value for attribute path '" + attributePath + "' on VO '" + vo.getClass().getName() + "'", e);
 		}
 
 	}
@@ -391,7 +390,7 @@ public class VOBeanUtil
 				}
 				catch (ClassCastException e)
 				{
-					throw new UnknownAttributeException("attribute path '" + subPath + "' is not an IBaseVO type");
+					throw new RuntimeException("attribute path '" + subPath + "' is not an IBaseVO type");
 				}
 			}
 		}
@@ -404,15 +403,7 @@ public class VOBeanUtil
 		for (Map.Entry<String, String> attributeEntry : attributesToMatch.entrySet())
 		{
 			Object attributeValue = null;
-
-			try
-			{
-				attributeValue = vo.get(attributeEntry.getKey());
-			}
-			catch (UnknownAttributeException e)
-			{
-				throw new UnknownAttributeException("unknwon attribute '" + attributeEntry.getKey() + "' for VO '" + vo.getClass().getName() + "'");
-			}
+			attributeValue = vo.get(attributeEntry.getKey());
 
 			if (attributeValue == null || !attributeValue.toString().equals(attributeEntry.getValue()))
 			{

@@ -17,7 +17,6 @@ import com.google.gwt.core.client.GWT;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
-import de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
@@ -127,7 +126,7 @@ public final class DictionaryUtil
 						delimiter = ", ";
 					}
 				}
-				catch (UnknownAttributeException e)
+				catch (RuntimeException e)
 				{
 					GWT.log(e.getMessage(), e);
 				}
