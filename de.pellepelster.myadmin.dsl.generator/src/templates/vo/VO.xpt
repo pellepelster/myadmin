@@ -295,7 +295,7 @@
 		«IF this.extends != null-»
 			return super.get(name);
 		«ELSE»
-			throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+			throw new java.lang.RuntimeException("no such attribute '" + name + "'");	
 		«ENDIF»
 		
 	}
@@ -364,7 +364,7 @@
 		«IF this.extends != null-»
 			super.set(name, value);
 		«ELSE»
-			throw new de.pellepelster.myadmin.client.base.db.vos.UnknownAttributeException("no such attribute '" + name + "'");	
+			throw new java.lang.RuntimeException("no such attribute '" + name + "'");	
 		«ENDIF»
 
 	}
