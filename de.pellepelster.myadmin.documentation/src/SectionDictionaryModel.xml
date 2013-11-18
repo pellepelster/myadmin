@@ -10,7 +10,7 @@
 		The dictionary represents the UI description. Each <literal>dictionary</literal> relates to a single value object 
 		(see <xref linkend="model_value_objects" />) and contains a <literal>dictionarysearch</literal>
 		definition describing a UI to search for Value Objects and a <literal>dictionaryeditor</literal> definition describing 
-		a UI to create new and edit already existing ValueObjects.
+		a UI to create new and edit already existing value objects.
 	</para>
 
 	<para>
@@ -30,9 +30,10 @@
 	</para>
 
 	<section id="model_dictionary_controls">
+		
 		<title>Controls</title>
 		<para>Similar to the way the central dataypes are managed, each dictionary can hold a central set of control definitions so
-		you can just reference the central definitons where nedded (filter, result, editor, ...) instead of defining the control again 
+		you can just reference the central definitons where needed (filter, result, editor, ...) instead of defining the control again 
 		and again.</para>
 		
 		<formalpara>
@@ -42,8 +43,7 @@ textcontrol CountryName {
 	entityattribute countryName
 	label "Name"
 	mandatory
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>		
 		<para>Defines a text control with the label <literal>Name</literal> that has to be filled (<literal>mandatory</literal>)
 		The data that is entered into the control will be written to the attribute <literal>countryName</literal> of the value object 
@@ -63,61 +63,60 @@ textcontrol CountryName {
 
 dictionaryresult CountryResult {
 	textcontrol ref CountryName
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>		
-		<para>The already defined control is used within a dictionary result definition.
-		</para>
+		
+		<para>The already defined control is used within a dictionary result definition.</para>
 
-		<formalpara>
-			<title>Sample Control definiton with reference and overriding</title>
+		<section id="model_dictionary_controls_inheritance">
+			
+			<title>Control inheritance</title>
+			<para>Control definitions support a simple form of inheritance that can be used to override certain control attributes.</para>
+			
 			<programlisting language="Java">
-textcontrol CountryName {
-	entityattribute countryName
+textcontrol Name {
 	label "Name"
 	mandatory
 }
 
-[...]
-
-dictionaryresult CountryResult {
-	textcontrol ref CountryName {
-		label "New Name"
-	}
+textcontrol CountryName ref Name {
+	entityattribute countryName
+	label "Country Name"
 }
-			</programlisting>
-		</formalpara>		
-		<para>The already defined control is used within a dictionary result definition overriding the label from the central 
-		definition
-		</para>
+
+textcontrol GivenName ref Name  {
+	entityattribute givenName
+}</programlisting>
+			
+		</section>
 		
 		
 	</section>
 
 	<section id="model_dictionary_label_controls">
 		<title>Label Controls</title>
-		<para></para>
+		<para>TODO</para>
 	</section>
 
 	<section id="model_dictionary_search">
 		<title>Dictionary Search</title>
-		<para></para>
+		<para>TODO</para>
 
 		<section id="model_dictionary_filter">
 			<title>Dictionary Filter</title>
-			<para></para>
+			<para>TODO</para>
 		</section>
 
 		<section id="model_dictionary_result">
 			<title>Dictionary Result</title>
-			<para></para>
+			<para>TODO</para>
 		</section>
 
 	</section>
 
 	<section id="model_dictionary_editor">
 		<title>Dictionary Editor</title>
-		<para></para>
+		<para>TODO</para>
 	</section>
 
 </section>

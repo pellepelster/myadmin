@@ -17,13 +17,12 @@
 project Project1 {
 	package org.example.project1 {
 	}
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>
 
 		<para>
 			This basic (and completely useless) model only consists of the model name <varname>Project1</varname> and an empty package. The model name is used when 
-			referencing the model in MWE Workflows. This model also defines an empty package <varname>org.example.project1</varname>, as this is 
+			referencing the model in MWE workflows. This model also defines an empty package <varname>org.example.project1</varname>, as this is 
 			the topmost package it will automatically be used as root package path. So for this model all generated Java artifacts will be located somewhere under
 			<emphasis>org.example.project1.*</emphasis>.
 		</para>
@@ -50,7 +49,6 @@ project Project1 {
 		</section>
 	</section>
 
-
 	<xi:include href="SectionModelDatatypes.xml" />
 
 	<section id="model_entities">
@@ -62,8 +60,7 @@ project Project1 {
 			<programlisting language="Java">
 entity Country {
 	datatype CountryName countryName
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>
 
 		<para>
@@ -77,13 +74,13 @@ entity Country {
 			<title>Generated code example</title>
   
 			<programlisting language="Java">
-@javax.persistence.Entity
-@javax.persistence.Table(name = "country")
+@Entity
+@Table(name = "country")
 public class Country implements IBaseEntity {
 
 		@Id
 		@Column(name = "country_id")
-		@GeneratedValue(strategy = javax.persistence.GenerationType.TABLE, generator = "country_id_seq")
+		@GeneratedValue(strategy = TABLE, generator = "country_id_seq")
 		@SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
 		private long id;
 		
@@ -96,25 +93,23 @@ public class Country implements IBaseEntity {
 		}
 		
 		@javax.persistence.Column(name = "country_countryname")
-		private java.lang.String countryName;
+		private String countryName;
 		
-		public java.lang.String getCountryName() {
+		public String getCountryName() {
 			return countryName;
 		}
 		
-		public void setCountryName(java.lang.String countryName) {
+		public void setCountryName(String countryName) {
 			this.countryName = countryName;
 		}
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>
 
 		<para>
 			If you only need an entity without a CRUD UI and without the overhead of defining datatypes you can use the keyword <literal>simpletype</literal> 
 			followed by the needed type.
 		</para>
-
-
+		
 		<formalpara>
 			<title>Entity without datatypes</title>
   
@@ -122,9 +117,103 @@ public class Country implements IBaseEntity {
 entity Entity1 {
 	simpletype String string1
 	simpletype Integer integer1
-}
-			</programlisting>
+}</programlisting>
 		</formalpara>
+		
+		<formalpara>
+			<title>Generated value object code example</title>
+  
+			<programlisting language="Java">
+public class CountryVO extends BaseVO implements IBaseVO {
+
+	private static final long serialVersionUID = 1L;
+
+	private long id = IBaseVO.NEW_VO_ID;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public static final IAttributeDescriptor&lt;?&gt; FIELD_COUNTRYNAME = new AttributeDescriptor(
+			"countryName", String.class, String.class);
+
+	public static IAttributeDescriptor[] getFieldDescriptors() {
+		return new IAttributeDescriptor[] { FIELD_COUNTRYNAME };
+	}
+
+	public Object get(String name) {
+
+		if ("oid".equals(name)) {
+			return getOid();
+		}
+
+		if ("id".equals(name)) {
+			return getId();
+		}
+
+		if ("countryName".equals(name)) {
+			return this.countryName;
+		}
+
+		throw new RuntimeException(
+				"no such attribute '" + name + "'");
+
+	}
+
+	public void set(String name, Object value) {
+
+		if ("countryName".equals(name)) {
+
+			setCountryName((String) value);
+
+			return;
+		}
+
+		throw new RuntimeException(
+				"no such attribute '" + name + "'");
+
+	}
+
+	private String countryName;
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
+	public CountryVO cloneVO() {
+		CountryVO newVO = new CountryVO();
+		newVO.countryName = this.countryName;
+		return newVO;
+	}
+
+	public IAttributeDescriptor&lt;?&gt; getAttributeDescriptor(
+			String name) {
+		for (IAttributeDescriptor&lt;?&gt; attributeDescriptor : getFieldDescriptors()) {
+			if (attributeDescriptor.getAttributeName().equals(name)) {
+				return attributeDescriptor;
+			}
+		}
+		throw new RuntimeException("unsupported attribute '" + name + "'");
+	}
+
+}</programlisting>
+		</formalpara>
+		
+		<para>
+		The value object contains the same fields as the generated entity plus an <literal>IAttributeDescriptor</literal> for each 
+		attribute containing some type information about the attribute. The attributes descriptors constants can be used the create JPQL queries with
+		the <literal>IBaseEntityService</literal> to gather data. Also the help to circumvent the lack of reflection in GWT, as well provide information
+		of the types contained in collections which otherwise won't be available due to type erasure.
+		GWTs lack of reflection is also the reason for the generic getter/setter methods which are heavily used by the generic CRUD UIs.
+		</para>
 
 		<para>
 			The generated result will be the same as with datatype. The following simpletypes are available:
@@ -154,7 +243,8 @@ entity Entity1 {
 	
 	<section id="model_value_objects">
 		<title>Value Objects</title>
-		<para></para>
+		<para>For each entity a corresponding value object is generated. When working with data from the DB you will almost never 
+		directly use the entities, because all data from the entity is copied to its corresponding value object directly after loading.</para>
 	</section>
 	
 	<section id="model_enumerations">
