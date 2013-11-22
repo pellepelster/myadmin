@@ -46,6 +46,20 @@ project MyAdminDemo {
 				
 				dictionarycontrols {
 
+					textcontrol TextControl1Inheritance1 {
+						entityattribute entityattribute1
+						label "Label1"
+					}
+					
+					textcontrol TextControl1Inheritance2 ref TextControl1Inheritance1 {
+						entityattribute entityattribute2
+					}
+					
+					textcontrol TextControl1Inheritance3 ref TextControl1Inheritance2 {
+						label "Label3"
+					}
+
+
 					textcontrol TextControl1Defaults {
 						entityattribute textDataType1Defaults
 					}

@@ -69,50 +69,50 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 		// text
 		setBlockFormatting(c, m.getTextDatatypeRule(), m.getTextDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getTextDatatypeAccess()
 				.getRightCurlyBracketKeyword_7());
-		setBlockFormatting(c, m.getDictionaryTextControlRule(), m.getDictionaryTextControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryTextControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryTextControlRule(), m.getDictionaryTextControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryTextControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryTextControlAccess().getRule());
 
 		// integer
 		setBlockFormatting(c, m.getIntegerDatatypeRule(), m.getIntegerDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getIntegerDatatypeAccess()
 				.getRightCurlyBracketKeyword_6());
-		setBlockFormatting(c, m.getDictionaryIntegerControlRule(), m.getDictionaryIntegerControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryIntegerControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryIntegerControlRule(), m.getDictionaryIntegerControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryIntegerControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryIntegerControlAccess().getRule());
 
 		// bigdecimal
 		setBlockFormatting(c, m.getDictionaryIntegerControlRule(), m.getBigDecimalDatatypeAccess().getLeftCurlyBracketKeyword_2(), m
 				.getBigDecimalDatatypeAccess().getRightCurlyBracketKeyword_10());
-		setBlockFormatting(c, m.getDictionaryBigDecimalControlRule(), m.getDictionaryBigDecimalControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryBigDecimalControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryBigDecimalControlRule(), m.getDictionaryBigDecimalControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryBigDecimalControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryBigDecimalControlAccess().getRule());
 
 		// boolean
 		setBlockFormatting(c, m.getBooleanDatatypeRule(), m.getBooleanDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getBooleanDatatypeAccess()
 				.getRightCurlyBracketKeyword_4());
-		setBlockFormatting(c, m.getDictionaryBooleanControlRule(), m.getDictionaryBooleanControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryBooleanControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryBooleanControlRule(), m.getDictionaryBooleanControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryBooleanControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryBooleanControlAccess().getRule());
 
 		// date
 		setBlockFormatting(c, m.getDateDatatypeRule(), m.getDateDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getDateDatatypeAccess()
 				.getRightCurlyBracketKeyword_4());
-		setBlockFormatting(c, m.getDictionaryDateControlRule(), m.getDictionaryDateControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryDateControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryDateControlRule(), m.getDictionaryDateControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryDateControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryDateControlAccess().getRule());
 
 		// enumeration
 		setBlockFormatting(c, m.getEnumerationDatatypeRule(), m.getEnumerationDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getEnumerationDatatypeAccess()
 				.getRightCurlyBracketKeyword_6());
-		setBlockFormatting(c, m.getDictionaryEnumerationControlRule(), m.getDictionaryEnumerationControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryEnumerationControlAccess().getRightCurlyBracketKeyword_3_3());
+		setBlockFormatting(c, m.getDictionaryEnumerationControlRule(), m.getDictionaryEnumerationControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryEnumerationControlAccess().getRightCurlyBracketKeyword_4_2());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryEnumerationControlAccess().getRule());
 
 		// reference
 		setBlockFormatting(c, m.getReferenceDatatypeRule(), m.getReferenceDatatypeAccess().getLeftCurlyBracketKeyword_2(), m.getReferenceDatatypeAccess()
 				.getRightCurlyBracketKeyword_6());
-		setBlockFormatting(c, m.getDictionaryReferenceControlRule(), m.getDictionaryReferenceControlAccess().getLeftCurlyBracketKeyword_3_1(), m
-				.getDictionaryReferenceControlAccess().getRightCurlyBracketKeyword_3_7());
+		setBlockFormatting(c, m.getDictionaryReferenceControlRule(), m.getDictionaryReferenceControlAccess().getLeftCurlyBracketKeyword_4_0(), m
+				.getDictionaryReferenceControlAccess().getRightCurlyBracketKeyword_4_6());
 		c.setLinewrap(this.LINE_MIN_WRAPS, this.LINE_DEFAULT_WRAPS, this.LINE_MAX_WRAPS).after(m.getDictionaryReferenceControlAccess().getRule());
 
 		// navigation

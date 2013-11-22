@@ -356,58 +356,58 @@ DictionaryControl:
 
 DictionaryControlGroup:
 	{DictionaryControlGroup}
-	"controlgroup" ((name=ID)? ("ref" ref=[ DictionaryControlGroup | QualifiedName ])?  "{"
+	"controlgroup" (name=ID)? ("ref" ref=[ DictionaryControlGroup | QualifiedName ])?  ("{"
 		baseControl=BaseDictionaryControl
 		(groupcontrols+=DictionaryControl)*
 	"}")?;
 
 DictionaryHierarchicalControl:
 	{DictionaryHierarchicalControl}
-	"hierarchicalcontrol" ((name=ID)? ("ref" ref=[ DictionaryTextControl | QualifiedName ])? "{"
+	"hierarchicalcontrol" (name=ID)? ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 		"hierarchicalId" hierarchicalId=STRING
 	"}")?;
 
 DictionaryTextControl:
 	{DictionaryTextControl}
-	"textcontrol" ((name=ID)? ("ref" ref=[ DictionaryTextControl | QualifiedName ])? "{"
+	"textcontrol" (name=ID)? ("ref" ref=[ DictionaryTextControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryIntegerControl:
 	{DictionaryIntegerControl}
-	"integercontrol" ((name=ID)? ("ref" ref=[ DictionaryIntegerControl | QualifiedName ])? "{"
+	"integercontrol" (name=ID)? ("ref" ref=[ DictionaryIntegerControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryBigDecimalControl:
 	{DictionaryBigDecimalControl}
-	"bigdecimalcontrol" ((name=ID)? ("ref" ref=[ DictionaryBigDecimalControl | QualifiedName ])? "{"
+	"bigdecimalcontrol" (name=ID)? ("ref" ref=[ DictionaryBigDecimalControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryBooleanControl:
 	{DictionaryBooleanControl}
-	"booleancontrol" ((name=ID)? ("ref" ref=[ DictionaryBooleanControl | QualifiedName ])? "{"
+	"booleancontrol" (name=ID)? ("ref" ref=[ DictionaryBooleanControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryDateControl:
 	{DictionaryDateControl}
-	"datecontrol" ((name=ID)? ("ref" ref=[ DictionaryDateControl | QualifiedName ])? "{"
+	"datecontrol" (name=ID)? ("ref" ref=[ DictionaryDateControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 DictionaryEnumerationControl:
 	{DictionaryEnumerationControl}
-	"enumerationcontrol" ((name=ID)? ("ref" ref=[ DictionaryEnumerationControl | QualifiedName ])? "{"
+	"enumerationcontrol" (name=ID)? ("ref" ref=[ DictionaryEnumerationControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 	"}")?;
 
 
 DictionaryReferenceControl:
 	{DictionaryReferenceControl}
-	"referencecontrol" ((name=ID)? ("ref" ref=[ DictionaryReferenceControl | QualifiedName ])? "{"
+	"referencecontrol" (name=ID)? ("ref" ref=[ DictionaryReferenceControl | QualifiedName ])? ("{"
 		baseControl=BaseDictionaryControl
 		"dictionary" dictionary=[ Dictionary | QualifiedName ]
 		("controlType" controlType=ControlType)?
