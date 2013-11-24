@@ -21,7 +21,13 @@ public class Messages extends NLS
 
 	public static String RunAnt;
 
+	public static String NoJdkFoundTitle;
+
+	public static String NoJdkFoundMessage;
+
 	public static String InitializeProjects;
+
+	public static String BootstrappingProjects;
 
 	public static String FirstBuild;
 
@@ -44,6 +50,8 @@ public class Messages extends NLS
 	public static String NewProjectCategoryName;
 
 	public static String ProjectExists;
+
+	public static String InitialBuild;
 
 	static
 	{

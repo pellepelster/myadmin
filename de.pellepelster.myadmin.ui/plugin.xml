@@ -17,13 +17,54 @@
       </wizard>
    </extension>
    <extension
-         id="de.pellepelster.myadmin.myadminnature"
-         name="MyAdmin Nature"
+         id="buildprojectnature"
+         name="MyAdmin Build Project"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="de.pellepelster.myadmin.ui.MyAdminNature">
+               class="de.pellepelster.myadmin.ui.internal.BuildProjectNature">
          </run>
       </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="myadmin.runbootstrap"
+            name="Run MyAdmin Bootstrap">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="de.pellepelster.myadmin.ui.internal.RunBootstrapHandler"
+            commandId="myadmin.runbootstrap">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="myadmin.runbootstrap"
+               id="myadmin.menu.runbootstrap"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+                  
+                              <with
+                  variable="selection">
+                  <iterate ifEmpty="false" operator="or">
+         <adapt type="org.eclipse.core.resources.IResource">
+            <test
+                  property="org.eclipse.core.resources.projectNature"
+                  value="de.pellepelster.myadmin.ui.buildprojectnature" />
+         </adapt>
+      </iterate>
+            </with>
+                  
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
 </plugin>

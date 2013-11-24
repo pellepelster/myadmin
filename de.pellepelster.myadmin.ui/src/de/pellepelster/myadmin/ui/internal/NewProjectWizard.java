@@ -13,8 +13,6 @@ package de.pellepelster.myadmin.ui.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +25,6 @@ import java.util.Properties;
 import org.apache.ivyde.eclipse.IvyNature;
 import org.apache.ivyde.eclipse.cpcontainer.IvyClasspathContainerConfAdapter;
 import org.apache.ivyde.eclipse.cpcontainer.IvyClasspathContainerConfiguration;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -42,6 +38,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathAttribute;
@@ -106,10 +103,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	private void createProjects(final String organization, final String projectName, final IProgressMonitor monitor)
 	{
-
 		try
 		{
-
 			for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
 			{
 
@@ -154,8 +149,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 						break;
 					case GENERATOR:
 
-						write(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME,
-								new ByteArrayInputStream(myadminProjectOutputStream.toString().getBytes()), monitor);
+						Utils.writeFileToContainer(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminProjectOutputStream
+								.toString().getBytes()), monitor);
 
 						addProjectNature(project, "org.eclipse.xtext.ui.shared.xtextNature", monitor);
 
@@ -198,7 +193,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 			// build project
 			final IProject buildProject = this.projects.get(Constants.PROJECT_NAME_POSTFIXES.BUILD);
-			final IFolder myadminAntFolder = initBuildProject(buildProject, organization, projectName, monitor);
+			BuildProjectNature.initProject(buildProject, organization, projectName, monitor);
+			addProjectNature(buildProject, BuildProjectNature.NATURE_ID, monitor);
 
 			// generator project
 			IJavaProject generatorProject = this.javaProjects.get(PROJECT_NAME_POSTFIXES.GENERATOR);
@@ -221,57 +217,18 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			setProjectReferences(serverTestProject, monitor, serverProject);
 			setProjectReferences(serverTestProject, monitor, generatorProject);
 
-			Job job = new Job(Messages.InitializingProjects)
-			{
-				@Override
-				protected IStatus run(IProgressMonitor monitor)
-				{
-					try
-					{
-						LaunchAntInExternalVM.launchAntInExternalVM(myadminAntFolder.getFile("../" + Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor, true,
-								"");
+			IJobManager jobMan = Job.getJobManager();
+			IProgressMonitor jobGroup = jobMan.createProgressGroup();
+			jobGroup.setTaskName(Messages.InitializingProjects);
 
-						refreshProjects(monitor);
+			Job bootstrapJob = BuildProjectNature.getBootstrapJob(buildProject);
+			bootstrapJob.setProgressGroup(jobGroup, IProgressMonitor.UNKNOWN);
 
-						LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFile("build.xml"), monitor, true, "");
-						refreshProjects(monitor);
+			Job initalBuildJob = getInitialBuildJob(organization, projectName, buildProject);
 
-						for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
-						{
-							IProject project = getProject(organization, projectName, projectNamePostfix);
-							IJavaProject javaProject = JavaCore.create(project);
-
-							// add ivy container & nature
-							addProjectNature(project, IvyNature.IVY_NATURE, monitor);
-
-							IvyClasspathContainerConfiguration conf = new IvyClasspathContainerConfiguration(javaProject, "ivy.xml", true);
-							conf.setConfs(Collections.singletonList("runtime"));
-
-							IPath path = IvyClasspathContainerConfAdapter.getPath(conf);
-							IClasspathAttribute[] atts = conf.getAttributes();
-
-							List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
-							classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
-
-							IClasspathEntry entry = JavaCore.newContainerEntry(path, null, atts, false);
-							classpathEntries.add(entry);
-
-							javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[0]), monitor);
-
-							refreshProjects(monitor);
-						}
-
-					}
-					catch (Exception e)
-					{
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, 1, e.getMessage(), e);
-					}
-
-					return Status.OK_STATUS;
-				}
-
-			};
-			job.schedule();
+			bootstrapJob.schedule();
+			bootstrapJob.join();
+			initalBuildJob.schedule();
 
 		}
 		catch (Exception e)
@@ -281,40 +238,57 @@ public class NewProjectWizard extends Wizard implements INewWizard
 
 	}
 
-	private IFolder initBuildProject(final IProject buildProject, final String organization, final String projectName, final IProgressMonitor monitor)
-			throws CoreException, IOException
+	protected Job getInitialBuildJob(final String organization, final String projectName, final IProject buildProject)
 	{
-		// ant bootstrap files
-		IFolder baseAntFolder = buildProject.getFolder(Constants.BASE_ANT_PATH);
-		baseAntFolder.create(true, true, monitor);
-		final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
-		myadminAntFolder.create(true, true, monitor);
-		write(baseAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, openProjectBootstrapAnt(), monitor);
+		Job job = new Job(Messages.InitialBuild)
+		{
+			@Override
+			protected IStatus run(IProgressMonitor monitor)
+			{
+				try
+				{
+					refreshProjects(monitor);
 
-		// version properties
-		Properties versionProperties = new Properties();
-		versionProperties.setProperty("module.version.major", "0");
-		versionProperties.setProperty("module.version.minor", "0");
-		versionProperties.setProperty("module.version.micro", "1");
-		OutputStream versionOutputStream = new ByteArrayOutputStream();
-		versionProperties.store(versionOutputStream, null);
-		write(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()), monitor);
+					LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFile("build.xml"), monitor, true, "");
 
-		// myadmin properties
-		Properties myadminProperties = new Properties();
-		myadminProperties.setProperty(Constants.ORGANISATION_NAME_KEY, organization);
-		myadminProperties.setProperty(Constants.PROJECT_NAME_KEY, projectName.toLowerCase());
-		myadminProperties.setProperty(Constants.BUILD_PROJECT_KEY, "${organisation.name}.${project.name}.build");
-		myadminProperties.setProperty("client.project", "${organisation.name}.${project.name}.client");
-		myadminProperties.setProperty("client.test.project", "${organisation.name}.${project.name}.client.test");
-		myadminProperties.setProperty("server.project", "${organisation.name}.${project.name}.server");
-		myadminProperties.setProperty("server.test.project", "${organisation.name}.${project.name}.server.test");
-		myadminProperties.setProperty("deploy.project", "${organisation.name}.${project.name}.deploy");
-		OutputStream myadminOutputStream = new ByteArrayOutputStream();
-		myadminProperties.store(myadminOutputStream, null);
+					refreshProjects(monitor);
 
-		write(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()), monitor);
-		return myadminAntFolder;
+					for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
+					{
+						IProject project = getProject(organization, projectName, projectNamePostfix);
+						IJavaProject javaProject = JavaCore.create(project);
+
+						// add ivy container & nature
+						addProjectNature(project, IvyNature.IVY_NATURE, monitor);
+
+						IvyClasspathContainerConfiguration conf = new IvyClasspathContainerConfiguration(javaProject, "ivy.xml", true);
+						conf.setConfs(Collections.singletonList("runtime"));
+
+						IPath path = IvyClasspathContainerConfAdapter.getPath(conf);
+						IClasspathAttribute[] atts = conf.getAttributes();
+
+						List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
+						classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
+
+						IClasspathEntry entry = JavaCore.newContainerEntry(path, null, atts, false);
+						classpathEntries.add(entry);
+
+						javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[0]), monitor);
+
+						refreshProjects(monitor);
+					}
+
+				}
+				catch (Exception e)
+				{
+					return new Status(Status.ERROR, Activator.PLUGIN_ID, 1, e.getMessage(), e);
+				}
+
+				return Status.OK_STATUS;
+			}
+
+		};
+		return job;
 	}
 
 	private String getProjectName(String organization, String projectName, Constants.PROJECT_NAME_POSTFIXES projectNamePostfix)
@@ -348,33 +322,6 @@ public class NewProjectWizard extends Wizard implements INewWizard
 		{
 			throw new RuntimeException(e);
 		}
-	}
-
-	private InputStream openProjectBootstrapAnt()
-	{
-		return getClass().getResourceAsStream(String.format("%s/%s", Constants.TEMPLATES_PATH, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME));
-	}
-
-	private void write(IContainer container, String fileName, InputStream stream, IProgressMonitor monitor)
-	{
-		try
-		{
-			IFile file = container.getFile(new Path(fileName));
-			if (file.exists())
-			{
-				file.setContents(stream, true, true, monitor);
-			}
-			else
-			{
-				file.create(stream, true, monitor);
-			}
-			stream.close();
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-
 	}
 
 	private boolean validate(boolean isFinalStep)

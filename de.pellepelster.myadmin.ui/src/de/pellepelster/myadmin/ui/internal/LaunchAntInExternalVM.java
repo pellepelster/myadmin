@@ -21,10 +21,23 @@ import org.eclipse.debug.core.ILaunchesListener2;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+
+import de.pellepelster.myadmin.ui.Messages;
 
 public class LaunchAntInExternalVM
 {
+	private static final String ATTR_WORKING_DIRECTORY = "org.eclipse.jdt.launching.WORKING_DIRECTORY";
+
+	private static final String ATTR_LAUNCH_IN_BACKGROUND = "org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND";
+
+	private static final String ATTR_CAPTURE_OUTPUT = "org.eclipse.ui.externaltools.ATTR_CAPTURE_OUTPUT";
+
+	private static final String ATTR_SHOW_CONSOLE = "org.eclipse.ui.externaltools.ATTR_SHOW_CONSOLE";
+
 	private static final String MAIN_TYPE_NAME = "org.eclipse.ant.internal.ui.antsupport.InternalAntRunner";
+
 	private static final String REMOTE_ANT_PROCESS_FACTORY_ID = "org.eclipse.ant.ui.remoteAntProcessFactory";
 
 	public static void launchAntInExternalVM(IFile buildFile, IProgressMonitor monitor, boolean captureOutput, String targets) throws CoreException,
@@ -75,6 +88,7 @@ public class LaunchAntInExternalVM
 		}
 
 		countDownLatch.await();
+
 	}
 
 	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(IFile buildFile, boolean captureOutput, String targets, String launchUUID)
@@ -91,19 +105,22 @@ public class LaunchAntInExternalVM
 		File fullAntFile = new File(workspace.getRoot().getLocation().toFile(), antFileName);
 		workingCopy.setAttribute(IExternalToolConstants.ATTR_LOCATION, fullAntFile.toString());
 
-		workingCopy.setAttribute("org.eclipse.jdt.launching.WORKING_DIRECTORY", buildFile.getProject().getLocation().toOSString());
+		workingCopy.setAttribute(ATTR_WORKING_DIRECTORY, buildFile.getProject().getLocation().toOSString());
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, buildFile.getProject().getName());
 		// workingCopy.setAttribute(IAntLaunchConstants.ATTR_ANT_TARGETS,
 		// targets);
 
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH_PROVIDER, "org.eclipse.ant.ui.AntClasspathProvider"); //$NON-NLS-1$
-		IVMInstall defaultInstall = null;
-		defaultInstall = JavaRuntime.getDefaultVMInstall();
+		IVMInstall jdk = JavaRuntime.getDefaultVMInstall();
 
-		if (defaultInstall != null)
+		if (jdk == null)
 		{
-			String vmName = defaultInstall.getName();
-			String vmTypeID = defaultInstall.getVMInstallType().getId();
+			MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.NoJdkFoundTitle, Messages.NoJdkFoundMessage);
+		}
+		else
+		{
+			String vmName = jdk.getName();
+			String vmTypeID = jdk.getVMInstallType().getId();
 			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_NAME, vmName);
 			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_TYPE, vmTypeID);
 		}
@@ -112,20 +129,19 @@ public class LaunchAntInExternalVM
 		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID, REMOTE_ANT_PROCESS_FACTORY_ID);
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, (String) null);
 
-		workingCopy.setAttribute("org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND", false);
+		workingCopy.setAttribute(ATTR_LAUNCH_IN_BACKGROUND, false);
 		if (captureOutput)
 		{
-			workingCopy.setAttribute("org.eclipse.ui.externaltools.ATTR_SHOW_CONSOLE", true);
-			workingCopy.setAttribute("org.eclipse.ui.externaltools.ATTR_CAPTURE_OUTPUT", true);
+			workingCopy.setAttribute(ATTR_SHOW_CONSOLE, true);
+			workingCopy.setAttribute(ATTR_CAPTURE_OUTPUT, true);
 		}
 		else
 		{
-			workingCopy.setAttribute("org.eclipse.ui.externaltools.ATTR_SHOW_CONSOLE", false);
-			workingCopy.setAttribute("org.eclipse.ui.externaltools.ATTR_CAPTURE_OUTPUT", false);
+			workingCopy.setAttribute(ATTR_SHOW_CONSOLE, false);
+			workingCopy.setAttribute(ATTR_CAPTURE_OUTPUT, false);
 		}
 		workingCopy.setAttribute(ILaunchManager.ATTR_PRIVATE, true);
 
 		return workingCopy;
 	}
-
 }
