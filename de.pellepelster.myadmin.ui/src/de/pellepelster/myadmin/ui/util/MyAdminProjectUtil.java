@@ -4,9 +4,14 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 
 import de.pellepelster.myadmin.ui.Constants;
+import de.pellepelster.myadmin.ui.internal.Activator;
 
 public class MyAdminProjectUtil
 {
@@ -14,7 +19,7 @@ public class MyAdminProjectUtil
 	private static final String FQDN_PROJECT_NAME_REGEX = "([a-zA-Z_][a-zA-Z\\d_]*\\.)+([a-zA-Z][A-Za-zA-Z\\d_]*)";
 
 	private static Pattern FQDN_PROJECT_NAME_PATTERN = Pattern.compile(FQDN_PROJECT_NAME_REGEX);
-	
+
 	public static boolean isValidFQDNProjectName(String fqdnProjectName)
 	{
 		return fqdnProjectName != null && FQDN_PROJECT_NAME_PATTERN.matcher(fqdnProjectName).matches();
@@ -27,9 +32,9 @@ public class MyAdminProjectUtil
 		if (isValidFQDNProjectName(fqdnProjectName))
 		{
 			projectNameSegments[0] = fqdnProjectName.substring(0, fqdnProjectName.lastIndexOf("."));
-			projectNameSegments[1] = fqdnProjectName.substring(fqdnProjectName.lastIndexOf(".")+1);
+			projectNameSegments[1] = fqdnProjectName.substring(fqdnProjectName.lastIndexOf(".") + 1);
 		}
-		
+
 		return projectNameSegments;
 	}
 
@@ -97,6 +102,33 @@ public class MyAdminProjectUtil
 	{
 		Properties properties = getMyAdminProjectProperties(project);
 		return getPropertyOrFail(properties, Constants.BUILD_PROJECT_KEY);
+	}
+
+	public static InputStream openProjectBootstrapAnt()
+	{
+		return Activator.class.getResourceAsStream(String.format("%s/%s", Constants.TEMPLATES_PATH, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME));
+	}
+
+	public static void writeFileToContainer(IContainer container, String fileName, InputStream stream, IProgressMonitor monitor)
+	{
+		try
+		{
+			IFile file = container.getFile(new Path(fileName));
+			if (file.exists())
+			{
+				file.setContents(stream, true, true, monitor);
+			}
+			else
+			{
+				file.create(stream, true, monitor);
+			}
+			stream.close();
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+
 	}
 
 }

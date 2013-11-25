@@ -14,9 +14,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.launching.JavaRuntime;
 
 import de.pellepelster.myadmin.ui.Constants;
 import de.pellepelster.myadmin.ui.Messages;
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class BuildProjectNature implements IProjectNature
 {
@@ -49,12 +51,12 @@ public class BuildProjectNature implements IProjectNature
 	public static void runBootstrap(IProject buildProject, IProgressMonitor monitor) throws CoreException, InterruptedException
 	{
 		LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFolder(Constants.BASE_ANT_PATH).getFile(Constants.PROJECT_BOOTSTRAP_ANT_FILENAME), monitor,
-				true, "");
+				true, "", JavaRuntime.getDefaultVMInstall());
 	}
 
 	public static Job getBootstrapJob(final IProject buildProject)
 	{
-		Job job = new Job(Messages.InitializingProjects)
+		Job job = new Job(Messages.BootstrappingProjects)
 		{
 			@Override
 			protected IStatus run(IProgressMonitor monitor)
@@ -65,6 +67,7 @@ public class BuildProjectNature implements IProjectNature
 				}
 				catch (Exception e)
 				{
+					Logger.error(e);
 					return new Status(Status.ERROR, Activator.PLUGIN_ID, 1, e.getMessage(), e);
 				}
 
@@ -85,7 +88,7 @@ public class BuildProjectNature implements IProjectNature
 		final IFolder myadminAntFolder = baseAntFolder.getFolder(Constants.MYADMIN_ANT_PATH);
 		myadminAntFolder.create(true, true, monitor);
 
-		Utils.writeFileToContainer(baseAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, Utils.openProjectBootstrapAnt(), monitor);
+		MyAdminProjectUtil.writeFileToContainer(baseAntFolder, Constants.PROJECT_BOOTSTRAP_ANT_FILENAME, MyAdminProjectUtil.openProjectBootstrapAnt(), monitor);
 
 		// version properties
 		Properties versionProperties = new Properties();
@@ -94,8 +97,8 @@ public class BuildProjectNature implements IProjectNature
 		versionProperties.setProperty("module.version.micro", "1");
 		OutputStream versionOutputStream = new ByteArrayOutputStream();
 		versionProperties.store(versionOutputStream, null);
-		Utils.writeFileToContainer(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString().getBytes()),
-				monitor);
+		MyAdminProjectUtil.writeFileToContainer(buildProject, Constants.VERSION_PROPERTIES_FILENAME, new ByteArrayInputStream(versionOutputStream.toString()
+				.getBytes()), monitor);
 
 		// myadmin properties
 		Properties myadminProperties = new Properties();
@@ -110,8 +113,8 @@ public class BuildProjectNature implements IProjectNature
 		OutputStream myadminOutputStream = new ByteArrayOutputStream();
 		myadminProperties.store(myadminOutputStream, null);
 
-		Utils.writeFileToContainer(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString().getBytes()),
-				monitor);
+		MyAdminProjectUtil.writeFileToContainer(buildProject, Constants.MYADMIN_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminOutputStream.toString()
+				.getBytes()), monitor);
 	}
 
 }

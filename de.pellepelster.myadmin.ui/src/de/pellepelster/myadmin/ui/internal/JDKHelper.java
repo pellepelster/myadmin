@@ -13,7 +13,6 @@ package de.pellepelster.myadmin.ui.internal;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jdt.launching.IVMInstall;
@@ -35,7 +34,7 @@ public class JDKHelper
 			{
 				return isJDK(vmInstall);
 			}
-		});
+		}, null);
 	}
 
 	private static List<IVMInstall> getAllVmInstalls()
@@ -44,7 +43,10 @@ public class JDKHelper
 
 		for (IVMInstallType vmInstallType : JavaRuntime.getVMInstallTypes())
 		{
-			vmInstalls.addAll(Arrays.asList(vmInstallType.getVMInstalls()));
+			for (IVMInstall vmInstall : vmInstallType.getVMInstalls())
+			{
+				vmInstalls.add(vmInstall);
+			}
 		}
 
 		return vmInstalls;

@@ -32,6 +32,7 @@ public class RunBootstrapHandler extends AbstractHandler
 				}
 				catch (Exception e)
 				{
+					Logger.error(e);
 					throw new RuntimeException(e);
 				}
 

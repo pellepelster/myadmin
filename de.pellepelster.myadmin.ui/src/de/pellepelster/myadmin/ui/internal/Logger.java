@@ -36,14 +36,14 @@ public class Logger
 
 	public static void error(Throwable exception)
 	{
-		Status s = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.OK, null, exception);
-		log.log(s);
+		Status status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.OK, null, exception);
+		log.log(status);
 	}
 
 	public static void warn(String message)
 	{
-		Status s = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.OK, message, null);
-		log.log(s);
+		Status status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.OK, message, null);
+		log.log(status);
 	}
 
 }

@@ -45,26 +45,48 @@
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-         <command
-               commandId="myadmin.runbootstrap"
-               id="myadmin.menu.runbootstrap"
-               style="push">
+         <menu
+               label="MyAdmin">
+            <command
+                  commandId="myadmin.runbootstrap"
+                  id="myadmin.menu.runbootstrap"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="or">
+                        <adapt
+                              type="org.eclipse.core.resources.IResource">
+                           <test
+                                 property="org.eclipse.core.resources.projectNature"
+                                 value="de.pellepelster.myadmin.ui.buildprojectnature">
+                           </test>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
             <visibleWhen
                   checkEnabled="false">
-                  
-                              <with
-                  variable="selection">
-                  <iterate ifEmpty="false" operator="or">
-         <adapt type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="de.pellepelster.myadmin.ui.buildprojectnature" />
-         </adapt>
-      </iterate>
-            </with>
-                  
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="or">
+                        <adapt
+                              type="org.eclipse.core.resources.IResource">
+                           <test
+                                 property="org.eclipse.core.resources.projectNature"
+                                 value="de.pellepelster.myadmin.ui.buildprojectnature">
+                           </test>
+                        </adapt>
+                     </iterate>
+                  </with>
             </visibleWhen>
-         </command>
+         </menu>
       </menuContribution>
    </extension>
 </plugin>

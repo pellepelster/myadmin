@@ -17,27 +17,17 @@ public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "de.pellepelster.myadmin.ui.messages"; //$NON-NLS-1$
 
-	public static String InitializingProjects;
+	public static String InitialBuildNoJdkErrorTitle;
 
-	public static String RunAnt;
-
-	public static String NoJdkFoundTitle;
-
-	public static String NoJdkFoundMessage;
-
-	public static String InitializeProjects;
+	public static String InitialBuildNoJdkErrorMessage;
 
 	public static String BootstrappingProjects;
-
-	public static String FirstBuild;
 
 	public static String ProjectName;
 
 	public static String Organization;
 
 	public static String FillInField;
-
-	public static String NewProject;
 
 	public static String NewProjectErrorTitle;
 

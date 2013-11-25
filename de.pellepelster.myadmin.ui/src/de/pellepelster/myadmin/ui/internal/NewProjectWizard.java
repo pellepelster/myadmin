@@ -38,25 +38,31 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter;
+import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 import de.pellepelster.myadmin.ui.Constants;
 import de.pellepelster.myadmin.ui.Constants.PROJECT_NAME_POSTFIXES;
 import de.pellepelster.myadmin.ui.Messages;
+import de.pellepelster.myadmin.ui.util.MyAdminProjectUtil;
 
 public class NewProjectWizard extends Wizard implements INewWizard
 {
@@ -107,7 +113,6 @@ public class NewProjectWizard extends Wizard implements INewWizard
 		{
 			for (Constants.PROJECT_NAME_POSTFIXES projectNamePostfix : Constants.PROJECT_NAME_POSTFIXES.values())
 			{
-
 				IProject project = getProject(organization, projectName, projectNamePostfix);
 				this.projects.put(projectNamePostfix, project);
 
@@ -149,8 +154,8 @@ public class NewProjectWizard extends Wizard implements INewWizard
 						break;
 					case GENERATOR:
 
-						Utils.writeFileToContainer(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME, new ByteArrayInputStream(myadminProjectOutputStream
-								.toString().getBytes()), monitor);
+						MyAdminProjectUtil.writeFileToContainer(project, Constants.MYADMIN_PROJECT_PROPERTIES_FILENAME, new ByteArrayInputStream(
+								myadminProjectOutputStream.toString().getBytes()), monitor);
 
 						addProjectNature(project, "org.eclipse.xtext.ui.shared.xtextNature", monitor);
 
@@ -217,22 +222,43 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			setProjectReferences(serverTestProject, monitor, serverProject);
 			setProjectReferences(serverTestProject, monitor, generatorProject);
 
-			IJobManager jobMan = Job.getJobManager();
-			IProgressMonitor jobGroup = jobMan.createProgressGroup();
-			jobGroup.setTaskName(Messages.InitializingProjects);
+			final Job bootstrapJob = BuildProjectNature.getBootstrapJob(buildProject);
 
-			Job bootstrapJob = BuildProjectNature.getBootstrapJob(buildProject);
-			bootstrapJob.setProgressGroup(jobGroup, IProgressMonitor.UNKNOWN);
+			Job.getJobManager().addJobChangeListener(new JobChangeAdapter()
+			{
+				@Override
+				public void done(IJobChangeEvent event)
+				{
+					if (event.getJob() == bootstrapJob)
+					{
+						IVMInstall jdk = JDKHelper.getJDK();
 
-			Job initalBuildJob = getInitialBuildJob(organization, projectName, buildProject);
+						if (jdk == null)
+						{
+							PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.InitialBuildNoJdkErrorTitle,
+											Messages.InitialBuildNoJdkErrorMessage);
+								}
+							});
+						}
+						else
+						{
+							getInitialBuildJob(organization, projectName, buildProject).schedule();
+						}
+
+					}
+				}
+			});
 
 			bootstrapJob.schedule();
-			bootstrapJob.join();
-			initalBuildJob.schedule();
-
 		}
 		catch (Exception e)
 		{
+			Logger.error(e);
 			throw new RuntimeException(e);
 		}
 
@@ -249,7 +275,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				{
 					refreshProjects(monitor);
 
-					LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFile("build.xml"), monitor, true, "");
+					LaunchAntInExternalVM.launchAntInExternalVM(buildProject.getFile("build.xml"), monitor, true, "", JDKHelper.getJDK());
 
 					refreshProjects(monitor);
 
@@ -281,6 +307,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 				}
 				catch (Exception e)
 				{
+					Logger.error(e);
 					return new Status(Status.ERROR, Activator.PLUGIN_ID, 1, e.getMessage(), e);
 				}
 
@@ -320,6 +347,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 		}
 		catch (CoreException e)
 		{
+			Logger.error(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -372,6 +400,7 @@ public class NewProjectWizard extends Wizard implements INewWizard
 			}
 			catch (Exception e)
 			{
+				Logger.error(e);
 				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, Messages.NewProjectErrorTitle, e);
 				ErrorDialog.openError(this.newProjectWizardPage1.getShell(), Messages.NewProjectErrorTitle, Messages.NewProjectErrorMessage, status);
 

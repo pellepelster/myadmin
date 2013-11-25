@@ -20,11 +20,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.ILaunchesListener2;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-
-import de.pellepelster.myadmin.ui.Messages;
 
 public class LaunchAntInExternalVM
 {
@@ -40,12 +35,10 @@ public class LaunchAntInExternalVM
 
 	private static final String REMOTE_ANT_PROCESS_FACTORY_ID = "org.eclipse.ant.ui.remoteAntProcessFactory";
 
-	public static void launchAntInExternalVM(IFile buildFile, IProgressMonitor monitor, boolean captureOutput, String targets) throws CoreException,
-			InterruptedException
+	public static void launchAntInExternalVM(IFile buildFile, IProgressMonitor monitor, boolean captureOutput, String targets, IVMInstall launchVM)
+			throws CoreException, InterruptedException
 	{
 		final String launchUUID = UUID.randomUUID().toString();
-
-		ILaunchConfigurationWorkingCopy workingCopy = null;
 		final CountDownLatch countDownLatch = new CountDownLatch(1);
 
 		DebugPlugin.getDefault().getLaunchManager().addLaunchListener(new ILaunchesListener2()
@@ -79,8 +72,10 @@ public class LaunchAntInExternalVM
 			}
 		});
 
-		workingCopy = LaunchAntInExternalVM.createDefaultLaunchConfiguration(buildFile, captureOutput, targets, launchUUID);
+		ILaunchConfigurationWorkingCopy workingCopy = LaunchAntInExternalVM.createDefaultLaunchConfiguration(buildFile, captureOutput, targets, launchUUID,
+				launchVM);
 		ILaunch launch = workingCopy.launch(ILaunchManager.RUN_MODE, new SubProgressMonitor(monitor, 1));
+
 		if (!captureOutput)
 		{
 			ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
@@ -91,8 +86,8 @@ public class LaunchAntInExternalVM
 
 	}
 
-	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(IFile buildFile, boolean captureOutput, String targets, String launchUUID)
-			throws CoreException
+	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(IFile buildFile, boolean captureOutput, String targets, String launchUUID,
+			IVMInstall launchVM) throws CoreException
 	{
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -111,25 +106,17 @@ public class LaunchAntInExternalVM
 		// targets);
 
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH_PROVIDER, "org.eclipse.ant.ui.AntClasspathProvider"); //$NON-NLS-1$
-		IVMInstall jdk = JavaRuntime.getDefaultVMInstall();
-
-		if (jdk == null)
-		{
-			MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.NoJdkFoundTitle, Messages.NoJdkFoundMessage);
-		}
-		else
-		{
-			String vmName = jdk.getName();
-			String vmTypeID = jdk.getVMInstallType().getId();
-			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_NAME, vmName);
-			workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_TYPE, vmTypeID);
-		}
+		String vmName = launchVM.getName();
+		String vmTypeID = launchVM.getVMInstallType().getId();
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_NAME, vmName);
+		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_INSTALL_TYPE, vmTypeID);
 
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, MAIN_TYPE_NAME);
 		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID, REMOTE_ANT_PROCESS_FACTORY_ID);
 		workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, (String) null);
 
 		workingCopy.setAttribute(ATTR_LAUNCH_IN_BACKGROUND, false);
+
 		if (captureOutput)
 		{
 			workingCopy.setAttribute(ATTR_SHOW_CONSOLE, true);
