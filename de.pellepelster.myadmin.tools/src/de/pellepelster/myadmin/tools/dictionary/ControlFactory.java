@@ -14,9 +14,6 @@ package de.pellepelster.myadmin.tools.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BaseDictionaryControl;
@@ -31,6 +28,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Labels;
+import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 /**
  * Factory for control creation
@@ -47,62 +45,6 @@ public class ControlFactory
 	}
 
 	private static ControlFactory instance;
-
-	@SuppressWarnings("unchecked")
-	public static <ControlyType extends DictionaryControl> ArrayList<ControlyType> getControlHierarchy(ControlyType dictionaryControl)
-	{
-		ArrayList<ControlyType> controlHierarchy = new ArrayList<ControlyType>();
-
-		controlHierarchy.add(dictionaryControl);
-
-		ControlyType refControl = (ControlyType) getControlRef(dictionaryControl);
-
-		while (refControl != null)
-		{
-			controlHierarchy.add(refControl);
-
-			refControl = (ControlyType) getControlRef(refControl);
-		}
-
-		return controlHierarchy;
-	}
-
-	protected static Object getControlRef(Object dictionaryControl)
-	{
-		try
-		{
-			return PropertyUtils.getProperty(dictionaryControl, "ref");
-		}
-		catch (Exception e)
-		{
-			// ignore nonexisting refs
-		}
-
-		return null;
-	}
-
-	public static String getControlName(DictionaryControl dictionaryControl)
-	{
-		ArrayList<DictionaryControl> controlHierarchy = getControlHierarchy(dictionaryControl);
-
-		if (!StringUtils.isEmpty(controlHierarchy.get(0).getName()))
-		{
-			return controlHierarchy.get(0).getName();
-		}
-		else
-		{
-			for (DictionaryControl controlHierarchyElement : controlHierarchy)
-			{
-				if (!StringUtils.isEmpty(controlHierarchyElement.getName()))
-				{
-					return controlHierarchyElement.getName();
-				}
-			}
-		}
-
-		throw new RuntimeException(String.format("could not find control name for control '%s'", dictionaryControl));
-
-	}
 
 	public static ControlFactory getInstance()
 	{
@@ -212,7 +154,7 @@ public class ControlFactory
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 
-		String controlName = getControlName(dictionaryControl);
+		String controlName = ModelUtil.getControlName(dictionaryControl);
 		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating control '%s'", controlName), logIdentiation);
 		dictionaryControlVO.setName(controlName);
 

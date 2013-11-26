@@ -1,7 +1,9 @@
 package de.pellepelster.myadmin.dsl.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -11,7 +13,14 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
+
 import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ModelRoot;
 import de.pellepelster.myadmin.dsl.myAdminDsl.PackageDeclaration;
@@ -105,6 +114,12 @@ public class ModelUtil
 
 	public static <T extends EObject> T getParentEObject(EObject eObject, Class<T> eObjectClass)
 	{
+		return getParentEObject(eObject, eObjectClass, true);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends EObject> T getParentEObject(EObject eObject, Class<T> eObjectClass, boolean optional)
+	{
 		EObject currentEObject = eObject;
 
 		int count = 0;
@@ -124,14 +139,101 @@ public class ModelUtil
 		}
 		else
 		{
-			throw new RuntimeException(String.format("no parent object of type '%s' found for '%s'", eObjectClass.getName(), eObject.toString()));
+			if (optional)
+			{
+				return null;
+			}
+			else
+			{
+				throw new RuntimeException(String.format("no parent object of type '%s' found for '%s'", eObjectClass.getName(), eObject.toString()));
+			}
 
 		}
 	}
 
+	public static Object getControlRef(Object dictionaryControl)
+	{
+		try
+		{
+			return PropertyUtils.getProperty(dictionaryControl, "ref");
+		}
+		catch (Exception e)
+		{
+			// ignore nonexisting refs
+		}
+
+		return null;
+	}
+
+	public static String getControlName(DictionaryControl dictionaryControl)
+	{
+		return getControlAttribute(dictionaryControl, new Function<DictionaryControl, String>()
+		{
+			@Override
+			public String apply(DictionaryControl dictionaryControl)
+			{
+				return dictionaryControl.getName();
+			}
+		});
+	}
+
+	public static EntityAttribute getEntityAttribute(DictionaryControl dictionaryControl)
+	{
+		return getControlAttribute(dictionaryControl, new Function<DictionaryControl, EntityAttribute>()
+		{
+			@Override
+			public EntityAttribute apply(DictionaryControl dictionaryControl)
+			{
+				if (dictionaryControl.getBaseControl() != null)
+				{
+					return dictionaryControl.getBaseControl().getEntityattribute();
+				}
+				else
+				{
+					return null;
+				}
+			}
+		});
+	}
+
+	public static <T> T getControlAttribute(DictionaryControl dictionaryControl, Function<DictionaryControl, T> function)
+	{
+		ArrayList<DictionaryControl> controlHierarchy = getControlHierarchy(dictionaryControl);
+
+		return Iterables.getFirst(Iterables.filter(Iterables.transform(controlHierarchy, function), Predicates.notNull()), null);
+
+		// throw new
+		// RuntimeException(String.format("could not find control name for control '%s'",
+		// dictionaryControl));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <ControlyType extends DictionaryControl> ArrayList<ControlyType> getControlHierarchy(ControlyType dictionaryControl)
+	{
+		ArrayList<ControlyType> controlHierarchy = new ArrayList<ControlyType>();
+
+		controlHierarchy.add(dictionaryControl);
+
+		ControlyType refControl = (ControlyType) getControlRef(dictionaryControl);
+
+		while (refControl != null)
+		{
+			controlHierarchy.add(refControl);
+
+			refControl = (ControlyType) getControlRef(refControl);
+		}
+
+		return controlHierarchy;
+	}
+
 	public static Dictionary getParentDictionary(EObject eObject)
 	{
-		return getParentEObject(eObject, Dictionary.class);
+		return getParentEObject(eObject, Dictionary.class, false);
+	}
+
+	public static Entity getParentEntity(EObject eObject)
+	{
+		return getParentEObject(eObject, Entity.class, false);
 	}
 
 	public static String getParentDictionaryName(EObject eObject)

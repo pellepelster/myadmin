@@ -11,12 +11,31 @@
  */
 package de.pellepelster.myadmin.dsl.validation;
 
+import java.text.MessageFormat;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.Check;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.dsl.Messages;
+import de.pellepelster.myadmin.dsl.myAdminDsl.BaseDictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBigDecimalControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBooleanControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryDateControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEditableTable;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEnumerationControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.Entity;
+import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
+import de.pellepelster.myadmin.dsl.util.EntityModelUtil;
+import de.pellepelster.myadmin.dsl.util.ModelUtil;
 
 public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 {
@@ -57,7 +76,7 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 
 	}
 
-	public static ModelValidationMessage validateIdentifier(String identifier)
+	public static ModelValidationMessage validateJavaIdentifier(String identifier)
 	{
 
 		char[] identifierChars = identifier.toCharArray();
@@ -97,8 +116,120 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 	}
 
 	@Check
-	public void checkGreetingStartsWithCapital(Datatype datatype)
+	public void checkDatatype(Datatype datatype)
 	{
-		convertValidationMessageTo(validateIdentifier(datatype.getName()), MyAdminDslPackage.Literals.DATATYPE__NAME);
+		convertValidationMessageTo(validateJavaIdentifier(datatype.getName()), MyAdminDslPackage.Literals.DATATYPE__NAME);
 	}
+
+	@Check
+	public void checkDictionaryControl(BaseDictionaryControl baseDictionaryControl)
+	{
+
+		DictionaryControl dictionaryControl = ModelUtil.getParentEObject(baseDictionaryControl, DictionaryControl.class);
+		EntityAttribute entityAttribute = ModelUtil.getEntityAttribute(dictionaryControl);
+
+		Dictionary dictionary = ModelUtil.getParentDictionary(dictionaryControl);
+		Entity entity = ModelUtil.getParentEObject(entityAttribute, Entity.class);
+
+		if (!Objects.equal(entity, dictionary.getEntity()))
+		{
+			Object[] messageTokens = new Object[] { entityAttribute.getName(), ModelUtil.getControlName(dictionaryControl), entity.getName(),
+					dictionary.getEntity().getName(), Messages.Dictionary };
+
+			if (baseDictionaryControl.eContainer().eContainer() instanceof Dictionary)
+			{
+				warning(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens),
+						MyAdminDslPackage.Literals.BASE_DICTIONARY_CONTROL__ENTITYATTRIBUTE);
+			}
+			else
+			{
+				error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens),
+						MyAdminDslPackage.Literals.BASE_DICTIONARY_CONTROL__ENTITYATTRIBUTE);
+			}
+
+		}
+	}
+
+	private void checkDictionaryControl(DictionaryControl dictionaryControl, EStructuralFeature referenceFeature)
+	{
+		// control has entity own attribute
+		if (dictionaryControl.getBaseControl() != null && dictionaryControl.getBaseControl().getEntityattribute() != null)
+		{
+			// we have an extra check for
+			// BaseDictionaryControl.entityattribute
+			return;
+		}
+
+		EntityAttribute entityAttribute = ModelUtil.getEntityAttribute(dictionaryControl);
+		Entity controlEntity = ModelUtil.getParentEObject(entityAttribute, Entity.class);
+
+		Dictionary dictionary = ModelUtil.getParentDictionary(dictionaryControl);
+		DictionaryEditableTable dictionaryEditableTable = ModelUtil.getParentEObject(dictionaryControl, DictionaryEditableTable.class);
+
+		Entity entity = null;
+		String parentElementType = null;
+
+		if (dictionaryEditableTable != null)
+		{
+			entity = EntityModelUtil.getEntity(dictionaryEditableTable.getEntityattribute());
+			parentElementType = Messages.EditableTable;
+		}
+		else
+		{
+			entity = dictionary.getEntity();
+			parentElementType = Messages.Dictionary;
+		}
+
+		Object[] messageTokens = new Object[] { entityAttribute.getName(), ModelUtil.getControlName(dictionaryControl), entity.getName(),
+				dictionary.getEntity().getName(), parentElementType };
+
+		if (ModelUtil.getControlRef(dictionaryControl) != null && !Objects.equal(controlEntity, entity))
+		{
+			error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens), referenceFeature);
+		}
+	}
+
+	// DictionaryControlGroup?
+	@Check
+	public void checkDictionaryControl(DictionaryTextControl dictionaryTextControl)
+	{
+		checkDictionaryControl(dictionaryTextControl, MyAdminDslPackage.Literals.DICTIONARY_TEXT_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryIntegerControl dictionaryIntegerControl)
+	{
+		checkDictionaryControl(dictionaryIntegerControl, MyAdminDslPackage.Literals.DICTIONARY_INTEGER_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryBigDecimalControl dictionaryBigDecimalControl)
+	{
+		checkDictionaryControl(dictionaryBigDecimalControl, MyAdminDslPackage.Literals.DICTIONARY_BIG_DECIMAL_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryBooleanControl dictionaryBooleanControl)
+	{
+		checkDictionaryControl(dictionaryBooleanControl, MyAdminDslPackage.Literals.DICTIONARY_BOOLEAN_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryDateControl dictionaryDateControl)
+	{
+		checkDictionaryControl(dictionaryDateControl, MyAdminDslPackage.Literals.DICTIONARY_DATE_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryEnumerationControl dictionaryEnumerationControl)
+	{
+		checkDictionaryControl(dictionaryEnumerationControl, MyAdminDslPackage.Literals.DICTIONARY_ENUMERATION_CONTROL__REF);
+	}
+
+	@Check
+	public void checkDictionaryControl(DictionaryReferenceControl dictionaryReferenceControl)
+	{
+		checkDictionaryControl(dictionaryReferenceControl, MyAdminDslPackage.Literals.DICTIONARY_REFERENCE_CONTROL__REF);
+	}
+
 }

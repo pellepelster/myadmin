@@ -43,3 +43,5 @@ Export-Package: de.pellepelster.myadmin,
  de.pellepelster.myadmin.dsl.validation
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
+Bundle-ClassPath: lib/commons-beanutils-core-jar.jar,
+ .

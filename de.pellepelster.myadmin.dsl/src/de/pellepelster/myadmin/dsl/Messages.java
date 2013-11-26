@@ -19,6 +19,12 @@ public class Messages extends NLS
 
 	public static String NoValidIdentifier;
 
+	public static String ControlEntityAttributeDoesNotMatchParentEntity;
+
+	public static String EditableTable;
+
+	public static String Dictionary;
+
 	static
 	{
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
