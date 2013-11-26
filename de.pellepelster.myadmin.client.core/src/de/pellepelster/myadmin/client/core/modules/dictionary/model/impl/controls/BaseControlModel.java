@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.controls;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
@@ -163,5 +165,11 @@ public abstract class BaseControlModel extends BaseModel implements IBaseControl
 	public boolean isReadonly()
 	{
 		return this.dictionaryControlVO.getReadOnly() != null && this.dictionaryControlVO.getReadOnly();
+	}
+
+	@Override
+	public String toString()
+	{
+		return Objects.toStringHelper(this).add("name", getName()).toString();
 	}
 }

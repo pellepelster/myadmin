@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
@@ -47,38 +48,60 @@ public class ControlFactory
 
 	private static ControlFactory instance;
 
+	@SuppressWarnings("unchecked")
+	public static <ControlyType extends DictionaryControl> ArrayList<ControlyType> getControlHierarchy(ControlyType dictionaryControl)
+	{
+		ArrayList<ControlyType> controlHierarchy = new ArrayList<ControlyType>();
+
+		controlHierarchy.add(dictionaryControl);
+
+		ControlyType refControl = (ControlyType) getControlRef(dictionaryControl);
+
+		while (refControl != null)
+		{
+			controlHierarchy.add(refControl);
+
+			refControl = (ControlyType) getControlRef(refControl);
+		}
+
+		return controlHierarchy;
+	}
+
+	protected static Object getControlRef(Object dictionaryControl)
+	{
+		try
+		{
+			return PropertyUtils.getProperty(dictionaryControl, "ref");
+		}
+		catch (Exception e)
+		{
+			// ignore nonexisting refs
+		}
+
+		return null;
+	}
+
 	public static String getControlName(DictionaryControl dictionaryControl)
 	{
+		ArrayList<DictionaryControl> controlHierarchy = getControlHierarchy(dictionaryControl);
 
-		if (dictionaryControl.getName() != null)
+		if (!StringUtils.isEmpty(controlHierarchy.get(0).getName()))
 		{
-			return dictionaryControl.getName();
+			return controlHierarchy.get(0).getName();
 		}
 		else
 		{
-			DictionaryControl refControl = null;
-
-			try
+			for (DictionaryControl controlHierarchyElement : controlHierarchy)
 			{
-				refControl = (DictionaryControl) PropertyUtils.getProperty(dictionaryControl, "ref");
-			}
-			catch (Exception e)
-			{
-				// ignore nonexisting refs
-			}
-
-			if (refControl != null)
-			{
-				String result = getControlName(refControl);
-
-				if (result != null)
+				if (!StringUtils.isEmpty(controlHierarchyElement.getName()))
 				{
-					return result;
+					return controlHierarchyElement.getName();
 				}
 			}
 		}
 
-		return null;
+		throw new RuntimeException(String.format("could not find control name for control '%s'", dictionaryControl));
+
 	}
 
 	public static ControlFactory getInstance()
@@ -117,12 +140,6 @@ public class ControlFactory
 
 	private void createDictionaryControlCommon(DictionaryControl dictionaryControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
 	{
-
-		if (dictionaryControl.getName() != null)
-		{
-			dictionaryControlVO.setName(dictionaryControl.getName());
-		}
-
 		if (dictionaryControl.getBaseControl() != null && dictionaryControl.getBaseControl().getEntityattribute() != null)
 		{
 			dictionaryControlVO.setAttributePath(dictionaryControl.getBaseControl().getEntityattribute().getName());
@@ -195,7 +212,9 @@ public class ControlFactory
 
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 
-		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating control '%s'", getControlName(dictionaryControl)), logIdentiation);
+		String controlName = getControlName(dictionaryControl);
+		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating control '%s'", controlName), logIdentiation);
+		dictionaryControlVO.setName(controlName);
 
 		if (dictionaryControl instanceof DictionaryTextControl)
 		{

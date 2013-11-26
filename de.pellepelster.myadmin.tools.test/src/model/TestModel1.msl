@@ -47,12 +47,12 @@ project MyAdminDemo {
 				dictionarycontrols {
 
 					textcontrol TextControl1Inheritance1 {
-						entityattribute entityattribute1
+						entityattribute textDataType1
 						label "Label1"
 					}
 					
 					textcontrol TextControl1Inheritance2 ref TextControl1Inheritance1 {
-						entityattribute entityattribute2
+						label "Label2"
 					}
 					
 					textcontrol TextControl1Inheritance3 ref TextControl1Inheritance2 {
@@ -73,6 +73,8 @@ project MyAdminDemo {
 				labelcontrols {
 					textcontrol ref TextControl1
 					textcontrol ref TextControl1Defaults
+					textcontrol ref TextControl1Inheritance2
+					textcontrol ref TextControl1Inheritance3
 				}
 				
 			

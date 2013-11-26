@@ -79,6 +79,30 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
+	public void testDictionary1TextControl1Inheritance3()
+	{
+
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
+
+		ITextControlModel textControlModel = DictionaryModelQuery.create(dictionaryModel).getControls()
+				.getControlModelByName("TextControl1Inheritance3", ITextControlModel.class);
+
+		Assert.assertEquals("Label3", textControlModel.getFilterLabel());
+	}
+
+	@Test
+	public void testDictionary1TextControl1Inheritance2()
+	{
+
+		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
+
+		ITextControlModel textControlModel = DictionaryModelQuery.create(dictionaryModel).getControls()
+				.getControlModelByName("TextControl1Inheritance2", ITextControlModel.class);
+
+		Assert.assertEquals("Label2", textControlModel.getFilterLabel());
+	}
+
+	@Test
 	public void testDictionaryTextControl1()
 	{
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
