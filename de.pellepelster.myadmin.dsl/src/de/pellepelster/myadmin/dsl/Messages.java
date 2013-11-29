@@ -17,6 +17,8 @@ public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "de.pellepelster.myadmin.dsl.messages"; //$NON-NLS-1$
 
+	public static String AssignmentTable;
+
 	public static String NoValidIdentifier;
 
 	public static String ControlEntityAttributeDoesNotMatchParentEntity;

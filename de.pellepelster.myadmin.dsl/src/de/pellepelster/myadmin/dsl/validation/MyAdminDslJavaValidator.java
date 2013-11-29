@@ -22,6 +22,7 @@ import de.pellepelster.myadmin.dsl.Messages;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BaseDictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Dictionary;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryAssignmentTable;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBigDecimalControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBooleanControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
@@ -165,6 +166,7 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 
 		Dictionary dictionary = ModelUtil.getParentDictionary(dictionaryControl);
 		DictionaryEditableTable dictionaryEditableTable = ModelUtil.getParentEObject(dictionaryControl, DictionaryEditableTable.class);
+		DictionaryAssignmentTable dictionaryAssignmentTable = ModelUtil.getParentEObject(dictionaryControl, DictionaryAssignmentTable.class);
 
 		Entity entity = null;
 		String parentElementType = null;
@@ -173,6 +175,11 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 		{
 			entity = EntityModelUtil.getEntity(dictionaryEditableTable.getEntityattribute());
 			parentElementType = Messages.EditableTable;
+		}
+		else if (dictionaryAssignmentTable != null)
+		{
+			entity = EntityModelUtil.getEntity(dictionaryAssignmentTable.getEntityattribute());
+			parentElementType = Messages.AssignmentTable;
 		}
 		else
 		{
