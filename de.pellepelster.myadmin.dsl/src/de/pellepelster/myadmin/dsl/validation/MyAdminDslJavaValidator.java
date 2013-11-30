@@ -139,12 +139,12 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 
 			if (baseDictionaryControl.eContainer().eContainer() instanceof Dictionary)
 			{
-				warning(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens),
+				warning(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParent, messageTokens),
 						MyAdminDslPackage.Literals.BASE_DICTIONARY_CONTROL__ENTITYATTRIBUTE);
 			}
 			else
 			{
-				error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens),
+				error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParent, messageTokens),
 						MyAdminDslPackage.Literals.BASE_DICTIONARY_CONTROL__ENTITYATTRIBUTE);
 			}
 
@@ -167,6 +167,7 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 		Dictionary dictionary = ModelUtil.getParentDictionary(dictionaryControl);
 		DictionaryEditableTable dictionaryEditableTable = ModelUtil.getParentEObject(dictionaryControl, DictionaryEditableTable.class);
 		DictionaryAssignmentTable dictionaryAssignmentTable = ModelUtil.getParentEObject(dictionaryControl, DictionaryAssignmentTable.class);
+		DictionaryReferenceControl dictionaryReferenceControl = ModelUtil.getParentEObject(dictionaryControl, DictionaryReferenceControl.class);
 
 		Entity entity = null;
 		String parentElementType = null;
@@ -181,6 +182,12 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 			entity = EntityModelUtil.getEntity(dictionaryAssignmentTable.getEntityattribute());
 			parentElementType = Messages.AssignmentTable;
 		}
+		else if (dictionaryReferenceControl != null)
+		{
+			dictionary = dictionaryReferenceControl.getDictionary();
+			entity = dictionary.getEntity();
+			parentElementType = Messages.ReferenceControl;
+		}
 		else
 		{
 			entity = dictionary.getEntity();
@@ -192,7 +199,7 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 
 		if (ModelUtil.getControlRef(dictionaryControl) != null && !Objects.equal(controlEntity, entity))
 		{
-			error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParentEntity, messageTokens), referenceFeature);
+			error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParent, messageTokens), referenceFeature);
 		}
 	}
 

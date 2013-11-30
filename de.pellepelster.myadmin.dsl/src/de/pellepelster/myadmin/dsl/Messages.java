@@ -21,9 +21,11 @@ public class Messages extends NLS
 
 	public static String NoValidIdentifier;
 
-	public static String ControlEntityAttributeDoesNotMatchParentEntity;
+	public static String ControlEntityAttributeDoesNotMatchParent;
 
 	public static String EditableTable;
+
+	public static String ReferenceControl;
 
 	public static String Dictionary;
 
