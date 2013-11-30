@@ -493,11 +493,13 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					}
 
 					navigationnode User {
-						title "Users" module UserSearch
+						title "Users" 
+						dictionarySearch MyAdmin.de.pellepelster.myadmin.dictionaries.MyAdminUser.UserSearch
 					}
 
 					navigationnode Group {
-						title "Groups" module GroupSearch
+						title "Groups" 
+						dictionarySearch MyAdmin.de.pellepelster.myadmin.dictionaries.MyAdminGroup.MyAdminGroupSearch
 					}
 
 				}

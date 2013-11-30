@@ -502,23 +502,6 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					}
 				}
 			}
-			
-			module UserSearch {
-				moduledefinition  de.pellepelster.myadmin.modules.^dictionary.DictionarySearch		
-				
-				parameters {
-					^dictionary.DictionarySearch.SearchDictionaryName = "MyAdminUser"
-				} 
-			}
-	
-			module GroupSearch {
-				moduledefinition de.pellepelster.myadmin.modules.^dictionary.DictionarySearch		
-				
-				parameters {
-					^dictionary.DictionarySearch.SearchDictionaryName = "MyAdminGroup"
-				} 
-			}
-			
 		}
 				
 		package dictionaries {
