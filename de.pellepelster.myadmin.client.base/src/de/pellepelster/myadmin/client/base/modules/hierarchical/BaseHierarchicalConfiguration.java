@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.base.modules.hierarchical;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public abstract class BaseHierarchicalConfiguration
 				}
 			});
 
-			this.hierarchy.put(dictionaryDescriptor.getId(), parentDictionaryNames);
+			this.hierarchy.put(dictionaryDescriptor.getId(), new ArrayList<String>(parentDictionaryNames));
 		}
 		else
 		{
