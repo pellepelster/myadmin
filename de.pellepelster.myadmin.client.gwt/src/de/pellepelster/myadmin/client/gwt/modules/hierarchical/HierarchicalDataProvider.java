@@ -81,7 +81,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 			{
 				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
-					if (entry.getValue().size() == 1 && entry.getValue().get(0) == null)
+					if (entry.getValue().isEmpty())
 					{
 						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
 						addHierarchicalNode.setDictionaryName(entry.getKey());

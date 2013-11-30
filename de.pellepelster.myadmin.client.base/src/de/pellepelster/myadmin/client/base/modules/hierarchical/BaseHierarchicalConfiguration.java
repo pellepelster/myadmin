@@ -32,9 +32,12 @@ public abstract class BaseHierarchicalConfiguration
 
 	private final String id;
 
-	public BaseHierarchicalConfiguration(String id)
+	private final String title;
+
+	public BaseHierarchicalConfiguration(String id, String title)
 	{
 		this.id = id;
+		this.title = title;
 	}
 
 	protected void addHierarchy(DictionaryDescriptor dictionaryDescriptor, DictionaryDescriptor... parentDictionaryDescriptors)
@@ -61,7 +64,7 @@ public abstract class BaseHierarchicalConfiguration
 
 	public HierarchicalConfigurationVO getHierarchyConfigurationVO()
 	{
-		return new HierarchicalConfigurationVO(getId(), this.hierarchy);
+		return new HierarchicalConfigurationVO(getId(), this.title, this.hierarchy);
 	}
 
 	public String getId()

@@ -25,8 +25,8 @@ public class HierarchicalUtils
 	public static IHierarchicalVO getParentVO(Map<String, String> parameters, IBaseEntityService baseEntityService)
 	{
 
-		if (parameters.containsKey(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName())
-				&& parameters.containsKey(IHierarchicalVO.FIELD_PARENT_ID.getAttributeName()))
+		if (parameters.get(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName()) != null
+				&& parameters.get(IHierarchicalVO.FIELD_PARENT_ID.getAttributeName()) != null)
 		{
 			String parentVOClassName = parameters.get(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName());
 			Long parentVOID = Long.parseLong(parameters.get(IHierarchicalVO.FIELD_PARENT_ID.getAttributeName()));

@@ -9,7 +9,7 @@ public class TestClientHierarchicalConfiguration extends BaseHierarchicalConfigu
 
 	public TestClientHierarchicalConfiguration()
 	{
-		super(ID);
+		super(ID, "Test Hierarchy");
 
 		addHierarchy(DemoDictionaryIDs.COMPANY);
 		addHierarchy(DemoDictionaryIDs.MANAGER, DemoDictionaryIDs.COMPANY);

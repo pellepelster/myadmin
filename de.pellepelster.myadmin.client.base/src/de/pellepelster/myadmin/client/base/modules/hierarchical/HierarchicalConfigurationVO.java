@@ -32,10 +32,11 @@ public class HierarchicalConfigurationVO implements Serializable
 		super();
 	}
 
-	public HierarchicalConfigurationVO(String id, Map<String, List<String>> dictionaryHierarchy)
+	public HierarchicalConfigurationVO(String id, String title, Map<String, List<String>> dictionaryHierarchy)
 	{
 		super();
 		this.id = id;
+		this.title = title;
 		this.dictionaryHierarchy = dictionaryHierarchy;
 	}
 
