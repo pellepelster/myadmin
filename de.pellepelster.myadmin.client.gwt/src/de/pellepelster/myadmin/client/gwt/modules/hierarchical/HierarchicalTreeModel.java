@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.gwt.modules.hierarchical;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.cell.client.Cell;
@@ -46,6 +47,8 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 	private final static String ROOT_DATAPROVIDER_KEY = "root";
 
+	public static final String HIERARCHICAL_ADD_NODE = "hierarchicalAddNode";
+
 	private final boolean showAddnodes;
 
 	public HierarchicalTreeModel(HierarchicalConfigurationVO hierarchicalConfiguration, boolean showAddnodes,
@@ -68,7 +71,6 @@ public class HierarchicalTreeModel implements TreeViewModel
 					{
 						dataProviders.get(getKey(hierarchicalVO.getParent())).onRangeChanged(cellList);
 					}
-
 				}
 
 			}
@@ -82,8 +84,8 @@ public class HierarchicalTreeModel implements TreeViewModel
 			{
 				if (nodeSelectionHandler != null && selectionModel.getSelectedObject() != null)
 				{
-					DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO = selectionModel.getSelectedObject();
-					nodeSelectionHandler.onCallback(dictionaryHierarchicalNodeVO);
+					DictionaryHierarchicalNodeVO hierarchicalNodeVO = selectionModel.getSelectedObject();
+					nodeSelectionHandler.onCallback(hierarchicalNodeVO);
 				}
 			}
 		});
@@ -117,7 +119,27 @@ public class HierarchicalTreeModel implements TreeViewModel
 	@Override
 	public boolean isLeaf(Object value)
 	{
-		return (value instanceof DictionaryHierarchicalNodeVO && !((DictionaryHierarchicalNodeVO) value).getHasChildren());
+		if (value instanceof DictionaryHierarchicalNodeVO)
+		{
+			DictionaryHierarchicalNodeVO hierarchicalNodeVO = (DictionaryHierarchicalNodeVO) value;
+
+			if (hierarchicalNodeVO.getData().containsKey(HIERARCHICAL_ADD_NODE))
+			{
+				return true;
+			}
+
+			for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
+			{
+				if (entry.getValue().contains(hierarchicalNodeVO.getDictionaryName()))
+				{
+					return false;
+				}
+			}
+
+			return !hierarchicalNodeVO.getHasChildren();
+		}
+
+		return false;
 	}
 
 	@Override

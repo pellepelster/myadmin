@@ -70,6 +70,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 						addHierarchicalNode.setHasChildren(false);
 						addHierarchicalNode.setParentClassName(parentClassname);
 						addHierarchicalNode.setParentVOId(parentId);
+						addHierarchicalNode.getData().put(HierarchicalTreeModel.HIERARCHICAL_ADD_NODE, true);
 						addNodes.add(addHierarchicalNode);
 					}
 				}
@@ -87,6 +88,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 						addHierarchicalNode.setDictionaryName(entry.getKey());
 						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
 						addHierarchicalNode.setHasChildren(false);
+						addHierarchicalNode.getData().put(HierarchicalTreeModel.HIERARCHICAL_ADD_NODE, true);
 						addNodes.add(addHierarchicalNode);
 					}
 				}
