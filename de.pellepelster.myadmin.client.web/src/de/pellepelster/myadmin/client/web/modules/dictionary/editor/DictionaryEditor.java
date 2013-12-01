@@ -14,6 +14,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule.EditorMode;
+import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
@@ -139,7 +140,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 			if (result.getValidationMessages().isEmpty())
 			{
 				setVO(result.getVO());
-
+				MyAdmin.EVENT_BUS.fireEvent(new VOSavedEvent(result.getVO()));
 				super.callParentCallbacks(result);
 			}
 			else
