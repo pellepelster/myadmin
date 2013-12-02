@@ -55,7 +55,11 @@ public class ActionBar extends HorizontalPanel
 		button.setResource(imageResource);
 		button.setTitle(title);
 		actionPanelInternal.add(button);
-		button.addClickHandler(clickHandler);
+
+		if (clickHandler != null)
+		{
+			button.addClickHandler(clickHandler);
+		}
 		button.ensureDebugId(debugId);
 
 		return button;
@@ -79,6 +83,11 @@ public class ActionBar extends HorizontalPanel
 	public Button addSingleButton(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
 	{
 		return addButton(imageResource, title, clickHandler, null, debugId);
+	}
+
+	public Button addSingleButton(ImageResource imageResource, String title, String debugId)
+	{
+		return addButton(imageResource, title, null, null, debugId);
 	}
 
 	public void addSpacer(double width)

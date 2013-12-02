@@ -20,7 +20,10 @@ public abstract class BaseAsyncCallback<T, C> implements AsyncCallback<T>
 
 	public void addParentCallback(AsyncCallback<C> parentCallback)
 	{
-		this.parentCallbacks.add(parentCallback);
+		if (parentCallback != null)
+		{
+			this.parentCallbacks.add(parentCallback);
+		}
 	}
 
 	protected void callParentCallbacks(C result)

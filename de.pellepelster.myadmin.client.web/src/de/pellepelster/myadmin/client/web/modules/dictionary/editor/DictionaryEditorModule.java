@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -159,4 +164,22 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		this.dictionaryEditor.addUpdateListener(updateListener);
 	}
 
+	public List<IButton> getEditorButtons()
+	{
+		if (ClientHookRegistry.getInstance().hasEditorHook(getDictionaryModel().getName()))
+		{
+			List<IButton> buttons = new ArrayList<IButton>();
+
+			for (BaseEditorHook<VOType> baseEditorHook : ClientHookRegistry.getInstance().getEditorHook(getDictionaryModel().getName()))
+			{
+				buttons.addAll(baseEditorHook.getEditorButtons(this.dictionaryEditor));
+			}
+
+			return buttons;
+		}
+		else
+		{
+			return Collections.emptyList();
+		}
+	}
 }

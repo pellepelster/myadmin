@@ -62,6 +62,7 @@ public final class MyAdmin implements EntryPoint
 		{
 			instance = new MyAdmin();
 		}
+
 		return instance;
 	}
 

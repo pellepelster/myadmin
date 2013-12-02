@@ -55,7 +55,7 @@ public class HierarchicalTreeModuleUI extends BaseModuleUI<HierarchicalTreeModul
 
 		verticalPanel = new VerticalPanel();
 
-		HierarchicalTree hierarchicalTree = new HierarchicalTree(module.getHierarchicalConfiguration(), true, nodeActivatedHandler);
+		HierarchicalTree hierarchicalTree = new HierarchicalTree(module.getHierarchicalConfiguration(), getModule().getShowAddNodes(), nodeActivatedHandler);
 		verticalPanel.add(hierarchicalTree);
 	}
 

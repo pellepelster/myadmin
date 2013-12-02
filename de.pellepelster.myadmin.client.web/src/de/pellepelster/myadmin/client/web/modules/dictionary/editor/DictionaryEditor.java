@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionaryEditor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
@@ -18,7 +19,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent
 import de.pellepelster.myadmin.client.web.util.BaseAsyncCallback;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IEditorModel>
+public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IEditorModel> implements IDictionaryEditor<VOType>
 {
 
 	private final EditorVOWrapper<VOType> voWrapper = new EditorVOWrapper<VOType>();
@@ -30,9 +31,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 	public DictionaryEditor(IEditorModel editorModel, Map<String, Object> context)
 	{
 		super(editorModel, null);
-
 		this.context = context;
-
 	}
 
 	@Override
@@ -141,6 +140,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 			{
 				setVO(result.getVO());
 				MyAdmin.EVENT_BUS.fireEvent(new VOSavedEvent(result.getVO()));
+
 				super.callParentCallbacks(result);
 			}
 			else
@@ -204,7 +204,8 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 	{
 	}
 
-	public IBaseVO getVO()
+	@Override
+	public VOType getVO()
 	{
 		return this.voWrapper.getVO();
 	}

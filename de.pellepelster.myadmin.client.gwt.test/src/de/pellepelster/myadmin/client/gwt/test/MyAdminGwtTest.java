@@ -29,17 +29,20 @@ import de.pellepelster.myadmin.client.web.test.services.TestMyAdminRemoteService
  * @version $Rev$, $Date$
  * 
  */
-public class MyAdminGwtTest implements EntryPoint {
+public class MyAdminGwtTest implements EntryPoint
+{
 
 	/** {@inheritDoc} */
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad()
+	{
 
 		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
 		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PCT));
 
 		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
-		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(), HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1));
+		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
+				HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1, true));
 
 	}
 

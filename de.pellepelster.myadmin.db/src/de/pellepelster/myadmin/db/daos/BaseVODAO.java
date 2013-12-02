@@ -65,6 +65,8 @@ public class BaseVODAO
 
 		T result = (T) convertEntiyToVO(res, null);
 
+		decorateVO(result);
+
 		callOnAdd(result);
 
 		return result;
@@ -193,6 +195,8 @@ public class BaseVODAO
 		IBaseEntity entityResult = this.baseDAO.save(entity);
 
 		T voResult = (T) convertEntiyToVO(entityResult, null);
+
+		decorateVO(voResult);
 
 		return voResult;
 	}

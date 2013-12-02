@@ -100,4 +100,7 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("Select {0}")
 	String voSelectionHeader(String message);
 
+	@DefaultMessage("Add children")
+	String addChildren();
+
 }

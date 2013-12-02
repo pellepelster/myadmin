@@ -473,6 +473,9 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					parameter HierarchicalTreeId {
 						type String
 					} 
+					parameter ShowAddNodes {
+						type Boolean
+					} 
 				}
 			}
 

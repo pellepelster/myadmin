@@ -105,6 +105,40 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
+	public void testCreate()
+	{
+		CompanyVO companyVO1 = new CompanyVO();
+		companyVO1.setCompanyName("kkk");
+		companyVO1 = getBaseEntityService().create(companyVO1);
+
+		ManagerVO managerVO = new ManagerVO();
+		managerVO.setManagerName("ppp");
+		managerVO.setParent(companyVO1);
+		ManagerVO savedManagerVO = getBaseEntityService().create(managerVO);
+
+		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getParent().getOid());
+	}
+
+	@Test
+	public void testSave()
+	{
+		CompanyVO companyVO1 = new CompanyVO();
+		companyVO1.setCompanyName("kkk");
+		companyVO1 = getBaseEntityService().create(companyVO1);
+
+		ManagerVO managerVO = new ManagerVO();
+		managerVO.setManagerName("ppp");
+		managerVO.setParent(companyVO1);
+
+		managerVO = getBaseEntityService().create(managerVO);
+		managerVO.setManagerName("nnn");
+
+		ManagerVO savedManagerVO = getBaseEntityService().save(managerVO);
+
+		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getParent().getOid());
+	}
+
+	@Test
 	public void testVODecorator()
 	{
 		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes(TestClientHierarchicalConfiguration.ID);

@@ -12,9 +12,10 @@
 package de.pellepelster.myadmin.client.gwt.modules.hierarchical;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -51,6 +52,28 @@ public class HierarchicalTreeModel implements TreeViewModel
 
 	private final boolean showAddnodes;
 
+	private void refreshParentDataProvider(final IHierarchicalVO hierarchicalVO)
+	{
+		for (HierarchicalDataProvider dataProvider : dataProviders.values())
+		{
+			boolean doUpdate = Iterables.any(dataProvider.getItems(), new Predicate<DictionaryHierarchicalNodeVO>()
+			{
+
+				@Override
+				public boolean apply(DictionaryHierarchicalNodeVO hierarchicalNodeVO)
+				{
+					return hierarchicalVO.getParentClassName().equals(hierarchicalNodeVO.getVoClassName())
+							&& hierarchicalVO.getParentId().equals(hierarchicalNodeVO.getVoId());
+				}
+			});
+
+			if (doUpdate)
+			{
+				dataProvider.onRangeChanged(cellList);
+			}
+		}
+	}
+
 	public HierarchicalTreeModel(HierarchicalConfigurationVO hierarchicalConfiguration, boolean showAddnodes,
 			final SimpleCallback<DictionaryHierarchicalNodeVO> nodeSelectionHandler)
 	{
@@ -70,6 +93,10 @@ public class HierarchicalTreeModel implements TreeViewModel
 					if (dataProviders.containsKey(getKey(hierarchicalVO.getParent())))
 					{
 						dataProviders.get(getKey(hierarchicalVO.getParent())).onRangeChanged(cellList);
+					}
+					else
+					{
+						refreshParentDataProvider(hierarchicalVO);
 					}
 				}
 
@@ -128,14 +155,6 @@ public class HierarchicalTreeModel implements TreeViewModel
 				return true;
 			}
 
-			for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
-			{
-				if (entry.getValue().contains(hierarchicalNodeVO.getDictionaryName()))
-				{
-					return false;
-				}
-			}
-
 			return !hierarchicalNodeVO.getHasChildren();
 		}
 
@@ -148,7 +167,7 @@ public class HierarchicalTreeModel implements TreeViewModel
 		if (value == null || value instanceof DictionaryHierarchicalNodeVO)
 		{
 			final DictionaryHierarchicalNodeVO hierarchicalNodeVO = (DictionaryHierarchicalNodeVO) value;
-			HierarchicalDataProvider dataProvider = new HierarchicalDataProvider(hierarchicalConfiguration, hierarchicalNodeVO, showAddnodes);
+			HierarchicalDataProvider dataProvider = new HierarchicalDataProvider(hierarchicalConfiguration, hierarchicalNodeVO, showAddnodes, value == null);
 			dataProvider.addDataDisplay(cellList);
 			dataProviders.put(getKey(hierarchicalNodeVO), dataProvider);
 

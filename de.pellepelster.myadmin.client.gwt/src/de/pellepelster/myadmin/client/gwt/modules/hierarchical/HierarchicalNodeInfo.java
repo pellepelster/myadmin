@@ -33,6 +33,7 @@ public class HierarchicalNodeInfo extends DefaultNodeInfo<DictionaryHierarchical
 		super(dataProvider, hierarchicalCell, selectionModel, null);
 
 		this.hierarchicalNodeCallback = hierarchicalNodeCallback;
+
 	}
 
 	@Override

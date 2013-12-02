@@ -11,6 +11,7 @@
 			<include name="**/*xtextbin"/>
 			<include name="**/*g"/>
 			<include name="**/*tokens"/>
+			<include name="**/*.properties"/>
 		</fileset>
 	</path>
 	

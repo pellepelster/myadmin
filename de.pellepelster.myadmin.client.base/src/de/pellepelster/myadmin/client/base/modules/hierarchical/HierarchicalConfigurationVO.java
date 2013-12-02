@@ -12,6 +12,8 @@
 package de.pellepelster.myadmin.client.base.modules.hierarchical;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,26 @@ public class HierarchicalConfigurationVO implements Serializable
 	public boolean isRootDictionary(String dictionaryId)
 	{
 		return this.dictionaryHierarchy.get(dictionaryId).isEmpty();
+	}
+
+	public Collection<String> getDictionaryIds()
+	{
+		return this.dictionaryHierarchy.keySet();
+	}
+
+	public List<String> getChildDictionaryIds(String dictionaryId)
+	{
+		List<String> childDictionaries = new ArrayList<String>();
+
+		for (Map.Entry<String, List<String>> hierarchyEntry : this.dictionaryHierarchy.entrySet())
+		{
+			if (hierarchyEntry.getValue().contains(dictionaryId))
+			{
+				childDictionaries.add(hierarchyEntry.getKey());
+			}
+		}
+
+		return childDictionaries;
 	}
 
 	public static boolean isRootDictionary(String dictionaryId, List<HierarchicalConfigurationVO> hierarchicalConfigurationVOs)

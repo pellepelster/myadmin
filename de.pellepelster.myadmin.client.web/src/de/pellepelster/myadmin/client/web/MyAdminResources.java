@@ -47,4 +47,7 @@ public interface MyAdminResources extends ClientBundle
 	@Source("more.png")
 	ImageResource more();
 
+	@Source("hierarchy.png")
+	ImageResource hierarchy();
+
 }

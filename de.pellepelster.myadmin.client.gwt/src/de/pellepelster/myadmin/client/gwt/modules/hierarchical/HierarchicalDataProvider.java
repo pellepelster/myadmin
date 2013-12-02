@@ -30,15 +30,21 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 {
 	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
-	private DictionaryHierarchicalNodeVO hierarchicalNode;
+	private DictionaryHierarchicalNodeVO parentHierarchicalNode;
 
 	private boolean showAddNodes;
 
-	public HierarchicalDataProvider(HierarchicalConfigurationVO hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode, boolean showAddNodes)
+	private boolean isRootProvider;
+
+	private List<DictionaryHierarchicalNodeVO> items = new ArrayList<DictionaryHierarchicalNodeVO>();;
+
+	public HierarchicalDataProvider(HierarchicalConfigurationVO hierarchicalConfiguration, DictionaryHierarchicalNodeVO hierarchicalNode, boolean showAddNodes,
+			boolean isRootProvider)
 	{
 		this.hierarchicalConfiguration = hierarchicalConfiguration;
-		this.hierarchicalNode = hierarchicalNode;
+		this.parentHierarchicalNode = hierarchicalNode;
 		this.showAddNodes = showAddNodes;
+		this.isRootProvider = isRootProvider;
 	}
 
 	@Override
@@ -53,16 +59,16 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 
 		final List<DictionaryHierarchicalNodeVO> addNodes = new ArrayList<DictionaryHierarchicalNodeVO>();
 
-		if (hierarchicalNode != null)
+		if (parentHierarchicalNode != null)
 		{
-			parentId = hierarchicalNode.getVoId();
-			parentClassname = hierarchicalNode.getVoClassName();
+			parentId = parentHierarchicalNode.getVoId();
+			parentClassname = parentHierarchicalNode.getVoClassName();
 
-			if (showAddNodes)
+			if (showAddNodes || isRootProvider)
 			{
 				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
-					if (entry.getValue().contains(hierarchicalNode.getDictionaryName()))
+					if (entry.getValue().contains(parentHierarchicalNode.getDictionaryName()))
 					{
 						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
 						addHierarchicalNode.setDictionaryName(entry.getKey());
@@ -78,7 +84,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 		}
 		else
 		{
-			if (showAddNodes)
+			if (showAddNodes || isRootProvider)
 			{
 				for (Map.Entry<String, List<String>> entry : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
@@ -108,8 +114,16 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 					public void onSuccess(List<DictionaryHierarchicalNodeVO> result)
 					{
 						result.addAll(addNodes);
+						items.clear();
+						items.addAll(result);
 						updateRowData(0, result);
 					}
 				});
 	}
+
+	public List<DictionaryHierarchicalNodeVO> getItems()
+	{
+		return items;
+	}
+
 }

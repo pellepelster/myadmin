@@ -103,6 +103,18 @@ public class DictionaryModelProvider
 		});
 	}
 
+	public static List<IDictionaryModel> getCachedDictionaryModels(List<String> dictionaryNames)
+	{
+		List<IDictionaryModel> dictionaryModels = new ArrayList<IDictionaryModel>();
+
+		for (String dictionaryName : dictionaryNames)
+		{
+			dictionaryModels.add(getCachedDictionaryModel(dictionaryName));
+		}
+
+		return dictionaryModels;
+	}
+
 	public static IDictionaryModel getCachedDictionaryModel(String dictionaryName)
 	{
 		if (dictionaryCache.containsKey(dictionaryName))

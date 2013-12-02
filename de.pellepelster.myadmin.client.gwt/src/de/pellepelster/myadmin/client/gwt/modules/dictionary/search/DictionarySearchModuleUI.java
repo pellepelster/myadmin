@@ -104,7 +104,6 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		actionBar.addButtonBarEnd(MyAdmin.RESOURCES.searchCreate(), MyAdmin.MESSAGES.searchCreate(), new ClickHandler()
 		{
-
 			/** {@inheritDoc} */
 			@Override
 			public void onClick(ClickEvent event)
