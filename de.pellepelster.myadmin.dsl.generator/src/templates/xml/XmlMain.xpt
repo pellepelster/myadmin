@@ -43,6 +43,8 @@
 
 «DEFINE xsdType FOR DateDatatype-»xsd:date«ENDDEFINE»
 
+«DEFINE xsdType FOR BinaryDatatype-»xsd:hexBinary«ENDDEFINE»
+
 «REM»
 «DEFINE xsdType FOR SimpleType»
 «ENDDEFINE»

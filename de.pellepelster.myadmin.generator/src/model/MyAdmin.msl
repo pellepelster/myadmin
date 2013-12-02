@@ -35,6 +35,9 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				maxLength 64
 			}
 
+			binarydatatype UserAvatar {
+			}
+
 			textdatatype UserMail {
 				maxLength 256
 			}
@@ -42,6 +45,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			textdatatype GroupName {
 				maxLength 64
 			}
+			
 		}
 		
 		package entities {
@@ -116,6 +120,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				
 					datatype UserName userName { mandatory }
 					datatype UserMail userMail
+					datatype UserAvatar userAvatar
 					simpletype String userPassword
 					
 					reference Client+ client

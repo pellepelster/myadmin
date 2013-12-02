@@ -286,7 +286,7 @@ Labels:
 
 //- datatypes -----------------------------------------------------------------
 Datatype: 
-	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | ReferenceDatatype;
+	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | BinaryDatatype | ReferenceDatatype;
 
 BaseDictionaryDatatype:
 	{BaseDictionaryDatatype}
@@ -332,6 +332,10 @@ EnumerationDatatype:
 		"enumeration" enumeration=[ Enumeration | QualifiedName ]
 	"}";
 
+BinaryDatatype:
+	"binarydatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+	"}";
 
 enum ControlType: 
 	text = "text" | dropdown = "dropdown";
@@ -352,7 +356,7 @@ BaseDictionaryControl:
 		;
 
 DictionaryControl:
-	DictionaryControlGroup | DictionaryTextControl | DictionaryIntegerControl | DictionaryBigDecimalControl | DictionaryBooleanControl | DictionaryDateControl | DictionaryEnumerationControl | DictionaryReferenceControl;
+	DictionaryControlGroup | DictionaryTextControl | DictionaryIntegerControl | DictionaryBigDecimalControl | DictionaryBooleanControl | DictionaryDateControl | DictionaryEnumerationControl | DictionaryFileControl | DictionaryReferenceControl;
 
 DictionaryControlGroup:
 	{DictionaryControlGroup}
@@ -414,6 +418,11 @@ DictionaryReferenceControl:
 		("labelcontrols {" (labelcontrols+=DictionaryControl)* "}")? 
 	"}")?;
 
+DictionaryFileControl:
+	{DictionaryFileControl}
+	"filecontrol" (name=ID)? ("ref" ref=[ DictionaryFileControl | QualifiedName ])? ("{"
+		baseControl=BaseDictionaryControl
+	"}")?;
 
 //- methods -------------------------------------------------------------------
 MethodParameter:

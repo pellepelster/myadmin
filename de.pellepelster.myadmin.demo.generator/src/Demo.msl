@@ -33,6 +33,9 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			datedatatype DateDatatype1 {
 			}
 
+			binarydatatype BinaryDatatype1 {
+			}
+
 			booleandatatype BooleanDatatype1 {
 			}
 
@@ -49,7 +52,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			referencedatatype ReferenceDatatype4 {
 				entity Test4
 			}
-
+			
 			entity Test1 {
 				datatype TextDatatype1 textDatatype1
 				datatype IntegerDatatype1 integerDatatype1
@@ -58,6 +61,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				datatype BooleanDatatype1 booleanDatatype1
 				datatype EnumerationDatatype1 enumerationDatatype1
 				datatype ReferenceDatatype1 referenceDatatype1
+				datatype BinaryDatatype1 binaryDatatype1
 				reference Test3 * test3s
 			}
 

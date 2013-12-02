@@ -326,6 +326,10 @@
 	java.util.Date
 «ENDDEFINE»
 
+«DEFINE datatypeType(String type) FOR BinaryDatatype-»
+	byte[]
+«ENDDEFINE»
+
 «DEFINE datatypeType(String type) FOR EnumerationDatatype-»
 	«fullQualifiedEntityName(this.enumeration)-»
 «ENDDEFINE»

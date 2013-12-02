@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
@@ -294,4 +296,24 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		assertEquals(1, result.getValidationMessages().size());
 	}
 
+	@Test
+	public void testBinaryDatatype()
+	{
+		Test1VO test1VO = new Test1VO();
+
+		byte[] bin = new byte[] { 0x1, 0x2, 0x3 };
+
+		test1VO.setBinaryDatatype1(bin);
+
+		test1VO = this.baseEntityService.create(test1VO);
+
+		GenericFilterVO<Test1VO> test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class).addCriteria(Test1VO.FIELD_ID, test1VO.getId())
+				.getGenericFilter();
+
+		List<Test1VO> result = this.baseEntityService.filter(test1Filter);
+
+		Assert.assertEquals(1, result.size());
+		Assert.assertArrayEquals(bin, result.get(0).getBinaryDatatype1());
+
+	}
 }

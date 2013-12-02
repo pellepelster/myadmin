@@ -204,6 +204,11 @@
 	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
 «ENDDEFINE»
 
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR BinaryDatatype»
+	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
+	@javax.persistence.Lob
+«ENDDEFINE»
+
 «DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR DatatypeType»
 	«EXPAND attributeAnnotation(entity, entityAttribute, cardinality) FOR this.type»
 «ENDDEFINE»
