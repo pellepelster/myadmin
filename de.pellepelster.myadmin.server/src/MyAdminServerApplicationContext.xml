@@ -33,6 +33,10 @@
 
 	<tx:annotation-driven />
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  		<property name="maxUploadSize" value="100000"/>
+  	</bean>
+
 	<!-- 
   	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
