@@ -21,13 +21,9 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IntegerCon
 public class GwtIntegerControl extends TextBox implements IGwtControl
 {
 
-	private final IntegerControl integerControl;
-	private final ControlHelper gwtControlHelper;
-
 	public GwtIntegerControl(IntegerControl integerControl)
 	{
-		this.integerControl = integerControl;
-		gwtControlHelper = new ControlHelper(this, integerControl, this, true);
+		new ControlHelper(this, integerControl, this, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(integerControl.getModel()));
 	}
 

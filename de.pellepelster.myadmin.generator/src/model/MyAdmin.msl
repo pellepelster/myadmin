@@ -79,13 +79,29 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				}
 				
 				enum DICTIONARY_BASETYPE {
-					Text, INTEGER, BIGDECIMAL, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
+					Text, INTEGER, BIGDECIMAL, BINARY, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
 				}
 	
 				enum DICTIONARY_TYPE {
 					SEARCH, EDITOR
 				}
 
+				binarydatatype FileContent {
+				}
+				
+				textdatatype FileName {
+				}
+
+				entity File implements de.pellepelster.myadmin.db.IClient {
+					datatype FileName fileName
+					datatype FileContent fileContent
+				}
+				
+				referencedatatype File {
+					entity MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File
+				}
+
+				
 				entity DictionaryLabelIndex implements de.pellepelster.myadmin.db.IClient {
 					simpletype String className
 					simpletype Integer classId

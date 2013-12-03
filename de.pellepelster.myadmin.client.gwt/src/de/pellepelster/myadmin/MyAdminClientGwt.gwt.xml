@@ -11,7 +11,8 @@
 	<inherits name='com.google.gwt.user.theme.standard.Standard'/>
 	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
 	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark" /> -->
-
+ 	<inherits name="gwtupload.GWTUpload"/>
+ 
  	<stylesheet src="myadmin-standard.css"/>
  
 	<source path="client.gwt" />

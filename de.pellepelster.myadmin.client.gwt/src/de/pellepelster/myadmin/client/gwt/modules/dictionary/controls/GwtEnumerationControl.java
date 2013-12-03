@@ -30,7 +30,6 @@ public class GwtEnumerationControl extends ListBox implements IGwtControl
 {
 
 	private final EnumerationControl enumarationControl;
-	private final ControlHelper gwtControlHelper;
 
 	public GwtEnumerationControl(final EnumerationControl enumarationControl)
 	{
@@ -39,7 +38,7 @@ public class GwtEnumerationControl extends ListBox implements IGwtControl
 		this.enumarationControl = enumarationControl;
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(enumarationControl.getModel()));
-		gwtControlHelper = new ControlHelper(this, enumarationControl, this, false);
+		new ControlHelper(this, enumarationControl, this, false);
 
 		addChangeHandler(new ChangeHandler()
 		{

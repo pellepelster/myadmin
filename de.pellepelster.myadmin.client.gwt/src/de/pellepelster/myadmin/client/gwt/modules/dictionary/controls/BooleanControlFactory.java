@@ -69,6 +69,7 @@ public class BooleanControlFactory extends BaseControlFactory<IBooleanControlMod
 
 			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Boolean> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Boolean>()
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, Boolean value)
 				{

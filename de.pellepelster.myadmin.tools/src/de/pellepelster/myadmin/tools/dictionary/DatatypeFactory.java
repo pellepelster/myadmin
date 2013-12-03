@@ -20,6 +20,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBa
 import de.pellepelster.myadmin.client.base.util.ObjectUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BigDecimalDatatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.BinaryDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.BooleanDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Datatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DatatypeType;
@@ -156,6 +157,10 @@ public class DatatypeFactory
 		{
 			createDateDatatype((DateDatatype) datatype, datatypeVO, logIdentiation + 1);
 		}
+		else if (datatype instanceof BinaryDatatype)
+		{
+			createBinaryDatatype((BinaryDatatype) datatype, datatypeVO, logIdentiation + 1);
+		}
 		else
 		{
 			throw new RuntimeException(String.format("unsupported datatype '%s'", datatype.getClass().getName()));
@@ -167,6 +172,11 @@ public class DatatypeFactory
 	private void createDateDatatype(DateDatatype dateDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
 	{
 		datatypeVO.setBaseType(DICTIONARY_BASETYPE.DATE);
+	}
+
+	private void createBinaryDatatype(BinaryDatatype dateDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
+	{
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.BINARY);
 	}
 
 	private void createEnumerationDatatype(EnumerationDatatype enumerationDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)

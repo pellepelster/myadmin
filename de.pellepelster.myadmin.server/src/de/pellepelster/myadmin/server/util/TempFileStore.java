@@ -3,7 +3,9 @@ package de.pellepelster.myadmin.server.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +14,18 @@ import com.google.common.io.Files;
 @Component
 public class TempFileStore implements InitializingBean
 {
+	private final static Logger LOG = Logger.getLogger(TempFileStore.class);
+
+	private ConcurrentHashMap<String, String> tempFileNameMappings = new ConcurrentHashMap<String, String>();
 
 	public static final String TEMP_FILE_DIR = "myadmin_temp_files";
 
 	private File tempDir;
 
-	public String storeTempFile(byte[] content)
+	public String storeTempFile(String fileName, byte[] content)
 	{
-		String tempFileName = UUID.randomUUID().toString();
-		File tempFile = new File(this.tempDir, tempFileName);
+		String tempFileId = UUID.randomUUID().toString();
+		File tempFile = new File(this.tempDir, tempFileId);
 
 		try
 		{
@@ -31,12 +36,28 @@ public class TempFileStore implements InitializingBean
 			throw new RuntimeException(e);
 		}
 
-		return tempFileName;
+		String mappedTempFileName = fileName;
+
+		if (fileName == null)
+		{
+			mappedTempFileName = tempFileId;
+		}
+
+		this.tempFileNameMappings.put(tempFileId, mappedTempFileName);
+
+		LOG.info(String.format("stored file '%s' as '%s'", mappedTempFileName, tempFileId));
+
+		return tempFileId;
 	}
 
-	public byte[] getTempFile(String tempFileName)
+	public String storeTempFile(byte[] content)
 	{
-		File tempFile = new File(this.tempDir, tempFileName);
+		return storeTempFile(null, content);
+	}
+
+	public byte[] getTempFile(String tempFileId)
+	{
+		File tempFile = new File(this.tempDir, tempFileId);
 		try
 		{
 			return Files.toByteArray(tempFile);
@@ -61,6 +82,8 @@ public class TempFileStore implements InitializingBean
 		{
 			this.tempDir.mkdirs();
 		}
+
+		LOG.info(String.format("temp file store initialized at '%s'", this.tempDir.toString()));
 	}
 
 }

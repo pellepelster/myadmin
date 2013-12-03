@@ -62,6 +62,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				datatype EnumerationDatatype1 enumerationDatatype1
 				datatype ReferenceDatatype1 referenceDatatype1
 				datatype BinaryDatatype1 binaryDatatype1
+				datatype MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File file1
 				reference Test3 * test3s
 			}
 
@@ -122,33 +123,46 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				title "Dictionary1" dictionarycontrols {
 
 					textcontrol TextControl1 {
-						entityattribute Test1.textDatatype1 label "TextControl1" mandatory
+						entityattribute Test1.textDatatype1 
+						label "TextControl1" 
+						mandatory
 					}
 
 					integercontrol IntegerControl1 {
-						entityattribute Test1.integerDatatype1 label "integerControl1"
+						entityattribute Test1.integerDatatype1 
+						label "integerControl1"
 					}
 
 					bigdecimalcontrol BigDecimalControl1 {
-						entityattribute Test1.bigDecimalDatatype1 label "BigDecimalControl1"
+						entityattribute Test1.bigDecimalDatatype1 
+						label "BigDecimalControl1"
 					}
 
 					datecontrol DateControl1 {
-						entityattribute Test1.dateDatatype1 label "DateControl1"
+						entityattribute Test1.dateDatatype1 
+						label "DateControl1"
 					}
 
 					booleancontrol BooleanControl1 {
-						entityattribute Test1.booleanDatatype1 label "BooleanControl1"
+						entityattribute Test1.booleanDatatype1 
+						label "BooleanControl1"
 					}
 
 					enumerationcontrol EnumerationControl1 {
-						entityattribute Test1.enumerationDatatype1 label "EnumerationControl1"
+						entityattribute Test1.enumerationDatatype1
+						label "EnumerationControl1"
 					}
 
 					referencecontrol ReferenceControl1 {
-						entityattribute Test1.referenceDatatype1 label "ReferenceControl1" dictionary Dictionary2
+						entityattribute Test1.referenceDatatype1 
+						label "ReferenceControl1" 
+						dictionary Dictionary2
 					}
-
+					
+					filecontrol FileControl1 {
+						entityattribute Test1.binaryDatatype1
+						label "FileControl1"
+					}
 				}
 
 				labelcontrols {
@@ -186,6 +200,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 						datecontrol ref DateControl1
 						booleancontrol ref BooleanControl1
 						enumerationcontrol ref EnumerationControl1
+						filecontrol ref FileControl1
 						referencecontrol ref ReferenceControl1
 					}
 					editabletable Dictionary1EditableTable1 {

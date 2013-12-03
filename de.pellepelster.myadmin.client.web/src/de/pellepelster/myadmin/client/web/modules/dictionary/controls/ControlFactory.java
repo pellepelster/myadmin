@@ -6,6 +6,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBi
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IFileControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
@@ -60,6 +61,10 @@ public class ControlFactory
 		else if (baseControlModel instanceof IHierarchicalControlModel)
 		{
 			return new HierarchicalControl((IHierarchicalControlModel) baseControlModel, parent);
+		}
+		else if (baseControlModel instanceof IFileControlModel)
+		{
+			return new FileControl((IFileControlModel) baseControlModel, parent);
 		}
 		else
 		{

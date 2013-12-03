@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -13,17 +10,13 @@
 
 	<bean id="entityVOMapper" class="de.pellepelster.myadmin.db.util.EntityVOMapper" />
 
-	<bean id="naturalKeyValidator"
-		class="de.pellepelster.myadmin.server.validators.NaturalKeyValidator" />
+	<bean id="naturalKeyValidator" class="de.pellepelster.myadmin.server.validators.NaturalKeyValidator" />
 
-	<bean id="mandatoryValidator"
-		class="de.pellepelster.myadmin.server.validators.MandatoryValidator" />
+	<bean id="mandatoryValidator" class="de.pellepelster.myadmin.server.validators.MandatoryValidator" />
 
-	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
-		factory-method="getInstance" id="copyBean" />
+	<bean class="de.pellepelster.myadmin.db.util.CopyBean" factory-method="getInstance" id="copyBean" />
 
-	<bean id="applicationEventMulticaster"
-		class="org.springframework.context.event.SimpleApplicationEventMulticaster">
+	<bean id="applicationEventMulticaster" class="org.springframework.context.event.SimpleApplicationEventMulticaster">
 		<property name="taskExecutor">
 			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
 		</property>
@@ -33,24 +26,10 @@
 
 	<tx:annotation-driven />
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-  		<property name="maxUploadSize" value="100000"/>
-  	</bean>
-
-	<!-- 
-  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-	    	<tx:method name="get*" read-only="true"/>
-	    	<tx:method name="*" propagation="REQUIRED" />
-	  	</tx:attributes>
-  	</tx:advice>
-  
-	<aop:config>
-	  <aop:pointcut id="baseVODAo" expression="execution(* de.pellepelster.myadmin.db.daos.BaseVODAO.*(..))"/>
-	  <aop:pointcut id="baseEntityService" expression="execution(* de.pellepelster.myadmin.server.services.BaseEntityServiceImpl.*(..))"/>
-	  <aop:advisor advice-ref="txAdvice" pointcut-ref="baseVODAo"/>
-	  <aop:advisor advice-ref="txAdvice" pointcut-ref="baseEntityService"/>
-	</aop:config>
- 	-->
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager"> <tx:attributes> <tx:method name="get*" read-only="true"/> 
+		<tx:method name="*" propagation="REQUIRED" /> </tx:attributes> </tx:advice> <aop:config> <aop:pointcut id="baseVODAo" expression="execution(* 
+		de.pellepelster.myadmin.db.daos.BaseVODAO.*(..))"/> <aop:pointcut id="baseEntityService" expression="execution(* de.pellepelster.myadmin.server.services.BaseEntityServiceImpl.*(..))"/> 
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="baseVODAo"/> <aop:advisor advice-ref="txAdvice" pointcut-ref="baseEntityService"/> 
+		</aop:config> -->
 
 </beans>

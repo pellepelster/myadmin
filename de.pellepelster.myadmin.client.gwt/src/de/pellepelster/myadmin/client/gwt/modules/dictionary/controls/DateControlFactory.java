@@ -79,6 +79,7 @@ public class DateControlFactory extends BaseControlFactory<IDateControlModel, Da
 
 			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Date> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, Date>()
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, Date value)
 				{

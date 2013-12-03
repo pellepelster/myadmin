@@ -42,7 +42,6 @@ Workflow {
 		outlet = {
 			path = targetDir
 			postprocessor = org.eclipse.xpand2.output.JavaBeautifier {
-				configFile = "classpath://formatter.xml"
 			} 
 		}
 	

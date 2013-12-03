@@ -7,9 +7,9 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictio
 public class ReadonlyControl extends Label
 {
 
-	private BaseDictionaryControl baseControl;
+	private BaseDictionaryControl<?, ?> baseControl;
 
-	public ReadonlyControl(BaseDictionaryControl baseControl)
+	public ReadonlyControl(BaseDictionaryControl<?, ?> baseControl)
 	{
 		super();
 		this.baseControl = baseControl;

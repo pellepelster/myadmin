@@ -24,12 +24,10 @@ public class GwtBigDecimalControl extends TextBox implements IGwtControl
 {
 	private final BigDecimalControl bigDecimalControl;
 
-	private final ControlHelper gwtControlHelper;
-
 	public GwtBigDecimalControl(BigDecimalControl bigDecimalControl)
 	{
 		this.bigDecimalControl = bigDecimalControl;
-		gwtControlHelper = new ControlHelper(this, bigDecimalControl, this, true);
+		new ControlHelper(this, bigDecimalControl, this, true);
 		ensureDebugId(DictionaryModelUtil.getDebugId(bigDecimalControl.getModel()));
 	}
 

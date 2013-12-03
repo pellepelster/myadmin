@@ -25,6 +25,8 @@
 	
 		<dependency org="com.google.gwt" name="gwt-user" rev="2.5.1"  />
 		
+		<dependency org="com.googlecode.gwtupload" name="gwtupload-samples" rev="0.6.6" />
+		
 	</dependencies>
 
 </ivy-module>

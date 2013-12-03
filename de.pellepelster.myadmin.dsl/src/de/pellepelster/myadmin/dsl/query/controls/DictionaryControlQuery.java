@@ -9,6 +9,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryBooleanControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryDateControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEnumerationControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryFileControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
@@ -63,6 +64,10 @@ public class DictionaryControlQuery<T extends DictionaryControl>
 			return new DictionaryReferenceControlQuery((DictionaryReferenceControl) dictionaryControl);
 		}
 
+		if (dictionaryControl instanceof DictionaryFileControl)
+		{
+			return new DictionaryFileControlQuery((DictionaryFileControl) dictionaryControl);
+		}
 		throw new RuntimeException(String.format("unsupported dictionary control type '%s'", dictionaryControl.getClass().getName()));
 	}
 

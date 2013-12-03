@@ -28,6 +28,7 @@ import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.core.utils.HierarchicalUtils;
+import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
@@ -36,7 +37,7 @@ import de.pellepelster.myadmin.server.validators.IValidator;
 @Transactional(propagation = Propagation.REQUIRED)
 public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 {
-	private final static Logger LOG = Logger.getLogger(BaseEntityServiceImpl.class);
+	private final static Logger LOG = Logger.getLogger(IBaseEntityService.class);
 
 	@Resource
 	private BaseVODAO baseVODAO;
@@ -164,7 +165,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 
 		try
 		{
-			LOG.error(String.format("getting new instance for class '%s'", voClassName));
+			LOG.info(String.format("creating new instance for vo class '%s'", voClassName));
 
 			Class<?> voClass = Class.forName(voClassName);
 

@@ -72,6 +72,7 @@ public class EnumerationControlFactory extends BaseControlFactory<IEnumerationCo
 
 			FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String> fieldUpdater = new FieldUpdater<IBaseTable.ITableRow<IBaseVO>, String>()
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public void update(int index, IBaseTable.ITableRow<IBaseVO> tableRow, String value)
 				{

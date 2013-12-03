@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<!-- 
+		<property name="interceptors">
+			<list>
+				<ref bean="openSessionInViewInterceptor" />
+			</list>
+		</property>
+		 -->
+		<property name="mappings">
+			<props>
+				<prop key="*.gupld">gwtupload</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="gwtupload" class="org.springframework.web.servlet.mvc.ServletWrappingController">
+		<property name="servletClass">
+			<value>de.pellepelster.myadmin.server.services.FileUploadServlet</value>
+		</property>
+		<property name="servletName">
+			<value>gwtupload</value>
+		</property>
+		<!--
+		<property name="initParameters">
+			<props>
+				<prop key="config">/WEB-INF/struts-config.xml</prop>
+			</props>
+		</property>
+		  -->
+	</bean>
+	
+</beans>

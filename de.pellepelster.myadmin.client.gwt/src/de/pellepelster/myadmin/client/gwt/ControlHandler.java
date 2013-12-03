@@ -25,6 +25,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BigDecimal
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.BooleanControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.DateControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.EnumerationControlFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.FileControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.HierarchicalControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IGwtControlFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.controls.IntegerControlFactory;
@@ -58,6 +59,7 @@ public class ControlHandler<ControlModelType extends IBaseControlModel, ControlT
 		controlFactories.add(new ReferenceControlFactory());
 		controlFactories.add(new BigDecimalControlFactory());
 		controlFactories.add(new HierarchicalControlFactory());
+		controlFactories.add(new FileControlFactory());
 	}
 
 	public static ControlHandler<IBaseControlModel, BaseDictionaryControl<IBaseControlModel, ?>> getInstance()

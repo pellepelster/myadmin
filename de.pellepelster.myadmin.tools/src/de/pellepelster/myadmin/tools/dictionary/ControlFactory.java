@@ -24,6 +24,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControlGroup;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryDateControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryEnumerationControl;
+import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryFileControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryIntegerControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryReferenceControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
@@ -190,6 +191,10 @@ public class ControlFactory
 		{
 			createDictionaryBooleanControl((DictionaryBooleanControl) dictionaryControl, dictionaryControlVO, logIdentiation);
 		}
+		else if (dictionaryControl instanceof DictionaryFileControl)
+		{
+			createDictionaryFileControl((DictionaryFileControl) dictionaryControl, dictionaryControlVO, logIdentiation);
+		}
 		else
 		{
 			throw new RuntimeException(String.format("unsupported control type '%s'", dictionaryControl.getClass().getName()));
@@ -215,6 +220,16 @@ public class ControlFactory
 		dictionaryControlVO.setDatatype(DatatypeFactory.getInstance().createDatatypeVO(dictionaryControl, logIdentiation + 1));
 
 		return dictionaryControlVO;
+	}
+
+	private void createDictionaryFileControl(DictionaryFileControl dictionaryFileControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)
+	{
+		createDictionaryControlCommon(dictionaryFileControl, dictionaryControlVO, logIdentiation + 1);
+
+		if (dictionaryFileControl.getRef() != null)
+		{
+			createDictionaryFileControl(dictionaryFileControl.getRef(), dictionaryControlVO, logIdentiation);
+		}
 	}
 
 	private void createDictionaryDateControl(DictionaryDateControl dictionaryDateControl, DictionaryControlVO dictionaryControlVO, int logIdentiation)

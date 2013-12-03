@@ -176,6 +176,14 @@
 	«ENDIF»
 «ENDDEFINE»
 
+«DEFINE dictionaryDescriptor(String parent) FOR DictionaryFileControl»
+	«IF this.ref == null»
+		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
+	«ELSE»
+		«EXPAND dictionaryDescriptor(parent) FOR this.ref»
+	«ENDIF»
+«ENDDEFINE»
+
 «DEFINE dictionaryDescriptor(String parent) FOR DictionaryBigDecimalControl»
 	«IF this.ref == null»
 		«EXPAND genericDictionaryControlDescriptor(parent) FOR this»
@@ -235,3 +243,5 @@
 «DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl<«EXPAND templates::type::Type::webVORawType FOR this.baseControl.entityattribute»>«ENDDEFINE»
 
 «DEFINE dictionaryControlType FOR DictionaryHierarchicalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IHierarchicalControl«ENDDEFINE»
+
+«DEFINE dictionaryControlType FOR DictionaryFileControl-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IFileControl«ENDDEFINE»
