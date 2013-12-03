@@ -59,7 +59,8 @@
 			<exclude name="gwt-dev" />
 		</dependency>	
 
-		<dependency org="org.apache.solr" name="solr-solrj" rev="4.4.0" />
+		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.3" transitive="false" />
+
 
 	</dependencies>
 
