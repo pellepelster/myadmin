@@ -160,7 +160,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					}
 					
 					filecontrol FileControl1 {
-						entityattribute Test1.binaryDatatype1
+						entityattribute Test1.file1
 						label "FileControl1"
 					}
 				}

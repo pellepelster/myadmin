@@ -92,9 +92,13 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				textdatatype FileName {
 				}
 
+				textdatatype FileUUID {
+				}
+
 				entity File implements de.pellepelster.myadmin.db.IClient {
 					datatype FileName fileName
 					datatype FileContent fileContent
+					datatype FileUUID fileUUID
 				}
 				
 				referencedatatype File {

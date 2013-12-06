@@ -41,6 +41,7 @@ import de.pellepelster.myadmin.demo.client.web.inheritance.TestEntity1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
+import de.pellepelster.myadmin.server.util.TempFileStore;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public final class DemoBaseEntityServiceTest extends BaseDemoTest
@@ -48,6 +49,9 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 	@Autowired
 	private IBaseEntityService baseEntityService;
+
+	@Autowired
+	private TempFileStore tempFileStore;
 
 	@Before
 	public void initData()
@@ -314,6 +318,26 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		Assert.assertEquals(1, result.size());
 		Assert.assertArrayEquals(bin, result.get(0).getBinaryDatatype1());
-
 	}
+
+	@Test
+	public void testFileVO()
+	{
+		Test1VO test1VO = new Test1VO();
+
+		byte[] bin = new byte[] { 0x1, 0x2, 0x3 };
+
+		String fileTempId = this.tempFileStore.storeTempFile(bin);
+		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), fileTempId);
+
+		test1VO = this.baseEntityService.create(test1VO);
+
+		Assert.assertArrayEquals(bin, test1VO.getFile1().getFileContent());
+	}
+
+	public void setTempFileStore(TempFileStore tempFileStore)
+	{
+		this.tempFileStore = tempFileStore;
+	}
+
 }

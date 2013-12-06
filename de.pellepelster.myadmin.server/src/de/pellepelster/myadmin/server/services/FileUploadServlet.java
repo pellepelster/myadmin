@@ -3,6 +3,7 @@ package de.pellepelster.myadmin.server.services;
 import gwtupload.server.UploadAction;
 import gwtupload.server.exceptions.UploadActionException;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class FileUploadServlet extends UploadAction
 
 		for (FileItem sessionFile : sessionFiles)
 		{
-			fileNameIds.add(tempFileStore.storeTempFile(sessionFile.getName(), sessionFile.get()));
+			String fileName = Paths.get(sessionFile.getName()).getFileName().toString();
+			fileNameIds.add(tempFileStore.storeTempFile(fileName, sessionFile.get()));
 		}
 
 		return Joiner.on(",").join(fileNameIds);

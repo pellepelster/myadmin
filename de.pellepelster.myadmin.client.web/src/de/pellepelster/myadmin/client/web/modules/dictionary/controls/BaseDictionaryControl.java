@@ -31,6 +31,11 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 		private ValueType value;
 
+		public ParseResult()
+		{
+			super();
+		}
+
 		public ParseResult(ValueType value)
 		{
 			super();

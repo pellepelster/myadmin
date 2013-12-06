@@ -16,11 +16,11 @@
 		 -->
 		<property name="mappings">
 			<props>
-				<prop key="*.gupld">gwtupload</prop>
+				<prop key="/gwtupload">gwtupload</prop>
 			</props>
 		</property>
 	</bean>
-
+	
 	<bean id="gwtupload" class="org.springframework.web.servlet.mvc.ServletWrappingController">
 		<property name="servletClass">
 			<value>de.pellepelster.myadmin.server.services.FileUploadServlet</value>

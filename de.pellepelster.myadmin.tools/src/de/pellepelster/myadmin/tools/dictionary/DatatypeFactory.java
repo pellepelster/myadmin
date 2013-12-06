@@ -33,6 +33,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
+import de.pellepelster.myadmin.server.entities.dictionary.File;
 
 /**
  * Factory for control creation
@@ -147,7 +148,17 @@ public class DatatypeFactory
 		}
 		else if (datatype instanceof ReferenceDatatype)
 		{
-			createReferenceDatatype((ReferenceDatatype) datatype, datatypeVO, logIdentiation + 1);
+			ReferenceDatatype referenceDatatype = (ReferenceDatatype) datatype;
+
+			if (File.class.getName().equals(referenceDatatype.getEntity().getName()))
+			{
+
+			}
+			else
+			{
+				createReferenceDatatype(referenceDatatype, datatypeVO, logIdentiation + 1);
+			}
+
 		}
 		else if (datatype instanceof TextDatatype)
 		{
@@ -156,6 +167,10 @@ public class DatatypeFactory
 		else if (datatype instanceof DateDatatype)
 		{
 			createDateDatatype((DateDatatype) datatype, datatypeVO, logIdentiation + 1);
+		}
+		else if (datatype instanceof BinaryDatatype)
+		{
+			createBinaryDatatype((BinaryDatatype) datatype, datatypeVO, logIdentiation + 1);
 		}
 		else if (datatype instanceof BinaryDatatype)
 		{

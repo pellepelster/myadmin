@@ -18,12 +18,12 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:MyAdminServerSpringSecurity.xml, 
+			classpath:MyAdminServerWebApplicationContext.xml, 
 			classpath:MyAdminServerApplicationContext-gen.xml, 
 			classpath:MyAdminServerApplicationContextServices-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 
 			classpath:MyAdminRestServices-gen.xml, 
 			classpath:DemoServerApplicationContext.xml, 
-			classpath:DemoServerWebApplicationContext.xml, 
 			classpath:DemoServerApplicationContext-gen.xml, 
 			classpath:DemoServerApplicationContextServices-gen.xml, 
 			classpath:DemoRestServices-gen.xml, 

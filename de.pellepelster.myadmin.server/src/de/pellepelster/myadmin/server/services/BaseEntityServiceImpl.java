@@ -15,23 +15,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.core.utils.HierarchicalUtils;
+import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.server.util.TempFileStore;
 import de.pellepelster.myadmin.server.validators.IValidator;
 
 @Transactional(propagation = Propagation.REQUIRED)
@@ -39,7 +40,10 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 {
 	private final static Logger LOG = Logger.getLogger(IBaseEntityService.class);
 
-	@Resource
+	@Autowired
+	private TempFileStore tempFileStore;
+
+	@Autowired
 	private BaseVODAO baseVODAO;
 
 	/*
@@ -57,11 +61,35 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Autowired(required = false)
 	private List<IValidator> validators = new ArrayList<IValidator>();
 
+	private void resolveAttributesFromData(IBaseVO baseVO)
+	{
+		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtil.getAttributeDescriptors(baseVO.getClass()))
+		{
+			if (baseVO.getData() != null && baseVO.getData().containsKey(attributeDescriptor.getAttributeName()))
+			{
+				Object attributeData = baseVO.getData().get(attributeDescriptor.getAttributeName());
+
+				if (FileVO.class.equals(attributeDescriptor.getAttributeType()))
+				{
+					if (attributeData instanceof String)
+					{
+						String tempFileUUID = (String) attributeData;
+						FileVO tempFile = this.tempFileStore.getAndRemoveTempFile(tempFileUUID);
+						baseVO.set(attributeDescriptor.getAttributeName(), tempFile);
+					}
+				}
+			}
+		}
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public <VOType extends IBaseVO> VOType create(VOType vo)
 	{
 		LOG.debug(String.format("creating '%s'", vo.getClass().getName()));
+
+		resolveAttributesFromData(vo);
+
 		return this.baseVODAO.create(vo);
 	}
 
@@ -269,4 +297,8 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		return result;
 	}
 
+	public void setTempFileStore(TempFileStore tempFileStore)
+	{
+		this.tempFileStore = tempFileStore;
+	}
 }

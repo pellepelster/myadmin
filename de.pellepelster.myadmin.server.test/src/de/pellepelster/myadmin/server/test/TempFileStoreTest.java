@@ -1,9 +1,11 @@
 package de.pellepelster.myadmin.server.test;
 
+import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.server.util.TempFileStore;
 
@@ -18,30 +20,54 @@ public class TempFileStoreTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
+	public void testGetAndRemove()
+	{
+		byte[] tempFileContent = new byte[] { 0x01, 0x02, 0x03 };
+
+		String tempFileUUID = this.tempFileStore.storeTempFile(tempFileContent);
+
+		Assert.assertTrue(this.tempFileStore.hasTempFile(tempFileUUID));
+
+		FileVO tempFile = this.tempFileStore.getAndRemoveTempFile(tempFileUUID);
+
+		Assert.assertArrayEquals(tempFileContent, tempFile.getFileContent());
+		Assert.assertEquals(tempFileUUID, tempFile.getFileUUID());
+
+		Assert.assertFalse(this.tempFileStore.hasTempFile(tempFileUUID));
+	}
+
+	@Test
 	public void testStoreWithoutName()
 	{
-		byte[] tempContent = new byte[] { 0x01, 0x02, 0x03 };
+		byte[] tempFileContent = new byte[] { 0x01, 0x02, 0x03 };
 
-		String tempFileId = this.tempFileStore.storeTempFile(tempContent);
+		String tempFileUUID = this.tempFileStore.storeTempFile(tempFileContent);
+		FileVO tempFile = this.tempFileStore.getTempFile(tempFileUUID);
 
-		byte[] tempContent1 = this.tempFileStore.getTempFile(tempFileId);
-
-		Assert.assertArrayEquals(tempContent, tempContent1);
+		Assert.assertArrayEquals(tempFileContent, tempFile.getFileContent());
+		Assert.assertEquals(tempFileUUID, tempFile.getFileUUID());
 	}
 
 	@Test
 	public void testStoreWithName()
 	{
-		String fileName = "test.txt";
+		String tempFileName = "test.txt";
+		byte[] tempFileContent = new byte[] { 0x04, 0x05, 0x06 };
 
-		byte[] tempContent = new byte[] { 0x04, 0x05, 0x06 };
+		String tempFileUUID = this.tempFileStore.storeTempFile(tempFileName, tempFileContent);
+		Assert.assertNotSame(tempFileName, tempFileUUID);
 
-		String tempFileId = this.tempFileStore.storeTempFile(fileName, tempContent);
-
-		Assert.assertNotSame(fileName, tempFileId);
-
-		byte[] tempContent1 = this.tempFileStore.getTempFile(tempFileId);
-
-		Assert.assertArrayEquals(tempContent, tempContent1);
+		FileVO tempFile = this.tempFileStore.getTempFile(tempFileUUID);
+		Assert.assertArrayEquals(tempFileContent, tempFile.getFileContent());
+		Assert.assertEquals(tempFileName, tempFile.getFileName());
+		Assert.assertEquals(tempFileUUID, tempFile.getFileUUID());
 	}
+
+	@Test
+	public void testGetFileName()
+	{
+		String fileName = FilenameUtils.getName("c:\\fakepath\\abc.txt");
+		Assert.assertEquals("abc.txt", fileName);
+	}
+
 }

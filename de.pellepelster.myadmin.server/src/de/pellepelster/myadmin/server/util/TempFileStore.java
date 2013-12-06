@@ -1,53 +1,37 @@
 package de.pellepelster.myadmin.server.util;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.common.io.Files;
+import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
+import de.pellepelster.myadmin.db.daos.BaseVODAO;
+import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 @Component
-public class TempFileStore implements InitializingBean
+public class TempFileStore
 {
+	@Autowired
+	private BaseVODAO baseVODAO;
+
 	private final static Logger LOG = Logger.getLogger(TempFileStore.class);
 
-	private ConcurrentHashMap<String, String> tempFileNameMappings = new ConcurrentHashMap<String, String>();
-
-	public static final String TEMP_FILE_DIR = "myadmin_temp_files";
-
-	private File tempDir;
-
-	public String storeTempFile(String fileName, byte[] content)
+	public String storeTempFile(String fileName, byte[] fileContent)
 	{
-		String tempFileId = UUID.randomUUID().toString();
-		File tempFile = new File(this.tempDir, tempFileId);
+		String fileUUID = UUID.randomUUID().toString();
 
-		try
-		{
-			Files.write(content, tempFile);
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		FileVO file = new FileVO();
 
-		String mappedTempFileName = fileName;
+		file.setFileName(fileName);
+		file.setFileUUID(fileUUID);
+		file.setFileContent(fileContent);
 
-		if (fileName == null)
-		{
-			mappedTempFileName = tempFileId;
-		}
+		this.baseVODAO.create(file);
 
-		this.tempFileNameMappings.put(tempFileId, mappedTempFileName);
-
-		LOG.info(String.format("stored file '%s' as '%s'", mappedTempFileName, tempFileId));
-
-		return tempFileId;
+		return fileUUID;
 	}
 
 	public String storeTempFile(byte[] content)
@@ -55,35 +39,28 @@ public class TempFileStore implements InitializingBean
 		return storeTempFile(null, content);
 	}
 
-	public byte[] getTempFile(String tempFileId)
+	public boolean hasTempFile(String fileUUID)
 	{
-		File tempFile = new File(this.tempDir, tempFileId);
-		try
-		{
-			return Files.toByteArray(tempFile);
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		return getTempFile(fileUUID) != null;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception
+	public FileVO getTempFile(String fileUUID)
 	{
-		this.tempDir = new File(System.getProperty("java.io.tmpdir"), TEMP_FILE_DIR);
+		GenericFilterVO<FileVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(FileVO.class).addCriteria(FileVO.FIELD_FILEUUID, fileUUID)
+				.getGenericFilter();
+		return this.baseVODAO.read(genericFilterVO);
+	}
 
-		if (this.tempDir.exists() && this.tempDir.isFile())
-		{
-			throw new RuntimeException(String.format("'%s' already exists and is a file", this.tempDir.toString()));
-		}
+	public FileVO getAndRemoveTempFile(String fileUUID)
+	{
+		FileVO file = getTempFile(fileUUID);
+		this.baseVODAO.delete(file);
+		return file;
+	}
 
-		if (!this.tempDir.exists())
-		{
-			this.tempDir.mkdirs();
-		}
-
-		LOG.info(String.format("temp file store initialized at '%s'", this.tempDir.toString()));
+	public void setBaseVODAO(BaseVODAO baseVODAO)
+	{
+		this.baseVODAO = baseVODAO;
 	}
 
 }

@@ -12,17 +12,18 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseConta
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.TableRow;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
+import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditor;
 
 public class DictionaryElementUtil
 {
 	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
 		List<String> descriptorModelIds = getParentModelIds(dictionaryDescriptor);
-		
+
 		List<String> modelIds = DictionaryElementUtil.getParentModelIds(baseRootElement.getModel());
-		
+
 		removeLeadingModelIds(modelIds, descriptorModelIds);
-		
+
 		return getElement(baseRootElement.getRootComposite().getChildren(), descriptorModelIds, 0);
 
 	}
@@ -61,6 +62,21 @@ public class DictionaryElementUtil
 		}
 
 		throw new RuntimeException("element '" + modelIds.toString() + "' not found");
+	}
+
+	public static DictionaryEditor getRootEditor(BaseDictionaryElement<?> baseDictionaryElement)
+	{
+		BaseRootElement baseRootElement = baseDictionaryElement.getRootElement();
+
+		if (baseRootElement instanceof DictionaryEditor)
+		{
+			return (DictionaryEditor) baseRootElement;
+		}
+		else
+		{
+			throw new RuntimeException("'" + baseDictionaryElement.getModel().getName() + "' has no root element of type DictionaryEditor");
+		}
+
 	}
 
 	public static BaseDictionaryControl<?, ?> getControl(TableRow<?, ?> tableRow, List<String> modelIds)

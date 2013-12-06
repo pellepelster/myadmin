@@ -26,6 +26,8 @@ public class Messages
 
 	public static final String NAVIGATION_TITLE_SEARCH = "navigation.title.search";
 
+	public static final String FILE_NOT_FOUND = "file.notfound";
+
 	public static String getString(String key)
 	{
 		try

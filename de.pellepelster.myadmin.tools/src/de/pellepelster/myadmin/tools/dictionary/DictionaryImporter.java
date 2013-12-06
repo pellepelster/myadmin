@@ -33,7 +33,8 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
-public class DictionaryImporter extends BaseToolAntTask {
+public class DictionaryImporter extends BaseToolAntTask
+{
 
 	private static final Logger logger = Logger.getLogger(DictionaryImporter.class);
 
@@ -45,10 +46,12 @@ public class DictionaryImporter extends BaseToolAntTask {
 	/**
 	 * Create the classpath for loading the driver.
 	 */
-	public Path createClasspath() {
+	public Path createClasspath()
+	{
 		logger.trace("createClasspath() - start");
 
-		if (this.classpath == null) {
+		if (this.classpath == null)
+		{
 			this.classpath = new Path(getProject());
 		}
 
@@ -57,27 +60,34 @@ public class DictionaryImporter extends BaseToolAntTask {
 
 	/** {@inheritDoc} */
 	@Override
-	public void execute() throws BuildException {
+	public void execute() throws BuildException
+	{
 		logger.info("initializing spring context");
 
 		PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource modelResource = null;
 		List<Resource> modelResources = new ArrayList<Resource>();
 
-		if (this.classpath != null) {
+		if (this.classpath != null)
+		{
 			AntClassLoader antClassLoader = new AntClassLoader(getProject(), this.classpath);
 			pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver(antClassLoader);
 		}
 
-		try {
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:model/*.msl")) {
+		try
+		{
+			for (Resource resource : pathMatchingResourcePatternResolver.getResources("classpath*:model/*.msl"))
+			{
 				modelResources.add(resource);
 			}
 
-			for (Resource resource : pathMatchingResourcePatternResolver.getResources(this.modelfile)) {
+			for (Resource resource : pathMatchingResourcePatternResolver.getResources(this.modelfile))
+			{
 				modelResource = resource;
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			throw new RuntimeException(e);
 		}
 
@@ -97,26 +107,33 @@ public class DictionaryImporter extends BaseToolAntTask {
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 		IBaseEntityService baseEntityService = MyAdminRemoteServiceLocator.getInstance().getBaseEntityService();
 
-		ApplicationEventMulticaster applicationEventMulticaster = MyAdminApplicationContextProvider.getInstance().getContext().getBean(ApplicationEventMulticaster.class);
+		ApplicationEventMulticaster applicationEventMulticaster = MyAdminApplicationContextProvider.getInstance().getContext()
+				.getBean(ApplicationEventMulticaster.class);
 
-		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, applicationEventMulticaster, modelResources, modelResource);
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(baseEntityService, applicationEventMulticaster, modelResources,
+				modelResource);
 		dictionaryImportRunner.run();
 	}
 
 	/**
 	 * @see DictionaryImporter#dictionaryname
 	 */
-	public String getModelfile() {
+	public String getModelfile()
+	{
 		return this.modelfile;
 	}
 
 	/**
 	 * Set the classpath for loading the driver.
 	 */
-	public void setClasspath(Path classpath) {
-		if (this.classpath == null) {
+	public void setClasspath(Path classpath)
+	{
+		if (this.classpath == null)
+		{
 			this.classpath = classpath;
-		} else {
+		}
+		else
+		{
 			this.classpath.append(classpath);
 		}
 	}
@@ -124,14 +141,16 @@ public class DictionaryImporter extends BaseToolAntTask {
 	/**
 	 * Set the classpath for loading the driver using the classpath reference.
 	 */
-	public void setClasspathRef(Reference r) {
+	public void setClasspathRef(Reference r)
+	{
 		createClasspath().setRefid(r);
 	}
 
 	/**
 	 * @see DictionaryImporter#dictionaryname
 	 */
-	public void setModelfile(String modelfile) {
+	public void setModelfile(String modelfile)
+	{
 		this.modelfile = modelfile;
 	}
 }
