@@ -12,7 +12,6 @@
 package de.pellepelster.myadmin.client.base.db.vos;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class BaseVO implements IBaseVO
 {
@@ -27,10 +26,10 @@ public abstract class BaseVO implements IBaseVO
 		this.oid = UUID.uuid().hashCode();
 	}
 
-	private transient Map<String, Object> data = new HashMap<String, Object>();
+	private HashMap<String, Object> data = new HashMap<String, Object>();
 
 	@Override
-	public Map<String, Object> getData()
+	public HashMap<String, Object> getData()
 	{
 		return this.data;
 	}

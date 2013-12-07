@@ -10,7 +10,6 @@
 	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
 «ENDDEFINE»
 
-
 «DEFINE fieldDescriptor(String name) FOR Entity»
 	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
 «ENDDEFINE»

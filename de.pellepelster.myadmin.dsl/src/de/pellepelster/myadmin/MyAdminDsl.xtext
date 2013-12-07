@@ -286,7 +286,7 @@ Labels:
 
 //- datatypes -----------------------------------------------------------------
 Datatype: 
-	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | BinaryDatatype | ReferenceDatatype;
+	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | BinaryDatatype | FileDatatype | ReferenceDatatype;
 
 BaseDictionaryDatatype:
 	{BaseDictionaryDatatype}
@@ -337,6 +337,11 @@ BinaryDatatype:
 		baseDatatype=BaseDictionaryDatatype
 	"}";
 
+FileDatatype:
+	"filedatatype" name=ID "{"
+		baseDatatype=BaseDictionaryDatatype
+	"}";
+	
 enum ControlType: 
 	text = "text" | dropdown = "dropdown";
 

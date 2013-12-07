@@ -28,12 +28,12 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DateDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute;
 import de.pellepelster.myadmin.dsl.myAdminDsl.EnumerationDatatype;
+import de.pellepelster.myadmin.dsl.myAdminDsl.FileDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.IntegerDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
 import de.pellepelster.myadmin.dsl.myAdminDsl.TextDatatype;
-import de.pellepelster.myadmin.server.entities.dictionary.File;
 
 /**
  * Factory for control creation
@@ -148,17 +148,11 @@ public class DatatypeFactory
 		}
 		else if (datatype instanceof ReferenceDatatype)
 		{
-			ReferenceDatatype referenceDatatype = (ReferenceDatatype) datatype;
-
-			if (File.class.getName().equals(referenceDatatype.getEntity().getName()))
-			{
-
-			}
-			else
-			{
-				createReferenceDatatype(referenceDatatype, datatypeVO, logIdentiation + 1);
-			}
-
+			createReferenceDatatype((ReferenceDatatype) datatype, datatypeVO, logIdentiation + 1);
+		}
+		else if (datatype instanceof FileDatatype)
+		{
+			createFileDatatype((FileDatatype) datatype, datatypeVO, logIdentiation + 1);
 		}
 		else if (datatype instanceof TextDatatype)
 		{
@@ -245,6 +239,11 @@ public class DatatypeFactory
 		{
 			return integer;
 		}
+	}
+
+	private void createFileDatatype(FileDatatype fileDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)
+	{
+		datatypeVO.setBaseType(DICTIONARY_BASETYPE.FILE);
 	}
 
 	private void createTextDatatype(TextDatatype textDatatype, DictionaryDatatypeVO datatypeVO, int logIdentiation)

@@ -79,7 +79,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				}
 				
 				enum DICTIONARY_BASETYPE {
-					Text, INTEGER, BIGDECIMAL, BINARY, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
+					Text, INTEGER, FILE, BIGDECIMAL, BINARY, HIERARCHICAL, DATE, BOOLEAN, REFERENCE, TIMESTAMP, ENUMERATION, COMBOBOX
 				}
 	
 				enum DICTIONARY_TYPE {
@@ -101,10 +101,8 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					datatype FileUUID fileUUID
 				}
 				
-				referencedatatype File {
-					entity MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File
+				filedatatype File {
 				}
-
 				
 				entity DictionaryLabelIndex implements de.pellepelster.myadmin.db.IClient {
 					simpletype String className

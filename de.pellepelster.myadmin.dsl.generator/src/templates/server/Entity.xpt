@@ -204,11 +204,6 @@
 	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
 «ENDDEFINE»
 
-«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR BinaryDatatype»
-	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
-	@javax.persistence.Lob
-«ENDDEFINE»
-
 «DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute) FOR DatatypeType»
 	«EXPAND attributeAnnotation(entity, entityAttribute, cardinality) FOR this.type»
 «ENDDEFINE»
@@ -223,6 +218,15 @@
 
 «DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR DateDatatype»
  	@javax.persistence.Temporal(javax.persistence.TemporalType.DATE)
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR BinaryDatatype»
+	@javax.persistence.Column(name = "«jpaColumnName(entity, entityAttribute)»")
+	@javax.persistence.Lob
+«ENDDEFINE»
+
+«DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR FileDatatype»
+	@javax.persistence.OneToOne()
 «ENDDEFINE»
 
 «DEFINE attributeAnnotation(Entity entity, EntityAttribute entityAttribute, Cardinality cardinality) FOR EnumerationDatatype»

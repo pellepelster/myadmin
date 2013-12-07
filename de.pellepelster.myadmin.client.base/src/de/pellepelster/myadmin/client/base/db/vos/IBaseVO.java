@@ -12,7 +12,7 @@
 package de.pellepelster.myadmin.client.base.db.vos;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Basic VO interface
@@ -95,6 +95,6 @@ public interface IBaseVO extends Serializable
 	 * 
 	 * @return
 	 */
-	Map<String, Object> getData();
+	HashMap<String, Object> getData();
 
 }

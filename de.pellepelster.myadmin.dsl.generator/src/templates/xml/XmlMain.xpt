@@ -45,6 +45,8 @@
 
 «DEFINE xsdType FOR BinaryDatatype-»xsd:hexBinary«ENDDEFINE»
 
+«DEFINE xsdType FOR FileDatatype-»xsd:hexBinary«ENDDEFINE»
+
 «REM»
 «DEFINE xsdType FOR SimpleType»
 «ENDDEFINE»

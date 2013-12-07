@@ -330,6 +330,14 @@
 	byte[]
 «ENDDEFINE»
 
+«DEFINE datatypeType(String type) FOR FileDatatype-»
+	«IF type == "webvo"»
+	de.pellepelster.myadmin.client.web.entities.dictionary.FileVO
+	«ELSE-»
+	de.pellepelster.myadmin.server.entities.dictionary.File
+	«ENDIF-»		
+«ENDDEFINE»
+
 «DEFINE datatypeType(String type) FOR EnumerationDatatype-»
 	«fullQualifiedEntityName(this.enumeration)-»
 «ENDDEFINE»

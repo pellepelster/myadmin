@@ -99,7 +99,7 @@ public class VOBeanUtil
 		}
 
 		@Override
-		public Map<String, Object> getData()
+		public HashMap<String, Object> getData()
 		{
 			return null;
 		}
