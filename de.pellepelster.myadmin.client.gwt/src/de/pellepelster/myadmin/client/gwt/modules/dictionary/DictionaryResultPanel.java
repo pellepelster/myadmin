@@ -18,9 +18,9 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 {

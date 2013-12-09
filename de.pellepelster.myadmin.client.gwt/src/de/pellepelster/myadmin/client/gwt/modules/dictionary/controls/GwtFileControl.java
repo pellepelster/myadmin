@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IFileControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.utils.ActionImage;
@@ -33,7 +34,6 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.FileControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class GwtFileControl extends Composite implements IGwtControl, ClickHandler, SimpleCallback<Void>
 {

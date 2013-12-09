@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("rawtypes")
-public class ClientHookRegistry
+public class DictionaryHookRegistry
 {
-	private static ClientHookRegistry instance;
+	private static DictionaryHookRegistry instance;
 
 	private Map<String, IEditorSaveHook> editorSaveHooks = new HashMap<String, IEditorSaveHook>();
 
 	private Map<String, List<BaseEditorHook>> editorHooks = new HashMap<String, List<BaseEditorHook>>();
 
-	private ClientHookRegistry()
+	private DictionaryHookRegistry()
 	{
 	}
 
-	public static ClientHookRegistry getInstance()
+	public static DictionaryHookRegistry getInstance()
 	{
 		if (instance == null)
 		{
-			instance = new ClientHookRegistry();
+			instance = new DictionaryHookRegistry();
 		}
 
 		return instance;

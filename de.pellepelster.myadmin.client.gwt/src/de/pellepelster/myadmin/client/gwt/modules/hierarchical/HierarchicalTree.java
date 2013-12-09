@@ -16,8 +16,8 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalTree extends VerticalPanel
 {

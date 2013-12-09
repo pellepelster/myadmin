@@ -23,7 +23,7 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
-import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -166,11 +166,11 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public List<IButton> getEditorButtons()
 	{
-		if (ClientHookRegistry.getInstance().hasEditorHook(getDictionaryModel().getName()))
+		if (DictionaryHookRegistry.getInstance().hasEditorHook(getDictionaryModel().getName()))
 		{
 			List<IButton> buttons = new ArrayList<IButton>();
 
-			for (BaseEditorHook<VOType> baseEditorHook : ClientHookRegistry.getInstance().getEditorHook(getDictionaryModel().getName()))
+			for (BaseEditorHook<VOType> baseEditorHook : DictionaryHookRegistry.getInstance().getEditorHook(getDictionaryModel().getName()))
 			{
 				buttons.addAll(baseEditorHook.getEditorButtons(this.dictionaryEditor));
 			}

@@ -8,11 +8,11 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTree;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalVOSelectionPopup extends BaseVOSelectionPopup<IHierarchicalVO>
 {

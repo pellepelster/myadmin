@@ -18,13 +18,13 @@ import com.google.gwt.user.client.ui.Anchor;
 
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.HierarchicalVOSelectionPopup;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.HierarchicalControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class GwtHierarchicalControl extends Anchor implements IGwtControl
 {

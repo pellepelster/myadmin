@@ -26,10 +26,10 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTab
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
 {

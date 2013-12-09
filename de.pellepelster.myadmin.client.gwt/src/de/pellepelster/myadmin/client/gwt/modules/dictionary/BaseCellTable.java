@@ -25,10 +25,10 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.layout.WidthCalculationStrategy;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IBaseTable.ITableRow<VOType>>
 {

@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.client.web.util;
+package de.pellepelster.myadmin.client.base.util;
 
 public interface SimpleCallback<T>
 {

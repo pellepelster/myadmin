@@ -10,7 +10,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionaryEditor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -164,9 +164,9 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 
 		// if (!this.dataBindingContext.hasErrors())
 		// {
-		if (ClientHookRegistry.getInstance().hasEditorSaveHook(getModel().getName()))
+		if (DictionaryHookRegistry.getInstance().hasEditorSaveHook(getModel().getName()))
 		{
-			ClientHookRegistry.getInstance().getEditorSaveHook(getModel().getName()).onSave(new BaseErrorAsyncCallback<Boolean>()
+			DictionaryHookRegistry.getInstance().getEditorSaveHook(getModel().getName()).onSave(new BaseErrorAsyncCallback<Boolean>()
 			{
 				@Override
 				public void onSuccess(Boolean doSave)

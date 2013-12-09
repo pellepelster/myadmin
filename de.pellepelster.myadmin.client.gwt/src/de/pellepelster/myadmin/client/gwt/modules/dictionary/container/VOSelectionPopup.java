@@ -10,13 +10,13 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPopup<VOType>
 {

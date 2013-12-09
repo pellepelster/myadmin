@@ -9,8 +9,8 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class RollOverActionImage extends Image
 {

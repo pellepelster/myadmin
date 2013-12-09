@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.ControlHandler;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDataGrid;
@@ -34,7 +35,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.container.EditableT
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.IContainer;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 import de.pellepelster.myadmin.client.web.util.DummyAsyncCallback;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 /**
  * GWT {@link ICompositeModel} implementation

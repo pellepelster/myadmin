@@ -10,7 +10,7 @@
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.ClientHookRegistry;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 		
 	public class «dictionaryIDsName()» {
 
@@ -53,7 +53,7 @@
 		
 		public void setEditorSaveHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IEditorSaveHook<«fullQualifiedEntityName(parentDictionary.entity)»> editorSaveHook)
 		{
-			ClientHookRegistry.getInstance().setEditorSaveHook("«name»", editorSaveHook); 
+			DictionaryHookRegistry.getInstance().setEditorSaveHook("«name»", editorSaveHook); 
 		}
 	
 	}

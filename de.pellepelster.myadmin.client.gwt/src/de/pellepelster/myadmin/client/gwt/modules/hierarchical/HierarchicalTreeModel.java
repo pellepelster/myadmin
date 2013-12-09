@@ -26,12 +26,12 @@ import com.google.gwt.view.client.TreeViewModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalNodeInfo.HierarchicalNodeCallback;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOEventHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class HierarchicalTreeModel implements TreeViewModel
 {

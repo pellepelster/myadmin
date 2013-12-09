@@ -480,6 +480,14 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			}
 
 		}
+		
+		package modules {
+			moduledefinition TestModule11 {
+				parameters {
+					
+				}
+			}
+		}
 
 		package navigation {
 

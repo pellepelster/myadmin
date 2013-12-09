@@ -28,8 +28,8 @@ import com.google.gwt.user.client.ui.Image;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
-import de.pellepelster.myadmin.client.web.util.SimpleCallback;
 
 public class ImageActionCell<VOType extends IBaseVO> extends AbstractCell<Void>
 {
