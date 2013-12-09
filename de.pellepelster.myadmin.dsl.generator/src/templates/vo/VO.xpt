@@ -125,7 +125,21 @@
 		«ENDFOREACH-»
 		
 		«EXPAND cloneMethod FOR this»
+		
 		«EXPAND getAttributeDescriptor FOR this»
+		
+		«IF !this.naturalKeyAttributes.isEmpty»
+			@java.lang.Override
+			public String getNaturalKey() 
+			{
+				java.lang.StringBuffer sb = new java.lang.StringBuffer();
+				«FOREACH this.naturalKeyAttributes AS naturalKeyAttribute SEPARATOR "sb.append(\", \");"»
+				sb.append(this.«naturalKeyAttribute.name»);
+				«ENDFOREACH-»
+				return sb.toString();
+			}
+			
+		«ENDIF»
 	}
 «ENDDEFINE»
 
