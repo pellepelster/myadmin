@@ -484,7 +484,12 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 		package modules {
 			moduledefinition TestModule11 {
 				parameters {
-					
+					parameter DictionaryName {
+						type String
+					} 
+					parameter VOId {
+						type Long
+					} 
 				}
 			}
 		}

@@ -3,14 +3,11 @@ package de.pellepelster.myadmin.client.web.modules.hierarchical.hooks;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.pellepelster.myadmin.client.base.util.SimpleCallback;
-import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-
 public class HierarchicalHookRegistry
 {
 	private static HierarchicalHookRegistry instance;
 
-	private Map<String, SimpleCallback<DictionaryHierarchicalNodeVO>> hierarchicalTreeActivationHooks = new HashMap<String, SimpleCallback<DictionaryHierarchicalNodeVO>>();
+	private Map<String, BaseActivationHook> activationHooks = new HashMap<String, BaseActivationHook>();
 
 	private HierarchicalHookRegistry()
 	{
@@ -26,24 +23,24 @@ public class HierarchicalHookRegistry
 		return instance;
 	}
 
-	public void addActivationHook(String treeId, SimpleCallback<DictionaryHierarchicalNodeVO> hierarchicalTreeActivationHook)
+	public void addActivationHook(String treeId, BaseActivationHook activationHook)
 	{
-		if (this.hierarchicalTreeActivationHooks.containsKey(treeId))
+		if (this.activationHooks.containsKey(treeId))
 		{
 			throw new RuntimeException("hook already registered for tree '" + treeId + "'");
 		}
 
-		this.hierarchicalTreeActivationHooks.put(treeId, hierarchicalTreeActivationHook);
+		this.activationHooks.put(treeId, activationHook);
 	}
 
 	public boolean hasActivationHook(String treeId)
 	{
-		return this.hierarchicalTreeActivationHooks.get(treeId) != null;
+		return this.activationHooks.get(treeId) != null;
 	}
 
-	public SimpleCallback<DictionaryHierarchicalNodeVO> getActivationHook(String treeId)
+	public BaseActivationHook getActivationHook(String treeId)
 	{
-		return this.hierarchicalTreeActivationHooks.get(treeId);
+		return this.activationHooks.get(treeId);
 	}
 
 }

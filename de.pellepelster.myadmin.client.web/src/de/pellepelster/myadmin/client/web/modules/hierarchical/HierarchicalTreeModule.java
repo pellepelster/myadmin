@@ -44,28 +44,18 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 	private final SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler = new SimpleCallback<DictionaryHierarchicalNodeVO>()
 	{
 		@Override
-		public void onCallback(DictionaryHierarchicalNodeVO dictionaryHierarchicalNodeVO)
+		public void onCallback(DictionaryHierarchicalNodeVO hierarchicalNodeVO)
 		{
 			if (HierarchicalHookRegistry.getInstance().hasActivationHook(getHierarchicalTreeId()))
 			{
-				HierarchicalHookRegistry.getInstance().getActivationHook(getHierarchicalTreeId()).onCallback(dictionaryHierarchicalNodeVO);
+				HierarchicalHookRegistry.getInstance().getActivationHook(getHierarchicalTreeId()).onActivate(hierarchicalNodeVO);
 			}
 			else
 			{
-				if (dictionaryHierarchicalNodeVO.getVoId() == null)
-				{
-					HashMap<String, Object> parameters = CollectionUtils.getMap(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName(),
-							dictionaryHierarchicalNodeVO.getParentClassName(), IHierarchicalVO.FIELD_PARENT_ID.getAttributeName(),
-							dictionaryHierarchicalNodeVO.getParentVOId());
-
-					DictionaryEditorModuleFactory.openEditor(dictionaryHierarchicalNodeVO.getDictionaryName(), parameters);
-				}
-				else
-				{
-					DictionaryEditorModuleFactory.openEditorForId(dictionaryHierarchicalNodeVO.getDictionaryName(), dictionaryHierarchicalNodeVO.getVoId());
-				}
+				openModuleForNode(hierarchicalNodeVO);
 			}
 		}
+
 	};
 
 	public HierarchicalTreeModule(ModuleVO moduleVO, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
@@ -147,6 +137,21 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 	public SimpleCallback<DictionaryHierarchicalNodeVO> getNodeActivatedHandler()
 	{
 		return this.nodeActivatedHandler;
+	}
+
+	public static void openModuleForNode(DictionaryHierarchicalNodeVO hierarchicalNodeVO)
+	{
+		if (hierarchicalNodeVO.getVoId() == null)
+		{
+			HashMap<String, Object> parameters = CollectionUtils.getMap(IHierarchicalVO.FIELD_PARENT_CLASSNAME.getAttributeName(),
+					hierarchicalNodeVO.getParentClassName(), IHierarchicalVO.FIELD_PARENT_ID.getAttributeName(), hierarchicalNodeVO.getParentVOId());
+
+			DictionaryEditorModuleFactory.openEditor(hierarchicalNodeVO.getDictionaryName(), parameters);
+		}
+		else
+		{
+			DictionaryEditorModuleFactory.openEditorForId(hierarchicalNodeVO.getDictionaryName(), hierarchicalNodeVO.getVoId());
+		}
 	}
 
 }

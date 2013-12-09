@@ -68,6 +68,11 @@ public final class ModuleHandler
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, location, parameters);
 	}
 
+	public void startModule(final String moduleName, Map<String, Object> parameters)
+	{
+		startModule(moduleName, null, parameters);
+	}
+
 	public void startModule(final String moduleName)
 	{
 		startModule(moduleName, null, new HashMap<String, Object>());

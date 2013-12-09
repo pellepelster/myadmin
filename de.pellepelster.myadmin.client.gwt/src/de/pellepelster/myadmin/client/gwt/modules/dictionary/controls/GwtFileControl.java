@@ -116,8 +116,13 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 	{
 		deleteAction.enable();
 		fileNameAnchor.setText(getFileName(fileName));
-		fileNameAnchor.setHref(GWT.getModuleBaseURL() + "../remote/" + IFileControl.FILE_DOWNLOAD_REQUEST_MAPPING + "/" + IFileControl.REQUEST_MAPPING_GET_FILE
-				+ "/" + fileUUID);
+		fileNameAnchor.setHref(getFileUrl(fileUUID));
+	}
+
+	public static String getFileUrl(String fileUUID)
+	{
+		return GWT.getModuleBaseURL() + "../remote/" + IFileControl.FILE_DOWNLOAD_REQUEST_MAPPING + "/" + IFileControl.REQUEST_MAPPING_GET_FILE + "/"
+				+ fileUUID;
 	}
 
 	public String getFileName(String filePathName)

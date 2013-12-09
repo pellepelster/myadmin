@@ -58,7 +58,6 @@ public class HierarchicalTreeModel implements TreeViewModel
 		{
 			boolean doUpdate = Iterables.any(dataProvider.getItems(), new Predicate<DictionaryHierarchicalNodeVO>()
 			{
-
 				@Override
 				public boolean apply(DictionaryHierarchicalNodeVO hierarchicalNodeVO)
 				{
