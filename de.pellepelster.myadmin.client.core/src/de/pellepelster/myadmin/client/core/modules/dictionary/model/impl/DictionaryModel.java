@@ -104,13 +104,6 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 
 	/** {@inheritDoc} */
 	@Override
-	public String getTitle()
-	{
-		return Objects.firstNonNull(this.dictionaryVO.getTitle(), getName());
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public String getVOName()
 	{
 		return this.voName;
@@ -119,7 +112,7 @@ public class DictionaryModel extends BaseModel implements IDictionaryModel
 	@Override
 	public String getLabel()
 	{
-		return Objects.firstNonNull(this.dictionaryVO.getLabel(), getTitle());
+		return Objects.firstNonNull(this.dictionaryVO.getLabel(), getName());
 	}
 
 	@Override

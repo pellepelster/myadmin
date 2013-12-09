@@ -65,12 +65,12 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 		module2 = this.baseEntityService.create(module2);
 
 		ModuleNavigationVO navVO1 = new ModuleNavigationVO();
-		navVO1.setTitle("nav1");
+		navVO1.setLabel("nav1");
 		navVO1.setModule(module1);
 		navVO1 = this.baseEntityService.create(navVO1);
 
 		ModuleNavigationVO navVO2 = new ModuleNavigationVO();
-		navVO2.setTitle("nav2");
+		navVO2.setLabel("nav2");
 		navVO2.setModule(module2);
 
 		navVO2.setParent(navVO1);
@@ -109,7 +109,7 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 		Assert.assertEquals(1, result.size());
 
 		ModuleNavigationVO navigationVO = result.get(0);
-		Assert.assertEquals("nav1", navigationVO.getTitle());
+		Assert.assertEquals("nav1", navigationVO.getLabel());
 		Assert.assertNotNull(navigationVO.getModule());
 
 	}
@@ -126,7 +126,7 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 		Assert.assertEquals(1, result.size());
 
 		ModuleNavigationVO navigationVO = result.get(0);
-		Assert.assertEquals("nav1", navigationVO.getTitle());
+		Assert.assertEquals("nav1", navigationVO.getLabel());
 		Assert.assertNotNull(navigationVO.getModule());
 	}
 

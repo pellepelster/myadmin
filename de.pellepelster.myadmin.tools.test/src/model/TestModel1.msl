@@ -41,7 +41,6 @@ project MyAdminDemo {
 			dictionary TestDictionary1 {
 			
 				entity TestEntity1
-				title "TestDictionary1Title"
 				label "Dictionary 1 Label"
 				
 				dictionarycontrols {

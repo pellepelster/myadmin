@@ -14,6 +14,8 @@ package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
@@ -58,10 +60,10 @@ public class SearchModel extends BaseModel implements ISearchModel
 
 		for (DictionaryFilterVO filterVO : dictionarySearchVO.getFilter())
 		{
-			filter.add(new FilterModel(this, filterVO, voName));
+			this.filter.add(new FilterModel(this, filterVO, voName));
 		}
 
-		result = new ResultModel(this, dictionarySearchVO.getResult());
+		this.result = new ResultModel(this, dictionarySearchVO.getResult());
 
 	}
 
@@ -69,42 +71,35 @@ public class SearchModel extends BaseModel implements ISearchModel
 	@Override
 	public List<IFilterModel> getFilterModel()
 	{
-		return filter;
+		return this.filter;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getName()
 	{
-		return dictionarySearchVO.getName();
+		return this.dictionarySearchVO.getName();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public IResultModel getResultModel()
 	{
-		return result;
+		return this.result;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String getTitle()
+	public String getLabel()
 	{
-		if (dictionarySearchVO.getTitle() != null && !dictionarySearchVO.getTitle().isEmpty())
-		{
-			return dictionarySearchVO.getTitle();
-		}
-		else
-		{
-			return getName();
-		}
+		return Objects.firstNonNull(this.dictionarySearchVO.getLabel(), getName());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String getVOName()
 	{
-		return voName;
+		return this.voName;
 	}
 
 }

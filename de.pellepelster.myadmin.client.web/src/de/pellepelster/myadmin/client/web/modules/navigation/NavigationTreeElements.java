@@ -19,7 +19,7 @@ public class NavigationTreeElements implements Iterable<NavigationTreeElements>
 		@Override
 		public String apply(NavigationTreeElements navigationTreeElements)
 		{
-			return navigationTreeElements.getTitle();
+			return navigationTreeElements.getLabel();
 		}
 	});
 
@@ -64,9 +64,9 @@ public class NavigationTreeElements implements Iterable<NavigationTreeElements>
 		return this.children.iterator();
 	}
 
-	public String getTitle()
+	public String getLabel()
 	{
-		return this.moduleNavigationVO.getTitle();
+		return this.moduleNavigationVO.getLabel();
 	}
 
 	public boolean hasModule()

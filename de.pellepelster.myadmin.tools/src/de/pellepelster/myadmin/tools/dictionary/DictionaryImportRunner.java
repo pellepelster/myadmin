@@ -315,32 +315,32 @@ public class DictionaryImportRunner
 			ModuleNavigationVO moduleNavigationVO = new ModuleNavigationVO();
 			parentNavigationList.add(moduleNavigationVO);
 
-			String title = navigationNode.getName();
+			String label = navigationNode.getName();
 
-			if (!StringUtils.isEmpty(navigationNode.getTitle()))
+			if (!StringUtils.isEmpty(navigationNode.getLabel()))
 			{
-				title = navigationNode.getTitle();
+				label = navigationNode.getLabel();
 			}
 			else if (navigationNode.getDictionarySearch() != null)
 			{
 				Dictionary dictionary = ModelUtil.getParentDictionary(navigationNode.getDictionarySearch());
 
-				if (dictionary.getTitle() != null)
+				if (dictionary.getLabel() != null)
 				{
-					title = Messages.getString(Messages.NAVIGATION_TITLE_SEARCH, dictionary.getTitle());
+					label = Messages.getString(Messages.NAVIGATION_TITLE_SEARCH, dictionary.getLabel());
 				}
 			}
 			else if (navigationNode.getDictionaryEditor() != null)
 			{
 				Dictionary dictionary = ModelUtil.getParentDictionary(navigationNode.getDictionaryEditor());
 
-				if (dictionary.getTitle() != null)
+				if (dictionary.getLabel() != null)
 				{
-					title = Messages.getString(Messages.NAVIGATION_TITLE_ADD, dictionary.getTitle());
+					label = Messages.getString(Messages.NAVIGATION_TITLE_ADD, dictionary.getLabel());
 				}
 			}
 
-			moduleNavigationVO.setTitle(title);
+			moduleNavigationVO.setLabel(label);
 
 			if (navigationNode.getModule() != null && this.moduleVOs.containsKey((navigationNode.getModule().getName())))
 			{
@@ -423,7 +423,7 @@ public class DictionaryImportRunner
 
 		DictionarySearchVO dictionarySearchVO = new DictionarySearchVO();
 		dictionarySearchVO.setName(dictionarySearch.getName());
-		dictionarySearchVO.setTitle(dictionarySearch.getTitle());
+		dictionarySearchVO.setLabel(dictionarySearch.getLabel());
 
 		ToolUtils.logInfo(LOG, String.format("adding dictionary search '%s'", dictionarySearchVO.getName()), logIdentiation);
 

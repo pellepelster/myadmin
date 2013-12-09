@@ -69,7 +69,7 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(assignmentTable.getModel().getDictionaryName());
 
-		return new VOSelectionPopup<VOType>(dictionaryModel.getVOName(), dictionaryModel.getTitle(), assignmentTable.getControls(), voSelectHandler);
+		return new VOSelectionPopup<VOType>(dictionaryModel.getVOName(), dictionaryModel.getLabel(), assignmentTable.getControls(), voSelectHandler);
 	}
 
 	@Override

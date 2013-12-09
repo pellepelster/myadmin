@@ -113,7 +113,7 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getSearchTitle(getModel(), getDictionaryResult().getRows().size());
+		return DictionaryUtil.getSearchLabel(getModel(), getDictionaryResult().getRows().size());
 	}
 
 	private void fireUpdateListeners()

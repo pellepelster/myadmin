@@ -42,7 +42,7 @@ public class DictionaryFactory
 		DictionaryVO dictionaryVO = new DictionaryVO();
 		dictionaryVO.setName(dictionary.getName());
 		dictionaryVO.setEntityName(fullQualifiedEntityName);
-		dictionaryVO.setTitle(dictionary.getTitle());
+		dictionaryVO.setLabel(dictionary.getLabel());
 		dictionaryVO.setLabel(dictionary.getLabel());
 		dictionaryVO.setPluralLabel(dictionary.getPluralLabel());
 
@@ -62,7 +62,7 @@ public class DictionaryFactory
 
 		DictionaryEditorVO dictionaryEditorVO = new DictionaryEditorVO();
 		dictionaryEditorVO.setName(dictionaryEditor.getName());
-		dictionaryEditorVO.setTitle(dictionaryEditor.getTitle());
+		dictionaryEditorVO.setLabel(dictionaryEditor.getLabel());
 
 		ToolUtils.logInfo(DictionaryImportRunner.LOG, String.format("creating editor '%s'", dictionaryEditorVO.getName()), logIdentiation);
 

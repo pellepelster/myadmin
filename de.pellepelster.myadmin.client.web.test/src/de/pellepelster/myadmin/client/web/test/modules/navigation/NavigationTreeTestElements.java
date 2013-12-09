@@ -42,7 +42,7 @@ public class NavigationTreeTestElements implements Iterable<NavigationTreeTestEl
 
 	public void assertNavigationText(String expected)
 	{
-		Assert.assertEquals(expected, this.navigationTreeElements.getTitle());
+		Assert.assertEquals(expected, this.navigationTreeElements.getLabel());
 	}
 
 	public void assertChildrenCount(int count)

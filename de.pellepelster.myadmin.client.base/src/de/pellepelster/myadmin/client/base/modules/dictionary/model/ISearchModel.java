@@ -42,7 +42,7 @@ public interface ISearchModel extends IBaseModel
 	 * 
 	 * @return
 	 */
-	String getTitle();
+	String getLabel();
 
 	/**
 	 * Fully qualified name of the VO managed by this dictionary

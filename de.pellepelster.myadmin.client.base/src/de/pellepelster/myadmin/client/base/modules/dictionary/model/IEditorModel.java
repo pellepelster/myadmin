@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 
-
 /**
  * Model for an editor UI
  * 
@@ -27,7 +26,7 @@ public interface IEditorModel extends IBaseRootModel
 	 * 
 	 * @return
 	 */
-	String getTitle();
+	String getLabel();
 
 	/**
 	 * Fully qualified name of the VO managed by this editor

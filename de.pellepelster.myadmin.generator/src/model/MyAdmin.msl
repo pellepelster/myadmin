@@ -226,7 +226,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 
 					reference Client+ client
 					simpletype String name
-					simpletype String ^title
+					simpletype String ^label
 					reference DictionaryFilter* filter
 					reference DictionaryResult result
 				}
@@ -237,7 +237,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 
 					reference Client+ client
 					simpletype String name
-					simpletype String ^title
+					simpletype String ^label
 					reference DictionaryContainer container
 				}
 				
@@ -286,7 +286,6 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					reference Client+ client
 					reference DictionaryEditor editor
 					simpletype String entityName
-					simpletype String ^title
 					simpletype String ^label
 					simpletype String ^pluralLabel
 					reference DictionaryControl~ controlAggregates
@@ -323,7 +322,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					reference Client+ client
 					reference ModuleDefinition+ moduleDefinition
 					map String String properties
-					simpletype String ^title
+					simpletype String ^label
 					simpletype String name
 				}
 				
@@ -344,7 +343,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					reference ModuleNavigation* children { reverse_navigable }
 					reference Client+ client
 					reference Module+ ^module
-					simpletype String ^title
+					simpletype String ^label
 				}		
 
 				entity SearchIndexItem 

@@ -78,7 +78,7 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 				{
 					if (value != null)
 					{
-						sb.appendEscaped(value.getTitle());
+						sb.appendEscaped(value.getLabel());
 					}
 				}
 			};

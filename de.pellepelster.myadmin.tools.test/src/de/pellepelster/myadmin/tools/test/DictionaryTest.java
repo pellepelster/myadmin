@@ -60,7 +60,7 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 		IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary("TestDictionary1");
 		Assert.assertEquals("TestDictionary1", dictionaryModel.getName());
 
-		Assert.assertEquals("TestDictionary1Title", dictionaryModel.getTitle());
+		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getLabel());
 	}
 
 	@Test

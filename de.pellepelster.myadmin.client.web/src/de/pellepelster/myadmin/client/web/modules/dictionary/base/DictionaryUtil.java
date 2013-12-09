@@ -39,34 +39,34 @@ public final class DictionaryUtil
 
 	public static String getDictionaryAdd(IDictionaryModel dictionaryModel)
 	{
-		String title = getTitle(dictionaryModel.getEditorModel().getTitle(), dictionaryModel.getTitle());
+		String title = getLabel(dictionaryModel.getEditorModel().getLabel(), dictionaryModel.getLabel());
 
 		return MyAdmin.MESSAGES.dictionaryAdd(title);
 
 	}
 
-	public static String getEditorTitle(IDictionaryModel dictionaryModel, DictionaryEditor<?> dictionaryEditor)
+	public static String getEditorLabel(IDictionaryModel dictionaryModel, DictionaryEditor<?> dictionaryEditor)
 	{
 
 		IBaseVO vo = dictionaryEditor.getVO();
 
-		String title = getTitle(dictionaryModel.getEditorModel().getTitle(), dictionaryModel.getTitle());
+		String label = getLabel(dictionaryModel.getEditorModel().getLabel(), dictionaryModel.getLabel());
 
 		if (vo == null || vo.isNew())
 		{
-			title += " (" + MyAdmin.MESSAGES.editorNew() + ")";
+			label += " (" + MyAdmin.MESSAGES.editorNew() + ")";
 		}
 		else
 		{
-			title += " " + getLabel(dictionaryModel.getLabelControls(), vo, Long.toString(vo.getId()));
+			label += " " + getLabel(dictionaryModel.getLabelControls(), vo, Long.toString(vo.getId()));
 		}
 
 		if (dictionaryEditor.isDirty())
 		{
-			title += " " + MyAdmin.MESSAGES.editorDirtyMarker();
+			label += " " + MyAdmin.MESSAGES.editorDirtyMarker();
 		}
 
-		return title;
+		return label;
 
 	}
 
@@ -139,29 +139,29 @@ public final class DictionaryUtil
 
 	public static String getSearchTitle(IDictionaryModel dictionaryModel)
 	{
-		return getSearchTitle(dictionaryModel, 0);
+		return getSearchLabel(dictionaryModel, 0);
 	}
 
-	public static String getSearchTitle(IDictionaryModel dictionaryModel, int resultCount)
+	public static String getSearchLabel(IDictionaryModel dictionaryModel, int resultCount)
 	{
 
-		String title = getTitle(dictionaryModel.getSearchModel().getTitle(), dictionaryModel.getTitle());
+		String label = getLabel(dictionaryModel.getSearchModel().getLabel(), dictionaryModel.getLabel());
 
-		title += " (" + MyAdmin.MESSAGES.searchResults(resultCount) + ")";
+		label += " (" + MyAdmin.MESSAGES.searchResults(resultCount) + ")";
 
-		return title;
+		return label;
 	}
 
-	public static String getTitle(String title, String defaultTitle)
+	public static String getLabel(String label, String defaultLabel)
 	{
 
-		if (title != null && !title.trim().isEmpty())
+		if (label != null && !label.trim().isEmpty())
 		{
-			return title;
+			return label;
 		}
-		else if (defaultTitle != null && !defaultTitle.trim().isEmpty())
+		else if (defaultLabel != null && !defaultLabel.trim().isEmpty())
 		{
-			return defaultTitle;
+			return defaultLabel;
 		}
 		else
 		{

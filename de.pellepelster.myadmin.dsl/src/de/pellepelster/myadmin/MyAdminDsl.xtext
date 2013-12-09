@@ -145,7 +145,7 @@ SimpleVO:
 //- navigation ----------------------------------------------------------------
 NavigationNode:
 	"navigationnode" name=ID "{"
-		("title" title=STRING)?
+		("label" label=STRING)?
 		("module" module=[ Module | QualifiedName ])?
 		("dictionaryEditor" dictionaryEditor=[ DictionaryEditor | QualifiedName ])?
 		("dictionarySearch" dictionarySearch=[ DictionarySearch | QualifiedName ])?
@@ -180,7 +180,6 @@ Dictionary:
 	"dictionary" name=ID "{"
 	
 		"entity" entity=[ Entity | QualifiedName ]
-		("title" title=STRING)?
 		
 		("label" label=STRING)?
 		("pluralLabel" pluralLabel=STRING)?
@@ -199,14 +198,14 @@ Dictionary:
 
 DictionarySearch:
 	"dictionarysearch" name=ID "{"
-		("title" title=STRING)?
+		("label" label=STRING)?
 		(dictionaryfilters+=DictionaryFilter)*
 		dictionaryresult=DictionaryResult
 	"}";
 
 DictionaryEditor:
 	"dictionaryeditor" name=ID "{"
-		("title" title=STRING)?
+		("label" label=STRING)?
 		(containercontents+=DictionaryContainerContent)*
 	"}";
 

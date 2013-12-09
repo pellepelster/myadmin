@@ -121,15 +121,15 @@ public class MyAdminDslFormatter extends AbstractDeclarativeFormatter
 
 		// dictionary
 		setBlockFormatting(c, m.getDictionaryRule(), m.getDictionaryAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryAccess()
-				.getRightCurlyBracketKeyword_12());
+				.getRightCurlyBracketKeyword_11());
 
 		// dictionary controls
-		setBlockFormatting(c, m.getDictionaryRule(), m.getDictionaryAccess().getLeftCurlyBracketKeyword_8_1(), m.getDictionaryAccess()
-				.getRightCurlyBracketKeyword_8_3());
+		setBlockFormatting(c, m.getDictionaryRule(), m.getDictionaryAccess().getLeftCurlyBracketKeyword_7_1(), m.getDictionaryAccess()
+				.getRightCurlyBracketKeyword_7_3());
 		c.setLinewrap(this.BLOCK_MIN_WRAPS, this.BLOCK_DEFAULT_WRAPS, this.BLOCK_MAX_WRAPS).after(
-				m.getDictionaryAccess().getDictionarycontrolsDictionaryControlParserRuleCall_8_2_0());
-		setBlockFormatting(c, m.getDictionaryRule(), m.getDictionaryAccess().getLabelcontrolsKeyword_9_0(), m.getDictionaryAccess()
-				.getRightCurlyBracketKeyword_9_2());
+				m.getDictionaryAccess().getDictionarycontrolsDictionaryControlParserRuleCall_7_2_0());
+		setBlockFormatting(c, m.getDictionaryRule(), m.getDictionaryAccess().getLabelcontrolsKeyword_8_0(), m.getDictionaryAccess()
+				.getRightCurlyBracketKeyword_8_2());
 
 		// dictionary composite
 		setBlockFormatting(c, m.getDictionaryCompositeRule(), m.getDictionaryCompositeAccess().getLeftCurlyBracketKeyword_2(), m.getDictionaryCompositeAccess()

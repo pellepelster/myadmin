@@ -78,7 +78,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public String getTitle()
 	{
-		return DictionaryUtil.getEditorTitle(this.dictionaryModel, this.dictionaryEditor);
+		return DictionaryUtil.getEditorLabel(this.dictionaryModel, this.dictionaryEditor);
 	}
 
 	private void getAllReferencedDictionaries(final IDictionaryModel dictionaryModel)

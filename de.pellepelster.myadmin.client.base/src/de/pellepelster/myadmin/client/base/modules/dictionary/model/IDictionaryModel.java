@@ -50,13 +50,6 @@ public interface IDictionaryModel extends IBaseModel
 	ISearchModel getSearchModel();
 
 	/**
-	 * Returns the title
-	 * 
-	 * @return
-	 */
-	String getTitle();
-
-	/**
 	 * Returns the label
 	 * 
 	 * @return

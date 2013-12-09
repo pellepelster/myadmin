@@ -36,22 +36,22 @@ public class DemoModuleServiceRemoteTest extends BaseRemoteTest
 
 		List<ModuleNavigationVO> modules = moduleService.getModulesNavigation();
 
-		assertEquals("root", modules.get(0).getTitle());
-		assertEquals("Masterdata", modules.get(0).getChildren().get(0).getTitle());
-		assertEquals("Address", modules.get(0).getChildren().get(0).getChildren().get(0).getTitle());
+		assertEquals("root", modules.get(0).getLabel());
+		assertEquals("Masterdata", modules.get(0).getChildren().get(0).getLabel());
+		assertEquals("Address", modules.get(0).getChildren().get(0).getChildren().get(0).getLabel());
 
 		List<ModuleNavigationVO> address = modules.get(0).getChildren().get(0).getChildren().get(0).getChildren();
 
 		ModuleNavigationVO country = address.get(0);
-		assertEquals("Country", country.getTitle());
+		assertEquals("Country", country.getLabel());
 		assertEquals("DictionarySearch", country.getModule().getModuleDefinition().getName());
 		assertEquals("Country", country.getModule().getProperties().get(BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID));
 
 		ModuleNavigationVO state = address.get(1);
-		assertEquals("State", state.getTitle());
+		assertEquals("State", state.getLabel());
 
 		ModuleNavigationVO city = address.get(2);
-		assertEquals("City", city.getTitle());
+		assertEquals("City", city.getLabel());
 
 	}
 

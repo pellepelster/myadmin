@@ -88,7 +88,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary4 {
 
 				entity Test4
-				title "Dictionary4" dictionarycontrols {
+				label "Dictionary4" 
+				dictionarycontrols {
 
 					textcontrol TextControl4 {
 						entityattribute Test4.textDatatype4
@@ -120,7 +121,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary1 {
 
 				entity Test1
-				title "Dictionary1" dictionarycontrols {
+				label "Dictionary1" dictionarycontrols {
 
 					textcontrol TextControl1 {
 						entityattribute Test1.textDatatype1 
@@ -222,7 +223,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary2 {
 
 				entity Test2
-				title "Dictionary2" dictionarycontrols {
+				label "Dictionary2" dictionarycontrols {
 
 					textcontrol TextControl2 {
 						entityattribute Test2.textDatatype2 label "TextControl2" mandatory
@@ -253,7 +254,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary3 {
 
 				entity Test3
-				title "Dictionary3" dictionarycontrols {
+				label "Dictionary3" dictionarycontrols {
 
 					textcontrol TextControl3 {
 						entityattribute Test3.textDatatype3 label "TextControl3" mandatory
@@ -487,13 +488,13 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			import MyAdmin.de.pellepelster.myadmin.modules.*
 		
 			navigationnode Masterdata {
-				title "Masterdata" 
+				label "Masterdata" 
 				
 					navigationnode Adress {
-						title "Address" 
+						label "Address" 
 						
 						navigationnode Country {
-							title "Country" 
+							label "Country" 
 							dictionarySearch CountrySearch
 						}
 
@@ -502,22 +503,22 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 						}
 
 					navigationnode City {
-						title "City" 
+						label "City" 
 						dictionarySearch dictionaries.City.CitySearch
 					}
 
 					navigationnode Region {
-						title "Region" 
+						label "Region" 
 						dictionarySearch dictionaries.Region.RegionSearch
 					}
 
 					navigationnode User {
-						title "Users" 
+						label "Users" 
 						dictionarySearch MyAdmin.de.pellepelster.myadmin.dictionaries.MyAdminUser.UserSearch
 					}
 
 					navigationnode Group {
-						title "Groups" 
+						label "Groups" 
 						dictionarySearch MyAdmin.de.pellepelster.myadmin.dictionaries.MyAdminGroup.MyAdminGroupSearch
 					}
 
@@ -534,7 +535,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Company {
 
 				entity Company
-				title "Company" dictionarycontrols {
+				label "Company" dictionarycontrols {
 
 					textcontrol CompanyName {
 						entityattribute companyName label "Name" mandatory
@@ -568,7 +569,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Manager {
 
 				entity Manager
-				title "Manager" dictionarycontrols {
+				label "Manager" dictionarycontrols {
 
 					textcontrol ManagerName {
 						entityattribute managerName label "Name" mandatory
@@ -602,7 +603,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Employee {
 
 				entity Employee
-				title "Employee" dictionarycontrols {
+				label "Employee" dictionarycontrols {
 
 					textcontrol EmployeeName {
 						entityattribute employeeName label "Name" mandatory
@@ -636,7 +637,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Country {
 
 				entity Country
-				title "Country"
+				label "Country"
 				dictionarycontrols {
 
 					textcontrol CountryName {
@@ -722,7 +723,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary City {
 
 				entity City
-				title "Land" dictionarycontrols {
+				label "Land" dictionarycontrols {
 
 					textcontrol CityName {
 						entityattribute cityName label "Name" mandatory
@@ -778,7 +779,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Region {
 
 				entity Region
-				title "Region" dictionarycontrols {
+				label "Region" dictionarycontrols {
 
 					textcontrol RegionName {
 						entityattribute regionName label "Name"
@@ -845,7 +846,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary State {
 
 				entity State
-				title "State"
+				label "State"
 				
 				dictionarycontrols {
 

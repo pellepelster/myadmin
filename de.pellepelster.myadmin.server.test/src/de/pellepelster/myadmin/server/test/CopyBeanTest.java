@@ -29,10 +29,10 @@ public final class CopyBeanTest extends BaseMyAdminJndiContextTest
 	public void testClone()
 	{
 		ModuleNavigationVO moduleNavigationVO1 = new ModuleNavigationVO();
-		moduleNavigationVO1.setTitle("xxx");
+		moduleNavigationVO1.setLabel("xxx");
 
 		ModuleNavigationVO moduleNavigationVO2 = new ModuleNavigationVO();
-		moduleNavigationVO2.setTitle("yyy");
+		moduleNavigationVO2.setLabel("yyy");
 		moduleNavigationVO1.getChildren().add(moduleNavigationVO2);
 
 		ClientVO client = new ClientVO();
@@ -41,9 +41,9 @@ public final class CopyBeanTest extends BaseMyAdminJndiContextTest
 
 		ModuleNavigationVO clonedNavigationVO = moduleNavigationVO1.cloneVO();
 
-		Assert.assertEquals("xxx", clonedNavigationVO.getTitle());
+		Assert.assertEquals("xxx", clonedNavigationVO.getLabel());
 		Assert.assertTrue(moduleNavigationVO2 != clonedNavigationVO.getChildren().get(0));
-		Assert.assertEquals("yyy", clonedNavigationVO.getChildren().get(0).getTitle());
+		Assert.assertEquals("yyy", clonedNavigationVO.getChildren().get(0).getLabel());
 		Assert.assertTrue(client != clonedNavigationVO.getClient());
 		Assert.assertEquals("zzz", clonedNavigationVO.getClient().getName());
 	}

@@ -40,14 +40,14 @@ public class ModuleNavigationBaseEntityServiceTest extends BaseDemoTest
 	{
 
 		ModuleNavigationVO rootNavigationVO = new ModuleNavigationVO();
-		rootNavigationVO.setTitle("root");
+		rootNavigationVO.setLabel("root");
 
 		ModuleNavigationVO child1NavigationVO = new ModuleNavigationVO();
-		child1NavigationVO.setTitle("child1");
+		child1NavigationVO.setLabel("child1");
 		rootNavigationVO.getChildren().add(child1NavigationVO);
 
 		ModuleNavigationVO child2NavigationVO = new ModuleNavigationVO();
-		child2NavigationVO.setTitle("child1");
+		child2NavigationVO.setLabel("child1");
 		child1NavigationVO.getChildren().add(child2NavigationVO);
 
 		this.baseEntityService.create(rootNavigationVO);
@@ -68,16 +68,16 @@ public class ModuleNavigationBaseEntityServiceTest extends BaseDemoTest
 		assertEquals(1, result.size());
 
 		ModuleNavigationVO root = result.get(0);
-		assertEquals("root", root.getTitle());
+		assertEquals("root", root.getLabel());
 
 		ModuleNavigationVO stammdaten = root.getChildren().get(0);
-		assertEquals("Stammdaten", stammdaten.getTitle());
+		assertEquals("Stammdaten", stammdaten.getLabel());
 
 		ModuleNavigationVO adresse = stammdaten.getChildren().get(0);
-		assertEquals("Adresse", adresse.getTitle());
+		assertEquals("Adresse", adresse.getLabel());
 
 		ModuleNavigationVO stadt = adresse.getChildren().get(0);
-		assertEquals("Stadt", stadt.getTitle());
+		assertEquals("Stadt", stadt.getLabel());
 		Assert.assertNotNull(stadt.getModule());
 		Assert.assertNotNull(stadt.getModule().getModuleDefinition());
 

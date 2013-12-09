@@ -65,12 +65,12 @@ public final class GenericFilterTest extends BaseMyAdminJndiContextTest
 		module2 = this.baseEntityService.create(module2);
 
 		ModuleNavigationVO navVO1 = new ModuleNavigationVO();
-		navVO1.setTitle("nav1");
+		navVO1.setLabel("nav1");
 		navVO1.setModule(module1);
 		navVO1 = this.baseEntityService.create(navVO1);
 
 		ModuleNavigationVO navVO2 = new ModuleNavigationVO();
-		navVO2.setTitle("nav2");
+		navVO2.setLabel("nav2");
 		navVO2.setModule(module2);
 
 		navVO2.setParent(navVO1);

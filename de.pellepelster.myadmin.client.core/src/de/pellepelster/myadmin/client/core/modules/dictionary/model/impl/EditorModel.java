@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.client.core.modules.dictionary.model.impl;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
@@ -73,16 +75,9 @@ public class EditorModel extends BaseModel implements IEditorModel
 
 	/** {@inheritDoc} */
 	@Override
-	public String getTitle()
+	public String getLabel()
 	{
-		if (this.dictionaryEditorVO.getTitle() != null && !this.dictionaryEditorVO.getTitle().isEmpty())
-		{
-			return this.dictionaryEditorVO.getTitle();
-		}
-		else
-		{
-			return getName();
-		}
+		return Objects.firstNonNull(this.dictionaryEditorVO.getLabel(), getName());
 	}
 
 	/** {@inheritDoc} */
