@@ -57,7 +57,7 @@ public class MyAdminDslProposalProvider extends AbstractMyAdminDslProposalProvid
 
 	private String toFirstLower(String s)
 	{
-		if (s.length() > 1)
+		if (s != null && s.length() > 1)
 		{
 			return s.substring(0, 1).toLowerCase() + s.substring(1, s.length());
 		}

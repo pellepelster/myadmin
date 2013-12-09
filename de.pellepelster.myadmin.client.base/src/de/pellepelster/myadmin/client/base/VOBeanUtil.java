@@ -104,6 +104,12 @@ public class VOBeanUtil
 			return null;
 		}
 
+		@Override
+		public String getNaturalKey()
+		{
+			return null;
+		}
+
 	}
 
 	private static class ListAndQualifierResult

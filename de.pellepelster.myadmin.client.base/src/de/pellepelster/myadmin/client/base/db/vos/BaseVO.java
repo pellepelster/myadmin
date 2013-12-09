@@ -91,4 +91,10 @@ public abstract class BaseVO implements IBaseVO
 	{
 		return getClass().getName() + "(id: " + getOid() + ")";
 	}
+
+	@Override
+	public String getNaturalKey()
+	{
+		return toString();
+	}
 }

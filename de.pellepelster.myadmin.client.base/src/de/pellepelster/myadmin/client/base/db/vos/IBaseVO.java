@@ -97,4 +97,6 @@ public interface IBaseVO extends Serializable
 	 */
 	HashMap<String, Object> getData();
 
+	String getNaturalKey();
+
 }

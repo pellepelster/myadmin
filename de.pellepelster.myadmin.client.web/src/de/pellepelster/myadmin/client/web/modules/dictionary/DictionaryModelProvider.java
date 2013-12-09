@@ -28,6 +28,7 @@ public class DictionaryModelProvider
 
 	private static Map<String, IDictionaryModel> dictionaryCache = new HashMap<String, IDictionaryModel>();
 
+	@Deprecated
 	public static IDictionaryModel getCachedDictionaryModelForClass(Class<? extends IBaseVO> voClass)
 	{
 		for (Map.Entry<String, IDictionaryModel> entry : dictionaryCache.entrySet())
