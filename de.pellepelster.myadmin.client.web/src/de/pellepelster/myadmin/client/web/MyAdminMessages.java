@@ -50,9 +50,6 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("None")
 	String fileNone();
 
-	@DefaultMessage("Upload...")
-	String fileButton();
-
 	@DefaultMessage("Save")
 	String editorSave();
 

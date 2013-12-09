@@ -64,7 +64,6 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 		panel.add(singleUploader.getForm());
 		initWidget(panel);
 
-		singleUploader.getFileInput().setText(MyAdmin.MESSAGES.fileButton());
 		singleUploader.setAutoSubmit(true);
 		singleUploader.setEnabled(true);
 

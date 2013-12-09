@@ -47,18 +47,6 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Autowired
 	private BaseVODAO baseVODAO;
 
-	/*
-	 * @Override public LimitFilterResult filter(GenericFilterVO
-	 * genericFilterVO, int start, int limit) { try { List<? extends IBaseVO>
-	 * result = baseVODAO.filter(genericFilterVO, start, limit); long count =
-	 * baseVODAO.getCount(genericFilterVO);
-	 * 
-	 * return new LimitFilterResult(result, (int) count);
-	 * 
-	 * } catch (Exception e) { logger.error(e); throw new RuntimeException(e); }
-	 * }
-	 */
-
 	@Autowired(required = false)
 	private List<IValidator> validators = new ArrayList<IValidator>();
 
@@ -184,6 +172,10 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public <VOType extends IBaseVO> VOType save(VOType vo)
 	{
+		LOG.debug(String.format("saving '%s'", vo.getClass().getName()));
+
+		resolveAttributesFromData(vo);
+
 		return cleanVO(this.baseVODAO.save(vo));
 	}
 

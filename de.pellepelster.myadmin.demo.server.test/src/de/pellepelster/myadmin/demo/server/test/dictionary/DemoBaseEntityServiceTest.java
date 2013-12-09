@@ -321,19 +321,32 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	}
 
 	@Test
-	public void testFileVO()
+	public void testFile()
 	{
 		Test1VO test1VO = new Test1VO();
 
-		byte[] bin = new byte[] { 0x1, 0x2, 0x3 };
+		byte[] bin1 = new byte[] { 0x1, 0x2, 0x3 };
+		byte[] bin2 = new byte[] { 0x3, 0x4, 0x5 };
 
-		String fileTempId = this.tempFileStore.storeTempFile(bin);
-		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), fileTempId);
+		String file1TempId = this.tempFileStore.storeTempFile(bin1);
+		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file1TempId);
 
 		test1VO = this.baseEntityService.create(test1VO);
 
 		Assert.assertNull(test1VO.getFile1().getFileContent());
-		Assert.assertEquals(fileTempId, test1VO.getFile1().getFileUUID());
+		Assert.assertEquals(file1TempId, test1VO.getFile1().getFileUUID());
+
+		String file2TempId = this.tempFileStore.storeTempFile(bin2);
+		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file2TempId);
+
+		test1VO = this.baseEntityService.save(test1VO);
+
+		GenericFilterVO<Test1VO> test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class).addCriteria(Test1VO.FIELD_ID, test1VO.getId())
+				.getGenericFilter();
+
+		List<Test1VO> result = this.baseEntityService.filter(test1Filter);
+		Assert.assertEquals(file2TempId, result.get(0).getFile1().getFileUUID());
+
 	}
 
 	public void setTempFileStore(TempFileStore tempFileStore)
