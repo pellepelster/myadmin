@@ -332,7 +332,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		test1VO = this.baseEntityService.create(test1VO);
 
-		Assert.assertArrayEquals(bin, test1VO.getFile1().getFileContent());
+		Assert.assertNull(test1VO.getFile1().getFileContent());
+		Assert.assertEquals(fileTempId, test1VO.getFile1().getFileUUID());
 	}
 
 	public void setTempFileStore(TempFileStore tempFileStore)

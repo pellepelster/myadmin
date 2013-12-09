@@ -31,6 +31,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
+import de.pellepelster.myadmin.db.util.AttributeDescriptorIterator;
 import de.pellepelster.myadmin.db.util.BeanUtil;
 import de.pellepelster.myadmin.server.util.TempFileStore;
 import de.pellepelster.myadmin.server.validators.IValidator;
@@ -82,6 +83,30 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 		}
 	}
 
+	public <VOType extends IBaseVO> void cleanVO(List<VOType> vos)
+	{
+		for (VOType vo : vos)
+		{
+			cleanVO(vo);
+		}
+	}
+
+	public <VOType extends IBaseVO> VOType cleanVO(VOType vo)
+	{
+		// TODO get/set for attributes descriptors
+		for (IAttributeDescriptor<FileVO> fileVOAttributeDescriptor : new AttributeDescriptorIterator<FileVO>(vo, FileVO.class))
+		{
+			FileVO fileVO = (FileVO) vo.get(fileVOAttributeDescriptor.getAttributeName());
+
+			if (fileVO != null)
+			{
+				fileVO.setFileContent(null);
+			}
+		}
+
+		return vo;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public <VOType extends IBaseVO> VOType create(VOType vo)
@@ -90,79 +115,8 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 
 		resolveAttributesFromData(vo);
 
-		return this.baseVODAO.create(vo);
+		return cleanVO(this.baseVODAO.create(vo));
 	}
-
-	/*
-	 * public String filterExportCSV(GenericFilterVO genericFilterVO, String
-	 * dictionaryName) {
-	 * 
-	 * DictionaryVO dictionaryVO =
-	 * dictionaryService.getDictionary(dictionaryName);
-	 * 
-	 * try { ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	 * 
-	 * WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
-	 * WritableSheet sheet = workbook.createSheet("First Sheet", 0);
-	 * 
-	 * List<? extends IBaseVO> result = baseVODAO.filter(genericFilterVO);
-	 * 
-	 * int column = 0; Map<String, DictionaryVO> dictionaryMap = new
-	 * HashMap<String, DictionaryVO>(); for (DictionaryFieldVO dictionaryFieldVO
-	 * : dictionaryVO.getSearch().getResult().getFields()) {
-	 * 
-	 * sheet.addCell(new Label(column, 0, dictionaryFieldVO.getColumnLabel()));
-	 * 
-	 * if (dictionaryFieldVO.getDatatype().getBaseType() ==
-	 * DICTIONARY_BASETYPEVO.REFERENCE) {
-	 * 
-	 * String refDictionaryName =
-	 * dictionaryFieldVO.getDatatype().getReference(); DictionaryVO
-	 * refDictionaryVO = dictionaryService.getDictionary(refDictionaryName);
-	 * 
-	 * dictionaryMap.put(refDictionaryName, refDictionaryVO); }
-	 * 
-	 * }
-	 * 
-	 * column = 0; int row = 1; for (IBaseVO vo : result) { column = 0;
-	 * 
-	 * for (DictionaryFieldVO dictionaryFieldVO :
-	 * dictionaryVO.getSearch().getResult().getFields()) {
-	 * 
-	 * Object cellObjectContent = vo.get(dictionaryFieldVO.getAttributeName());
-	 * String cellContent = "";
-	 * 
-	 * if (cellObjectContent != null) {
-	 * 
-	 * if (dictionaryFieldVO.getDatatype().getBaseType() ==
-	 * DICTIONARY_BASETYPEVO.REFERENCE) {
-	 * 
-	 * String refDictionaryName =
-	 * dictionaryFieldVO.getDatatype().getReference();
-	 * 
-	 * for (DictionaryFieldVO refFieldVO :
-	 * dictionaryMap.get(refDictionaryName).getFieldLabels()) {
-	 * 
-	 * Object refob = ((IBaseVO)
-	 * vo.get(dictionaryFieldVO.getAttributeName())).get(refFieldVO
-	 * .getAttributeName());
-	 * 
-	 * if (refob != null) { cellContent = refob.toString(); } } } else {
-	 * cellContent = cellObjectContent.toString(); }
-	 * 
-	 * sheet.addCell(new Label(column, row, cellContent)); }
-	 * 
-	 * column++; } row++; }
-	 * 
-	 * workbook.write(); workbook.close();
-	 * 
-	 * return fileStorage.storeFile(outputStream.toByteArray(),
-	 * String.format("%s.%s", dictionaryVO.getName(), "xls"));
-	 * 
-	 * } catch (Exception e) { logger.error(e); throw new RuntimeException(e); }
-	 * 
-	 * }
-	 */
 
 	@Override
 	public <DeleteVOType extends IBaseVO> void delete(DeleteVOType vo)
@@ -181,7 +135,9 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public <VOType extends IBaseVO> List<VOType> filter(GenericFilterVO<VOType> genericFilterVO)
 	{
-		return this.baseVODAO.filter(genericFilterVO);
+		List<VOType> result = this.baseVODAO.filter(genericFilterVO);
+		cleanVO(result);
+		return result;
 	}
 
 	/** {@inheritDoc} */
@@ -221,14 +177,14 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public IBaseVO read(Long id, String voClassName)
 	{
-		return this.baseVODAO.read(id, BeanUtil.getVOClass(voClassName));
+		return cleanVO(this.baseVODAO.read(id, BeanUtil.getVOClass(voClassName)));
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public <VOType extends IBaseVO> VOType save(VOType vo)
 	{
-		return this.baseVODAO.save(vo);
+		return cleanVO(this.baseVODAO.save(vo));
 	}
 
 	public void setBaseVODAO(BaseVODAO baseVODAO)
