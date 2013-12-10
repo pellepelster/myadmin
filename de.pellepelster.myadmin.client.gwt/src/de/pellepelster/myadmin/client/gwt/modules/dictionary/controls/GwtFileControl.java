@@ -49,7 +49,6 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 
 	private ActionImage deleteAction = new ActionImage(MyAdmin.RESOURCES.delete(), this);
 
-	// TODO avoid fetch of byte[] on load
 	public GwtFileControl(final FileControl fileControl)
 	{
 		super();

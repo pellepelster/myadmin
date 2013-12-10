@@ -197,6 +197,7 @@ public class MyAdminDslJavaValidator extends AbstractMyAdminDslJavaValidator
 		Object[] messageTokens = new Object[] { entityAttribute.getName(), ModelUtil.getControlName(dictionaryControl), entity.getName(),
 				dictionary.getEntity().getName(), parentElementType };
 
+		// TODO check for "extends"
 		if (ModelUtil.getControlRef(dictionaryControl) != null && !Objects.equal(controlEntity, entity))
 		{
 			error(MessageFormat.format(Messages.ControlEntityAttributeDoesNotMatchParent, messageTokens), referenceFeature);
