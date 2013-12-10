@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.demo.server.test.dictionary;
+package de.pellepelster.myadmin.demo.server.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,9 +37,9 @@ import de.pellepelster.myadmin.demo.client.web.entities.Region2CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
+import de.pellepelster.myadmin.demo.client.web.inheritance.TestBaseClassVO;
 import de.pellepelster.myadmin.demo.client.web.inheritance.TestEntity1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
-import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.util.TempFileStore;
 
@@ -109,6 +109,14 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		TestEntity1VO testEntity1VOResult = result.get(0);
 		assertEquals("aaa", testEntity1VOResult.getString1());
 		assertEquals("bbb", testEntity1VOResult.getString2());
+
+		ClientGenericFilterBuilder filterBuilder = ServerGenericFilterBuilder.createGenericFilter(TestEntity1VO.class);
+		filterBuilder.addCriteria(TestBaseClassVO.FIELD_STRING1, "aaa");
+		filterBuilder.addAssociation(TestBaseClassVO.FIELD_TESTREFERENCECLASS);
+
+		result = this.baseEntityService.filter(filterBuilder.getGenericFilter());
+		assertEquals("aaa", result.get(0).getString1());
+
 	}
 
 	@Test

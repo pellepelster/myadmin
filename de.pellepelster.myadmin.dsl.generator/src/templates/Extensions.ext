@@ -233,6 +233,7 @@ String controlName(DictionaryControl control) : control.name + "Control";
 String clientGeneratedModuleDefinitionFileName(Model model) : model.name.toFirstUpper() + "Generated.gwt.xml";	
 String fullQualifiedClientGeneratedModuleDefinitionFileName(Model model) : getSingleRootPackage(model).name.replaceAll('\\.', '/') + "/" + clientGeneratedModuleDefinitionFileName(model);
 
+String fieldDescriptorName(String name) : "FIELD_" + name.toUpperCase();
 
 
 //- dictionary ids ------------------------------------------------------------	

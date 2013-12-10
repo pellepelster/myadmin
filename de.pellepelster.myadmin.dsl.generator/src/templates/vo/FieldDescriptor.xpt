@@ -7,14 +7,37 @@
 «ENDDEFINE»
 
 «DEFINE fieldDescriptor FOR EntityAttribute»
-	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> «fieldDescriptorName(name)» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
 «ENDDEFINE»
 
 «DEFINE fieldDescriptor(String name) FOR Entity»
 	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
 «ENDDEFINE»
 
+«DEFINE fieldDescriptor FOR Entity»
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> «fieldDescriptorName(name)» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+«ENDDEFINE»
 
-«DEFINE fieldDescriptorName FOR String-»FIELD_«this.toUpperCase()-»«ENDDEFINE»
+«DEFINE fieldDescriptorList(String qualifier) FOR Entity»
 
-«DEFINE fieldDescriptorName FOR EntityAttribute-»«EXPAND fieldDescriptorName FOR name-»«ENDDEFINE»
+	«FOREACH attributes AS attribute SEPARATOR ','»
+		«qualifier + fieldDescriptorName(attribute.name)»					
+	«ENDFOREACH»
+	
+	«REM»iterate through  all entities referencing this entity«ENDREM»
+	«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
+		«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
+			«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
+				«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
+					«IF !attributes.isEmpty»,«ENDIF»
+					«IF otherEntity == this»
+						«qualifier + fieldDescriptorName(backSelfReferenceName())»
+					«ELSE»
+						«qualifier + fieldDescriptorName(otherAttribute.name)»
+					«ENDIF»
+				«ENDIF-»
+			«ENDLET-»
+		«ENDFOREACH-»
+	«ENDFOREACH-»
+	
+«ENDDEFINE»

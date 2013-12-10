@@ -4,16 +4,31 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 		package inheritance {
 		
+			textdatatype String1 {}
+
+			textdatatype String2 {}
+
+			textdatatype String3 {}
+			
+			referencedatatype TestReferenceClass {
+				entity TestReferenceClass
+			} 
+
+			entity TestReferenceClass {
+				datatype String1 string1
+			}
+		
 			entity TestBaseClass {
-				simpletype String string1
+				datatype String1 string1
+				datatype TestReferenceClass testReferenceClass
 			}
 	
 			entity TestEntity1 extends TestBaseClass {
-				simpletype String string2
+				datatype String2 string2
 			}
 	
 			entity TestEntity2 extends TestBaseClass {
-				simpletype String string3
+				datatype String3 string3
 			}
 		}
 

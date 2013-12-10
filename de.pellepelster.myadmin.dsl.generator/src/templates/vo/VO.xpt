@@ -79,25 +79,13 @@
 		
     	public static de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] getFieldDescriptors() {
 			return new de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] {
-				«FOREACH attributes AS attribute SEPARATOR ','»
-					«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR attribute»					
-				«ENDFOREACH»
-
-				«REM»iterate through  all entities referencing this entity«ENDREM»
-				«FOREACH this.eRootContainer.eAllContents.typeSelect(Entity) AS otherEntity-»
-					«FOREACH otherEntity.attributes.select(e|EntityReferenceType.isAssignableFrom(e.type.metaType)) AS otherAttribute-»
-						«LET (EntityReferenceType) otherAttribute.type AS otherEntityReferenceType-»
-							«IF getEntity(otherEntityReferenceType) == this && otherEntityReferenceType.cardinality == Cardinality::onetomany && isTrue(otherAttribute.entityAttributeOptions.reverse_navigable)-»
-								,
-								«IF otherEntity == this»
-									«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR backSelfReferenceName()»
-								«ELSE»
-									«EXPAND templates::vo::FieldDescriptor::fieldDescriptorName FOR otherAttribute»
-								«ENDIF»
-							«ENDIF-»
-						«ENDLET-»
-					«ENDFOREACH-»
-				«ENDFOREACH-»
+			
+				«EXPAND templates::vo::FieldDescriptor::fieldDescriptorList("") FOR this»
+				
+				«IF this.extends != null»
+					«IF !attributes.isEmpty»,«ENDIF»
+					«EXPAND templates::vo::FieldDescriptor::fieldDescriptorList(fullQualifiedEntityName(this.extends) + ".") FOR this.extends»
+				«ENDIF»
 
 			};
    		}
