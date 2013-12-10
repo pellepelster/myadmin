@@ -102,7 +102,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		}
 
-		actionBar.addButtonBarEnd(MyAdmin.RESOURCES.searchCreate(), MyAdmin.MESSAGES.searchCreate(), new ClickHandler()
+		actionBar.addButtonBarEnd(MyAdmin.RESOURCES.dictionaryCreate(), MyAdmin.MESSAGES.dictionaryCreate(), new ClickHandler()
 		{
 			/** {@inheritDoc} */
 			@Override

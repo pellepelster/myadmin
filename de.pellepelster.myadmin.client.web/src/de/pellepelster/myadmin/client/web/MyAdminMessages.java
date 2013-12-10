@@ -79,7 +79,10 @@ public interface MyAdminMessages extends Messages
 	String navigationTitle();
 
 	@DefaultMessage("Create")
-	String searchCreate();
+	String dictionaryCreate();
+
+	@DefaultMessage("Edit")
+	String dictionaryEdit();
 
 	@DefaultMessage("{0} results")
 	@AlternateMessage({ "=1", "{0} result" })

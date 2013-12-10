@@ -35,8 +35,11 @@ public interface MyAdminResources extends ClientBundle
 	@Source("editorSave.png")
 	ImageResource editorSave();
 
-	@Source("searchCreate.png")
-	ImageResource searchCreate();
+	@Source("dictionaryCreate.png")
+	ImageResource dictionaryCreate();
+
+	@Source("dictionaryEdit.png")
+	ImageResource dictionaryEdit();
 
 	@Source("searchSearch.png")
 	ImageResource searchSearch();
