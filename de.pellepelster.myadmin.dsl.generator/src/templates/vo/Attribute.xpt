@@ -17,6 +17,8 @@
  	«EXPAND templates::util::Comment::setterComment FOR this-»
 	public void set«name.toFirstUpper()»(«EXPAND templates::type::Type::webVOType FOR type-» «name.toFirstLower()»)
 	{
+		getChangeTracker().addChange("«name.toFirstLower()»", «name.toFirstLower()»);
+	
 		«EXPAND assignVariable(name) FOR this.type»
 	}	
 «ENDDEFINE»
@@ -45,7 +47,7 @@
 	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
 	if (this.«name.toFirstLower()» != «name.toFirstLower()»)
 	{
-		java.util.List temp = new java.util.ArrayList();
+		java.util.List temp = new de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList();
 		temp.addAll(«name.toFirstLower()»);
 		this.«name.toFirstLower()».clear();
 		this.«name.toFirstLower()».addAll(temp);

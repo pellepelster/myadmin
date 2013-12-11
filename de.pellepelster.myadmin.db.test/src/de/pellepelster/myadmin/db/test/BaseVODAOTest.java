@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.db.test;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +22,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.db.test.mockup.vos.DBTest1VO;
 import de.pellepelster.myadmin.db.test.mockup.vos.DBTest2VO;
 import de.pellepelster.myadmin.db.test.mockup.vos.DBTest3VO;
+import de.pellepelster.myadmin.db.util.DBUtil;
 
 public class BaseVODAOTest extends BaseDBTest
 {
@@ -45,7 +47,10 @@ public class BaseVODAOTest extends BaseDBTest
 
 		getBaseVODAO().deleteAll(DBTest2VO.class);
 		getBaseVODAO().deleteAll(DBTest3VO.class);
-		getBaseVODAO().create(test2VO);
+		test2VO = getBaseVODAO().create(test2VO);
+
+		Assert.assertFalse(test2VO.getChangeTracker().hasChanges());
+		Assert.assertFalse(test2VO.getTest3().getChangeTracker().hasChanges());
 
 		GenericFilterVO<DBTest2VO> genericFilterVO = new GenericFilterVO<DBTest2VO>(DBTest2VO.class);
 		List<DBTest2VO> result = getBaseVODAO().filter(genericFilterVO);
@@ -96,10 +101,6 @@ public class BaseVODAOTest extends BaseDBTest
 	@Test
 	public void testCreate2()
 	{
-		getBaseVODAO().deleteAll(DBTest1VO.class);
-		getBaseVODAO().deleteAll(DBTest2VO.class);
-		getBaseVODAO().deleteAll(DBTest3VO.class);
-
 		// create test3vo
 		DBTest1VO test1VO = new DBTest1VO();
 		test1VO.setTestString("zzz");
@@ -193,11 +194,59 @@ public class BaseVODAOTest extends BaseDBTest
 		getBaseVODAO().create(test3VO);
 
 		GenericFilterVO<DBTest3VO> test3VOFilter = new GenericFilterVO<DBTest3VO>(DBTest3VO.class);
-		List<DBTest3VO> tempResult = getBaseVODAO().filter(test3VOFilter);
+		DBTest3VO test3VOResult = getBaseVODAO().read(test3VOFilter);
 
-		Assert.assertEquals(1, tempResult.size());
-		DBTest3VO test3VOResult = tempResult.get(0);
 		Assert.assertNotNull(test3VOResult.getTest1());
+	}
+
+	@Test
+	public void testDeepSave()
+	{
+		// create test3vo
+		DBTest1VO test1VO = new DBTest1VO();
+		test1VO.setTestString("zzz");
+
+		DBTest2VO test2VO = new DBTest2VO();
+		test2VO.setId(999);
+		test2VO.setTestString("xxx");
+		test1VO.getTest2s().add(test2VO);
+
+		DBTest3VO test3VO = new DBTest3VO();
+		test3VO.setTestString("yyy");
+		test3VO.setTest1(test1VO);
+
+		Set<String> dirtyPaths = DBUtil.getDirtyPaths(test3VO);
+
+		Assert.assertTrue(dirtyPaths.contains("/"));
+		Assert.assertTrue(dirtyPaths.contains("/test1"));
+		Assert.assertTrue(dirtyPaths.contains("/test1/test2s"));
+		Assert.assertTrue(dirtyPaths.contains("/test1/test2s[999]"));
+		Assert.assertEquals(4, dirtyPaths.size());
+
+		test3VO = getBaseVODAO().create(test3VO);
+
+		dirtyPaths = DBUtil.getDirtyPaths(test3VO);
+		Assert.assertEquals(0, dirtyPaths.size());
+
+		Assert.assertFalse(test3VO.getChangeTracker().hasChanges());
+
+		GenericFilterVO<DBTest3VO> test3VOFilter = new GenericFilterVO<DBTest3VO>(DBTest3VO.class);
+		DBTest3VO test3VOResult = getBaseVODAO().read(test3VOFilter);
+
+		Assert.assertNotNull(test3VOResult.getTest1());
+		Assert.assertTrue(test3VOResult.getTest1().getTest2s().isEmpty());
+
+		test3VO = getBaseVODAO().save(test3VOResult);
+
+		Assert.assertFalse(test3VO.getChangeTracker().hasChanges());
+
+		test3VOFilter = new GenericFilterVO<DBTest3VO>(DBTest3VO.class);
+		test3VOFilter.addAssociation(DBTest3VO.TEST1).addAssociation(DBTest1VO.TEST2S);
+
+		test3VOResult = getBaseVODAO().read(test3VOFilter);
+		Assert.assertNotNull(test3VOResult.getTest1());
+		Assert.assertFalse(test3VOResult.getTest1().getTest2s().isEmpty());
+
 	}
 
 	@Test

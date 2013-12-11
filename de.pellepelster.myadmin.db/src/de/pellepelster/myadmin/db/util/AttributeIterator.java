@@ -27,7 +27,7 @@ public class AttributeIterator implements Iterable<Map.Entry<String, Object>>, I
 	public AttributeIterator(Object o, Class<?>[] attributeClasses)
 	{
 		createAttributeList(o, attributeClasses);
-		iterator = attributes.iterator();
+		this.iterator = this.attributes.iterator();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -37,11 +37,11 @@ public class AttributeIterator implements Iterable<Map.Entry<String, Object>>, I
 		{
 			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(o)).entrySet())
 			{
-				for(Class<?> clazz : attributeClasses)
+				for (Class<?> clazz : attributeClasses)
 				{
 					if (entry.getValue() != null && clazz.isAssignableFrom(entry.getValue().getClass()))
 					{
-						attributes.add(entry);
+						this.attributes.add(entry);
 					}
 				}
 			}
@@ -53,24 +53,28 @@ public class AttributeIterator implements Iterable<Map.Entry<String, Object>>, I
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean hasNext()
 	{
-		return iterator.hasNext();
+		return this.iterator.hasNext();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Iterator<Map.Entry<String, Object>> iterator()
 	{
 		return this;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Map.Entry<String, Object> next()
 	{
-		return iterator.next();
+		return this.iterator.next();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void remove()
 	{
 		throw new UnsupportedOperationException();

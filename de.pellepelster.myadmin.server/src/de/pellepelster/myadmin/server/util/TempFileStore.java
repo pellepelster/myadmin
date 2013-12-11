@@ -11,6 +11,7 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
+// TODO remove unused temp files
 @Component
 public class TempFileStore
 {
@@ -49,13 +50,6 @@ public class TempFileStore
 		GenericFilterVO<FileVO> genericFilterVO = ServerGenericFilterBuilder.createGenericFilter(FileVO.class).addCriteria(FileVO.FIELD_FILEUUID, fileUUID)
 				.getGenericFilter();
 		return this.baseVODAO.read(genericFilterVO);
-	}
-
-	public FileVO getAndRemoveTempFile(String fileUUID)
-	{
-		FileVO file = getTempFile(fileUUID);
-		this.baseVODAO.delete(file);
-		return file;
 	}
 
 	public void setBaseVODAO(BaseVODAO baseVODAO)

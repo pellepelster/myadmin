@@ -73,17 +73,17 @@ public class DBTest3VO extends BaseVO
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public DBTest1VO getTest1()
 	{
-		return test1;
+		return this.test1;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	/** {@inheritDoc} */
@@ -97,16 +97,22 @@ public class DBTest3VO extends BaseVO
 	@Override
 	public void setId(long id)
 	{
+		getChangeTracker().addChange("id", id);
+
 		this.id = id;
 	}
 
 	public void setTest1(DBTest1VO test1)
 	{
+		getChangeTracker().addChange("test1", test1);
+
 		this.test1 = test1;
 	}
 
 	public void setTestString(String testString)
 	{
+		getChangeTracker().addChange("testString", testString);
+
 		this.testString = testString;
 	}
 

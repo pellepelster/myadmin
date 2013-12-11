@@ -24,11 +24,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import de.pellepelster.myadmin.db.BaseEntity;
 import de.pellepelster.myadmin.db.IBaseEntity;
 
 @Entity
 @Table(name = "test1")
-public class DBTest1 implements IBaseEntity
+public class DBTest1 extends BaseEntity implements IBaseEntity
 {
 
 	public enum TEST_ENUM

@@ -18,6 +18,7 @@ import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.IChangeTracker;
 
 public class VOBeanUtil
 {
@@ -107,6 +108,13 @@ public class VOBeanUtil
 		@Override
 		public String getNaturalKey()
 		{
+			return null;
+		}
+
+		@Override
+		public IChangeTracker getChangeTracker()
+		{
+			// TODO Auto-generated method stub
 			return null;
 		}
 

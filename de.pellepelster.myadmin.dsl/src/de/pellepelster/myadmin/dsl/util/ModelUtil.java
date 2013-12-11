@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.dsl.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -234,6 +235,23 @@ public class ModelUtil
 	public static Entity getParentEntity(EObject eObject)
 	{
 		return getParentEObject(eObject, Entity.class, false);
+	}
+
+	public static List<Entity> getEntityHierarchy(Entity entity)
+	{
+		List<Entity> entityHierarchy = new ArrayList<Entity>();
+
+		entityHierarchy.add(entity);
+
+		Entity entityExtends = entity.getExtends();
+
+		while (entityExtends != null)
+		{
+			entityHierarchy.add(entityExtends);
+			entityExtends = entityExtends.getExtends();
+		}
+
+		return entityHierarchy;
 	}
 
 	public static String getParentDictionaryName(EObject eObject)

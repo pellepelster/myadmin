@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -51,17 +52,18 @@ public class BaseVODAO
 		return this.baseDAO.aggregate(conditionalExpressions, entityClass, field, aggregateType);
 	}
 
-	private IBaseVO convertEntiyToVO(IBaseEntity entity, Map<Class<?>, List<String>> classLoadAssociations)
+	private IBaseVO convertEntiyToVO(IBaseEntity entity, Map<Class<?>, Set<String>> classLoadAssociations)
 	{
 		Class<?> entityClass = entity.getClass();
 
-		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations);
+		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations, true);
 	}
 
 	public <T extends IBaseVO> T create(T vo)
 	{
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
-		IBaseEntity res = this.baseDAO.create(entity);
+		Set<String> dirtyPaths = DBUtil.getDirtyPaths(vo);
+		IBaseEntity res = this.baseDAO.create(entity, dirtyPaths);
 
 		T result = (T) convertEntiyToVO(res, null);
 
@@ -106,13 +108,14 @@ public class BaseVODAO
 
 		SelectQuery selectQuery = DBUtil.filter2SelectQuery(genericFilterVO);
 
-		Map<Class<?>, List<String>> classLoadAssociations = DBUtil.filter2Associations(genericFilterVO);
+		Map<Class<?>, Set<String>> classLoadAssociations = DBUtil.filter2Associations(genericFilterVO);
 
 		Class<?> voClass = BeanUtil.getVOClass(genericFilterVO.getVOClassName());
 		DBUtil.addFirstLevelIBaseVOAttributes(voClass, classLoadAssociations);
 
 		List<T> result = new ArrayList<T>();
-		for (IBaseEntity baseEntity : this.baseDAO.filter(selectQuery, genericFilterVO.getFirstResult(), genericFilterVO.getMaxResults()))
+		List<IBaseEntity> entityResult = this.baseDAO.filter(selectQuery, genericFilterVO.getFirstResult(), genericFilterVO.getMaxResults());
+		for (IBaseEntity baseEntity : entityResult)
 		{
 			T vo = (T) convertEntiyToVO(baseEntity, classLoadAssociations);
 			decorateVO(vo);
@@ -130,7 +133,7 @@ public class BaseVODAO
 		List<T> result = new ArrayList<T>();
 		for (IBaseEntity baseEntity : this.baseDAO.getAll(entityClass))
 		{
-			result.add((T) convertEntiyToVO(baseEntity, new HashMap<Class<?>, List<String>>()));
+			result.add((T) convertEntiyToVO(baseEntity, new HashMap<Class<?>, Set<String>>()));
 		}
 
 		return result;
@@ -192,7 +195,9 @@ public class BaseVODAO
 		Class<?> voClass = vo.getClass();
 
 		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(voClass));
-		IBaseEntity entityResult = this.baseDAO.save(entity);
+		Set<String> dirtyPaths = DBUtil.getDirtyPaths(vo);
+
+		IBaseEntity entityResult = this.baseDAO.save(entity, dirtyPaths);
 
 		T voResult = (T) convertEntiyToVO(entityResult, null);
 

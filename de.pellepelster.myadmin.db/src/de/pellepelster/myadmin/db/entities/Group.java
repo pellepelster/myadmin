@@ -21,11 +21,12 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import de.pellepelster.myadmin.db.BaseEntity;
 import de.pellepelster.myadmin.db.IBaseEntity;
 
 @Entity
 @Table(name = "user_groups")
-public class Group implements IBaseEntity, GrantedAuthority
+public class Group extends BaseEntity implements IBaseEntity, GrantedAuthority
 {
 
 	/**  */
@@ -47,23 +48,24 @@ public class Group implements IBaseEntity, GrantedAuthority
 	@Override
 	public String getAuthority()
 	{
-		return name;
+		return this.name;
 	}
 
 	public String getDescription()
 	{
-		return description;
+		return this.description;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 
 	public void setDescription(String description)

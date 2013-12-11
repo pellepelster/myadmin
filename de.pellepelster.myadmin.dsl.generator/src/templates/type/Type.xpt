@@ -370,10 +370,10 @@
 						= new de.pellepelster.myadmin.client.base.db.vos.VOArrayList<«EXPAND rawType(type, true) FOR this-»>(this, "«backReferenceName(this.type)»")
 				«ENDIF-»		
 			«ELSE»
-			= new java.util.ArrayList<«EXPAND rawType(type, true) FOR this-»>()
+			= new de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList<«EXPAND rawType(type, true) FOR this-»>()
 			«ENDIF»
 		«ELSE-»
-			= new java.util.ArrayList<«EXPAND rawType(type, true) FOR this-»>()
+			= new de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList<«EXPAND rawType(type, true) FOR this-»>()
 		«ENDIF-»
 	«ENDIF-»
 «ENDDEFINE»
@@ -392,7 +392,7 @@
 		«ELSE»
 		«ENDIF»
 		«ENDREM»
-		= new java.util.ArrayList<«EXPAND type(type, true) FOR this-»>()
+		= new de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList<«EXPAND type(type, true) FOR this-»>()
 	«ENDIF-»
 «ENDDEFINE»
 

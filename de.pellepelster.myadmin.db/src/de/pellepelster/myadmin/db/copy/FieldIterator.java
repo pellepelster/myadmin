@@ -29,27 +29,27 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 
 	private final List<String> attributesToOmit = new ArrayList<String>();
 	
-	public FieldIterator(Object sourceObjectObject)
+	public FieldIterator(Object sourceObject)
 	{
-		this(sourceObjectObject, null);
+		this(sourceObject, null);
 	}
 
-	public FieldIterator(Object sourceObjectObject, Object targetObject)
+	public FieldIterator(Object sourceObject, Object targetObject)
 	{
 		attributesToOmit.add("class");
 		
 		try
 		{
-			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(sourceObjectObject)).entrySet())
+			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(sourceObject)).entrySet())
 			{
 				String propertyName = entry.getKey();
 
-				if (attributesToOmit.contains(propertyName) || CopyBean.hasAnnotation(sourceObjectObject.getClass(), propertyName, Transient.class))
+				if (attributesToOmit.contains(propertyName) || CopyBean.hasAnnotation(sourceObject.getClass(), propertyName, Transient.class))
 				{
 					continue;
 				}
 
-				PropertyDescriptor sourcePropertyDescriptor = PropertyUtils.getPropertyDescriptor(sourceObjectObject, propertyName);
+				PropertyDescriptor sourcePropertyDescriptor = PropertyUtils.getPropertyDescriptor(sourceObject, propertyName);
 				
 				PropertyDescriptor targetPropertyDescriptor = null;
 				if (targetObject != null)
@@ -61,7 +61,7 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 
 				if (sourcePropertyDescriptor != null)
 				{
-					sourceValue = PropertyUtils.getSimpleProperty(sourceObjectObject, propertyName);
+					sourceValue = PropertyUtils.getSimpleProperty(sourceObject, propertyName);
 				}
 				
 				Object targetValue = null;

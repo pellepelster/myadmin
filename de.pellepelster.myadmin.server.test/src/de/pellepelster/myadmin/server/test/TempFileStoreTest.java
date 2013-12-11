@@ -20,23 +20,6 @@ public class TempFileStoreTest extends BaseMyAdminJndiContextTest
 	}
 
 	@Test
-	public void testGetAndRemove()
-	{
-		byte[] tempFileContent = new byte[] { 0x01, 0x02, 0x03 };
-
-		String tempFileUUID = this.tempFileStore.storeTempFile(tempFileContent);
-
-		Assert.assertTrue(this.tempFileStore.hasTempFile(tempFileUUID));
-
-		FileVO tempFile = this.tempFileStore.getAndRemoveTempFile(tempFileUUID);
-
-		Assert.assertArrayEquals(tempFileContent, tempFile.getFileContent());
-		Assert.assertEquals(tempFileUUID, tempFile.getFileUUID());
-
-		Assert.assertFalse(this.tempFileStore.hasTempFile(tempFileUUID));
-	}
-
-	@Test
 	public void testStoreWithoutName()
 	{
 		byte[] tempFileContent = new byte[] { 0x01, 0x02, 0x03 };

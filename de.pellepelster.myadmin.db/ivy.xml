@@ -61,6 +61,8 @@
 			<artifact name="spring-security-core" type="jar" />
 		</dependency>
 
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" />	
+
 		<dependency org="commons-lang" name="commons-lang" rev="2.6">
 			<artifact name="commons-lang" type="jar" />
 		</dependency>

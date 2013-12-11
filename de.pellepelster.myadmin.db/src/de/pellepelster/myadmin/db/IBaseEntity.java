@@ -29,4 +29,10 @@ public interface IBaseEntity
 	 * @return
 	 */
 	long getId();
+
+	long getOid();
+
+	boolean isNew();
+
+	void setOid(long oid);
 }

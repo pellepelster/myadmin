@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public abstract class BaseParentArrayList<ListType> implements List<ListType>, Serializable
+public abstract class BaseParentArrayList<ListType> extends ChangeTrackingArrayList<ListType> implements Serializable
 {
 
 	private ArrayList<ListType> list = new ArrayList<ListType>();
@@ -40,150 +40,148 @@ public abstract class BaseParentArrayList<ListType> implements List<ListType>, S
 	@Override
 	public void add(int index, ListType element)
 	{
-		list.add(index, element);
+		this.list.add(index, element);
 	}
-
-
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean addAll(Collection<? extends ListType> c)
 	{
-		return list.addAll(c);
+		return this.list.addAll(c);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean addAll(int index, Collection<? extends ListType> c)
 	{
-		return list.addAll(index, c);
+		return this.list.addAll(index, c);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void clear()
 	{
-		list.clear();
+		this.list.clear();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean contains(Object o)
 	{
-		return list.contains(o);
+		return this.list.contains(o);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean containsAll(Collection<?> c)
 	{
-		return list.containsAll(c);
+		return this.list.containsAll(c);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o)
 	{
-		return list.equals(o);
+		return this.list.equals(o);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ListType get(int index)
 	{
-		return list.get(index);
+		return this.list.get(index);
 	}
 
 	public ArrayList<ListType> getList()
 	{
-		return list;
+		return this.list;
 	}
 
 	public String getListItemParentVOAttributeName()
 	{
-		return listItemParentVOAttributeName;
+		return this.listItemParentVOAttributeName;
 	}
 
 	public ListType getParent()
 	{
-		return parent;
+		return this.parent;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int hashCode()
 	{
-		return list.hashCode();
+		return this.list.hashCode();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int indexOf(Object o)
 	{
-		return list.indexOf(o);
+		return this.list.indexOf(o);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean isEmpty()
 	{
-		return list.isEmpty();
+		return this.list.isEmpty();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Iterator<ListType> iterator()
 	{
-		return list.iterator();
+		return this.list.iterator();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public int lastIndexOf(Object o)
 	{
-		return list.lastIndexOf(o);
+		return this.list.lastIndexOf(o);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ListIterator<ListType> listIterator()
 	{
-		return list.listIterator();
+		return this.list.listIterator();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ListIterator<ListType> listIterator(int index)
 	{
-		return list.listIterator(index);
+		return this.list.listIterator(index);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ListType remove(int index)
 	{
-		return list.remove(index);
+		return this.list.remove(index);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean removeAll(Collection<?> c)
 	{
-		return list.removeAll(c);
+		return this.list.removeAll(c);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public boolean retainAll(Collection<?> c)
 	{
-		return list.retainAll(c);
+		return this.list.retainAll(c);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public ListType set(int index, ListType element)
 	{
-		return list.set(index, element);
+		return this.list.set(index, element);
 	}
 
 	public void setList(ArrayList<ListType> list)
@@ -205,35 +203,35 @@ public abstract class BaseParentArrayList<ListType> implements List<ListType>, S
 	@Override
 	public int size()
 	{
-		return list.size();
+		return this.list.size();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public List<ListType> subList(int fromIndex, int toIndex)
 	{
-		return list.subList(fromIndex, toIndex);
+		return this.list.subList(fromIndex, toIndex);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public Object[] toArray()
 	{
-		return list.toArray();
+		return this.list.toArray();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public <ArrayType> ArrayType[] toArray(ArrayType[] a)
 	{
-		return list.toArray(a);
+		return this.list.toArray(a);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public String toString()
 	{
-		return list.toString();
+		return this.list.toString();
 	}
 
 }

@@ -18,12 +18,12 @@ import java.util.List;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
-public class EntityIterator implements Iterable<IBaseVO>, Iterator<IBaseVO>
+public class BaseVOIterator implements Iterable<IBaseVO>, Iterator<IBaseVO>
 {
 
 	private final Iterator<IBaseVO> iterator;
 
-	public EntityIterator(IBaseVO vo)
+	public BaseVOIterator(IBaseVO vo)
 	{
 		List<IBaseVO> vos = new ArrayList<IBaseVO>();
 		createAttributeList(vo, vos);

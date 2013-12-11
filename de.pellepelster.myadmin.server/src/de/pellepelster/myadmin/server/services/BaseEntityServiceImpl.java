@@ -63,7 +63,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 					if (attributeData instanceof String)
 					{
 						String tempFileUUID = (String) attributeData;
-						FileVO tempFile = this.tempFileStore.getAndRemoveTempFile(tempFileUUID);
+						FileVO tempFile = this.tempFileStore.getTempFile(tempFileUUID);
 						baseVO.set(attributeDescriptor.getAttributeName(), tempFile);
 					}
 				}

@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
@@ -33,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import de.pellepelster.gwt.commons.client.util.XPathUtil;
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
 import de.pellepelster.myadmin.db.IBaseClientEntity;
 import de.pellepelster.myadmin.db.IBaseEntity;
@@ -70,7 +72,7 @@ public class BaseDAO
 		return result;
 	}
 
-	public <T extends IBaseEntity> T create(T entity)
+	public <T extends IBaseEntity> T create(T entity, Set<String> dirtyPaths)
 	{
 		if (entity instanceof IBaseClientEntity)
 		{
@@ -98,7 +100,7 @@ public class BaseDAO
 			infoEntity.setUpdateDate(now);
 		}
 
-		T result = mergeRecursive(entity, new HashMap<IBaseEntity, IBaseEntity>());
+		T result = mergeRecursive(entity, "/", new HashMap<IBaseEntity, IBaseEntity>(), dirtyPaths);
 
 		return result;
 	}
@@ -347,7 +349,7 @@ public class BaseDAO
 		}
 	}
 
-	public <T extends IBaseEntity> T save(T entity)
+	public <T extends IBaseEntity> T save(T entity, Set<String> dirtyPaths)
 	{
 
 		if (entity instanceof IBaseClientEntity)
@@ -380,17 +382,27 @@ public class BaseDAO
 			infoEntity.setUpdateDate(new Date());
 		}
 
-		T result = mergeRecursive(entity, new HashMap<IBaseEntity, IBaseEntity>());
+		T result = mergeRecursive(entity, "/", new HashMap<IBaseEntity, IBaseEntity>(), dirtyPaths);
 
 		return result;
 	}
 
+	// TODO use FieldIterator
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private <T extends IBaseEntity> T mergeRecursive(T entity, Map<IBaseEntity, IBaseEntity> visited)
+	private <T extends IBaseEntity> T mergeRecursive(T entity, String currentPath, Map<IBaseEntity, IBaseEntity> visited, Set<String> dirtyPaths)
 	{
 		try
 		{
-			T mergedEntity = this.entityManager.merge(entity);
+			T mergedEntity = null;
+			if (dirtyPaths.contains(currentPath))
+			{
+				mergedEntity = this.entityManager.merge(entity);
+			}
+			else
+			{
+				mergedEntity = entity;
+			}
+
 			visited.put(entity, mergedEntity);
 
 			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(mergedEntity)).entrySet())
@@ -411,7 +423,8 @@ public class BaseDAO
 						}
 						else
 						{
-							PropertyUtils.setProperty(mergedEntity, propertyName, mergeRecursive((IBaseEntity) attribute, visited));
+							PropertyUtils.setProperty(mergedEntity, propertyName,
+									mergeRecursive((IBaseEntity) attribute, XPathUtil.combine(currentPath, entry.getKey()), visited, dirtyPaths));
 						}
 					}
 
@@ -420,19 +433,24 @@ public class BaseDAO
 						List list = (List) attribute;
 						List mergedList = (List) PropertyUtils.getSimpleProperty(mergedEntity, propertyName);
 
+						String listPath = XPathUtil.combine(currentPath, entry.getKey());
+
 						for (int i = 0; i < list.size(); i++)
 						{
 							Object listElement = list.get(i);
 
 							if (IBaseEntity.class.isAssignableFrom(listElement.getClass()))
 							{
-								if (visited.containsKey(listElement))
+								IBaseEntity baseEntity = (IBaseEntity) listElement;
+
+								if (visited.containsKey(baseEntity))
 								{
-									mergedList.set(i, visited.get(listElement));
+									mergedList.set(i, visited.get(baseEntity));
 								}
 								else
 								{
-									mergedList.set(i, mergeRecursive((IBaseEntity) listElement, visited));
+									mergedList.set(i,
+											mergeRecursive(baseEntity, XPathUtil.addListIndentifier(listPath, baseEntity.getOid()), visited, dirtyPaths));
 								}
 							}
 						}

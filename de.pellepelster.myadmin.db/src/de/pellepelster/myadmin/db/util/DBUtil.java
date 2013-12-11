@@ -14,16 +14,21 @@ package de.pellepelster.myadmin.db.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.pellepelster.gwt.commons.client.util.XPathUtil;
+import de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.jpql.OrderClauseVO;
 import de.pellepelster.myadmin.db.IBaseEntity;
+import de.pellepelster.myadmin.db.copy.FieldDescriptor;
+import de.pellepelster.myadmin.db.copy.FieldIterator;
 import de.pellepelster.myadmin.db.daos.ConditionalExpressionVOUtil;
 import de.pellepelster.myadmin.db.jpql.Join;
 import de.pellepelster.myadmin.db.jpql.Join.JOIN_TYPE;
@@ -39,15 +44,15 @@ import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 public final class DBUtil
 {
 
-	public static void addFirstLevelIBaseVOAttributes(Class<?> voClass, Map<Class<?>, List<String>> associationsMap)
+	public static void addFirstLevelIBaseVOAttributes(Class<?> voClass, Map<Class<?>, Set<String>> associationsMap)
 	{
 
 		if (!associationsMap.containsKey(voClass))
 		{
-			associationsMap.put(voClass, new ArrayList<String>());
+			associationsMap.put(voClass, new HashSet<String>());
 		}
 
-		List<String> associations = associationsMap.get(voClass);
+		Set<String> associations = associationsMap.get(voClass);
 
 		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtil.getAttributeDescriptors(voClass);
 
@@ -85,28 +90,28 @@ public final class DBUtil
 		return (Class<? extends IBaseEntity>) EntityVOMapper.getInstance().getMappedClass(voClass);
 	}
 
-	public static Map<Class<?>, List<String>> filter2Associations(GenericFilterVO<?> genericFilterVO)
+	public static Map<Class<?>, Set<String>> filter2Associations(GenericFilterVO<?> genericFilterVO)
 	{
 
 		Class<?> voClass = BeanUtil.getVOClass(genericFilterVO.getVOClassName());
 
-		Map<Class<?>, List<String>> associationsMap = new HashMap<Class<?>, List<String>>();
+		Map<Class<?>, Set<String>> associationsMap = new HashMap<Class<?>, Set<String>>();
 
 		filter2AssociationsTree(voClass, genericFilterVO.getEntity().getAssociations(), associationsMap);
 
 		return associationsMap;
 	}
 
-	private static void filter2AssociationsTree(Class<?> voClass, List<AssociationVO> associationVOs, Map<Class<?>, List<String>> associationsMap)
+	private static void filter2AssociationsTree(Class<?> voClass, List<AssociationVO> associationVOs, Map<Class<?>, Set<String>> associationsMap)
 	{
 
 		if (!associationsMap.containsKey(voClass))
 		{
 
-			associationsMap.put(voClass, new ArrayList<String>());
+			associationsMap.put(voClass, new HashSet<String>());
 		}
 
-		List<String> associations = associationsMap.get(voClass);
+		Set<String> associations = associationsMap.get(voClass);
 
 		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtil.getAttributeDescriptors(voClass);
 
@@ -202,4 +207,63 @@ public final class DBUtil
 	{
 	}
 
+	public static Set<String> getDirtyPaths(IBaseVO vo)
+	{
+
+		Set<String> dirtyPaths = new HashSet<String>();
+
+		createDirtyPaths(vo, new ArrayList<IBaseVO>(), "/", dirtyPaths);
+
+		return dirtyPaths;
+	}
+
+	public static void createDirtyPaths(IBaseVO vo, List<IBaseVO> visited, String parentPath, Set<String> dirtyPaths)
+	{
+		if (visited.contains(vo))
+		{
+			return;
+		}
+		else
+		{
+			visited.add(vo);
+		}
+
+		if (vo.getChangeTracker().hasChanges())
+		{
+			dirtyPaths.add(parentPath);
+		}
+
+		for (FieldDescriptor fieldDescriptor : new FieldIterator(vo))
+		{
+			if (fieldDescriptor.getSourceValue() != null)
+			{
+				if (IBaseVO.class.isAssignableFrom(fieldDescriptor.getSourceType()))
+				{
+					createDirtyPaths((IBaseVO) fieldDescriptor.getSourceValue(), visited, XPathUtil.combine(parentPath, fieldDescriptor.getFieldName()),
+							dirtyPaths);
+					continue;
+				}
+
+				if (List.class.isAssignableFrom(fieldDescriptor.getSourceType()))
+				{
+					ChangeTrackingArrayList<IBaseVO> sourceList = (ChangeTrackingArrayList<IBaseVO>) fieldDescriptor.getSourceValue();
+
+					String listPath = XPathUtil.combine(parentPath, fieldDescriptor.getFieldName());
+					if (sourceList.hasChanges())
+					{
+						dirtyPaths.add(parentPath);
+						dirtyPaths.add(listPath);
+					}
+
+					for (IBaseVO listVO : sourceList)
+					{
+						createDirtyPaths(listVO, visited, XPathUtil.addListIndentifier(listPath, listVO.getOid()), dirtyPaths);
+					}
+
+					continue;
+				}
+			}
+		}
+
+	}
 }

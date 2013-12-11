@@ -20,11 +20,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import de.pellepelster.myadmin.db.BaseEntity;
 import de.pellepelster.myadmin.db.IBaseEntity;
 
 @Entity
 @Table(name = "test2")
-public class DBTest2 implements IBaseEntity
+public class DBTest2 extends BaseEntity implements IBaseEntity
 {
 
 	public static final String TEST1 = "test1";
@@ -51,22 +52,22 @@ public class DBTest2 implements IBaseEntity
 	@Override
 	public long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public DBTest1 getTest1()
 	{
-		return test1;
+		return this.test1;
 	}
 
 	public DBTest3 getTest3()
 	{
-		return test3;
+		return this.test3;
 	}
 
 	public String getTestString()
 	{
-		return testString;
+		return this.testString;
 	}
 
 	public void setId(int id)

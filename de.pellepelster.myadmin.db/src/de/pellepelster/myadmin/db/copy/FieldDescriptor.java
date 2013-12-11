@@ -13,73 +13,87 @@ package de.pellepelster.myadmin.db.copy;
 
 import java.beans.PropertyDescriptor;
 
+import com.google.common.base.Objects;
+
 public class FieldDescriptor
 {
 	private final String fieldName;
-	
+
 	private final PropertyDescriptor sourcePropertyDescriptor;
 	private final PropertyDescriptor targetPropertyDescriptor;
 
 	private final Object sourceValue;
 	private final Object targetValue;
 
-	public FieldDescriptor(String fieldName, PropertyDescriptor sourcePropertyDescriptor, Object sourceValue, PropertyDescriptor targetPropertyDescriptor, Object targetValue)
+	public FieldDescriptor(String fieldName, PropertyDescriptor sourcePropertyDescriptor, Object sourceValue, PropertyDescriptor targetPropertyDescriptor,
+			Object targetValue)
 	{
 		super();
 		this.fieldName = fieldName;
-		
+
 		this.sourcePropertyDescriptor = sourcePropertyDescriptor;
 		this.sourceValue = sourceValue;
-		
+
 		this.targetPropertyDescriptor = targetPropertyDescriptor;
 		this.targetValue = targetValue;
 	}
 
 	public String getFieldName()
 	{
-		return fieldName;
+		return this.fieldName;
 	}
 
 	public PropertyDescriptor getSourcePropertyDescriptor()
 	{
-		return sourcePropertyDescriptor;
+		return this.sourcePropertyDescriptor;
 	}
 
 	public PropertyDescriptor getTargetPropertyDescriptor()
 	{
-		return targetPropertyDescriptor;
+		return this.targetPropertyDescriptor;
 	}
 
 	public Object getTargetValue()
 	{
-		return targetValue;
+		return this.targetValue;
 	}
 
 	public Object getSourceValue()
 	{
-		return sourceValue;
+		return this.sourceValue;
 	}
 
 	@SuppressWarnings("rawtypes")
 	public Class getSourceType()
 	{
-		return sourcePropertyDescriptor.getPropertyType(); 
+		return this.sourcePropertyDescriptor.getPropertyType();
 	}
 
 	@SuppressWarnings("rawtypes")
 	public Class getTargetType()
 	{
-		return targetPropertyDescriptor.getPropertyType(); 
+		return this.targetPropertyDescriptor.getPropertyType();
 	}
 
 	public boolean sourceHasReadMethod()
 	{
-		return sourcePropertyDescriptor != null && sourcePropertyDescriptor.getReadMethod() != null; 
+		return this.sourcePropertyDescriptor != null && this.sourcePropertyDescriptor.getReadMethod() != null;
 	}
 
 	public boolean targetHasWriteMethod()
 	{
-		return targetPropertyDescriptor != null	&& targetPropertyDescriptor.getWriteMethod() != null;
+		return this.targetPropertyDescriptor != null && this.targetPropertyDescriptor.getWriteMethod() != null;
+	}
+
+	public boolean targetHasReadMethod()
+	{
+		return this.targetPropertyDescriptor != null && this.targetPropertyDescriptor.getReadMethod() != null;
+	}
+
+	@Override
+	public String toString()
+	{
+		return Objects.toStringHelper(this).add("fieldName", this.fieldName).toString();
 	}
 
 }

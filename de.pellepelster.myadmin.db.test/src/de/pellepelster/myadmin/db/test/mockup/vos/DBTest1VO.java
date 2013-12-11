@@ -11,13 +11,13 @@
  */
 package de.pellepelster.myadmin.db.test.mockup.vos;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.BaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.ChangeTrackingArrayList;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 
 public class DBTest1VO extends BaseVO
@@ -49,7 +49,7 @@ public class DBTest1VO extends BaseVO
 
 	private long id;
 
-	private List<DBTest2VO> test2s = new ArrayList<DBTest2VO>();
+	private List<DBTest2VO> test2s = new ChangeTrackingArrayList<DBTest2VO>();
 
 	private TEST_ENUM_VO testEnum;;
 
@@ -125,6 +125,8 @@ public class DBTest1VO extends BaseVO
 	@Override
 	public void setId(long id)
 	{
+		getChangeTracker().addChange("id", id);
+
 		this.id = id;
 	}
 
@@ -135,26 +137,29 @@ public class DBTest1VO extends BaseVO
 
 	public void setMap(Map<String, String> map)
 	{
-		this.map = map;
-	}
+		getChangeTracker().addChange("map", map);
 
-	public void setTest2s(List<DBTest2VO> test2s)
-	{
-		this.test2s = test2s;
+		this.map = map;
 	}
 
 	public void setTestEnum(TEST_ENUM_VO testEnum)
 	{
+		getChangeTracker().addChange("testEnum", testEnum);
+
 		this.testEnum = testEnum;
 	}
 
 	public void setTestInteger(int testInteger)
 	{
+		getChangeTracker().addChange("testInteger", testInteger);
+
 		this.testInteger = testInteger;
 	}
 
 	public void setTestString(String testString)
 	{
+		getChangeTracker().addChange("testString", testString);
+
 		this.testString = testString;
 	}
 

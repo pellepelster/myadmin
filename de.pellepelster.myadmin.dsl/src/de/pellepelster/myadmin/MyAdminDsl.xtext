@@ -125,7 +125,7 @@ enum Cardinality:
 Entity:
 	"entity" name=ID ("implements" interface=QualifiedName)? ("extends" extends=[ Entity | QualifiedName ])? "{"
 		("options {" entityOptions=EntityOptions "}")?
-		("naturalkey {" naturalKeyAttributes+=[EntityAttribute] (", " naturalKeyAttributes+=[EntityAttribute])* "}")?
+		("naturalkey {" naturalKeyAttributes+=[EntityAttribute | QualifiedName ] (", " naturalKeyAttributes+=[EntityAttribute | QualifiedName ])* "}")?
 		
 		(attributes+=EntityAttribute)*
 	"}";

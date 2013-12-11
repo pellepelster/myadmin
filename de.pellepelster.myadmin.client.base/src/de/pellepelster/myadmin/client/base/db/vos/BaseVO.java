@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 public abstract class BaseVO implements IBaseVO
 {
+	private ChangeTracker changeTracker = new ChangeTracker();
 
 	private static final long serialVersionUID = -3339163131084690483L;
 
@@ -97,4 +98,11 @@ public abstract class BaseVO implements IBaseVO
 	{
 		return toString();
 	}
+
+	@Override
+	public ChangeTracker getChangeTracker()
+	{
+		return this.changeTracker;
+	}
+
 }

@@ -21,7 +21,7 @@ import java.util.HashMap;
  * @version $Rev: 662 $, $Date: 2010-08-30 20:58:04 +0200 (Mon, 30 Aug 2010) $
  * 
  */
-public interface IBaseVO extends Serializable
+public interface IBaseVO extends Serializable, IHasChangeTracker
 {
 
 	public static long NEW_VO_ID = 0;

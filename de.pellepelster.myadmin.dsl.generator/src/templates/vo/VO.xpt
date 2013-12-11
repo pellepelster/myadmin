@@ -122,7 +122,7 @@
 			{
 				java.lang.StringBuffer sb = new java.lang.StringBuffer();
 				«FOREACH this.naturalKeyAttributes AS naturalKeyAttribute SEPARATOR "sb.append(\", \");"»
-				sb.append(this.«naturalKeyAttribute.name»);
+				sb.append(this.get«naturalKeyAttribute.name.toFirstUpper()»());
 				«ENDFOREACH-»
 				return sb.toString();
 			}
@@ -318,6 +318,8 @@
 //- genericVOSetter -----------------------------------------------------------
 «DEFINE genericVOSetter FOR Entity»
 	public void set(java.lang.String name, java.lang.Object value) {
+
+		getChangeTracker().addChange(name, value);
 
 		«FOREACH attributes AS attribute»
 			if ("«attribute.name»".equals(name))

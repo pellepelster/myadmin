@@ -13,8 +13,9 @@ package de.pellepelster.myadmin.db.test;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -75,7 +76,7 @@ public class CopyBeanTest extends AbstractJUnit4SpringContextTests
 	public void testPartialCopy1()
 	{
 
-		Map<Class<?>, List<String>> loadAssociations = new HashMap<Class<?>, List<String>>();
+		Map<Class<?>, Set<String>> loadAssociations = new HashMap<Class<?>, Set<String>>();
 
 		DBTest1VO test1VO = (DBTest1VO) CopyBean.getInstance().copyObject(test1, loadAssociations);
 
@@ -87,8 +88,8 @@ public class CopyBeanTest extends AbstractJUnit4SpringContextTests
 	public void testPartialCopy2()
 	{
 
-		Map<Class<?>, List<String>> loadAssociations = new HashMap<Class<?>, List<String>>();
-		loadAssociations.put(DBTest1VO.class, Arrays.asList(new String[] { DBTest1VO.TEST2S.getAttributeName() }));
+		Map<Class<?>, Set<String>> loadAssociations = new HashMap<Class<?>, Set<String>>();
+		loadAssociations.put(DBTest1VO.class, new HashSet<String>(Arrays.asList(new String[] { DBTest1VO.TEST2S.getAttributeName() })));
 
 		DBTest1VO test1VO = (DBTest1VO) CopyBean.getInstance().copyObject(test1, loadAssociations);
 

@@ -20,7 +20,7 @@
 		«ELSE»
 		@javax.persistence.Table(name = "«name.toLowerCase()»")
 		«ENDIF»
-		public class «name.toFirstUpper()» «IF this.extends != null-» extends «fullQualifiedEntityName(this.extends)»«ENDIF-» implements de.pellepelster.myadmin.db.IBaseEntity«IF this.interface != null-», «interface-»«ENDIF-»«IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.db.IHierarchicalEntity«ENDIF» {
+		public class «name.toFirstUpper()» extends «IF this.extends == null-»de.pellepelster.myadmin.db.BaseEntity«ELSE» «fullQualifiedEntityName(this.extends)»«ENDIF-» implements de.pellepelster.myadmin.db.IBaseEntity«IF this.interface != null-», «interface-»«ENDIF-»«IF entityOptions != null && entityOptions.hierarchical», de.pellepelster.myadmin.db.IHierarchicalEntity«ENDIF» {
 			
 			«IF this.extends == null-»
 				«EXPAND jpaIdAnnotation»
