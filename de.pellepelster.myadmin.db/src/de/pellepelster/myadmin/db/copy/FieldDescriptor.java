@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.db.copy;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import com.google.common.base.Objects;
 
@@ -83,6 +84,11 @@ public class FieldDescriptor
 	public boolean targetHasWriteMethod()
 	{
 		return this.targetPropertyDescriptor != null && this.targetPropertyDescriptor.getWriteMethod() != null;
+	}
+
+	public Method getTargetWriteMethod()
+	{
+		return this.targetPropertyDescriptor.getWriteMethod();
 	}
 
 	public boolean targetHasReadMethod()

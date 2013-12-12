@@ -201,7 +201,7 @@ public class XmlImportExportService
 
 		if (xmlVOMapping != null)
 		{
-			IBaseVO vo = (IBaseVO) this.xmToVolCopyBean.copyObject(xmlObject, xmlVOMapping.voClass());
+			IBaseVO vo = (IBaseVO) this.xmToVolCopyBean.copyObject(xmlObject, xmlVOMapping.voClass(), false);
 			this.baseEntityService.create(vo);
 		}
 

@@ -65,9 +65,14 @@ public abstract class BaseCopyBean
 
 	private final List<IFieldCopyHandler> fieldCopyHandlers = new ArrayList<IFieldCopyHandler>();
 
+	public Object copyObject(Object sourceObject, Class<?> destClass, boolean clearChanges)
+	{
+		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), null, new ArrayList<String>(), clearChanges);
+	}
+
 	public Object copyObject(Object sourceObject, Class<?> destClass)
 	{
-		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), null, new ArrayList<String>());
+		return copyObject(sourceObject, destClass, true);
 	}
 
 	public Object copyObject(Object sourceObject, Class<?> destClass, String[] attributesToOmit)
@@ -82,7 +87,7 @@ public abstract class BaseCopyBean
 
 	public Object copyObject(Object sourceObject, Class<?> destClass, Map<Class<?>, Set<String>> classLoadAssociations, boolean clearChanges)
 	{
-		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), classLoadAssociations, new ArrayList<String>());
+		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), classLoadAssociations, new ArrayList<String>(), clearChanges);
 	}
 
 	public Object copyObject(Object sourceObject)
@@ -163,7 +168,8 @@ public abstract class BaseCopyBean
 
 								if (mappedItemType != null)
 								{
-									targetList.add(copyObject(sourceListObject, mappedItemType, visited, classLoadAssociations, attributesToOmit));
+									targetList
+											.add(copyObject(sourceListObject, mappedItemType, visited, classLoadAssociations, attributesToOmit, clearChanges));
 								}
 							}
 						}
@@ -215,7 +221,7 @@ public abstract class BaseCopyBean
 							else
 							{
 								object = copyObject(fieldDescriptor.getSourceValue(), fieldDescriptor.getTargetType(), visited, classLoadAssociations,
-										attributesToOmit);
+										attributesToOmit, clearChanges);
 								visited.put(fieldDescriptor.getSourceValue(), object);
 							}
 
@@ -232,7 +238,7 @@ public abstract class BaseCopyBean
 			throw new RuntimeException(e);
 		}
 
-		if (targetObject instanceof IHasChangeTracker)
+		if (clearChanges && targetObject instanceof IHasChangeTracker)
 		{
 			((IHasChangeTracker) targetObject).getChangeTracker().clearChanges();
 		}

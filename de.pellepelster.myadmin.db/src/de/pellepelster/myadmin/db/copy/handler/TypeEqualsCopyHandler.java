@@ -13,8 +13,6 @@ package de.pellepelster.myadmin.db.copy.handler;
 
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import de.pellepelster.myadmin.db.copy.FieldDescriptor;
 import de.pellepelster.myadmin.db.copy.IFieldCopyHandler;
 
@@ -30,7 +28,7 @@ public class TypeEqualsCopyHandler implements IFieldCopyHandler
 	@Override
 	public void copy(FieldDescriptor fieldDescriptor, Object sourceObject, Object targetObject) throws Exception
 	{
-		PropertyUtils.setProperty(targetObject, fieldDescriptor.getFieldName(), fieldDescriptor.getSourceValue());
+		fieldDescriptor.getTargetWriteMethod().invoke(targetObject, fieldDescriptor.getSourceValue());
 	}
 
 }
