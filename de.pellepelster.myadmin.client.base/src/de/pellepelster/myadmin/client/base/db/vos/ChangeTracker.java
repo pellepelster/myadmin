@@ -1,10 +1,13 @@
 package de.pellepelster.myadmin.client.base.db.vos;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChangeTracker implements IChangeTracker
+public class ChangeTracker implements IChangeTracker, Serializable
 {
+	private static final long serialVersionUID = -7165340661545211047L;
+
 	private Map<String, Object> changes = new HashMap<String, Object>();
 
 	public ChangeTracker()
