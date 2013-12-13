@@ -87,73 +87,10 @@
 «DEFINE hierarchicalEntity FOR Entity»
 	private static final long serialVersionUID = -7154622529880817879L;
 
-	@javax.persistence.Column(name = "parent_id")
-	private Long parentId;
+	«EXPAND templates::util::Attribute::attributeGetterSetter("Long", "parentId", null, "@javax.persistence.Column(name =  \"parent_id\")") FOR this-»
 
-	@javax.persistence.Column(name = "parent")
-	private String parentClassName;
+	«EXPAND templates::util::Attribute::attributeGetterSetter("String", "parentClassName", null, "@javax.persistence.Column(name = \"parent\")") FOR this-»
 
-	@javax.persistence.Transient
-	private boolean hasChildren;
-
-	@javax.persistence.Transient
-	private de.pellepelster.myadmin.db.IHierarchicalEntity parent;
-
-	/** {@inheritDoc} */
-	@Override
-	public de.pellepelster.myadmin.db.IHierarchicalEntity getParent()
-	{
-		return parent;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public String getParentClassName()
-	{
-		return parentClassName;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Long getParentId()
-	{
-		return parentId;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public boolean hasChildren()
-	{
-		return hasChildren;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setHasChildren(boolean hasChildren)
-	{
-		this.hasChildren = hasChildren;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setParent(de.pellepelster.myadmin.db.IHierarchicalEntity parent)
-	{
-		this.parent = parent;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setParentClassName(String parentClassName)
-	{
-		this.parentClassName = parentClassName;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setParentId(Long parentId)
-	{
-		this.parentId = parentId;
-	}
 «ENDDEFINE»
 
 «DEFINE joinTable(Entity entity, Entity otherEntity, EntityAttribute entityAttribute) FOR Object»

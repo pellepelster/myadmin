@@ -7,6 +7,11 @@
 «ENDDEFINE»
 
 «DEFINE attributeGetterSetter(String typeName, String attributeName, String init) FOR Object»
+	«EXPAND attributeGetterSetter(typeName, attributeName, init, null) FOR this»
+«ENDDEFINE»
+
+«DEFINE attributeGetterSetter(String typeName, String attributeName, String init, String annotation) FOR Object»
+	«IF annotation != null-»«annotation»«ENDIF»
 	private «typeName» «attributeName.toFirstLower()»  «IF init != null-»= «init»«ENDIF»;
 
 	«EXPAND attributeGetter(typeName, attributeName) FOR this»

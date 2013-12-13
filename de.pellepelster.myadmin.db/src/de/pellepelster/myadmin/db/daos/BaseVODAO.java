@@ -35,9 +35,7 @@ import de.pellepelster.myadmin.db.util.EntityVOMapper;
 @Transactional(propagation = Propagation.REQUIRED)
 public class BaseVODAO
 {
-	// TODO due to problems to detect "parent" type across jvms because of the
-	// interface with generics we omit "parent" for now
-	private String[] attributesToOmmit = new String[] { "parent" };
+	private String[] attributesToOmmit = new String[] {};
 
 	private List<IVODAOCallback> voDAOCallbacks = new ArrayList<IVODAOCallback>();
 

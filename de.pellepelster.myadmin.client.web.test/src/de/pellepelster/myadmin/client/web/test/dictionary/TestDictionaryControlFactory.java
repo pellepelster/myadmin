@@ -1,6 +1,7 @@
 package de.pellepelster.myadmin.client.web.test.dictionary;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
+import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
@@ -13,7 +14,7 @@ public class TestDictionaryControlFactory
 		return createTextControl(attributeDescriptor.getAttributeName(), attributeDescriptor.getAttributeName());
 	}
 
-	public static DictionaryControlVO createHierarchicalControl(IAttributeDescriptor<String> attributeDescriptor)
+	public static DictionaryControlVO createHierarchicalControl(IAttributeDescriptor<IHierarchicalVO> attributeDescriptor)
 	{
 		DictionaryControlVO dictionaryControlVO = new DictionaryControlVO();
 		dictionaryControlVO.setEditorLabel(attributeDescriptor.getAttributeName());

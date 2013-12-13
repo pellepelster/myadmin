@@ -19,6 +19,6 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseHierarchical;
  * @author pelle
  * 
  */
-public interface IHierarchicalEntity extends IBaseHierarchical<IHierarchicalEntity>
+public interface IHierarchicalEntity extends IBaseHierarchical
 {
 }

@@ -39,7 +39,7 @@ public class HierarchicalEditorHook<VOType extends IBaseVO> extends BaseEditorHo
 	@Override
 	public List<IButton> getEditorButtons(final IDictionaryEditor<VOType> dictionaryEditor)
 	{
-		MenuBar hierarchicalMenuOtions = new MenuBar(true);
+		final MenuBar hierarchicalMenuOtions = new MenuBar(true);
 
 		for (final IDictionaryModel childDictionary : this.childDictionaries)
 		{
@@ -53,6 +53,7 @@ public class HierarchicalEditorHook<VOType extends IBaseVO> extends BaseEditorHo
 							.getVO().getClass().getName(), IHierarchicalVO.FIELD_PARENT_ID.getAttributeName(), dictionaryEditor.getVO().getOid());
 
 					DictionaryEditorModuleFactory.openEditor(childDictionary.getName(), parameters);
+					hierarchicalMenuOtions.closeAllChildren(false);
 				}
 			});
 			hierarchicalMenuOtions.addItem(menuItem);

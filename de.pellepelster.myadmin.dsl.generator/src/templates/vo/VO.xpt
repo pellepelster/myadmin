@@ -73,10 +73,10 @@
 		
 		«EXPAND templates::vo::FieldDescriptor::fieldDescriptor FOREACH attributes»
 
-		«IF entityOptions != null && entityOptions.hierarchical»	
+		«IF entityOptions != null && entityOptions.hierarchical»
 			«EXPAND hierarchicalVO FOR this»
 		«ENDIF»
-		
+
     	public static de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] getFieldDescriptors() {
 			return new de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] {
 			
@@ -144,11 +144,12 @@
 «ENDDEFINE»
 
 «DEFINE hierarchicalVO FOR Entity»
-	private Long parentId;
 
-	private String parentClassName;
+	«EXPAND templates::util::Attribute::attributeGetterSetter("Long", "parentId") FOR this-»
 
-	private boolean hasChildren;
+	«EXPAND templates::util::Attribute::attributeGetterSetter("String", "parentClassName") FOR this-»
+
+	«EXPAND templates::util::Attribute::attributeGetterSetter("boolean", "hasChildren") FOR this-»
 
 	private de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent;
 
@@ -162,53 +163,20 @@
 
 	/** {@inheritDoc} */
 	@Override
-	public String getParentClassName()
-	{
-		return parentClassName;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public Long getParentId()
-	{
-		return parentId;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public boolean hasChildren()
-	{
-		return hasChildren;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setHasChildren(boolean hasChildren)
-	{
-		this.hasChildren = hasChildren;
-	}
-
-	/** {@inheritDoc} */
-	@Override
 	public void setParent(de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO parent)
 	{
-		this.parent = parent;
-		this.parentClassName = parent.getClass().getName();
-		this.parentId = parent.getId();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setParentClassName(String parentClassName)
-	{
-		this.parentClassName = parentClassName;
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void setParentId(Long parentId)
-	{
-		this.parentId = parentId;
+		if (parent == null)
+		{
+			this.parent = parent;
+			this.parentClassName = null;
+			this.parentId = null;
+		}
+		else
+		{
+			this.parent = parent;
+			this.parentClassName = parent.getClass().getName();
+			this.parentId = parent.getId();
+		}
 	}
 «ENDDEFINE»
 

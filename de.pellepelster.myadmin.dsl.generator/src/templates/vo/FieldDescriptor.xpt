@@ -11,11 +11,15 @@
 «ENDDEFINE»
 
 «DEFINE fieldDescriptor(String name) FOR Entity»
-	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> FIELD_«name.toUpperCase()» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> «fieldDescriptorName(name)» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
 «ENDDEFINE»
 
 «DEFINE fieldDescriptor FOR Entity»
 	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<?> «fieldDescriptorName(name)» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«name.toFirstLower()»", «EXPAND templates::type::Type::webVOTypeClass», «EXPAND templates::type::Type::webVORawTypeClass»);
+«ENDDEFINE»
+
+«DEFINE fieldDescriptor(String type) FOR String»
+	public static final de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor<«type»> «fieldDescriptorName(this)» = new de.pellepelster.myadmin.client.base.db.vos.AttributeDescriptor("«this.toFirstLower()»", «type», «type»);
 «ENDDEFINE»
 
 «DEFINE fieldDescriptorList(String qualifier) FOR Entity»

@@ -17,17 +17,8 @@ package de.pellepelster.myadmin.client.base.db.vos;
  * @author pelle
  * 
  */
-public interface IBaseHierarchical<HierarchicalType>
+public interface IBaseHierarchical
 {
-	/**
-	 * Returns the parent specified by
-	 * {@link IBaseHierarchical#getParentClassName()} and
-	 * {@link IBaseHierarchical#getParentId()}
-	 * 
-	 * @return
-	 */
-	HierarchicalType getParent();
-
 	/**
 	 * Returns the parents classname
 	 * 
@@ -41,27 +32,6 @@ public interface IBaseHierarchical<HierarchicalType>
 	 * @return
 	 */
 	Long getParentId();
-
-	/**
-	 * Returns whether this node has children
-	 * 
-	 * @return
-	 */
-	boolean hasChildren();
-
-	/**
-	 * Sets the children for this node
-	 * 
-	 * @param hasChildren
-	 */
-	void setHasChildren(boolean hasChildren);
-
-	/**
-	 * Sets the parent
-	 * 
-	 * @param parent
-	 */
-	void setParent(HierarchicalType parent);
 
 	/**
 	 * Sets the parent classname

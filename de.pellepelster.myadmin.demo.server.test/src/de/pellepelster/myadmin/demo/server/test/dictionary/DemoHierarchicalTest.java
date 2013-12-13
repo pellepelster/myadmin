@@ -69,6 +69,30 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
+	public void testRemoveParent()
+	{
+
+		CompanyVO companyVO1 = new CompanyVO();
+		companyVO1.setCompanyName("xxx");
+		companyVO1 = getBaseEntityService().create(companyVO1);
+
+		ManagerVO managerVO1 = new ManagerVO();
+		managerVO1.setName("aaa");
+		managerVO1.setParent(companyVO1);
+
+		managerVO1 = getBaseEntityService().create(managerVO1);
+
+		Assert.assertNotNull(managerVO1.getParent());
+
+		managerVO1.setParent(null);
+		managerVO1 = getBaseEntityService().create(managerVO1);
+
+		Assert.assertNull(managerVO1.getParent());
+		Assert.assertNull(managerVO1.getParentClassName());
+		Assert.assertNull(managerVO1.getParentId());
+	}
+
+	@Test
 	public void testGetChildren()
 	{
 		List<DictionaryHierarchicalNodeVO> rootNodes = this.hierachicalService.getRootNodes(TestClientHierarchicalConfiguration.ID);
@@ -154,12 +178,12 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 				.addCriteria(ManagerVO.FIELD_ID, childNodes.get(0).getVoId()).getGenericFilter());
 		Assert.assertEquals(1, managers.size());
 		Assert.assertEquals("xxx", managers.get(0).getParent().get("companyName"));
-		Assert.assertEquals(false, managers.get(0).hasChildren());
+		Assert.assertEquals(false, managers.get(0).getHasChildren());
 
 		List<CompanyVO> companies = this.baseVODAO.filter(ClientGenericFilterBuilder.createGenericFilter(CompanyVO.class).getGenericFilter());
 		Assert.assertEquals(2, companies.size());
-		Assert.assertEquals(true, companies.get(0).hasChildren());
-		Assert.assertEquals(true, companies.get(1).hasChildren());
+		Assert.assertEquals(true, companies.get(0).getHasChildren());
+		Assert.assertEquals(true, companies.get(1).getHasChildren());
 
 	}
 
