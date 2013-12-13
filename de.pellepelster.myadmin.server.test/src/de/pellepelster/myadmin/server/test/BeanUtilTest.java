@@ -24,14 +24,14 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryEditorVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.db.test.BaseDBTest;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 
 public class BeanUtilTest extends BaseDBTest
 {
 	@Test
 	public void testGetVOAttributeDescriptors()
 	{
-		Set<Class<? extends IBaseVO>> dependentVOs = BeanUtil.getDependentVOs(DictionaryVO.class);
+		Set<Class<? extends IBaseVO>> dependentVOs = BeanUtils.getDependentVOs(DictionaryVO.class);
 		Assert.assertEquals(4, dependentVOs.size());
 
 		Assert.assertTrue(dependentVOs.contains(DictionaryEditorVO.class));

@@ -38,7 +38,7 @@ public class BaseVOIterator implements Iterable<IBaseVO>, Iterator<IBaseVO>
 			return;
 		}
 
-		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtil.getAttributeDescriptors(vo.getClass()))
+		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtils.getAttributeDescriptors(vo.getClass()))
 		{
 			if (IBaseVO.class.isAssignableFrom(attributeDescriptor.getAttributeType()))
 			{

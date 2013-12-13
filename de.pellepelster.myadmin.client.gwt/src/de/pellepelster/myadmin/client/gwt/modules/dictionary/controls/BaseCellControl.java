@@ -108,7 +108,7 @@ public abstract class BaseCellControl<T> extends AbstractEditableCell<T, ViewDat
 		return getBaseControl(context).format();
 	}
 
-	protected IBaseControl<T> getBaseControl(Context context)
+	protected IBaseControl<T, ?> getBaseControl(Context context)
 	{
 		return getOrInitViewData(context).getTableRow().getElement(baseControlModel);
 	}

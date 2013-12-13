@@ -82,12 +82,13 @@ public abstract class BaseCopyBean
 
 	public Object copyObject(Object sourceObject, Class<?> destClass, Map<Class<?>, Set<String>> classLoadAssociations)
 	{
-		return copyObject(sourceObject, destClass, classLoadAssociations, false);
+		return copyObject(sourceObject, destClass, classLoadAssociations, false, new String[0]);
 	}
 
-	public Object copyObject(Object sourceObject, Class<?> destClass, Map<Class<?>, Set<String>> classLoadAssociations, boolean clearChanges)
+	public Object copyObject(Object sourceObject, Class<?> destClass, Map<Class<?>, Set<String>> classLoadAssociations, boolean clearChanges,
+			String[] attributesToOmit)
 	{
-		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), classLoadAssociations, new ArrayList<String>(), clearChanges);
+		return copyObject(sourceObject, destClass, new HashMap<Object, Object>(), classLoadAssociations, Arrays.asList(attributesToOmit), clearChanges);
 	}
 
 	public Object copyObject(Object sourceObject)
@@ -194,16 +195,6 @@ public abstract class BaseCopyBean
 						continue;
 					}
 
-					for (IFieldCopyHandler fieldCopyHandler : this.fieldCopyHandlers)
-					{
-						if (fieldCopyHandler.check(fieldDescriptor))
-						{
-							fieldCopyHandler.copy(fieldDescriptor, sourceObject, targetObject);
-
-							break;
-						}
-					}
-
 					// source und target typ-mapped stimmen ueberein
 					Class<?> mappedType = getMappedTargetType(fieldDescriptor.getTargetType());
 					if (fieldDescriptor.getSourceType() == mappedType)
@@ -228,6 +219,16 @@ public abstract class BaseCopyBean
 							PropertyUtils.setProperty(targetObject, fieldDescriptor.getFieldName(), object);
 						}
 						continue;
+					}
+
+					for (IFieldCopyHandler fieldCopyHandler : this.fieldCopyHandlers)
+					{
+						if (fieldCopyHandler.check(fieldDescriptor))
+						{
+							fieldCopyHandler.copy(fieldDescriptor, sourceObject, targetObject);
+
+							break;
+						}
 					}
 
 				}

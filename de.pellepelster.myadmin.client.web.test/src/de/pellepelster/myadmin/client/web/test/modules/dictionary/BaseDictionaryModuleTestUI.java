@@ -49,7 +49,7 @@ public abstract class BaseDictionaryModuleTestUI
 		this.baseDictionaryModule = baseDictionaryModule;
 	}
 
-	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
+	public <ElementType extends IBaseControl<Value, ?>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
 			DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		return new BaseControlTest<ElementType, Value>(this.baseDictionaryModule.getElement(controlDescriptor));

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IVOWrapper;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
@@ -15,7 +16,6 @@ import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
 import de.pellepelster.myadmin.client.web.modules.dictionary.filter.DictionaryFilter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -91,7 +91,7 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	}
 
 	@Override
-	protected IVOWrapper<? extends IBaseVO> getVOWrapper()
+	public IVOWrapper<? extends IBaseVO> getVOWrapper()
 	{
 		return this.voWrapper;
 	}

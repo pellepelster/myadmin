@@ -3,11 +3,12 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.base;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseDictionaryElement;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseRootElement;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IVOWrapper;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 
-public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
+public abstract class BaseDictionaryElement<ModelType extends IBaseModel> implements IBaseDictionaryElement<ModelType>
 {
 
 	private ModelType model;
@@ -21,22 +22,25 @@ public abstract class BaseDictionaryElement<ModelType extends IBaseModel>
 		this.parent = parent;
 	}
 
+	@Override
 	public ModelType getModel()
 	{
 		return this.model;
 	}
 
-	protected IVOWrapper<? extends IBaseVO> getVOWrapper()
+	@Override
+	public IVOWrapper<? extends IBaseVO> getVOWrapper()
 	{
 		return getParent().getVOWrapper();
 	}
 
-	public BaseDictionaryElement<? extends IBaseModel> getParent()
+	@Override
+	public IBaseDictionaryElement<? extends IBaseModel> getParent()
 	{
 		return this.parent;
 	}
 
-	public BaseRootElement<?> getRootElement()
+	public IBaseRootElement<?> getRootElement()
 	{
 		return getParent().getRootElement();
 	}

@@ -10,6 +10,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionaryEditor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
@@ -35,7 +36,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 	}
 
 	@Override
-	protected EditorVOWrapper<VOType> getVOWrapper()
+	public EditorVOWrapper<VOType> getVOWrapper()
 	{
 		return this.voWrapper;
 	}
@@ -96,6 +97,14 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 		genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
 		DictionaryModelUtil.populateAssociations(genericFilterVO, this.getModel().getCompositeModel());
+
+		if (DictionaryHookRegistry.getInstance().hasEditorHook(getModel().getParent().getName()))
+		{
+			for (BaseEditorHook<VOType> baseEditorHook : DictionaryHookRegistry.getInstance().getEditorHook(getModel().getParent().getName()))
+			{
+				baseEditorHook.addLoadAssociations(genericFilterVO);
+			}
+		}
 
 		AsyncCallback<List<VOType>> filterCallback = new BaseErrorAsyncCallback<List<VOType>>()
 		{

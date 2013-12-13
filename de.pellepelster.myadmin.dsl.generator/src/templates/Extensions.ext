@@ -108,6 +108,7 @@ boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOpt
 
 //- dictionary ids ------------------------------------------------------------
 String dictionaryIDsName(Model model) : model.name.toFirstUpper() + "DictionaryIDs";
+String dictionaryIDsName(DictionaryControl dictionaryControl) : dictionaryControl.name.toFirstUpper();
 String dictionaryIDsName(Dictionary dictionary) : dictionary.name.toFirstUpper();
 String dictionaryIDsName(DictionaryComposite dictionaryComposite) : dictionaryComposite.name.toFirstUpper();
 String dictionaryIDsName(DictionaryEditor dictionaryEditor) : dictionaryEditor.name.toFirstUpper();

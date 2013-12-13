@@ -9,17 +9,17 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessages;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseValidationMessages;
 import de.pellepelster.myadmin.client.web.modules.dictionary.ValidationMessages;
-import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
 public class RootElementValidationMessages extends BaseValidationMessages implements IValidationMessages
 {
 
-	private Map<BaseDictionaryElement<?>, ValidationMessages> validationMessages = new HashMap<BaseDictionaryElement<?>, ValidationMessages>();
+	private Map<IBaseDictionaryElement<?>, ValidationMessages> validationMessages = new HashMap<IBaseDictionaryElement<?>, ValidationMessages>();
 
-	public RootElementValidationMessages(Map<BaseDictionaryElement<?>, ValidationMessages> validationMessages)
+	public RootElementValidationMessages(Map<IBaseDictionaryElement<?>, ValidationMessages> validationMessages)
 	{
 		super();
 		this.validationMessages = validationMessages;
@@ -29,7 +29,7 @@ public class RootElementValidationMessages extends BaseValidationMessages implem
 	{
 		List<IValidationMessage> result = new ArrayList<IValidationMessage>();
 
-		for (Map.Entry<BaseDictionaryElement<?>, ValidationMessages> validationMessageEntry : this.validationMessages.entrySet())
+		for (Map.Entry<IBaseDictionaryElement<?>, ValidationMessages> validationMessageEntry : this.validationMessages.entrySet())
 		{
 			result.addAll(Lists.newArrayList(validationMessageEntry.getValue().iterator()));
 		}
@@ -84,6 +84,12 @@ public class RootElementValidationMessages extends BaseValidationMessages implem
 		}
 
 		return result;
+	}
+
+	@Override
+	public void addValidationMessage(IValidationMessage validationMessage)
+	{
+		throw new RuntimeException("not implemented");
 	}
 
 }

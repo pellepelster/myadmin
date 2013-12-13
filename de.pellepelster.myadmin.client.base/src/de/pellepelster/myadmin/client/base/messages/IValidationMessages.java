@@ -1,8 +1,6 @@
-package de.pellepelster.myadmin.client.base.modules.dictionary;
+package de.pellepelster.myadmin.client.base.messages;
 
 import java.util.Map;
-
-import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 
 public interface IValidationMessages extends Iterable<IValidationMessage>
 {
@@ -11,5 +9,7 @@ public interface IValidationMessages extends Iterable<IValidationMessage>
 	int count();
 
 	String getValidationMessageString(Map<String, Object> context);
+
+	void addValidationMessage(IValidationMessage validationMessage);
 
 }

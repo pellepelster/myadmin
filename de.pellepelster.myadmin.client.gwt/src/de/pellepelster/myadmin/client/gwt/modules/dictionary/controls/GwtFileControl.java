@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IFileControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IFileControlHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.ControlHelper;
@@ -49,13 +51,35 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 
 	private ActionImage deleteAction = new ActionImage(MyAdmin.RESOURCES.delete(), this);
 
+	private IFileControlHook fileControlHook = null;
+
 	public GwtFileControl(final FileControl fileControl)
 	{
 		super();
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		panel.setSpacing(GwtStyles.SPACING);
 
-		fileNameAnchor.setTarget("_blank");
+		fileControlHook = DictionaryHookRegistry.getInstance().getFileControlHook(fileControl.getModel());
+
+		if (fileControlHook == null)
+		{
+			fileNameAnchor.setTarget("_blank");
+		}
+		else
+		{
+			fileNameAnchor.addClickHandler(new ClickHandler()
+			{
+				@Override
+				public void onClick(ClickEvent event)
+				{
+					fileControlHook.onLinkActivate(fileControl);
+				}
+			});
+		}
+
+		// MyAdminDictionaryIDs.MY_ADMIN_GROUP.MY_ADMIN_GROUP_EDITOR.GROUP_NAME;
+		// DictionaryHookRegistry.getInstance().
+
 		panel.add(fileNameAnchor);
 
 		panel.add(deleteAction);
@@ -115,7 +139,11 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 	{
 		deleteAction.enable();
 		fileNameAnchor.setText(getFileName(fileName));
-		fileNameAnchor.setHref(getFileUrl(fileUUID));
+
+		if (fileControlHook == null)
+		{
+			fileNameAnchor.setHref(getFileUrl(fileUUID));
+		}
 	}
 
 	public static String getFileUrl(String fileUUID)

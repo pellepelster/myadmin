@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 
-public class BaseControlTest<ElementType extends IBaseControl<ValueType>, ValueType>
+public class BaseControlTest<ElementType extends IBaseControl<ValueType, ?>, ValueType>
 {
 
 	private ElementType baseControl;

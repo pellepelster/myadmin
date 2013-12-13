@@ -21,7 +21,7 @@ import de.pellepelster.myadmin.client.base.db.vos.Mandatory;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.ValidationMessage;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 
 public class MandatoryValidator implements IValidator
 {
@@ -70,7 +70,7 @@ public class MandatoryValidator implements IValidator
 			}
 		}
 
-		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtil.getAttributeDescriptors(vo.getClass()))
+		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtils.getAttributeDescriptors(vo.getClass()))
 		{
 			if (attributeDescriptor.getListAttributeType() != null)
 			{

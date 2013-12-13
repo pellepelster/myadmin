@@ -16,7 +16,6 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface MyAdminResources extends ClientBundle
 {
-
 	@Source("delete.png")
 	ImageResource delete();
 

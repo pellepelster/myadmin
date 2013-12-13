@@ -1,7 +1,9 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary.controls;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IFileControlModel;
+
 // TODO find a way to use FIleVO
-public interface IFileControl extends IBaseControl<Object>
+public interface IFileControl extends IBaseControl<Object, IFileControlModel>
 {
 	static final String FILE_DOWNLOAD_REQUEST_MAPPING = "filedownload";
 

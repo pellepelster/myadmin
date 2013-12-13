@@ -28,7 +28,7 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 	private final List<FieldDescriptor> properties = new ArrayList<FieldDescriptor>();
 
 	private final List<String> attributesToOmit = new ArrayList<String>();
-	
+
 	public FieldIterator(Object sourceObject)
 	{
 		this(sourceObject, null);
@@ -36,21 +36,21 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 
 	public FieldIterator(Object sourceObject, Object targetObject)
 	{
-		attributesToOmit.add("class");
-		
+		this.attributesToOmit.add("class");
+
 		try
 		{
 			for (Map.Entry<String, Object> entry : ((Map<String, Object>) PropertyUtils.describe(sourceObject)).entrySet())
 			{
 				String propertyName = entry.getKey();
 
-				if (attributesToOmit.contains(propertyName) || CopyBean.hasAnnotation(sourceObject.getClass(), propertyName, Transient.class))
+				if (this.attributesToOmit.contains(propertyName) || CopyBean.hasAnnotation(sourceObject.getClass(), propertyName, Transient.class))
 				{
 					continue;
 				}
 
 				PropertyDescriptor sourcePropertyDescriptor = PropertyUtils.getPropertyDescriptor(sourceObject, propertyName);
-				
+
 				PropertyDescriptor targetPropertyDescriptor = null;
 				if (targetObject != null)
 				{
@@ -63,16 +63,17 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 				{
 					sourceValue = PropertyUtils.getSimpleProperty(sourceObject, propertyName);
 				}
-				
+
 				Object targetValue = null;
 				if (targetPropertyDescriptor != null)
 				{
-						targetValue = PropertyUtils.getSimpleProperty(targetObject, propertyName);
+					targetValue = PropertyUtils.getSimpleProperty(targetObject, propertyName);
 				}
 
-				FieldDescriptor fieldDescriptor = new FieldDescriptor(propertyName, sourcePropertyDescriptor, sourceValue, targetPropertyDescriptor, targetValue);
-				
-				properties.add(fieldDescriptor);
+				FieldDescriptor fieldDescriptor = new FieldDescriptor(propertyName, sourcePropertyDescriptor, sourceValue, targetPropertyDescriptor,
+						targetValue);
+
+				this.properties.add(fieldDescriptor);
 			}
 		}
 		catch (Exception e)
@@ -86,7 +87,7 @@ public class FieldIterator implements Iterable<FieldDescriptor>
 	@Override
 	public Iterator<FieldDescriptor> iterator()
 	{
-		return properties.iterator();
+		return this.properties.iterator();
 	}
 
 }

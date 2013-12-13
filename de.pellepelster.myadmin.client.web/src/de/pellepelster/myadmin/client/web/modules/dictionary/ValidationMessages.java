@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessages;
 import de.pellepelster.myadmin.client.base.util.MessageFormat;
 
 public class ValidationMessages extends BaseValidationMessages implements IValidationMessages

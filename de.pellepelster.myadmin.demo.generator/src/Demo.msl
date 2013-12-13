@@ -365,6 +365,9 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 			import entities.*
 
+			textdatatype BaseEmployeeName {
+				maxLength 64
+			}
 
 			// company --------------------------------------------------------
 			textdatatype CompanyName {
@@ -441,16 +444,27 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 			enum COUNTRY_TRAFFIC_DIRECTION { LEFT ,  RIGHT }
 
+			entity BaseeEmployee {
+				datatype BaseEmployeeName name
+			}
+
+			// simple hierarchical vo
 			entity Company {
-				options { hierarchical } datatype CompanyName companyName
+				options { hierarchical } 
+				datatype CompanyName companyName
 			}
 
-			entity Manager {
-				options { hierarchical } datatype ManagerName managerName
+			// hierarchical vo with extends
+			entity Manager extends BaseeEmployee {
+				options { hierarchical } 
+				naturalkey { BaseeEmployee.name }
 			}
 
-			entity Employee {
-				options { hierarchical } datatype EmployeeName employeeName
+			// hierarchical vo with extends and own attribute
+			entity Employee extends BaseeEmployee {
+				options { hierarchical } 
+				naturalkey { BaseeEmployee.name }
+				datatype EmployeeName employeeName
 			}
 
 			entity Country {
@@ -600,7 +614,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				label "Manager" dictionarycontrols {
 
 					textcontrol ManagerName {
-						entityattribute managerName label "Name" mandatory
+						entityattribute BaseeEmployee.name label "Name" mandatory
 					}
 				}
 
@@ -634,7 +648,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				label "Employee" dictionarycontrols {
 
 					textcontrol EmployeeName {
-						entityattribute employeeName label "Name" mandatory
+						entityattribute BaseeEmployee.name label "Name" mandatory
 					}
 				}
 

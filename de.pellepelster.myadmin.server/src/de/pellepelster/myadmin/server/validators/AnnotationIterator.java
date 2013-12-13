@@ -17,7 +17,7 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 
 public class AnnotationIterator implements Iterable<IAttributeDescriptor<?>>, Iterator<IAttributeDescriptor<?>>
 {
@@ -25,7 +25,7 @@ public class AnnotationIterator implements Iterable<IAttributeDescriptor<?>>, It
 
 	public AnnotationIterator(Class<? extends IBaseVO> voClass, @SuppressWarnings("rawtypes") Class annotationClass)
 	{
-		this.attributeDescriptors = BeanUtil.getAnnotatedAttributes(voClass, annotationClass);
+		this.attributeDescriptors = BeanUtils.getAnnotatedAttributes(voClass, annotationClass);
 	}
 
 	/** {@inheritDoc} */

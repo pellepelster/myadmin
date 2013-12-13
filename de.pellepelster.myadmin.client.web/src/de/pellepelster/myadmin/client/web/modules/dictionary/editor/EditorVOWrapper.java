@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
 import de.pellepelster.myadmin.client.base.VOBeanUtil;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IVOWrapper;
 
 public class EditorVOWrapper<VOType extends IBaseVO> implements IVOWrapper<VOType>
 {
@@ -74,5 +74,11 @@ public class EditorVOWrapper<VOType extends IBaseVO> implements IVOWrapper<VOTyp
 	{
 		this.vo = vo;
 		markClean();
+	}
+
+	@Override
+	public VOType getContent()
+	{
+		return this.vo;
 	}
 }

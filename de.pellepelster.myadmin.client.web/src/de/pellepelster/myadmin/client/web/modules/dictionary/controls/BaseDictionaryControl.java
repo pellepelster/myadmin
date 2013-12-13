@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.base.Strings;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessages;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
@@ -17,7 +17,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IValida
 import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.validator.MandatoryValidator;
 
 public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel, ValueType> extends BaseDictionaryElement<ModelType> implements
-		IBaseControl<ValueType>
+		IBaseControl<ValueType, ModelType>
 {
 	public interface IControlUpdateListener
 	{

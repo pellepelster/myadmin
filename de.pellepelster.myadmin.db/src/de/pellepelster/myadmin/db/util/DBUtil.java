@@ -54,7 +54,7 @@ public final class DBUtil
 
 		Set<String> associations = associationsMap.get(voClass);
 
-		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtil.getAttributeDescriptors(voClass);
+		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtils.getAttributeDescriptors(voClass);
 
 		for (IAttributeDescriptor<?> attributeDescriptor : attributeDescriptors)
 		{
@@ -93,7 +93,7 @@ public final class DBUtil
 	public static Map<Class<?>, Set<String>> filter2Associations(GenericFilterVO<?> genericFilterVO)
 	{
 
-		Class<?> voClass = BeanUtil.getVOClass(genericFilterVO.getVOClassName());
+		Class<?> voClass = BeanUtils.getVOClass(genericFilterVO.getVOClassName());
 
 		Map<Class<?>, Set<String>> associationsMap = new HashMap<Class<?>, Set<String>>();
 
@@ -113,12 +113,12 @@ public final class DBUtil
 
 		Set<String> associations = associationsMap.get(voClass);
 
-		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtil.getAttributeDescriptors(voClass);
+		IAttributeDescriptor<?>[] attributeDescriptors = BeanUtils.getAttributeDescriptors(voClass);
 
 		for (AssociationVO associationVO : associationVOs)
 		{
 
-			IAttributeDescriptor<?> attributeDescriptor = BeanUtil.getAttributeDescriptor(attributeDescriptors, associationVO.getField());
+			IAttributeDescriptor<?> attributeDescriptor = BeanUtils.getAttributeDescriptor(attributeDescriptors, associationVO.getField());
 			if (attributeDescriptor == null)
 			{
 				throw new RuntimeException(String.format("class '%s' has no attribute descriptor for attribute '%s'", voClass.getName(),
@@ -147,7 +147,7 @@ public final class DBUtil
 	public static SelectQuery filter2SelectQuery(GenericFilterVO<?> genericFilterVO)
 	{
 
-		Class<? extends IBaseEntity> entityClass = convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
+		Class<? extends IBaseEntity> entityClass = convertVOClassToEntiyClass(BeanUtils.getVOClass(genericFilterVO.getVOClassName()));
 		SelectQuery selectQuery = new SelectQuery(entityClass, genericFilterVO.getLogicalOperator());
 
 		List<IConditionalExpression> conditionalExpressions = ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria());

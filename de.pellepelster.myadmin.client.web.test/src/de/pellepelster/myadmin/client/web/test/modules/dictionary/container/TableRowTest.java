@@ -16,7 +16,7 @@ public class TableRowTest<VOType extends IBaseVO>
 		this.tableRow = tableRow;
 	}
 
-	public <ElementType extends IBaseControl<Value>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
+	public <ElementType extends IBaseControl<Value, ?>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
 			DictionaryDescriptor<ElementType> controlDescriptor)
 	{
 		return new BaseControlTest<ElementType, Value>(this.tableRow.getElement(controlDescriptor));

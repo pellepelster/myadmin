@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.db.util;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,75 +19,29 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
-public class BeanUtil
+public class BeanUtils
 {
 	private static List<String> SPECIAL_FIELDS = Arrays.asList(new String[] { "class" });
 
-	private static final Logger LOG = Logger.getLogger(BeanUtil.class);
-
-	public static boolean hasAnnotatedAttribute1(Class<?> clazz, @SuppressWarnings("rawtypes") Class annotationClass)
-	{
-		return !getAnnotatedAttributes1(clazz, annotationClass).isEmpty();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static List<PropertyDescriptor> getAnnotatedAttributes1(Class<?> clazz, @SuppressWarnings("rawtypes") Class annotationClass)
-	{
-		List<PropertyDescriptor> propertyDescriptors = new ArrayList<PropertyDescriptor>();
-
-		for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(clazz))
-		{
-			String propertyName = propertyDescriptor.getName();
-
-			if (!SPECIAL_FIELDS.contains(propertyName))
-			{
-
-				try
-				{
-					Field field = clazz.getDeclaredField(propertyName);
-
-					if (annotationClass == null || field.getAnnotation(annotationClass) != null)
-					{
-						propertyDescriptors.add(propertyDescriptor);
-					}
-				}
-				catch (Exception e)
-				{
-					LOG.error(String.format("could not get property descriptors for field '%s' on class '%s'", propertyDescriptor.getName(), clazz.getName()),
-							e);
-				}
-			}
-		}
-
-		return propertyDescriptors;
-	}
+	private static final Logger LOG = Logger.getLogger(BeanUtils.class);
 
 	@SuppressWarnings("unchecked")
 	public static List<IAttributeDescriptor<?>> getAnnotatedAttributes(Class<?> clazz, @SuppressWarnings("rawtypes") Class annotationClass)
 	{
 		List<IAttributeDescriptor<?>> attributeDescriptors = new ArrayList<IAttributeDescriptor<?>>();
 
-		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtil.getAttributeDescriptors(clazz))
+		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtils.getAttributeDescriptors(clazz))
 		{
-			try
-			{
-				Field field = clazz.getDeclaredField(attributeDescriptor.getAttributeName());
+			Field field = ClassUtils.getDeclaredFieldsByName(clazz, attributeDescriptor.getAttributeName(), true);
 
-				if (annotationClass == null || field.getAnnotation(annotationClass) != null)
-				{
-					attributeDescriptors.add(attributeDescriptor);
-				}
-			}
-			catch (Exception e)
+			if (annotationClass == null || field.getAnnotation(annotationClass) != null)
 			{
-				LOG.error(String.format("could not get property descriptor for field '%s' on class '%s'", attributeDescriptor.getAttributeName(),
-						clazz.getName()), e);
+				attributeDescriptors.add(attributeDescriptor);
 			}
 		}
 

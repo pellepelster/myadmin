@@ -191,7 +191,7 @@ public class EditTextCellWithValidation<T> extends BaseCellControl<T>
 		ViewData<T> viewData = getOrInitViewData(context);
 		viewData.setEditing(false);
 
-		IBaseControl<?> baseControl = getBaseControl(context);
+		IBaseControl<?, ?> baseControl = getBaseControl(context);
 		baseControl.parseValue(getInputElement(parent).getValue());
 
 		clearInput(getInputElement(parent));

@@ -20,38 +20,42 @@ public class FieldDescriptor
 {
 	private final String fieldName;
 
-	private final PropertyDescriptor sourcePropertyDescriptor;
-	private final PropertyDescriptor targetPropertyDescriptor;
-
 	private final Object sourceValue;
 	private final Object targetValue;
+
+	private final Class<?> sourceType;
+	private Class<?> targetType;
+
+	private final Method sourceReadMethod;
+	private final Method sourceWriteMethod;
+
+	private Method targetReadMethod;
+	private Method targetWriteMethod;
 
 	public FieldDescriptor(String fieldName, PropertyDescriptor sourcePropertyDescriptor, Object sourceValue, PropertyDescriptor targetPropertyDescriptor,
 			Object targetValue)
 	{
 		super();
 		this.fieldName = fieldName;
-
-		this.sourcePropertyDescriptor = sourcePropertyDescriptor;
 		this.sourceValue = sourceValue;
-
-		this.targetPropertyDescriptor = targetPropertyDescriptor;
 		this.targetValue = targetValue;
+
+		this.sourceReadMethod = sourcePropertyDescriptor.getReadMethod();
+		this.sourceWriteMethod = sourcePropertyDescriptor.getWriteMethod();
+		this.sourceType = sourcePropertyDescriptor.getPropertyType();
+
+		if (targetPropertyDescriptor != null)
+		{
+			this.targetReadMethod = targetPropertyDescriptor.getReadMethod();
+			this.targetWriteMethod = targetPropertyDescriptor.getWriteMethod();
+			this.targetType = targetPropertyDescriptor.getPropertyType();
+		}
+
 	}
 
 	public String getFieldName()
 	{
 		return this.fieldName;
-	}
-
-	public PropertyDescriptor getSourcePropertyDescriptor()
-	{
-		return this.sourcePropertyDescriptor;
-	}
-
-	public PropertyDescriptor getTargetPropertyDescriptor()
-	{
-		return this.targetPropertyDescriptor;
 	}
 
 	public Object getTargetValue()
@@ -67,33 +71,33 @@ public class FieldDescriptor
 	@SuppressWarnings("rawtypes")
 	public Class getSourceType()
 	{
-		return this.sourcePropertyDescriptor.getPropertyType();
+		return this.sourceType;
 	}
 
 	@SuppressWarnings("rawtypes")
 	public Class getTargetType()
 	{
-		return this.targetPropertyDescriptor.getPropertyType();
+		return this.targetType;
 	}
 
 	public boolean sourceHasReadMethod()
 	{
-		return this.sourcePropertyDescriptor != null && this.sourcePropertyDescriptor.getReadMethod() != null;
+		return this.sourceReadMethod != null;
 	}
 
 	public boolean targetHasWriteMethod()
 	{
-		return this.targetPropertyDescriptor != null && this.targetPropertyDescriptor.getWriteMethod() != null;
+		return this.getTargetWriteMethod() != null;
 	}
 
 	public Method getTargetWriteMethod()
 	{
-		return this.targetPropertyDescriptor.getWriteMethod();
+		return this.targetWriteMethod;
 	}
 
 	public boolean targetHasReadMethod()
 	{
-		return this.targetPropertyDescriptor != null && this.targetPropertyDescriptor.getReadMethod() != null;
+		return this.targetReadMethod != null;
 	}
 
 	@Override

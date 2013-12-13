@@ -32,7 +32,7 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 	}
 
 	@Override
-	protected EditorVOWrapper<VOType> getVOWrapper()
+	public EditorVOWrapper<VOType> getVOWrapper()
 	{
 		return this.voWrapper;
 	}

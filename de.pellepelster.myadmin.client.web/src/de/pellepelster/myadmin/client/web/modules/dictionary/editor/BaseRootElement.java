@@ -5,18 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
-import de.pellepelster.myadmin.client.base.modules.dictionary.IValidationMessages;
+import de.pellepelster.myadmin.client.base.messages.IValidationMessages;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseDictionaryElement;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseRootElement;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseRootModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.ValidationMessages;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
 
-public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDictionaryElement<ModelType>
+public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDictionaryElement<ModelType> implements IBaseRootElement<ModelType>
 {
 	private final Composite rootComposite;
 
-	private Map<BaseDictionaryElement<?>, ValidationMessages> validationMessagesMap = new HashMap<BaseDictionaryElement<?>, ValidationMessages>();
+	private Map<IBaseDictionaryElement<?>, ValidationMessages> validationMessagesMap = new HashMap<IBaseDictionaryElement<?>, ValidationMessages>();
 
 	private RootElementValidationMessages rootElementValidationMessages;
 
@@ -40,7 +42,8 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 		return this.rootComposite.getAllChildren();
 	}
 
-	public ValidationMessages getValidationMessages(BaseDictionaryElement<?> baseDictionaryElement)
+	@Override
+	public ValidationMessages getValidationMessages(IBaseDictionaryElement<?> baseDictionaryElement)
 	{
 		if (!this.validationMessagesMap.containsKey(baseDictionaryElement))
 		{
@@ -50,12 +53,14 @@ public class BaseRootElement<ModelType extends IBaseRootModel> extends BaseDicti
 		return this.validationMessagesMap.get(baseDictionaryElement);
 	}
 
-	public void addValidationMessages(BaseDictionaryElement<?> baseDictionaryElement, List<IValidationMessage> elementValidationMessages)
+	@Override
+	public void addValidationMessages(IBaseDictionaryElement<?> baseDictionaryElement, List<IValidationMessage> elementValidationMessages)
 	{
 		getValidationMessages(baseDictionaryElement).addAll(elementValidationMessages);
 	}
 
-	public void clearValidationMessages(BaseDictionaryElement<?> baseDictionaryElement)
+	@Override
+	public void clearValidationMessages(IBaseDictionaryElement<?> baseDictionaryElement)
 	{
 		getValidationMessages(baseDictionaryElement).clear();
 		this.validationMessagesMap.remove(baseDictionaryElement);

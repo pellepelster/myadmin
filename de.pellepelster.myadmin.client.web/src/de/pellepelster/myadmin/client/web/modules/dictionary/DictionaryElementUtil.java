@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.BaseDictionaryElementUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseDictionaryElement;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseRootElement;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
@@ -14,7 +17,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictio
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditor;
 
-public class DictionaryElementUtil
+public class DictionaryElementUtil extends BaseDictionaryElementUtil
 {
 	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
 	{
@@ -66,7 +69,7 @@ public class DictionaryElementUtil
 
 	public static DictionaryEditor getRootEditor(BaseDictionaryElement<?> baseDictionaryElement)
 	{
-		BaseRootElement baseRootElement = baseDictionaryElement.getRootElement();
+		IBaseRootElement baseRootElement = baseDictionaryElement.getRootElement();
 
 		if (baseRootElement instanceof DictionaryEditor)
 		{
@@ -100,41 +103,11 @@ public class DictionaryElementUtil
 		return null;
 	}
 
-	public static List<String> getParentModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
+	public static List<String> getParentModelIds(IBaseDictionaryElement<? extends IBaseModel> baseDictionaryElement)
 	{
 		List<String> modelIds = new ArrayList<String>();
 
-		DictionaryDescriptor<?> currentDescriptor = dictionaryDescriptor;
-
-		while (currentDescriptor != null)
-		{
-			modelIds.add(0, currentDescriptor.getId());
-			currentDescriptor = currentDescriptor.getParent();
-		}
-
-		return modelIds;
-	}
-
-	public static List<String> getParentModelIds(IBaseModel baseModel)
-	{
-		List<String> modelIds = new ArrayList<String>();
-
-		IBaseModel currentModel = baseModel;
-
-		while (currentModel != null)
-		{
-			modelIds.add(0, currentModel.getName());
-			currentModel = currentModel.getParent();
-		}
-
-		return modelIds;
-	}
-
-	public static List<String> getParentModelIds(BaseDictionaryElement<? extends IBaseModel> baseDictionaryElement)
-	{
-		List<String> modelIds = new ArrayList<String>();
-
-		BaseDictionaryElement<? extends IBaseModel> currentBaseDictionaryElement = baseDictionaryElement;
+		IBaseDictionaryElement<? extends IBaseModel> currentBaseDictionaryElement = baseDictionaryElement;
 
 		while (currentBaseDictionaryElement != null)
 		{

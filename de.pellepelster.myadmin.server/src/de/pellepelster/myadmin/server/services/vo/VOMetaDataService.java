@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
 import de.pellepelster.myadmin.server.services.DirectedGraph;
 import de.pellepelster.myadmin.server.services.TopologicalSort;
@@ -155,7 +155,7 @@ public class VOMetaDataService implements InitializingBean
 
 		for (Class<? extends IBaseVO> voClass : this.voClasses)
 		{
-			Set<Class<? extends IBaseVO>> dependentClasses = BeanUtil.getDependentVOs(voClass);
+			Set<Class<? extends IBaseVO>> dependentClasses = BeanUtils.getDependentVOs(voClass);
 
 			for (Class<? extends IBaseVO> dependentClass : dependentClasses)
 			{

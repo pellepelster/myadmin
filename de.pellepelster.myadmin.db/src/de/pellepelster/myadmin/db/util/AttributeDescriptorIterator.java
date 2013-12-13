@@ -27,7 +27,7 @@ public class AttributeDescriptorIterator<T> implements Iterable<IAttributeDescri
 	public AttributeDescriptorIterator(IBaseVO vo, final Class<T> attributeTypeClass)
 	{
 
-		this.iterator = Iterables.filter(Arrays.asList(BeanUtil.getAttributeDescriptors(vo.getClass())), new Predicate<IAttributeDescriptor>()
+		this.iterator = Iterables.filter(Arrays.asList(BeanUtils.getAttributeDescriptors(vo.getClass())), new Predicate<IAttributeDescriptor>()
 		{
 
 			@Override

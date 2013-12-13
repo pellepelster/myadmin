@@ -27,7 +27,7 @@ import de.pellepelster.myadmin.db.IBaseEntity;
 import de.pellepelster.myadmin.db.jpql.AggregateQuery.AGGREGATE_TYPE;
 import de.pellepelster.myadmin.db.jpql.SelectQuery;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.db.util.CopyBean;
 import de.pellepelster.myadmin.db.util.DBUtil;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
@@ -35,6 +35,10 @@ import de.pellepelster.myadmin.db.util.EntityVOMapper;
 @Transactional(propagation = Propagation.REQUIRED)
 public class BaseVODAO
 {
+	// TODO due to problems to detect "parent" type across jvms because of the
+	// interface with generics we omit "parent" for now
+	private String[] attributesToOmmit = new String[] { "parent" };
+
 	private List<IVODAOCallback> voDAOCallbacks = new ArrayList<IVODAOCallback>();
 
 	@Autowired(required = false)
@@ -45,7 +49,7 @@ public class BaseVODAO
 
 	public long aggregate(GenericFilterVO<?> genericFilterVO, String field, AGGREGATE_TYPE aggregateType)
 	{
-		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
+		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtils.getVOClass(genericFilterVO.getVOClassName()));
 
 		List<IConditionalExpression> conditionalExpressions = ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria());
 
@@ -56,12 +60,14 @@ public class BaseVODAO
 	{
 		Class<?> entityClass = entity.getClass();
 
-		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations, true);
+		return (IBaseVO) CopyBean.getInstance().copyObject(entity, EntityVOMapper.getInstance().getMappedClass(entityClass), classLoadAssociations, true,
+				this.attributesToOmmit);
 	}
 
 	public <T extends IBaseVO> T create(T vo)
 	{
-		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()));
+		IBaseEntity entity = (IBaseEntity) CopyBean.getInstance().copyObject(vo, EntityVOMapper.getInstance().getMappedClass(vo.getClass()),
+				this.attributesToOmmit);
 		Set<String> dirtyPaths = DBUtil.getDirtyPaths(vo);
 		IBaseEntity res = this.baseDAO.create(entity, dirtyPaths);
 
@@ -110,7 +116,7 @@ public class BaseVODAO
 
 		Map<Class<?>, Set<String>> classLoadAssociations = DBUtil.filter2Associations(genericFilterVO);
 
-		Class<?> voClass = BeanUtil.getVOClass(genericFilterVO.getVOClassName());
+		Class<?> voClass = BeanUtils.getVOClass(genericFilterVO.getVOClassName());
 		DBUtil.addFirstLevelIBaseVOAttributes(voClass, classLoadAssociations);
 
 		List<T> result = new ArrayList<T>();
@@ -148,7 +154,7 @@ public class BaseVODAO
 
 	public long getCount(GenericFilterVO<?> genericFilterVO)
 	{
-		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtil.getVOClass(genericFilterVO.getVOClassName()));
+		Class<? extends IBaseEntity> entityClass = DBUtil.convertVOClassToEntiyClass(BeanUtils.getVOClass(genericFilterVO.getVOClassName()));
 
 		return this.baseDAO.getCount(entityClass, ConditionalExpressionVOUtil.getConditionalExpressions(genericFilterVO.getEntity().getCriteria()));
 	}

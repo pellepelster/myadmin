@@ -32,7 +32,7 @@ import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.AttributeDescriptorIterator;
-import de.pellepelster.myadmin.db.util.BeanUtil;
+import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.server.util.TempFileStore;
 import de.pellepelster.myadmin.server.validators.IValidator;
 
@@ -52,7 +52,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 
 	private void resolveAttributesFromData(IBaseVO baseVO)
 	{
-		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtil.getAttributeDescriptors(baseVO.getClass()))
+		for (IAttributeDescriptor<?> attributeDescriptor : BeanUtils.getAttributeDescriptors(baseVO.getClass()))
 		{
 			if (baseVO.getData() != null && baseVO.getData().containsKey(attributeDescriptor.getAttributeName()))
 			{
@@ -89,6 +89,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 			if (fileVO != null)
 			{
 				fileVO.setFileContent(null);
+				fileVO.getChangeTracker().clearChanges();
 			}
 		}
 
@@ -115,7 +116,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public void deleteAll(String voClassName)
 	{
-		this.baseVODAO.deleteAll(BeanUtil.getVOClass(voClassName));
+		this.baseVODAO.deleteAll(BeanUtils.getVOClass(voClassName));
 
 	}
 
@@ -165,7 +166,7 @@ public class BaseEntityServiceImpl implements IBaseEntityServiceGWT
 	@Override
 	public IBaseVO read(Long id, String voClassName)
 	{
-		return cleanVO(this.baseVODAO.read(id, BeanUtil.getVOClass(voClassName)));
+		return cleanVO(this.baseVODAO.read(id, BeanUtils.getVOClass(voClassName)));
 	}
 
 	/** {@inheritDoc} */

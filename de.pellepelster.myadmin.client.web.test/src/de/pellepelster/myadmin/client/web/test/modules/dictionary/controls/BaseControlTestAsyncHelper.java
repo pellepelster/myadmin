@@ -9,7 +9,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseCont
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.BaseAsyncHelper;
 
-public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? extends IBaseControl<ValueType>, ValueType>, ValueType> extends BaseAsyncHelper<T>
+public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? extends IBaseControl<ValueType, ?>, ValueType>, ValueType> extends
+		BaseAsyncHelper<T>
 {
 
 	public BaseControlTestAsyncHelper(String asyncTestItemResultId, LinkedList<AsyncTestItem> asyncTestItems, Map<String, Object> asyncTestItemResults)

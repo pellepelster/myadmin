@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.BaseDictionaryElementUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IFileControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IFileControlModel;
+
 @SuppressWarnings("rawtypes")
 public class DictionaryHookRegistry
 {
@@ -13,6 +18,8 @@ public class DictionaryHookRegistry
 	private Map<String, IEditorSaveHook> editorSaveHooks = new HashMap<String, IEditorSaveHook>();
 
 	private Map<String, List<BaseEditorHook>> editorHooks = new HashMap<String, List<BaseEditorHook>>();
+
+	private Map<String, IFileControlHook> fileControlHooks = new HashMap<String, IFileControlHook>();
 
 	private DictionaryHookRegistry()
 	{
@@ -53,6 +60,21 @@ public class DictionaryHookRegistry
 		}
 
 		this.editorHooks.get(dictionaryId).add(editorHook);
+	}
+
+	public void setFileControlHook(DictionaryControlDescriptor<IFileControl> fileControlDescriptor, IFileControlHook fileControlHook)
+	{
+		this.fileControlHooks.put(BaseDictionaryElementUtil.getModelId(fileControlDescriptor), fileControlHook);
+	}
+
+	public IFileControlHook getFileControlHook(IFileControlModel fileControlModel)
+	{
+		return this.fileControlHooks.get(BaseDictionaryElementUtil.getModelId(fileControlModel));
+	}
+
+	public boolean hasFileControlHook(IFileControlModel fileControlModel)
+	{
+		return getFileControlHook(fileControlModel) != null;
 	}
 
 	public boolean hasEditorHook(String dictionaryId)

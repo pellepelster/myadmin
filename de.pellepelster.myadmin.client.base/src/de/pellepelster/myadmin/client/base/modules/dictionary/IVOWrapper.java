@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.client.web.modules.dictionary.databinding;
+package de.pellepelster.myadmin.client.base.modules.dictionary;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 
@@ -8,4 +8,5 @@ public interface IVOWrapper<VOType extends IBaseVO>
 
 	Object get(String attribute);
 
+	VOType getContent();
 }

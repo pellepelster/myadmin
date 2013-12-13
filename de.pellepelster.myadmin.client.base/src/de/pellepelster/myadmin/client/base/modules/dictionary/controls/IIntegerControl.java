@@ -1,6 +1,8 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary.controls;
 
-public interface IIntegerControl extends IBaseControl<Integer>
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
+
+public interface IIntegerControl extends IBaseControl<Integer, IIntegerControlModel>
 {
 
 }

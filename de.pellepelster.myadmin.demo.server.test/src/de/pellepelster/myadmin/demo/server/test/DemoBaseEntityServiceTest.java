@@ -32,12 +32,12 @@ import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
+import de.pellepelster.myadmin.demo.client.web.entities.EmployeeVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
 import de.pellepelster.myadmin.demo.client.web.entities.Region2CountryVO;
 import de.pellepelster.myadmin.demo.client.web.entities.RegionVO;
 import de.pellepelster.myadmin.demo.client.web.entities.StateVO;
 import de.pellepelster.myadmin.demo.client.web.entities.UserVO;
-import de.pellepelster.myadmin.demo.client.web.inheritance.TestBaseClassVO;
 import de.pellepelster.myadmin.demo.client.web.inheritance.TestEntity1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
@@ -93,13 +93,14 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	}
 
 	@Test
-	public void testInheritance()
+	public void testInheritanceCreate()
 	{
 		TestEntity1VO testEntity1VO = new TestEntity1VO();
 		testEntity1VO.setString1("aaa");
 		testEntity1VO.setString2("bbb");
 
-		this.baseEntityService.create(testEntity1VO);
+		Result<TestEntity1VO> createResult = this.baseEntityService.validateAndCreate(testEntity1VO);
+		Assert.assertTrue(createResult.getValidationMessages().isEmpty());
 
 		GenericFilterVO genericFilterVO = new GenericFilterVO(TestEntity1VO.class.getName());
 		List<TestEntity1VO> result = this.baseEntityService.filter(genericFilterVO);
@@ -109,13 +110,61 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		TestEntity1VO testEntity1VOResult = result.get(0);
 		assertEquals("aaa", testEntity1VOResult.getString1());
 		assertEquals("bbb", testEntity1VOResult.getString2());
+	}
 
-		ClientGenericFilterBuilder filterBuilder = ServerGenericFilterBuilder.createGenericFilter(TestEntity1VO.class);
-		filterBuilder.addCriteria(TestBaseClassVO.FIELD_STRING1, "aaa");
-		filterBuilder.addAssociation(TestBaseClassVO.FIELD_TESTREFERENCECLASS);
+	@Test
+	public void testInheritanceSave()
+	{
+		this.baseEntityService.deleteAll(TestEntity1VO.class.getName());
 
-		result = this.baseEntityService.filter(filterBuilder.getGenericFilter());
-		assertEquals("aaa", result.get(0).getString1());
+		TestEntity1VO testEntity1VO = new TestEntity1VO();
+		testEntity1VO.setString1("aaa");
+		testEntity1VO.setString2("bbb");
+
+		Result<TestEntity1VO> createResult = this.baseEntityService.validateAndCreate(testEntity1VO);
+		Assert.assertTrue(createResult.getValidationMessages().isEmpty());
+
+		createResult.getVO().setString1("xxx");
+		createResult.getVO().setString2("yyy");
+
+		Result<TestEntity1VO> saveResult = this.baseEntityService.validateAndSave(createResult.getVO());
+		Assert.assertTrue(saveResult.getValidationMessages().isEmpty());
+
+		GenericFilterVO genericFilterVO = new GenericFilterVO(TestEntity1VO.class.getName());
+		List<TestEntity1VO> result = this.baseEntityService.filter(genericFilterVO);
+
+		assertEquals(1, result.size());
+
+		TestEntity1VO testEntity1VOResult = result.get(0);
+		assertEquals("xxx", testEntity1VOResult.getString1());
+		assertEquals("yyy", testEntity1VOResult.getString2());
+	}
+
+	@Test
+	public void testHierarchicalInheritanceCreateAndSave()
+	{
+		this.baseEntityService.deleteAll(ManagerVO.class.getName());
+		this.baseEntityService.deleteAll(EmployeeVO.class.getName());
+
+		ManagerVO managerVO = new ManagerVO();
+		managerVO.setName("aaa");
+
+		EmployeeVO employeeVO = new EmployeeVO();
+		employeeVO.setName("uuu");
+
+		Result<EmployeeVO> employeeCreateResult = this.baseEntityService.validateAndCreate(employeeVO);
+		managerVO.setParent(employeeCreateResult.getVO());
+
+		Result<ManagerVO> createResult = this.baseEntityService.validateAndCreate(managerVO);
+
+		Assert.assertTrue(createResult.getValidationMessages().isEmpty());
+		assertEquals("aaa", createResult.getVO().getName());
+
+		createResult.getVO().setName("bbb");
+
+		Result<ManagerVO> saveResult = this.baseEntityService.validateAndSave(createResult.getVO());
+		Assert.assertTrue(saveResult.getValidationMessages().isEmpty());
+		assertEquals("bbb", saveResult.getVO().getName());
 
 	}
 
@@ -273,7 +322,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		// CompanyDictionaryIDs.COMPANY, ManagerDictionaryIDs.MANAGER);
 
 		ManagerVO managerVO = new ManagerVO();
-		managerVO.setManagerName("xxx");
+		managerVO.setName("xxx");
 		managerVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryIDs.MANAGER.getId());
 
 		Result<ManagerVO> result = this.baseEntityService.validateAndCreate(managerVO);
@@ -339,20 +388,28 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		String file1TempId = this.tempFileStore.storeTempFile(bin1);
 		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file1TempId);
 
-		test1VO = this.baseEntityService.create(test1VO);
+		Result<Test1VO> createResult = this.baseEntityService.validateAndCreate(test1VO);
 
-		Assert.assertNull(test1VO.getFile1().getFileContent());
-		Assert.assertEquals(file1TempId, test1VO.getFile1().getFileUUID());
+		Assert.assertNull(createResult.getVO().getFile1().getFileContent());
+		Assert.assertFalse(createResult.getVO().getChangeTracker().hasChanges());
+		Assert.assertFalse(createResult.getVO().getFile1().getChangeTracker().hasChanges());
+		Assert.assertEquals(file1TempId, createResult.getVO().getFile1().getFileUUID());
+
+		GenericFilterVO<Test1VO> test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class)
+				.addCriteria(Test1VO.FIELD_ID, createResult.getVO().getId()).getGenericFilter();
+		List<Test1VO> result = this.baseEntityService.filter(test1Filter);
+		Assert.assertEquals(file1TempId, result.get(0).getFile1().getFileUUID());
 
 		String file2TempId = this.tempFileStore.storeTempFile(bin2);
-		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file2TempId);
+		createResult.getVO().getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file2TempId);
 
-		test1VO = this.baseEntityService.save(test1VO);
+		Result<Test1VO> saveResult = this.baseEntityService.validateAndSave(createResult.getVO());
+		Assert.assertFalse(saveResult.getVO().getChangeTracker().hasChanges());
+		Assert.assertFalse(saveResult.getVO().getFile1().getChangeTracker().hasChanges());
 
-		GenericFilterVO<Test1VO> test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class).addCriteria(Test1VO.FIELD_ID, test1VO.getId())
+		test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class).addCriteria(Test1VO.FIELD_ID, saveResult.getVO().getId())
 				.getGenericFilter();
-
-		List<Test1VO> result = this.baseEntityService.filter(test1Filter);
+		result = this.baseEntityService.filter(test1Filter);
 		Assert.assertEquals(file2TempId, result.get(0).getFile1().getFileUUID());
 
 	}

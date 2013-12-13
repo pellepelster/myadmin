@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
@@ -48,7 +49,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		companyVO1 = getBaseEntityService().create(companyVO1);
 
 		ManagerVO managerVO1 = new ManagerVO();
-		managerVO1.setManagerName("aaa");
+		managerVO1.setName("aaa");
 		managerVO1.setParent(companyVO1);
 		getBaseEntityService().create(managerVO1);
 
@@ -57,7 +58,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		companyVO2 = getBaseEntityService().create(companyVO2);
 
 		ManagerVO managerVO2 = new ManagerVO();
-		managerVO2.setManagerName("bbb");
+		managerVO2.setName("bbb");
 		managerVO2.setParent(companyVO2);
 		getBaseEntityService().create(managerVO2);
 	}
@@ -112,11 +113,11 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		companyVO1 = getBaseEntityService().create(companyVO1);
 
 		ManagerVO managerVO = new ManagerVO();
-		managerVO.setManagerName("ppp");
+		managerVO.setName("ppp");
 		managerVO.setParent(companyVO1);
-		ManagerVO savedManagerVO = getBaseEntityService().create(managerVO);
+		Result<ManagerVO> savedManagerVO = getBaseEntityService().validateAndCreate(managerVO);
 
-		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getParent().getOid());
+		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getVO().getParent().getOid());
 	}
 
 	@Test
@@ -127,15 +128,15 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		companyVO1 = getBaseEntityService().create(companyVO1);
 
 		ManagerVO managerVO = new ManagerVO();
-		managerVO.setManagerName("ppp");
+		managerVO.setName("ppp");
 		managerVO.setParent(companyVO1);
 
 		managerVO = getBaseEntityService().create(managerVO);
-		managerVO.setManagerName("nnn");
+		managerVO.setName("nnn");
 
-		ManagerVO savedManagerVO = getBaseEntityService().save(managerVO);
+		Result<ManagerVO> savedManagerVO = getBaseEntityService().validateAndSave(managerVO);
 
-		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getParent().getOid());
+		Assert.assertEquals(managerVO.getParent().getOid(), savedManagerVO.getVO().getParent().getOid());
 	}
 
 	@Test

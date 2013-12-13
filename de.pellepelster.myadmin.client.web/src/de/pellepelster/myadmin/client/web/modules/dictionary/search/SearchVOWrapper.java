@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.web.modules.dictionary.databinding.IVOWrapper;
+import de.pellepelster.myadmin.client.base.modules.dictionary.IVOWrapper;
 
 public class SearchVOWrapper<VOType extends IBaseVO> implements IVOWrapper<VOType>
 {
@@ -26,6 +26,12 @@ public class SearchVOWrapper<VOType extends IBaseVO> implements IVOWrapper<VOTyp
 	public Map<String, Object> getFilterValues()
 	{
 		return this.filterValues;
+	}
+
+	@Override
+	public VOType getContent()
+	{
+		throw new RuntimeException("not implemented");
 	}
 
 }
