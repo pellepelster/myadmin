@@ -9,15 +9,15 @@
 	<import file="../${build.project}/ant/myadmin/BaseServerTest.xml" />
 
 	<target name="tomcat.local.run" depends="resolve">
-		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}"/>
+		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} ${server.vmargs}"/>
 	</target>
 	
 	<target name="tomcat.local.run.debug" depends="resolve">
-		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
+		<tomcat.local action="run" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} ${server.vmargs} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${remote.debug.port} -Xnoagent -Djava.compiler=NONE" />
 	</target>
 
 	<target name="tomcat.local.start" depends="resolve">
-		<tomcat.local action="start" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
+		<tomcat.local action="start" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs} ${server.vmargs}" />
 	</target>
 
 	<target name="import.dictionary" depends="resolve">
