@@ -106,4 +106,10 @@ public class DictionarySearchModuleTestUI<VOType extends IBaseVO> extends BaseDi
 		Assert.assertEquals(expectedResultCount, this.module.getDictionarySearch().getDictionaryResult().getRows().size());
 	}
 
+	@Override
+	public int getOrder()
+	{
+		return this.module.getOrder();
+	}
+
 }

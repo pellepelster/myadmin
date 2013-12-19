@@ -18,6 +18,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -33,6 +34,8 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
  */
 public final class ModuleHandler
 {
+
+	private int moduleCounter = 0;
 
 	private static ModuleHandler instance;
 
@@ -52,10 +55,12 @@ public final class ModuleHandler
 
 	private void getModuleInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-
+		this.moduleCounter++;
 		IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleVO.getModuleDefinition().getName());
-		factory.getNewInstance(moduleVO, moduleCallback, parameters);
 
+		parameters.put(BaseModule.MODULE_COUNTER_PARAMETER_ID, this.moduleCounter);
+
+		factory.getNewInstance(moduleVO, moduleCallback, parameters);
 	}
 
 	public void startModule(IModule module, Map<String, Object> parameters)

@@ -36,4 +36,6 @@ public interface IModule
 	 * @return
 	 */
 	boolean isSingleton();
+
+	int getOrder();
 }

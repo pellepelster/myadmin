@@ -51,4 +51,10 @@ public abstract class BaseModuleUI<ModuleType extends IModule> implements IGwtMo
 		return module;
 	}
 
+	@Override
+	public int getOrder()
+	{
+		return module.getOrder();
+	}
+
 }

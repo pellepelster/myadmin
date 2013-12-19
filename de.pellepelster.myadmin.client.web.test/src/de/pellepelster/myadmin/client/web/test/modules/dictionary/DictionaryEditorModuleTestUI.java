@@ -109,4 +109,10 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> extends BaseDi
 	{
 		Assert.assertEquals(expectedTitle, this.module.getTitle());
 	}
+
+	@Override
+	public int getOrder()
+	{
+		return this.module.getOrder();
+	}
 }

@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.layout;
 
-
 /**
  * Represents the UI for a module instance
  * 
@@ -28,6 +27,8 @@ public interface IModuleUI<ContainerType, ModuleType>
 	}
 
 	int MARGIN = 15;
+
+	int getOrder();
 
 	/**
 	 * Try to close the module, returns false if closing fails

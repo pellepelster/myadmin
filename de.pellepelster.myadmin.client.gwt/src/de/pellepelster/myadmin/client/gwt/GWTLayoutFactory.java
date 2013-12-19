@@ -138,24 +138,36 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 		PanelLayoutInfo panelLayoutInfo = panels.get(direction);
 
-		addToLayout(panelLayoutInfo, moduleUI.getContainer(), moduleUI.getTitle());
+		addToLayout(panelLayoutInfo, moduleUI, moduleUI.getTitle());
 	}
 
-	private void addToLayout(PanelLayoutInfo panelLayoutInfo, Panel newPanel, String title)
+	private Map<StackLayoutPanel, Map<Panel, IModuleUI<Panel, ?>>> stackLayoutPanelMappings = new HashMap<StackLayoutPanel, Map<Panel, IModuleUI<Panel, ?>>>();
+
+	private void addToLayout(PanelLayoutInfo panelLayoutInfo, IModuleUI<Panel, ?> moduleUI, String title)
 	{
 		if (panelLayoutInfo.getStackLayoutPanel() != null)
 		{
-			newPanel.setWidth("100%");
+			StackLayoutPanel stackLayoutPanel = panelLayoutInfo.getStackLayoutPanel();
+			Panel panel = moduleUI.getContainer();
+			panel.setWidth("100%");
 
 			HTML html = new HTML(title);
-			panelLayoutInfo.getStackLayoutPanel().add(newPanel, html, 3);
+
+			for (Map.Entry<Panel, IModuleUI<Panel, ?>> entry : stackLayoutPanelMappings.get(stackLayoutPanel).entrySet())
+			{
+
+			}
+
+			stackLayoutPanel.add(panel, html, 3);
+
+			stackLayoutPanelMappings.get(stackLayoutPanel).put(panel, moduleUI);
 
 		}
 		else if (panelLayoutInfo.getPanel() != null)
 		{
 			Panel panel = panelLayoutInfo.getPanel();
 			removeAllChildren(panel);
-			panel.add(newPanel);
+			panel.add(moduleUI.getContainer());
 		}
 
 	}
@@ -264,8 +276,10 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 		if (supportsMultipleChildren)
 		{
-			panel = new StackLayoutPanel(Unit.EM);
-			panel.setHeight("100%");
+			StackLayoutPanel stackLayoutPanel = new StackLayoutPanel(Unit.EM);
+			stackLayoutPanelMappings.put(stackLayoutPanel, new HashMap<Panel, IModuleUI<Panel, ?>>());
+			stackLayoutPanel.setHeight("100%");
+			panel = stackLayoutPanel;
 		}
 		else
 		{

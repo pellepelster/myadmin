@@ -36,10 +36,10 @@
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
 				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
 				<prop key="hibernate.connection.autocommit">true</prop>
 				<prop key="hibernate.FlushMode">COMMIT</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
 			</props>

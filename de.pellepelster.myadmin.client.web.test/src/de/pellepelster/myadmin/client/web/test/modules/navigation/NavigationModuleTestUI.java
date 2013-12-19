@@ -79,4 +79,10 @@ public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigatio
 		return null;
 	}
 
+	@Override
+	public int getOrder()
+	{
+		return this.module.getOrder();
+	}
+
 }
