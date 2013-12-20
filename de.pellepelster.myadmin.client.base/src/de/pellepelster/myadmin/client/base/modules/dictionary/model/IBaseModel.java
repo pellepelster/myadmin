@@ -15,18 +15,8 @@ import java.io.Serializable;
 
 public interface IBaseModel extends Serializable
 {
-	/**
-	 * Unique name for this model element
-	 * 
-	 * @return
-	 */
 	String getName();
 
-	/**
-	 * Returns the parent model
-	 * 
-	 * @return
-	 */
 	IBaseModel getParent();
 
 }

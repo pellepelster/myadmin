@@ -21,6 +21,10 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 public interface IIntegerControlModel extends IBaseControlModel
 {
 
+	public static int MAX_DEFAULT = Integer.MAX_VALUE;
+
+	public static int MIN_DEFAULT = Integer.MIN_VALUE;
+
 	/**
 	 * Returns the maximum
 	 * 

@@ -323,7 +323,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		ManagerVO managerVO = new ManagerVO();
 		managerVO.setName("xxx");
-		managerVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.MANAGER.getId());
+		managerVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.MANAGER.getName());
 
 		Result<ManagerVO> result = this.baseEntityService.validateAndCreate(managerVO);
 
@@ -336,7 +336,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		CompanyVO companyVO = new CompanyVO();
 		companyVO.setCompanyName("xxx");
-		companyVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.COMPANY.getId());
+		companyVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.COMPANY.getName());
 
 		Result<CompanyVO> result = this.baseEntityService.validateAndCreate(companyVO);
 

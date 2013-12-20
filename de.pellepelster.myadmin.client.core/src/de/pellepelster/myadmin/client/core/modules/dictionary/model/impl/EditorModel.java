@@ -80,10 +80,4 @@ public class EditorModel extends BaseModel implements IEditorModel
 		return Objects.firstNonNull(this.dictionaryEditorVO.getLabel(), getName());
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public String getVOName()
-	{
-		return this.voName;
-	}
 }

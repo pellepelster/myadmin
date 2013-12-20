@@ -18,14 +18,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBigDecimalControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBooleanControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IDateControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IEnumerationControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IIntegerControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IReferenceControl;
-import de.pellepelster.myadmin.client.base.modules.dictionary.controls.ITextControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseBigDecimalControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseBooleanControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseDateControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseEnumerationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseIntegerControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseReferenceControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseTextControlModel;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BigDecimalControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.BooleanControlTestAsyncHelper;
@@ -42,7 +41,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		super(asynTestItemResultId, asyncTestItems, asyncTestItemResults);
 	}
 
-	public TextControlTestAsyncHelper getTextControlTest(final DictionaryDescriptor<ITextControl> controlDescriptor)
+	public TextControlTestAsyncHelper getTextControlTest(final BaseTextControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -51,7 +50,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getTextControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getTextControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -59,7 +58,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		return new TextControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public BigDecimalControlTestAsyncHelper getBigDecimalControlTest(final DictionaryDescriptor<IBigDecimalControl> controlDescriptor)
+	public BigDecimalControlTestAsyncHelper getBigDecimalControlTest(final BaseBigDecimalControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -68,8 +67,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid,
-						getAsyncTestItemResult().getBigDecimalControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getBigDecimalControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -77,7 +75,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		return new BigDecimalControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public BooleanControlTestAsyncHelper getBooleanControlTest(final DictionaryDescriptor<IBooleanControl> controlDescriptor)
+	public BooleanControlTestAsyncHelper getBooleanControlTest(final BaseBooleanControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -86,8 +84,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid,
-						getAsyncTestItemResult().getBooleanControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getBooleanControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -95,7 +92,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		return new BooleanControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public DateControlTestAsyncHelper getDateControlTest(final DictionaryDescriptor<IDateControl> controlDescriptor)
+	public DateControlTestAsyncHelper getDateControlTest(final BaseDateControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -104,7 +101,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getDateControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getDateControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -112,7 +109,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		return new DateControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public IntegerControlTestAsyncHelper getIntegerControlTest(final DictionaryDescriptor<IIntegerControl> controlDescriptor)
+	public IntegerControlTestAsyncHelper getIntegerControlTest(final BaseIntegerControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -121,8 +118,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid,
-						getAsyncTestItemResult().getIntegerControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getIntegerControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -130,7 +126,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 		return new IntegerControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public EnumerationControlTestAsyncHelper getEnumerationControlTest(final DictionaryDescriptor<IEnumerationControl> controlDescriptor)
+	public EnumerationControlTestAsyncHelper getEnumerationControlTest(final BaseEnumerationControlModel controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -139,8 +135,8 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid,
-						getAsyncTestItemResult().getEnumerationControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
+						.put(uuid, getAsyncTestItemResult().getEnumerationControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});
@@ -149,7 +145,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 	}
 
 	public <ReferenceVOType extends IBaseVO> ReferenceControlTestAsyncHelper getReferenceControlTest(
-			final DictionaryDescriptor<IReferenceControl<ReferenceVOType>> controlDescriptor)
+			final BaseReferenceControlModel<ReferenceVOType> controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -158,8 +154,7 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid,
-						getAsyncTestItemResult().getReferenceControlTest(controlDescriptor));
+				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getReferenceControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});

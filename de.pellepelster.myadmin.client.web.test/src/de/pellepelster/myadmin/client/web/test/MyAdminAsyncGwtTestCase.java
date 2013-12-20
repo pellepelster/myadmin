@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUI;
@@ -56,7 +56,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 		return this;
 	}
 
-	public DictionarySearchModuleTestUIAsyncHelper<VOType> openSearch(final DictionaryDescriptor<?> dictionaryDescriptor)
+	public DictionarySearchModuleTestUIAsyncHelper<VOType> openSearch(final BaseModel baseModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -65,7 +65,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 			@Override
 			public void run(final AsyncCallback<Object> asyncCallback)
 			{
-				MyAdminTest.getInstance().openSearch(dictionaryDescriptor, new BaseErrorAsyncCallback<DictionarySearchModuleTestUI>()
+				MyAdminTest.getInstance().openSearch(baseModel, new BaseErrorAsyncCallback<DictionarySearchModuleTestUI>()
 				{
 					@Override
 					public void onSuccess(DictionarySearchModuleTestUI result)
@@ -80,7 +80,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 		return new DictionarySearchModuleTestUIAsyncHelper<VOType>(uuid, this.asyncTestItems, this.asyncTestItemResults);
 	}
 
-	public DictionaryEditorModuleTestUIAsyncHelper<VOType> openEditor(final DictionaryDescriptor<?> dictionaryDescriptor)
+	public DictionaryEditorModuleTestUIAsyncHelper<VOType> openEditor(final BaseModel baseModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -89,7 +89,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 			@Override
 			public void run(final AsyncCallback<Object> asyncCallback)
 			{
-				MyAdminTest.getInstance().setLayoutFactoryOneTimeCallback(dictionaryDescriptor, new BaseErrorAsyncCallback<DictionaryEditorModuleTestUI>()
+				MyAdminTest.getInstance().setLayoutFactoryOneTimeCallback(baseModel, new BaseErrorAsyncCallback<DictionaryEditorModuleTestUI>()
 				{
 
 					@Override
@@ -99,7 +99,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 						asyncCallback.onSuccess(result);
 					}
 				});
-				DictionaryEditorModuleFactory.openEditor(dictionaryDescriptor.getId());
+				DictionaryEditorModuleFactory.openEditor(baseModel.getName());
 			}
 		});
 

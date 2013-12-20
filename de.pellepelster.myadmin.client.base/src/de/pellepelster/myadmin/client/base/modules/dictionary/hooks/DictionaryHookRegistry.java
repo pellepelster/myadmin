@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.BaseDictionaryElementUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IFileControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IFileControlModel;
 
 @SuppressWarnings("rawtypes")
@@ -44,7 +44,7 @@ public class DictionaryHookRegistry
 		this.editorHooks.get(dictionaryId).add(editorHook);
 	}
 
-	public void setFileControlHook(DictionaryControlDescriptor<IFileControl> fileControlDescriptor, IFileControlHook fileControlHook)
+	public void setFileControlHook(BaseControlModel<IFileControl> fileControlDescriptor, IFileControlHook fileControlHook)
 	{
 		this.fileControlHooks.put(BaseDictionaryElementUtil.getModelId(fileControlDescriptor), fileControlHook);
 	}

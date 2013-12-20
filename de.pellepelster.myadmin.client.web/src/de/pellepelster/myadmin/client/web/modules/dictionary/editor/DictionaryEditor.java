@@ -16,6 +16,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionary
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule.EditorMode;
@@ -32,10 +33,13 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 
 	private Map<String, Object> context;
 
-	public DictionaryEditor(IEditorModel editorModel, Map<String, Object> context)
+	private IDictionaryModel dictionaryModel;
+
+	public DictionaryEditor(IDictionaryModel dictionaryModel, Map<String, Object> context)
 	{
-		super(editorModel, null);
+		super(dictionaryModel.getEditorModel(), null);
 		this.context = context;
+		this.dictionaryModel = dictionaryModel;
 	}
 
 	@Override
@@ -89,14 +93,14 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 		MyAdmin.getInstance()
 				.getRemoteServiceLocator()
 				.getBaseEntityService()
-				.getNewVO(this.getModel().getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(this.context),
+				.getNewVO(this.dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(this.context),
 						(AsyncCallback<IBaseVO>) newVOCallback);
 
 	}
 
 	public void load(long id, final AsyncCallback<Void> callback)
 	{
-		GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.getModel().getVOName());
+		GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel.getVOName());
 		genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
 		DictionaryModelUtil.populateAssociations(genericFilterVO, this.getModel().getCompositeModel());

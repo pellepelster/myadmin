@@ -28,10 +28,4 @@ public interface IEditorModel extends IBaseRootModel
 	 */
 	String getLabel();
 
-	/**
-	 * Fully qualified name of the VO managed by this editor
-	 * 
-	 * @return
-	 */
-	String getVOName();
 }

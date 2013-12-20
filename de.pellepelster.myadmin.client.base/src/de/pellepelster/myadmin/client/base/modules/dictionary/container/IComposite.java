@@ -1,6 +1,6 @@
 package de.pellepelster.myadmin.client.base.modules.dictionary.container;
 
-public interface IBaseContainer
+public interface IComposite extends IBaseContainer
 {
 
 }

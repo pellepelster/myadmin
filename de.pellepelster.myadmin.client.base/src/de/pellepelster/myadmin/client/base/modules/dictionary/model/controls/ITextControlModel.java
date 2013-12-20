@@ -21,6 +21,8 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 public interface ITextControlModel extends IBaseControlModel
 {
 
+	static final int MIN_LENGTH_DEFAULT = 0;
+
 	/**
 	 * Regular expression to check against
 	 * 

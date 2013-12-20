@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.BaseDictionaryElementUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseDictionaryElement;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IBaseRootElement;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseContainerElement;
@@ -19,9 +19,9 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
 
 public class DictionaryElementUtil extends BaseDictionaryElementUtil
 {
-	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, DictionaryDescriptor<ElementType> dictionaryDescriptor)
+	public static <ElementType> ElementType getElement(BaseRootElement<?> baseRootElement, BaseModel<ElementType> baseModel)
 	{
-		List<String> descriptorModelIds = getParentModelIds(dictionaryDescriptor);
+		List<String> descriptorModelIds = getParentModelIds(baseModel);
 
 		List<String> modelIds = DictionaryElementUtil.getParentModelIds(baseRootElement.getModel());
 

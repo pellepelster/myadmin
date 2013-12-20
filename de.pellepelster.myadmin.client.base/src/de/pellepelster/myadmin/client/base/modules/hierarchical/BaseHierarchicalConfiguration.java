@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 
 public abstract class BaseHierarchicalConfiguration
 {
@@ -40,25 +40,25 @@ public abstract class BaseHierarchicalConfiguration
 		this.title = title;
 	}
 
-	protected void addHierarchy(DictionaryDescriptor dictionaryDescriptor, DictionaryDescriptor... parentDictionaryDescriptors)
+	protected void addHierarchy(BaseModel baseModel, BaseModel... parentModels)
 	{
-		if (parentDictionaryDescriptors.length > 0)
+		if (parentModels.length > 0)
 		{
-			List<String> parentDictionaryNames = Lists.transform(Arrays.asList(parentDictionaryDescriptors), new Function<DictionaryDescriptor, String>()
+			List<String> parentDictionaryNames = Lists.transform(Arrays.asList(parentModels), new Function<BaseModel, String>()
 			{
 				@Override
 				@Nullable
-				public String apply(@Nullable DictionaryDescriptor input)
+				public String apply(@Nullable BaseModel input)
 				{
-					return input.getId();
+					return input.getName();
 				}
 			});
 
-			this.hierarchy.put(dictionaryDescriptor.getId(), new ArrayList<String>(parentDictionaryNames));
+			this.hierarchy.put(baseModel.getName(), new ArrayList<String>(parentDictionaryNames));
 		}
 		else
 		{
-			this.hierarchy.put(dictionaryDescriptor.getId(), Collections.EMPTY_LIST);
+			this.hierarchy.put(baseModel.getName(), Collections.EMPTY_LIST);
 		}
 	}
 

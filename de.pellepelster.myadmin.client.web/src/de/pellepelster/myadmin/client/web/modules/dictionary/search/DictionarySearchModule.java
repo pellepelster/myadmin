@@ -18,7 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
@@ -103,9 +103,9 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 	}
 
 	@Override
-	public <ElementType> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
+	public <ElementType> ElementType getElement(BaseModel<ElementType> baseModel)
 	{
-		return DictionaryElementUtil.getElement(this.dictionarySearch.getActiveFilter(), controlDescriptor);
+		return DictionaryElementUtil.getElement(this.dictionarySearch.getActiveFilter(), baseModel);
 	}
 
 	@Override

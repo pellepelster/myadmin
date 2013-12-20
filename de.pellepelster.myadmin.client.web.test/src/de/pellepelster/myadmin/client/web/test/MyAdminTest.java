@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
@@ -40,10 +40,10 @@ public class MyAdminTest
 		MyAdmin.getInstance().startModule(moduleName, location);
 	}
 
-	public void openEditor(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
+	public void openEditor(BaseModel baseModel, final AsyncCallback asyncCallback)
 	{
-		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(dictionaryDescriptor.getId(), asyncCallback);
-		DictionaryEditorModuleFactory.openEditor(dictionaryDescriptor.getId());
+		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(baseModel.getName(), asyncCallback);
+		DictionaryEditorModuleFactory.openEditor(baseModel.getName());
 	}
 
 	public void deleteAllVOs(Class<? extends IBaseVO> voClass, final AsyncCallback asyncCallback)
@@ -58,15 +58,15 @@ public class MyAdminTest
 		});
 	}
 
-	public void setLayoutFactoryOneTimeCallback(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
+	public void setLayoutFactoryOneTimeCallback(BaseModel baseModel, final AsyncCallback asyncCallback)
 	{
-		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(dictionaryDescriptor.getId(), asyncCallback);
+		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(baseModel.getName(), asyncCallback);
 	}
 
-	public void openSearch(DictionaryDescriptor<?> dictionaryDescriptor, final AsyncCallback asyncCallback)
+	public void openSearch(BaseModel baseModel, final AsyncCallback asyncCallback)
 	{
-		setLayoutFactoryOneTimeCallback(dictionaryDescriptor, asyncCallback);
-		DictionarySearchModuleFactory.openSearch(dictionaryDescriptor.getId());
+		setLayoutFactoryOneTimeCallback(baseModel, asyncCallback);
+		DictionarySearchModuleFactory.openSearch(baseModel.getName());
 	}
 
 }

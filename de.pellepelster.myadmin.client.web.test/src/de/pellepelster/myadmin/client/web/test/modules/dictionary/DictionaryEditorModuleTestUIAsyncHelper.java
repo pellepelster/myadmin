@@ -18,8 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseEditableTableModel;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.EditableTableTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -74,7 +73,7 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 	}
 
 	public <TableVOType extends IBaseVO> EditableTableTestAsyncHelper<TableVOType> getEditableTableTest(
-			final DictionaryDescriptor<IEditableTable<TableVOType>> tableDescriptor)
+			final BaseEditableTableModel<TableVOType> tableModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -84,7 +83,7 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
 				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
-						.put(uuid, getAsyncTestItemResult().getEditableTableTest(tableDescriptor));
+						.put(uuid, getAsyncTestItemResult().getEditableTableTest(tableModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
 		});

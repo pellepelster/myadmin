@@ -5,9 +5,9 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
@@ -48,12 +48,14 @@ public class TableRow<VOType extends IBaseVO, ModelType extends IBaseTableModel>
 		return this.columns;
 	}
 
+	// TODO clean up his mess
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public <ElementType extends IBaseControl> ElementType getElement(DictionaryDescriptor<ElementType> controlDescriptor)
+	public <ElementType extends IBaseControl> ElementType getElement(BaseModel<ElementType> baseModel)
 	{
 		List<String> parentModelIds = DictionaryElementUtil.getParentModelIds(getParent().getModel());
-		List<String> controlModelIds = DictionaryElementUtil.getParentModelIds(controlDescriptor);
+		List<String> controlModelIds = DictionaryElementUtil.getParentModelIds(baseModel);
 
 		DictionaryElementUtil.removeLeadingModelIds(parentModelIds, controlModelIds);
 

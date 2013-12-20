@@ -5,15 +5,16 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 
 public class BaseDictionaryElementUtil
 {
 
-	public static String getModelId(DictionaryDescriptor<?> dictionaryDescriptor)
+	public static String getModelId(BaseModel baseModel)
 	{
-		List<String> modelIds = getParentModelIds(dictionaryDescriptor);
+		List<String> modelIds = getParentModelIds(baseModel);
 		return Joiner.on("/").skipNulls().join(modelIds).toString();
 	}
 
@@ -23,16 +24,16 @@ public class BaseDictionaryElementUtil
 		return Joiner.on("/").skipNulls().join(modelIds).toString();
 	}
 
-	public static List<String> getParentModelIds(DictionaryDescriptor<?> dictionaryDescriptor)
+	public static List<String> getParentModelIds(BaseModel baseModel)
 	{
 		List<String> modelIds = new ArrayList<String>();
 
-		DictionaryDescriptor<?> currentDescriptor = dictionaryDescriptor;
+		IBaseModel currentModel = baseModel;
 
-		while (currentDescriptor != null)
+		while (currentModel != null)
 		{
-			modelIds.add(0, currentDescriptor.getId());
-			currentDescriptor = currentDescriptor.getParent();
+			modelIds.add(0, currentModel.getName());
+			currentModel = currentModel.getParent();
 		}
 
 		return modelIds;
