@@ -15,8 +15,6 @@ public class DictionaryHookRegistry
 {
 	private static DictionaryHookRegistry instance;
 
-	private Map<String, IEditorSaveHook> editorSaveHooks = new HashMap<String, IEditorSaveHook>();
-
 	private Map<String, List<BaseEditorHook>> editorHooks = new HashMap<String, List<BaseEditorHook>>();
 
 	private Map<String, IFileControlHook> fileControlHooks = new HashMap<String, IFileControlHook>();
@@ -33,22 +31,6 @@ public class DictionaryHookRegistry
 		}
 
 		return instance;
-	}
-
-	// editor save hook
-	public void setEditorSaveHook(String dictionaryId, IEditorSaveHook editorSaveHook)
-	{
-		this.editorSaveHooks.put(dictionaryId, editorSaveHook);
-	}
-
-	public boolean hasEditorSaveHook(String dictionaryId)
-	{
-		return this.editorSaveHooks.containsKey(dictionaryId);
-	}
-
-	public IEditorSaveHook getEditorSaveHook(String dictionaryId)
-	{
-		return this.editorSaveHooks.get(dictionaryId);
 	}
 
 	// editor hook

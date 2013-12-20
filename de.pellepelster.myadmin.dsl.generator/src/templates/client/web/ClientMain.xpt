@@ -27,8 +27,7 @@
 	«info("generating base client modules")»
 	«EXPAND ClientModule::baseModuleClass FOREACH allElements().typeSelect(ModuleDefinition)»
 	
-	«info("generating dictionary identifiers")»
-	«EXPAND dictionary::DictionaryIDs::dictionaryID FOR this»
+	«EXPAND dictionary::DictionaryClass::dictionaryClass FOR this»
 
 	«info("generating dictionary debug identifiers")»
 	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID({String}) FOREACH allElements().typeSelect(Dictionary)»

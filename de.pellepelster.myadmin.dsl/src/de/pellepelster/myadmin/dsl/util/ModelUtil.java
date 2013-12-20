@@ -8,6 +8,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -47,32 +48,6 @@ public class ModelUtil
 	{
 		return ModelQuery.createQuery(model).getRootPackages().hasExactlyOne();
 	}
-
-	// public static void createUpdateOrCreateRootPackage(Model model, String
-	// packageName)
-	// {
-	// PackageDeclaration packageDeclaration;
-	// Collection<PackageDeclaration> rootPackages = getRootPackages(model);
-	//
-	// if (rootPackages.isEmpty())
-	// {
-	// packageDeclaration =
-	// MyAdminDslFactory.eINSTANCE.createPackageDeclaration();
-	// model.getElements().add(packageDeclaration);
-	// }
-	// else if (rootPackages.size() == 1)
-	// {
-	// packageDeclaration = rootPackages.iterator().next();
-	// }
-	// else
-	// {
-	// throw new
-	// RuntimeException(String.format("more than one or no root package found for model '%s'",
-	// model.getName()));
-	// }
-	//
-	// packageDeclaration.setName(packageName);
-	// }
 
 	public static Model getModelFromFile(URI uri)
 	{
@@ -197,15 +172,30 @@ public class ModelUtil
 		});
 	}
 
+	public static Object getBaseControlFeature(DictionaryControl dictionaryControl, final EStructuralFeature structuralFeature)
+	{
+		return getControlAttribute(dictionaryControl, new Function<DictionaryControl, Object>()
+		{
+			@Override
+			public Object apply(DictionaryControl dictionaryControl)
+			{
+				if (dictionaryControl.getBaseControl().eGet(structuralFeature) != null)
+				{
+					return dictionaryControl.getBaseControl().eGet(structuralFeature);
+				}
+				else
+				{
+					return null;
+				}
+			}
+		});
+	}
+
 	public static <T> T getControlAttribute(DictionaryControl dictionaryControl, Function<DictionaryControl, T> function)
 	{
 		ArrayList<DictionaryControl> controlHierarchy = getControlHierarchy(dictionaryControl);
 
 		return Iterables.getFirst(Iterables.filter(Iterables.transform(controlHierarchy, function), Predicates.notNull()), null);
-
-		// throw new
-		// RuntimeException(String.format("could not find control name for control '%s'",
-		// dictionaryControl));
 	}
 
 	@SuppressWarnings("unchecked")

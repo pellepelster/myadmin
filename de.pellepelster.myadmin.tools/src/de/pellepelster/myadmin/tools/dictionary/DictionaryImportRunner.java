@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.springframework.context.event.ApplicationEventMulticaster;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
@@ -57,7 +56,6 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.ModuleParameter;
 import de.pellepelster.myadmin.dsl.myAdminDsl.NavigationNode;
 import de.pellepelster.myadmin.dsl.util.ModelUtil;
 import de.pellepelster.myadmin.server.Messages;
-import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
 import de.pellepelster.myadmin.tools.SpringModelUtils;
 
 public class DictionaryImportRunner
@@ -99,20 +97,17 @@ public class DictionaryImportRunner
 
 	private final List<org.springframework.core.io.Resource> modelResources = new ArrayList<org.springframework.core.io.Resource>();
 
-	private ApplicationEventMulticaster applicationEventMulticaster;
-
 	/**
 	 * Constructor for DictionaryImportRunner
 	 * 
 	 * @param baseEntityService
 	 * @param modelFile
 	 */
-	public DictionaryImportRunner(IBaseEntityService baseEntityService, ApplicationEventMulticaster applicationEventMulticaster,
-			List<org.springframework.core.io.Resource> modelResources, org.springframework.core.io.Resource modelResource)
+	public DictionaryImportRunner(IBaseEntityService baseEntityService, List<org.springframework.core.io.Resource> modelResources,
+			org.springframework.core.io.Resource modelResource)
 	{
 
 		this.baseEntityService = baseEntityService;
-		this.applicationEventMulticaster = applicationEventMulticaster;
 
 		List<String> currentModelFileNames = new ArrayList<String>();
 		for (org.springframework.core.io.Resource resource : modelResources)
@@ -484,8 +479,6 @@ public class DictionaryImportRunner
 
 		initDictionaryTables(logIdentiation + 1);
 		createDictionaries(logIdentiation + 1);
-
-		this.applicationEventMulticaster.multicastEvent(new DictionaryEvent(DictionaryEvent.DICTIONARY_EVENT_TYPE.IMPORT_FINISHED));
 
 		/*
 		 * createPermissions(logIdentiation + 1);

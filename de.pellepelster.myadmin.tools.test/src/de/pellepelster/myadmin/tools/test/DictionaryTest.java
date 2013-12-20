@@ -17,7 +17,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -36,9 +35,6 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 	private static DictionaryImportRunner dictionaryImportRunner;
 
 	@Autowired
-	private ApplicationEventMulticaster applicationEventMulticaster;
-
-	@Autowired
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
@@ -50,7 +46,7 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 		Resource modelResource = SpringModelUtils.getResource("classpath:model/TestModel1.msl");
 		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
-		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, this.applicationEventMulticaster, modelResources, modelResource);
+		dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 
@@ -135,11 +131,6 @@ public class DictionaryTest extends BaseMyAdminJndiContextTest
 
 		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getLabel());
 		Assert.assertEquals("Dictionary 1 Label", dictionaryModel.getPluralLabel());
-	}
-
-	public void setApplicationEventMulticaster(ApplicationEventMulticaster applicationEventMulticaster)
-	{
-		this.applicationEventMulticaster = applicationEventMulticaster;
 	}
 
 	public void setBaseEntityService(IBaseEntityService baseEntityService)

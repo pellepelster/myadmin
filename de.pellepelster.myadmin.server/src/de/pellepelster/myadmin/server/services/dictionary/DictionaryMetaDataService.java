@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
@@ -31,11 +30,10 @@ import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
-import de.pellepelster.myadmin.server.services.events.DictionaryEvent;
 import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;
 
 @Component
-public class DictionaryMetaDataService implements InitializingBean, ApplicationListener<DictionaryEvent>
+public class DictionaryMetaDataService implements InitializingBean
 {
 
 	private Map<Class<? extends IBaseVO>, List<IDictionaryModel>> vosToDictionaryModels;
@@ -146,16 +144,4 @@ public class DictionaryMetaDataService implements InitializingBean, ApplicationL
 
 	}
 
-	@Override
-	public void onApplicationEvent(DictionaryEvent event)
-	{
-		switch (event.getDictionaryEventType())
-		{
-			case IMPORT_FINISHED:
-				this.vosToDictionaryModels = null;
-				break;
-			default:
-				break;
-		}
-	}
 }

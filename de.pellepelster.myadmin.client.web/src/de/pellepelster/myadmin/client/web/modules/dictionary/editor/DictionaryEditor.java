@@ -3,7 +3,10 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -173,19 +176,30 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 
 		// if (!this.dataBindingContext.hasErrors())
 		// {
-		if (DictionaryHookRegistry.getInstance().hasEditorSaveHook(getModel().getName()))
+		if (DictionaryHookRegistry.getInstance().hasEditorHook(getModel().getName()))
 		{
-			DictionaryHookRegistry.getInstance().getEditorSaveHook(getModel().getName()).onSave(new BaseErrorAsyncCallback<Boolean>()
+			final Stack<BaseEditorHook<IBaseVO>> runningHooks = new Stack<BaseEditorHook<IBaseVO>>();
+			final Stack<Boolean> hookResults = new Stack<Boolean>();
+
+			for (final BaseEditorHook<IBaseVO> baseEditorHook : DictionaryHookRegistry.getInstance().getEditorHook(getModel().getName()))
 			{
-				@Override
-				public void onSuccess(Boolean doSave)
+				runningHooks.add(baseEditorHook);
+
+				baseEditorHook.onSave(new BaseErrorAsyncCallback<Boolean>()
 				{
-					if (doSave != null && doSave)
+					@Override
+					public void onSuccess(Boolean doSave)
 					{
-						internalSave();
+						hookResults.push(doSave);
+						runningHooks.remove(baseEditorHook);
+
+						if (runningHooks.isEmpty() && Iterables.all(hookResults, Predicates.equalTo(true)))
+						{
+							internalSave();
+						}
 					}
-				}
-			}, this.voWrapper.getVO());
+				}, this.voWrapper.getVO());
+			}
 		}
 		else
 		{

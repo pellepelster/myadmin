@@ -53,6 +53,12 @@ List[Entity] getReferencedEntitiesWithoutDuplicates(Entity entity) :
 
 List[Object] allElements(Object eObject) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.allElements(org.eclipse.emf.ecore.EObject);
+	
+String getControlName(DictionaryControl dictionaryControl) :
+	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getControlName(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
+
+EntityAttribute getEntityAttribute(DictionaryControl dictionaryControl) :
+	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getEntityAttribute(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
 
 //- xsd -----------------------------------------------------------------------
 String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
@@ -106,30 +112,91 @@ String fullQualifiedServicePackage(RemoteService remoteService) : getPackageName
 String serviceName(RemoteService remoteService) : remoteService.name.toFirstUpper();
 boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOptions != null && remoteService.remoteServiceOptions.nonpublic;
 
-//- dictionary ids ------------------------------------------------------------
-String dictionaryIDsName(Model model) : model.name.toFirstUpper() + "DictionaryIDs";
-String dictionaryIDsName(DictionaryControl dictionaryControl) : dictionaryControl.name.toFirstUpper();
-String dictionaryIDsName(Dictionary dictionary) : dictionary.name.toFirstUpper();
-String dictionaryIDsName(DictionaryComposite dictionaryComposite) : dictionaryComposite.name.toFirstUpper();
-String dictionaryIDsName(DictionaryEditor dictionaryEditor) : dictionaryEditor.name.toFirstUpper();
-String dictionaryIDsName(DictionaryFilter dictionaryFilter) : dictionaryFilter.name.toFirstUpper();
-String dictionaryIDsName(DictionaryResult dictionaryResult) : dictionaryResult.name.toFirstUpper();
-String dictionaryIDsName(DictionaryEditableTable dictionaryEditableTable) : dictionaryEditableTable.name.toFirstUpper();
-String dictionaryIDsName(DictionarySearch dictionarySearch) : dictionarySearch.name.toFirstUpper();
+//==================//
+// dictionary model //
+//==================//
 
-String dictionaryIDsConstantName(String name) : camelCaseToUnderScore(name).toUpperCase();
+String dictionaryConstantName(String name) : camelCaseToUnderScore(name).toUpperCase();
 
-String fullQualifiedDictionaryIDsName(Model model) : getRootWebPackageName(model) + '.' + dictionaryIDsName(model);
-String fullQualifiedDictionaryIDsFileName(Model model) : fullQualifiedDictionaryIDsName(model).replaceAll('\\.', '/') + '.java';
-String fullQualifiedPackageName(Model model) : getPackageName(model);
+String dictionaryRootPackageName(Object dictionaryElement) : getRootWebPackageName(getRootModel(dictionaryElement)) + ".dictionaries";
+String dictionaryPackageName(Object dictionaryElement) : "not_supported";
+String dictionaryClassName(Object dictionaryElement) : "not_supported";
+String fullQualifiedDictionaryClassName(Object dictionaryElement) : "not_supported";
 
+//-------//
+// model //
+//-------//
+String dictionaryClassName(Model model) : model.name.toFirstUpper() + "DictionaryModel";
+String dictionaryPackageName(Model model) : dictionaryRootPackageName(model);
+String fullQualifiedDictionaryClassName(Model model) : dictionaryPackageName(model) + '.' + dictionaryClassName(model);
+String fullQualifiedDictionaryFileName(Model model) : fullQualifiedDictionaryClassName(model).replaceAll('\\.', '/') + '.java';
 
-String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);
-String fullQualifiedDictionaryIDsName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryIDsName(dictionary);
-String fullQualifiedDictionaryIDsFileName(Dictionary dictionary) : fullQualifiedDictionaryIDsName(dictionary).replaceAll('\\.', '/') + '.java';
-String dictionaryIDConstant(String id) : id.toUpperCase();
+//------------//
+// dictionary //
+//------------//
+String dictionaryClassName(Dictionary dictionary) : dictionary.name.toFirstUpper();
+String dictionaryPackageName(Dictionary dictionary) : dictionaryRootPackageName(dictionary) + '.' + dictionaryClassName(dictionary).toLowerCase();
+String fullQualifiedDictionaryClassName(Dictionary dictionary) : dictionaryPackageName(dictionary) + '.' + dictionaryClassName(dictionary);
+String fullQualifiedDictionaryFileName(Dictionary dictionary) : fullQualifiedDictionaryClassName(dictionary).replaceAll('\\.', '/') + '.java';
+
+//--------------------//
+// dictionary control //
+//--------------------//
+String dictionaryClassName(DictionaryControl dictionaryControl) : getControlName(dictionaryControl).toFirstUpper();
+String dictionaryPackageName(DictionaryControl containerControl) : dictionaryPackageName(containerControl.eContainer);
+String fullQualifiedDictionaryClassName(DictionaryControl dictionaryControl) : dictionaryPackageName(dictionaryControl) + '.' + dictionaryClassName(dictionaryControl);
+String fullQualifiedDictionaryFileName(DictionaryControl dictionaryControl) : fullQualifiedDictionaryClassName(dictionaryControl).replaceAll('\\.', '/') + '.java';
+
+//-------------------//
+// dictionary editor //
+//-------------------//
+String dictionaryClassName(DictionaryEditor dictionaryEditor) : dictionaryEditor.name;
+String dictionaryPackageName(DictionaryEditor dictionaryEditor) : dictionaryPackageName(dictionaryEditor.eContainer);
+String fullQualifiedDictionaryClassName(DictionaryEditor dictionaryEditor) : dictionaryPackageName(dictionaryEditor) + '.' + dictionaryClassName(dictionaryEditor);
+String fullQualifiedDictionaryFileName(DictionaryEditor dictionaryEditor) : fullQualifiedDictionaryClassName(dictionaryEditor).replaceAll('\\.', '/') + '.java';
+
+//-------------------//
+// dictionary search //
+//-------------------//
+String dictionaryClassName(DictionarySearch dictionarySearch) : dictionarySearch.name;
+String dictionaryPackageName(DictionarySearch dictionarySearch) : dictionaryPackageName(dictionarySearch.eContainer);
+String fullQualifiedDictionaryClassName(DictionarySearch dictionarySearch) : dictionaryPackageName(dictionarySearch.eContainer) + '.' + dictionaryClassName(dictionarySearch);
+String fullQualifiedDictionaryFileName(DictionarySearch dictionarySearch) : fullQualifiedDictionaryClassName(dictionarySearch).replaceAll('\\.', '/') + '.java';
+
+//-------------------//
+// dictionary filter //
+//-------------------//
+String dictionaryClassName(DictionaryFilter dictionaryFilter) : dictionaryFilter.name;
+String dictionaryPackageName(DictionaryFilter dictionaryFilter) : dictionaryPackageName(dictionaryFilter.eContainer) + '.' + dictionaryClassName(dictionaryFilter).toLowerCase();
+String fullQualifiedDictionaryClassName(DictionaryFilter dictionaryFilter) : dictionaryPackageName(dictionaryFilter) + '.' + dictionaryClassName(dictionaryFilter);
+String fullQualifiedDictionaryFileName(DictionaryFilter dictionaryFilter) : fullQualifiedDictionaryClassName(dictionaryFilter).replaceAll('\\.', '/') + '.java';
+
+//----------------------//
+// dictionary composite //
+//----------------------//
+String dictionaryClassName(DictionaryContainer dictionaryContainer) : dictionaryContainer.name;
+String dictionaryPackageName(DictionaryContainer dictionaryContainer) : dictionaryPackageName(dictionaryContainer.eContainer) + '.' + dictionaryClassName(dictionaryContainer).toLowerCase();
+String fullQualifiedDictionaryClassName(DictionaryComposite dictionaryComposite) : dictionaryPackageName(dictionaryComposite) + '.' + dictionaryClassName(dictionaryComposite);
+String fullQualifiedDictionaryFileName(DictionaryComposite dictionaryComposite) : fullQualifiedDictionaryClassName(dictionaryComposite).replaceAll('\\.', '/') + '.java';
+
+//---------------------------//
+// dictionary editable table //
+//---------------------------//
+String dictionaryClassName(DictionaryEditableTable dictionaryEditableTable) : dictionaryEditableTable.name;
+String dictionaryPackageName(DictionaryEditableTable dictionaryEditableTable) : dictionaryPackageName(dictionaryEditableTable.eContainer) + '.' + dictionaryClassName(dictionaryEditableTable).toLowerCase();
+String fullQualifiedDictionaryClassName(DictionaryEditableTable dictionaryEditableTable) : dictionaryPackageName(dictionaryEditableTable) + '.' + dictionaryClassName(dictionaryEditableTable);
+String fullQualifiedDictionaryFileName(DictionaryEditableTable dictionaryEditableTable) : fullQualifiedDictionaryClassName(dictionaryEditableTable).replaceAll('\\.', '/') + '.java';
+
+//-----------------------------//
+// dictionary assignment table //
+//------------------------..---//
+String dictionaryClassName(DictionaryAssignmentTable dictionaryAssignmentTable) : dictionaryAssignmentTable.name;
+String dictionaryPackageName(DictionaryAssignmentTable dictionaryAssignmentTable) : dictionaryPackageName(dictionaryAssignmentTable.eContainer) + '.' + dictionaryClassName(dictionaryAssignmentTable).toLowerCase();
+String fullQualifiedDictionaryClassName(DictionaryAssignmentTable dictionaryAssignmentTable) : dictionaryPackageName(dictionaryAssignmentTable) + '.' + dictionaryClassName(dictionaryAssignmentTable);
+String fullQualifiedDictionaryFileName(DictionaryAssignmentTable dictionaryAssignmentTable) : fullQualifiedDictionaryClassName(dictionaryAssignmentTable).replaceAll('\\.', '/') + '.java';
 
 //- dictionary debug ids ------------------------------------------------------------
+String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);
 String dictionaryDebugIDsInterfaceName(Dictionary dictionary) : dictionary.name.toFirstUpper() + "DictionaryDebugIDs";
 String fullQualifiedDictionaryDebugIDsInterfaceName(Dictionary dictionary) : fullQualifiedPackageName(dictionary) + '.' + dictionaryDebugIDsInterfaceName(dictionary);
 String fullQualifiedDictionaryDebugIDsInterfaceFileName(Dictionary dictionary) : fullQualifiedDictionaryDebugIDsInterfaceName(dictionary).replaceAll('\\.', '/') + '.java';

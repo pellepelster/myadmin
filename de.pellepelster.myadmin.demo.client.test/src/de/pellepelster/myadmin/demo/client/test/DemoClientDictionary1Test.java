@@ -28,7 +28,7 @@ import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.Enume
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.IntegerControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.ReferenceControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
-import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test3VO;
 
@@ -44,10 +44,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testEditableTableBase()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		final EditableTableTestAsyncHelper<Test3VO> editableTable = editor
-				.getEditableTableTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
+				.getEditableTableTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1);
 
 		editableTable.add();
 		editableTable.assertRowCount(1);
@@ -57,10 +57,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testIntegerControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		IntegerControlTestAsyncHelper integerControl = editor
-				.getIntegerControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1);
+				.getIntegerControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1);
 		integerControl.assertHasNoErrors();
 		runAsyncTests();
 	}
@@ -68,10 +68,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testReferenceControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		ReferenceControlTestAsyncHelper referenceControl = editor
-				.getReferenceControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1);
+				.getReferenceControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1);
 		referenceControl.assertHasNoErrors();
 		runAsyncTests();
 	}
@@ -79,10 +79,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testEnumerationControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		EnumerationControlTestAsyncHelper enumerationControl = editor
-				.getEnumerationControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1);
+				.getEnumerationControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1);
 		enumerationControl.assertHasNoErrors();
 		runAsyncTests();
 	}
@@ -90,10 +90,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testDateControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		DateControlTestAsyncHelper dateControl = editor
-				.getDateControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
+				.getDateControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1);
 		dateControl.assertHasNoErrors();
 
 		// parse date
@@ -113,10 +113,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testBooleanControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		BooleanControlTestAsyncHelper booleanControl = editor
-				.getBooleanControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);
+				.getBooleanControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1);
 		booleanControl.assertHasNoErrors();
 		runAsyncTests();
 	}
@@ -124,10 +124,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testBigDecimalControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		BigDecimalControlTestAsyncHelper bigDecimalControl = editor
-				.getBigDecimalControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
+				.getBigDecimalControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1);
 		bigDecimalControl.assertHasNoErrors();
 		bigDecimalControl.parse("1");
 		bigDecimalControl.assertHasNoErrors();
@@ -143,11 +143,11 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testTextControl()
 	{
-		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryIDs.DICTIONARY1);
+		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		// text control
 		TextControlTestAsyncHelper textControl = editor
-				.getTextControlTest(DemoDictionaryIDs.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
+				.getTextControlTest(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1);
 		textControl.assertMandatory();
 
 		textControl.assertHasNoErrors();

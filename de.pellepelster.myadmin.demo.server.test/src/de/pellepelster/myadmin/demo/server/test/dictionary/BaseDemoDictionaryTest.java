@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.io.Resource;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
@@ -34,9 +33,6 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 
 	@Autowired
 	private IDictionaryService dictionaryService;
-
-	@Autowired
-	private ApplicationEventMulticaster applicationEventMulticaster;
 
 	@Autowired
 	protected BaseVODAO baseVODAO;
@@ -80,8 +76,7 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 		Resource modelResource = SpringModelUtils.getResource("classpath:Demo.msl");
 		List<Resource> modelResources = SpringModelUtils.getResources("classpath*:model/*.msl");
 
-		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, this.applicationEventMulticaster, modelResources,
-				modelResource);
+		DictionaryImportRunner dictionaryImportRunner = new DictionaryImportRunner(this.baseEntityService, modelResources, modelResource);
 		dictionaryImportRunner.run();
 	}
 

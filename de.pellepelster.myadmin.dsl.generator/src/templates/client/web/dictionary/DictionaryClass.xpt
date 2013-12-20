@@ -1,0 +1,323 @@
+«IMPORT myAdminDsl»
+
+«EXTENSION templates::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE dictionaryClass FOR Model»
+
+	«info("generating dictionaries for model '" + this.name + "'")»
+
+	«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
+		«EXPAND dictionaryClass FOR dictionary»
+	«ENDFOREACH»	
+
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	public class «dictionaryClassName()» {
+
+		«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
+			«EXPAND dictionaryConstant FOR dictionary»
+		«ENDFOREACH»
+	
+	}
+	«ENDFILE»	
+	
+«ENDDEFINE»
+
+«REM»
+==========
+dictionary
+==========
+«ENDREM»
+
+«DEFINE dictionaryConstant FOR Dictionary»
+	public static final «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»();
+«ENDDEFINE»
+
+«DEFINE dictionaryClass FOR Dictionary»
+
+	«info("generating dictionary for '" + this.name + "'")»
+
+	«IF labelcontrols != null»
+		«EXPAND dictionaryControlClass FOREACH labelcontrols»
+	«ENDIF»
+	
+	«EXPAND dictionaryEditorClass(dictionaryConstantName(name), this) FOR this.dictionaryeditor»
+
+	«EXPAND dictionarySearchClass(dictionaryConstantName(name), this) FOR this.dictionarysearch»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryDescriptor {
+
+		public «dictionaryClassName()»() {
+			super("«name»", null);
+		
+		}
+		«EXPAND dictionaryEditorConstant FOR this.dictionaryeditor»
+
+		«EXPAND dictionarySearchConstant FOR this.dictionarysearch»
+	}
+	«ENDFILE»	
+	
+«ENDDEFINE»
+
+«REM»
+=================
+dictionary editor
+=================
+«ENDREM»
+
+«DEFINE dictionaryEditorConstant FOR DictionaryEditor»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionaryEditorClass(String parent, Dictionary parentDictionary) FOR DictionaryEditor»
+
+	«info("generating editor dictionary for '" +  this.name + "'")»
+
+	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
+	
+	public class «dictionaryClassName()» extends DictionaryDescriptor {
+	
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		
+		}
+		
+		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
+	
+		public void addEditorHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook<«fullQualifiedEntityName(parentDictionary.entity)»> editorHook)
+		{
+			DictionaryHookRegistry.getInstance().addEditorHook("«name»", editorHook); 
+		}
+	
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+=================
+dictionary search
+=================
+«ENDREM»
+
+«DEFINE dictionarySearchConstant FOR DictionarySearch»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionarySearchClass(String parent, Dictionary parentDictionary) FOR DictionarySearch»
+
+	«info("generating search dictionary for '" +  this.name + "'")»
+	
+	«EXPAND dictionaryFilterClass(parent) FOREACH this.dictionaryfilters»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryDescriptor {
+		
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+
+		«EXPAND dictionaryFilterConstant FOREACH this.dictionaryfilters»
+		
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»
+
+«REM»
+=================
+dictionary filter
+=================
+«ENDREM»
+«DEFINE dictionaryFilterConstant FOR DictionaryFilter»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionaryFilterClass(String parent) FOR DictionaryFilter»
+
+	«info("generating filter dictionary for '" +  this.name + "'")»
+
+	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryDescriptor {
+
+		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
+
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»
+
+«REM»
+============================
+dictionary container content
+============================
+«ENDREM»
+
+«DEFINE dictionaryContentClass(String parent) FOR DictionaryContainerContent»
+	«throwError("'" + this.metaType.toString() + "' not supported")»
+«ENDDEFINE»
+
+«DEFINE dictionaryContentConstant FOR DictionaryContainerContent»
+	«throwError("'" + this.metaType.toString() + "' not supported")»
+«ENDDEFINE»
+
+«REM»
+====================
+dictionary container
+====================
+«ENDREM»
+
+«DEFINE dictionaryContentConstant FOR DictionaryContainer»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionaryContentClass(String parent) FOR DictionaryComposite»
+	«info("generating composite dictionary for '" +  this.name + "'")»
+
+	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryContainerDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryContainerDescriptor {
+	
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+
+		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
+		
+	}
+	«ENDFILE»
+
+«ENDDEFINE»
+
+«DEFINE dictionaryContentClass(String parent) FOR DictionaryEditableTable»
+	«info("generating editable table dictionary for '" +  this.name + "'")»
+
+	«EXPAND dictionaryContentClass(parent) FOREACH this.columncontrols»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryContainerDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryContainerDescriptor {
+	
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+		«EXPAND dictionaryContentConstant FOREACH this.columncontrols»
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE dictionaryContentClass(String parent) FOR DictionaryAssignmentTable»
+	«info("generating assignment table dictionary for '" +  this.name + "'")»
+
+	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryContainerDescriptor;
+	
+	public class «dictionaryClassName()» extends DictionaryContainerDescriptor {
+	
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«name»", parent);
+		}
+		
+		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+===================
+dictionary controls
+===================
+«ENDREM»
+
+
+«DEFINE dictionaryContentConstant FOR DictionaryControl»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionaryContentClass(String parent) FOR DictionaryControl»
+	«EXPAND dictionaryControlClass FOR this»
+«ENDDEFINE»
+
+«DEFINE dictionaryControlClass FOR DictionaryControl»
+	«info("generating control dictionary for '" +  getControlName() + "'")»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	package «dictionaryPackageName()»;
+
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryControlDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.DictionaryDescriptor;
+	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
+	
+	public class «dictionaryClassName()» extends DictionaryControlDescriptor<«EXPAND DictionaryControlType::dictionaryControlType»> {
+		
+		public «dictionaryClassName()»(DictionaryDescriptor parent) {
+			super("«getControlName()»", parent);
+		}
+		
+		«EXPAND dictionaryControlClassInternal FOR this»
+		
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE dictionaryControlClassInternal FOR DictionaryControl»
+«ENDDEFINE»
+
+«DEFINE dictionaryControlClassInternal FOR DictionaryFileControl»
+	public void setFileControlHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IFileControlHook fileControlHook)
+	{
+		DictionaryHookRegistry.getInstance().setFileControlHook(this, fileControlHook); 
+	}
+«ENDDEFINE»
+
+

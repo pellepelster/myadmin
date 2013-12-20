@@ -24,14 +24,14 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 
 public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
 	@Test
 	public void testCountry()
 	{
-		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(DemoDictionaryIDs.COUNTRY.getId());
+		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(DemoDictionaryModel.COUNTRY.getId());
 
 		Assert.assertNotNull(countryDictionaryModel);
 		Assert.assertNotNull(countryDictionaryModel.getEditorModel());
@@ -43,7 +43,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testModelNames()
 	{
-		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(DemoDictionaryIDs.COUNTRY.getId());
+		IDictionaryModel countryDictionaryModel = getDictionaryService().getDictionary(DemoDictionaryModel.COUNTRY.getId());
 
 		ITextControlModel textControlModel = (ITextControlModel) countryDictionaryModel.getEditorModel().getCompositeModel().getChildren().get(0).getChildren()
 				.get(0).getControls().get(0);
@@ -77,7 +77,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testDictionary1()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryIDs.DICTIONARY1.getId());
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryModel.DICTIONARY1.getId());
 		Assert.assertEquals("Dictionary1", dictionaryModel.getName());
 
 		Assert.assertEquals(7, dictionaryModel.getSearchModel().getResultModel().getControls().size());
@@ -87,7 +87,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testReferenceControlLabelFallback()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryIDs.DICTIONARY1.getId());
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryModel.DICTIONARY1.getId());
 
 		IReferenceControlModel referenceControlModel = (IReferenceControlModel) dictionaryModel.getSearchModel().getResultModel().getControls().get(6);
 		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
@@ -98,7 +98,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testDictionary2()
 	{
-		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryIDs.DICTIONARY2.getId());
+		IDictionaryModel dictionaryModel = getDictionaryService().getDictionary(DemoDictionaryModel.DICTIONARY2.getId());
 		Assert.assertEquals("Dictionary2", dictionaryModel.getName());
 
 		Assert.assertEquals(1, dictionaryModel.getLabelControls().size());

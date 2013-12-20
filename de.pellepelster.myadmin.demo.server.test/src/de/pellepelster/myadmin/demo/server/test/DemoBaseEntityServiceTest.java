@@ -28,7 +28,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
@@ -323,7 +323,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		ManagerVO managerVO = new ManagerVO();
 		managerVO.setName("xxx");
-		managerVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryIDs.MANAGER.getId());
+		managerVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.MANAGER.getId());
 
 		Result<ManagerVO> result = this.baseEntityService.validateAndCreate(managerVO);
 
@@ -336,7 +336,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 
 		CompanyVO companyVO = new CompanyVO();
 		companyVO.setCompanyName("xxx");
-		companyVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryIDs.COMPANY.getId());
+		companyVO.getData().put(BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID, DemoDictionaryModel.COMPANY.getId());
 
 		Result<CompanyVO> result = this.baseEntityService.validateAndCreate(companyVO);
 

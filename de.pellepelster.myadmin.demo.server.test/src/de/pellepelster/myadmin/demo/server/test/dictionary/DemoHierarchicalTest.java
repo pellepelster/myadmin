@@ -24,7 +24,7 @@ import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
 import de.pellepelster.myadmin.demo.client.TestClientHierarchicalConfiguration;
-import de.pellepelster.myadmin.demo.client.web.DemoDictionaryIDs;
+import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CompanyVO;
 import de.pellepelster.myadmin.demo.client.web.entities.ManagerVO;
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
@@ -106,7 +106,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		Assert.assertEquals(1, childNodes.size());
 		Assert.assertEquals("aaa", childNodes.get(0).getLabel());
 		Assert.assertEquals(false, childNodes.get(0).getHasChildren());
-		Assert.assertEquals(DemoDictionaryIDs.MANAGER.getId(), childNodes.get(0).getDictionaryName());
+		Assert.assertEquals(DemoDictionaryModel.MANAGER.getId(), childNodes.get(0).getDictionaryName());
 	}
 
 	@Test
@@ -126,7 +126,7 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 		Assert.assertEquals("xxx", rootNodes.get(0).getLabel());
 		Assert.assertEquals("yyy", rootNodes.get(1).getLabel());
 
-		Assert.assertEquals(DemoDictionaryIDs.COMPANY.getId(), rootNodes.get(0).getDictionaryName());
+		Assert.assertEquals(DemoDictionaryModel.COMPANY.getId(), rootNodes.get(0).getDictionaryName());
 	}
 
 	@Test
