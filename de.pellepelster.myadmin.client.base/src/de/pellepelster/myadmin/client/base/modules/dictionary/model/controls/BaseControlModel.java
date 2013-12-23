@@ -24,6 +24,8 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 
 	private String toolTip;
 
+	private String attributePath;
+
 	public BaseControlModel(String name, IBaseModel parent)
 	{
 		super(name, parent);
@@ -39,7 +41,12 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	@Override
 	public String getAttributePath()
 	{
-		return null;
+		return this.attributePath;
+	}
+
+	public void setAttributePath(String attributePath)
+	{
+		this.attributePath = attributePath;
 	}
 
 	@Override

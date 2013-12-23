@@ -6,7 +6,7 @@ import java.util.Map;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IEnumerationControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 
-public abstract class EnumerationControlModel extends BaseControlModel<IEnumerationControl> implements IEnumerationControlModel
+public class EnumerationControlModel extends BaseControlModel<IEnumerationControl> implements IEnumerationControlModel
 {
 
 	private static final long serialVersionUID = -3831710976796569500L;

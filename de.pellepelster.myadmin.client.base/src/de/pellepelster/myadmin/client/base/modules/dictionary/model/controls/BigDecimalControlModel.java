@@ -2,9 +2,8 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBigDecimalControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseContainerModel;
 
-public abstract class BigDecimalControlModel extends BaseControlModel<IBigDecimalControl> implements IBigDecimalControlModel
+public class BigDecimalControlModel extends BaseControlModel<IBigDecimalControl> implements IBigDecimalControlModel
 {
 
 	private static final long serialVersionUID = 1699242302211790344L;
@@ -12,11 +11,6 @@ public abstract class BigDecimalControlModel extends BaseControlModel<IBigDecima
 	private int fractionDigits = FRACTION_DIGITS_DEFAULT;
 
 	private int totalDigits = TOTAL_DIGITS_DEFAULT;
-
-	public BigDecimalControlModel(String name, BaseContainerModel parent)
-	{
-		super(name, parent);
-	}
 
 	public BigDecimalControlModel(String name, IBaseModel parent)
 	{

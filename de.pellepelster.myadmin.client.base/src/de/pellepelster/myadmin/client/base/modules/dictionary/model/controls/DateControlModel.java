@@ -3,7 +3,7 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IDateControl;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 
-public abstract class DateControlModel extends BaseControlModel<IDateControl> implements IDateControlModel
+public class DateControlModel extends BaseControlModel<IDateControl> implements IDateControlModel
 {
 	private static final long serialVersionUID = 3316617779660627072L;
 

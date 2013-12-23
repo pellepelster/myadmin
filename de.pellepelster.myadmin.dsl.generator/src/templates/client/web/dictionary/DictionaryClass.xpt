@@ -392,19 +392,24 @@ dictionary controls
 		«IF this.baseControl.labels != null»
 		
 			«IF this.baseControl.labels.columnLabel != null»
-				«dictionaryConstantName(this)».setColumnLabel("«this.baseControl.labels.columnLabel»")
+				«dictionaryConstantName(this)».setColumnLabel("«this.baseControl.labels.columnLabel»");
 			«ENDIF»
 		
 			«IF this.baseControl.labels.editorLabel != null»
-				«dictionaryConstantName(this)».setEditorLabel("«this.baseControl.labels.editorLabel»")
+				«dictionaryConstantName(this)».setEditorLabel("«this.baseControl.labels.editorLabel»");
 			«ENDIF»
 
 			«IF this.baseControl.labels.filterLabel != null»
-				«dictionaryConstantName(this)».setFilterLabel("«this.baseControl.labels.filterLabel»")
+				«dictionaryConstantName(this)».setFilterLabel("«this.baseControl.labels.filterLabel»");
+			«ENDIF»
+
+			«IF this.baseControl.entityattribute != null»
+				«dictionaryConstantName(this)».setAttributePath("«this.baseControl.entityattribute.name»");
 			«ENDIF»
 		
 		«ENDIF»
 	«ENDIF»
+	
 «ENDDEFINE»
 
 «DEFINE dictionaryControlConstantSetters FOR DictionaryControlGroup»
@@ -472,11 +477,11 @@ dictionary controls
 	«EXPAND dictionaryControlCommonSetters FOR this»
 
 	«FOREACH this.labelcontrols AS labelcontrol»
-		«dictionaryConstantName(this)».getLabelControls().add(«dictionaryConstantName(getControlName(labelcontrol))»);
+		//«dictionaryConstantName(this)».getLabelControls().add(«dictionaryConstantName(getControlName(labelcontrol))»);
 	«ENDFOREACH»
 	
 	«IF this.dictionary != null»
-		«dictionaryConstantName(this)».setDictionaryName("«this.dictionary.name»");
+		//«dictionaryConstantName(this)».setDictionaryName("«this.dictionary.name»");
 	«ENDIF»
 	
 «ENDDEFINE»
