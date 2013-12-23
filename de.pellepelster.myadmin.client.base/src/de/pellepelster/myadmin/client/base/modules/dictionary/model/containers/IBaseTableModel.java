@@ -11,10 +11,13 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.containers;
 
-
 public interface IBaseTableModel extends IBaseContainerModel
 {
-	int DEFAULT_VISBLE_ROWS = 5;
+	final static int DEFAULT_VISBLE_ROWS = 5;
+
+	final static int DEFAULT_PAGING_SIZE = 25;
 
 	Integer getVisibleRows();
+
+	int getPagingSize();
 }

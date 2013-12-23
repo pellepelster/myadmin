@@ -17,7 +17,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.result.DictionaryResult;
@@ -27,7 +27,7 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 
 	private final ResultCellTable<VOType> resultCellTable;
 
-	public DictionaryResultPanel(final String dictionaryModelName, final DictionaryResult<VOType> dictionaryResult)
+	public DictionaryResultPanel(final IDictionaryModel dictionaryModel, final DictionaryResult<VOType> dictionaryResult)
 	{
 
 		resultCellTable = new ResultCellTable<VOType>(dictionaryResult);
@@ -38,7 +38,7 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 			@Override
 			public void onCallback(IBaseTable.ITableRow<VOType> tableRow)
 			{
-				DictionaryEditorModuleFactory.openEditorForId(dictionaryModelName, tableRow.getVO().getId());
+				DictionaryEditorModuleFactory.openEditorForId(dictionaryModel.getName(), tableRow.getVO().getId());
 			}
 		});
 
@@ -54,10 +54,10 @@ public class DictionaryResultPanel<VOType extends IBaseVO> extends VerticalPanel
 		add(resultCellTable);
 	}
 
-	public GenericFilterVO<VOType> getEmptyFilter(ISearchModel searchModel)
+	public GenericFilterVO<VOType> getEmptyFilter(IDictionaryModel dictionaryModel)
 	{
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(searchModel.getVOName());
+		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(dictionaryModel.getVoName());
 		return genericFilter;
 	}
 

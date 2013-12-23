@@ -433,23 +433,6 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			
 			}
 			
-			remoteservice DictionaryService {
-			
-				remotemethod getDictionaries returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"*
-				{
-					simpletype String* dictionaryNames
-				}
-
-				remotemethod getAllDictionaries returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"*
-				{
-				}
-	
-				remotemethod getDictionary returns customtype "de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel"
-				{
-					simpletype String dictionaryName
-				}
-			}		
-	
 			remoteservice ModuleService {
 			
 				remotemethod getModulesNavigation returns reference de.pellepelster.myadmin.entities.^dictionary.ModuleNavigation*

@@ -20,10 +20,10 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
 public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierarchicalNodeVO>
@@ -72,7 +72,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 					{
 						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
 						addHierarchicalNode.setDictionaryName(entry.getKey());
-						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
+						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getDictionary(entry.getKey())));
 						addHierarchicalNode.setHasChildren(false);
 						addHierarchicalNode.setParentClassName(parentClassname);
 						addHierarchicalNode.setParentVOId(parentId);
@@ -92,7 +92,7 @@ public class HierarchicalDataProvider extends AsyncDataProvider<DictionaryHierar
 					{
 						DictionaryHierarchicalNodeVO addHierarchicalNode = new DictionaryHierarchicalNodeVO();
 						addHierarchicalNode.setDictionaryName(entry.getKey());
-						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getCachedDictionaryModel(entry.getKey())));
+						addHierarchicalNode.setLabel(DictionaryUtil.getDictionaryAdd(DictionaryModelProvider.getDictionary(entry.getKey())));
 						addHierarchicalNode.setHasChildren(false);
 						addHierarchicalNode.getData().put(HierarchicalTreeModel.HIERARCHICAL_ADD_NODE, true);
 						addNodes.add(addHierarchicalNode);

@@ -20,8 +20,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.entities.dictionary.CONTROL_TYPE;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_BASETYPE;
 import de.pellepelster.myadmin.client.base.entities.dictionary.DICTIONARY_CONTAINER_TYPE;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.DictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryContainerVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryDatatypeVO;
@@ -30,7 +30,6 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryFilterVO
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryResultVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionarySearchVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
-import de.pellepelster.myadmin.client.web.services.IDictionaryServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryContainerFactory;
 import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryControlFactory;
 import de.pellepelster.myadmin.client.web.test.dictionary.TestDictionaryFactory;
@@ -41,7 +40,7 @@ import de.pellepelster.myadmin.client.web.test.vo.Test1VO;
 import de.pellepelster.myadmin.client.web.test.vo.Test2VO;
 import de.pellepelster.myadmin.client.web.test.vo.Test3VO;
 
-public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
+public class TestDictionaryServiceGWTAsync
 {
 
 	public static final String DICTIONARY1_ID = "Dictionary1";
@@ -119,8 +118,6 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public void getDictionaries(List<String> dictionaryNames, AsyncCallback<List<IDictionaryModel>> callback)
 	{
 		List<IDictionaryModel> result = new ArrayList<IDictionaryModel>();
@@ -211,7 +208,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryResultVO.getControls().addAll(dictionaryControl1VOs);
 			dictionarySearchVO.setResult(dictionaryResultVO);
 
-			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryVO);
+			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryName, null);
 
 			return dictionaryModel;
 		}
@@ -260,7 +257,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryResultVO.getControls().addAll(dictionaryControl1VOs);
 			dictionarySearchVO.setResult(dictionaryResultVO);
 
-			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryVO);
+			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryName, null);
 
 			return dictionaryModel;
 		}
@@ -330,7 +327,7 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 			dictionaryEditorVO.setContainer(dictionaryContainerVO);
 			dictionaryVO.setEditor(dictionaryEditorVO);
 
-			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryVO);
+			DictionaryModel dictionaryModel = new DictionaryModel(dictionaryName, null);
 
 			return dictionaryModel;
 		}
@@ -356,8 +353,6 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	/** {@inheritDoc} */
-	@Override
 	public void getDictionary(String dictionaryName, AsyncCallback<IDictionaryModel> callback)
 	{
 
@@ -478,9 +473,4 @@ public class TestDictionaryServiceGWTAsync implements IDictionaryServiceGWTAsync
 		return dictionaryControlVO;
 	}
 
-	@Override
-	public void getAllDictionaries(AsyncCallback<List<IDictionaryModel>> callback)
-	{
-		throw new RuntimeException("not implemented");
-	}
 }

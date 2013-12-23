@@ -8,5 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-web-client-gen.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-xml-gen.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/de.pellepelster.myadmin.demo-client-base-gen.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/de.pellepelster.myadmin.client.base"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -33,6 +33,8 @@
 	«EXPAND dictionary::DictionaryDebugIDs::dictionaryDebugID({String}) FOREACH allElements().typeSelect(Dictionary)»
 
 	«EXPAND GwtModule::clientGeneratedModuleDefinition FOR this»
-	
+
+	«EXPAND ClientConfiguration::clientConfigurationClass»
+		
 
 «ENDDEFINE»

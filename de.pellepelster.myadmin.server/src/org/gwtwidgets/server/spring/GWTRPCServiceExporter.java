@@ -29,8 +29,6 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.pellepelster.myadmin.server.services.DictionaryServiceImpl;
-
 /**
  * This component publishes an object (see {@link #setService(Object)} ) as a
  * service to the GWT RPC protocol. Service targets can be:
@@ -53,7 +51,7 @@ import de.pellepelster.myadmin.server.services.DictionaryServiceImpl;
 public class GWTRPCServiceExporter extends ServletAdapter implements HttpRequestHandler
 {
 
-	private static Logger logger = Logger.getLogger(DictionaryServiceImpl.class);
+	private static Logger logger = Logger.getLogger(GWTRPCServiceExporter.class);
 	private static final long serialVersionUID = 4424267386489335423L;
 	protected Object service = this;
 	protected Class[] serviceInterfaces;
@@ -61,15 +59,15 @@ public class GWTRPCServiceExporter extends ServletAdapter implements HttpRequest
 	@Override
 	public void afterPropertiesSet() throws Exception
 	{
-		if (service == null)
+		if (this.service == null)
 		{
 			throw new Exception("You must specify a service object.");
 		}
-		if (serviceInterfaces == null)
+		if (this.serviceInterfaces == null)
 		{
 			logger.debug("Discovering service interfaces");
-			serviceInterfaces = ReflectionUtils.getExposedInterfaces(service.getClass());
-			if (serviceInterfaces.length == 0)
+			this.serviceInterfaces = ReflectionUtils.getExposedInterfaces(this.service.getClass());
+			if (this.serviceInterfaces.length == 0)
 			{
 				logger.warn("The specified service does neither implement RemoteService nor were any service interfaces specified. RPC access to *all* object methods is allowed.");
 			}
@@ -78,7 +76,7 @@ public class GWTRPCServiceExporter extends ServletAdapter implements HttpRequest
 
 	public Object getService()
 	{
-		return service;
+		return this.service;
 	}
 
 	@Override
@@ -119,9 +117,9 @@ public class GWTRPCServiceExporter extends ServletAdapter implements HttpRequest
 	{
 		try
 		{
-			RPCRequest rpcRequest = RPC.decodeRequest(payload, service.getClass(), this);
+			RPCRequest rpcRequest = RPC.decodeRequest(payload, this.service.getClass(), this);
 			onAfterRequestDeserialized(rpcRequest);
-			return RPC.invokeAndEncodeResponse(service, rpcRequest.getMethod(), rpcRequest.getParameters(), rpcRequest.getSerializationPolicy());
+			return RPC.invokeAndEncodeResponse(this.service, rpcRequest.getMethod(), rpcRequest.getParameters(), rpcRequest.getSerializationPolicy());
 		}
 		catch (IncompatibleRemoteServiceException ex)
 		{

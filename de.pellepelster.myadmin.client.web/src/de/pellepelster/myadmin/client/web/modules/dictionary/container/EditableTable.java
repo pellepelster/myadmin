@@ -26,7 +26,7 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTableElement<VOTy
 	public void add(final AsyncCallback<List<ITableRow<VOType>>> asyncCallback)
 	{
 		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-				.getNewVO(getModel().getVOName(), new HashMap<String, String>(), new BaseErrorAsyncCallback<IBaseVO>()
+				.getNewVO(getModel().getVoName(), new HashMap<String, String>(), new BaseErrorAsyncCallback<IBaseVO>()
 				{
 
 					@SuppressWarnings("unchecked")

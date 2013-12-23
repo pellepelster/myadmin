@@ -11,7 +11,7 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.controls;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseLookupControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseLookupControlModel;
 
 /**
  * Model for VO lookup

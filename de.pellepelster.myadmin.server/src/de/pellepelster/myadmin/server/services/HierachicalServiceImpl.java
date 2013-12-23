@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.BaseHierarchicalConfiguration;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
@@ -31,7 +32,6 @@ import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
@@ -43,9 +43,6 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 
 	@Autowired
 	private BaseVODAO baseVODAO;
-
-	@Autowired
-	private IDictionaryService dictionaryService;
 
 	@Autowired
 	private EntityVOMapper entityVOMapper;
@@ -249,9 +246,9 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 
 				for (Map.Entry<String, List<String>> dictionaryHierarchy : hierarchicalConfiguration.getDictionaryHierarchy().entrySet())
 				{
-					IDictionaryModel dictionaryModel = this.dictionaryService.getDictionary(dictionaryHierarchy.getKey());
+					IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(dictionaryHierarchy.getKey());
 
-					Class<? extends IHierarchicalVO> voClass = getHierarchicalClass(dictionaryModel.getVOName());
+					Class<? extends IHierarchicalVO> voClass = getHierarchicalClass(dictionaryModel.getVoName());
 					List<Class<? extends IHierarchicalVO>> parentClasses = new ArrayList<Class<? extends IHierarchicalVO>>();
 
 					for (String parentDictionaryName : dictionaryHierarchy.getValue())
@@ -262,7 +259,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 						}
 						else
 						{
-							String parentClassName = this.dictionaryService.getDictionary(parentDictionaryName).getVOName();
+							String parentClassName = DictionaryModelProvider.getDictionary(parentDictionaryName).getVoName();
 							parentClasses.add(getHierarchicalClass(parentClassName));
 						}
 					}
@@ -284,11 +281,6 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 	public void setBaseVODAO(BaseVODAO baseVODAO)
 	{
 		this.baseVODAO = baseVODAO;
-	}
-
-	public void setDictionaryService(IDictionaryService dictionaryService)
-	{
-		this.dictionaryService = dictionaryService;
 	}
 
 	public void setEntityVOMapper(EntityVOMapper entityVOMapper)

@@ -34,15 +34,18 @@ public class DictionaryFilterPanel<VOType extends IBaseVO> extends VerticalPanel
 
 	private final ColumnLayoutStrategy layoutStrategy = new ColumnLayoutStrategy(LAYOUT_TYPE.FILTER);
 
+	private String voName;
+
 	/**
 	 * Constructor for {@link DictionaryFilterPanel}
 	 * 
 	 * @param filterModel
 	 *            Model describing the filter
 	 */
-	public DictionaryFilterPanel(DictionaryFilter<VOType> dictionaryFilter)
+	public DictionaryFilterPanel(DictionaryFilter<VOType> dictionaryFilter, String voName)
 	{
 		this.dictionaryFilter = dictionaryFilter;
+		this.voName = voName;
 		layoutStrategy.createLayout(this, dictionaryFilter.getRootComposite());
 	}
 
@@ -50,10 +53,11 @@ public class DictionaryFilterPanel<VOType extends IBaseVO> extends VerticalPanel
 	{
 	}
 
+	// TODO this belongs out of the GWT layer
 	public GenericFilterVO<VOType> getFilter()
 	{
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(dictionaryFilter.getModel().getVOName());
+		GenericFilterVO<VOType> genericFilter = new GenericFilterVO(voName);
 
 		// for (IUIObservableValue uiObservableValue : uiObservableValues)
 		// {

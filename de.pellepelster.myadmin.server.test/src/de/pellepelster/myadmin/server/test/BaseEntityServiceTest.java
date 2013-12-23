@@ -91,7 +91,6 @@ public final class BaseEntityServiceTest extends BaseMyAdminJndiContextTest
 		moduleDefinition1 = this.baseEntityService.create(moduleDefinition1);
 
 		Assert.assertTrue(IBaseVO.NEW_VO_ID != moduleDefinition1.getId());
-
 	}
 
 	@Test

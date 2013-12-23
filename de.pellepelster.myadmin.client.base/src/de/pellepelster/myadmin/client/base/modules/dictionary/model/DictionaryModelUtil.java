@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.jpql.IAssociation;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseLookupControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;

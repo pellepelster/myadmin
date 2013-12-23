@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Optional;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.daos.IVODAOCallback;
 import de.pellepelster.myadmin.db.index.ISearchIndexService;
@@ -37,9 +37,6 @@ public class DictionaryMetaDataService implements InitializingBean
 {
 
 	private Map<Class<? extends IBaseVO>, List<IDictionaryModel>> vosToDictionaryModels;
-
-	@Autowired
-	private IDictionaryService dictionaryService;
 
 	@Autowired(required = false)
 	private Optional<ISearchIndexService> searchIndexService = Optional.absent();
@@ -87,11 +84,6 @@ public class DictionaryMetaDataService implements InitializingBean
 		}
 	}
 
-	public void setDictionaryService(IDictionaryService dictionaryService)
-	{
-		this.dictionaryService = dictionaryService;
-	}
-
 	public void setSearchIndexService(ISearchIndexService searchIndexService)
 	{
 		this.searchIndexService = Optional.of(searchIndexService);
@@ -110,19 +102,19 @@ public class DictionaryMetaDataService implements InitializingBean
 		{
 			this.vosToDictionaryModels = new HashMap<Class<? extends IBaseVO>, List<IDictionaryModel>>();
 
-			for (IDictionaryModel dictionaryModel : this.dictionaryService.getAllDictionaries())
+			for (IDictionaryModel dictionaryModel : DictionaryModelProvider.getAllDictionaries())
 			{
 				Class<?> tmpVoClass = null;
 				try
 				{
-					tmpVoClass = Class.forName(dictionaryModel.getVOName());
+					tmpVoClass = Class.forName(dictionaryModel.getVoName());
 				}
 				catch (Exception e)
 				{
 					throw new RuntimeException(e);
 				}
 
-				if (!this.vosToDictionaryModels.containsKey(dictionaryModel.getVOName()))
+				if (!this.vosToDictionaryModels.containsKey(dictionaryModel.getVoName()))
 				{
 					this.vosToDictionaryModels.put((Class<? extends IBaseVO>) tmpVoClass, new ArrayList<IDictionaryModel>());
 				}

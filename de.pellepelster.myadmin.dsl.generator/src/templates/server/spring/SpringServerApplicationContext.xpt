@@ -15,6 +15,11 @@
 	<bean id="«entityVOMapperName()»"
 		class="«fullQualifiedEntityVOMapperName()»">
 	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass"><value>«fullQualifiedClientConfigurationClassName()»</value></property>
+		<property name="targetMethod"><value>registerAll</value></property>
+	</bean>
 
 </beans>
 «ENDFILE»

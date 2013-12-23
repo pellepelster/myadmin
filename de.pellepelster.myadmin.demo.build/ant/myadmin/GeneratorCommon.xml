@@ -14,8 +14,8 @@
 
 			<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task" classpathref="@{pathRefId}" />
 
-			<property name="gen.temp.bin.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/bin/" />
-			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
+			<property name="gen.temp.bin.dir" value="${build.gen.dir}" />
+			<property name="gen.temp.src.dir" value="${src.gen.dir}" />
 
 			<echo message="--------------------------------------------------------------------------------" />
 			<echo message="workflow:     			@{workflow.file}" />
@@ -109,10 +109,8 @@
 		<attribute name="modelResourceBlacklist" default="'MyAdmin.msl'" />
 
 		<sequential>
-			<property name="gen.temp.bin.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/bin/" />
-			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
-
-			<property name="gen.temp.src.dir" value="${java.io.tmpdir}/${ant.project.name}/${src.gen.dir}/src/" />
+			<property name="gen.temp.bin.dir" value="${build.gen.dir}" />
+			<property name="gen.temp.src.dir" value="${src.gen.dir}" />
 
 			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslClientBaseGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-client-base" modelResourceBlacklist="@{modelResourceBlacklist}" />
 			<myadmingenerate.internal workflow.file="classpath:///workflow/MyAdminDslWebClientGenerator.mwe2" modelname="@{modelName}" pathrefid="@{pathRefId}" artefactname="@{artefactName}-web-client" modelResourceBlacklist="@{modelResourceBlacklist}" />

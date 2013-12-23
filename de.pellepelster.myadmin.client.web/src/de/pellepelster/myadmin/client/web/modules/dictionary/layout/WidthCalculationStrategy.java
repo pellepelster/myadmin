@@ -14,7 +14,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.layout;
 import de.pellepelster.gwt.commons.client.GwtCommons;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.controls.EnumerationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
 
 public final class WidthCalculationStrategy
 {
@@ -67,9 +67,9 @@ public final class WidthCalculationStrategy
 	{
 		boolean uppercase = false;
 
-		if (baseControlModel instanceof EnumerationControlModel)
+		if (baseControlModel instanceof IEnumerationControlModel)
 		{
-			EnumerationControlModel enumerationControlModel = (EnumerationControlModel) baseControlModel;
+			IEnumerationControlModel enumerationControlModel = (IEnumerationControlModel) baseControlModel;
 
 			String allEnumValues = "";
 			for (String enumValue : enumerationControlModel.getEnumeration().values())

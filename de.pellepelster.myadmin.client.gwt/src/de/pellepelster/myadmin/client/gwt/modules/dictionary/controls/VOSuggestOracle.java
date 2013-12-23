@@ -22,11 +22,11 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 
 public class VOSuggestOracle<VOType extends IBaseVO> extends SuggestOracle
@@ -44,58 +44,45 @@ public class VOSuggestOracle<VOType extends IBaseVO> extends SuggestOracle
 	public void requestSuggestions(final Request request, final Callback callback)
 	{
 
-		DictionaryModelProvider.getDictionaryModel(referenceControlModel.getDictionaryName(), new AsyncCallback<IDictionaryModel>()
+		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(referenceControlModel.getDictionaryName());
+
+		@SuppressWarnings("unchecked")
+		GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO(dictionaryModel.getVoName());
+		genericFilterVO.setLogicalOperator(LogicalOperatorVO.OR);
+		genericFilterVO.setMaxResults(request.getLimit() + 1);
+
+		for (IBaseControlModel baseControlModel : dictionaryModel.getLabelControls())
+		{
+			genericFilterVO.addCriteria(baseControlModel.getAttributePath(), request.getQuery(), RelationalOperator.LIKE);
+		}
+
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<IBaseVO>>()
 		{
 
 			@Override
 			public void onFailure(Throwable caught)
 			{
-				throw new RuntimeException("error loadingcached  dictionary '" + referenceControlModel.getDictionaryName() + "'");
+				throw new RuntimeException("error loading suggestions for '" + request.getQuery() + "'");
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
-			public void onSuccess(final IDictionaryModel dictionaryModel)
+			public void onSuccess(List<IBaseVO> result)
 			{
-				@SuppressWarnings("unchecked")
-				GenericFilterVO<IBaseVO> genericFilterVO = new GenericFilterVO(dictionaryModel.getVOName());
-				genericFilterVO.setLogicalOperator(LogicalOperatorVO.OR);
-				genericFilterVO.setMaxResults(request.getLimit() + 1);
+				Response response = new Response();
+				Collection<VOSuggestion> voSuggestions = new ArrayList<VOSuggestion>();
 
-				for (IBaseControlModel baseControlModel : dictionaryModel.getLabelControls())
+				for (IBaseVO vo : result)
 				{
-					genericFilterVO.addCriteria(baseControlModel.getAttributePath(), request.getQuery(), RelationalOperator.LIKE);
+					VOSuggestion voSuggestion = new VOSuggestion<VOType>(DictionaryUtil.getLabel(referenceControlModel, vo), (VOType) vo);
+					voSuggestions.add(voSuggestion);
 				}
 
-				MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<IBaseVO>>()
-				{
+				response.setSuggestions(voSuggestions);
+				response.setMoreSuggestions(result.size() > request.getLimit());
 
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						throw new RuntimeException("error loading suggestions for '" + request.getQuery() + "'");
-					}
-
-					@SuppressWarnings("unchecked")
-					@Override
-					public void onSuccess(List<IBaseVO> result)
-					{
-						Response response = new Response();
-						Collection<VOSuggestion> voSuggestions = new ArrayList<VOSuggestion>();
-
-						for (IBaseVO vo : result)
-						{
-							VOSuggestion voSuggestion = new VOSuggestion<VOType>(DictionaryUtil.getLabel(referenceControlModel, vo), (VOType) vo);
-							voSuggestions.add(voSuggestion);
-						}
-
-						response.setSuggestions(voSuggestions);
-						response.setMoreSuggestions(result.size() > request.getLimit());
-
-						callback.onSuggestionsReady(request, response);
-					}
-				});
+				callback.onSuggestionsReady(request, response);
 			}
 		});
 	}
-
 }

@@ -8,13 +8,13 @@ import com.google.gwt.user.client.ui.Widget;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
@@ -67,9 +67,9 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 
 	public static <VOType extends IBaseVO> VOSelectionPopup<VOType> create(AssignmentTable<?> assignmentTable, SimpleCallback<VOType> voSelectHandler)
 	{
-		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(assignmentTable.getModel().getDictionaryName());
+		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(assignmentTable.getModel().getDictionaryName());
 
-		return new VOSelectionPopup<VOType>(dictionaryModel.getVOName(), dictionaryModel.getLabel(), assignmentTable.getControls(), voSelectHandler);
+		return new VOSelectionPopup<VOType>(dictionaryModel.getVoName(), dictionaryModel.getLabel(), assignmentTable.getControls(), voSelectHandler);
 	}
 
 	@Override

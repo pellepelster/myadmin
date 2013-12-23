@@ -24,12 +24,11 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -81,40 +80,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		return DictionaryUtil.getEditorLabel(this.dictionaryModel, this.dictionaryEditor);
 	}
 
-	private void getAllReferencedDictionaries(final IDictionaryModel dictionaryModel)
-	{
-		List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel.getEditorModel().getCompositeModel());
-
-		DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new BaseErrorAsyncCallback<List<IDictionaryModel>>()
-		{
-			/** {@inheritDoc} */
-			@Override
-			public void onSuccess(List<IDictionaryModel> result)
-			{
-				DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor<VOType>(dictionaryModel, getParameters());
-				DictionaryEditorModule.this.dictionaryModel = dictionaryModel;
-
-				AsyncCallback<Void> asyncCallback = new BaseErrorAsyncCallback<Void>()
-				{
-					@Override
-					public void onSuccess(Void result)
-					{
-						getModuleCallback().onSuccess(DictionaryEditorModule.this);
-					}
-				};
-
-				if (hasId())
-				{
-					DictionaryEditorModule.this.dictionaryEditor.load(getId(), asyncCallback);
-				}
-				else
-				{
-					DictionaryEditorModule.this.dictionaryEditor.newVO(asyncCallback);
-				}
-			}
-		});
-	}
-
 	public IDictionaryModel getDictionaryModel()
 	{
 		return this.dictionaryModel;
@@ -123,15 +88,26 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	private void init(String dictionaryName)
 	{
 
-		DictionaryModelProvider.getDictionaryModel(dictionaryName, new BaseErrorAsyncCallback<IDictionaryModel>(getModuleCallback())
+		DictionaryEditorModule.this.dictionaryModel = DictionaryModelProvider.getDictionary(dictionaryName);
+		DictionaryEditorModule.this.dictionaryEditor = new DictionaryEditor<VOType>(this.dictionaryModel, getParameters());
+
+		AsyncCallback<Void> asyncCallback = new BaseErrorAsyncCallback<Void>()
 		{
-			/** {@inheritDoc} */
 			@Override
-			public void onSuccess(IDictionaryModel dictionaryModel)
+			public void onSuccess(Void result)
 			{
-				getAllReferencedDictionaries(dictionaryModel);
+				getModuleCallback().onSuccess(DictionaryEditorModule.this);
 			}
-		});
+		};
+
+		if (hasId())
+		{
+			DictionaryEditorModule.this.dictionaryEditor.load(getId(), asyncCallback);
+		}
+		else
+		{
+			DictionaryEditorModule.this.dictionaryEditor.newVO(asyncCallback);
+		}
 
 	}
 

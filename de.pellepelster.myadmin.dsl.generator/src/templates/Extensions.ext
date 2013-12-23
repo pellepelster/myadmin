@@ -124,6 +124,8 @@ String dictionaryClassName(Object dictionaryElement) : "not_supported";
 String fullQualifiedDictionaryClassName(Object dictionaryElement) : "not_supported";
 String fullQualifiedDictionaryFileName(Object dictionaryElement) : "not_supported";
 
+String dictionaryConstantName(DictionaryContainer dictionaryContainer) : dictionaryConstantName(dictionaryClassName(dictionaryContainer));
+
 //-------//
 // model //
 //-------//
@@ -132,6 +134,11 @@ String dictionaryPackageName(Model model) : dictionaryRootPackageName(model);
 String fullQualifiedDictionaryClassName(Model model) : dictionaryPackageName(model) + '.' + dictionaryClassName(model);
 String fullQualifiedDictionaryFileName(Model model) : fullQualifiedDictionaryClassName(model).replaceAll('\\.', '/') + '.java';
 
+String dictionarySingletonClassName(Model model) : model.name.toFirstUpper() + "DictionaryModelDebug";
+String dictionarySingletonPackageName(Model model) : dictionaryRootPackageName(model);
+String fullQualifiedDictionarySingletonClassName(Model model) : dictionarySingletonPackageName(model) + '.' + dictionarySingletonClassName(model);
+String fullQualifiedDictionarySingletonFileName(Model model) : fullQualifiedDictionarySingletonClassName(model).replaceAll('\\.', '/') + '.java';
+
 //------------//
 // dictionary //
 //------------//
@@ -139,6 +146,7 @@ String dictionaryClassName(Dictionary dictionary) : dictionary.name.toFirstUpper
 String dictionaryPackageName(Dictionary dictionary) : dictionaryRootPackageName(dictionary) + '.' + dictionaryClassName(dictionary).toLowerCase();
 String fullQualifiedDictionaryClassName(Dictionary dictionary) : dictionaryPackageName(dictionary) + '.' + dictionaryClassName(dictionary);
 String fullQualifiedDictionaryFileName(Dictionary dictionary) : fullQualifiedDictionaryClassName(dictionary).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(Dictionary dictionary) : dictionaryConstantName(dictionaryClassName(dictionary));
 
 //--------------------//
 // dictionary control //
@@ -147,6 +155,7 @@ String dictionaryClassName(DictionaryControl dictionaryControl) : getControlName
 String dictionaryPackageName(DictionaryControl containerControl) : dictionaryPackageName(containerControl.eContainer);
 String fullQualifiedDictionaryClassName(DictionaryControl dictionaryControl) : dictionaryPackageName(dictionaryControl) + '.' + dictionaryClassName(dictionaryControl);
 String fullQualifiedDictionaryFileName(DictionaryControl dictionaryControl) : fullQualifiedDictionaryClassName(dictionaryControl).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(DictionaryControl dictionaryControl) : dictionaryConstantName(getControlName(dictionaryControl));
 
 //-------------------//
 // dictionary editor //
@@ -155,6 +164,7 @@ String dictionaryClassName(DictionaryEditor dictionaryEditor) : dictionaryEditor
 String dictionaryPackageName(DictionaryEditor dictionaryEditor) : dictionaryPackageName(dictionaryEditor.eContainer);
 String fullQualifiedDictionaryClassName(DictionaryEditor dictionaryEditor) : dictionaryPackageName(dictionaryEditor) + '.' + dictionaryClassName(dictionaryEditor);
 String fullQualifiedDictionaryFileName(DictionaryEditor dictionaryEditor) : fullQualifiedDictionaryClassName(dictionaryEditor).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(DictionaryEditor dictionaryEditor) : dictionaryConstantName(dictionaryClassName(dictionaryEditor));
 
 //-------------------//
 // dictionary search //
@@ -163,6 +173,16 @@ String dictionaryClassName(DictionarySearch dictionarySearch) : dictionarySearch
 String dictionaryPackageName(DictionarySearch dictionarySearch) : dictionaryPackageName(dictionarySearch.eContainer);
 String fullQualifiedDictionaryClassName(DictionarySearch dictionarySearch) : dictionaryPackageName(dictionarySearch.eContainer) + '.' + dictionaryClassName(dictionarySearch);
 String fullQualifiedDictionaryFileName(DictionarySearch dictionarySearch) : fullQualifiedDictionaryClassName(dictionarySearch).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(DictionarySearch dictionarySearch) : dictionaryConstantName(dictionaryClassName(dictionarySearch));
+
+//-------------------//
+// dictionary result //
+//-------------------//
+String dictionaryClassName(DictionaryResult dictionaryResult) : dictionaryResult.name;
+String dictionaryPackageName(DictionaryResult dictionaryResult) : dictionaryPackageName(dictionaryResult.eContainer);
+String fullQualifiedDictionaryClassName(DictionaryResult dictionaryResult) : dictionaryPackageName(dictionaryResult.eContainer) + '.' + dictionaryClassName(dictionaryResult);
+String fullQualifiedDictionaryFileName(DictionaryResult dictionaryResult) : fullQualifiedDictionaryClassName(dictionaryResult).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(DictionaryResult dictionaryResult) : dictionaryConstantName(dictionaryClassName(dictionaryResult));
 
 //-------------------//
 // dictionary filter //
@@ -171,6 +191,7 @@ String dictionaryClassName(DictionaryFilter dictionaryFilter) : dictionaryFilter
 String dictionaryPackageName(DictionaryFilter dictionaryFilter) : dictionaryPackageName(dictionaryFilter.eContainer) + '.' + dictionaryClassName(dictionaryFilter).toLowerCase();
 String fullQualifiedDictionaryClassName(DictionaryFilter dictionaryFilter) : dictionaryPackageName(dictionaryFilter) + '.' + dictionaryClassName(dictionaryFilter);
 String fullQualifiedDictionaryFileName(DictionaryFilter dictionaryFilter) : fullQualifiedDictionaryClassName(dictionaryFilter).replaceAll('\\.', '/') + '.java';
+String dictionaryConstantName(DictionaryFilter dictionaryFilter) : dictionaryConstantName(dictionaryClassName(dictionaryFilter));
 
 //----------------------//
 // dictionary composite //
@@ -195,6 +216,14 @@ String dictionaryClassName(DictionaryAssignmentTable dictionaryAssignmentTable) 
 String dictionaryPackageName(DictionaryAssignmentTable dictionaryAssignmentTable) : dictionaryPackageName(dictionaryAssignmentTable.eContainer) + '.' + dictionaryClassName(dictionaryAssignmentTable).toLowerCase();
 String fullQualifiedDictionaryClassName(DictionaryAssignmentTable dictionaryAssignmentTable) : dictionaryPackageName(dictionaryAssignmentTable) + '.' + dictionaryClassName(dictionaryAssignmentTable);
 String fullQualifiedDictionaryFileName(DictionaryAssignmentTable dictionaryAssignmentTable) : fullQualifiedDictionaryClassName(dictionaryAssignmentTable).replaceAll('\\.', '/') + '.java';
+
+//======================//
+// client configuration //
+//======================//
+String clientConfigurationClassName(Model model) : model.name.toFirstUpper() + "ClientConfiguration";
+String clientConfigurationPackageName(Model model) : getRootWebPackageName(model);
+String fullQualifiedClientConfigurationClassName(Model model) : clientConfigurationPackageName(model) + '.' + clientConfigurationClassName(model);
+String fullQualifiedClientConfigurationFileName(Model model) : fullQualifiedClientConfigurationClassName(model).replaceAll('\\.', '/') + '.java';
 
 //- dictionary debug ids ------------------------------------------------------------
 String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);

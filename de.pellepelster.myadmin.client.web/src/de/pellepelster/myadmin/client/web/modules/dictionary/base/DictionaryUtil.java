@@ -17,13 +17,13 @@ import com.google.gwt.core.client.GWT;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IHierarchicalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ControlContentPresenter;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditor;
 
@@ -84,14 +84,14 @@ public final class DictionaryUtil
 
 	public static String getLabel(IHierarchicalControlModel hierarchicalControlModel, IHierarchicalVO vo, String defaultLabel)
 	{
-		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModelForClass(vo.getClass());
+		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionaryModelForClass(vo.getClass());
 
 		return getLabel(dictionaryModel.getLabelControls(), vo, defaultLabel);
 	}
 
 	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo, String defaultLabel)
 	{
-		IDictionaryModel dictionaryModel = DictionaryModelProvider.getCachedDictionaryModel(referenceControlModel.getDictionaryName());
+		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(referenceControlModel.getDictionaryName());
 
 		List<IBaseControlModel> labelControlModels = DictionaryModelUtil.getLabelControlsWithFallback(referenceControlModel, dictionaryModel);
 

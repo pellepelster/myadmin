@@ -27,6 +27,6 @@ public interface IEditableTableModel extends IBaseContainerModel, IBaseTableMode
 	 * 
 	 * @return
 	 */
-	String getVOName();
+	String getVoName();
 
 }

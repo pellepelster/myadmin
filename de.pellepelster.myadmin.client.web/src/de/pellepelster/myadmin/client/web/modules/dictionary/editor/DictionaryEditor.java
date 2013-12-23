@@ -17,7 +17,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHo
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.IEditorModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule.EditorMode;
 import de.pellepelster.myadmin.client.web.modules.dictionary.events.VOSavedEvent;
@@ -93,14 +93,14 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 		MyAdmin.getInstance()
 				.getRemoteServiceLocator()
 				.getBaseEntityService()
-				.getNewVO(this.dictionaryModel.getVOName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(this.context),
+				.getNewVO(this.dictionaryModel.getVoName(), de.pellepelster.myadmin.client.base.util.CollectionUtils.copyMap(this.context),
 						(AsyncCallback<IBaseVO>) newVOCallback);
 
 	}
 
 	public void load(long id, final AsyncCallback<Void> callback)
 	{
-		GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel.getVOName());
+		GenericFilterVO<VOType> genericFilterVO = new GenericFilterVO<VOType>(this.dictionaryModel.getVoName());
 		genericFilterVO.addCriteria(IBaseVO.FIELD_ID, id);
 
 		DictionaryModelUtil.populateAssociations(genericFilterVO, this.getModel().getCompositeModel());

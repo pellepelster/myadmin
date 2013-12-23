@@ -1,7 +1,7 @@
 package de.pellepelster.myadmin.client.web.modules.dictionary.result;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IResultModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.IResultModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.search.IDictionaryResult;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;

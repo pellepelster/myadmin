@@ -11,4 +11,12 @@
 	
   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MyAdminDsl -->
+      <package
+            uri="http://www.pellepelster.de/myadmin/MyAdminDsl"
+            class="de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage"
+            genModel="src-gen/de/pellepelster/myadmin/dsl/MyAdminDsl.genmodel"/>
+   </extension>
+
 </plugin>

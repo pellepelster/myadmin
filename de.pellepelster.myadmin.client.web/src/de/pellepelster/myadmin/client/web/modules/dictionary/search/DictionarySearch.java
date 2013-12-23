@@ -11,7 +11,7 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.IVOWrapper;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.IFilterModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
@@ -37,7 +37,7 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 
 		this.dictionaryResult = new DictionaryResult<VOType>(getModel().getSearchModel().getResultModel(), this);
 
-		for (IFilterModel filterModel : getModel().getSearchModel().getFilterModel())
+		for (IFilterModel filterModel : getModel().getSearchModel().getFilterModels())
 		{
 			this.dictionaryFilters.add(new DictionaryFilter(filterModel, this));
 		}
@@ -51,7 +51,7 @@ public class DictionarySearch<VOType extends IBaseVO> extends BaseDictionaryElem
 	public void search(final AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
 	{
 		@SuppressWarnings("unchecked")
-		GenericFilterVO<VOType> genericFilter = (GenericFilterVO<VOType>) ClientGenericFilterBuilder.createGenericFilter(getModel().getVOName())
+		GenericFilterVO<VOType> genericFilter = (GenericFilterVO<VOType>) ClientGenericFilterBuilder.createGenericFilter(getModel().getVoName())
 				.getGenericFilter();
 
 		for (Map.Entry<String, Object> filterEntry : this.voWrapper.getFilterValues().entrySet())

@@ -6,3 +6,4 @@ build
 /lib
 /build.xml
 /ivy.xml
+/src-gen

@@ -1,6 +1,6 @@
 package de.pellepelster.myadmin.client.web.test.dictionary;
 
-import de.pellepelster.myadmin.client.core.modules.dictionary.model.impl.DictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 
@@ -11,6 +11,8 @@ public class TestDictionaryFactory
 	private TestDictionaryEditorFactory dictionaryEditorFactory;
 
 	private TestDictionarySearchFactory dictionarySearchFactory;
+
+	private String dictionaryName;
 
 	private TestDictionaryFactory(String dictionaryName, String entityName)
 	{
@@ -28,7 +30,7 @@ public class TestDictionaryFactory
 
 	public DictionaryModel getDictionaryModel()
 	{
-		return new DictionaryModel(this.dictionaryVO);
+		return new DictionaryModel(this.dictionaryName, null);
 	}
 
 	public TestDictionaryEditorFactory createEditor()

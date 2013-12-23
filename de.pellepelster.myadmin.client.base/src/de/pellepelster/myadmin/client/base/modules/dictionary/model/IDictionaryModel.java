@@ -15,6 +15,8 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.IEditorModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.ISearchModel;
 
 /**
  * Represents a model for a generic CRUD-UI for arbitrary {@link IBaseVO}
@@ -68,5 +70,5 @@ public interface IDictionaryModel extends IBaseModel
 	 * 
 	 * @return
 	 */
-	String getVOName();
+	String getVoName();
 }

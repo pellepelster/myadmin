@@ -5,15 +5,35 @@ import com.google.common.base.Objects;
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseContainerModel;
 
 public abstract class BaseControlModel<ControlElementType> extends BaseModel<ControlElementType> implements IBaseControlModel
 {
 
 	private static final long serialVersionUID = 6300062992351577766L;
 
+	private boolean readonly;
+
+	private String filterLabel;
+
+	private String editorLabel;
+
+	private String columnLabel;
+
+	private boolean mandatory;
+
+	private String toolTip;
+
 	public BaseControlModel(String name, IBaseModel parent)
 	{
 		super(name, parent);
+	}
+
+	public BaseControlModel(String name, BaseContainerModel<?> parent)
+	{
+		super(name, parent);
+
+		parent.getControls().add(this);
 	}
 
 	@Override
@@ -25,19 +45,19 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	@Override
 	public String getColumnLabel()
 	{
-		return getName();
+		return this.columnLabel;
 	}
 
 	@Override
 	public String getEditorLabel()
 	{
-		return getName();
+		return this.editorLabel;
 	}
 
 	@Override
 	public String getFilterLabel()
 	{
-		return getName();
+		return this.filterLabel;
 	}
 
 	@Override
@@ -49,7 +69,7 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	@Override
 	public String getToolTip()
 	{
-		return getName();
+		return this.toolTip;
 	}
 
 	@Override
@@ -61,18 +81,48 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	@Override
 	public boolean isMandatory()
 	{
-		return false;
+		return this.mandatory;
 	}
 
 	@Override
 	public boolean isReadonly()
 	{
-		return false;
+		return this.readonly;
 	}
 
 	@Override
 	public String toString()
 	{
 		return Objects.toStringHelper(this).add("name", getName()).toString();
+	}
+
+	public void setReadonly(boolean readonly)
+	{
+		this.readonly = readonly;
+	}
+
+	public void setFilterLabel(String filterLabel)
+	{
+		this.filterLabel = filterLabel;
+	}
+
+	public void setEditorLabel(String editorLabel)
+	{
+		this.editorLabel = editorLabel;
+	}
+
+	public void setColumnLabel(String columnLabel)
+	{
+		this.columnLabel = columnLabel;
+	}
+
+	public void setMandatory(boolean mandatory)
+	{
+		this.mandatory = mandatory;
+	}
+
+	public void setToolTip(String toolTip)
+	{
+		this.toolTip = toolTip;
 	}
 }

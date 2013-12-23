@@ -1,0 +1,35 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE clientConfigurationClass FOR Model»
+
+	«info("generating client configuration for '" + name + "'")»
+
+	«FILE fullQualifiedClientConfigurationFileName()-»
+	package «clientConfigurationPackageName()»;
+	
+	public class «clientConfigurationClassName()» {
+
+		private «clientConfigurationClassName()»() {
+		}
+
+		public static void registerAll() 
+		{
+			registerDictionaries();
+		}
+		
+		public static void registerDictionaries()
+		{
+			try {
+			«FOREACH allElements().typeSelect(Dictionary) AS  dictionary»
+				de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider.registerDictionary(«fullQualifiedDictionaryClassName()».«dictionaryConstantName(dictionaryClassName(dictionary))»);
+			«ENDFOREACH»
+			} catch (java.lang.Throwable t) {
+				throw new java.lang.RuntimeException(t);
+ 			}
+		}
+	
+	}
+	«ENDFILE»
+«ENDDEFINE»

@@ -5,7 +5,7 @@
 
 «DEFINE dictionaryClass FOR Model»
 
-	«info("generating dictionaries for model '" + this.name + "'")»
+	«info("generating dictionary model for '" + this.name + "'")»
 
 	«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
 		«EXPAND dictionaryClass FOR dictionary»
@@ -17,10 +17,49 @@
 	
 	public class «dictionaryClassName()» {
 
+		private «dictionaryClassName()»() {
+		}
+
 		«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
-			«EXPAND dictionaryConstant FOR dictionary»
+			«EXPAND dictionaryConstant FOR dictionary»;
 		«ENDFOREACH»
+
+	}
+	«ENDFILE»	
 	
+	«EXPAND dictionarySingletonClass FOR this»
+	
+«ENDDEFINE»
+
+«DEFINE dictionarySingletonClass FOR Model»
+
+	«FILE fullQualifiedDictionarySingletonFileName()»
+	
+	package «dictionarySingletonPackageName()»;
+	
+	public class «dictionarySingletonClassName()» {
+
+		private static «dictionarySingletonClassName()» instance;
+
+		private «dictionarySingletonClassName()»() {
+			«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
+				«dictionaryConstantName(dictionaryClassName(dictionary))» = new «fullQualifiedDictionaryClassName(dictionary)»();
+			«ENDFOREACH»
+		}
+
+		public static «dictionarySingletonClassName()» getInstance()
+		{
+			if (instance == null)
+			{
+				instance = new «dictionarySingletonClassName()»();
+			}
+		
+			return instance;
+		}
+
+		«FOREACH allElements().typeSelect(Dictionary) AS dictionary»
+			public «fullQualifiedDictionaryClassName(dictionary)» «dictionaryConstantName(dictionaryClassName(dictionary))»;
+		«ENDFOREACH»
 	}
 	«ENDFILE»	
 	
@@ -33,15 +72,13 @@ dictionary
 «ENDREM»
 
 «DEFINE dictionaryConstant FOR Dictionary»
-	public static final «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»();
+	public static final «fullQualifiedDictionaryClassName()» «dictionaryConstantName()» = new «fullQualifiedDictionaryClassName()»();
 «ENDDEFINE»
 
 «DEFINE dictionaryClass FOR Dictionary»
 
-	«info("generating dictionary for '" + this.name + "'")»
+	«info("generating dictionary model for '" + this.name + "'")»
 
-	«EXPAND dictionaryControlClass FOREACH labelcontrols»
-	
 	«IF dictionaryeditor != null»
 		«EXPAND dictionaryEditorClass(dictionaryConstantName(name), this) FOR this.dictionaryeditor»
 	«ENDIF»
@@ -54,45 +91,42 @@ dictionary
 	
 	package «dictionaryPackageName()»;
 	
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.ISearchModel;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
-	import java.util.List;
-	import java.util.ArrayList;
-	
-	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseDictionaryModel {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModel {
 
-		«EXPAND dictionaryContentConstant FOREACH labelcontrols»
-
-		public «dictionaryClassName()»() {
-			super("«name»", null);
-			
-			«FOREACH labelcontrols AS labelcontrol»
-				this.getLabelControls().add(«dictionaryConstantName(getControlName(labelcontrol))»);
-			«ENDFOREACH»
-		}
+		// label controls
+		«EXPAND dictionaryControlConstant FOREACH labelcontrols»
 
 		«IF dictionaryeditor != null»
+			// dictionary editor
 			«EXPAND dictionaryEditorConstant FOR this.dictionaryeditor»
-			
-			@Override
-			public IEditorModel getEditorModel() { return «dictionaryConstantName(dictionaryeditor.name)»; }
-			
 		«ENDIF»
-	
+
 		«IF dictionarysearch != null»
+			// dictionary search
 			«EXPAND dictionarySearchConstant FOR this.dictionarysearch»
-
-			@Override
-			public ISearchModel getSearchModel() { return null; }
 		«ENDIF»
 
-		«EXPAND stringAttribute(this.label) FOR "Label"»
+		public «dictionaryClassName()»() {
 		
-		«EXPAND stringAttribute(this.pluralLabel) FOR "PluralLabel"»
+			super("«name»", null);
 
-		«EXPAND stringAttribute(fullQualifiedEntityName(this.entity)) FOR "VOName"»
+			«EXPAND dictionaryControlConstantSetters FOREACH labelcontrols»
+			
+			// label controls
+			«FOREACH labelcontrols AS labelcontrol»
+				//this.getLabelControls().add(«dictionaryConstantName(labelcontrol)»);
+			«ENDFOREACH»
+			
+			«IF dictionaryeditor != null»
+				// dictionary editor '«dictionaryeditor.name»'
+				setEditorModel(«dictionaryConstantName(dictionaryeditor)»);
+			«ENDIF»
 
+			«IF dictionarysearch != null»
+				// dictionary search '«dictionarysearch.name»'
+				setSearchModel(«dictionaryConstantName(dictionarysearch)»);
+			«ENDIF»
+		}
 	}
 	«ENDFILE»	
 	
@@ -105,49 +139,30 @@ dictionary editor
 «ENDREM»
 
 «DEFINE dictionaryEditorConstant FOR DictionaryEditor»
-	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName()» = new «fullQualifiedDictionaryClassName()»(this);
 «ENDDEFINE»
 
 «DEFINE dictionaryEditorClass(String parent, Dictionary parentDictionary) FOR DictionaryEditor»
 
-	«info("generating editor dictionary for '" +  this.name + "'")»
+	«info("generating dictionary editor model for '" +  this.name + "'")»
 
-	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
 	import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-	import java.util.List;
-	import java.util.ArrayList;
 	
-	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel implements IEditorModel {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.EditorModel {
 	
-		private class RootComposite extends de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel implements ICompositeModel {
+		private class RootComposite extends de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel {
 
-			«EXPAND dictionaryContentConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
-
-			«EXPAND containerList FOR "container"»
+			«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
 			public RootComposite(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 				super(ICompositeModel.ROOT_COMPOSITE_NAME, parent);
-				
-				«FOREACH containercontents.typeSelect(DictionaryContainer) AS container»
-					this.container.add(«dictionaryConstantName(container.name)»);
-				«ENDFOREACH»
-			}
-
-			public List<de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel> getChildren()
-			{
-				return container;
-			}
-
-			public List<de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel> getControls()
-			{
-				return java.util.Collections.emptyList();
 			}
 		}
 		
@@ -156,18 +171,16 @@ dictionary editor
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
 		
+			«IF label != null»
+				setLabel("«label»");
+			«ENDIF»
+			
+			setCompositeModel(rootComposite);
 		}
 		
-		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
-	
-		public void addEditorHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook<«fullQualifiedEntityName(parentDictionary.entity)»> editorHook)
-		{
-			DictionaryHookRegistry.getInstance().addEditorHook("«name»", editorHook); 
-		}
-		
-		«EXPAND stringAttribute(this.label) FOR "Label"»
-		
-		public ICompositeModel getCompositeModel() { return rootComposite; }
+		«FOREACH this.containercontents.typeSelect(DictionaryContainer) AS container»
+			public «fullQualifiedDictionaryClassName(container)» «dictionaryConstantName(container)» = rootComposite.«dictionaryConstantName(container)»;
+		«ENDFOREACH»
 	
 	}
 	«ENDFILE»
@@ -180,31 +193,88 @@ dictionary search
 «ENDREM»
 
 «DEFINE dictionarySearchConstant FOR DictionarySearch»
-	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName()» = new «fullQualifiedDictionaryClassName()»(this);
 «ENDDEFINE»
 
 «DEFINE dictionarySearchClass(String parent, Dictionary parentDictionary) FOR DictionarySearch»
 
-	«info("generating search dictionary for '" +  this.name + "'")»
+	«info("generating dictionary search model for '" +  this.name + "'")»
 	
-	«EXPAND dictionaryFilterClass(parent) FOREACH this.dictionaryfilters»
+	«EXPAND dictionaryResultClass FOR this.dictionaryresult»
+
+	«EXPAND dictionaryFilterClass FOREACH this.dictionaryfilters»
 	
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
-	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.search.SearchModel {
+		
+		«EXPAND dictionaryResultConstant FOR this.dictionaryresult»
+
+		«EXPAND dictionaryFilterConstant FOREACH this.dictionaryfilters»
 		
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
-		}
+			
+			«IF label != null»
+				setLabel("«label»");
+			«ENDIF»
+			
+			// result
+			setResultModel(«dictionaryConstantName(dictionaryresult)»);
 
-		«EXPAND dictionaryFilterConstant FOREACH this.dictionaryfilters»
+			// filters
+			«FOREACH this.dictionaryfilters AS dictionaryfilter»
+				getFilterModels().add(«dictionaryConstantName(dictionaryfilter)»);
+			«ENDFOREACH»			
+			
+		}
 		
 	}
 	«ENDFILE»
 	
 «ENDDEFINE»
+
+«REM»
+=================
+dictionary result
+=================
+«ENDREM»
+
+«DEFINE dictionaryResultConstant FOR DictionaryResult»
+	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«ENDDEFINE»
+
+«DEFINE dictionaryResultClass FOR DictionaryResult»
+
+	«info("generating dictionary result model for '" +  this.name + "'")»
+
+	«EXPAND dictionaryControlConstant FOREACH resultcolumns.typeSelect(DictionaryControl)»
+	
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.search.ResultModel {
+		
+		«EXPAND dictionaryControlConstant FOREACH this.resultcolumns»
+		
+		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
+			super("«name»", parent);
+
+			«EXPAND dictionaryControlConstantSetters FOREACH this.resultcolumns»
+			
+			«FOREACH this.resultcolumns AS control»
+				//this.getControls().add(«dictionaryConstantName(control)»);
+			«ENDFOREACH»
+		}
+		
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»
+
 
 «REM»
 =================
@@ -215,19 +285,19 @@ dictionary filter
 	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
 «ENDDEFINE»
 
-«DEFINE dictionaryFilterClass(String parent) FOR DictionaryFilter»
+«DEFINE dictionaryFilterClass FOR DictionaryFilter»
 
-	«info("generating filter dictionary for '" +  this.name + "'")»
+	«info("generating dictionary filter model for '" +  this.name + "'")»
 
-	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 	
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
-	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.search.FilterModel {
 
-		«EXPAND dictionaryContentConstant FOREACH this.containercontents»
+		«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
@@ -244,79 +314,65 @@ dictionary container content
 ============================
 «ENDREM»
 
-«DEFINE dictionaryContentClass(String parent) FOR DictionaryContainerContent»
-	«throwError("'" + this.metaType.toString() + "' not supported")»
-«ENDDEFINE»
-
-«DEFINE dictionaryContentConstant FOR DictionaryContainerContent»
-	«throwError("'" + this.metaType.toString() + "' not supported")»
-«ENDDEFINE»
-
 «REM»
 ====================
 dictionary container
 ====================
 «ENDREM»
 
-«DEFINE dictionaryContentConstant FOR DictionaryContainer»
+«DEFINE dictionaryContainerConstant FOR DictionaryContainer»
 	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
 «ENDDEFINE»
 
-«DEFINE dictionaryContentClass(String parent) FOR DictionaryContainer»
-	«info("generating composite dictionary for '" +  this.name + "'")»
+«DEFINE dictionaryContainerClass FOR DictionaryContainer»
+	«info("generating dictionary composite model for '" +  this.name + "'")»
 
-	«EXPAND dictionaryContentClass(parent) FOREACH this.containercontents»
+	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 	
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
-	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.IEditorModel;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
-	import java.util.List;
-	import java.util.ArrayList;
-	
 	public class «dictionaryClassName()» extends «EXPAND dictionaryContainerType FOR this» {
 
-		«EXPAND dictionaryContentConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
+		«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
-		«EXPAND dictionaryContentConstant FOREACH this.containercontents.typeSelect(DictionaryControl)»
+		«EXPAND dictionaryControlConstant FOREACH this.containercontents.typeSelect(DictionaryControl)»
 
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
 
+			«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
+
 			«FOREACH containercontents.typeSelect(DictionaryContainer) AS container»
-				this.getChildren().add(«dictionaryConstantName(container.name)»);
+				// this.getChildren().add(«dictionaryConstantName(container.name)»);
 			«ENDFOREACH»
 
 			«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
-				this.getControls().add(«dictionaryConstantName(getControlName(control))»);
+				// this.getControls().add(«dictionaryConstantName(getControlName(control))»);
 			«ENDFOREACH»
-
 		}
-
 	}
 	«ENDFILE»
 
 «ENDDEFINE»
 
-«DEFINE dictionaryContentClassInternal(String parent) FOR DictionaryComposite»
+«DEFINE dictionaryContentClassInternal FOR DictionaryComposite»
 «ENDDEFINE»
 
-«DEFINE dictionaryContentClassInternal(String parent) FOR DictionaryEditableTable»
+«DEFINE dictionaryContentClassInternal FOR DictionaryEditableTable»
 «ENDDEFINE»
 
-«DEFINE dictionaryContentClassInternal(String parent) FOR DictionaryAssignmentTable»
+«DEFINE dictionaryContentClassInternal FOR DictionaryAssignmentTable»
 «ENDDEFINE»
 
-«DEFINE dictionaryContainerType FOR DictionaryContainer-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseContainerModel«ENDDEFINE»
+«DEFINE dictionaryContainerType FOR DictionaryContainer-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ContainerModel«ENDDEFINE»
 
-«DEFINE dictionaryContainerType FOR DictionaryEditableTable-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseEditableTableModel«ENDDEFINE»
+«DEFINE dictionaryContainerType FOR DictionaryEditableTable-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.EditableTableModel«ENDDEFINE»
 
-«DEFINE dictionaryContainerType FOR DictionaryComposite-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseCompositeModel«ENDDEFINE»
+«DEFINE dictionaryContainerType FOR DictionaryComposite-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel«ENDDEFINE»
 
-«DEFINE dictionaryContainerType FOR DictionaryAssignmentTable-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseAssignmentTableModel«ENDDEFINE»
+«DEFINE dictionaryContainerType FOR DictionaryAssignmentTable-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.AssignmentTableModel«ENDDEFINE»
 
 «REM»
 ===================
@@ -324,133 +380,132 @@ dictionary controls
 ===================
 «ENDREM»
 
-«DEFINE dictionaryContentConstant FOR DictionaryControl»
-	public «fullQualifiedDictionaryClassName()» «dictionaryConstantName(dictionaryClassName())» = new «fullQualifiedDictionaryClassName()»(this);
+«DEFINE dictionaryControlConstant FOR DictionaryControl»
+	public «EXPAND dictionaryControlType» «dictionaryConstantName(this)» = new «EXPAND dictionaryControlType»("«getControlName()»", this);
 «ENDDEFINE»
 
-«DEFINE dictionaryContentClass(String parent) FOR DictionaryControl»
-	«EXPAND dictionaryControlClass FOR this»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryControl»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClass FOR DictionaryControl»
-	«info("generating control dictionary for '" +  getControlName() + "'")»
-	
-	«FILE fullQualifiedDictionaryFileName()»
-	package «dictionaryPackageName()»;
-
-	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
-	
-	public class «dictionaryClassName()» extends «EXPAND dictionaryControlType» {
-
-		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
-			super("«getControlName()»", parent);
-		}
-		
-		«EXPAND dictionaryControlClassInternal FOR this»
-		
-	}
-	«ENDFILE»
-«ENDDEFINE»
-
-«DEFINE dictionaryControlCommon FOR DictionaryControl»
+«DEFINE dictionaryControlCommonSetters FOR DictionaryControl»
 	«IF this.baseControl != null»
 		«IF this.baseControl.labels != null»
 		
 			«IF this.baseControl.labels.columnLabel != null»
-				«EXPAND stringAttribute(this.baseControl.labels.columnLabel) FOR "ColumnLabel"»
+				«dictionaryConstantName(this)».setColumnLabel("«this.baseControl.labels.columnLabel»")
 			«ENDIF»
 		
 			«IF this.baseControl.labels.editorLabel != null»
-				«EXPAND stringAttribute(this.baseControl.labels.editorLabel) FOR "EditorLabel"»
+				«dictionaryConstantName(this)».setEditorLabel("«this.baseControl.labels.editorLabel»")
 			«ENDIF»
 
 			«IF this.baseControl.labels.filterLabel != null»
-				«EXPAND stringAttribute(this.baseControl.labels.filterLabel) FOR "FilterLabel"»
+				«dictionaryConstantName(this)».setFilterLabel("«this.baseControl.labels.filterLabel»")
 			«ENDIF»
 		
 		«ENDIF»
 	«ENDIF»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryControl»
-«ENDDEFINE»
-
-«DEFINE dictionaryControlClassInternal FOR DictionaryControlGroup»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryControlGroup»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryTextControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryTextControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryIntegerControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryIntegerControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryBigDecimalControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryBigDecimalControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryBooleanControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryBooleanControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryDateControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryDateControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryEnumerationControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryEnumerationControl»
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 «ENDDEFINE»
 
-«DEFINE dictionaryControlClassInternal FOR DictionaryReferenceControl»
+«DEFINE dictionaryControlConstantSetters FOR DictionaryReferenceControl»
+	
 	«IF this.ref != null»
-		«EXPAND dictionaryControlClassInternal FOR this.ref»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
+
+	«FOREACH this.labelcontrols AS labelcontrol»
+		«dictionaryConstantName(this)».getLabelControls().add(«dictionaryConstantName(getControlName(labelcontrol))»);
+	«ENDFOREACH»
+	
+	«IF this.dictionary != null»
+		«dictionaryConstantName(this)».setDictionaryName("«this.dictionary.name»");
+	«ENDIF»
+	
 «ENDDEFINE»
+
+«REM»
+«DEFINE dictionaryControlClassBody FOR DictionaryReferenceControl»
+
+	// label controls («labelcontrols.size»)
+	«EXPAND dictionaryContentConstant FOREACH this.labelcontrols»
+«ENDDEFINE»
+
+«DEFINE dictionaryControlClassExternal FOR DictionaryReferenceControl»
+	«EXPAND dictionaryControlClass FOREACH this.labelcontrols»
+«ENDDEFINE»
+«ENDREM»
+
+«REM»
+============
+file control
+============
+«ENDREM»
 
 «DEFINE dictionaryControlClassInternal FOR DictionaryFileControl»
 
 	«IF this.ref != null»
 		«EXPAND dictionaryControlClassInternal FOR this.ref»
-	«ELSE»
-		public void setFileControlHook(de.pellepelster.myadmin.client.base.modules.dictionary.hooks.IFileControlHook fileControlHook)
-		{
-			DictionaryHookRegistry.getInstance().setFileControlHook(this, fileControlHook); 
-		}
 	«ENDIF»
 	
-	«EXPAND dictionaryControlCommon FOR this»
+	«EXPAND dictionaryControlCommonSetters FOR this»
 
 «ENDDEFINE»
 
@@ -460,52 +515,26 @@ dictionaryControlType
 =====================
 «ENDREM»
 
-
 «DEFINE dictionaryControlType FOR DictionaryControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseControlModel<de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl>«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryTextControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseTextControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryTextControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.TextControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryIntegerControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseIntegerControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryIntegerControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IntegerControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryBigDecimalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseBigDecimalControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryBigDecimalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BigDecimalControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryBooleanControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseBooleanControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryBooleanControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BooleanControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryDateControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseDateControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryDateControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.DateControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryEnumerationControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseEnumerationControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryEnumerationControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.EnumerationControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseReferenceControlModel<«EXPAND templates::type::Type::webVORawType FOR getEntityAttribute(this)»>«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryReferenceControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ReferenceControlModel<«EXPAND templates::type::Type::webVORawType FOR getEntityAttribute(this)»>«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryHierarchicalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseHierarchicalControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryHierarchicalControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.HierarchicalControlModel«ENDDEFINE»
 
-«DEFINE dictionaryControlType FOR DictionaryFileControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseFileControlModel«ENDDEFINE»
+«DEFINE dictionaryControlType FOR DictionaryFileControl-»de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.FileControlModel«ENDDEFINE»
 
 «REM»
 «DEFINE dictionaryControlType FOR DictionaryControlGroup-»de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl«ENDDEFINE»
 «ENDREM»
-
-
-«REM»
-=====
-utils
-=====
-«ENDREM»
-«DEFINE stringAttribute(String value) FOR String»
-	@Override
-	public String get«this»() {
-		«IF value == null»
-			return null;
-		«ELSE»
-			return "«value»"; 
-		«ENDIF» 
-	}
-«ENDDEFINE»
-
-«DEFINE containerList FOR String»
-	private java.util.List<de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel> «this» = new java.util.ArrayList<de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel>();
-«ENDDEFINE»
-
-«DEFINE controlList FOR String»
-	private java.util.List<de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel> «this» = new java.util.ArrayList<de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel>();
-«ENDDEFINE»

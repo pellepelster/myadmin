@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.client.web.services.IDictionaryService;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;
@@ -32,19 +31,11 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
-	private IDictionaryService dictionaryService;
-
-	@Autowired
 	protected BaseVODAO baseVODAO;
 
 	public IBaseEntityService getBaseEntityService()
 	{
 		return this.baseEntityService;
-	}
-
-	public IDictionaryService getDictionaryService()
-	{
-		return this.dictionaryService;
 	}
 
 	public void createTest1VO(String text)
@@ -83,11 +74,6 @@ public abstract class BaseDemoDictionaryTest extends BaseDemoTest
 	public void setBaseEntityService(IBaseEntityService baseEntityService)
 	{
 		this.baseEntityService = baseEntityService;
-	}
-
-	public void setDictionaryService(IDictionaryService dictionaryService)
-	{
-		this.dictionaryService = dictionaryService;
 	}
 
 }

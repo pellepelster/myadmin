@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.web.modules.hierarchical;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,11 +19,8 @@ import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
@@ -32,7 +28,6 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.BaseModuleHierarchicalTreeModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.hooks.HierarchicalHookRegistry;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
@@ -93,31 +88,7 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 					}
 				}
 
-				DictionaryModelProvider.cacheDictionaryModels(new ArrayList<String>(dictionaryNames), new AsyncCallback<List<IDictionaryModel>>()
-				{
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						moduleCallback.onFailure(caught);
-					}
-
-					@Override
-					public void onSuccess(List<IDictionaryModel> result)
-					{
-						for (String dictionaryId : HierarchicalTreeModule.this.hierarchicalConfiguration.getDictionaryIds())
-						{
-							List<String> childDictionaryIds = HierarchicalTreeModule.this.hierarchicalConfiguration.getChildDictionaryIds(dictionaryId);
-
-							if (!childDictionaryIds.isEmpty())
-							{
-								List<IDictionaryModel> childDictionaries = DictionaryModelProvider.getCachedDictionaryModels(childDictionaryIds);
-								DictionaryHookRegistry.getInstance().addEditorHook(dictionaryId, new HierarchicalEditorHook<IBaseVO>(childDictionaries));
-							}
-						}
-
-						getModuleCallback().onSuccess(HierarchicalTreeModule.this);
-					}
-				});
+				getModuleCallback().onSuccess(HierarchicalTreeModule.this);
 			}
 		});
 

@@ -67,13 +67,14 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		verticalPanel.add(searchTitle);
 
 		// searchModel.getResultModel()
-		final DictionaryResultPanel<VOType> dictionaryResultPanel = new DictionaryResultPanel<VOType>(getModule().getDictionaryModel().getName(), getModule()
+		final DictionaryResultPanel<VOType> dictionaryResultPanel = new DictionaryResultPanel<VOType>(getModule().getDictionaryModel(), getModule()
 				.getDictionarySearch().getDictionaryResult());
 
 		if (getModule().getDictionarySearch().hasFilter())
 		{
 			// searchModel.getFilterModel().get(0)
-			final DictionaryFilterPanel<VOType> dictionaryFilter = new DictionaryFilterPanel<VOType>(getModule().getDictionarySearch().getActiveFilter());
+			final DictionaryFilterPanel<VOType> dictionaryFilter = new DictionaryFilterPanel<VOType>(getModule().getDictionarySearch().getActiveFilter(),
+					module.getDictionaryModel().getVoName());
 
 			dictionaryFilter.addStyleName(GwtStyles.VERTICAL_SPACING);
 			verticalPanel.add(dictionaryFilter);

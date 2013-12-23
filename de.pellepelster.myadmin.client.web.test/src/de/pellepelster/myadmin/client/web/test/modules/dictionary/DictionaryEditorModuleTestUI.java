@@ -18,7 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseEditableTableModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.EditableTableModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.EditableTableTest;
@@ -72,7 +72,7 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> extends BaseDi
 		return this.module.getTitle();
 	}
 
-	public <TableVOType extends IBaseVO> EditableTableTest<TableVOType> getEditableTableTest(BaseEditableTableModel<TableVOType> tableModel)
+	public <TableVOType extends IBaseVO> EditableTableTest<TableVOType> getEditableTableTest(EditableTableModel<TableVOType> tableModel)
 	{
 		return new EditableTableTest<TableVOType>(this.module.getElement(tableModel));
 	}

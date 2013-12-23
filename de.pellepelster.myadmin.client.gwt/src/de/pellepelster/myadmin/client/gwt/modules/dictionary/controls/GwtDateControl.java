@@ -32,7 +32,14 @@ public class GwtDateControl extends DateBox implements IGwtControl
 		this.dateControl = dateControl;
 		ensureDebugId(DictionaryModelUtil.getDebugId(dateControl.getModel()));
 
-		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(this.dateControl.getModel().getFormatPattern())));
+		String format = this.dateControl.getModel().getFormatPattern();
+
+		if (format == null)
+		{
+			format = DateTimeFormat.getFormat(com.google.gwt.i18n.shared.DateTimeFormat.PredefinedFormat.DATE_MEDIUM).getPattern();
+		}
+
+		setFormat(new de.pellepelster.myadmin.client.core.utils.DefaultFormat(DateTimeFormat.getFormat(format)));
 		new ControlHelper(this, dateControl, this, false);
 	}
 

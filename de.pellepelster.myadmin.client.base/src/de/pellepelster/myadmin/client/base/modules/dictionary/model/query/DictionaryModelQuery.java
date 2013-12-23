@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.IFilterModel;
 
 public class DictionaryModelQuery
 {
@@ -48,7 +48,7 @@ public class DictionaryModelQuery
 
 		allControlModels.addAll(this.dictionaryModel.getLabelControls());
 
-		for (IFilterModel filterModel : this.dictionaryModel.getSearchModel().getFilterModel())
+		for (IFilterModel filterModel : this.dictionaryModel.getSearchModel().getFilterModels())
 		{
 			recurseContainerModels(allControlModels, filterModel.getCompositeModel());
 		}

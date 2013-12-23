@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -19,14 +18,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
-import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * Dictionary search module
@@ -59,37 +56,11 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private void init(String dictionaryName)
 	{
-		DictionaryModelProvider.getDictionaryModel(dictionaryName, new AsyncCallback<IDictionaryModel>()
-		{
+		DictionarySearchModule.this.dictionaryModel = DictionaryModelProvider.getDictionary(dictionaryName);
+		DictionarySearchModule.this.dictionarySearch = new DictionarySearch<VOType>(this.dictionaryModel);
 
-			/** {@inheritDoc} */
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				getModuleCallback().onFailure(caught);
-			}
+		getModuleCallback().onSuccess(DictionarySearchModule.this);
 
-			/** {@inheritDoc} */
-			@Override
-			public void onSuccess(final IDictionaryModel dictionaryModel)
-			{
-				DictionarySearchModule.this.dictionaryModel = dictionaryModel;
-
-				List<String> referencedDictionaryNames = DictionaryModelUtil.getReferencedDictionaryModels(dictionaryModel);
-
-				DictionaryModelProvider.cacheDictionaryModels(referencedDictionaryNames, new BaseErrorAsyncCallback<List<IDictionaryModel>>()
-				{
-					/** {@inheritDoc} */
-					@Override
-					public void onSuccess(List<IDictionaryModel> result)
-					{
-						DictionarySearchModule.this.dictionarySearch = new DictionarySearch<VOType>(dictionaryModel);
-						getModuleCallback().onSuccess(DictionarySearchModule.this);
-					}
-				});
-
-			}
-		});
 	}
 
 	public String getTitle()

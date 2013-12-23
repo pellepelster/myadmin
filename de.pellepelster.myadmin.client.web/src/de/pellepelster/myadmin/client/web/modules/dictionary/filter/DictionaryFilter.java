@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IFilterModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.IFilterModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.Composite;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.BaseRootElement;
