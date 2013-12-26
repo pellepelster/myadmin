@@ -26,9 +26,17 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITe
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
+import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 
 public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
+
+	@Test
+	public void testGetVoName()
+	{
+		Assert.assertEquals(CountryVO.class.getName(), DemoDictionaryModel.COUNTRY.getVoName());
+	}
+
 	@Test
 	public void testCountry()
 	{
@@ -92,7 +100,6 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 
 		IReferenceControlModel referenceControlModel = (IReferenceControlModel) dictionaryModel.getSearchModel().getResultModel().getControls().get(6);
 		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
-		Assert.assertEquals(1, referenceControlModel.getLabelControls().size());
 		Assert.assertEquals("ReferenceControl1", referenceControlModel.getName());
 	}
 
