@@ -14,6 +14,8 @@ package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Objects;
+
 import de.pellepelster.myadmin.client.base.jpql.IAssociation;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseLookupControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
@@ -24,6 +26,27 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IRe
 
 public final class DictionaryModelUtil
 {
+
+	public static String getEditorLabel(IBaseControlModel baseControlModel)
+	{
+		return Objects.firstNonNull(baseControlModel.getEditorLabel(), getLabel(baseControlModel));
+	}
+
+	public static String getFilterLabel(IBaseControlModel baseControlModel)
+	{
+		return Objects.firstNonNull(baseControlModel.getFilterLabel(), getLabel(baseControlModel));
+	}
+
+	public static String getColumnLabel(IBaseControlModel baseControlModel)
+	{
+		return Objects.firstNonNull(baseControlModel.getColumnLabel(), getLabel(baseControlModel));
+	}
+
+	public static String getLabel(IBaseControlModel baseControlModel)
+	{
+		return Objects.firstNonNull(baseControlModel.getLabel(), baseControlModel.getName());
+	}
+
 	public static List<IBaseControlModel> getLabelControlsWithFallback(IReferenceControlModel referenceControlModel, IDictionaryModel dictionaryModel)
 	{
 		if (!referenceControlModel.getLabelControls().isEmpty())

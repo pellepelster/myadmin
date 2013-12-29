@@ -5,7 +5,6 @@ import com.google.common.base.Objects;
 import de.pellepelster.myadmin.client.base.jpql.RelationalOperator;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.BaseContainerModel;
 
 public abstract class BaseControlModel<ControlElementType> extends BaseModel<ControlElementType> implements IBaseControlModel
 {
@@ -13,6 +12,8 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	private static final long serialVersionUID = 6300062992351577766L;
 
 	private boolean readonly;
+
+	private String label;
 
 	private String filterLabel;
 
@@ -29,13 +30,6 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	public BaseControlModel(String name, IBaseModel parent)
 	{
 		super(name, parent);
-	}
-
-	public BaseControlModel(String name, BaseContainerModel<?> parent)
-	{
-		super(name, parent);
-
-		parent.getControls().add(this);
 	}
 
 	@Override
@@ -131,5 +125,15 @@ public abstract class BaseControlModel<ControlElementType> extends BaseModel<Con
 	public void setToolTip(String toolTip)
 	{
 		this.toolTip = toolTip;
+	}
+
+	public String getLabel()
+	{
+		return label;
+	}
+
+	public void setLabel(String label)
+	{
+		this.label = label;
 	}
 }

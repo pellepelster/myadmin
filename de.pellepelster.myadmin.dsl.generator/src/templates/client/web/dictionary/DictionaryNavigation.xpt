@@ -1,0 +1,71 @@
+«IMPORT myAdminDsl»
+
+«EXTENSION templates::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+«DEFINE dictionaryNavigation FOR Model»
+
+	«info("generating navigation tree for '" + this.name + "'")»
+
+	«EXPAND dictionaryNavigationNodeClass FOREACH this.eAllContents.typeSelect(NavigationNode)»
+
+	«FILE fullQualifiedNavigationTreeFileName()»
+	package «navigationTreePackageName()»;
+	
+	public class «navigationTreeClassName()» {
+
+		public static class RootNavigationNode extends de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement {
+
+			«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
+			public «fullQualifiedNavigationNodeClassName(navigationNode)» «navigationNodeConstantName(navigationNode)» = new «fullQualifiedNavigationNodeClassName(navigationNode)»();
+			«ENDFOREACH»
+	
+			public RootNavigationNode() {
+				«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
+				getChildren().add(«navigationNodeConstantName(navigationNode)»);
+				«ENDFOREACH»
+				
+				setLabel(RootNavigationNode.class.getName());
+			}
+		}
+	
+		public static RootNavigationNode ROOT = new RootNavigationNode();
+	
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»
+
+«DEFINE dictionaryNavigationNodeClass FOR NavigationNode»
+
+	«info("generating navigation tree node for '" + this.name + "'")»
+
+	«FILE fullQualifiedNavigationNodeFileName()»
+	package «navigationNodePackageName()»;
+	
+	public class «navigationNodeClassName()» extends de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement {
+
+		«FOREACH this.eContents.typeSelect(NavigationNode) AS navigationNode»
+		public «fullQualifiedNavigationNodeClassName(navigationNode)» «navigationNodeConstantName(navigationNode)» = new «fullQualifiedNavigationNodeClassName(navigationNode)»();
+		«ENDFOREACH»
+	
+		public «navigationNodeClassName()»() {
+			«FOREACH this.eContents.typeSelect(NavigationNode) AS navigationNode»
+			getChildren().add(«navigationNodeConstantName(navigationNode)»);
+			«ENDFOREACH»
+			
+			setLabel("«name»");
+			
+			«IF this.module != null»
+			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_NAME_PARAMETER_NAME + "=«this.module.name»");
+			«ELSEIF this.dictionaryEditor != null»
+			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionaryEditor).name»");
+			«ELSEIF this.dictionarySearch != null»
+			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionarySearch).name»");
+			«ENDIF»
+		}
+	
+	}
+	«ENDFILE»
+	
+«ENDDEFINE»

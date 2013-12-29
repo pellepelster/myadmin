@@ -13,6 +13,7 @@ import de.pellepelster.myadmin.client.web.modules.hierarchical.hooks.BaseActivat
 import de.pellepelster.myadmin.client.web.modules.hierarchical.hooks.HierarchicalHookRegistry;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.demo.client.modules.TestModule1;
+import de.pellepelster.myadmin.demo.client.web.DemoClientConfiguration;
 
 public class Demo implements EntryPoint
 {
@@ -26,6 +27,8 @@ public class Demo implements EntryPoint
 		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
 				HierarchicalTreeModule.getParameterMap(TestClientHierarchicalConfiguration.ID, false));
+
+		DemoClientConfiguration.registerAll();
 
 		// init();
 	}

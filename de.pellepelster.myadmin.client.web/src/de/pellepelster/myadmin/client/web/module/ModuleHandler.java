@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Splitter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
@@ -24,6 +25,7 @@ import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * Handler for module loading
@@ -73,33 +75,63 @@ public final class ModuleHandler
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, location, parameters);
 	}
 
-	public void startModule(final String moduleName, Map<String, Object> parameters)
+	public void startModule(final String moduleLocator, Map<String, Object> parameters)
 	{
-		startModule(moduleName, null, parameters);
+		startModule(moduleLocator, null, parameters);
 	}
 
-	public void startModule(final String moduleName)
+	public void startModule(final String moduleLocator)
 	{
-		startModule(moduleName, null, new HashMap<String, Object>());
+		startModule(moduleLocator, null, new HashMap<String, Object>());
 	}
 
-	public void startModule(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
+	public void startModule(final String moduleLocator, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
 	{
-
-		GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class).addCriteria(ModuleVO.FIELD_NAME, moduleName)
-				.getGenericFilter();
-		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
-
-		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new AsyncCallback<List<ModuleVO>>()
+		if (moduleLocator.contains("="))
 		{
+			Map<String, String> locatorSegments = Splitter.on("&").withKeyValueSeparator("=").split(moduleLocator);
 
-			/** {@inheritDoc} */
-			@Override
-			public void onFailure(Throwable caught)
+			if (locatorSegments.containsKey(IModule.MODULE_NAME_PARAMETER_NAME))
 			{
-				moduleAsyncCallback.onFailure(caught);
+				startModuleByName(locatorSegments.get(IModule.MODULE_NAME_PARAMETER_NAME), parameters, moduleAsyncCallback);
+			}
+			else if (locatorSegments.containsKey(IModule.MODULE_ID_PARAMETER_NAME))
+			{
+				final String moduleId = locatorSegments.get(IModule.MODULE_ID_PARAMETER_NAME);
+
+				ModuleVO moduleVO = new ModuleVO();
+				moduleVO.setName(moduleLocator);
+				moduleVO.getProperties().putAll(locatorSegments);
+
+				ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
+				moduleDefinitionVO.setName(moduleId);
+
+				moduleVO.setModuleDefinition(moduleDefinitionVO);
+
+				getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
+
+			}
+			else
+			{
+				throw new RuntimeException("unable to find module for locator '" + moduleLocator + "'");
 			}
 
+		}
+		else
+		{
+			startModuleByName(moduleLocator, parameters, moduleAsyncCallback);
+		}
+
+	}
+
+	private void startModuleByName(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
+	{
+		final GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class)
+				.addCriteria(ModuleVO.FIELD_NAME, moduleName).getGenericFilter();
+		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
+
+		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new BaseErrorAsyncCallback<List<ModuleVO>>()
+		{
 			/** {@inheritDoc} */
 			@Override
 			public void onSuccess(List<ModuleVO> result)
@@ -110,39 +142,15 @@ public final class ModuleHandler
 				}
 				else
 				{
+					ModuleVO moduleVO = new ModuleVO();
+					moduleVO.setName(moduleName);
 
-					GenericFilterVO<ModuleDefinitionVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleDefinitionVO.class)
-							.addCriteria(ModuleDefinitionVO.FIELD_NAME, moduleName).getGenericFilter();
+					ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
+					moduleDefinitionVO.setName(moduleName);
 
-					MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-							.filter(genericFilterVO, new AsyncCallback<List<ModuleDefinitionVO>>()
-							{
+					moduleVO.setModuleDefinition(moduleDefinitionVO);
 
-								/** {@inheritDoc} */
-								@Override
-								public void onFailure(Throwable caught)
-								{
-									moduleAsyncCallback.onFailure(caught);
-								}
-
-								@Override
-								public void onSuccess(List<ModuleDefinitionVO> result)
-								{
-									if (result.size() == 1)
-									{
-										ModuleVO moduleVO = new ModuleVO();
-										moduleVO.setName(moduleName);
-										moduleVO.setModuleDefinition(result.get(0));
-
-										getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
-									}
-									else
-									{
-										moduleAsyncCallback.onFailure(new RuntimeException("no module found with name '" + moduleName + "'"));
-									}
-								}
-							});
-
+					getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
 				}
 			}
 		});

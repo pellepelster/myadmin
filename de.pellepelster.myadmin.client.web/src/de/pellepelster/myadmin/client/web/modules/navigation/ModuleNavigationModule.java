@@ -16,12 +16,10 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
+import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
+import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
@@ -33,24 +31,9 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		getModuleCallback().onSuccess(this);
 	}
 
-	public void getNavigationTreeContent(final AsyncCallback<NavigationTreeElements> asyncCallback)
+	public List<NavigationTreeElement> getNavigationTreeRoots()
 	{
-		GenericFilterVO<ModuleNavigationVO> genericFilterVO = new GenericFilterVO<ModuleNavigationVO>(ModuleNavigationVO.class);
-		genericFilterVO.addCriteria(ModuleNavigationVO.FIELD_PARENT.getAttributeName(), null);
-		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
-		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE).addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
-
-		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService()
-				.filter(genericFilterVO, new BaseErrorAsyncCallback<List<ModuleNavigationVO>>(asyncCallback)
-				{
-					@Override
-					public void onSuccess(List<ModuleNavigationVO> moduleNavigationVOs)
-					{
-						NavigationTreeElements root = new NavigationTreeElements(moduleNavigationVOs);
-						asyncCallback.onSuccess(root);
-					}
-				});
-
+		return NavigationTreeProvider.getRootNavigationElements();
 	}
 
 	@Override

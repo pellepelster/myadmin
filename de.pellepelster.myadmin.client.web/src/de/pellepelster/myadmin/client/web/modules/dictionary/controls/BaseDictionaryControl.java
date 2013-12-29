@@ -9,6 +9,7 @@ import com.google.common.base.Strings;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessages;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -79,7 +80,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 	public String getEditorLabel()
 	{
-		String label = getModel().getEditorLabel();
+		String label = DictionaryModelUtil.getEditorLabel(getModel());
 
 		if (getModel().isMandatory())
 		{
@@ -91,7 +92,7 @@ public abstract class BaseDictionaryControl<ModelType extends IBaseControlModel,
 
 	public String getFilterLabel()
 	{
-		return getModel().getFilterLabel();
+		return DictionaryModelUtil.getFilterLabel(getModel());
 	}
 
 	@SuppressWarnings("unchecked")

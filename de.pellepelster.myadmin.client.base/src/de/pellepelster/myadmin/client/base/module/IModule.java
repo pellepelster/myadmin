@@ -20,6 +20,9 @@ package de.pellepelster.myadmin.client.base.module;
  */
 public interface IModule
 {
+	static final String MODULE_ID_PARAMETER_NAME = "moduleId";
+
+	static final String MODULE_NAME_PARAMETER_NAME = "moduleName";
 
 	String getModuleId();
 

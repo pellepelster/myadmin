@@ -36,5 +36,6 @@
 
 	«EXPAND ClientConfiguration::clientConfigurationClass»
 		
+	«EXPAND dictionary::DictionaryNavigation::dictionaryNavigation»
 
 «ENDDEFINE»

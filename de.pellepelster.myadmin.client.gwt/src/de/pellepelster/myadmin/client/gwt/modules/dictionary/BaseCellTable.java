@@ -24,6 +24,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
@@ -57,7 +58,7 @@ public abstract class BaseCellTable<VOType extends IBaseVO> extends CellTable<IB
 	{
 		for (BaseDictionaryControl<? extends IBaseControlModel, ?> baseControl : baseControls)
 		{
-			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
+			TextHeader textHeader = new TextHeader(DictionaryModelUtil.getColumnLabel(baseControl.getModel()));
 			Column column = getColumn(baseControl);
 			setColumnWidth(column, WidthCalculationStrategy.getInstance().getControlColumnWidth(baseControl.getModel()), Unit.PX);
 

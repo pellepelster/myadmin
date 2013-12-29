@@ -11,25 +11,59 @@
  */
 package de.pellepelster.myadmin.demo.server.test.dictionary;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.pellepelster.myadmin.client.base.jpql.AssociationVO;
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
+import de.pellepelster.myadmin.demo.client.web.navigation.DemoNavigationTree;
 
 public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
+
+	@Test
+	public void testGetEditorLabelWithFallback()
+	{
+		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
+				DictionaryModelUtil.getEditorLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
+
+		Assert.assertEquals("IntegerControl",
+				DictionaryModelUtil.getEditorLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
+
+		Assert.assertEquals("BigDecimalEditorLabel",
+				DictionaryModelUtil.getEditorLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1));
+	}
+
+	@Test
+	public void testGetFilterLabelWithFallback()
+	{
+		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
+				DictionaryModelUtil.getFilterLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
+
+		Assert.assertEquals("IntegerControl",
+				DictionaryModelUtil.getFilterLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
+
+		Assert.assertEquals("BigDecimalFilterLabel",
+				DictionaryModelUtil.getFilterLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1));
+	}
+
+	@Test
+	public void testGetColumnLabelWithFallback()
+	{
+		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
+				DictionaryModelUtil.getColumnLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
+
+		Assert.assertEquals("IntegerControl",
+				DictionaryModelUtil.getColumnLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
+
+		Assert.assertEquals("BigDecimalColumnLabel",
+				DictionaryModelUtil.getColumnLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1));
+	}
 
 	@Test
 	public void testGetVoName()
@@ -50,7 +84,7 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testModelNames()
+	public void testModelDebugIds()
 	{
 		IDictionaryModel countryDictionaryModel = DictionaryModelProvider.getDictionary(DemoDictionaryModel.COUNTRY.getName());
 
@@ -61,26 +95,10 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testGetNavigation()
+	public void testNavigationTree()
 	{
-		GenericFilterVO<ModuleNavigationVO> genericFilterVO = new GenericFilterVO<ModuleNavigationVO>(ModuleNavigationVO.class);
-		genericFilterVO.addCriteria(ModuleNavigationVO.FIELD_PARENT.getAttributeName(), null);
-		genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_CHILDREN.getAttributeName());
-
-		AssociationVO moduleAssociationVO = genericFilterVO.addAssociation(ModuleNavigationVO.FIELD_MODULE);
-		moduleAssociationVO.addAssociation(ModuleVO.FIELD_MODULEDEFINITION);
-		moduleAssociationVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
-
-		List<ModuleNavigationVO> result = this.baseVODAO.filter(genericFilterVO);
-		Assert.assertEquals(2, result.size());
-
-		ModuleNavigationVO countryModuleNavigationVO = result.get(1).getChildren().get(0).getChildren().get(0);
-		Assert.assertEquals("Country", countryModuleNavigationVO.getLabel());
-		Assert.assertFalse(countryModuleNavigationVO.getModule().getProperties().isEmpty());
-
-		ModuleNavigationVO stateModuleNavigationVO = result.get(1).getChildren().get(0).getChildren().get(1);
-		Assert.assertEquals("Search State", stateModuleNavigationVO.getLabel());
-
+		Assert.assertEquals("Country", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.COUNTRY.getLabel());
+		Assert.assertEquals("State", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.STATE.getLabel());
 	}
 
 	@Test
@@ -94,11 +112,9 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testReferenceControlLabelFallback()
+	public void testReferenceControl()
 	{
-		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(DemoDictionaryModel.DICTIONARY1.getName());
-
-		IReferenceControlModel referenceControlModel = (IReferenceControlModel) dictionaryModel.getSearchModel().getResultModel().getControls().get(6);
+		IReferenceControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_SEARCH.DICTIONARY1_RESULT.REFERENCE_CONTROL1;
 		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
 		Assert.assertEquals("ReferenceControl1", referenceControlModel.getName());
 	}

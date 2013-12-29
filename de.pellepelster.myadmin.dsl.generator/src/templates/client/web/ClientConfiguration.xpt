@@ -17,17 +17,19 @@
 		public static void registerAll() 
 		{
 			registerDictionaries();
+			registerNavigation();
 		}
 		
 		public static void registerDictionaries()
 		{
-			try {
 			«FOREACH allElements().typeSelect(Dictionary) AS  dictionary»
 				de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider.registerDictionary(«fullQualifiedDictionaryClassName()».«dictionaryConstantName(dictionaryClassName(dictionary))»);
 			«ENDFOREACH»
-			} catch (java.lang.Throwable t) {
-				throw new java.lang.RuntimeException(t);
- 			}
+		}
+
+		public static void registerNavigation()
+		{
+			de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider.addRootNavigationElement(«fullQualifiedNavigationTreeClassName()».ROOT);
 		}
 	
 	}

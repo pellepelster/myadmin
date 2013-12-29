@@ -109,4 +109,7 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("Add children")
 	String addChildren();
 
+	@DefaultMessage("None")
+	String none();
+
 }

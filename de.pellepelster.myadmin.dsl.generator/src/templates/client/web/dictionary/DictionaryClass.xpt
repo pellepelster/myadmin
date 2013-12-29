@@ -151,12 +151,13 @@ dictionary editor
 
 	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
+	«EXPAND dictionaryControlClass FOREACH this.containercontents.typeSelect(DictionaryControl)»
+
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
-	import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 	
 	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.EditorModel {
 	
@@ -167,7 +168,7 @@ dictionary editor
 			«EXPAND dictionaryControlConstant FOREACH this.containercontents.typeSelect(DictionaryControl)»
 
 			public RootComposite(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
-				super(ICompositeModel.ROOT_COMPOSITE_NAME, parent);
+				super(de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel.ROOT_COMPOSITE_NAME, parent);
 				
 				«FOREACH containercontents.typeSelect(DictionaryContainer) AS container»
 					this.getChildren().add(«dictionaryConstantName(container.name)»);
@@ -303,18 +304,45 @@ dictionary filter
 	«info("generating dictionary filter model for '" +  this.name + "'")»
 
 	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
-	
+
+	«EXPAND dictionaryControlClass FOREACH this.containercontents.typeSelect(DictionaryControl)»
+
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
 	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.search.FilterModel {
 
-		«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
+		private class RootComposite extends de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel {
+
+			«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
+
+			«EXPAND dictionaryControlConstant FOREACH this.containercontents.typeSelect(DictionaryControl)»
+
+			public RootComposite(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
+				super(de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel.ROOT_COMPOSITE_NAME, parent);
+				
+				«FOREACH containercontents.typeSelect(DictionaryContainer) AS container»
+					this.getChildren().add(«dictionaryConstantName(container.name)»);
+				«ENDFOREACH»
+	
+				«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
+					this.getControls().add(«dictionaryConstantName(control)»);
+				«ENDFOREACH»
+			}
+		}
+		
+		private RootComposite rootComposite = new RootComposite(this);
 
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
+			
+			setCompositeModel(rootComposite);
 		}
+		
+		«FOREACH this.containercontents.typeSelect(DictionaryContainer) AS container»
+			public «fullQualifiedDictionaryClassName(container)» «dictionaryConstantName(container)» = rootComposite.«dictionaryConstantName(container)»;
+		«ENDFOREACH»
 		
 	}
 	«ENDFILE»
@@ -406,6 +434,10 @@ dictionary controls common
 «DEFINE dictionaryControlCommonSetters FOR DictionaryControl»
 	«IF this.baseControl != null»
 		«IF this.baseControl.labels != null»
+
+			«IF this.baseControl.labels.label != null»
+				«dictionaryConstantName(this)».setLabel("«this.baseControl.labels.label»");
+			«ENDIF»
 		
 			«IF this.baseControl.labels.columnLabel != null»
 				«dictionaryConstantName(this)».setColumnLabel("«this.baseControl.labels.columnLabel»");

@@ -11,12 +11,16 @@
  */
 package de.pellepelster.myadmin.client.web.test.modules.navigation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
-import de.pellepelster.myadmin.client.web.modules.navigation.NavigationTreeElements;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * UI for the navigation module
@@ -26,7 +30,7 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  */
 public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigationModule>
 {
-	private NavigationTreeTestElements root;
+	private List<NavigationTreeTestElement> navigationTreeRoots;
 
 	private ModuleNavigationModule module;
 
@@ -54,17 +58,20 @@ public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigatio
 		return null;
 	}
 
-	public void getRootElements(final AsyncCallback<NavigationTreeTestElements> asyncCallback)
+	public void getRootElements(final AsyncCallback<List<NavigationTreeTestElement>> asyncCallback)
 	{
-		this.module.getNavigationTreeContent(new BaseErrorAsyncCallback<NavigationTreeElements>()
-		{
-			@Override
-			public void onSuccess(NavigationTreeElements navigationTreeElements)
-			{
-				NavigationModuleTestUI.this.root = new NavigationTreeTestElements(navigationTreeElements);
-				asyncCallback.onSuccess(NavigationModuleTestUI.this.root);
-			}
-		});
+		NavigationModuleTestUI.this.navigationTreeRoots = new ArrayList(Collections2.transform(this.module.getNavigationTreeRoots(),
+				new Function<NavigationTreeElement, NavigationTreeTestElement>()
+				{
+
+					@Override
+					public NavigationTreeTestElement apply(NavigationTreeElement input)
+					{
+						return new NavigationTreeTestElement(input);
+					}
+				}));
+
+		asyncCallback.onSuccess(NavigationModuleTestUI.this.navigationTreeRoots);
 	}
 
 	@Override

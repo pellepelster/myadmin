@@ -18,7 +18,6 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTree;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -27,11 +26,11 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
+import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
-import de.pellepelster.myadmin.client.web.modules.navigation.NavigationTreeElements;
 
 /**
  * UI for the navigation module
@@ -45,10 +44,10 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 	private static class NavigationTreeModel implements TreeViewModel
 	{
 
-		private final List<NavigationTreeElements> navigationTree = new ArrayList<NavigationTreeElements>();
+		private final List<NavigationTreeElement> navigationTree = new ArrayList<NavigationTreeElement>();
 
-		private final SingleSelectionModel<NavigationTreeElements> selectionModel = new SingleSelectionModel<NavigationTreeElements>();
-		private ListDataProvider<NavigationTreeElements> rootDataProvider;
+		private final SingleSelectionModel<NavigationTreeElement> selectionModel = new SingleSelectionModel<NavigationTreeElement>();
+		private ListDataProvider<NavigationTreeElement> rootDataProvider;
 
 		public NavigationTreeModel()
 		{
@@ -58,23 +57,23 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 				@Override
 				public void onSelectionChange(SelectionChangeEvent event)
 				{
-					if (selectionModel.getSelectedObject() != null && selectionModel.getSelectedObject().hasModule())
+					if (selectionModel.getSelectedObject() != null && selectionModel.getSelectedObject().hasModuleLocator())
 					{
-						ModuleHandler.getInstance().startModule(selectionModel.getSelectedObject().getModuleName());
+						ModuleHandler.getInstance().startModule(selectionModel.getSelectedObject().getModuleLocator());
 					}
 
 				}
 			});
 		}
 
-		private Cell<NavigationTreeElements> getCell()
+		private Cell<NavigationTreeElement> getCell()
 		{
 
-			Cell<NavigationTreeElements> cell = new AbstractCell<NavigationTreeElements>()
+			Cell<NavigationTreeElement> cell = new AbstractCell<NavigationTreeElement>()
 			{
 				/** {@inheritDoc} */
 				@Override
-				public void render(Context context, NavigationTreeElements value, SafeHtmlBuilder sb)
+				public void render(Context context, NavigationTreeElement value, SafeHtmlBuilder sb)
 				{
 					if (value != null)
 					{
@@ -95,15 +94,15 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 		{
 			if (value == null)
 			{
-				rootDataProvider = new ListDataProvider<NavigationTreeElements>(navigationTree);
-				return new DefaultNodeInfo<NavigationTreeElements>(rootDataProvider, getCell(), selectionModel, null);
+				rootDataProvider = new ListDataProvider<NavigationTreeElement>(navigationTree);
+				return new DefaultNodeInfo<NavigationTreeElement>(rootDataProvider, getCell(), selectionModel, null);
 
 			}
-			else if (value instanceof NavigationTreeElements)
+			else if (value instanceof NavigationTreeElement)
 			{
-				ListDataProvider<NavigationTreeElements> dataProvider = new ListDataProvider<NavigationTreeElements>(
-						((NavigationTreeElements) value).getChildren());
-				return new DefaultNodeInfo<NavigationTreeElements>(dataProvider, getCell(), selectionModel, null);
+				ListDataProvider<NavigationTreeElement> dataProvider = new ListDataProvider<NavigationTreeElement>(
+						((NavigationTreeElement) value).getChildren());
+				return new DefaultNodeInfo<NavigationTreeElement>(dataProvider, getCell(), selectionModel, null);
 			}
 
 			return null;
@@ -113,15 +112,15 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 		@Override
 		public boolean isLeaf(Object value)
 		{
-			return (value instanceof NavigationTreeElements && ((NavigationTreeElements) value).getChildren().isEmpty());
+			return (value instanceof NavigationTreeElement && ((NavigationTreeElement) value).getChildren().isEmpty());
 		}
 
-		public void setNavigationTreeModel(NavigationTreeElements navigationTreeElements)
+		public void setNavigationTreeModel(List<NavigationTreeElement> navigationTreeRootElements)
 		{
 			if (rootDataProvider != null)
 			{
 				rootDataProvider.getList().clear();
-				rootDataProvider.getList().addAll(navigationTreeElements.getChildren());
+				rootDataProvider.getList().addAll(navigationTreeRootElements);
 			}
 		}
 
@@ -143,20 +142,7 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 		CellTree cellTree = new CellTree(navigationTreeModel, null);
 		verticalPanel.add(cellTree);
 
-		module.getNavigationTreeContent(new AsyncCallback<NavigationTreeElements>()
-		{
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				throw new RuntimeException("error refreshing navigation tree", caught);
-			}
-
-			@Override
-			public void onSuccess(NavigationTreeElements result)
-			{
-				navigationTreeModel.setNavigationTreeModel(result);
-			}
-		});
+		navigationTreeModel.setNavigationTreeModel(module.getNavigationTreeRoots());
 	}
 
 	/** {@inheritDoc} */

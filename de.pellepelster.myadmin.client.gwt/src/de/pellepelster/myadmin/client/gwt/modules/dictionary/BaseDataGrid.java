@@ -25,6 +25,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
@@ -82,7 +83,7 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 	{
 		for (BaseDictionaryControl<?, ?> baseControl : baseControls)
 		{
-			TextHeader textHeader = new TextHeader(baseControl.getModel().getColumnLabel());
+			TextHeader textHeader = new TextHeader(DictionaryModelUtil.getColumnLabel(baseControl.getModel()));
 			addColumn(getColumn(baseControl), textHeader);
 		}
 

@@ -110,6 +110,7 @@ public final class MyAdmin implements EntryPoint
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.MODULE_ID, new ModuleNavigationModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.MODULE_ID, new HierarchicalTreeModuleFactory());
+		MyAdminClientConfiguration.registerAll();
 	}
 
 	public void setLayoutFactory(ILayoutFactory<?, ?> layoutFactory)

@@ -31,6 +31,8 @@ public interface IBaseControlModel extends IBaseModel, IContentAwareModel
 
 	static final int MAX_LENGTH_DEFAULT = DEFAULT_WIDTH_HINT;
 
+	String getLabel();
+
 	/**
 	 * Label for column header
 	 * 

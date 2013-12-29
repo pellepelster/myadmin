@@ -60,57 +60,8 @@ String getControlName(DictionaryControl dictionaryControl) :
 EntityAttribute getEntityAttribute(DictionaryControl dictionaryControl) :
 	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getEntityAttribute(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
 
-//- xsd -----------------------------------------------------------------------
-String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
-String xsdQualifier(Entity entity): entity.name.toLowerCase();
-String xsdCatalogFileName(Model model): model.name.toLowerCase() + ".cat";
-String xsdNamespaceUrl(Model model): if (model.schemaUrl != null) then model.schemaUrl else "http://" + model.name.toLowerCase();
-String xsdNamespace(Entity entity): xsdNamespaceUrl(getRootModel(entity)) + "/" + entity.name.toLowerCase();
-String xsdSchemaLocation(Entity entity): xsdFileName(entity); 
-String xsdTypeName(Entity entity): entity.name.toFirstUpper() + "Type"; 
-String xsdTypeReferenceName(Entity entity): entity.name.toFirstUpper() + "ReferenceType"; 
-String xsdElementName(Entity entity): entity.name.toFirstUpper(); 
-String xsdElementListName(Entity entity): xsdElementName(entity) + "List"; 
-String xsdElementReferenceName(Entity entity): entity.name.toFirstUpper() + "Reference";
-String xsdElementReferenceWrapperName(EntityAttribute attribute): attribute.name.toFirstUpper() + "ReferenceWrapper";
- 
-String xsdElementReferenceWrapperName(Entity entity): entity.name.toFirstUpper() + "Reference";
-String xsdElementReferenceListWrapperName(Entity entity): entity.name.toFirstUpper() + "ReferenceList";
-
-//- base module utils ---------------------------------------------------------
-String baseModuleName(ModuleDefinition moduleDefinition) : "Base" + moduleDefinition.name.toFirstUpper() + "Module";
-String fullQualifiedModuleDefinitionPackageName(ModuleDefinition moduleDefinition) : getPackageName(moduleDefinition);
-String fullQualifiedBaseModuleName(ModuleDefinition moduleDefinition) : fullQualifiedModuleDefinitionPackageName(moduleDefinition) + '.' + baseModuleName(moduleDefinition);
-String fullQualifiedBaseModuleFileName(ModuleDefinition moduleDefinition) : fullQualifiedBaseModuleName(moduleDefinition).replaceAll('\\.', '/') + ".java";
-
-//- GWT servicelocator utils --------------------------------------------------
-String gwtRemoteServiceLocatorName(Model model): model.name.toFirstUpper() + "GWTRemoteServiceLocator";
-String gwtRemoteServiceLocatorInterfaceName(Model model): "I" + gwtRemoteServiceLocatorName(model);
-String fullQualifiedGWTRemoteServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
-String fullQualifiedGWTRemoteServiceLocatorFileName(Model model): fullQualifiedGWTRemoteServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtRemoteServiceLocatorName(model) + ".java";
-String fullQualifiedGWTRemoteServiceLocatorInterfaceFileName(Model model): fullQualifiedGWTRemoteServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtRemoteServiceLocatorInterfaceName(model) + ".java";
-
-//- servicelocator utils ------------------------------------------------------
-String remoteServiceLocatorName(Model model): model.name.toFirstUpper() + "RemoteServiceLocator";
-String serviceLocatorName(Model model): model.name.toFirstUpper() + "ServiceLocator";
-String asyncServiceLocatorName(Model model): model.name.toFirstUpper() + "AsyncServiceLocator";
-String fullQualifiedServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
-String fullQualifiedRemoteServiceLocatorFileName(Model model): fullQualifiedServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + remoteServiceLocatorName(model) + ".java";
-String fullQualifiedServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + serviceLocatorName(model);
-String fullQualifiedAsyncServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + asyncServiceLocatorName(model);
-String fullQualifiedServiceLocatorFileName(Model model): fullQualifiedServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
-String fullQualifiedAsyncServiceLocatorFileName(Model model): fullQualifiedAsyncServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
-
-//- entity vo mapper ----------------------------------------------------------
-String fullQualifiedEntityVOMapperFileName(Model model) : fullQualifiedEntityVOMapperName(model).replaceAll('\\.', '/') + '.java';
-String fullQualifiedEntityVOMapperName(Model model) : getRootWebServicePackageName(model) + '.' + entityVOMapperName(model);
-String entityVOMapperName(Model model) : model.name.toFirstUpper() + 'EntityVOMapper';
-
-//- service extensions --------------------------------------------------------
-String fullQualifiedServicePackage(RemoteService remoteService, ModelScope modelScope) : getPackageName(remoteService, modelScope);
-String fullQualifiedServicePackage(RemoteService remoteService) : getPackageName(remoteService);
-String serviceName(RemoteService remoteService) : remoteService.name.toFirstUpper();
-boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOptions != null && remoteService.remoteServiceOptions.nonpublic;
+Dictionary getParentDictionary(Object eObject) :
+	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getParentDictionary(org.eclipse.emf.ecore.EObject);
 
 //==================//
 // dictionary model //
@@ -224,6 +175,77 @@ String clientConfigurationClassName(Model model) : model.name.toFirstUpper() + "
 String clientConfigurationPackageName(Model model) : getRootWebPackageName(model);
 String fullQualifiedClientConfigurationClassName(Model model) : clientConfigurationPackageName(model) + '.' + clientConfigurationClassName(model);
 String fullQualifiedClientConfigurationFileName(Model model) : fullQualifiedClientConfigurationClassName(model).replaceAll('\\.', '/') + '.java';
+
+
+//=================//
+// navigation tree //
+//=================//
+String navigationTreeClassName(Model model) : model.name.toFirstUpper() + "NavigationTree";
+String navigationTreePackageName(Model model) : getRootWebPackageName(model) + ".navigation";
+String fullQualifiedNavigationTreeClassName(Model model) : navigationTreePackageName(model) + '.' + navigationTreeClassName(model);
+String fullQualifiedNavigationTreeFileName(Model model) : fullQualifiedNavigationTreeClassName(model).replaceAll('\\.', '/') + '.java';
+
+//=================//
+// navigation node //
+//=================//
+String navigationNodeConstantName(NavigationNode navigationNode) : camelCaseToUnderScore(navigationNodeClassName(navigationNode)).toUpperCase();
+String navigationNodeClassName(NavigationNode navigationNode) : navigationNode.name.toFirstUpper();
+String navigationNodePackageName(NavigationNode navigationNode) : navigationTreePackageName(getRootModel(navigationNode));
+String fullQualifiedNavigationNodeClassName(NavigationNode navigationNode) : navigationNodePackageName(navigationNode) + '.' + navigationNodeClassName(navigationNode);
+String fullQualifiedNavigationNodeFileName(NavigationNode navigationNode) : fullQualifiedNavigationNodeClassName(navigationNode).replaceAll('\\.', '/') + '.java';
+
+//- xsd -----------------------------------------------------------------------
+String xsdFileName(Entity entity): entity.name.toLowerCase() + ".xsd";
+String xsdQualifier(Entity entity): entity.name.toLowerCase();
+String xsdCatalogFileName(Model model): model.name.toLowerCase() + ".cat";
+String xsdNamespaceUrl(Model model): if (model.schemaUrl != null) then model.schemaUrl else "http://" + model.name.toLowerCase();
+String xsdNamespace(Entity entity): xsdNamespaceUrl(getRootModel(entity)) + "/" + entity.name.toLowerCase();
+String xsdSchemaLocation(Entity entity): xsdFileName(entity); 
+String xsdTypeName(Entity entity): entity.name.toFirstUpper() + "Type"; 
+String xsdTypeReferenceName(Entity entity): entity.name.toFirstUpper() + "ReferenceType"; 
+String xsdElementName(Entity entity): entity.name.toFirstUpper(); 
+String xsdElementListName(Entity entity): xsdElementName(entity) + "List"; 
+String xsdElementReferenceName(Entity entity): entity.name.toFirstUpper() + "Reference";
+String xsdElementReferenceWrapperName(EntityAttribute attribute): attribute.name.toFirstUpper() + "ReferenceWrapper";
+ 
+String xsdElementReferenceWrapperName(Entity entity): entity.name.toFirstUpper() + "Reference";
+String xsdElementReferenceListWrapperName(Entity entity): entity.name.toFirstUpper() + "ReferenceList";
+
+//- base module utils ---------------------------------------------------------
+String baseModuleName(ModuleDefinition moduleDefinition) : "Base" + moduleDefinition.name.toFirstUpper() + "Module";
+String fullQualifiedModuleDefinitionPackageName(ModuleDefinition moduleDefinition) : getPackageName(moduleDefinition);
+String fullQualifiedBaseModuleName(ModuleDefinition moduleDefinition) : fullQualifiedModuleDefinitionPackageName(moduleDefinition) + '.' + baseModuleName(moduleDefinition);
+String fullQualifiedBaseModuleFileName(ModuleDefinition moduleDefinition) : fullQualifiedBaseModuleName(moduleDefinition).replaceAll('\\.', '/') + ".java";
+
+//- GWT servicelocator utils --------------------------------------------------
+String gwtRemoteServiceLocatorName(Model model): model.name.toFirstUpper() + "GWTRemoteServiceLocator";
+String gwtRemoteServiceLocatorInterfaceName(Model model): "I" + gwtRemoteServiceLocatorName(model);
+String fullQualifiedGWTRemoteServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
+String fullQualifiedGWTRemoteServiceLocatorFileName(Model model): fullQualifiedGWTRemoteServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtRemoteServiceLocatorName(model) + ".java";
+String fullQualifiedGWTRemoteServiceLocatorInterfaceFileName(Model model): fullQualifiedGWTRemoteServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + gwtRemoteServiceLocatorInterfaceName(model) + ".java";
+
+//- servicelocator utils ------------------------------------------------------
+String remoteServiceLocatorName(Model model): model.name.toFirstUpper() + "RemoteServiceLocator";
+String serviceLocatorName(Model model): model.name.toFirstUpper() + "ServiceLocator";
+String asyncServiceLocatorName(Model model): model.name.toFirstUpper() + "AsyncServiceLocator";
+String fullQualifiedServiceLocatorPackage(Model model) : getRootWebServicePackageName(model);
+String fullQualifiedRemoteServiceLocatorFileName(Model model): fullQualifiedServiceLocatorPackage(model).replaceAll('\\.', '/') + "/" + remoteServiceLocatorName(model) + ".java";
+String fullQualifiedServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + serviceLocatorName(model);
+String fullQualifiedAsyncServiceLocatorName(Model model): fullQualifiedServiceLocatorPackage(model) + "." + asyncServiceLocatorName(model);
+String fullQualifiedServiceLocatorFileName(Model model): fullQualifiedServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
+String fullQualifiedAsyncServiceLocatorFileName(Model model): fullQualifiedAsyncServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
+
+//- entity vo mapper ----------------------------------------------------------
+String fullQualifiedEntityVOMapperFileName(Model model) : fullQualifiedEntityVOMapperName(model).replaceAll('\\.', '/') + '.java';
+String fullQualifiedEntityVOMapperName(Model model) : getRootWebServicePackageName(model) + '.' + entityVOMapperName(model);
+String entityVOMapperName(Model model) : model.name.toFirstUpper() + 'EntityVOMapper';
+
+//- service extensions --------------------------------------------------------
+String fullQualifiedServicePackage(RemoteService remoteService, ModelScope modelScope) : getPackageName(remoteService, modelScope);
+String fullQualifiedServicePackage(RemoteService remoteService) : getPackageName(remoteService);
+String serviceName(RemoteService remoteService) : remoteService.name.toFirstUpper();
+boolean isNonPublic(RemoteService remoteService): remoteService.remoteServiceOptions != null && remoteService.remoteServiceOptions.nonpublic;
+
 
 //- dictionary debug ids ------------------------------------------------------------
 String fullQualifiedPackageName(Dictionary dictionary) : getPackageName(dictionary);

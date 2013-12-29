@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
@@ -104,7 +105,8 @@ public class ControlHelper implements IControlUpdateListener
 			if (baseControl.getValidationMessages().hasErrors())
 			{
 				uiObject.addStyleName(GwtStyles.CONTROL_ERROR_STYLE);
-				Map<String, Object> context = CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY, baseControl.getModel().getEditorLabel());
+				Map<String, Object> context = CollectionUtils.getMap(IBaseControlModel.EDITOR_LABEL_MESSAGE_KEY,
+						DictionaryModelUtil.getEditorLabel(baseControl.getModel()));
 				uiObject.setTitle(baseControl.getValidationMessages().getValidationMessageString(context));
 			}
 			else
