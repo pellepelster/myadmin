@@ -136,7 +136,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary1 {
 
 				entity Test1
-				label "Dictionary1" dictionarycontrols {
+				
+				dictionarycontrols {
 
 					textcontrol TextControl1 {
 						entityattribute Test1.textDatatype1 
@@ -146,7 +147,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					integercontrol IntegerControl1 {
 						entityattribute Test1.integerDatatype1 
 						
-						label "IntegerControl"
+						label "IntegerControlLabel"
 					}
 
 					bigdecimalcontrol BigDecimalControl1 {
@@ -240,7 +241,10 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary Dictionary2 {
 
 				entity Test2
-				label "Dictionary2" dictionarycontrols {
+				
+				label "Dictionary2Label"
+				
+				dictionarycontrols {
 
 					textcontrol TextControl2 {
 						entityattribute Test2.textDatatype2 label "TextControl2" mandatory

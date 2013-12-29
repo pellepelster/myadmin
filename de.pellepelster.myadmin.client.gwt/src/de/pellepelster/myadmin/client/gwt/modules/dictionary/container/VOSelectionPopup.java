@@ -15,6 +15,7 @@ import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseCellTable;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.container.AssignmentTable;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
@@ -69,7 +70,8 @@ public class VOSelectionPopup<VOType extends IBaseVO> extends BaseVOSelectionPop
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(assignmentTable.getModel().getDictionaryName());
 
-		return new VOSelectionPopup<VOType>(dictionaryModel.getVoName(), dictionaryModel.getLabel(), assignmentTable.getControls(), voSelectHandler);
+		return new VOSelectionPopup<VOType>(dictionaryModel.getVoName(), DictionaryUtil.getLabel(dictionaryModel), assignmentTable.getControls(),
+				voSelectHandler);
 	}
 
 	@Override

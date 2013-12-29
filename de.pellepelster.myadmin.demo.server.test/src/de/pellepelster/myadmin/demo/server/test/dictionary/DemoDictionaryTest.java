@@ -19,6 +19,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
+import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 import de.pellepelster.myadmin.demo.client.web.navigation.DemoNavigationTree;
@@ -27,12 +28,12 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 {
 
 	@Test
-	public void testGetEditorLabelWithFallback()
+	public void testGetEditorLabel()
 	{
 		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
 				DictionaryModelUtil.getEditorLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
 
-		Assert.assertEquals("IntegerControl",
+		Assert.assertEquals("IntegerControlLabel",
 				DictionaryModelUtil.getEditorLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
 
 		Assert.assertEquals("BigDecimalEditorLabel",
@@ -40,12 +41,12 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testGetFilterLabelWithFallback()
+	public void testGetFilterLabel()
 	{
 		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
 				DictionaryModelUtil.getFilterLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
 
-		Assert.assertEquals("IntegerControl",
+		Assert.assertEquals("IntegerControlLabel",
 				DictionaryModelUtil.getFilterLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
 
 		Assert.assertEquals("BigDecimalFilterLabel",
@@ -53,12 +54,12 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testGetColumnLabelWithFallback()
+	public void testGetColumnLabel()
 	{
 		Assert.assertEquals(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1.getName(),
 				DictionaryModelUtil.getColumnLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1));
 
-		Assert.assertEquals("IntegerControl",
+		Assert.assertEquals("IntegerControlLabel",
 				DictionaryModelUtil.getColumnLabel(DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1));
 
 		Assert.assertEquals("BigDecimalColumnLabel",
@@ -69,6 +70,23 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	public void testGetVoName()
 	{
 		Assert.assertEquals(CountryVO.class.getName(), DemoDictionaryModel.COUNTRY.getVoName());
+	}
+
+	// TODO move to gwt client tests
+	// @Test
+	// public void testDictionarySearchLabel()
+	// {
+	// Assert.assertEquals("Dictionary1",
+	// DictionaryUtil.getSearchLabel(DemoDictionaryModel.DICTIONARY1, 0));
+	// Assert.assertEquals("Dictionary2Label",
+	// DictionaryUtil.getSearchLabel(DemoDictionaryModel.DICTIONARY2, 1));
+	// }
+
+	@Test
+	public void testDictionaryLabel()
+	{
+		Assert.assertEquals("Dictionary1", DictionaryUtil.getLabel(DemoDictionaryModel.DICTIONARY1));
+		Assert.assertEquals("Dictionary2Label", DictionaryUtil.getLabel(DemoDictionaryModel.DICTIONARY2));
 	}
 
 	@Test

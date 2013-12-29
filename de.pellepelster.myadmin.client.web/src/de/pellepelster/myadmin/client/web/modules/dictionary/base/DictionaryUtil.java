@@ -13,6 +13,7 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.base;
 
 import java.util.List;
 
+import com.google.common.base.Objects;
 import com.google.gwt.core.client.GWT;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -36,7 +37,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
  */
 public final class DictionaryUtil
 {
-
 	public static String getDictionaryAdd(IDictionaryModel dictionaryModel)
 	{
 		String title = getLabel(dictionaryModel.getEditorModel().getLabel(), dictionaryModel.getLabel());
@@ -69,6 +69,11 @@ public final class DictionaryUtil
 		return label;
 
 	}
+
+	public static String getLabel(IDictionaryModel dictionaryModel)
+	{
+		return Objects.firstNonNull(dictionaryModel.getLabel(), dictionaryModel.getName());
+	};
 
 	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo)
 	{
@@ -137,19 +142,14 @@ public final class DictionaryUtil
 
 	}
 
-	public static String getSearchTitle(IDictionaryModel dictionaryModel)
-	{
-		return getSearchLabel(dictionaryModel, 0);
-	}
-
 	public static String getSearchLabel(IDictionaryModel dictionaryModel, int resultCount)
 	{
+		return getSearchLabel(dictionaryModel) + " (" + MyAdmin.MESSAGES.searchResults(resultCount) + ")";
+	}
 
-		String label = getLabel(dictionaryModel.getSearchModel().getLabel(), dictionaryModel.getLabel());
-
-		label += " (" + MyAdmin.MESSAGES.searchResults(resultCount) + ")";
-
-		return label;
+	public static String getSearchLabel(IDictionaryModel dictionaryModel)
+	{
+		return Objects.firstNonNull(dictionaryModel.getSearchModel().getLabel(), getLabel(dictionaryModel));
 	}
 
 	public static String getLabel(String label, String defaultLabel)

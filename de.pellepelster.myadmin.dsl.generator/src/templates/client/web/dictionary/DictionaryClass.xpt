@@ -129,6 +129,15 @@ dictionary
 				// dictionary search '«dictionarysearch.name»'
 				setSearchModel(«dictionaryConstantName(dictionarysearch)»);
 			«ENDIF»
+			
+			«IF label != null»
+				setLabel("«label»");
+			«ENDIF»
+
+			«IF pluralLabel != null»
+				setPluralLabel("«pluralLabel»");
+			«ENDIF»
+			
 		}
 	}
 	«ENDFILE»	
