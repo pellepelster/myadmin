@@ -32,7 +32,8 @@ public class BaseDictionaryElementUtil
 
 		while (currentModel != null)
 		{
-			modelIds.add(0, currentModel.getName());
+			if (!currentModel.getName().equals(ICompositeModel.ROOT_COMPOSITE_NAME))
+				modelIds.add(0, currentModel.getName());
 			currentModel = currentModel.getParent();
 		}
 

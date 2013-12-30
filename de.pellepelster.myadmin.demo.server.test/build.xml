@@ -1,8 +1,10 @@
 <project name="de.pellepelster.myadmin.demo.server.test" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish">
 
+	<dirname property="de.pellepelster.myadmin.demo.server.test.basedir" file="${ant.file.de.pellepelster.myadmin.demo.server.test}" />
+
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.test.DemoTestsuite" />
-	
-	<property file="build.properties" />
+
+	<property file="${de.pellepelster.myadmin.demo.server.test.basedir}/build.properties" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../${build.project}/ant/myadmin/CargoCommon.xml" />
@@ -24,26 +26,13 @@
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
 	
-	<target name="test.selenium.local" depends="tomcat.local.start">
+	<target name="pre.test">
+		<antcall target="test.client"/>
+	</target>
 
-		<mkdir dir="${test.dir}"/>
-		
-		<junit printsummary="yes" newenvironment="yes" haltonfailure="yes" fork="true">
-
-			<classpath refid="lib.path.id" />
-			
-			<classpath>
-				<fileset dir="${build.dir}" includes="*.jar" excludes="*-source.jar" />
-			</classpath>
-
-			<sysproperty key="screenshot.dir" value="${test.dir}"/>
-			<sysproperty key="remote.url" value="${remote.url}"/>
-
-			<formatter type="xml" />
-
-			<test name="de.pellepelster.myadmin.demo.server.DemoRemoteTestsuite" haltonfailure="yes" outfile="${test.dir}/de.pellepelster.myadmin.demo.server.SeleniumTests" />
-
-		</junit>
+	
+	<target name="test.client" depends="tomcat.local.start">
+		<ant antfile="../${client.test.project}/build.xml" inheritall="false" target="test"  />
 	</target>
 	
 

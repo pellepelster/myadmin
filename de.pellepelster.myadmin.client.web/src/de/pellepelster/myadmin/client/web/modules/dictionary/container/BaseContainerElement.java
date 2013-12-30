@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
@@ -64,6 +65,12 @@ public abstract class BaseContainerElement<ModelType extends IBaseContainerModel
 		allChildren.addAll(this.controls);
 
 		return allChildren;
+	}
+
+	@Override
+	public String toString()
+	{
+		return Objects.toStringHelper(this).add("name", getModel().getName()).toString();
 	}
 
 }

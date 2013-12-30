@@ -73,16 +73,6 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 		Assert.assertEquals(CountryVO.class.getName(), DemoDictionaryModel.COUNTRY.getVoName());
 	}
 
-	// TODO move to gwt client tests
-	// @Test
-	// public void testDictionarySearchLabel()
-	// {
-	// Assert.assertEquals("Dictionary1",
-	// DictionaryUtil.getSearchLabel(DemoDictionaryModel.DICTIONARY1, 0));
-	// Assert.assertEquals("Dictionary2Label",
-	// DictionaryUtil.getSearchLabel(DemoDictionaryModel.DICTIONARY2, 1));
-	// }
-
 	@Test
 	public void testDictionaryLabel()
 	{

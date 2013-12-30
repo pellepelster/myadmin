@@ -771,7 +771,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			dictionary City {
 
 				entity City
-				label "Land" dictionarycontrols {
+
+				dictionarycontrols {
 
 					textcontrol CityName {
 						entityattribute cityName label "Name" mandatory

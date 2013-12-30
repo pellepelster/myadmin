@@ -39,7 +39,7 @@ public final class DictionaryUtil
 {
 	public static String getDictionaryAdd(IDictionaryModel dictionaryModel)
 	{
-		String title = getLabel(dictionaryModel.getEditorModel().getLabel(), dictionaryModel.getLabel());
+		String title = DictionaryModelUtil.getEditorLabel(dictionaryModel);
 
 		return MyAdmin.MESSAGES.dictionaryAdd(title);
 
@@ -50,7 +50,7 @@ public final class DictionaryUtil
 
 		IBaseVO vo = dictionaryEditor.getVO();
 
-		String label = getLabel(dictionaryModel.getEditorModel().getLabel(), dictionaryModel.getLabel());
+		String label = DictionaryModelUtil.getEditorLabel(dictionaryModel);
 
 		if (vo == null || vo.isNew())
 		{
@@ -150,24 +150,6 @@ public final class DictionaryUtil
 	public static String getSearchLabel(IDictionaryModel dictionaryModel)
 	{
 		return Objects.firstNonNull(dictionaryModel.getSearchModel().getLabel(), getLabel(dictionaryModel));
-	}
-
-	public static String getLabel(String label, String defaultLabel)
-	{
-
-		if (label != null && !label.trim().isEmpty())
-		{
-			return label;
-		}
-		else if (defaultLabel != null && !defaultLabel.trim().isEmpty())
-		{
-			return defaultLabel;
-		}
-		else
-		{
-			return "<no title>";
-		}
-
 	}
 
 	private DictionaryUtil()

@@ -60,6 +60,9 @@ String getControlName(DictionaryControl dictionaryControl) :
 EntityAttribute getEntityAttribute(DictionaryControl dictionaryControl) :
 	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getEntityAttribute(de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryControl);
 
+Entity getEntity(EntityAttribute entityAttribute) :
+	JAVA de.pellepelster.myadmin.dsl.util.EntityModelUtil.getEntity(de.pellepelster.myadmin.dsl.myAdminDsl.EntityAttribute);
+
 Dictionary getParentDictionary(Object eObject) :
 	JAVA de.pellepelster.myadmin.dsl.util.ModelUtil.getParentDictionary(org.eclipse.emf.ecore.EObject);
 

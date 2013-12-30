@@ -13,7 +13,6 @@ package de.pellepelster.myadmin.client.web;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -47,8 +46,6 @@ public final class MyAdmin implements EntryPoint
 	/** Shared instance of {@link MyAdmin} */
 	private static MyAdmin instance;
 
-	private static final Logger LOGGER = Logger.getLogger(MyAdmin.class.getName());
-
 	public static EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
 
 	/**
@@ -61,6 +58,7 @@ public final class MyAdmin implements EntryPoint
 		if (instance == null)
 		{
 			instance = new MyAdmin();
+			init();
 		}
 
 		return instance;
@@ -99,7 +97,7 @@ public final class MyAdmin implements EntryPoint
 	/**
 	 * Registers all MyAdmin modules
 	 */
-	public void init()
+	public static void init()
 	{
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.MODULE_ID, new DictionarySearchModuleFactory());
 		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());

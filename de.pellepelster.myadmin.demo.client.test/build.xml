@@ -1,6 +1,6 @@
 <project name="de.pellepelster.myadmin.demo.client.test" xmlns:ivy="antlib:org.apache.ivy.ant"  default="test">
 
-	<property name="client.test.suite.name" value="de.pellepelster.myadmin.demo.DemoClientTestSuite" />
+	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.client.test.DemoClientTestSuite" />
 
 	<import file="../de.pellepelster.myadmin.demo.build/ant/demo.xml" />
 	<import file="../${build.project}/ant/myadmin/BaseClientTest.xml" />

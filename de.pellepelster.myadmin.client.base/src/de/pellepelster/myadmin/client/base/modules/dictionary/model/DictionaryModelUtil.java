@@ -47,6 +47,16 @@ public final class DictionaryModelUtil
 		return Objects.firstNonNull(baseControlModel.getLabel(), baseControlModel.getName());
 	}
 
+	public static String getEditorLabel(IDictionaryModel dictionaryModel)
+	{
+		return Objects.firstNonNull(dictionaryModel.getEditorModel().getLabel(), getLabel(dictionaryModel));
+	}
+
+	public static String getLabel(IDictionaryModel dictionaryModel)
+	{
+		return Objects.firstNonNull(dictionaryModel.getLabel(), dictionaryModel.getName());
+	}
+
 	public static List<IBaseControlModel> getLabelControlsWithFallback(IReferenceControlModel referenceControlModel, IDictionaryModel dictionaryModel)
 	{
 		if (!referenceControlModel.getLabelControls().isEmpty())

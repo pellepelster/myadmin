@@ -404,10 +404,19 @@ dictionary container
 			«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
 				this.getControls().add(«dictionaryConstantName(control)»);
 			«ENDFOREACH»
+			
+			«EXPAND dictionaryContainerSetters FOR this»
 		}
 	}
 	«ENDFILE»
 
+«ENDDEFINE»
+
+«DEFINE dictionaryContainerSetters FOR DictionaryContainer»
+«ENDDEFINE»
+
+«DEFINE dictionaryContainerSetters FOR DictionaryEditableTable»
+	setVoName("«fullQualifiedEntityName(getEntity(this.entityattribute))»");
 «ENDDEFINE»
 
 «DEFINE dictionaryContainerType FOR DictionaryContainer-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ContainerModel«ENDDEFINE»
@@ -443,6 +452,10 @@ dictionary controls common
 «DEFINE dictionaryControlCommonSetters FOR DictionaryControl»
 	«IF this.baseControl != null»
 		«IF this.baseControl.labels != null»
+
+			«IF this.baseControl.mandatory != null»
+				«dictionaryConstantName(this)».setMandatory(«baseControl.mandatory.toString().toLowerCase()»);
+			«ENDIF»
 
 			«IF this.baseControl.labels.label != null»
 				«dictionaryConstantName(this)».setLabel("«this.baseControl.labels.label»");

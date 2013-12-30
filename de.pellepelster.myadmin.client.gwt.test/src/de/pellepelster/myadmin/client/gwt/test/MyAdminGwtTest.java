@@ -36,7 +36,6 @@ public class MyAdminGwtTest implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-
 		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
 		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PCT));
 

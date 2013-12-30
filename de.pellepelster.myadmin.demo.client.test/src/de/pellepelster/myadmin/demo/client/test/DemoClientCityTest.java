@@ -16,6 +16,7 @@ import org.junit.Test;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUIAsyncHelper;
+import de.pellepelster.myadmin.demo.client.web.DemoClientConfiguration;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 
@@ -31,26 +32,28 @@ public class DemoClientCityTest extends MyAdminAsyncGwtTestCase<CityVO>
 	@Test
 	public void testCreateAndSearch()
 	{
+		DemoClientConfiguration.registerAll();
+
 		deleteAllVOs(CityVO.class);
 
 		DictionarySearchModuleTestUIAsyncHelper<CityVO> search = openSearch(DemoDictionaryModel.CITY);
-		search.assertTitle("CitySearch (0 results)");
+		search.assertTitle("City (0 results)");
 		search.assertResultCount(0);
 
 		DictionaryEditorModuleTestUIAsyncHelper<CityVO> editor = openEditor(DemoDictionaryModel.CITY);
-		editor.assertTitle("CityEditor (New)");
+		editor.assertTitle("City (New)");
 
 		editor.getTextControlTest(DemoDictionaryModel.CITY.CITY_EDITOR.COMPOSITE2.COMPOSITE3.CITY_NAME).setValue("xxx");
-		editor.assertTitle("CityEditor (New) *");
+		editor.assertTitle("City (New) *");
 		editor.save();
 
 		search.execute();
-		search.assertTitle("CitySearch (1 result)");
+		search.assertTitle("City (1 result)");
 		search.assertResultCount(1);
 
 		search.getTextControlTest(DemoDictionaryModel.CITY.CITY_SEARCH.CITY_FILTER.COMPOSITE1.CITY_NAME).setValue("yyy");
 		search.execute();
-		search.assertTitle("CitySearch (0 results)");
+		search.assertTitle("City (0 results)");
 		search.assertResultCount(0);
 
 		search.getTextControlTest(DemoDictionaryModel.CITY.CITY_SEARCH.CITY_FILTER.COMPOSITE1.CITY_NAME).setValue("");
