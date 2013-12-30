@@ -5,34 +5,37 @@
 
 «DEFINE dictionaryNavigation FOR Model»
 
-	«info("generating navigation tree for '" + this.name + "'")»
-
-	«EXPAND dictionaryNavigationNodeClass FOREACH this.eAllContents.typeSelect(NavigationNode)»
-
-	«FILE fullQualifiedNavigationTreeFileName()»
-	package «navigationTreePackageName()»;
+	«IF !this.eAllContents.typeSelect(NavigationNode).isEmpty»
 	
-	public class «navigationTreeClassName()» {
+		«info("generating navigation tree for '" + this.name + "'")»
 
-		public static class RootNavigationNode extends de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement {
-
-			«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
-			public «fullQualifiedNavigationNodeClassName(navigationNode)» «navigationNodeConstantName(navigationNode)» = new «fullQualifiedNavigationNodeClassName(navigationNode)»();
-			«ENDFOREACH»
+		«EXPAND dictionaryNavigationNodeClass FOREACH this.eAllContents.typeSelect(NavigationNode)»
 	
-			public RootNavigationNode() {
+		«FILE fullQualifiedNavigationTreeFileName()»
+		package «navigationTreePackageName()»;
+		
+		public class «navigationTreeClassName()» {
+	
+			public static class RootNavigationNode extends de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement {
+	
 				«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
-				getChildren().add(«navigationNodeConstantName(navigationNode)»);
+				public «fullQualifiedNavigationNodeClassName(navigationNode)» «navigationNodeConstantName(navigationNode)» = new «fullQualifiedNavigationNodeClassName(navigationNode)»();
 				«ENDFOREACH»
-				
-				setLabel(RootNavigationNode.class.getName());
+		
+				public RootNavigationNode() {
+					«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
+					getChildren().add(«navigationNodeConstantName(navigationNode)»);
+					«ENDFOREACH»
+					
+					setLabel(RootNavigationNode.class.getName());
+				}
 			}
+		
+			public static RootNavigationNode ROOT = new RootNavigationNode();
+		
 		}
-	
-		public static RootNavigationNode ROOT = new RootNavigationNode();
-	
-	}
-	«ENDFILE»
+		«ENDFILE»
+	«ENDIF»
 	
 «ENDDEFINE»
 

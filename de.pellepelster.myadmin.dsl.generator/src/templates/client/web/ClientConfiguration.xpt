@@ -17,7 +17,9 @@
 		public static void registerAll() 
 		{
 			registerDictionaries();
+			«IF !this.eAllContents.typeSelect(NavigationNode).isEmpty»
 			registerNavigation();
+			«ENDIF»
 		}
 		
 		public static void registerDictionaries()
@@ -27,10 +29,12 @@
 			«ENDFOREACH»
 		}
 
+		«IF !this.eAllContents.typeSelect(NavigationNode).isEmpty»
 		public static void registerNavigation()
 		{
 			de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider.addRootNavigationElement(«fullQualifiedNavigationTreeClassName()».ROOT);
 		}
+		«ENDIF»
 	
 	}
 	«ENDFILE»

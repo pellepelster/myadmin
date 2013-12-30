@@ -120,7 +120,11 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 			if (rootDataProvider != null)
 			{
 				rootDataProvider.getList().clear();
-				rootDataProvider.getList().addAll(navigationTreeRootElements);
+
+				for (NavigationTreeElement navigationTreeRootElement : navigationTreeRootElements)
+				{
+					rootDataProvider.getList().addAll(navigationTreeRootElement.getChildren());
+				}
 			}
 		}
 

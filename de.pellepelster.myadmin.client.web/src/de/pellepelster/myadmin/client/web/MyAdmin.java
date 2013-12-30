@@ -72,11 +72,6 @@ public final class MyAdmin implements EntryPoint
 
 	private IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator;
 
-	private MyAdmin()
-	{
-		init();
-	}
-
 	public ILayoutFactory<?, ?> getLayoutFactory()
 	{
 		return this.layoutFactory;

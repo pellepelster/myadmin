@@ -19,6 +19,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
+import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
@@ -115,8 +116,26 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testNavigationTree()
 	{
+		Assert.assertEquals(1, NavigationTreeProvider.getRootNavigationElements().size());
+
+		Assert.assertEquals(2, DemoNavigationTree.ROOT.getChildren().size());
+
+		Assert.assertEquals(1, DemoNavigationTree.ROOT.MASTERDATA.getChildren().size());
+		Assert.assertEquals(6, DemoNavigationTree.ROOT.MASTERDATA.ADRESS.getChildren().size());
+
+		Assert.assertEquals("City", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.CITY.getLabel());
 		Assert.assertEquals("Country", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.COUNTRY.getLabel());
+		Assert.assertEquals("Group", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.GROUP.getLabel());
+		Assert.assertEquals("Region", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.REGION.getLabel());
 		Assert.assertEquals("State", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.STATE.getLabel());
+		Assert.assertEquals("User", DemoNavigationTree.ROOT.MASTERDATA.ADRESS.USER.getLabel());
+
+		Assert.assertEquals(4, DemoNavigationTree.ROOT.TEST.getChildren().size());
+		Assert.assertEquals("Dictionary1", DemoNavigationTree.ROOT.TEST.DICTIONARY1.getLabel());
+		Assert.assertEquals("Dictionary2", DemoNavigationTree.ROOT.TEST.DICTIONARY2.getLabel());
+		Assert.assertEquals("Dictionary3", DemoNavigationTree.ROOT.TEST.DICTIONARY3.getLabel());
+		Assert.assertEquals("Dictionary4", DemoNavigationTree.ROOT.TEST.DICTIONARY4.getLabel());
+
 	}
 
 	@Test

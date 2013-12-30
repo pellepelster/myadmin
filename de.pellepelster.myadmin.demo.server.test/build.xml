@@ -20,16 +20,11 @@
 		<tomcat.local action="start" war.file="${server.war.file}" jndi.name="${jndi.name}" cargo.jvmargs="${cargo.jvmargs}" />
 	</target>
 
-	<target name="import.dictionary" depends="resolve">
-		<taskdef name="dictionaryimporter" classpathref="lib.path.id" classname="de.pellepelster.myadmin.tools.dictionary.DictionaryImporter" />
-		<dictionaryimporter classpathref="lib.path.id" modelfile="file:/${basedir}/../de.pellepelster.myadmin.demo.generator/src/Demo.msl" remotepath="${remote.path}" remoteport="${remote.port}" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteserver="${remote.server}" />
-	</target>
-
 	<target name="start.client">
 		<openInBrowser url="http://${remote.server}:${remote.port}/de.pellepelster.myadmin.demo/Demo/Demo.html"/>
 	</target>
 	
-	<target name="test.selenium.local" depends="tomcat.local.start, import.dictionary">
+	<target name="test.selenium.local" depends="tomcat.local.start">
 
 		<mkdir dir="${test.dir}"/>
 		
