@@ -47,8 +47,6 @@
 
 		<antcall target="pre.test" />
 
-		<ant antfile="../${server.test.project}/build.xml" target="tomcat.local.start" />
-
 		<gwt.test test.suite.name="${test.suite.name}" />
 
 		<antcall target="post.test" />
