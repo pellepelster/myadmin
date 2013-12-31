@@ -27,11 +27,12 @@
 	</target>
 	
 	<target name="pre.test">
+		<antcall target="tomcat.local.start"/>
 		<antcall target="test.client"/>
 	</target>
 
 	
-	<target name="test.client" depends="tomcat.local.start">
+	<target name="test.client">
 		<ant antfile="../${client.test.project}/build.xml" inheritall="false" target="test"  />
 	</target>
 	
