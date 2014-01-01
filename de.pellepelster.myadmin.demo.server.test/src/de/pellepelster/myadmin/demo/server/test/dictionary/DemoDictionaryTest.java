@@ -17,6 +17,7 @@ import org.junit.Test;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
@@ -187,26 +188,36 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	@Test
 	public void testEnumerationControl1()
 	{
-		IEnumerationControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1;
-		Assert.assertEquals("EnumerationControl1", referenceControlModel.getName());
-		Assert.assertEquals("enumerationDatatype1", referenceControlModel.getAttributePath());
+		IEnumerationControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1;
+		Assert.assertEquals("EnumerationControl1", controlModel.getName());
+		Assert.assertEquals("enumerationDatatype1", controlModel.getAttributePath());
 	}
 
 	@Test
 	public void testFileControl1()
 	{
-		IFileControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.FILE_CONTROL1;
-		Assert.assertEquals("FileControl1", referenceControlModel.getName());
-		Assert.assertEquals("fileDatatype1", referenceControlModel.getAttributePath());
+		IFileControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.FILE_CONTROL1;
+		Assert.assertEquals("FileControl1", controlModel.getName());
+		Assert.assertEquals("fileDatatype1", controlModel.getAttributePath());
 	}
 
 	@Test
 	public void testReferenceControl1()
 	{
-		IReferenceControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1;
-		Assert.assertEquals("ReferenceControl1", referenceControlModel.getName());
-		Assert.assertEquals("referenceDatatype1", referenceControlModel.getAttributePath());
-		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
+		IReferenceControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1;
+		Assert.assertEquals("ReferenceControl1", controlModel.getName());
+		Assert.assertEquals("referenceDatatype1", controlModel.getAttributePath());
+		Assert.assertEquals("Dictionary2", controlModel.getDictionaryName());
+	}
+
+	@Test
+	public void testEditableTable11()
+	{
+		IEditableTableModel editableTableModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_EDITABLE_TABLE1;
+
+		Assert.assertEquals("Dictionary1EditableTable1", editableTableModel.getName());
+		Assert.assertEquals("test3s", editableTableModel.getAttributePath());
+
 	}
 
 	@Test

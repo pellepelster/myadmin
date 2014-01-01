@@ -417,7 +417,9 @@ dictionary container
 
 «DEFINE dictionaryContainerSetters FOR DictionaryEditableTable»
 	setVoName("«fullQualifiedEntityName(getEntity(this.entityattribute))»");
+	setAttributePath("«this.entityattribute.name»");
 «ENDDEFINE»
+
 
 «DEFINE dictionaryContainerType FOR DictionaryContainer-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ContainerModel«ENDDEFINE»
 
