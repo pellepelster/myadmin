@@ -33,7 +33,7 @@
 
 	
 	<target name="test.client">
-		<ant antfile="../${client.test.project}/build.xml" inheritall="false" target="test"  />
+		<ant antfile="../${client.test.project}/build.xml" inheritall="false" target="test.remote"  />
 	</target>
 	
 
