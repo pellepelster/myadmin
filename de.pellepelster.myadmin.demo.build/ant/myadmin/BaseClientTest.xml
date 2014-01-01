@@ -44,12 +44,11 @@
 	</target>
 
 	<target name="test">
+	</target>
 
-		<antcall target="pre.test" />
+	<target name="test.remote">
 
 		<gwt.test test.suite.name="${test.suite.name}" />
-
-		<antcall target="post.test" />
 
 	</target>
 
