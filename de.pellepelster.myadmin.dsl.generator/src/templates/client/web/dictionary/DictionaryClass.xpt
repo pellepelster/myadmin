@@ -545,6 +545,20 @@ enumeration control
 «ENDDEFINE»
 
 «REM»
+------------
+file control
+------------
+«ENDREM»
+
+«DEFINE dictionaryControlConstantSetters FOR DictionaryFileControl»
+	«IF this.ref != null»
+		«EXPAND dictionaryControlConstantSetters FOR this.ref»
+	«ENDIF»
+	
+	«EXPAND dictionaryControlCommonSetters FOR this»
+«ENDDEFINE»
+
+«REM»
 -----------------
 reference control
 -----------------

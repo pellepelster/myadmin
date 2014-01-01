@@ -17,6 +17,12 @@ import org.junit.Test;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBigDecimalControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBooleanControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IDateControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IEnumerationControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IFileControlModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IIntegerControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IReferenceControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.ITextControlModel;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
@@ -139,11 +145,68 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
-	public void testReferenceControl()
+	public void testTextControl1()
 	{
-		IReferenceControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_SEARCH.DICTIONARY1_RESULT.REFERENCE_CONTROL1;
-		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
+		ITextControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.TEXT_CONTROL1;
+		Assert.assertEquals("TextControl1", controlModel.getName());
+		Assert.assertEquals("textDatatype1", controlModel.getAttributePath());
+	}
+
+	@Test
+	public void testIntegerControl1()
+	{
+		IIntegerControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1;
+		Assert.assertEquals("IntegerControl1", controlModel.getName());
+		Assert.assertEquals("integerDatatype1", controlModel.getAttributePath());
+	}
+
+	@Test
+	public void testBigDecimalControl1()
+	{
+		IBigDecimalControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BIG_DECIMAL_CONTROL1;
+		Assert.assertEquals("BigDecimalControl1", controlModel.getName());
+		Assert.assertEquals("bigDecimalDatatype1", controlModel.getAttributePath());
+	}
+
+	@Test
+	public void testDateControl1()
+	{
+		IDateControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.DATE_CONTROL1;
+		Assert.assertEquals("DateControl1", controlModel.getName());
+		Assert.assertEquals("dateDatatype1", controlModel.getAttributePath());
+	}
+
+	@Test
+	public void testBooleanControl1()
+	{
+		IBooleanControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.BOOLEAN_CONTROL1;
+		Assert.assertEquals("BooleanControl1", controlModel.getName());
+		Assert.assertEquals("booleanDatatype1", controlModel.getAttributePath());
+	}
+
+	@Test
+	public void testEnumerationControl1()
+	{
+		IEnumerationControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.ENUMERATION_CONTROL1;
+		Assert.assertEquals("EnumerationControl1", referenceControlModel.getName());
+		Assert.assertEquals("enumerationDatatype1", referenceControlModel.getAttributePath());
+	}
+
+	@Test
+	public void testFileControl1()
+	{
+		IFileControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.FILE_CONTROL1;
+		Assert.assertEquals("FileControl1", referenceControlModel.getName());
+		Assert.assertEquals("fileDatatype1", referenceControlModel.getAttributePath());
+	}
+
+	@Test
+	public void testReferenceControl1()
+	{
+		IReferenceControlModel referenceControlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.REFERENCE_CONTROL1;
 		Assert.assertEquals("ReferenceControl1", referenceControlModel.getName());
+		Assert.assertEquals("referenceDatatype1", referenceControlModel.getAttributePath());
+		Assert.assertEquals("Dictionary2", referenceControlModel.getDictionaryName());
 	}
 
 	@Test

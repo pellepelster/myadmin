@@ -77,7 +77,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				datatype EnumerationDatatype1 enumerationDatatype1
 				datatype ReferenceDatatype1 referenceDatatype1
 				datatype BinaryDatatype1 binaryDatatype1
-				datatype MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File file1
+				datatype MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File fileDatatype1
 				reference Test3 * test3s
 			}
 
@@ -180,7 +180,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					}
 					
 					filecontrol FileControl1 {
-						entityattribute Test1.file1
+						entityattribute Test1.fileDatatype1
 					}
 				}
 

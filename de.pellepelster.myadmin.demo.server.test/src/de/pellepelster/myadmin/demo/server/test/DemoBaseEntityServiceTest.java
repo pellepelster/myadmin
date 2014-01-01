@@ -386,31 +386,31 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 		byte[] bin2 = new byte[] { 0x3, 0x4, 0x5 };
 
 		String file1TempId = this.tempFileStore.storeTempFile(bin1);
-		test1VO.getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file1TempId);
+		test1VO.getData().put(Test1VO.FIELD_FILEDATATYPE1.getAttributeName(), file1TempId);
 
 		Result<Test1VO> createResult = this.baseEntityService.validateAndCreate(test1VO);
 
-		Assert.assertNull(createResult.getVO().getFile1().getFileContent());
+		Assert.assertNull(createResult.getVO().getFileDatatype1().getFileContent());
 		Assert.assertFalse(createResult.getVO().getChangeTracker().hasChanges());
-		Assert.assertFalse(createResult.getVO().getFile1().getChangeTracker().hasChanges());
-		Assert.assertEquals(file1TempId, createResult.getVO().getFile1().getFileUUID());
+		Assert.assertFalse(createResult.getVO().getFileDatatype1().getChangeTracker().hasChanges());
+		Assert.assertEquals(file1TempId, createResult.getVO().getFileDatatype1().getFileUUID());
 
 		GenericFilterVO<Test1VO> test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class)
 				.addCriteria(Test1VO.FIELD_ID, createResult.getVO().getId()).getGenericFilter();
 		List<Test1VO> result = this.baseEntityService.filter(test1Filter);
-		Assert.assertEquals(file1TempId, result.get(0).getFile1().getFileUUID());
+		Assert.assertEquals(file1TempId, result.get(0).getFileDatatype1().getFileUUID());
 
 		String file2TempId = this.tempFileStore.storeTempFile(bin2);
-		createResult.getVO().getData().put(Test1VO.FIELD_FILE1.getAttributeName(), file2TempId);
+		createResult.getVO().getData().put(Test1VO.FIELD_FILEDATATYPE1.getAttributeName(), file2TempId);
 
 		Result<Test1VO> saveResult = this.baseEntityService.validateAndSave(createResult.getVO());
 		Assert.assertFalse(saveResult.getVO().getChangeTracker().hasChanges());
-		Assert.assertFalse(saveResult.getVO().getFile1().getChangeTracker().hasChanges());
+		Assert.assertFalse(saveResult.getVO().getFileDatatype1().getChangeTracker().hasChanges());
 
 		test1Filter = ClientGenericFilterBuilder.createGenericFilter(Test1VO.class).addCriteria(Test1VO.FIELD_ID, saveResult.getVO().getId())
 				.getGenericFilter();
 		result = this.baseEntityService.filter(test1Filter);
-		Assert.assertEquals(file2TempId, result.get(0).getFile1().getFileUUID());
+		Assert.assertEquals(file2TempId, result.get(0).getFileDatatype1().getFileUUID());
 
 	}
 
