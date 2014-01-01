@@ -19,7 +19,7 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="compile->@" />
+		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="runtime,compile->@" />
 
 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="compile->generated.client.web" />
 

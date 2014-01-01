@@ -46,9 +46,19 @@
 	<target name="test">
 	</target>
 
+	<target name="pre.test.remote">
+	</target>
+
+	<target name="post.test.remote">
+	</target>
+
 	<target name="test.remote">
 
+		<antcall target="pre.test.remote" />
+
 		<gwt.test test.suite.name="${test.suite.name}" />
+
+		<antcall target="post.test.remote" />
 
 	</target>
 
