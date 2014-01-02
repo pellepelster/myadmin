@@ -3,6 +3,9 @@
 	<properties file="properties/${user.name}.build.properties" />
 	<include url="myadmin/ivysettings-myadmin-base.xml" />
 	
+	<property name="ivy.staging.repository.root" value="/tmp" override="false"/>
+	<property name="ivy.resolver.default" value="@project.name@_default" override="false"/>
+	
 	<settings defaultResolver="${ivy.resolver.default}" />
 
 	<resolvers>
