@@ -217,7 +217,13 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 
 		Assert.assertEquals("Dictionary1EditableTable1", editableTableModel.getName());
 		Assert.assertEquals("test3s", editableTableModel.getAttributePath());
+	}
 
+	public void testRootComposite()
+	{
+		ITextControlModel controlModel = DemoDictionaryModel.COUNTRY.COUNTRY_SEARCH.COUNTRY_FILTER.COUNTRY_NAME;
+		Assert.assertEquals("CountryName", controlModel.getName());
+		Assert.assertEquals("countryName", controlModel.getAttributePath());
 	}
 
 	@Test

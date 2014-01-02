@@ -183,9 +183,12 @@ dictionary editor
 					this.getChildren().add(«dictionaryConstantName(container.name)»);
 				«ENDFOREACH»
 	
+				// controls
 				«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
 					this.getControls().add(«dictionaryConstantName(control)»);
 				«ENDFOREACH»
+				
+				«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
 			}
 		}
 		
@@ -203,6 +206,10 @@ dictionary editor
 		
 		«FOREACH this.containercontents.typeSelect(DictionaryContainer) AS container»
 			public «fullQualifiedDictionaryClassName(container)» «dictionaryConstantName(container)» = rootComposite.«dictionaryConstantName(container)»;
+		«ENDFOREACH»
+
+		«FOREACH this.containercontents.typeSelect(DictionaryControl) AS control»
+			public «EXPAND dictionaryControlType FOR control» «dictionaryConstantName(control)» = rootComposite.«dictionaryConstantName(control)»;
 		«ENDFOREACH»
 	
 	}
@@ -286,11 +293,12 @@ dictionary result
 		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
 			super("«name»", parent);
 
-			«EXPAND dictionaryControlConstantSetters FOREACH this.resultcolumns»
 			
 			«FOREACH this.resultcolumns AS control»
 				this.getControls().add(«dictionaryConstantName(control)»);
 			«ENDFOREACH»
+			
+			«EXPAND dictionaryControlConstantSetters FOREACH this.resultcolumns»
 		}
 		
 	}
@@ -335,9 +343,13 @@ dictionary filter
 					this.getChildren().add(«dictionaryConstantName(container.name)»);
 				«ENDFOREACH»
 	
+				// controls
 				«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
 					this.getControls().add(«dictionaryConstantName(control)»);
 				«ENDFOREACH»
+				
+				«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
+				
 			}
 		}
 		
@@ -351,6 +363,10 @@ dictionary filter
 		
 		«FOREACH this.containercontents.typeSelect(DictionaryContainer) AS container»
 			public «fullQualifiedDictionaryClassName(container)» «dictionaryConstantName(container)» = rootComposite.«dictionaryConstantName(container)»;
+		«ENDFOREACH»
+		
+		«FOREACH this.containercontents.typeSelect(DictionaryControl) AS control»
+			public «EXPAND dictionaryControlType FOR control» «dictionaryConstantName(control)» = rootComposite.«dictionaryConstantName(control)»;
 		«ENDFOREACH»
 		
 	}
@@ -395,17 +411,20 @@ dictionary container
 			
 			super("«name»", parent);
 
-			«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
-
+			// container
 			«FOREACH containercontents.typeSelect(DictionaryContainer) AS container»
 				this.getChildren().add(«dictionaryConstantName(container.name)»);
 			«ENDFOREACH»
 
+			«EXPAND dictionaryContainerSetters FOR this»
+
+			// controls
 			«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
 				this.getControls().add(«dictionaryConstantName(control)»);
 			«ENDFOREACH»
+
+			«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
 			
-			«EXPAND dictionaryContainerSetters FOR this»
 		}
 	}
 	«ENDFILE»

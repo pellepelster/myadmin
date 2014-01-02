@@ -35,10 +35,8 @@ public final class DemoHierarchicalTest extends BaseDemoDictionaryTest
 	private IHierachicalService hierachicalService;
 
 	@Before
-	@Override
 	public void init()
 	{
-		super.init();
 
 		getBaseEntityService().deleteAll(CompanyVO.class.getName());
 
