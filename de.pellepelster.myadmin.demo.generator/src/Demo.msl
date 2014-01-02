@@ -730,10 +730,8 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 					dictionaryfilter CountryFilter {
 
-						composite Composite1 {
-							textcontrol ref CountryName
-							textcontrol ref CountryDescription
-						}
+						textcontrol ref CountryName
+						textcontrol ref CountryDescription
 
 					}
 
