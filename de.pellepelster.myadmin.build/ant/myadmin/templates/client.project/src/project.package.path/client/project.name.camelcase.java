@@ -19,5 +19,11 @@ public class @project.name.camelcase@ implements EntryPoint
 
 		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 
+		init();
+	}
+
+	public void init()
+	{
+		@project.package@.client.web.@project.name.camelcase@ClientConfiguration.registerAll();
 	}
 }
