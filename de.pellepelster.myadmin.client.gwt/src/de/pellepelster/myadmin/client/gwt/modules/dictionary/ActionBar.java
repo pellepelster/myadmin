@@ -11,15 +11,19 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+import de.pellepelster.myadmin.client.base.db.vos.UUID;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
-import de.pellepelster.myadmin.client.gwt.widgets.Spacer;
 
 /**
  * Gmail style button bar
@@ -30,7 +34,9 @@ import de.pellepelster.myadmin.client.gwt.widgets.Spacer;
 public class ActionBar extends HorizontalPanel
 {
 
-	private final HorizontalPanel actionPanelInternal = new HorizontalPanel();
+	private final FlowPanel buttonToolbar = new FlowPanel();
+
+	private final Map<String, FlowPanel> buttonBars = new HashMap<String, FlowPanel>();
 
 	public ActionBar()
 	{
@@ -40,21 +46,27 @@ public class ActionBar extends HorizontalPanel
 		addStyleName(GwtStyles.SEPARATOR_BORDER_TOP);
 		addStyleName(GwtStyles.DEBUG_BORDER);
 		addStyleName(GwtStyles.VERTICAL_SPACING);
-		add(actionPanelInternal);
+		buttonToolbar.addStyleName(GwtStyles.BUTTON_TOOLBAR);
+		add(buttonToolbar);
 	}
 
-	private Button addButton(ImageResource imageResource, String title, ClickHandler clickHandler, String styleName, String debugId)
+	private Button addButton(String buttonGroupName, ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
 	{
-		ImageButton button = new ImageButton();
-
-		if (styleName != null)
+		if (!buttonBars.containsKey(buttonGroupName))
 		{
-			button.addStyleName(styleName);
+			FlowPanel buttonGroup = new FlowPanel();
+			buttonGroup.addStyleName(GwtStyles.BUTTON_GROUP);
+			buttonBars.put(buttonGroupName, buttonGroup);
+			buttonToolbar.add(buttonGroup);
 		}
+
+		ImageButton button = new ImageButton();
+		button.addStyleName(GwtStyles.BUTTON);
+		button.addStyleName(GwtStyles.BUTTON_DEFAULT);
 
 		button.setResource(imageResource);
 		button.setTitle(title);
-		actionPanelInternal.add(button);
+		buttonBars.get(buttonGroupName).add(button);
 
 		if (clickHandler != null)
 		{
@@ -65,35 +77,19 @@ public class ActionBar extends HorizontalPanel
 		return button;
 	}
 
-	public Button addButtonBar(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
+	public Button addToButtonGroup(String buttonGroupName, ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
 	{
-		return addButton(imageResource, title, clickHandler, GwtStyles.BUTTON_BAR_MIDDLE, debugId);
-	}
-
-	public Button addButtonBarEnd(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
-	{
-		return addButton(imageResource, title, clickHandler, GwtStyles.BUTTON_BAR_RIGHT, debugId);
-	}
-
-	public Button addButtonBarStart(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
-	{
-		return addButton(imageResource, title, clickHandler, GwtStyles.BUTTON_BAR_LEFT, debugId);
+		return addButton(buttonGroupName, imageResource, title, clickHandler, debugId);
 	}
 
 	public Button addSingleButton(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
 	{
-		return addButton(imageResource, title, clickHandler, null, debugId);
+		return addButton(UUID.uuid(), imageResource, title, clickHandler, debugId);
 	}
 
 	public Button addSingleButton(ImageResource imageResource, String title, String debugId)
 	{
-		return addButton(imageResource, title, null, null, debugId);
-	}
-
-	public void addSpacer(double width)
-	{
-		Spacer spacer = new Spacer(width);
-		actionPanelInternal.add(spacer);
+		return addButton(UUID.uuid(), imageResource, title, null, debugId);
 	}
 
 }

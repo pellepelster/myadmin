@@ -86,7 +86,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 				}
 			}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_BACK_BUTTON_DEBUG_ID);
 
-			actionBar.addSpacer(2);
 		}
 
 		actionBar.addSingleButton(MyAdmin.RESOURCES.editorSave(), MyAdmin.MESSAGES.editorSave(), new ClickHandler()

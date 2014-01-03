@@ -41,17 +41,36 @@ public interface GwtStyles
 
 	String CONTROL_ERROR_STYLE = "control-error";
 
-	String BUTTON_BAR_LEFT = "gwt-Button-left";
-
-	String BUTTON_BAR_RIGHT = "gwt-Button-right";
-
-	String BUTTON_BAR_MIDDLE = "gwt-Button-middle";
-
 	String SEARCH_TITLE = "search-title";
+
+	String H1_CLASS = "h1";
+
+	String H2_CLASS = "h2";
+
+	String H3_CLASS = "h3";
+
+	String H4_CLASS = "h4";
+
+	String H5_CLASS = "h5";
+
+	String H6_CLASS = "h6";
 
 	double DISABLED_OPACITY = 0.2d;
 
 	double ENABLED_OPACITY = 1.0d;
 
 	int SPACING = 10;
+
+	String BUTTON_GROUP = "btn-group";
+
+	String BUTTON_TOOLBAR = "btn-toolbar";
+
+	String BUTTON_PRIMARY = "btn-primary";
+
+	String BUTTON_DEFAULT = "btn-default";
+
+	String BUTTON = "btn";
+
+	String FORM_CONTROL = "form-control";
+
 }

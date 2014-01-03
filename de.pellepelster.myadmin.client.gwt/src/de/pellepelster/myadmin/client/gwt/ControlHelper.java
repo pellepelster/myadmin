@@ -41,9 +41,20 @@ public class ControlHelper implements IControlUpdateListener
 	public <ValueType> ControlHelper(final Widget uiObject, final BaseDictionaryControl<?, ValueType> baseControl, IGwtControl gwtControl,
 			boolean addValueChangeListener)
 	{
+		this(uiObject, baseControl, gwtControl, addValueChangeListener, true);
+	}
+
+	public <ValueType> ControlHelper(final Widget uiObject, final BaseDictionaryControl<?, ValueType> baseControl, IGwtControl gwtControl,
+			boolean addValueChangeListener, boolean addDefaultStyle)
+	{
 		this.uiObject = uiObject;
 		this.baseControl = baseControl;
 		this.gwtControl = gwtControl;
+
+		if (addDefaultStyle)
+		{
+			uiObject.addStyleName(GwtStyles.FORM_CONTROL);
+		}
 
 		uiObject.setWidth(WidthCalculationStrategy.getInstance().getControlWidthCss(baseControl.getModel()));
 

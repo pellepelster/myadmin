@@ -36,6 +36,7 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEd
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.search.DictionarySearchModuleUIFactory;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTreeModuleUIFactory;
 import de.pellepelster.myadmin.client.gwt.modules.navigation.NavigationModuleUIFactory;
+import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
@@ -151,7 +152,8 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 			Panel panel = moduleUI.getContainer();
 			panel.setWidth("100%");
 
-			HTML html = new HTML(title);
+			HTML html = new HTML(MyAdmin.MESSAGES.panelTitle(title));
+			html.setStylePrimaryName(GwtStyles.H3_CLASS);
 
 			for (Map.Entry<Panel, IModuleUI<Panel, ?>> entry : stackLayoutPanelMappings.get(stackLayoutPanel).entrySet())
 			{

@@ -79,7 +79,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			dictionaryFilter.addStyleName(GwtStyles.VERTICAL_SPACING);
 			verticalPanel.add(dictionaryFilter);
 
-			actionBar.addButtonBarStart(MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
+			actionBar.addToButtonGroup(module.getModuleId(), MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
 			{
 				/** {@inheritDoc} */
 				@Override
@@ -91,7 +91,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 		}
 		else
 		{
-			actionBar.addButtonBarStart(MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
+			actionBar.addToButtonGroup(module.getModuleId(), MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
 			{
 				/** {@inheritDoc} */
 				@Override
@@ -103,7 +103,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		}
 
-		actionBar.addButtonBarEnd(MyAdmin.RESOURCES.dictionaryCreate(), MyAdmin.MESSAGES.dictionaryCreate(), new ClickHandler()
+		actionBar.addToButtonGroup(module.getModuleId(), MyAdmin.RESOURCES.dictionaryCreate(), MyAdmin.MESSAGES.dictionaryCreate(), new ClickHandler()
 		{
 			/** {@inheritDoc} */
 			@Override

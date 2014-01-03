@@ -112,4 +112,7 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("None")
 	String none();
 
+	@DefaultMessage("{0}")
+	String panelTitle(String title);
+
 }

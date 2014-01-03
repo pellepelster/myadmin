@@ -144,6 +144,7 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 
 		final NavigationTreeModel navigationTreeModel = new NavigationTreeModel();
 		CellTree cellTree = new CellTree(navigationTreeModel, null);
+
 		verticalPanel.add(cellTree);
 
 		navigationTreeModel.setNavigationTreeModel(module.getNavigationTreeRoots());

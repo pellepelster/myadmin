@@ -8,9 +8,6 @@
 	<inherits name="com.google.gwt.resources.Resources" />
 	<inherits name="com.google.gwt.user.Debug"/>
 
-	<inherits name='com.google.gwt.user.theme.standard.Standard'/>
-	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
-	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark" /> -->
  	<inherits name="gwtupload.GWTUpload"/>
  
  	<stylesheet src="myadmin-standard.css"/>
