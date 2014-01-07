@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IEditableTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
@@ -34,16 +33,9 @@ public class EditableTable<VOType extends IBaseVO> extends BaseTableElement<VOTy
 					public void onSuccess(IBaseVO newVO)
 					{
 						addRow((VOType) newVO);
-
 						asyncCallback.onSuccess(EditableTable.this.getRows());
-						// getSelectionModel().setSelected(newVO, true);
 					}
 				});
 	}
 
-	@Override
-	public void delete(IBaseTable.ITableRow<VOType> tableRow)
-	{
-		throw new RuntimeException("not implemented");
-	}
 }

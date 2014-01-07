@@ -33,6 +33,18 @@ public class EditableTableTest<VOType extends IBaseVO>
 		});
 	}
 
+	public void delete(final AsyncCallback<EditableTableTest<VOType>> asyncCallback)
+	{
+		this.editableTable.delete(new BaseErrorAsyncCallback<List<ITableRow<VOType>>>()
+		{
+			@Override
+			public void onSuccess(List<ITableRow<VOType>> result)
+			{
+				asyncCallback.onSuccess(EditableTableTest.this);
+			}
+		});
+	}
+
 	public void assertRowCount(int expectedRowCount)
 	{
 		Assert.assertEquals(expectedRowCount, this.editableTable.getRows().size());

@@ -42,7 +42,7 @@ public class ReferenceControlFactory<VOType extends IBaseVO> extends BaseControl
 			case DROPDOWN:
 				return new ReferenceDropdownControl(referenceControl);
 			default:
-				return new ReferenceTextControl(referenceControl);
+				return new GwtReferenceTextControl(referenceControl);
 		}
 	}
 

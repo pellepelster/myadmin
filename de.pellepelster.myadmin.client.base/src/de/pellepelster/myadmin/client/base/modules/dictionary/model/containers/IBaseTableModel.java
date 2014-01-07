@@ -11,7 +11,9 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.containers;
 
-public interface IBaseTableModel extends IBaseContainerModel
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwareModel;
+
+public interface IBaseTableModel extends IBaseContainerModel, IContentAwareModel
 {
 	final static int DEFAULT_VISBLE_ROWS = 5;
 
@@ -20,4 +22,5 @@ public interface IBaseTableModel extends IBaseContainerModel
 	Integer getVisibleRows();
 
 	int getPagingSize();
+
 }

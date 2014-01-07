@@ -3,16 +3,19 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.container;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.web.modules.dictionary.base.BaseDictionaryElement;
 
-public abstract class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseContainerElement<ModelType> implements IBaseTable<VOType>
+public abstract class BaseTableElement<VOType extends IBaseVO, ModelType extends IBaseTableModel> extends BaseContainerElement<ModelType> implements
+		IBaseTable<VOType>
 {
 
-	private List<ITableRow<VOType>> rows = new ArrayList<ITableRow<VOType>>();
+	private TableRowList<VOType, ModelType> rowList = new TableRowList<VOType, ModelType>(new ArrayList<VOType>(), this);;
 
 	private List<ITableRow<VOType>> selection = new ArrayList<ITableRow<VOType>>();
 
@@ -21,6 +24,16 @@ public abstract class BaseTableElement<VOType extends IBaseVO, ModelType extends
 	public BaseTableElement(ModelType baseTable, BaseDictionaryElement<IBaseModel> parent)
 	{
 		super(baseTable, parent);
+
+		if (getModel().getAttributePath() != null)
+		{
+			List<VOType> vos = (List<VOType>) getVOWrapper().get(getModel().getAttributePath());
+
+			this.rowList = new TableRowList<VOType, ModelType>(vos, this);
+
+			fireTableUpdateListeners();
+		}
+
 	}
 
 	private void fireTableUpdateListeners()
@@ -40,55 +53,76 @@ public abstract class BaseTableElement<VOType extends IBaseVO, ModelType extends
 	@Override
 	public List<ITableRow<VOType>> getRows()
 	{
-		return this.rows;
+		return this.rowList;
 	}
 
 	public void setRows(List<VOType> vos)
 	{
-		this.rows.clear();
-		this.rows.addAll(vos2TableRows(vos));
+		this.rowList = new TableRowList<VOType, ModelType>(vos, this);
 
 		fireTableUpdateListeners();
 	}
 
-	public void setSelection(ITableRow<VOType> tableRow)
+	private void setSelection(ITableRow<VOType> tableRow)
 	{
-		selection.clear();
-		selection.add(tableRow);
+		this.selection.clear();
+		this.selection.add(tableRow);
 	}
-	
+
+	private void setDefaultSelection()
+	{
+		this.selection.clear();
+		if (!this.selection.isEmpty())
+		{
+			this.selection.add(this.rowList.get(0));
+		}
+	}
+
 	protected ITableRow<VOType> addRow(VOType vo)
 	{
 		TableRow<VOType, ModelType> tableRow = new TableRow<VOType, ModelType>(vo, this);
-		this.rows.add(tableRow);
+		this.rowList.add(tableRow);
 		setSelection(tableRow);
-		
+
 		fireTableUpdateListeners();
 
 		return tableRow;
 	}
 
-	private List<IBaseTable.ITableRow<VOType>> vos2TableRows(List<VOType> vos)
-	{
-		List<IBaseTable.ITableRow<VOType>> result = new ArrayList<IBaseTable.ITableRow<VOType>>();
-
-		for (VOType vo : vos)
-		{
-			result.add(new TableRow<VOType, IBaseTableModel>(vo, (BaseTableElement<VOType, IBaseTableModel>) this));
-		}
-
-		return result;
-	}
-
 	public ITableRow<VOType> getTableRow(int rowIndex)
 	{
-		return this.rows.get(rowIndex);
+		return this.rowList.get(rowIndex);
 	}
 
 	@Override
 	public List<ITableRow<VOType>> getSelection()
 	{
-		return selection;
+		return this.selection;
 	}
 
+	@Override
+	public void delete(List<IBaseTable.ITableRow<VOType>> rowsToDelete, final AsyncCallback<List<ITableRow<VOType>>> asyncCallback)
+	{
+		this.rowList.removeAll(rowsToDelete);
+
+		setDefaultSelection();
+
+		fireTableUpdateListeners();
+
+		asyncCallback.onSuccess(this.rowList);
+	}
+
+	@Override
+	public void delete(AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
+	{
+		delete(getSelection(), asyncCallback);
+	}
+
+	@Override
+	public void delete(ITableRow<VOType> tableRowToDelete, AsyncCallback<List<IBaseTable.ITableRow<VOType>>> asyncCallback)
+	{
+		List<ITableRow<VOType>> rowsToDelete = new ArrayList<ITableRow<VOType>>();
+		rowsToDelete.add(tableRowToDelete);
+		delete(rowsToDelete, asyncCallback);
+	}
 }

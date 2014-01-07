@@ -24,12 +24,9 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable;
 import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.ITableRow;
-import de.pellepelster.myadmin.client.base.modules.dictionary.container.IBaseTable.TableUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.container.BaseTableRowKeyProvider;
-import de.pellepelster.myadmin.client.web.modules.dictionary.container.BaseTableElement;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.BaseDictionaryControl;
 
 public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBaseTable.ITableRow<VOType>>
@@ -39,34 +36,6 @@ public abstract class BaseDataGrid<VOType extends IBaseVO> extends DataGrid<IBas
 	private final SingleSelectionModel<IBaseTable.ITableRow<VOType>> selectionModel;
 
 	private List<BaseDictionaryControl<?, ?>> baseControls;
-
-	public BaseDataGrid(final BaseTableElement<VOType, ? extends IBaseTableModel> baseTable)
-	{
-		this(baseTable.getControls());
-
-		baseTable.addTableUpdateListeners(new TableUpdateListener()
-		{
-			@Override
-			public void onUpdate()
-			{
-				dataProvider.setList(baseTable.getRows());
-
-				if (!baseTable.getSelection().isEmpty())
-				{
-					if (baseTable.getSelection().size() == 1)
-					{
-						selectionModel.setSelected(baseTable.getSelection().get(0), true);
-					}
-					else
-					{
-						throw new RuntimeException("more than one table row selcted");
-					}
-
-				}
-
-			}
-		});
-	}
 
 	public BaseDataGrid(List<BaseDictionaryControl<?, ?>> baseControls)
 	{

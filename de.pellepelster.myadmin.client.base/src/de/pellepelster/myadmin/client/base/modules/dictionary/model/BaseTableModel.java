@@ -8,7 +8,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.I
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 
-public class BaseTableModel<ElementType> extends BaseModel<ElementType> implements IBaseTableModel
+public abstract class BaseTableModel<ElementType> extends BaseModel<ElementType> implements IBaseTableModel
 {
 	private List<IBaseControlModel> columns = new ArrayList<IBaseControlModel>();
 

@@ -41,8 +41,6 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 {
 	private final FileControl fileControl;
 
-	private final ControlHelper gwtControlHelper;
-
 	private SingleUploader singleUploader = new SingleUploader(FileInputType.BUTTON);
 
 	private HorizontalPanel panel = new HorizontalPanel();
@@ -94,7 +92,7 @@ public class GwtFileControl extends Composite implements IGwtControl, ClickHandl
 		singleUploader.setServletPath(GWT.getModuleBaseURL() + "../remote/" + IFileControl.GWT_UPLOAD_REQUEST_MAPPING);
 
 		this.fileControl = fileControl;
-		gwtControlHelper = new ControlHelper(this, fileControl, this, true);
+		new ControlHelper(this, fileControl, this, true, false);
 		singleUploader.ensureDebugId(DictionaryModelUtil.getDebugId(fileControl.getModel()));
 
 		singleUploader.addOnFinishUploadHandler(new OnFinishUploaderHandler()

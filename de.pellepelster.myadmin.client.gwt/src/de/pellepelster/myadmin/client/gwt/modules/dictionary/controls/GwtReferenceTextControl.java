@@ -24,21 +24,21 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.base.DictionaryUtil
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.IGwtControl;
 import de.pellepelster.myadmin.client.web.modules.dictionary.controls.ReferenceControl;
 
-public class ReferenceTextControl<VOType extends IBaseVO> extends SuggestBox implements IGwtControl
+public class GwtReferenceTextControl<VOType extends IBaseVO> extends SuggestBox implements IGwtControl
 {
 
 	private VOType vo;
-	private final ReferenceControl<VOType> referenceControl;
-	private final ControlHelper gwtControlHelper;
 
-	public ReferenceTextControl(final ReferenceControl<VOType> referenceControl)
+	private final ReferenceControl<VOType> referenceControl;
+
+	public GwtReferenceTextControl(final ReferenceControl<VOType> referenceControl)
 	{
-		super(new VOSuggestOracle(referenceControl.getModel()));
+		super(new VOSuggestOracle<VOType>(referenceControl.getModel()));
 
 		ensureDebugId(DictionaryModelUtil.getDebugId(referenceControl.getModel()));
 		setLimit(5);
 		this.referenceControl = referenceControl;
-		gwtControlHelper = new ControlHelper(this, referenceControl, this, false);
+		new ControlHelper(this, referenceControl, this, false);
 
 		addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>()
 		{
