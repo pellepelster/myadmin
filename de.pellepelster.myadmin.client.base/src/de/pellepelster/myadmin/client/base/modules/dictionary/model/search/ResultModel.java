@@ -30,4 +30,10 @@ public class ResultModel extends BaseTableModel<Object> implements IResultModel
 		return this.maxResults;
 	}
 
+	@Override
+	public String getAttributePath()
+	{
+		return null;
+	}
+
 }

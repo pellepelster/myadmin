@@ -4,8 +4,8 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 
 		package entities {
 
-			// currency
 			textdatatype CurrencyName { }
+			
 			textdatatype CurrencyIsoCode { 
 				maxLength 3
 			}
@@ -15,7 +15,6 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 				datatype CurrencyIsoCode currencyIsoCode
 			}
 
-			// country datatypes
 			textdatatype CountryName { }
 			
 			textdatatype CountryIsoCode { 
@@ -40,7 +39,6 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 				
 				entity entities.Currency
 				
-				// define some control that can be reused in this dictionary
 				dictionarycontrols {
 					
 					textcontrol CurrencyName { 
@@ -75,7 +73,6 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 				
 				entity entities.Country
 				
-				// define some control that can be reused in this dictionary
 				dictionarycontrols {
 					
 					textcontrol CountryName { 
@@ -86,7 +83,7 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 						entityattribute entities.Country.countryIsoCode
 					}
 					
-					referencecontrol Currency {
+					referencecontrol CountryCurrency {
 						entityattribute entities.Country.currency
 						dictionary dictionaries.Currency
 					}
@@ -108,11 +105,10 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 				dictionaryeditor CountryEditor {
 					textcontrol ref CountryName
 					textcontrol ref CountryIsoCode
+					referencecontrol ref CountryCurrency
 				}
 			}
 		}
-			
-			
 		
 		navigationnode Country {
 			dictionarySearch dictionaries.Country.CountrySearch

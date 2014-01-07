@@ -396,12 +396,12 @@ dictionary container
 	«EXPAND dictionaryContainerClass FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
 	«EXPAND dictionaryControlClass FOREACH this.containercontents.typeSelect(DictionaryControl)»
-	
+
 	«FILE fullQualifiedDictionaryFileName()»
 	
 	package «dictionaryPackageName()»;
 	
-	public class «dictionaryClassName()» extends «EXPAND dictionaryContainerType FOR this» {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel {
 
 		«EXPAND dictionaryContainerConstant FOREACH this.containercontents.typeSelect(DictionaryContainer)»
 
@@ -416,14 +416,11 @@ dictionary container
 				this.getChildren().add(«dictionaryConstantName(container.name)»);
 			«ENDFOREACH»
 
-			«EXPAND dictionaryContainerSetters FOR this»
-
 			// controls
 			«FOREACH containercontents.typeSelect(DictionaryControl) AS control»
 				this.getControls().add(«dictionaryConstantName(control)»);
+				«EXPAND dictionaryControlConstantSetters FOR control»
 			«ENDFOREACH»
-
-			«EXPAND dictionaryControlConstantSetters FOREACH this.containercontents.typeSelect(DictionaryControl)»
 			
 		}
 	}
@@ -431,14 +428,38 @@ dictionary container
 
 «ENDDEFINE»
 
-«DEFINE dictionaryContainerSetters FOR DictionaryContainer»
-«ENDDEFINE»
 
-«DEFINE dictionaryContainerSetters FOR DictionaryEditableTable»
-	setVoName("«fullQualifiedEntityName(getEntity(this.entityattribute))»");
-	setAttributePath("«this.entityattribute.name»");
-«ENDDEFINE»
+«DEFINE dictionaryContainerClass FOR DictionaryEditableTable»
+	«info("generating dictionary container model for '" +  this.name + "'")»
 
+	«EXPAND dictionaryControlClass FOREACH columncontrols»
+
+	«FILE fullQualifiedDictionaryFileName()»
+	
+	package «dictionaryPackageName()»;
+	
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.EditableTableModel {
+
+		«EXPAND dictionaryControlConstant FOREACH columncontrols»
+
+		public «dictionaryClassName()»(de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel<?> parent) {
+			
+			super("«name»", parent);
+
+			// controls
+			«FOREACH columncontrols AS control»
+				this.getControls().add(«dictionaryConstantName(control)»);
+				«EXPAND dictionaryControlConstantSetters FOR control»
+			«ENDFOREACH»
+
+			setVoName("«fullQualifiedEntityName(getEntity(this.entityattribute))»");
+			setAttributePath("«this.entityattribute.name»");
+			
+		}
+	}
+	«ENDFILE»
+
+«ENDDEFINE»
 
 «DEFINE dictionaryContainerType FOR DictionaryContainer-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ContainerModel«ENDDEFINE»
 
@@ -447,6 +468,7 @@ dictionary container
 «DEFINE dictionaryContainerType FOR DictionaryComposite-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel«ENDDEFINE»
 
 «DEFINE dictionaryContainerType FOR DictionaryAssignmentTable-»de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.AssignmentTableModel«ENDDEFINE»
+
 
 «REM»
 ===================

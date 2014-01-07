@@ -10,7 +10,7 @@ import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTest
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.BaseAsyncHelper;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAsyncHelper<EditableTableTest>
+public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAsyncHelper<EditableTableTest<VOTYpe>>
 {
 
 	public EditableTableTestAsyncHelper(String asyncTestItemResultId, LinkedList<AsyncTestItem> asyncTestItems, Map<String, Object> asyncTestItemResults)
@@ -26,6 +26,26 @@ public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAs
 			public void run(final AsyncCallback<Object> asyncCallback)
 			{
 				getAsyncTestItemResult().add(new BaseErrorAsyncCallback()
+				{
+					@Override
+					public void onSuccess(Object result)
+					{
+						asyncCallback.onSuccess(getAsyncTestItemResult());
+					}
+				});
+
+			}
+		});
+	}
+
+	public void delete()
+	{
+		this.addAsyncTestItem(new AsyncTestItem()
+		{
+			@Override
+			public void run(final AsyncCallback<Object> asyncCallback)
+			{
+				getAsyncTestItemResult().delete(new BaseErrorAsyncCallback()
 				{
 					@Override
 					public void onSuccess(Object result)

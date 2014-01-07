@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model.containers;
 
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwareModel;
 
 /**
  * Model for a grid control
@@ -19,7 +18,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.IContentAwar
  * @author Christian Pelster
  * 
  */
-public interface IEditableTableModel extends IBaseContainerModel, IBaseTableModel, IContentAwareModel
+public interface IEditableTableModel extends IBaseContainerModel, IBaseTableModel
 {
 
 	/**

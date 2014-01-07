@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModelDebug;
 
-public final class DictionaryTest
+public final class GeneratedDictionaryTest
 {
 	@Test
 	public void testInvalidClass()

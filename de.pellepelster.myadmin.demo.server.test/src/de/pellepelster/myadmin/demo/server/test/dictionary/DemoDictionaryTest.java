@@ -217,6 +217,17 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 
 		Assert.assertEquals("Dictionary1EditableTable1", editableTableModel.getName());
 		Assert.assertEquals("test3s", editableTableModel.getAttributePath());
+
+		Assert.assertEquals(7, editableTableModel.getControls().size());
+
+		Assert.assertEquals("TextControl3", editableTableModel.getControls().get(0).getName());
+		Assert.assertEquals("IntegerControl3", editableTableModel.getControls().get(1).getName());
+		Assert.assertEquals("BigDecimalControl3", editableTableModel.getControls().get(2).getName());
+		Assert.assertEquals("DateControl3", editableTableModel.getControls().get(3).getName());
+		Assert.assertEquals("BooleanControl3", editableTableModel.getControls().get(4).getName());
+		Assert.assertEquals("EnumerationControl3", editableTableModel.getControls().get(5).getName());
+		Assert.assertEquals("ReferenceControl3", editableTableModel.getControls().get(6).getName());
+
 	}
 
 	public void testRootComposite()

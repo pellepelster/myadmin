@@ -51,6 +51,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 
 		editableTable.add();
 		editableTable.assertRowCount(1);
+		editableTable.delete();
+		editableTable.assertRowCount(0);
 		runAsyncTests();
 	}
 
