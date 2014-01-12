@@ -14,7 +14,9 @@
 
 	<publications>
 		<artifact name="build" type="zip" ext="zip" />
+		<!--
 		<artifact name="javadoc" type="zip" ext="zip" />
+		 -->
 	</publications>
 
 	<dependencies defaultconf="*->default">

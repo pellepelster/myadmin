@@ -222,6 +222,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 						filecontrol ref FileControl1
 						referencecontrol ref ReferenceControl1
 					}
+					
 					editabletable Dictionary1EditableTable1 {
 						
 						entityattribute Test1.test3s

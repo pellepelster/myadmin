@@ -7,7 +7,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IBaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.ICompositeModel;
 
-public class EditorModel<VOTYpe extends IBaseVO> extends BaseModel<Object> implements IEditorModel
+public class EditorModel<VOType extends IBaseVO> extends BaseModel<Object> implements IEditorModel
 {
 
 	private static final long serialVersionUID = 7452528927479882166L;
@@ -43,7 +43,7 @@ public class EditorModel<VOTYpe extends IBaseVO> extends BaseModel<Object> imple
 		this.compositeModel = compositeModel;
 	}
 
-	public void addEditorHook(BaseEditorHook<VOTYpe> editorHook)
+	public void addEditorHook(BaseEditorHook<VOType> editorHook)
 	{
 		DictionaryHookRegistry.getInstance().addEditorHook(getName(), editorHook);
 	}

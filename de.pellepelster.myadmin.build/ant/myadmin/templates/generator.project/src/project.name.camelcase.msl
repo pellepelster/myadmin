@@ -4,12 +4,16 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 
 		package entities {
 
-			textdatatype CurrencyName { }
-			
+			textdatatype CurrencyName {	}
+
 			textdatatype CurrencyIsoCode { 
 				maxLength 3
 			}
 	
+			referencedatatype Currency {
+				entity Currency
+			}
+
 			entity Currency {
 				datatype CurrencyName currencyName
 				datatype CurrencyIsoCode currencyIsoCode
@@ -21,14 +25,32 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 				maxLength 2
 			}
 			
-			referencedatatype Currency {
-				entity Currency
+			referencedatatype Country {
+				entity Country
 			}
 	
 			entity Country {
 				datatype CountryName countryName
 				datatype CountryIsoCode countryIsoCode
 				datatype Currency currency
+			}
+			
+			textdatatype RegionName { }
+
+			entity Region {
+				datatype RegionName regionName
+				datatype Region2Countries* region2Countries
+			}
+
+			referencedatatype Region2Countries {
+				entity Region2Countries
+			}
+
+			textdatatype Region2CountriesComment { }
+
+			entity Region2Countries {
+				datatype Region2CountriesComment regionComment
+				datatype Country country
 			}
 	
 		}
@@ -108,10 +130,67 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 					referencecontrol ref CountryCurrency
 				}
 			}
+
+			dictionary Region {
+				
+				entity entities.Region
+				
+				dictionarycontrols {
+					
+					textcontrol RegionName { 
+						entityattribute entities.Region.regionName
+					}
+
+					textcontrol Region2CountriesComment { 
+						entityattribute entities.Region2Countries.regionComment
+					}
+					
+					referencecontrol Region2CountriesCountry {
+						entityattribute entities.Region2Countries.country
+						dictionary Country
+					}
+	
+				}
+				
+				dictionarysearch RegionSearch {
+					
+					dictionaryfilter RegionFilter {
+						textcontrol ref RegionName	
+					}
+					
+					dictionaryresult RegionResult {
+						textcontrol ref RegionName	
+					}
+				}
+				
+				dictionaryeditor RegionEditor {
+					
+					composite Composite1 {
+						textcontrol ref RegionName
+					}
+					
+					editabletable Region2Countries {
+						
+						entityattribute entities.Region.region2Countries
+						
+						columncontrols {
+							referencecontrol ref Region2CountriesCountry
+							textcontrol ref Region2CountriesComment
+						}
+					}
+					
+				}
+			}
+
+
 		}
 		
 		navigationnode Country {
 			dictionarySearch dictionaries.Country.CountrySearch
+		}
+
+		navigationnode Reggion {
+			dictionarySearch dictionaries.Region.RegionSearch
 		}
 
 		navigationnode Currency {

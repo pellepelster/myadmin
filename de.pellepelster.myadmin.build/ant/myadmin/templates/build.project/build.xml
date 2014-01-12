@@ -52,8 +52,7 @@
 		<subant target="clean" buildpathref="build.path" />
 	</target>
 
-	<target name="clean" depends="clean.all">
-		<delete dir="repository" />
+	<target name="clean">
 		<ivy:cleancache />
 	</target>
 

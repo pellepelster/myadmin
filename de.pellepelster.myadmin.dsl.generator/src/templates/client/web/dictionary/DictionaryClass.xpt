@@ -168,7 +168,7 @@ dictionary editor
 	
 	import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 	
-	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.EditorModel {
+	public class «dictionaryClassName()» extends de.pellepelster.myadmin.client.base.modules.dictionary.model.editor.EditorModel<«fullQualifiedEntityName(getParentDictionary(this).entity)»> {
 	
 		private class RootComposite extends de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.CompositeModel {
 
