@@ -164,6 +164,10 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 		textControl.assertHasNoErrors();
 		editor.assertHasErrors(0);
 
+		editor.save();
+
+		editor.assertTitle("Dictionary1 text1");
+
 		runAsyncTests();
 	}
 }

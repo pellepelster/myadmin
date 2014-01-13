@@ -15,6 +15,7 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 			}
 
 			entity Currency {
+				naturalkey { currencyName }
 				datatype CurrencyName currencyName
 				datatype CurrencyIsoCode currencyIsoCode
 			}
@@ -30,6 +31,7 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 			}
 	
 			entity Country {
+				naturalkey { countryName }
 				datatype CountryName countryName
 				datatype CountryIsoCode countryIsoCode
 				datatype Currency currency
@@ -38,6 +40,7 @@ project @project.name.camelcase@ schemaUrl "http://@organisation.name@/@project.
 			textdatatype RegionName { }
 
 			entity Region {
+				naturalkey { regionName }
 				datatype RegionName regionName
 				datatype Region2Countries* region2Countries
 			}

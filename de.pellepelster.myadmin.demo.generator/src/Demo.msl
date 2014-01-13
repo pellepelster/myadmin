@@ -69,6 +69,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			}
 			
 			entity Test1 {
+				naturalkey { textDatatype1 }
 				datatype TextDatatype1 textDatatype1
 				datatype IntegerDatatype1 integerDatatype1
 				datatype BigDecimalDatatype1 bigDecimalDatatype1
