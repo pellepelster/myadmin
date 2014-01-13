@@ -58,7 +58,7 @@ public final class DictionaryUtil
 		}
 		else
 		{
-			label += " " + getLabel(dictionaryModel.getLabelControls(), vo, Long.toString(vo.getId()));
+			label += " " + getLabel(dictionaryModel.getLabelControls(), vo);
 		}
 
 		if (dictionaryEditor.isDirty())
@@ -75,40 +75,23 @@ public final class DictionaryUtil
 		return Objects.firstNonNull(dictionaryModel.getLabel(), dictionaryModel.getName());
 	};
 
-	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo)
-	{
-		String defaultLabel = "<none>";
-
-		if (vo != null)
-		{
-			defaultLabel = vo.toString();
-		}
-
-		return getLabel(referenceControlModel, vo, defaultLabel);
-	}
-
 	public static String getLabel(IHierarchicalControlModel hierarchicalControlModel, IHierarchicalVO vo, String defaultLabel)
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionaryModelForClass(vo.getClass());
 
-		return getLabel(dictionaryModel.getLabelControls(), vo, defaultLabel);
+		return getLabel(dictionaryModel.getLabelControls(), vo);
 	}
 
-	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo, String defaultLabel)
+	public static String getLabel(IReferenceControlModel referenceControlModel, IBaseVO vo)
 	{
 		IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(referenceControlModel.getDictionaryName());
 
 		List<IBaseControlModel> labelControlModels = DictionaryModelUtil.getLabelControlsWithFallback(referenceControlModel, dictionaryModel);
 
-		return DictionaryUtil.getLabel(labelControlModels, vo, defaultLabel);
+		return DictionaryUtil.getLabel(labelControlModels, vo);
 	}
 
-	public static String getLabel(List<IBaseControlModel> labelControlModels, IBaseVO vo)
-	{
-		return getLabel(labelControlModels, vo, null);
-	};
-
-	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo, String defaultLabel)
+	public static String getLabel(List<IBaseControlModel> baseControlModels, IBaseVO vo)
 	{
 
 		String label = null;
@@ -138,7 +121,7 @@ public final class DictionaryUtil
 			}
 		}
 
-		return (label == null) ? defaultLabel : label;
+		return (label == null) ? vo.getNaturalKey() : label;
 
 	}
 

@@ -104,7 +104,7 @@ public class HierachicalServiceImpl implements IHierachicalServiceGWT, Initializ
 		{
 			DictionaryHierarchicalNodeVO hierarchicalNode = new DictionaryHierarchicalNodeVO();
 
-			hierarchicalNode.setLabel(DictionaryUtil.getLabel(voHierarchy.getDictionaryModel().getLabelControls(), vo, vo.getNaturalKey()));
+			hierarchicalNode.setLabel(DictionaryUtil.getLabel(voHierarchy.getDictionaryModel().getLabelControls(), vo));
 			hierarchicalNode.setDictionaryName(voHierarchy.getDictionaryModel().getName());
 			hierarchicalNode.setVoId(vo.getId());
 			hierarchicalNode.setVoClassName(vo.getClass().getName());

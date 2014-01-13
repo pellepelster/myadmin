@@ -185,10 +185,6 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 					}
 				}
 
-				labelcontrols {
-					textcontrol ref TextControl1
-				}
-
 				dictionarysearch Dictionary1Search {
 
 					dictionaryfilter Dictionary1Filter {
