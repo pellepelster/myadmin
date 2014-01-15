@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -378,6 +379,7 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	}
 
 	@Test
+	@Ignore
 	public void testFile()
 	{
 		Test1VO test1VO = new Test1VO();
