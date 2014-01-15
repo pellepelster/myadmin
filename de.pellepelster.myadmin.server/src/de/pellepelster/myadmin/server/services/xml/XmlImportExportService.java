@@ -11,6 +11,8 @@
  */
 package de.pellepelster.myadmin.server.services.xml;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -46,6 +47,8 @@ import de.pellepelster.myadmin.server.services.vo.VOToXmlCopyBean;
 @SuppressWarnings("rawtypes")
 public class XmlImportExportService
 {
+	public static final int PEEK_SIZE = 1024;
+
 	private final static Logger LOG = Logger.getLogger(XmlImportExportService.class);
 
 	public static List<Object> getFirstList(Object xmlListWrapper)
@@ -74,6 +77,40 @@ public class XmlImportExportService
 	@Autowired
 	private VOMetaDataService metaDataService;
 
+	public Class<? extends IBaseVO> detectVOClass(String xmlString)
+	{
+		Class<?> xmlClass = detectXmlClass(xmlString);
+
+		if (xmlClass != null)
+		{
+			XmlVOMapping xmlVOMapping = AnnotationUtils.findAnnotation(xmlClass, XmlVOMapping.class);
+
+			return xmlVOMapping.voClass();
+
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public Class<?> detectXmlClass(File xmlFile)
+	{
+		try
+		{
+			FileInputStream inputStream = new FileInputStream(xmlFile);
+			byte[] byteBufer = new byte[PEEK_SIZE];
+			inputStream.read(byteBufer);
+			inputStream.close();
+
+			return detectXmlClass(new String(byteBufer));
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	public Class<?> detectXmlClass(String xmlString)
 	{
 		Class<?> xmlClass = null;
@@ -91,27 +128,22 @@ public class XmlImportExportService
 				break;
 			}
 
-			rootXmlElementName = StringUtils.removeEnd(rootXmlElementName, ">");
-			rootXmlElementName = StringUtils.removeEnd(rootXmlElementName, "/");
-			rootXmlElementName = StringUtils.removeStart(rootXmlElementName, "<");
-			rootXmlElementName = rootXmlElementName.split(" ")[0];
-
-			xmlClass = this.metaDataService.getXmlRootClassByElementName(rootXmlElementName);
+			if (rootXmlElementName != null)
+			{
+				rootXmlElementName = StringUtils.removeEnd(rootXmlElementName, ">");
+				rootXmlElementName = StringUtils.removeEnd(rootXmlElementName, "/");
+				rootXmlElementName = StringUtils.removeStart(rootXmlElementName, "<");
+				rootXmlElementName = rootXmlElementName.split(" ")[0];
+				xmlClass = this.metaDataService.getXmlRootClassByElementName(rootXmlElementName);
+			}
 		}
-		catch (PatternSyntaxException e)
+		catch (Exception e)
 		{
 			// Syntax error in the regular expression
 			throw new RuntimeException(e);
 		}
 
-		if (xmlClass == null)
-		{
-			throw new RuntimeException(String.format("could not detect xml class for '%s'", xmlString));
-		}
-		else
-		{
-			return xmlClass;
-		}
+		return xmlClass;
 	}
 
 	private JAXBContext jaxbContext;

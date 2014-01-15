@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.server.test;
 
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -63,7 +64,7 @@ public final class XmlServicesTest extends BaseMyAdminJndiContextTest
 	{
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ClientTest.xml");
 
-		this.xmlService.importXml(ClientList.class, inputStream);
+		this.xmlService.importXml(ClientList.class, new PushbackInputStream(inputStream));
 
 		List<ClientVO> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(ClientVO.class)
 				.addCriteria(ClientVO.FIELD_NAME, "client1").getGenericFilter());

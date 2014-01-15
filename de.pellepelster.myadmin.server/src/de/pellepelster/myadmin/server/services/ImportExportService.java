@@ -11,8 +11,11 @@
  */
 package de.pellepelster.myadmin.server.services;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -54,14 +57,44 @@ public class ImportExportService
 		}
 	}
 
-	public void importVO(String xmlString)
+	public void importVO(File file)
 	{
-		Class<?> xmlClass = this.xmlService.detectXmlClass(xmlString);
+		try
+		{
+			Class<?> xmlClass = this.xmlService.detectXmlClass(file);
 
-		LOG.info(String.format("importing '%s' vos", xmlClass));
+			LOG.info(String.format("importing '%s' vos", xmlClass));
 
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
+			FileInputStream inputStream = new FileInputStream(file);
+			this.xmlService.importXml(xmlClass, inputStream);
+			inputStream.close();
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(String.format("import of '%s'", file.toString()));
+		}
 
-		this.xmlService.importXml(xmlClass, inputStream);
 	}
+
+	public Class<? extends IBaseVO> detectVOClass(File file)
+	{
+		try
+		{
+			byte[] byteBuffer = new byte[XmlImportExportService.PEEK_SIZE];
+			FileInputStream fileInputStream = new FileInputStream(file);
+			fileInputStream.read(byteBuffer);
+			fileInputStream.close();
+
+			return this.xmlService.detectVOClass(new String(byteBuffer));
+		}
+		catch (FileNotFoundException e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 }

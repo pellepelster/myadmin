@@ -11,6 +11,9 @@
  */
 package de.pellepelster.myadmin.server.test;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -19,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.pellepelster.myadmin.client.base.db.vos.UUID;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
@@ -61,6 +65,23 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 		this.xmlService = xmlService;
 	}
 
+	private File writeStringToTempFile(String xml)
+	{
+		try
+		{
+			File tempFile = File.createTempFile(UUID.uuid(), ".xml");
+			FileWriter fileWriter = new FileWriter(tempFile);
+			fileWriter.write(xml);
+			fileWriter.close();
+
+			return tempFile;
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Test
 	public void testExportImportClient()
 	{
@@ -97,9 +118,9 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 				.size());
 		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter()).size());
 
-		this.importExportService.importVO(clientXml);
-		this.importExportService.importVO(controlsXml);
-		this.importExportService.importVO(dictionaryXml);
+		this.importExportService.importVO(writeStringToTempFile(clientXml));
+		this.importExportService.importVO(writeStringToTempFile(controlsXml));
+		this.importExportService.importVO(writeStringToTempFile(dictionaryXml));
 
 		List<ClientVO> clientResult = this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter());
 		Assert.assertEquals(1, clientResult.size());
@@ -118,8 +139,6 @@ public final class ImportExportServiceTest extends BaseMyAdminJndiContextTest
 	public void testXmlContentDetection()
 	{
 		String clientsXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ClientList><Client><name>client1</name></Client></ClientList>";
-
 		Assert.assertEquals(ClientList.class, this.xmlService.detectXmlClass(clientsXmlString));
 	}
-
 }

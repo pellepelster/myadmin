@@ -12,11 +12,13 @@
 package de.pellepelster.myadmin.tools.dictionary;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.log4j.Logger;
@@ -27,10 +29,14 @@ import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 
 public class EntityImportRunner
 {
+	private static final String XML_FILE_EXTENSION = "xml";
+
 	private final static Logger LOGGER = Logger.getLogger("EntityImport");
 
 	private final ImportExportService importExportService;
+
 	private final VOMetaDataService metaDataService;
+
 	private final File importDir;
 
 	public EntityImportRunner(ImportExportService importExportService, VOMetaDataService metaDataService, File importDir)
@@ -46,32 +52,47 @@ public class EntityImportRunner
 
 		LOGGER.info(String.format("starting entity import from dir '%s'", this.importDir.getPath()));
 
+		IOFileFilter xmlFileFilter = FileFilterUtils.suffixFileFilter(XML_FILE_EXTENSION);
+		Collection<File> xmlFiles = FileUtils.listFiles(this.importDir, xmlFileFilter, null);
+
+		Map<Class<? extends IBaseVO>, List<File>> filesToImport = new HashMap<Class<? extends IBaseVO>, List<File>>();
+
+		for (File xmlFile : xmlFiles)
+		{
+			Class<? extends IBaseVO> voClass = this.importExportService.detectVOClass(xmlFile);
+
+			if (voClass != null)
+			{
+				if (!filesToImport.containsKey(voClass))
+				{
+					filesToImport.put(voClass, new ArrayList<File>());
+				}
+
+				filesToImport.get(voClass).add(xmlFile);
+			}
+		}
+
 		for (Class<? extends IBaseVO> voClass : this.metaDataService.getVOClasses())
 		{
-			String xmlFilePrefix = String.format("%s", voClass.getName());
-
-			IOFileFilter xmlFileFilter = FileFilterUtils.prefixFileFilter(xmlFilePrefix);
-			Collection<File> xmlFiles = FileUtils.listFiles(this.importDir, xmlFileFilter, null);
-
-			for (File file : xmlFiles)
+			if (filesToImport.containsKey(voClass))
 			{
-				ToolUtils.logInfo(LOGGER, String.format("importing '%s' as '%s'", file.toString(), voClass.getName()), logIdentiation);
-
-				String xmlString;
-
-				try
+				for (File file : filesToImport.get(voClass))
 				{
-					FileInputStream fileInputStream = new FileInputStream(file);
-					xmlString = IOUtils.toString(fileInputStream);
-					this.importExportService.importVO(xmlString);
-				}
-				catch (Exception e)
-				{
-					String message = String.format("import of '%s' from '%s' failed", voClass.getName(), file.toString());
-					ToolUtils.logInfo(LOGGER, message, logIdentiation);
-					throw new RuntimeException(message, e);
-				}
+					ToolUtils.logInfo(LOGGER, String.format("importing '%s' as '%s'", file.toString(), voClass.getName()), logIdentiation);
 
+					try
+					{
+						this.importExportService.importVO(file);
+					}
+					catch (Exception e)
+					{
+						String message = String.format("import of '%s' from '%s' failed", voClass.getName(), file.toString());
+						ToolUtils.logInfo(LOGGER, message, logIdentiation);
+
+						throw new RuntimeException(message, e);
+					}
+
+				}
 			}
 		}
 
