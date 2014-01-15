@@ -392,6 +392,10 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			textdatatype CountryName {
 			}
 
+			referencedatatype Country {
+				entity Country
+			}
+
 			textdatatype CountryDescription {
 			}
 
@@ -505,6 +509,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 				datatype CityName cityName
 				datatype CityDescription cityDescription
+				datatype Country country
 			}
 
 			entity User extends MyAdminUser {

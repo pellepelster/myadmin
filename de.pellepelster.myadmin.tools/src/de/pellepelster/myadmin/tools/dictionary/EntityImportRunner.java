@@ -67,8 +67,9 @@ public class EntityImportRunner
 				}
 				catch (Exception e)
 				{
-					ToolUtils.logInfo(LOGGER, String.format("import of '%s' from '%s' failed", voClass.getName(), file.toString()), logIdentiation);
-					throw new RuntimeException(e);
+					String message = String.format("import of '%s' from '%s' failed", voClass.getName(), file.toString());
+					ToolUtils.logInfo(LOGGER, message, logIdentiation);
+					throw new RuntimeException(message, e);
 				}
 
 			}

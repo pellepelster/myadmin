@@ -41,11 +41,17 @@ public class ImportExportService
 		LOG.info(String.format("exporting all '%s' vos", voClass.getName()));
 		List<T> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(voClass).getGenericFilter());
 
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		this.xmlService.export(voClass, result, outputStream);
+		if (result.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			this.xmlService.export(voClass, result, outputStream);
 
-		return new String(outputStream.toByteArray());
-
+			return new String(outputStream.toByteArray());
+		}
 	}
 
 	public void importVO(String xmlString)

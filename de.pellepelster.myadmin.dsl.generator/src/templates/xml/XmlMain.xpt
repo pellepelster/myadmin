@@ -76,30 +76,42 @@ Type:
 	 <xsd:element name="«attribute.name»" type="«EXPAND xsdType FOR attribute.type»" />
 «ENDDEFINE»
 
-«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR DatatypeType-»
-	 «EXPAND xsdAttribute(entity, attribute) FOR this.type»
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EnumerationType-»
 «ENDDEFINE»
 
-«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR Datatype-»
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR DatatypeType-»
+	 «EXPAND xsdAttribute(entity, attribute, cardinality) FOR this.type»
+«ENDDEFINE»
+
+«REM»
+	TextDatatype | IntegerDatatype | BigDecimalDatatype | BooleanDatatype | DateDatatype | EnumerationDatatype | BinaryDatatype | FileDatatype | ReferenceDatatype;
+«ENDREM»
+
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute, Cardinality cardinality) FOR Datatype-»
 	 <xsd:element name="«attribute.name»" type="«EXPAND xsdType FOR this»" />
 «ENDDEFINE»
 
-«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EnumerationDatatype-»
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute, Cardinality cardinality) FOR EnumerationDatatype-»
 	«EXPAND xsdEnumeration(attribute.name, this.enumeration.enumerationValues) FOR this»
 «ENDDEFINE»
 
-«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EnumerationType-»
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute, Cardinality cardinality) FOR EnumerationType-»
 	«EXPAND xsdEnumeration(attribute.name, this.type.enumerationValues) FOR this»
 «ENDDEFINE»
 
-«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR ReferenceDatatype-»
+«DEFINE xsdAttribute(Entity entity, EntityAttribute attribute, Cardinality cardinality) FOR ReferenceDatatype-»
+	«EXPAND xsdReferenceAttribute(entity, attribute, cardinality) FOR this.entity»
 «ENDDEFINE»
 
 «DEFINE xsdAttribute(Entity entity, EntityAttribute attribute) FOR EntityReferenceType-»
+	«EXPAND xsdReferenceAttribute(entity, attribute, cardinality) FOR getEntity()»
+«ENDDEFINE»
+
+«DEFINE xsdReferenceAttribute(Entity entity, EntityAttribute attribute, Cardinality cardinality) FOR Entity-»
 	«IF (cardinality == Cardinality::onetomany || cardinality == Cardinality::manytomany)-»
-		 <xsd:element name="«attribute.name»" type="«IF getEntity() != entity»«xsdQualifier(getEntity(this))»:«ENDIF»«xsdElementReferenceListWrapperName(getEntity(this))»" />
+		 <xsd:element name="«attribute.name»" type="«IF this != entity»«xsdQualifier(this)»:«ENDIF»«xsdElementReferenceListWrapperName(this)»" />
 	«ELSE»
-		 <xsd:element name="«attribute.name»" type="«IF getEntity() != entity»«xsdQualifier(getEntity(this))»:«ENDIF»«xsdTypeReferenceName(getEntity(this))»" />
+		 <xsd:element name="«attribute.name»" type="«IF this != entity»«xsdQualifier(this)»:«ENDIF»«xsdTypeReferenceName(this)»" />
 	«ENDIF-»
 «ENDDEFINE»
 

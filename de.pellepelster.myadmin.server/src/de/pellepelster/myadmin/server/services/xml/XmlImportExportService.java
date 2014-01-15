@@ -76,6 +76,8 @@ public class XmlImportExportService
 
 	public Class<?> detectXmlClass(String xmlString)
 	{
+		Class<?> xmlClass = null;
+
 		try
 		{
 			Pattern regex = Pattern.compile("</?[a-zA-Z][a-zA-Z0-9]*[^<>]*>");
@@ -94,17 +96,22 @@ public class XmlImportExportService
 			rootXmlElementName = StringUtils.removeStart(rootXmlElementName, "<");
 			rootXmlElementName = rootXmlElementName.split(" ")[0];
 
-			Class<?> xmlClass = this.metaDataService.getXmlRootClassByElementName(rootXmlElementName);
-
-			return xmlClass;
-
+			xmlClass = this.metaDataService.getXmlRootClassByElementName(rootXmlElementName);
 		}
-		catch (PatternSyntaxException ex)
+		catch (PatternSyntaxException e)
 		{
 			// Syntax error in the regular expression
+			throw new RuntimeException(e);
 		}
 
-		return null;
+		if (xmlClass == null)
+		{
+			throw new RuntimeException(String.format("could not detect xml class for '%s'", xmlString));
+		}
+		else
+		{
+			return xmlClass;
+		}
 	}
 
 	private JAXBContext jaxbContext;

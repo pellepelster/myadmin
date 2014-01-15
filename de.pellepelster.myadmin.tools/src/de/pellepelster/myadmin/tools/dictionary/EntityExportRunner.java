@@ -40,24 +40,27 @@ public class EntityExportRunner
 	{
 		int logIdentiation = 0;
 
-		LOGGER.info(String.format("starting entity export to dir '%s'", exportDir.getPath()));
+		LOGGER.info(String.format("starting entity export to dir '%s'", this.exportDir.getPath()));
 
-		for (Class<? extends IBaseVO> voClass : metaDataService.getVOClasses())
+		for (Class<? extends IBaseVO> voClass : this.metaDataService.getVOClasses())
 		{
 			String xmlFileName = String.format("%s.xml", voClass.getName());
 
 			ToolUtils.logInfo(LOGGER, String.format("exporting '%s' to '%s'", voClass.getName(), xmlFileName), logIdentiation);
-			String exportXML = importExportService.exportVO(voClass);
+			String exportXML = this.importExportService.exportVO(voClass);
 
-			File xmlFile = new File(exportDir, xmlFileName);
+			if (exportXML != null)
+			{
+				File xmlFile = new File(this.exportDir, xmlFileName);
 
-			try
-			{
-				IOUtils.write(exportXML, new FileOutputStream(xmlFile));
-			}
-			catch (Exception e)
-			{
-				throw new RuntimeException(e);
+				try
+				{
+					IOUtils.write(exportXML, new FileOutputStream(xmlFile));
+				}
+				catch (Exception e)
+				{
+					throw new RuntimeException(e);
+				}
 			}
 		}
 
