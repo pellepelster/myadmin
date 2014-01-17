@@ -86,7 +86,6 @@ public class BeanUtils
 
 	public static IAttributeDescriptor<?>[] getAttributeDescriptors(Class<?> clazz)
 	{
-
 		try
 		{
 			Object o = MethodUtils.invokeStaticMethod(clazz, "getFieldDescriptors", null);
@@ -97,6 +96,11 @@ public class BeanUtils
 			throw new RuntimeException(String.format("error invoking method 'getFieldDescriptors' on class '%s'", clazz.getName()), e);
 		}
 
+	}
+
+	public static IAttributeDescriptor<?> getAttributeDescriptor(Class<?> clazz, String attributeName)
+	{
+		return getAttributeDescriptor(getAttributeDescriptors(clazz), attributeName);
 	}
 
 	@SuppressWarnings("unchecked")

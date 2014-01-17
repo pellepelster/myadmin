@@ -105,4 +105,28 @@ public abstract class BaseVO implements IBaseVO
 		return this.changeTracker;
 	}
 
+	@Override
+	public Object get(String name)
+	{
+		if (FIELD_ID.getAttributeName().equals(name))
+		{
+			return getOid();
+		}
+
+		throw new java.lang.RuntimeException("no such attribute '" + name + "'");
+	}
+
+	@Override
+	public void set(String name, Object value)
+	{
+		if (FIELD_ID.getAttributeName().equals(name))
+		{
+			setId((Long) value);
+			return;
+		}
+
+		throw new java.lang.RuntimeException("no such attribute '" + name + "'");
+
+	}
+
 }

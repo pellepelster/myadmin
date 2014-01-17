@@ -1,0 +1,47 @@
+«IMPORT myAdminDsl»
+«EXTENSION templates::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+//- entityVOMapperPackageEntity -----------------------------------------------
+«DEFINE xmlVOMapperEntity FOR Entity»
+	put("«name»List", new XmlElementDescriptor(«fullQualifiedEntityName(this, ModelScope::web)».class, true, false));
+	put("«name»", new XmlElementDescriptor(«fullQualifiedEntityName(this, ModelScope::web)».class, false, false));
+	put("«name»ReferenceList", new XmlElementDescriptor(«fullQualifiedEntityName(this, ModelScope::web)».class, true, true));
+	put("«name»Reference", new XmlElementDescriptor(«fullQualifiedEntityName(this, ModelScope::web)».class, false, true));
+«ENDDEFINE»
+
+//- entityVOMapper ------------------------------------------------------------
+«DEFINE xmlVOMapper FOR Model»
+
+	«FILE fullQualifiedXmlVOMapperFileName(this)»
+	
+		package «getRootServerPackageName()»;
+
+		import java.util.HashMap;
+		import java.util.Map;
+		
+		import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
+		import de.pellepelster.myadmin.server.base.xml.IXmlVOMapper;
+		import de.pellepelster.myadmin.server.base.xml.XmlElementDescriptor;
+
+		@org.springframework.stereotype.Component
+		public class «xmlVOMapperName(this)» implements de.pellepelster.myadmin.server.base.xml.IXmlVOMapper
+		{
+			@SuppressWarnings("unchecked")
+			private Map<String, XmlElementDescriptor> elements = new HashMap<String, XmlElementDescriptor>()
+			{
+				private final long serialVersionUID = 1L;
+				{
+					«EXPAND xmlVOMapperEntity FOREACH eAllContents.typeSelect(Entity)»
+				}
+			};
+
+			@Override
+			public Map<String, XmlElementDescriptor> getElements()
+			{
+				return this.elements;
+			}
+			
+		}
+	«ENDFILE»
+«ENDDEFINE»

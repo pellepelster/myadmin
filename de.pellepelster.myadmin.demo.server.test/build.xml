@@ -31,9 +31,14 @@
 		<antcall target="test.client"/>
 	</target>
 
-	
 	<target name="test.client">
 		<ant antfile="../${client.test.project}/build.xml" inheritall="false" target="test.remote"  />
+	</target>
+
+	<taskdef name="entityimport" classname="de.pellepelster.myadmin.tools.dictionary.EntityImport" classpathref="lib.path.id" />
+	
+	<target name="import">
+			<entityimport importdir="/tmp/" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteport="${remote.port}" remoteserver="${remote.server}" remotepath="${remote.path}" />
 	</target>
 	
 

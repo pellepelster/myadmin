@@ -11,8 +11,8 @@
  */
 package de.pellepelster.myadmin.server.util;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -21,13 +21,13 @@ import de.pellepelster.myadmin.server.validators.AnnotationIterator;
 
 public class NaturalKeyUtils
 {
-	public static Map<String, Object> getNaturalKeys(IBaseVO vo)
+	public static List<IAttributeDescriptor<?>> getNaturalKeys(Class<? extends IBaseVO> voClass)
 	{
-		Map<String, Object>  naturalKeys = new HashMap<String, Object>();
-		
-		for (IAttributeDescriptor<?> attributeDescriptor : new AnnotationIterator(vo.getClass(), NaturalKey.class))
+		List<IAttributeDescriptor<?>> naturalKeys = new ArrayList<IAttributeDescriptor<?>>();
+
+		for (IAttributeDescriptor<?> attributeDescriptor : new AnnotationIterator(voClass, NaturalKey.class))
 		{
-			naturalKeys.put(attributeDescriptor.getAttributeName(), vo.get(attributeDescriptor.getAttributeName()));
+			naturalKeys.add(attributeDescriptor);
 		}
 
 		return naturalKeys;

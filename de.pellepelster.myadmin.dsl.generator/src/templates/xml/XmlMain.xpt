@@ -6,13 +6,14 @@
 
 «DEFINE main FOR Model»
 
-	«setModelScope(ModelScope::web)»
+	«setModelScope(ModelScope::server)»
 	«setModelResourceBlacklist(modelResourceBlacklist())»
 	
 	«info("generating vo xml schemas")»
 	
 	«EXPAND voSchema(this) FOREACH eAllContents.typeSelect(Entity)»
 	«EXPAND xsdSchemaCatalog»
+	«EXPAND XmlVOMapper::xmlVOMapper»
 	
 «ENDDEFINE»
 
@@ -64,7 +65,7 @@ Type:
 
 
 «DEFINE datatypeType(String type) FOR EnumerationDatatype-»
-	«fullQualifiedEntityName(this.enumeration)-»
+	«fullQualifiedEntityName(this.enumeration, ModelScope::web)-»
 «ENDDEFINE»
 
 «DEFINE datatypeType(String type) FOR ReferenceDatatype-»
@@ -119,12 +120,12 @@ Type:
 	<xsd:element name="«attribute.name»">
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-				<xsd:element name="EnumValue">
+				<xsd:element name="KeyValue">
 					<xsd:complexType>
 						<xsd:simpleContent>
 							<xsd:extension base="xsd:string">
-								<xsd:attribute type="xsd:string" name="enumKey"/>
-								<xsd:attribute type="xsd:string" name="enumValue"/>
+								<xsd:attribute type="xsd:string" name="key"/>
+								<xsd:attribute type="xsd:string" name="value"/>
 							</xsd:extension>
 						</xsd:simpleContent>
 					</xsd:complexType>
@@ -144,7 +145,6 @@ Type:
 
 «DEFINE xsdElementReferenceListWrapper FOR Entity-»
 	<xsd:complexType name="«xsdElementReferenceListWrapperName(this)»">
-		«EXPAND voMappingAnnotation(false, false, true) FOR this»
 		<xsd:sequence>
 			<xsd:element name="«xsdElementReferenceName(this)»" type="«xsdTypeReferenceName(this)»" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
@@ -172,12 +172,7 @@ Type:
 
 	xmlns="«xsdNamespace(this)»"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-	xmlns:annox="http://annox.dev.java.net" 
 	xmlns:myadmin="http://annox.dev.java.net/de.pellepelster.myadmin.server.base.xml"
-	jaxb:version="2.1" 
-	jaxb:extensionBindingPrefixes="annox"
 	 
 	targetNamespace="«xsdNamespace()»"
 
@@ -201,7 +196,6 @@ Type:
 
 	<xsd:element name="«xsdElementListName()»">
 		<xsd:complexType>
-			«EXPAND voMappingAnnotation(true, false, false) FOR this»
 			<xsd:sequence>
 				<xsd:element name="«xsdElementName()»" type="«xsdTypeName()»" minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>
@@ -210,8 +204,6 @@ Type:
 
 	<xsd:complexType name="«xsdTypeName()»">
 
-		«EXPAND voMappingAnnotation(false, false, false) FOR this»
-	
 		«IF extends != null»
 		<xsd:complexContent>
 			<xsd:extension base="«xsdQualifier(extends)»:«xsdTypeName(extends)»">
@@ -235,8 +227,6 @@ Type:
 	«EXPAND xsdElementReferenceListWrapper FOR this»
 
 	<xsd:complexType name="«xsdTypeReferenceName()»">
-		«EXPAND voMappingAnnotation(false, true, false) FOR this»
-	
 		<xsd:sequence>
 			<xsd:element name="id" type="xsd:integer"/>
 			«FOREACH attributes AS attribute»
@@ -249,16 +239,6 @@ Type:
     
 </xsd:schema>
 «ENDFILE»
-«ENDDEFINE»
-
-«DEFINE voMappingAnnotation(boolean isListWrapper, boolean isReference, boolean isReferenceListWrapper) FOR Entity»
-<xsd:annotation>
-	<xsd:appinfo>
-		<annox:annotate>
-			<myadmin:XmlVOMapping voClass="«fullQualifiedEntityName()»" isListWrapper="«isListWrapper»" isReference="«isReference»" isReferenceListWrapper="«isReferenceListWrapper»" />
-		</annox:annotate>
-	</xsd:appinfo>
-</xsd:annotation>
 «ENDDEFINE»
 
 «DEFINE xsdSchemaCatalog FOR Model-»

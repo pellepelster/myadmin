@@ -79,6 +79,8 @@
 
     	public static de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] getFieldDescriptors() {
 			return new de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor[] {
+
+				de.pellepelster.myadmin.client.base.db.vos.IBaseVO.FIELD_ID,
 			
 				«EXPAND templates::vo::FieldDescriptor::fieldDescriptorList("") FOR this»
 				
@@ -218,7 +220,7 @@
 			}
 		}
 
-		throw new RuntimeException("unsupported attribute '" + name + "'");
+		return null;
 	}
 
 «ENDDEFINE»
@@ -262,11 +264,7 @@
 			«ENDFOREACH-»
 		«ENDFOREACH-»
 		
-		«IF this.extends != null-»
-			return super.get(name);
-		«ELSE»
-			throw new java.lang.RuntimeException("no such attribute '" + name + "'");	
-		«ENDIF»
+		return super.get(name);
 		
 	}
 «ENDDEFINE»
@@ -333,11 +331,6 @@
 			«ENDFOREACH-»
 		«ENDFOREACH-»
 		
-		«IF this.extends != null-»
-			super.set(name, value);
-		«ELSE»
-			throw new java.lang.RuntimeException("no such attribute '" + name + "'");	
-		«ENDIF»
-
+		super.set(name, value);
 	}
 «ENDDEFINE»

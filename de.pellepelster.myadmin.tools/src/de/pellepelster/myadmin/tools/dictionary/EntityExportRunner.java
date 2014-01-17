@@ -12,26 +12,24 @@
 package de.pellepelster.myadmin.tools.dictionary;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 
 public class EntityExportRunner
 {
 	private final static Logger LOGGER = Logger.getLogger("EntityExport");
 
-	private final ImportExportService importExportService;
+	private final XmlVOExportImportService exportImportService;
 	private final VOMetaDataService metaDataService;
 	private final File exportDir;
 
-	public EntityExportRunner(ImportExportService importExportService, VOMetaDataService metaDataService, File exportDir)
+	public EntityExportRunner(XmlVOExportImportService exportImportService, VOMetaDataService metaDataService, File exportDir)
 	{
-		this.importExportService = importExportService;
+		this.exportImportService = exportImportService;
 		this.metaDataService = metaDataService;
 		this.exportDir = exportDir;
 	}
@@ -44,24 +42,7 @@ public class EntityExportRunner
 
 		for (Class<? extends IBaseVO> voClass : this.metaDataService.getVOClasses())
 		{
-			String xmlFileName = String.format("%s.xml", voClass.getName());
-
-			ToolUtils.logInfo(LOGGER, String.format("exporting '%s' to '%s'", voClass.getName(), xmlFileName), logIdentiation);
-			String exportXML = this.importExportService.exportVO(voClass);
-
-			if (exportXML != null)
-			{
-				File xmlFile = new File(this.exportDir, xmlFileName);
-
-				try
-				{
-					IOUtils.write(exportXML, new FileOutputStream(xmlFile));
-				}
-				catch (Exception e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
+			this.exportImportService.exportVOs(voClass, this.exportDir);
 		}
 
 	}

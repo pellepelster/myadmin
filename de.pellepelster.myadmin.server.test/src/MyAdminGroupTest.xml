@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MyAdminGroupList xmlns="http://www.pellepelster.de/myadmin/schema/client"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="client.xsd ">
+	
+	<MyAdminGroup>
+		<groupName>group1</groupName>
+	</MyAdminGroup>
+
+	<MyAdminGroup>
+		<groupName>group2</groupName>
+	</MyAdminGroup>
+	
+</MyAdminGroupList>

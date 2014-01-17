@@ -24,12 +24,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
-import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
-public class EntityExport extends BaseToolAntTask {
+public class EntityExport extends BaseToolAntTask
+{
 
 	private String exportDir;
 
@@ -39,7 +40,8 @@ public class EntityExport extends BaseToolAntTask {
 
 	/** {@inheritDoc} */
 	@Override
-	public void execute() throws BuildException {
+	public void execute() throws BuildException
+	{
 		logger.info("initializing spring context");
 
 		SecurityContextImpl sc = new SecurityContextImpl();
@@ -58,7 +60,8 @@ public class EntityExport extends BaseToolAntTask {
 		appContexts.add("MyAdminToolsApplicationContext.xml");
 		appContexts.add("MyAdminClientServices-gen.xml");
 
-		for (ApplicationContext applicationContext : applicationContexts) {
+		for (ApplicationContext applicationContext : this.applicationContexts)
+		{
 			appContexts.add(applicationContext.getFile());
 		}
 
@@ -66,35 +69,40 @@ public class EntityExport extends BaseToolAntTask {
 
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 
-		ImportExportService importExportService = (ImportExportService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("importexportservice");
-		VOMetaDataService metaDataService = (VOMetaDataService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("metadataservice");
+		XmlVOExportImportService exportImportService = MyAdminApplicationContextProvider.getInstance().getContext().getBean(XmlVOExportImportService.class);
+		VOMetaDataService metaDataService = MyAdminApplicationContextProvider.getInstance().getContext().getBean(VOMetaDataService.class);
 
-		File targetDir = new File(exportDir);
+		File targetDir = new File(this.exportDir);
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(importExportService, metaDataService, targetDir);
+		EntityExportRunner entityExportRunner = new EntityExportRunner(exportImportService, metaDataService, targetDir);
 		entityExportRunner.run();
 	}
 
-	public String getExportDir() {
-		return exportDir;
+	public String getExportDir()
+	{
+		return this.exportDir;
 	}
 
-	public void setExportDir(String exportDir) {
+	public void setExportDir(String exportDir)
+	{
 		this.exportDir = exportDir;
 	}
 
-	public Vector<ApplicationContext> getApplicationContexts() {
-		return applicationContexts;
+	public Vector<ApplicationContext> getApplicationContexts()
+	{
+		return this.applicationContexts;
 	}
 
-	public void setApplicationContexts(Vector<ApplicationContext> applicationContexts) {
+	public void setApplicationContexts(Vector<ApplicationContext> applicationContexts)
+	{
 		this.applicationContexts = applicationContexts;
 	}
 
-	public ApplicationContext createApplicationContext() {
+	public ApplicationContext createApplicationContext()
+	{
 
 		ApplicationContext applicationContext = new ApplicationContext();
-		applicationContexts.add(applicationContext);
+		this.applicationContexts.add(applicationContext);
 
 		return applicationContext;
 	}

@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ BeanUtilTest.class, BaseEntityServiceTest.class, CopyBeanTest.class, ImportExportServiceTest.class, MetaDataServiceTest.class,
+@Suite.SuiteClasses({ BeanUtilTest.class, BaseEntityServiceTest.class, CopyBeanTest.class, XmlExportImportServiceTest.class, MetaDataServiceTest.class,
 		RestUtilTest.class, GenericFilterTest.class, UserServiceTest.class, TempFileStoreTest.class })
 public class MyAdminServerTestSuite
 {

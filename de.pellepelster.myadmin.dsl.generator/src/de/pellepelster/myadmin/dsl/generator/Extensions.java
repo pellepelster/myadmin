@@ -291,6 +291,11 @@ public class Extensions
 		return ModelUtil.getSingleRootPackage(model).getName() + "." + WEB_SERVICE_ROOT_PACKAGE_POSTFIX;
 	}
 
+	public static String getRootServerPackageName(Model model)
+	{
+		return ModelUtil.getSingleRootPackage(model).getName() + "." + SERVER_ROOT_PACKAGE_POSTFIX;
+	}
+
 	public static String getRootWebPackageName(Model model)
 	{
 		return ModelUtil.getSingleRootPackage(model).getName() + "." + WEB_ROOT_PACKAGE_POSTFIX;

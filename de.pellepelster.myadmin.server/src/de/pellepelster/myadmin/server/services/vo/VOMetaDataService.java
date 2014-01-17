@@ -19,20 +19,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import net.sf.extcos.ComponentQuery;
 import net.sf.extcos.ComponentScanner;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IMobileBaseVO;
 import de.pellepelster.myadmin.db.util.BeanUtils;
-import de.pellepelster.myadmin.server.base.xml.XmlVOMapping;
 import de.pellepelster.myadmin.server.services.DirectedGraph;
 import de.pellepelster.myadmin.server.services.TopologicalSort;
 
@@ -56,65 +52,6 @@ public class VOMetaDataService implements InitializingBean
 		ComponentScanner scanner = new ComponentScanner();
 
 		findVOClasses(scanner);
-
-		LOG.info(String.format("searching for xml vo mapping classes..."));
-		Set<Class<?>> xmlVoMappingClasses = scanner.getClasses(new ComponentQuery()
-		{
-			@Override
-			protected void query()
-			{
-				select().from("de").returning(allAnnotatedWith(XmlVOMapping.class));
-			}
-		});
-
-		for (Class<?> xmlVoMappingClass : xmlVoMappingClasses)
-		{
-			XmlVOMapping xmlVOMapping = AnnotationUtils.findAnnotation(xmlVoMappingClass, XmlVOMapping.class);
-
-			if (xmlVOMapping.isListWrapper())
-			{
-				LOG.info(String.format("found list wrapper '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				this.voXmlListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
-			}
-
-			if (!xmlVOMapping.isListWrapper() && !xmlVOMapping.isReference() && !xmlVOMapping.isReferenceListWrapper())
-			{
-				LOG.info(String.format("found xml class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				this.voXmlMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
-			}
-
-			if (xmlVOMapping.isReferenceListWrapper())
-			{
-				LOG.info(String.format("found xml reference list wrapper class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				this.voXmlReferenceListWrapperMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
-			}
-
-			if (xmlVOMapping.isReference())
-			{
-				LOG.info(String.format("found xml reference class '%s' for vo '%s'", xmlVoMappingClass.getName(), xmlVOMapping.voClass()));
-				this.voXmlReferenceMappings.put(xmlVOMapping.voClass(), xmlVoMappingClass);
-			}
-
-		}
-
-		LOG.info(String.format("searching for xml root element classes..."));
-		Set<Class<?>> xmlRootElementClasses = scanner.getClasses(new ComponentQuery()
-		{
-
-			@Override
-			protected void query()
-			{
-				select().from("de").returning(allAnnotatedWith(XmlRootElement.class));
-			}
-		});
-
-		for (Class<?> xmlRootElementClass : xmlRootElementClasses)
-		{
-			XmlRootElement xmlRootElement = AnnotationUtils.findAnnotation(xmlRootElementClass, XmlRootElement.class);
-			LOG.info(String.format("found xml root class '%s' for element '%s'", xmlRootElementClass.getName(), xmlRootElement.name()));
-			this.xmlRootElementClasses.put(xmlRootElement.name(), xmlRootElementClass);
-		}
-
 	}
 
 	private void findVOClasses(ComponentScanner scanner)
@@ -176,18 +113,6 @@ public class VOMetaDataService implements InitializingBean
 			LOG.error("error sorting vo classes", e);
 		}
 
-	}
-
-	public Class<? extends IBaseVO> getVOClassForXmlClass(Class<?> xmlClass)
-	{
-		XmlVOMapping xmlVOMapping = AnnotationUtils.findAnnotation(xmlClass, XmlVOMapping.class);
-
-		if (xmlVOMapping == null)
-		{
-			throw new RuntimeException(String.format("class '%s' has no xml vo mapping information", xmlClass.getName()));
-		}
-
-		return xmlVOMapping.voClass();
 	}
 
 	public Class<?> getXmlClassForVOClass(Class<? extends IBaseVO> voClass)

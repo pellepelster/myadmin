@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MyAdminUserList xmlns="http://www.pellepelster.de/myadmin/schema/client"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="client.xsd ">
+	
+	<MyAdminUser>
+		<userName>user1</userName>
+		<client>
+			<ClientReference>
+				<name>client1</name>
+			</ClientReference>
+		</client>
+	</MyAdminUser>
+	
+	<MyAdminUser>
+		<userName>user2</userName>
+		
+	</MyAdminUser>
+	
+</MyAdminUserList>

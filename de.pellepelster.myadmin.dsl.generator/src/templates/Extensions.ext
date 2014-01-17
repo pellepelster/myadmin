@@ -39,6 +39,9 @@ String camelCaseToUnderScore(String camelCase) :
 String getRootWebServicePackageName(Model model) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getRootWebServicePackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
 
+String getRootServerPackageName(Model model) :
+	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getRootServerPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
+
 String getRootWebPackageName(Model model) :
 	JAVA de.pellepelster.myadmin.dsl.generator.Extensions.getRootWebPackageName(de.pellepelster.myadmin.dsl.myAdminDsl.Model);
 
@@ -242,6 +245,11 @@ String fullQualifiedAsyncServiceLocatorFileName(Model model): fullQualifiedAsync
 String fullQualifiedEntityVOMapperFileName(Model model) : fullQualifiedEntityVOMapperName(model).replaceAll('\\.', '/') + '.java';
 String fullQualifiedEntityVOMapperName(Model model) : getRootWebServicePackageName(model) + '.' + entityVOMapperName(model);
 String entityVOMapperName(Model model) : model.name.toFirstUpper() + 'EntityVOMapper';
+
+//- xml vo mapper ----------------------------------------------------------
+String fullQualifiedXmlVOMapperFileName(Model model) : fullQualifiedXmlVOMapperName(model).replaceAll('\\.', '/') + '.java';
+String fullQualifiedXmlVOMapperName(Model model) : getRootServerPackageName(model) + '.' + xmlVOMapperName(model);
+String xmlVOMapperName(Model model) : model.name.toFirstUpper() + 'XmlVOMapper';
 
 //- service extensions --------------------------------------------------------
 String fullQualifiedServicePackage(RemoteService remoteService, ModelScope modelScope) : getPackageName(remoteService, modelScope);

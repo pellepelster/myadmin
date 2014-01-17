@@ -21,20 +21,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
-import de.pellepelster.myadmin.server.services.ImportExportService;
-import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 import de.pellepelster.myadmin.tools.BaseToolAntTask;
 import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
 
-public class EntityImport extends BaseToolAntTask {
+public class EntityImport extends BaseToolAntTask
+{
 
 	private String importDir;
 
-	public String getImportDir() {
-		return importDir;
+	public String getImportDir()
+	{
+		return this.importDir;
 	}
 
-	public void setImportDir(String importDir) {
+	public void setImportDir(String importDir)
+	{
 		this.importDir = importDir;
 	}
 
@@ -42,7 +44,8 @@ public class EntityImport extends BaseToolAntTask {
 
 	/** {@inheritDoc} */
 	@Override
-	public void execute() throws BuildException {
+	public void execute() throws BuildException
+	{
 
 		logger.info("initializing spring context");
 
@@ -61,12 +64,11 @@ public class EntityImport extends BaseToolAntTask {
 
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 
-		ImportExportService importExportService = (ImportExportService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("importexportservice");
-		VOMetaDataService metaDataService = (VOMetaDataService) MyAdminApplicationContextProvider.getInstance().getContext().getBean("metadataservice");
+		XmlVOExportImportService exportImportService = MyAdminApplicationContextProvider.getInstance().getContext().getBean(XmlVOExportImportService.class);
 
-		File sourceDir = new File(importDir);
+		File sourceDir = new File(this.importDir);
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(importExportService, metaDataService, sourceDir);
+		EntityImportRunner entityImportRunner = new EntityImportRunner(exportImportService, sourceDir);
 		entityImportRunner.run();
 	}
 }
