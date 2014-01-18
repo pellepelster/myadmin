@@ -25,8 +25,8 @@ import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 import de.pellepelster.myadmin.demo.server.test.dictionary.BaseDemoDictionaryTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
-import de.pellepelster.myadmin.server.services.ImportExportService;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
 import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;
 
@@ -37,7 +37,7 @@ public class TestEntityExportImportRunner extends BaseDemoDictionaryTest
 	private IBaseEntityService baseEntityService;
 
 	@Autowired
-	private ImportExportService importExportService;
+	private XmlVOExportImportService exportImportService;
 
 	@Autowired
 	private VOMetaDataService metaDataService;
@@ -49,12 +49,12 @@ public class TestEntityExportImportRunner extends BaseDemoDictionaryTest
 
 		createExportData();
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(this.importExportService, this.metaDataService, tempDir);
+		EntityExportRunner entityExportRunner = new EntityExportRunner(this.exportImportService, this.metaDataService, tempDir);
 		entityExportRunner.run();
 
 		deleteData();
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(this.importExportService, this.metaDataService, tempDir);
+		EntityImportRunner entityImportRunner = new EntityImportRunner(this.exportImportService, tempDir);
 		entityImportRunner.run();
 
 		List<CityVO> cityVOs = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(CityVO.class).addAssociation(CityVO.FIELD_COUNTRY)
@@ -85,9 +85,9 @@ public class TestEntityExportImportRunner extends BaseDemoDictionaryTest
 		this.baseEntityService.create(cityVO);
 	}
 
-	public void setImportExportService(ImportExportService importExportService)
+	public void setExportImportService(XmlVOExportImportService exportImportService)
 	{
-		this.importExportService = importExportService;
+		this.exportImportService = exportImportService;
 	}
 
 	public void setMetaDataService(VOMetaDataService metaDataService)
