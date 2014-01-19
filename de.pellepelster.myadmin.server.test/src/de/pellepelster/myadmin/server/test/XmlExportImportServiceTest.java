@@ -77,13 +77,13 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-		this.xmlVOExporter.exportVOs(outputStream, clientVOs);
+		this.xmlVOExporter.exportVOs(outputStream, clientVOs, null);
 
 		clearTestData();
 
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-		this.xmlVOImporter.importVOs(inputStream);
+		this.xmlVOImporter.importVOs(inputStream, null);
 
 		clientVOs = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter());
 		Assert.assertEquals(2, clientVOs.size());
@@ -98,7 +98,7 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	{
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ClientTest.xml");
 
-		this.xmlVOImporter.importVOs(inputStream);
+		this.xmlVOImporter.importVOs(inputStream, null);
 
 		List<ClientVO> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(ClientVO.class).getGenericFilter());
 
@@ -114,9 +114,9 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testReferencedXmlImport()
 	{
-		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("ClientTest.xml"));
-		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminUserTest.xml"));
-		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminGroupTest.xml"));
+		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("ClientTest.xml"), null);
+		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminUserTest.xml"), null);
+		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminGroupTest.xml"), null);
 
 		List<MyAdminUserVO> result = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(MyAdminUserVO.class).getGenericFilter());
 

@@ -20,13 +20,19 @@ import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.db.vos.UUID;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.server.util.NaturalKeyUtils;
 
 @Component
-public class XmlVOExporter
+public class XmlVOExporter extends BaseXmlVOHandler
 {
+	public interface BinaryFileWriteCallback
+	{
+		void writeBinaryFile(String fileId, byte[] content);
+	}
+
 	private static final String KEY_ATTRIBUTE_NAME = "key";
 
 	private static final String VALUE_ATTRIBUTE_NAME = "value";
@@ -45,7 +51,7 @@ public class XmlVOExporter
 
 	private XMLEvent TAB = this.eventFactory.createDTD("\t");
 
-	public <VOType extends IBaseVO> void exportVOs(OutputStream outputStream, List<VOType> vosToExport)
+	public <VOType extends IBaseVO> void exportVOs(OutputStream outputStream, List<VOType> vosToExport, BinaryFileWriteCallback binaryFileCallback)
 	{
 		try
 		{
@@ -156,6 +162,13 @@ public class XmlVOExporter
 
 							createAttributeEndElement(eventWriter, attributeName, indentation, true);
 						}
+						else if (attributeValue instanceof byte[])
+						{
+							String fileId = UUID.uuid();
+
+							createAttributeNode(eventWriter, attributeName, fileId, indentation);
+							binaryFileCallback.writeBinaryFile(fileId, (byte[]) attributeValue);
+						}
 						else
 						{
 							createAttributeNode(eventWriter, attributeName, attributeValue, indentation);
@@ -247,7 +260,7 @@ public class XmlVOExporter
 	{
 		createAttributeStartElement(eventWriter, name, indentation, false);
 
-		Characters characters = this.eventFactory.createCharacters(value.toString());
+		Characters characters = this.eventFactory.createCharacters(toXML(value));
 		eventWriter.add(characters);
 
 		createAttributeEndElement(eventWriter, name, indentation, false);

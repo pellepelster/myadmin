@@ -12,7 +12,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,8 +26,13 @@ import de.pellepelster.myadmin.server.base.xml.XmlElementDescriptor;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 @Component
-public class XmlVOImporter
+public class XmlVOImporter extends BaseXmlVOHandler
 {
+	public interface BinaryFileReadCallback
+	{
+		byte[] readBinaryFile(String fileId);
+	}
+
 	private class VOAttributeSetteCallback implements SimpleCallback<IBaseVO>
 	{
 		private IBaseVO vo;
@@ -75,7 +79,7 @@ public class XmlVOImporter
 	@Autowired
 	private IBaseEntityService baseEntityService;
 
-	public void importVOs(InputStream inputStream)
+	public void importVOs(InputStream inputStream, BinaryFileReadCallback binaryFileReadCallback)
 	{
 		try
 		{
@@ -130,12 +134,20 @@ public class XmlVOImporter
 												new ListAdderCallback((List<IBaseVO>) vo.get(attributeDescriptor.getAttributeName())));
 									}
 								}
+								else if (attributeDescriptor.getAttributeType().isArray())
+								{
+									String fileId = event.asCharacters().getData();
+									byte[] content = binaryFileReadCallback.readBinaryFile(fileId);
+									vo.set(attributeDescriptor.getAttributeName(), content);
+									continue;
+								}
 								else
 								{
-									Object convertedValue = ConvertUtils.convert(event.asCharacters().getData(), attributeDescriptor.getAttributeType());
+									Object convertedValue = fromXml(event.asCharacters().getData(), attributeDescriptor.getAttributeType());
 									vo.set(attributeDescriptor.getAttributeName(), convertedValue);
 									continue;
 								}
+
 							}
 
 							if (attributeDescriptor == null && event.isStartElement())
@@ -200,7 +212,7 @@ public class XmlVOImporter
 
 						event = eventReader.nextEvent();
 
-						Object convertedValue = ConvertUtils.convert(event.asCharacters().getData(), referenceAttributeDescriptor.getAttributeType());
+						Object convertedValue = fromXml(event.asCharacters().getData(), referenceAttributeDescriptor.getAttributeType());
 						referenceAttibutes.put(referenceAttributeStartElement.getName().getLocalPart(), convertedValue);
 					}
 				}

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
+import de.pellepelster.myadmin.server.services.xml.XmlVOImporter.BinaryFileReadCallback;
 
 @Component
 public class XmlVOExportImportService
@@ -47,6 +49,8 @@ public class XmlVOExportImportService
 	private static final String XML_FILE_EXTENSION = "xml";
 
 	private static final int XML_DETECT_PEEK_SIZE = 1024;
+
+	private static final String BINARY_FILES_DIR = "binary";
 
 	@Autowired
 	private IBaseEntityService baseEntityService;
@@ -67,6 +71,8 @@ public class XmlVOExportImportService
 	{
 		LOG.info(String.format("exporting all '%s' vos", voClass.getName()));
 
+		final File binaryFilesDir = new File(exportDir, BINARY_FILES_DIR);
+
 		List<VOType> vosToExport = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(voClass).getGenericFilter());
 
 		if (!vosToExport.isEmpty())
@@ -79,7 +85,23 @@ public class XmlVOExportImportService
 			try
 			{
 				outputStream = new FileOutputStream(xmlExportFile);
-				this.xmlVOExporter.exportVOs(outputStream, vosToExport);
+				this.xmlVOExporter.exportVOs(outputStream, vosToExport, new XmlVOExporter.BinaryFileWriteCallback()
+				{
+
+					@Override
+					public void writeBinaryFile(String fileId, byte[] content)
+					{
+						File binaryFile = new File(binaryFilesDir, fileId);
+						try
+						{
+							FileUtils.writeByteArrayToFile(binaryFile, content);
+						}
+						catch (IOException e)
+						{
+							throw new RuntimeException(String.format("error writing binary file '%s'", binaryFile.toString()), e);
+						}
+					}
+				});
 			}
 			catch (FileNotFoundException e)
 			{
@@ -94,13 +116,32 @@ public class XmlVOExportImportService
 
 	public void importVO(File file)
 	{
+
+		final File binaryFilesDir = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(File.separator)), BINARY_FILES_DIR);
+
 		FileInputStream inputStream = null;
 		try
 		{
 			LOG.info(String.format("importing vos from '%s' ", file.toString()));
 
 			inputStream = new FileInputStream(file);
-			this.xmlVOImporter.importVOs(inputStream);
+			this.xmlVOImporter.importVOs(inputStream, new BinaryFileReadCallback()
+			{
+
+				@Override
+				public byte[] readBinaryFile(String fileId)
+				{
+					File binaryFile = new File(binaryFilesDir, fileId);
+					try
+					{
+						return FileUtils.readFileToByteArray(binaryFile);
+					}
+					catch (IOException e)
+					{
+						throw new RuntimeException(String.format("error reading binary file '%s'", binaryFile.toString()), e);
+					}
+				}
+			});
 		}
 		catch (Exception e)
 		{

@@ -11,7 +11,7 @@
  */
 package de.pellepelster.myadmin.server.base.services;
 
+
 public class ServerUtil
 {
-
 }

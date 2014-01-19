@@ -31,5 +31,7 @@
 		de.pellepelster.myadmin.db.daos.BaseVODAO.*(..))"/> <aop:pointcut id="baseEntityService" expression="execution(* de.pellepelster.myadmin.server.services.BaseEntityServiceImpl.*(..))"/> 
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="baseVODAo"/> <aop:advisor advice-ref="txAdvice" pointcut-ref="baseEntityService"/> 
 		</aop:config> -->
+		
+	<bean class="de.pellepelster.myadmin.server.base.services.BaseMyAdminConfiguration" />
 
 </beans>
