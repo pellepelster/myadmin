@@ -31,7 +31,7 @@ public class BeanUtilTest extends BaseDBTest
 	@Test
 	public void testGetVOAttributeDescriptors()
 	{
-		Set<Class<? extends IBaseVO>> dependentVOs = BeanUtils.getDependentVOs(DictionaryVO.class);
+		Set<Class<? extends IBaseVO>> dependentVOs = BeanUtils.getReferencedVOs(DictionaryVO.class);
 		Assert.assertEquals(4, dependentVOs.size());
 
 		Assert.assertTrue(dependentVOs.contains(DictionaryEditorVO.class));

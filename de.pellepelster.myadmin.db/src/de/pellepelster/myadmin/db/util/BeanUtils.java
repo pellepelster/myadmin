@@ -49,7 +49,7 @@ public class BeanUtils
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Set<Class<? extends IBaseVO>> getDependentVOs(Class<?> clazz)
+	public static Set<Class<? extends IBaseVO>> getReferencedVOs(Class<?> clazz)
 	{
 		Set<Class<? extends IBaseVO>> voAttributeDescriptors = new HashSet<Class<? extends IBaseVO>>();
 

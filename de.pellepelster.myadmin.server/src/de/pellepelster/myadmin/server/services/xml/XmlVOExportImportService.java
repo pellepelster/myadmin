@@ -189,7 +189,6 @@ public class XmlVOExportImportService
 				for (File file : filesToImport.get(voClass))
 				{
 					importVO(file);
-
 				}
 			}
 		}

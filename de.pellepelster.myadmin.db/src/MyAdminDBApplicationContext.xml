@@ -8,12 +8,14 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<context:component-scan base-package="de.pellepelster.myadmin.db" />
-
 	<context:component-scan base-package="entityvomapper" />
 
 	<bean class="de.pellepelster.myadmin.db.util.CopyBean" factory-method="getInstance" id="copyBean" />
 
 	<bean class="de.pellepelster.myadmin.db.util.EntityVOMapper" factory-method="getInstance" id="entityvomapper" />
+
+	<bean class="de.pellepelster.myadmin.db.daos.BaseDAO" />
+
+	<bean class="de.pellepelster.myadmin.db.daos.BaseVODAO" />
 
 </beans>

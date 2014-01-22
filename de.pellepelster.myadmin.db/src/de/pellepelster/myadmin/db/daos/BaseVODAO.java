@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,6 @@ import de.pellepelster.myadmin.db.util.CopyBean;
 import de.pellepelster.myadmin.db.util.DBUtil;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
 
-@Component
 @Transactional(propagation = Propagation.REQUIRED)
 public class BaseVODAO
 {

@@ -256,9 +256,13 @@ public class XmlVOImporter extends BaseXmlVOHandler
 		{
 			return vos.get(0);
 		}
-		else
+		else if (vos.size() == 0)
 		{
-			throw new RuntimeException(String.format("reference matches more than than one or no value object (criterias: %s", criteriaMap.toString()));
+			throw new RuntimeException(String.format("reference matches no value object (criterias: %s", criteriaMap.toString()));
+		}
+		{
+			throw new RuntimeException(String.format("reference matches more than than one (%d) value objects (criterias: %s", vos.size(),
+					criteriaMap.toString()));
 		}
 
 	}

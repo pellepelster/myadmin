@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
@@ -25,7 +24,6 @@ import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.services.IHierachicalService;
 
-@Component
 public class HierarchicalMandatoryValidator implements IValidator
 {
 

@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
@@ -12,7 +11,6 @@ import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 
 // TODO remove unused temp files
-@Component
 public class TempFileStore
 {
 	@Autowired

@@ -14,6 +14,7 @@ package de.pellepelster.myadmin.server.services.vo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,12 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.db.util.IEntityVOMapper;
 import de.pellepelster.myadmin.server.services.DirectedGraph;
-import de.pellepelster.myadmin.server.services.TopologicalSort;
 
-@Component
 public class VOMetaDataService implements InitializingBean
 {
 	private final static Logger LOG = Logger.getLogger(VOMetaDataService.class);
@@ -52,6 +50,11 @@ public class VOMetaDataService implements InitializingBean
 	{
 		LOG.info(String.format("%d vo classes found", this.voClasses.size()));
 
+		for (Class<? extends IBaseVO> voClass : this.voClasses)
+		{
+			LOG.info(String.format("%s", voClass.getName()));
+		}
+
 		DirectedGraph<Class<? extends IBaseVO>> directedGraph = new DirectedGraph<Class<? extends IBaseVO>>();
 
 		for (Class<? extends IBaseVO> voClass : this.voClasses)
@@ -61,7 +64,7 @@ public class VOMetaDataService implements InitializingBean
 
 		for (Class<? extends IBaseVO> voClass : this.voClasses)
 		{
-			Set<Class<? extends IBaseVO>> dependentClasses = BeanUtils.getDependentVOs(voClass);
+			Set<Class<? extends IBaseVO>> dependentClasses = BeanUtils.getReferencedVOs(voClass);
 
 			for (Class<? extends IBaseVO> dependentClass : dependentClasses)
 			{
@@ -72,16 +75,35 @@ public class VOMetaDataService implements InitializingBean
 			}
 		}
 
-		try
+		Collections.sort(this.voClasses, new Comparator<Class<? extends IBaseVO>>()
 		{
-			// TODO DAG sort not possible because of cycles
-			this.voClasses = TopologicalSort.sort(directedGraph);
-			Collections.reverse(this.voClasses);
-		}
-		catch (Exception e)
-		{
-			LOG.error("error sorting vo classes", e);
-		}
+
+			@Override
+			public int compare(Class<? extends IBaseVO> voClass1, Class<? extends IBaseVO> voClass2)
+			{
+				Set<Class<? extends IBaseVO>> referencedVO1s = BeanUtils.getReferencedVOs(voClass1);
+				Set<Class<? extends IBaseVO>> referencedVO2s = BeanUtils.getReferencedVOs(voClass2);
+
+				if (referencedVO1s.contains(voClass2) && referencedVO2s.contains(referencedVO1s))
+				{
+					return 0;
+				}
+				else
+				{
+					if (referencedVO1s.contains(referencedVO2s))
+					{
+						return -1;
+					}
+					else
+					{
+						return 1;
+
+					}
+				}
+
+			}
+		});
+		Collections.reverse(this.voClasses);
 	}
 
 	public Class<?> getXmlClassForVOClass(Class<? extends IBaseVO> voClass)

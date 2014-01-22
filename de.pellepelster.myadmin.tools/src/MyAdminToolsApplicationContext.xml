@@ -18,9 +18,15 @@
 
 	<context:component-scan base-package="xmlvomapper" />
 
-	<context:component-scan base-package="de.pellepelster.myadmin.server.services.xml" />
-	
 	<bean class="de.pellepelster.myadmin.server.services.vo.VOMetaDataService" />
+	
+	<bean class="de.pellepelster.myadmin.server.services.xml.XmlVOImporter" />
+
+	<bean class="de.pellepelster.myadmin.server.services.xml.XmlVOExporter" />
+	
+	<bean class="de.pellepelster.myadmin.server.services.xml.XmlVOMapper" />
+	
+	<bean class="de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService" />
 
 	<bean class="de.pellepelster.myadmin.db.util.EntityVOMapper" factory-method="getInstance" id="entityvomapper" />
 

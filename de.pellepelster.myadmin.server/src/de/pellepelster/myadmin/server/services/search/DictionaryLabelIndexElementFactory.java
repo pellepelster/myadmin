@@ -1,7 +1,5 @@
 package de.pellepelster.myadmin.server.services.search;
 
-import org.springframework.stereotype.Component;
-
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -11,7 +9,6 @@ import de.pellepelster.myadmin.db.index.ISearchIndexElementQuery;
 import de.pellepelster.myadmin.db.index.SearchIndexElement;
 import de.pellepelster.myadmin.db.index.SearchIndexElementQuery;
 
-@Component
 public class DictionaryLabelIndexElementFactory implements ISearchIndexElementFactory
 {
 

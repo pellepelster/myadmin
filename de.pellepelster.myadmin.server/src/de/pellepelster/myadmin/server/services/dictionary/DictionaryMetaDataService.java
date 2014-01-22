@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
 
@@ -32,7 +31,6 @@ import de.pellepelster.myadmin.db.index.ISearchIndexService;
 import de.pellepelster.myadmin.server.entities.dictionary.Dictionary;
 import de.pellepelster.myadmin.server.services.search.DictionaryLabelIndexElementFactory;
 
-@Component
 public class DictionaryMetaDataService implements InitializingBean
 {
 
