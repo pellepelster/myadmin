@@ -38,7 +38,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWTAsync;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.test.vo.BaseHierarchicalTestVO;
 import de.pellepelster.myadmin.client.web.test.vo.HierarchicalTest1VO;
 import de.pellepelster.myadmin.client.web.test.vo.HierarchicalTest2VO;

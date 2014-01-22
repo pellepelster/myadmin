@@ -9,9 +9,11 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.tools.dictionary;
+package de.pellepelster.myadmin.tools;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -20,34 +22,35 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
+import com.google.common.base.Joiner;
+
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
-import de.pellepelster.myadmin.tools.BaseToolAntTask;
-import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
+import de.pellepelster.myadmin.tools.util.MyAdminApplicationContextProvider;
 
-public class EntityImport extends BaseToolAntTask
+public class VOImporter extends BaseToolAntTask
 {
+	private String applicationContext;
 
 	private String importDir;
 
-	public String getImportDir()
-	{
-		return this.importDir;
-	}
-
-	public void setImportDir(String importDir)
-	{
-		this.importDir = importDir;
-	}
-
-	private static final Logger logger = Logger.getLogger(EntityImport.class);
+	private static final Logger LOG = Logger.getLogger(VOImporter.class);
 
 	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException
 	{
+		// TODO this should be moved to BaseToolAntTask
+		List<String> applicationContexts = new ArrayList<String>();
+		applicationContexts.add("MyAdminToolsApplicationContext.xml");
+		applicationContexts.add("MyAdminClientServices-gen.xml");
 
-		logger.info("initializing spring context");
+		if (this.applicationContext != null && !this.applicationContext.isEmpty())
+		{
+			applicationContexts.add(this.applicationContext);
+		}
+
+		LOG.info(String.format("initializing spring context (%s)", Joiner.on(", ").join(applicationContexts)));
 
 		SecurityContextImpl sc = new SecurityContextImpl();
 		Authentication auth = new UsernamePasswordAuthenticationToken(getRemoteuser(), getRemotepassword());
@@ -60,15 +63,34 @@ public class EntityImport extends BaseToolAntTask
 		System.setProperty("remote.port", getRemoteport());
 		System.setProperty("remote.path", getRemotepath());
 
-		MyAdminApplicationContextProvider.getInstance().init(new String[] { "MyAdminToolsApplicationContext.xml", "MyAdminClientServices-gen.xml" });
-
+		MyAdminApplicationContextProvider.getInstance().init(applicationContexts.toArray(new String[applicationContexts.size()]));
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 
 		XmlVOExportImportService exportImportService = MyAdminApplicationContextProvider.getInstance().getContext().getBean(XmlVOExportImportService.class);
 
 		File sourceDir = new File(this.importDir);
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(exportImportService, sourceDir);
+		VOImportRunner entityImportRunner = new VOImportRunner(exportImportService, sourceDir);
 		entityImportRunner.run();
+	}
+
+	public String getApplicationContext()
+	{
+		return this.applicationContext;
+	}
+
+	public void setApplicationContext(String applicationContext)
+	{
+		this.applicationContext = applicationContext;
+	}
+
+	public String getImportDir()
+	{
+		return this.importDir;
+	}
+
+	public void setImportDir(String importDir)
+	{
+		this.importDir = importDir;
 	}
 }

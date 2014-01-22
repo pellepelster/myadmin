@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.tools.dictionary;
+package de.pellepelster.myadmin.tools;
 
 import java.io.File;
 
@@ -19,7 +19,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 
-public class EntityExportRunner
+public class VOExportRunner
 {
 	private final static Logger LOGGER = Logger.getLogger("EntityExport");
 
@@ -27,7 +27,7 @@ public class EntityExportRunner
 	private final VOMetaDataService metaDataService;
 	private final File exportDir;
 
-	public EntityExportRunner(XmlVOExportImportService exportImportService, VOMetaDataService metaDataService, File exportDir)
+	public VOExportRunner(XmlVOExportImportService exportImportService, VOMetaDataService metaDataService, File exportDir)
 	{
 		this.exportImportService = exportImportService;
 		this.metaDataService = metaDataService;
@@ -36,7 +36,6 @@ public class EntityExportRunner
 
 	public void run()
 	{
-		int logIdentiation = 0;
 
 		LOGGER.info(String.format("starting entity export to dir '%s'", this.exportDir.getPath()));
 

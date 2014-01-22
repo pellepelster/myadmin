@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.tools;
+package de.pellepelster.myadmin.tools.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
-import de.pellepelster.myadmin.tools.dictionary.ToolUtils;
 
 public class SpringModelUtils {
 	public final static Logger LOG = Logger.getLogger(SpringModelUtils.class);

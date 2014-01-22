@@ -22,7 +22,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })

@@ -24,16 +24,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.io.Files;
 
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.demo.client.base.test1.Enumeration1;
+import de.pellepelster.myadmin.demo.client.web.entities.CityVO;
+import de.pellepelster.myadmin.demo.client.web.entities.CountryVO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test2VO;
 import de.pellepelster.myadmin.demo.server.test.dictionary.BaseDemoDictionaryTest;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
-import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
-import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;
+import de.pellepelster.myadmin.tools.VOExportRunner;
+import de.pellepelster.myadmin.tools.VOImportRunner;
 
 public class DemoXmlExportImportServiceTest extends BaseDemoDictionaryTest
 {
@@ -50,7 +52,6 @@ public class DemoXmlExportImportServiceTest extends BaseDemoDictionaryTest
 	@Test
 	public void exportImportTest1VO() throws ParseException
 	{
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 		Date dateDatatype1 = dateFormat.parse("2013.11.19");
 
@@ -78,14 +79,23 @@ public class DemoXmlExportImportServiceTest extends BaseDemoDictionaryTest
 
 		test1VO = this.baseEntityService.create(test1VO);
 
+		CountryVO countryVO = new CountryVO();
+		countryVO.setCountryName("Germany");
+		countryVO = this.baseEntityService.create(countryVO);
+
+		CityVO cityVO = new CityVO();
+		cityVO.setCityName("Hamburg");
+		cityVO.setCountry(countryVO);
+		cityVO = this.baseEntityService.create(cityVO);
+
 		File tempDir = Files.createTempDir();
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(this.exportImportService, this.metaDataService, tempDir);
+		VOExportRunner entityExportRunner = new VOExportRunner(this.exportImportService, this.metaDataService, tempDir);
 		entityExportRunner.run();
 
 		this.baseEntityService.deleteAll(Test1VO.class.getName());
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(this.exportImportService, tempDir);
+		VOImportRunner entityImportRunner = new VOImportRunner(this.exportImportService, tempDir);
 		entityImportRunner.run();
 
 		List<Test1VO> test1VOs = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(Test1VO.class).getGenericFilter());

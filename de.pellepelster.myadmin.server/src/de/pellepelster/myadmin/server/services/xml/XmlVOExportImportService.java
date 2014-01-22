@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOImporter.BinaryFileReadCallback;
@@ -44,7 +44,7 @@ import de.pellepelster.myadmin.server.services.xml.XmlVOImporter.BinaryFileReadC
 @Component
 public class XmlVOExportImportService
 {
-	private final static Logger LOG = Logger.getLogger(XmlVOExportImportService.class);
+	private final static Logger LOG = Logger.getLogger(XmlVOExportImportService.class.getSimpleName());
 
 	private static final String XML_FILE_EXTENSION = "xml";
 
@@ -114,17 +114,16 @@ public class XmlVOExportImportService
 		}
 	}
 
-	public void importVO(File file)
+	public void importVO(File xmlFile)
 	{
+		LOG.info(String.format("importing vos from '%s'", xmlFile.toString()));
 
-		final File binaryFilesDir = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(File.separator)), BINARY_FILES_DIR);
+		final File binaryFilesDir = new File(xmlFile.getAbsolutePath().substring(0, xmlFile.getAbsolutePath().lastIndexOf(File.separator)), BINARY_FILES_DIR);
 
 		FileInputStream inputStream = null;
 		try
 		{
-			LOG.info(String.format("importing vos from '%s' ", file.toString()));
-
-			inputStream = new FileInputStream(file);
+			inputStream = new FileInputStream(xmlFile);
 			this.xmlVOImporter.importVOs(inputStream, new BinaryFileReadCallback()
 			{
 
@@ -145,7 +144,7 @@ public class XmlVOExportImportService
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException(String.format("import of '%s' failed", file.toString()), e);
+			throw new RuntimeException(String.format("import of '%s' failed (%s)", xmlFile.toString(), e.getMessage()), e);
 		}
 		finally
 		{
@@ -155,6 +154,8 @@ public class XmlVOExportImportService
 
 	public void importVOs(File importDir)
 	{
+		LOG.info(String.format("looking for xml files in '%s'", importDir.toString()));
+
 		IOFileFilter xmlFileFilter = FileFilterUtils.suffixFileFilter(XML_FILE_EXTENSION);
 		Collection<File> xmlFiles = FileUtils.listFiles(importDir, xmlFileFilter, null);
 
@@ -172,7 +173,13 @@ public class XmlVOExportImportService
 				}
 
 				filesToImport.get(voClass).add(xmlFile);
+				LOG.info(String.format("detected vo class '%s' for '%s'", voClass.getName(), xmlFile.toString()));
 			}
+			else
+			{
+				LOG.info(String.format("could not detect vo class for '%s'", xmlFile.toString()));
+			}
+
 		}
 
 		for (Class<? extends IBaseVO> voClass : this.metaDataService.getVOClasses())

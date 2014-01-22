@@ -29,66 +29,78 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.MyAdminDslPackage;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatype;
 import de.pellepelster.myadmin.dsl.myAdminDsl.ReferenceDatatypeType;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
-import de.pellepelster.myadmin.tools.SpringModelUtils;
+import de.pellepelster.myadmin.tools.util.SpringModelUtils;
 
-public class EntityQueryTest {
+public class EntityQueryTest
+{
 	private Model model = SpringModelUtils.getModel("classpath:model/EntityModel.msl");
 
 	@BeforeClass
-	public static void init() {
+	public static void init()
+	{
 		MyAdminDslStandaloneSetup.doSetup();
 	}
 
 	@Test
-	public void testGetAllEntities() {
+	public void testGetAllEntities()
+	{
 		Assert.assertEquals(4, ModelQuery.createQuery(this.model).getAllEntities().getEntities().size());
 	}
 
 	@Test
-	public void testGetEntityByName() {
+	public void testGetEntityByName()
+	{
 		Entity entity1 = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getEntity();
 		Assert.assertEquals("Entity1", entity1.getName());
 	}
 
 	@Test
-	public void testGetReferencedEntites() {
+	public void testGetReferencedEntites()
+	{
 		Entity entity1 = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getEntity();
 		Assert.assertEquals("Entity1", entity1.getName());
 	}
 
 	@Test
-	public void testGetAttributesByType() {
+	public void testGetAttributesByType()
+	{
 		Assert.assertEquals(1, ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getList().size());
 
 		// reference Entity3 entity3
-		Collection<Entity> entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getFeatures(MyAdminDslPackage.Literals.ENTITY_TYPE__TYPE, Entity.class);
+		Collection<Entity> entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class)
+				.getFeatures(MyAdminDslPackage.Literals.ENTITY_TYPE__TYPE, Entity.class);
 		Assert.assertEquals(1, entities.size());
 		Assert.assertEquals("Entity3", entities.iterator().next().getName());
 
 		// referencedatatype Entity4Datatype entity4
-		entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(ReferenceDatatypeType.class).getFeaturesQuery(MyAdminDslPackage.Literals.REFERENCE_DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
+		entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(ReferenceDatatypeType.class)
+				.getFeaturesQuery(MyAdminDslPackage.Literals.REFERENCE_DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
 				.getFeatures(MyAdminDslPackage.Literals.REFERENCE_DATATYPE__ENTITY, Entity.class);
 		Assert.assertEquals(1, entities.size());
 		Assert.assertEquals("Entity4", entities.iterator().next().getName());
 
 		// datatype Entity2Datatype entity2
-		entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(DatatypeType.class).getFeaturesQuery(MyAdminDslPackage.Literals.DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
+		entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(DatatypeType.class)
+				.getFeaturesQuery(MyAdminDslPackage.Literals.DATATYPE_TYPE__TYPE, ReferenceDatatype.class)
 				.getFeatures(MyAdminDslPackage.Literals.REFERENCE_DATATYPE__ENTITY, Entity.class);
 		Assert.assertEquals(1, entities.size());
 		Assert.assertEquals("Entity2", entities.iterator().next().getName());
 	}
 
 	@Test
-	public void testGetAttributeByName() {
+	public void testGetAttributeByName()
+	{
 		Assert.assertEquals(1, ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getTypes(EntityType.class).getList().size());
 
 		// reference Entity3 entity3
-		EntityAttribute entityAttribute = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity3").getObject();
+		EntityAttribute entityAttribute = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getAttributes().getAttributeByName("entity3")
+				.getObject();
 		Assert.assertEquals("entity3", entityAttribute.getName());
 	}
 
 	@Test
-	public void testGetLinkedEntities() {
+	public void testGetLinkedEntities()
+	{
 		Collection<Entity> entities = ModelQuery.createQuery(this.model).getEntityByName("Entity1").getReferencedEntities();
 
 		Iterator<Entity> iterator = entities.iterator();

@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.vo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.messages.IValidationMessage;
 import de.pellepelster.myadmin.client.core.utils.HierarchicalUtils;
 import de.pellepelster.myadmin.client.web.entities.dictionary.FileVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityServiceGWT;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityServiceGWT;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.db.util.AttributeDescriptorIterator;
 import de.pellepelster.myadmin.db.util.BeanUtils;

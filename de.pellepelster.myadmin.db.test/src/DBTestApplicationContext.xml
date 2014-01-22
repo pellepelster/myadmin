@@ -51,20 +51,10 @@
 
 	<tx:annotation-driven />
 
-	<bean class="de.pellepelster.myadmin.db.daos.BaseDAO" id="baseDAO" />
-
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean class="de.pellepelster.myadmin.db.daos.BaseVODAO" id="baseVODAO">
-		<property name="baseDAO" ref="baseDAO" />
-	</bean>
-
 	<context:annotation-config />
 	
-	<bean class="de.pellepelster.myadmin.db.util.CopyBean"
-		factory-method="getInstance" id="copyBean" />
-	
-
 </beans>

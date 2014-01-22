@@ -8,13 +8,9 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="entityVOMapper" class="de.pellepelster.myadmin.db.util.EntityVOMapper" />
-
 	<bean id="naturalKeyValidator" class="de.pellepelster.myadmin.server.validators.NaturalKeyValidator" />
 
 	<bean id="mandatoryValidator" class="de.pellepelster.myadmin.server.validators.MandatoryValidator" />
-
-	<bean class="de.pellepelster.myadmin.db.util.CopyBean" factory-method="getInstance" id="copyBean" />
 
 	<bean id="applicationEventMulticaster" class="org.springframework.context.event.SimpleApplicationEventMulticaster">
 		<property name="taskExecutor">

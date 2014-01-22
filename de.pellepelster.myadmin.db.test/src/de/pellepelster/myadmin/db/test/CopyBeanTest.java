@@ -37,7 +37,7 @@ import de.pellepelster.myadmin.db.util.CopyBean;
 import de.pellepelster.myadmin.db.util.EntityVOMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/DBTestVOMapper.xml" })
+@ContextConfiguration(locations = { "classpath:/MyAdminDBApplicationContext.xml", "classpath:/DBTestApplicationContext.xml" })
 public class CopyBeanTest extends AbstractJUnit4SpringContextTests
 {
 

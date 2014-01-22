@@ -242,13 +242,15 @@ String fullQualifiedServiceLocatorFileName(Model model): fullQualifiedServiceLoc
 String fullQualifiedAsyncServiceLocatorFileName(Model model): fullQualifiedAsyncServiceLocatorName(model).replaceAll('\\.', '/') + ".java";
 
 //- entity vo mapper ----------------------------------------------------------
+String entityVOMapperRootPackage(): "entityvomapper";
 String fullQualifiedEntityVOMapperFileName(Model model) : fullQualifiedEntityVOMapperName(model).replaceAll('\\.', '/') + '.java';
-String fullQualifiedEntityVOMapperName(Model model) : getRootWebServicePackageName(model) + '.' + entityVOMapperName(model);
+String fullQualifiedEntityVOMapperName(Model model) : entityVOMapperRootPackage() + "." + entityVOMapperName(model);
 String entityVOMapperName(Model model) : model.name.toFirstUpper() + 'EntityVOMapper';
 
 //- xml vo mapper ----------------------------------------------------------
+String xmlVOMapperRootPackage(): "xmlvomapper";
 String fullQualifiedXmlVOMapperFileName(Model model) : fullQualifiedXmlVOMapperName(model).replaceAll('\\.', '/') + '.java';
-String fullQualifiedXmlVOMapperName(Model model) : getRootServerPackageName(model) + '.' + xmlVOMapperName(model);
+String fullQualifiedXmlVOMapperName(Model model) : xmlVOMapperRootPackage() + "." + xmlVOMapperName(model);
 String xmlVOMapperName(Model model) : model.name.toFirstUpper() + 'XmlVOMapper';
 
 //- service extensions --------------------------------------------------------

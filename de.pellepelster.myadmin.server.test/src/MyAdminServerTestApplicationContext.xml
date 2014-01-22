@@ -9,10 +9,4 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="DBTestEntityVOMapper" class="de.pellepelster.myadmin.db.test.mockup.DbTestEntityVOMapper" />
-
-	<bean class="de.pellepelster.myadmin.db.util.EntityVOMapper" factory-method="getInstance" id="entityVOMapper" />
-
-	<bean class="de.pellepelster.myadmin.db.util.CopyBean" />
-
 </beans>

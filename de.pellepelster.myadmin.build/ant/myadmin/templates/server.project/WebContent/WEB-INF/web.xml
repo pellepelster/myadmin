@@ -20,6 +20,7 @@
 		<param-value>
 			classpath:MyAdminServerSpringSecurity.xml, 
 			classpath:MyAdminServerWebApplicationContext.xml, 
+			classpath:MyAdminDBApplicationContext.xml, 
 			classpath:MyAdminServerApplicationContext-gen.xml, 
 			classpath:MyAdminServerApplicationContextServices-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 

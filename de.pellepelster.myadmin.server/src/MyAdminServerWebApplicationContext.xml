@@ -23,7 +23,7 @@
 	
 	<bean id="gwtupload" class="org.springframework.web.servlet.mvc.ServletWrappingController">
 		<property name="servletClass">
-			<value>de.pellepelster.myadmin.server.services.FileUploadServlet</value>
+			<value>de.pellepelster.myadmin.server.services.file.FileUploadServlet</value>
 		</property>
 		<property name="servletName">
 			<value>gwtupload</value>

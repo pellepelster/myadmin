@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleNavigationVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 
 public class ModuleNavigationBaseEntityServiceTest extends BaseDemoTest
 {

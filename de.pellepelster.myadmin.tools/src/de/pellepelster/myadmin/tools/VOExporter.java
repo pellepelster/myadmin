@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.tools.dictionary;
+package de.pellepelster.myadmin.tools;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,26 +23,40 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
+import com.google.common.base.Joiner;
+
 import de.pellepelster.myadmin.client.web.MyAdminRemoteServiceLocator;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
-import de.pellepelster.myadmin.tools.BaseToolAntTask;
-import de.pellepelster.myadmin.tools.MyAdminApplicationContextProvider;
+import de.pellepelster.myadmin.tools.util.ApplicationContext;
+import de.pellepelster.myadmin.tools.util.MyAdminApplicationContextProvider;
 
-public class EntityExport extends BaseToolAntTask
+public class VOExporter extends BaseToolAntTask
 {
+
+	private String applicationContext;
 
 	private String exportDir;
 
 	private Vector<ApplicationContext> applicationContexts = new Vector<ApplicationContext>();
 
-	private static final Logger logger = Logger.getLogger(EntityExport.class);
+	private static final Logger LOGGER = Logger.getLogger(VOExporter.class);
 
 	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException
 	{
-		logger.info("initializing spring context");
+		List<String> applicationContexts = new ArrayList<String>();
+
+		applicationContexts.add("MyAdminToolsApplicationContext.xml");
+		applicationContexts.add("MyAdminClientServices-gen.xml");
+
+		if (this.applicationContext != null && !this.applicationContext.isEmpty())
+		{
+			applicationContexts.add(this.applicationContext);
+		}
+
+		LOGGER.info(String.format("initializing spring context (%s)", Joiner.on(", ").join(applicationContexts)));
 
 		SecurityContextImpl sc = new SecurityContextImpl();
 		Authentication auth = new UsernamePasswordAuthenticationToken(getRemoteuser(), getRemotepassword());
@@ -55,17 +69,12 @@ public class EntityExport extends BaseToolAntTask
 		System.setProperty("remote.port", getRemoteport());
 		System.setProperty("remote.path", getRemotepath());
 
-		List<String> appContexts = new ArrayList<String>();
-
-		appContexts.add("MyAdminToolsApplicationContext.xml");
-		appContexts.add("MyAdminClientServices-gen.xml");
-
 		for (ApplicationContext applicationContext : this.applicationContexts)
 		{
-			appContexts.add(applicationContext.getFile());
+			applicationContexts.add(applicationContext.getFile());
 		}
 
-		MyAdminApplicationContextProvider.getInstance().init(appContexts.toArray(new String[] {}));
+		MyAdminApplicationContextProvider.getInstance().init(applicationContexts.toArray(new String[] {}));
 
 		MyAdminRemoteServiceLocator.getInstance().init(MyAdminApplicationContextProvider.getInstance());
 
@@ -74,7 +83,7 @@ public class EntityExport extends BaseToolAntTask
 
 		File targetDir = new File(this.exportDir);
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(exportImportService, metaDataService, targetDir);
+		VOExportRunner entityExportRunner = new VOExportRunner(exportImportService, metaDataService, targetDir);
 		entityExportRunner.run();
 	}
 
@@ -105,6 +114,16 @@ public class EntityExport extends BaseToolAntTask
 		this.applicationContexts.add(applicationContext);
 
 		return applicationContext;
+	}
+
+	public String getApplicationContext()
+	{
+		return this.applicationContext;
+	}
+
+	public void setApplicationContext(String applicationContext)
+	{
+		this.applicationContext = applicationContext;
 	}
 
 }

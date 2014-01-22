@@ -74,6 +74,7 @@ public final class TopologicalSort
 		 * nodes that actually holds the topological ordering.
 		 */
 		List<T> result = new ArrayList<T>();
+
 		Set<T> visited = new HashSet<T>();
 
 		/*
@@ -86,7 +87,9 @@ public final class TopologicalSort
 
 		/* Fire off a DFS from each node in the graph. */
 		for (T node : gRev)
+		{
 			explore(node, gRev, result, visited, expanded);
+		}
 
 		/* Hand back the resulting ordering. */
 		return result;
@@ -158,15 +161,22 @@ public final class TopologicalSort
 
 		/* Add all the nodes from the original graph. */
 		for (T node : g)
+		{
 			result.addNode(node);
+		}
 
 		/*
 		 * Scan over all the edges in the graph, adding their reverse to the
 		 * reverse graph.
 		 */
 		for (T node : g)
+		{
 			for (T endpoint : g.edgesFrom(node))
+			{
 				result.addEdge(endpoint, node);
+
+			}
+		}
 
 		return result;
 	}

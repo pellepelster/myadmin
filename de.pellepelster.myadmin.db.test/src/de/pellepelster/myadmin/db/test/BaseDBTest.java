@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/DBTestApplicationContext.xml", "classpath:/DBTestVOMapper.xml" })
+@ContextConfiguration(locations = { "classpath:/DBTestApplicationContext.xml", "classpath:/MyAdminDBApplicationContext.xml" })
 @TransactionConfiguration(defaultRollback = false)
 @Transactional
 @TestExecutionListeners({ TransactionalTestExecutionListener.class })

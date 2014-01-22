@@ -30,6 +30,7 @@
 		<dependency org="org.codehaus.cargo" name="cargo-ant" rev="1.2.4" />
 		
 		<dependency org="org.slf4j" name="slf4j-parent" rev="1.7.5" />
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" />
 
 	</dependencies>
 

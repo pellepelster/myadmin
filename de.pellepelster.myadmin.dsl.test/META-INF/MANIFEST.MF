@@ -7,7 +7,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext,
  org.eclipse.xtext.junit4,
  org.eclipse.xtext.ui.junit,
- org.junit4,
  org.eclipse.ui.workbench;resolution:=optional,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase.junit,
@@ -15,7 +14,6 @@ Require-Bundle: org.eclipse.core.runtime,
  de.pellepelster.myadmin.dsl.ui,
  de.pellepelster.myadmin.dsl,
  de.pellepelster.myadmin.dsl.graphiti.ui,
- org.eclipse.graphiti
 Bundle-Vendor: Christian Pelster
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.junit.runner;version="4.5.0",

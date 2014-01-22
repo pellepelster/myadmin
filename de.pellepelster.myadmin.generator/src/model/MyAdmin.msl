@@ -386,51 +386,53 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			
 			}
 	
-			remoteservice BaseEntityService {
-	
-				remotemethod getNewVO returns myadmintype IBaseVO {
-					simpletype String voClassName
-					map String String properties
+			package vo {
+				remoteservice BaseEntityService {
+		
+					remotemethod getNewVO returns myadmintype IBaseVO {
+						simpletype String voClassName
+						map String String properties
+					}
+		
+					remotemethod <CreateVOType extends myadmintype IBaseVO> create returns generic CreateVOType {
+						generic CreateVOType vo
+					}
+		
+					remotemethod <ValidateVOType extends myadmintype IBaseVO> validate returns customtype "de.pellepelster.myadmin.client.base.messages.IValidationMessage" * {
+						generic ValidateVOType vo
+					}
+		
+		
+					remotemethod <ValidateAndSaveVOType extends myadmintype IBaseVO> validateAndSave returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndSaveVOType>" {
+						generic ValidateAndSaveVOType vo
+					}
+		
+					remotemethod <ValidateAndCreateVOType extends myadmintype IBaseVO> validateAndCreate returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndCreateVOType>" {
+						generic ValidateAndCreateVOType vo
+					}
+				
+					remotemethod <SaveVOType extends myadmintype IBaseVO> save returns generic SaveVOType {
+						generic SaveVOType vo
+					}
+						
+					remotemethod <FilterVOType extends myadmintype IBaseVO> filter returns generic FilterVOType* {
+						myadmintype GenericFilterVO<generic FilterVOType> genericFilterVO
+					}
+		
+					remotemethod deleteAll {
+						simpletype String voClassName
+					}
+		
+					remotemethod <DeleteVOType extends myadmintype IBaseVO> delete {
+						generic DeleteVOType vo
+					}
+		
+					remotemethod read returns myadmintype IBaseVO {
+						simpletype Long id
+						simpletype String voClassName
+					}
+				
 				}
-	
-				remotemethod <CreateVOType extends myadmintype IBaseVO> create returns generic CreateVOType {
-					generic CreateVOType vo
-				}
-	
-				remotemethod <ValidateVOType extends myadmintype IBaseVO> validate returns customtype "de.pellepelster.myadmin.client.base.messages.IValidationMessage" * {
-					generic ValidateVOType vo
-				}
-	
-	
-				remotemethod <ValidateAndSaveVOType extends myadmintype IBaseVO> validateAndSave returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndSaveVOType>" {
-					generic ValidateAndSaveVOType vo
-				}
-	
-				remotemethod <ValidateAndCreateVOType extends myadmintype IBaseVO> validateAndCreate returns customtype "de.pellepelster.myadmin.client.base.db.vos.Result<ValidateAndCreateVOType>" {
-					generic ValidateAndCreateVOType vo
-				}
-			
-				remotemethod <SaveVOType extends myadmintype IBaseVO> save returns generic SaveVOType {
-					generic SaveVOType vo
-				}
-					
-				remotemethod <FilterVOType extends myadmintype IBaseVO> filter returns generic FilterVOType* {
-					myadmintype GenericFilterVO<generic FilterVOType> genericFilterVO
-				}
-	
-				remotemethod deleteAll {
-					simpletype String voClassName
-				}
-	
-				remotemethod <DeleteVOType extends myadmintype IBaseVO> delete {
-					generic DeleteVOType vo
-				}
-	
-				remotemethod read returns myadmintype IBaseVO {
-					simpletype Long id
-					simpletype String voClassName
-				}
-			
 			}
 			
 			remoteservice ModuleService {

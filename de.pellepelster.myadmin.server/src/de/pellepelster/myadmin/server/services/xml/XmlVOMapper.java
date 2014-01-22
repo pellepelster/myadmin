@@ -25,8 +25,7 @@ import de.pellepelster.myadmin.server.base.xml.XmlElementDescriptor;
 @Component
 public final class XmlVOMapper implements IXmlVOMapper
 {
-
-	private Map<String, XmlElementDescriptor> elements = new HashMap<String, XmlElementDescriptor>();
+	private Map<String, XmlElementDescriptor> elementDescriptors = new HashMap<String, XmlElementDescriptor>();
 
 	private Map<Class<?>, String> referenceListElementName = new HashMap<Class<?>, String>();
 
@@ -41,7 +40,7 @@ public final class XmlVOMapper implements IXmlVOMapper
 	{
 		for (IXmlVOMapper xmlVOMapper : xmlVOMappers)
 		{
-			this.elements.putAll(xmlVOMapper.getElements());
+			this.elementDescriptors.putAll(xmlVOMapper.getElements());
 
 			for (Map.Entry<String, XmlElementDescriptor> elementEntry : xmlVOMapper.getElements().entrySet())
 			{
@@ -77,7 +76,7 @@ public final class XmlVOMapper implements IXmlVOMapper
 
 	public XmlElementDescriptor getElementDescriptor(String elementName)
 	{
-		XmlElementDescriptor xmlElementDescriptor = this.elements.get(elementName);
+		XmlElementDescriptor xmlElementDescriptor = this.elementDescriptors.get(elementName);
 
 		if (xmlElementDescriptor == null)
 		{
@@ -110,12 +109,12 @@ public final class XmlVOMapper implements IXmlVOMapper
 	@Override
 	public Map<String, XmlElementDescriptor> getElements()
 	{
-		return this.elements;
+		return this.elementDescriptors;
 	}
 
 	public Class<? extends IBaseVO> getVOClassForElementName(String elementName)
 	{
-		return this.elements.get(elementName).getVoClass();
+		return getElementDescriptor(elementName).getVoClass();
 	}
 
 }

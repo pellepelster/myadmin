@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.server.util.NaturalKeyUtils;
 
@@ -95,15 +95,7 @@ public class XmlVOExporter extends BaseXmlVOHandler
 
 						Class<?> attributeClass = attributeDescriptor.getAttributeType();
 
-						if (IBaseVO.class.isAssignableFrom(attributeClass))
-						{
-							createAttributeStartElement(eventWriter, attributeName, indentation, true);
-
-							createReferenceAttributeNode(eventWriter, (IBaseVO) attributeValue, indentation);
-
-							createAttributeEndElement(eventWriter, attributeName, indentation, true);
-						}
-						else if (List.class.isAssignableFrom(attributeClass))
+						if (List.class.isAssignableFrom(attributeClass))
 						{
 							@SuppressWarnings("unchecked")
 							List<IBaseVO> voList = (List<IBaseVO>) attributeValue;
@@ -130,6 +122,15 @@ public class XmlVOExporter extends BaseXmlVOHandler
 								createAttributeEndElement(eventWriter, attributeName, indentation, true);
 							}
 						}
+						else if (IBaseVO.class.isAssignableFrom(attributeClass))
+						{
+							createAttributeStartElement(eventWriter, attributeName, indentation, true);
+
+							createReferenceAttributeNode(eventWriter, (IBaseVO) attributeValue, indentation);
+
+							createAttributeEndElement(eventWriter, attributeName, indentation, true);
+						}
+
 						else if (Map.class.isAssignableFrom(attributeClass))
 						{
 							createAttributeStartElement(eventWriter, attributeName, indentation, true);

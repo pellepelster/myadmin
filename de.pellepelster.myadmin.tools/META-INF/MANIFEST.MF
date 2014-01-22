@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: de.pellepelster.myadmin.tools
 Bundle-SymbolicName: de.pellepelster.myadmin.tools
 Bundle-Version: 0.0.0.qualifier
-Export-Package: de.pellepelster.myadmin.tools,
- de.pellepelster.myadmin.tools.dictionary
+Export-Package: de.pellepelster.myadmin.tools
 Bundle-Vendor: Christian Pelster
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.mwe.core,

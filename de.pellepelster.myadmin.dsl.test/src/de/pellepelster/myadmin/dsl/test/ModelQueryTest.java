@@ -28,7 +28,7 @@ import de.pellepelster.myadmin.dsl.myAdminDsl.DictionaryTextControl;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
 import de.pellepelster.myadmin.dsl.query.ModelQuery;
 import de.pellepelster.myadmin.dsl.query.controls.DictionaryControlQuery;
-import de.pellepelster.myadmin.tools.SpringModelUtils;
+import de.pellepelster.myadmin.tools.util.SpringModelUtils;
 
 public class ModelQueryTest
 {

@@ -12,11 +12,12 @@
 //- entityVOMapper ------------------------------------------------------------
 «DEFINE entityVOMapper FOR Model»
 	«FILE fullQualifiedEntityVOMapperFileName(this)»
-		package «getRootWebServicePackageName()»;
+		package «entityVOMapperRootPackage()»;
 
 		import java.util.HashMap;
 		import java.util.Map;
 		
+		@org.springframework.stereotype.Component
 		public class «entityVOMapperName(this)» extends de.pellepelster.myadmin.db.util.BaseEntityVOMapper implements de.pellepelster.myadmin.db.util.IEntityVOMapper
 		{
 			@SuppressWarnings("unchecked")

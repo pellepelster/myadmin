@@ -13,7 +13,7 @@ package de.pellepelster.myadmin.demo.server.test.dictionary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.db.daos.BaseVODAO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.server.test.BaseDemoTest;

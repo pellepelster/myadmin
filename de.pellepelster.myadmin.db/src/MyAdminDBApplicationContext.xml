@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -6,21 +7,12 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-	
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
-		<property name="systemPropertiesModeName">
-			<value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value>
-		</property>
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-	</bean>
+
+	<context:component-scan base-package="de.pellepelster.myadmin.db" />
 
 	<context:component-scan base-package="entityvomapper" />
 
-	<context:component-scan base-package="xmlvomapper" />
-
-	<context:component-scan base-package="de.pellepelster.myadmin.server.services.xml" />
-	
-	<bean class="de.pellepelster.myadmin.server.services.vo.VOMetaDataService" />
+	<bean class="de.pellepelster.myadmin.db.util.CopyBean" factory-method="getInstance" id="copyBean" />
 
 	<bean class="de.pellepelster.myadmin.db.util.EntityVOMapper" factory-method="getInstance" id="entityvomapper" />
 

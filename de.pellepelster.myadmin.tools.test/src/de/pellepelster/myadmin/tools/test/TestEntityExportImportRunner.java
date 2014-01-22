@@ -22,13 +22,13 @@ import com.google.common.io.Files;
 
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryEditorVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.vo.VOMetaDataService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
-import de.pellepelster.myadmin.tools.dictionary.EntityExportRunner;
-import de.pellepelster.myadmin.tools.dictionary.EntityImportRunner;
+import de.pellepelster.myadmin.tools.VOExportRunner;
+import de.pellepelster.myadmin.tools.VOImportRunner;
 
 public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 {
@@ -49,12 +49,12 @@ public class TestEntityExportImportRunner extends BaseMyAdminJndiContextTest
 
 		createExportData();
 
-		EntityExportRunner entityExportRunner = new EntityExportRunner(this.exportImportService, this.metaDataService, tempDir);
+		VOExportRunner entityExportRunner = new VOExportRunner(this.exportImportService, this.metaDataService, tempDir);
 		entityExportRunner.run();
 
 		deleteData();
 
-		EntityImportRunner entityImportRunner = new EntityImportRunner(this.exportImportService, tempDir);
+		VOImportRunner entityImportRunner = new VOImportRunner(this.exportImportService, tempDir);
 		entityImportRunner.run();
 
 		List<DictionaryVO> dictionaryVOs = this.baseEntityService.filter(ServerGenericFilterBuilder.createGenericFilter(DictionaryVO.class).getGenericFilter());

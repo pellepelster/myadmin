@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.tools.dictionary;
+package de.pellepelster.myadmin.tools.util;
 
 public class ApplicationContext {
 

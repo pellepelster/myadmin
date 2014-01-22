@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 
 import de.pellepelster.myadmin.dsl.MyAdminDslStandaloneSetup;
 import de.pellepelster.myadmin.dsl.myAdminDsl.Model;
-import de.pellepelster.myadmin.tools.SpringModelUtils;
+import de.pellepelster.myadmin.tools.util.SpringModelUtils;
 
 public class DictionaryControlResolverTest
 {

@@ -20,7 +20,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IAttributeDescriptor;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.db.util.BeanUtils;
 import de.pellepelster.myadmin.server.base.xml.XmlElementDescriptor;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;

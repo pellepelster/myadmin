@@ -33,6 +33,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import de.pellepelster.gwt.commons.client.util.XPathUtil;
 import de.pellepelster.myadmin.client.base.jpql.LogicalOperatorVO;
@@ -48,6 +49,7 @@ import de.pellepelster.myadmin.db.jpql.expression.ConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.IConditionalExpression;
 import de.pellepelster.myadmin.db.jpql.expression.NamedParameterExpressionObject;
 
+@Component
 public class BaseDAO
 {
 	private static Logger LOG = Logger.getLogger(BaseDAO.class);

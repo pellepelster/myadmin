@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.tools.dictionary;
+package de.pellepelster.myadmin.tools.util;
 
 import java.io.File;
 import java.util.Collection;

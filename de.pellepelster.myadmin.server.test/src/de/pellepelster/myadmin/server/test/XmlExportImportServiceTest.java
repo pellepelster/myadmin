@@ -24,13 +24,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.io.Files;
+
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ClientVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryControlVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminGroupVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.MyAdminUserVO;
-import de.pellepelster.myadmin.client.web.services.IBaseEntityService;
+import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityService;
 import de.pellepelster.myadmin.server.core.query.ServerGenericFilterBuilder;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExportImportService;
 import de.pellepelster.myadmin.server.services.xml.XmlVOExporter;
@@ -65,6 +67,8 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testSimpleXmlExportImport()
 	{
+		clearTestData();
+
 		ClientVO client1 = new ClientVO();
 		client1.setName("client1");
 
@@ -96,6 +100,8 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testSimpleXmlImport()
 	{
+		clearTestData();
+
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ClientTest.xml");
 
 		this.xmlVOImporter.importVOs(inputStream, null);
@@ -114,6 +120,8 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testReferencedXmlImport()
 	{
+		clearTestData();
+
 		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("ClientTest.xml"), null);
 		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminUserTest.xml"), null);
 		this.xmlVOImporter.importVOs(getClass().getClassLoader().getResourceAsStream("MyAdminGroupTest.xml"), null);
@@ -131,6 +139,8 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 	@Test
 	public void testReferencedXmlExportImport()
 	{
+		clearTestData();
+
 		ClientVO client1 = new ClientVO();
 		client1.setName("client1");
 
@@ -151,16 +161,14 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 
 		dictionary1 = this.baseEntityService.create(dictionary1);
 
-		File exportDir = new File("/tmp/test");
+		File exportDir = Files.createTempDir();
 		exportDir.mkdirs();
 
 		this.exportImportService.exportVOs(ClientVO.class, exportDir);
 		this.exportImportService.exportVOs(DictionaryVO.class, exportDir);
 		this.exportImportService.exportVOs(DictionaryControlVO.class, exportDir);
 
-		this.baseEntityService.deleteAll(DictionaryVO.class.getName());
-		this.baseEntityService.deleteAll(DictionaryControlVO.class.getName());
-		this.baseEntityService.deleteAll(ClientVO.class.getName());
+		clearTestData();
 
 		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(DictionaryVO.class).getGenericFilter()).size());
 		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(DictionaryControlVO.class).getGenericFilter())
@@ -179,6 +187,33 @@ public final class XmlExportImportServiceTest extends BaseMyAdminJndiContextTest
 		Assert.assertEquals(dictionary1.getName(), dictionaryResult.get(0).getName());
 		Assert.assertEquals(client1.getName(), dictionaryResult.get(0).getClient().getName());
 		Assert.assertEquals(2, dictionaryResult.get(0).getControlAggregates().size());
+
+	}
+
+	@Test
+	public void testSelfReferencedXmlExportImport()
+	{
+		clearTestData();
+
+		MyAdminGroupVO myAdminGroupVO = new MyAdminGroupVO();
+		myAdminGroupVO.setGroupName("group1");
+
+		myAdminGroupVO = this.baseEntityService.create(myAdminGroupVO);
+
+		File exportDir = Files.createTempDir();
+
+		this.exportImportService.exportVOs(MyAdminGroupVO.class, exportDir);
+
+		this.baseEntityService.deleteAll(MyAdminGroupVO.class.getName());
+
+		Assert.assertEquals(0, this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(MyAdminGroupVO.class).getGenericFilter()).size());
+
+		this.exportImportService.importVOs(exportDir);
+
+		List<MyAdminGroupVO> myAdminGroupResult = this.baseEntityService.filter(ClientGenericFilterBuilder.createGenericFilter(MyAdminGroupVO.class)
+				.getGenericFilter());
+		Assert.assertEquals(1, myAdminGroupResult.size());
+		Assert.assertEquals(myAdminGroupVO.getGroupName(), myAdminGroupResult.get(0).getGroupName());
 
 	}
 

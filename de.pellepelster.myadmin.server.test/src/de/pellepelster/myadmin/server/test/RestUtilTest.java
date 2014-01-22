@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.pellepelster.myadmin.client.web.services.IUserService;
 import de.pellepelster.myadmin.mobile.web.entities.dictionary.DictionaryMobileVO;
-import de.pellepelster.myadmin.mobile.web.services.BaseEntityServiceCreateMobileParameterWrapper;
+import de.pellepelster.myadmin.mobile.web.services.vo.BaseEntityServiceCreateMobileParameterWrapper;
 import de.pellepelster.myadmin.server.base.services.RestUtil;
 import de.pellepelster.myadmin.server.test.base.BaseMyAdminJndiContextTest;
 import de.pellepelster.myadmin.server.test.restvos.ObjectA;

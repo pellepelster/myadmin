@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.file;
 
 import gwtupload.server.UploadAction;
 import gwtupload.server.exceptions.UploadActionException;

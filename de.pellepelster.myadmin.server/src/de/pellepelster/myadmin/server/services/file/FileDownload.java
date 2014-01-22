@@ -1,4 +1,4 @@
-package de.pellepelster.myadmin.server.services;
+package de.pellepelster.myadmin.server.services.file;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

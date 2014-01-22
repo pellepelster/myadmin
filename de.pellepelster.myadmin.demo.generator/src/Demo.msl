@@ -506,6 +506,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 			}
 
 			entity City {
+				naturalkey { cityName }
 
 				datatype CityName cityName
 				datatype CityDescription cityDescription

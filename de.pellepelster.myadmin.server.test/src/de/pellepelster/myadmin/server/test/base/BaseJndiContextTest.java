@@ -33,9 +33,9 @@ import de.pellepelster.myadmin.db.daos.BaseVODAO;
 @TransactionConfiguration(defaultRollback = false)
 @Transactional
 @TestExecutionListeners({ TransactionalTestExecutionListener.class })
-@ContextConfiguration(locations = { "classpath:/MyAdminServerTestApplicationContext.xml", "classpath:/MyAdminServerApplicationContext.xml",
-		"classpath:/MyAdminServerApplicationContext-gen.xml", "classpath:/MyAdminServerApplicationContextServices-gen.xml", "classpath:/MyAdminDB-gen.xml",
-		"classpath:/MyAdminServerSpringSecurity.xml" })
+@ContextConfiguration(locations = { "classpath:/MyAdminDBApplicationContext.xml", "classpath:/MyAdminServerTestApplicationContext.xml",
+		"classpath:/MyAdminServerApplicationContext.xml", "classpath:/MyAdminServerApplicationContext-gen.xml",
+		"classpath:/MyAdminServerApplicationContextServices-gen.xml", "classpath:/MyAdminDB-gen.xml", "classpath:/MyAdminServerSpringSecurity.xml" })
 public abstract class BaseJndiContextTest extends AbstractJUnit4SpringContextTests
 {
 

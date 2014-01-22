@@ -251,7 +251,7 @@
 						«IF otherEntity == this»
 							if ("parent".equals(name))
 							{
-								return this.«otherAttribute.name»;
+								return this.parent;
 							}
 						«ELSE»
 							if ("«otherAttribute.name»".equals(name))
