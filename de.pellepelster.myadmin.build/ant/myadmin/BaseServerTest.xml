@@ -37,4 +37,16 @@
 
 	</target>
 
+	<target name="testdata.import" depends="resolve">
+		<taskdef name="voimporter" classname="de.pellepelster.myadmin.tools.VOImporter" classpathref="lib.path.id" />
+
+		<voimporter importdir="testdata" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteport="${remote.port}" remoteserver="${remote.server}" remotepath="${remote.path}" />
+	</target>
+
+	<target name="testdata.export" depends="resolve">
+		<taskdef name="voexporter" classname="de.pellepelster.myadmin.tools.VOExporter" classpathref="lib.path.id" />
+
+		<voexporter exportdir="testdata" remoteuser="${remote.username}" remotepassword="${remote.password}" remoteport="${remote.port}" remoteserver="${remote.server}" remotepath="${remote.path}" />
+	</target>
+
 </project>

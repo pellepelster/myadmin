@@ -9,7 +9,7 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package entityvomapper;
+package de.pellepelster.myadmin.db.test;
 
 import java.util.HashMap;
 import java.util.Map;

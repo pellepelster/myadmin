@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<CountryList>
+	<Country>
+		<id>1</id>
+		<countryName>Germany</countryName>
+		<currency>
+		<CurrencyReference>
+			<currencyName>Euro</currencyName>
+		</CurrencyReference>
+		</currency>
+	</Country>
+</CountryList>

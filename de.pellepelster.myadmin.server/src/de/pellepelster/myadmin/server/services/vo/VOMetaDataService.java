@@ -84,26 +84,28 @@ public class VOMetaDataService implements InitializingBean
 				Set<Class<? extends IBaseVO>> referencedVO1s = BeanUtils.getReferencedVOs(voClass1);
 				Set<Class<? extends IBaseVO>> referencedVO2s = BeanUtils.getReferencedVOs(voClass2);
 
-				if (referencedVO1s.contains(voClass2) && referencedVO2s.contains(referencedVO1s))
+				if (referencedVO1s.contains(voClass2) && referencedVO2s.contains(voClass1))
 				{
-					return 0;
+					return voClass1.getName().compareTo(voClass2.getName());
 				}
 				else
 				{
-					if (referencedVO1s.contains(referencedVO2s))
-					{
-						return -1;
-					}
-					else
+					if (referencedVO1s.contains(voClass2))
 					{
 						return 1;
+					}
+
+					if (referencedVO2s.contains(voClass1))
+					{
+						return -1;
 
 					}
 				}
 
+				return voClass1.getName().compareTo(voClass2.getName());
+
 			}
 		});
-		Collections.reverse(this.voClasses);
 	}
 
 	public Class<?> getXmlClassForVOClass(Class<? extends IBaseVO> voClass)

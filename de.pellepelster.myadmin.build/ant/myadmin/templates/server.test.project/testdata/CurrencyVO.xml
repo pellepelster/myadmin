@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<CurrencyList>
+	<Currency>
+		<id>1</id>
+		<currencyName>Euro</currencyName>
+		<currencyIsoCode>EUR</currencyIsoCode>
+	</Currency>
+</CurrencyList>
