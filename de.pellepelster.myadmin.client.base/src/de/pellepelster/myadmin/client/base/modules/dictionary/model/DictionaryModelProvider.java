@@ -11,8 +11,10 @@
  */
 package de.pellepelster.myadmin.client.base.modules.dictionary.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
@@ -32,6 +34,18 @@ public class DictionaryModelProvider
 		{
 			throw new RuntimeException("dictionary '" + dictionaryName + "' not found");
 		}
+	}
+
+	public static List<IDictionaryModel> getDictionaries(List<String> dictionaryNames)
+	{
+		List<IDictionaryModel> dictionaryModels = new ArrayList<IDictionaryModel>();
+
+		for (String dictionaryName : dictionaryNames)
+		{
+			dictionaryModels.add(getDictionary(dictionaryName));
+		}
+
+		return dictionaryModels;
 	}
 
 	@Deprecated

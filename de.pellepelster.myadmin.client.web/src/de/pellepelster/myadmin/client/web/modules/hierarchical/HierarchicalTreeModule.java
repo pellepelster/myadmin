@@ -19,8 +19,12 @@ import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.modules.hierarchical.HierarchicalConfigurationVO;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
@@ -85,6 +89,17 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 						{
 							dictionaryNames.addAll(entry.getValue());
 						}
+					}
+				}
+
+				for (String dictionaryId : HierarchicalTreeModule.this.hierarchicalConfiguration.getDictionaryIds())
+				{
+					List<String> childDictionaryIds = HierarchicalTreeModule.this.hierarchicalConfiguration.getChildDictionaryIds(dictionaryId);
+
+					if (!childDictionaryIds.isEmpty())
+					{
+						List<IDictionaryModel> childDictionaries = DictionaryModelProvider.getDictionaries(childDictionaryIds);
+						DictionaryHookRegistry.getInstance().addEditorHook(dictionaryId, new HierarchicalEditorHook<IBaseVO>(childDictionaries));
 					}
 				}
 
