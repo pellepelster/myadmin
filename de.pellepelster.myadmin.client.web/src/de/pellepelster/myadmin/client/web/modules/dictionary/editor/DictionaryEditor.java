@@ -13,6 +13,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.Result;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionaryEditor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelUtil;
@@ -26,7 +27,6 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IEditorModel> implements IDictionaryEditor<VOType>
 {
-
 	private final EditorVOWrapper<VOType> voWrapper = new EditorVOWrapper<VOType>();
 
 	private List<IEditorUpdateListener> updateListeners = new ArrayList<IEditorUpdateListener>();
@@ -237,6 +237,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 		return this.voWrapper.getVO();
 	}
 
+	@Override
 	public void addUpdateListener(IEditorUpdateListener updateListener)
 	{
 		this.updateListeners.add(updateListener);

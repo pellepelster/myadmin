@@ -11,4 +11,10 @@ public interface IButton extends ClickHandler
 
 	String getDebugId();
 
+	void setEnabled(boolean enabled);
+
+	boolean isEnabled();
+
+	void addUpdatehandler(IButtonUpdateHandler updateHandler);
+
 }

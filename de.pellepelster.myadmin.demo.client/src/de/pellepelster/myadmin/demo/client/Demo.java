@@ -19,9 +19,10 @@ public class Demo implements EntryPoint
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PX);
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
 
-		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
 				HierarchicalTreeModule.getParameterMap(TestClientHierarchicalConfiguration.ID, false));
+
+		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 
 		init();
 	}

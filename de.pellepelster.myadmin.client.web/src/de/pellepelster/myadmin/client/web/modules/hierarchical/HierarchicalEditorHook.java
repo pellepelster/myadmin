@@ -17,6 +17,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.BaseButton;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
 import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IDictionaryEditor;
+import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.base.util.CollectionUtils;
@@ -80,6 +81,17 @@ public class HierarchicalEditorHook<VOType extends IBaseVO> extends BaseEditorHo
 			}
 		};
 
+		dictionaryEditor.addUpdateListener(new IEditorUpdateListener()
+		{
+
+			@Override
+			public void onUpdate()
+			{
+				hierarchicalButton.setEnabled(!dictionaryEditor.getVO().isNew());
+			}
+		});
+
 		return Lists.newArrayList(hierarchicalButton);
 	}
+
 }

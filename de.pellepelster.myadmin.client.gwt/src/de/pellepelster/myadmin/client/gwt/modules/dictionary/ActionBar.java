@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.UUID;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
+import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButtonUpdateHandler;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.widgets.ImageButton;
 
@@ -85,6 +87,23 @@ public class ActionBar extends HorizontalPanel
 	public Button addSingleButton(ImageResource imageResource, String title, ClickHandler clickHandler, String debugId)
 	{
 		return addButton(UUID.uuid(), imageResource, title, clickHandler, debugId);
+	}
+
+	public Button addSingleButton(final IButton button)
+	{
+		final Button uiButton = addButton(UUID.uuid(), button.getImage(), button.getTitle(), button, button.getDebugId());
+
+		button.addUpdatehandler(new IButtonUpdateHandler()
+		{
+
+			@Override
+			public void onUpdate()
+			{
+				uiButton.setEnabled(button.isEnabled());
+			}
+		});
+
+		return uiButton;
 	}
 
 	public Button addSingleButton(ImageResource imageResource, String title, String debugId)

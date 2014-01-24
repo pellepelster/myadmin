@@ -21,6 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
+import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;

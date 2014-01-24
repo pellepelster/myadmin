@@ -23,6 +23,7 @@ import de.pellepelster.gwt.commons.client.HumanizedMessagePopup;
 import de.pellepelster.gwt.commons.client.HumanizedMessagePopup.MESSAGE_TYPE;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
+import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.ActionBar;
@@ -30,7 +31,6 @@ import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModul
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.DictionaryEditorPanel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.IEditorUpdateListener;
 
 /**
  * UI for the navigation module
@@ -110,10 +110,10 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		}, DictionaryEditorModule.MODULE_ID + "-" + getModule().getDictionaryModel().getName() + "-" + DICTIONARY_REFRESH_BUTTON_DEBUG_ID);
 		// refreshButton.setEnabled(false);
 
-		for (IButton button : getModule().getEditorButtons())
+		for (final IButton button : getModule().getEditorButtons())
 		{
-			actionBar.addSingleButton(button.getImage(), button.getTitle(), button, DictionaryEditorModule.MODULE_ID + "-"
-					+ getModule().getDictionaryModel().getName() + "-" + button.getDebugId());
+			actionBar.addSingleButton(button);
+
 		}
 
 		getModule().addUpdateListener(this);

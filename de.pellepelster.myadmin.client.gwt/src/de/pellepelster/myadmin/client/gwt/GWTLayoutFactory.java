@@ -12,6 +12,8 @@
 package de.pellepelster.myadmin.client.gwt;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -142,7 +144,7 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		addToLayout(panelLayoutInfo, moduleUI, moduleUI.getTitle());
 	}
 
-	private Map<StackLayoutPanel, Map<Panel, IModuleUI<Panel, ?>>> stackLayoutPanelMappings = new HashMap<StackLayoutPanel, Map<Panel, IModuleUI<Panel, ?>>>();
+	private Map<StackLayoutPanel, List<IModuleUI<Panel, ?>>> stackLayoutPanelMappings = new HashMap<StackLayoutPanel, List<IModuleUI<Panel, ?>>>();
 
 	private void addToLayout(PanelLayoutInfo panelLayoutInfo, IModuleUI<Panel, ?> moduleUI, String title)
 	{
@@ -155,14 +157,25 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 			HTML html = new HTML(MyAdmin.MESSAGES.panelTitle(title));
 			html.setStylePrimaryName(GwtStyles.H3_CLASS);
 
-			for (Map.Entry<Panel, IModuleUI<Panel, ?>> entry : stackLayoutPanelMappings.get(stackLayoutPanel).entrySet())
+			int beforeIndex = 0;
+
+			List<IModuleUI<Panel, ?>> moduleUIs = stackLayoutPanelMappings.get(stackLayoutPanel);
+			moduleUIs.add(moduleUI);
+			Collections.sort(moduleUIs, new Comparator<IModuleUI<Panel, ?>>()
 			{
 
-			}
+				@Override
+				public int compare(IModuleUI<Panel, ?> moduleUI1, IModuleUI<Panel, ?> moduleUI2)
+				{
+					Integer order1 = moduleUI1.getOrder();
+					Integer order2 = moduleUI2.getOrder();
+					return order1.compareTo(order2);
+				}
+			});
+			beforeIndex = moduleUIs.indexOf(moduleUI);
 
-			stackLayoutPanel.add(panel, html, 3);
-
-			stackLayoutPanelMappings.get(stackLayoutPanel).put(panel, moduleUI);
+			stackLayoutPanel.insert(panel, html, 3, beforeIndex);
+			stackLayoutPanel.showWidget(0);
 
 		}
 		else if (panelLayoutInfo.getPanel() != null)
@@ -279,7 +292,7 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		if (supportsMultipleChildren)
 		{
 			StackLayoutPanel stackLayoutPanel = new StackLayoutPanel(Unit.EM);
-			stackLayoutPanelMappings.put(stackLayoutPanel, new HashMap<Panel, IModuleUI<Panel, ?>>());
+			stackLayoutPanelMappings.put(stackLayoutPanel, new ArrayList<IModuleUI<Panel, ?>>());
 			stackLayoutPanel.setHeight("100%");
 			panel = stackLayoutPanel;
 		}
