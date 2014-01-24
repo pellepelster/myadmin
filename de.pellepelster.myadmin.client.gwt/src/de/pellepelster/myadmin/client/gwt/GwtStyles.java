@@ -23,21 +23,11 @@ public interface GwtStyles
 
 	String CELL_ERROR_DISPLAY_PADDING = "padding: 3px;";
 
-	String SEPARATOR_BORDER_BOTTOM = "seperator-border-bottom";
-
-	String SEPARATOR_BORDER_TOP = "seperator-border-top";
-
 	String EDITOR_TITLE = "editor-title";
-
-	String SEPARATOR_BORDER_LEFT = "seperator-border-left";
-
-	String SEPARATOR_BORDER_RIGHT = "seperator-border-right";
 
 	String DEBUG_BORDER = "ydebug-border";
 
 	String MODULE = "module";
-
-	String VERTICAL_SPACING = "vertical-spacing";
 
 	String CONTROL_ERROR_STYLE = "control-error";
 

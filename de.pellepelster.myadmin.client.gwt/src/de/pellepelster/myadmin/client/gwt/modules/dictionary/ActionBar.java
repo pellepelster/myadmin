@@ -44,10 +44,10 @@ public class ActionBar extends HorizontalPanel
 	{
 		setWidth("100%");
 		setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
-		addStyleName(GwtStyles.SEPARATOR_BORDER_BOTTOM);
-		addStyleName(GwtStyles.SEPARATOR_BORDER_TOP);
+		// addStyleName(GwtStyles.SEPARATOR_BORDER_BOTTOM);
+		// addStyleName(GwtStyles.SEPARATOR_BORDER_TOP);
 		addStyleName(GwtStyles.DEBUG_BORDER);
-		addStyleName(GwtStyles.VERTICAL_SPACING);
+		// addStyleName(GwtStyles.VERTICAL_SPACING);
 		buttonToolbar.addStyleName(GwtStyles.BUTTON_TOOLBAR);
 		add(buttonToolbar);
 	}

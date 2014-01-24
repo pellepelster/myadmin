@@ -76,7 +76,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			final DictionaryFilterPanel<VOType> dictionaryFilter = new DictionaryFilterPanel<VOType>(getModule().getDictionarySearch().getActiveFilter(),
 					module.getDictionaryModel().getVoName());
 
-			dictionaryFilter.addStyleName(GwtStyles.VERTICAL_SPACING);
+			// dictionaryFilter.addStyleName(GwtStyles.VERTICAL_SPACING);
 			verticalPanel.add(dictionaryFilter);
 
 			actionBar.addToButtonGroup(module.getModuleId(), MyAdmin.RESOURCES.searchSearch(), MyAdmin.MESSAGES.searchSearch(), new ClickHandler()
@@ -113,7 +113,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 			}
 		}, DictionarySearchModule.MODULE_ID + "-" + module.getDictionaryModel().getName() + "-" + DICTIONARY_CREATE_BUTTON_DEBUG_ID);
 
-		dictionaryResultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
+		// dictionaryResultPanel.addStyleName(GwtStyles.VERTICAL_SPACING);
 		dictionaryResultPanel.setWidth("100%");
 		verticalPanel.add(dictionaryResultPanel);
 

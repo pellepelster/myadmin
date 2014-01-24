@@ -1068,34 +1068,12 @@ td.datePickerMonth {
 	margin-bottom: 1em;
 }
 
-.seperator-border-bottom {
-	border-bottom: 1px solid #E5E5E5;
-	
-}
-
-.seperator-border-top {
-/*	border-top: 1px solid #E5E5E5; */
-}
-
-.seperator-border-left {
-	border-left: 1px solid #E5E5E5;
-}
-
-.seperator-border-right {
-	border-right: 1px solid #E5E5E5;
-}
-
 .debug-border {
 	border: 1px solid #FF0000;
 }
 
 .module {
 	padding: 1em;
-}
-
-.vertical-spacing {
-	padding-bottom: 0.5em;
-	padding-top: 0.5em;
 }
 
 /*  when changing the error styles don't forget to also change the following styles:
