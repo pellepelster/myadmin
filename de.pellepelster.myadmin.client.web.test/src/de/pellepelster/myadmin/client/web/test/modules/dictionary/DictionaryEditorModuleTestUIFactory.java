@@ -14,7 +14,6 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
@@ -23,9 +22,10 @@ public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Obj
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(DictionaryEditorModule<?> module, IModuleUI<?, ?> previousModuleUI,
+			Map<String, Object> parameters)
 	{
-		return new DictionaryEditorModuleTestUI((DictionaryEditorModule) module);
+		return new DictionaryEditorModuleTestUI(module);
 	}
 
 }

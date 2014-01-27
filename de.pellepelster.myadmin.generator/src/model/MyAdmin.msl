@@ -473,6 +473,11 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 		package modules {
 
 			moduledefinition ModuleNavigation {
+				parameters {
+					parameter NavigationTreeNodeId {
+						type String
+					} 
+				}
 			}
 
 			moduledefinition ModuleHierarchicalTree {

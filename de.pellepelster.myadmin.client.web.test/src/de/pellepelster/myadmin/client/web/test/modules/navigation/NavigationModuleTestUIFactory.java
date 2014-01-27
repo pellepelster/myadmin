@@ -14,7 +14,6 @@ package de.pellepelster.myadmin.client.web.test.modules.navigation;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
@@ -22,9 +21,10 @@ public class NavigationModuleTestUIFactory implements IModuleUIFactory<Object, M
 {
 
 	@Override
-	public IModuleUI<Object, ModuleNavigationModule> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Object, ModuleNavigationModule> getNewInstance(ModuleNavigationModule module, IModuleUI<?, ?> previousModuleUI,
+			Map<String, Object> parameters)
 	{
-		return new NavigationModuleTestUI((ModuleNavigationModule) module);
+		return new NavigationModuleTestUI(module);
 	}
 
 }

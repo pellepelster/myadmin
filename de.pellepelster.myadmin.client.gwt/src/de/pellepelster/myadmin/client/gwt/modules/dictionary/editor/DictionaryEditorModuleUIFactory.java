@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
@@ -27,7 +26,8 @@ public class DictionaryEditorModuleUIFactory<VOType extends IBaseVO> implements 
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
-	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(IModule module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
+	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(DictionaryEditorModule<VOType> module, IModuleUI<?, ?> previousModuleUI,
+			Map<String, Object> parameters)
 	{
 		return new DictionaryEditorModuleUI<VOType>((DictionaryEditorModule<VOType>) module, (IGwtModuleUI) previousModuleUI);
 	}

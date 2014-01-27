@@ -65,6 +65,8 @@
 			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionaryEditor).name»");
 			«ELSEIF this.dictionarySearch != null»
 			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionarySearch).name»");
+			«ELSE»
+			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.NAVIGATIONTREENODEID_PARAMETER_ID + "=«this.name»");
 			«ENDIF»
 		}
 	

@@ -38,7 +38,7 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
+public class NavigationModuleTreeUI extends BaseModuleUI<ModuleNavigationModule>
 {
 
 	private static class NavigationTreeModel implements TreeViewModel
@@ -135,7 +135,7 @@ public class NavigationModuleUI extends BaseModuleUI<ModuleNavigationModule>
 	/**
 	 * @param module
 	 */
-	public NavigationModuleUI(ModuleNavigationModule module)
+	public NavigationModuleTreeUI(ModuleNavigationModule module)
 	{
 		super(module);
 
