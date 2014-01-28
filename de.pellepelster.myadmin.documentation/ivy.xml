@@ -16,7 +16,7 @@
 		<artifact name="documentation" type="zip" ext="zip" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	</dependencies>
 	
 </ivy-module>

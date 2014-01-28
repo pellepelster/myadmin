@@ -17,71 +17,71 @@
 		<artifact name="db-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-   		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+   		<dependency name="client-base" rev="latest.integration" />
 	    
-		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3">
+		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3" conf="*->default">
 			<artifact name="commons-beanutils-core" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-orm" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-orm" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-orm" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-asm" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-tx" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-tx" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-tx" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-context" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-context" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-context" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-core" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-core" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-core" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-beans" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-beans" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-beans" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-expression" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-expression" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-expression" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-aop" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework.security" name="spring-security-core" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework.security" name="spring-security-core" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-security-core" type="jar" />
 		</dependency>
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" />	
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" conf="*->default" />	
 
-		<dependency org="commons-lang" name="commons-lang" rev="2.6">
+		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="*->default">
 			<artifact name="commons-lang" type="jar" />
 		</dependency>
 
-		<dependency org="aopalliance" name="aopalliance" rev="1.0">
+		<dependency org="aopalliance" name="aopalliance" rev="1.0" conf="*->default">
 			<artifact name="aopalliance" type="jar" />
 		</dependency>
 		
-		<dependency org="cglib" name="cglib" rev="2.2" />
+		<dependency org="cglib" name="cglib" rev="2.2" conf="*->default" />
 
-		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false">
+		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false" conf="*->default">
 			<artifact name="log4j" type="jar" />
 		</dependency>
 
-		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="4.1.4.Final">
+		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="4.1.4.Final" conf="*->default">
 			<artifact name="hibernate-entitymanager" type="jar" />
 		</dependency>
 
-		<dependency org="org.hibernate" name="hibernate-core" rev="4.1.4.Final" transitive="false">
+		<dependency org="org.hibernate" name="hibernate-core" rev="4.1.4.Final" transitive="false" conf="*->default">
 			<artifact name="hibernate-core" type="jar" />
 		</dependency>
 

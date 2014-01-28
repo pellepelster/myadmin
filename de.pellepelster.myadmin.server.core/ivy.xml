@@ -17,13 +17,13 @@
 		<artifact name="server-core-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="server-base" rev="latest.integration" conf="*->@" />
+		<dependency name="server-base" rev="latest.integration" />
 
-		<dependency name="client-core" rev="latest.integration" conf="*->@" />
+		<dependency name="client-core" rev="latest.integration" />
 
-		<dependency name="client-base" rev="latest.integration" conf="*->@" />
+		<dependency name="client-base" rev="latest.integration" />
 				
 	</dependencies>
 

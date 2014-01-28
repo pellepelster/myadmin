@@ -17,45 +17,45 @@
 		<artifact name="server-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="server-core" rev="latest.integration" conf="*->@" />
+		<dependency name="server-core" rev="latest.integration" />
 
-		<dependency name="client-web" rev="latest.integration" conf="*->@"  />
+		<dependency name="client-web" rev="latest.integration" />
 
-		<dependency name="generator" rev="latest.integration" conf="compile->generated.xml,generated.server,generated.client.web" />
+		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server,generated.client.web" />
 
-		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-web" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-webmvc" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-webmvc" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-webmvc" type="jar" />
 		</dependency>
 
-		<dependency org="aopalliance" name="aopalliance" rev="1.0">
+		<dependency org="aopalliance" name="aopalliance" rev="1.0" conf="*->default">
 			<artifact name="aopalliance" type="jar" />
 		</dependency>
 
-		<dependency org="aspectj" name="aspectjweaver" rev="1.5.4" />
+		<dependency org="aspectj" name="aspectjweaver" rev="1.5.4" conf="*->default" />
 
-		<dependency org="javax.servlet" name="servlet-api" rev="2.5">
+		<dependency org="javax.servlet" name="servlet-api" rev="2.5" conf="*->default">
 			<artifact name="servlet-api" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework.security" name="spring-security-config" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework.security" name="spring-security-config" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-security-config" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework.security" name="spring-security-web" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework.security" name="spring-security-web" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-security-web" type="jar" />
 		</dependency>
 
-		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false">
+		<dependency org="de.pellepelster" name="gwt-commons" rev="latest.integration" transitive="false" conf="*->default">
 			<exclude name="gwt-dev" />
 		</dependency>	
 
-		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.3" transitive="false" />
+		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.3" transitive="false" conf="*->default" />
 
 	</dependencies>
 

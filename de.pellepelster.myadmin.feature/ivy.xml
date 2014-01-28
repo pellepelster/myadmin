@@ -16,9 +16,9 @@
 		<artifact name="updatesite" type="zip" ext="zip" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 		
-		<dependency name="dsl-ui" rev="latest.integration" conf="*->@" />
+		<dependency name="dsl-ui" rev="latest.integration" />
 
 	</dependencies>
 

@@ -15,7 +15,7 @@
 	<publications>
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	</dependencies>
 
 </ivy-module>

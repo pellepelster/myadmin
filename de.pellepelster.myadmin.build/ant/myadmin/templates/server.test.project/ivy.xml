@@ -16,7 +16,7 @@
 		<artifact name="@organisation.name@.@project.name@.server.test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
 		<dependency org="@organisation.name@" name="@project.name@.server" rev="latest.integration" conf="runtime,compile->@" />
 

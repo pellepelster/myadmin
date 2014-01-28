@@ -15,29 +15,29 @@
 	<publications>
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-web" type="jar" />
 		</dependency>
 
-		<dependency org="org.springframework" name="spring-core" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-core" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-core" type="jar" />
 		</dependency>
 
-		<dependency org="com.google.guava" name="guava" rev="14.0" />
+		<dependency org="com.google.guava" name="guava" rev="14.0" conf="*->default" />
 
-		<dependency org="commons-cli" name="commons-cli" rev="1.2" transitive="false" />
+		<dependency org="commons-cli" name="commons-cli" rev="1.2" transitive="false" conf="*->default" />
 
-		<dependency org="com.google.inject" name="guice" rev="3.0" />
+		<dependency org="com.google.inject" name="guice" rev="3.0" conf="*->default" />
 		
-		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false">
+		<dependency org="log4j" name="log4j" rev="1.2.15" transitive="false" conf="*->default">
 			<artifact name="log4j" type="jar" />
 		</dependency>
 		
-		<dependency org="commons-logging" name="commons-logging" rev="1.1.3" />
+		<dependency org="commons-logging" name="commons-logging" rev="1.1.3" conf="*->default" />
 		
-		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" />
+		<dependency org="org.apache.commons" name="commons-lang3" rev="3.1" conf="*->default" />
 		
 	</dependencies>
 

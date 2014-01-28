@@ -17,7 +17,7 @@
 		<artifact name="de.pellepelster.myadmin.demo.client.test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
 		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="compile->@" />
 

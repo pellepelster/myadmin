@@ -17,19 +17,19 @@
 		<artifact name="server-base-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="db" rev="latest.integration" conf="*->@" />
+		<dependency name="db" rev="latest.integration" />
 
 		<dependency name="server-lib" rev="latest.integration" />
 
-		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" />
+		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" conf="*->default" />
 
-		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" />
+		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" conf="*->default" />
 
-		<dependency org="joda-time" name="joda-time" rev="2.3" />
+		<dependency org="joda-time" name="joda-time" rev="2.3" conf="*->default" />
 
-		<dependency org="com.google.code.gson" name="gson" rev="2.2.4" />
+		<dependency org="com.google.code.gson" name="gson" rev="2.2.4" conf="*->default" />
 		
 	</dependencies>
 

@@ -15,11 +15,11 @@
 	<publications>
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	
-		<dependency name="generator" rev="latest.integration" conf="compile->generated.client.web,master" />
+		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web,master" />
 	
-		<dependency name="dsl" rev="latest.integration" conf="*->@" />
+		<dependency name="dsl" rev="latest.integration" />
 	
 	</dependencies>
 

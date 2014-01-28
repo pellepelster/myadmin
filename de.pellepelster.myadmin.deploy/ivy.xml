@@ -15,9 +15,9 @@
 	<publications>
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	
-		<dependency name="myadmin-feature" rev="latest.integration" conf="*->@" />
+		<dependency name="myadmin-feature" rev="latest.integration" />
 	
 	</dependencies>
 

@@ -17,7 +17,7 @@
 		<artifact name="@organisation.name@.@project.name@.client-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
 		<dependency name="@project.name@.generator" rev="latest.integration" conf="compile->generated.client.web" />
 

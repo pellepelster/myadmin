@@ -17,17 +17,17 @@
 		<artifact name="client-base-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	
-		<dependency org="com.google.gwt" name="gwt-user" rev="2.5.1" />
+		<dependency org="com.google.gwt" name="gwt-user" rev="2.5.1" conf="*->default" />
 
 		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.1" conf="compile->default" />
 
-		<dependency org="com.google.guava" name="guava-gwt" rev="14.0">
+		<dependency org="com.google.guava" name="guava-gwt" rev="14.0" conf="*->default">
 			<exclude name="gwt-dev" />
 		</dependency>
 		
-		<dependency org="com.googlecode.gwtupload" name="gwtupload" rev="0.6.6" />
+		<dependency org="com.googlecode.gwtupload" name="gwtupload" rev="0.6.6" conf="*->default" />
 		
 	</dependencies>
 
