@@ -474,7 +474,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 
 			moduledefinition ModuleNavigation {
 				parameters {
-					parameter NavigationTreeNodeId {
+					parameter NavigationTreeElementName {
 						type String
 					} 
 				}

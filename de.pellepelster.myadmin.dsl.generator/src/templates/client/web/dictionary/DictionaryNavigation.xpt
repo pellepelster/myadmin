@@ -23,6 +23,7 @@
 				«ENDFOREACH»
 		
 				public RootNavigationNode() {
+					super("ROOT");
 					«FOREACH this.eAllContents.typeSelect(NavigationNode).reject(e|NavigationNode.isAssignableFrom(e.eContainer.metaType)) AS navigationNode»
 					getChildren().add(«navigationNodeConstantName(navigationNode)»);
 					«ENDFOREACH»
@@ -53,6 +54,7 @@
 		«ENDFOREACH»
 	
 		public «navigationNodeClassName()»() {
+			super("«this.name»");
 			«FOREACH this.eContents.typeSelect(NavigationNode) AS navigationNode»
 			getChildren().add(«navigationNodeConstantName(navigationNode)»);
 			«ENDFOREACH»
@@ -65,8 +67,8 @@
 			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionaryEditor).name»");
 			«ELSEIF this.dictionarySearch != null»
 			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionarySearch).name»");
-			«ELSE»
-			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.NAVIGATIONTREENODEID_PARAMETER_ID + "=«this.name»");
+			«ELSEIF this.name != null»
+			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.NAVIGATIONTREEELEMENTNAME_PARAMETER_ID + "=«this.name»");
 			«ENDIF»
 		}
 	

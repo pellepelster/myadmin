@@ -416,7 +416,7 @@
 	«ELSEIF this == SimpleTypes::bigdecimal»
 		java.lang.BigDecimal.parse(«parameterName»)
 	«ELSEIF this == SimpleTypes::string»
-		String.valueOf(«parameterName»)
+		«parameterName»
 	«ELSEIF this == SimpleTypes::boolean»
 		java.lang.Boolean.parseBoolean(«parameterName»)
 	«ELSE»

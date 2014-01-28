@@ -26,7 +26,13 @@ public class NavigationModuleUIFactory implements IModuleUIFactory<Panel, Module
 	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(ModuleNavigationModule module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new NavigationModuleTreeUI((ModuleNavigationModule) module);
+		if (module.getNavigationTreeElementName() != null)
+		{
+			return new NavigationModuleOverviewUI(module);
+		}
+		else
+		{
+			return new NavigationModuleTreeUI(module);
+		}
 	}
-
 }
