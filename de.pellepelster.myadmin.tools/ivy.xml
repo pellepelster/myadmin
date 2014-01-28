@@ -19,9 +19,9 @@
 
 	<dependencies>
 
-		<dependency name="server" rev="latest.integration" />
+		<dependency name="server" rev="latest.integration" conf="*->@" />
 		
-		<dependency name="dsl-generator" rev="latest.integration" />
+		<dependency name="dsl-generator" rev="latest.integration" conf="*->@" />
 
 		<dependency org="ant" name="ant" rev="1.6.5" conf="*->default" >
 			<artifact name="ant" type="jar" />

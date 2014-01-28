@@ -14,9 +14,9 @@
 
 	<dependencies>
 
-		<dependency name="server" rev="latest.integration" />
+		<dependency name="server" rev="latest.integration" conf="*->@" />
 
-		<dependency name="db-test" rev="latest.integration" />
+		<dependency name="db-test" rev="latest.integration" conf="*->@" />
 
 		<dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.31.0" conf="*->default" />
 		<dependency org="org.seleniumhq.selenium" name="selenium-api" rev="2.31.0" conf="*->default" />

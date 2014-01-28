@@ -20,7 +20,7 @@
 
 	<dependencies>
 
-		<dependency name="dsl" rev="latest.integration" />
+		<dependency name="dsl" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 

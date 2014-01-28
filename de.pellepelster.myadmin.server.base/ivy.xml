@@ -19,9 +19,9 @@
 
 	<dependencies>
 
-		<dependency name="db" rev="latest.integration" />
+		<dependency name="db" rev="latest.integration" conf="*->@" />
 
-		<dependency name="server-lib" rev="latest.integration" />
+		<dependency name="server-lib" rev="latest.integration" conf="*->@" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" conf="*->default" />
 

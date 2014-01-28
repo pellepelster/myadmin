@@ -17,7 +17,7 @@
 
 	<dependencies>
 	
-		<dependency name="myadmin-feature" rev="latest.integration" />
+		<dependency name="myadmin-feature" rev="latest.integration" conf="*->@" />
 	
 	</dependencies>
 

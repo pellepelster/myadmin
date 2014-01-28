@@ -18,7 +18,7 @@
 
 	<dependencies>
 
-		<dependency name="server-lib" rev="latest.integration" />
+		<dependency name="server-lib" rev="latest.integration" conf="*->@" />
 
 		<dependency org="org.eclipse" name="org.eclipse.core.resources" rev="3.8.100.v20130521-2026" conf="compile->default" />
 		<dependency org="org.eclipse" name="org.eclipse.emf.codegen.ecore" rev="2.9.1.v20130902-0605" conf="compile->default" />
@@ -58,7 +58,7 @@
  		<dependency org="org.eclipse" name="org.eclipse.core.contenttype" rev="3.4.200.v20130326-1255" conf="compile->default" />
  		<dependency org="org.eclipse" name="org.eclipse.equinox.preferences" rev="3.5.100.v20130422-1538" conf="compile->default" />
  		
-		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3">
+		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3" conf="*->default">
 			<artifact name="commons-beanutils-core" type="jar" />
 		</dependency>
 		

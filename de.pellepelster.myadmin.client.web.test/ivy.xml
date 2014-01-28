@@ -19,7 +19,7 @@
 
 	<dependencies>
 
-		<dependency name="client-web" rev="latest.integration" />
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
 
 		<dependency org="junit" name="junit" rev="4.10" conf="test->default">
 			<artifact name="junit" type="jar" />

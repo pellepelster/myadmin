@@ -19,7 +19,7 @@
 
 	<dependencies>
 
-   		<dependency name="client-base" rev="latest.integration" />
+   		<dependency name="client-base" rev="latest.integration" conf="*->@" />
 	    
 		<dependency org="commons-beanutils" name="commons-beanutils-core" rev="1.8.3" conf="*->default">
 			<artifact name="commons-beanutils-core" type="jar" />

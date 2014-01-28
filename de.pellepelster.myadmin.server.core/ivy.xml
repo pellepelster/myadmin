@@ -19,11 +19,11 @@
 
 	<dependencies>
 
-		<dependency name="server-base" rev="latest.integration" />
+		<dependency name="server-base" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-core" rev="latest.integration" />
+		<dependency name="client-core" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-base" rev="latest.integration" />
+		<dependency name="client-base" rev="latest.integration" conf="*->@" />
 				
 	</dependencies>
 

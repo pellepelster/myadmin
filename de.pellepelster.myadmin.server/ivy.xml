@@ -19,9 +19,9 @@
 
 	<dependencies>
 
-		<dependency name="server-core" rev="latest.integration" />
+		<dependency name="server-core" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-web" rev="latest.integration" />
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
 
 		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server,generated.client.web" />
 

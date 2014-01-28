@@ -19,7 +19,7 @@
 
 	<dependencies>
 
-		<dependency name="db" rev="latest.integration" />
+		<dependency name="db" rev="latest.integration" conf="*->@" />
 
 		<dependency org="junit" name="junit" rev="4.10"  conf="test->default" />
 

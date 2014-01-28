@@ -26,9 +26,9 @@
 		<artifact name="myadmin-xml-gen" type="jar" ext="jar" conf="generated.xml" />
 	</publications>
 
-	<dependencies>
+	<dependencies defaultconf="master,runtime,sources,compile,default,test->@">
 
-		<dependency name="dsl-generator" rev="latest.integration"  />
+		<dependency name="dsl-generator" rev="latest.integration" />
 
 		<dependency name="client-base" rev="latest.integration" />
 

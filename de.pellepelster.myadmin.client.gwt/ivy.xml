@@ -19,7 +19,7 @@
 
 	<dependencies>
 	
-		<dependency name="client-web" rev="latest.integration" />
+		<dependency name="client-web" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 

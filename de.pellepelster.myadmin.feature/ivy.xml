@@ -18,7 +18,7 @@
 
 	<dependencies>
 		
-		<dependency name="dsl-ui" rev="latest.integration" />
+		<dependency name="dsl-ui" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 

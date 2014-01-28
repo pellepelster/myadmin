@@ -19,7 +19,7 @@
 	
 		<dependency name="generator" rev="latest.integration" conf="*->generated.client.web,master" />
 	
-		<dependency name="dsl" rev="latest.integration" />
+		<dependency name="dsl" rev="latest.integration" conf="*->@" />
 	
 	</dependencies>
 

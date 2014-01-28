@@ -19,9 +19,9 @@
 	
 	<dependencies>
 	
-		<dependency name="client-gwt" rev="latest.integration" />
+		<dependency name="client-gwt" rev="latest.integration" conf="*->@" />
 
-		<dependency name="client-web-test" rev="latest.integration" />
+		<dependency name="client-web-test" rev="latest.integration" conf="*->@" />
 
  	</dependencies>
 
