@@ -19,15 +19,15 @@
 
 	<dependencies defaultconf="*->default">
 
-		<dependency org="joda-time" name="joda-time" rev="2.3" />
-
 		<dependency name="db" rev="latest.integration" conf="*->@" />
+
+		<dependency name="server-lib" rev="latest.integration" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.8" />
 
-		<dependency name="server-lib" rev="latest.integration" conf="*->default" />
+		<dependency org="joda-time" name="joda-time" rev="2.3" />
 
 		<dependency org="com.google.code.gson" name="gson" rev="2.2.4" />
 		

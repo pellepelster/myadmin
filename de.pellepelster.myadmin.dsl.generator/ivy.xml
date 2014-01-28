@@ -9,7 +9,7 @@
 		<conf name="sources" />
 		<conf name="compile" extends="default" />
 		<conf name="test" extends="compile" />
-		<conf name="default" extends="master, runtime" />
+		<conf name="default" extends="master,runtime" />
 	</configurations>
 
 
@@ -18,9 +18,9 @@
 		<artifact name="dsl-generator-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="dsl" rev="latest.integration" conf="*->@;compile,runtime->runtime" />
+		<dependency name="dsl" rev="latest.integration" />
 
 	</dependencies>
 

@@ -17,15 +17,11 @@
 		<artifact name="de.pellepelster.myadmin.demo.client-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="demo.generator" rev="latest.integration" conf="compile->generated.client.web" />
+		<dependency name="demo.generator" rev="latest.integration" conf="*->generated.client.web" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="compile,runtime->@,sources" />
-
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="compile->generated.client.web" />
-
-		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.1"/>
+		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->@,sources" />
 
 		<dependency org="commons-httpclient" name="commons-httpclient" rev="3.1">
 			<artifact name="commons-httpclient" type="jar" />

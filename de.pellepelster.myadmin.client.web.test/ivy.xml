@@ -17,11 +17,11 @@
 		<artifact name="client-web-test-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 
-		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+		<dependency name="client-web" rev="latest.integration" />
 
-		<dependency org="junit" name="junit" rev="4.10">
+		<dependency org="junit" name="junit" rev="4.10" conf="test->default">
 			<artifact name="junit" type="jar" />
 		</dependency>
 

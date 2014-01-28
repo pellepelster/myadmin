@@ -1,5 +1,7 @@
 <project name="client-web-test" default="publish">
 
+	<property name="ivy.conf" value="test" />
+	
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	
 </project>

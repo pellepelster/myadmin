@@ -22,31 +22,9 @@
 
  		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="compile->compile" />
 
-		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default">
-		 	<exclude org="com.google.gwt"  />
-		 </dependency>
+		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default" />
 
 		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->generated.server"/>
-
-		<dependency org="com.google.gwt" name="gwt-servlet" rev="2.5.1" transitive="false" />
-		
-		<dependency org="org.springframework" name="spring-asm" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-asm" type="jar" />
-		</dependency>
-
-		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-aop" type="jar" />
-		</dependency>
-
-		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-jdbc" type="jar" />
-		</dependency>
-
-		<dependency org="org.springframework" name="spring-expression" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-expression" type="jar" />
-		</dependency>
-		
-		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" />
 
 	</dependencies>
 

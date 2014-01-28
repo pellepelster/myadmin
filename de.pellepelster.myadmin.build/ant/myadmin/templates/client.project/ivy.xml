@@ -25,8 +25,6 @@
 
 		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->generated.client.web" />
 
-		<dependency org="com.google.gwt" name="gwt-dev" rev="2.5.1"/>
-
 		<dependency org="commons-httpclient" name="commons-httpclient" rev="3.1">
 			<artifact name="commons-httpclient" type="jar" />
 		</dependency>

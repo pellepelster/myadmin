@@ -1,7 +1,8 @@
 <project name="server-test" default="publish">
 	
 	<property name="test.suite.name" value="de.pellepelster.myadmin.server.test.MyAdminServerTestSuite" />
-
+	<property name="ivy.conf" value="test" />
+	
 	<import file="../de.pellepelster.myadmin.build/ant/myadmin/BaseServerTest.xml" />
 	
 	<macrodef name="solr">

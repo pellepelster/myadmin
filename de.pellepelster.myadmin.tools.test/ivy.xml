@@ -16,14 +16,10 @@
 
 		<dependency name="tools" rev="latest.integration" conf="*->@" />
 
-		<dependency name="server-test" rev="latest.integration" conf="runtime->runtime;compile->@" />
+		<dependency name="server-test" rev="latest.integration" conf="*->@" />
 
-		<dependency org="junit" name="junit" rev="4.10">
+		<dependency org="junit" name="junit" rev="4.10" conf="test->default">
 			<artifact name="junit" type="jar" />
-		</dependency>
-
-		<dependency org="org.springframework" name="spring-web" rev="3.1.0.RELEASE" transitive="false">
-			<artifact name="spring-web" type="jar" />
 		</dependency>
 
 	</dependencies>

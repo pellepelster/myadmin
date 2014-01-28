@@ -21,7 +21,7 @@
 
 		<dependency name="db" rev="latest.integration" conf="*->@" />
 
-		<dependency org="junit" name="junit" rev="4.10" />
+		<dependency org="junit" name="junit" rev="4.10"  conf="test->default" />
 
 		<dependency org="org.apache.derby" name="derby" rev="10.9.1.0" />
 		
@@ -29,7 +29,7 @@
 			<artifact name="spring-test" type="jar" />
 		</dependency>
 
-			<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false">
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false">
 			<artifact name="spring-jdbc" type="jar" />
 		</dependency>
 

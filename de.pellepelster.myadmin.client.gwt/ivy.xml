@@ -17,9 +17,9 @@
 		<artifact name="client-gwt-source" type="source" ext="jar" conf="sources" />
 	</publications>
 
-	<dependencies defaultconf="*->default">
+	<dependencies>
 	
-		<dependency name="client-web" rev="latest.integration" conf="*->@" />
+		<dependency name="client-web" rev="latest.integration" />
 
 	</dependencies>
 

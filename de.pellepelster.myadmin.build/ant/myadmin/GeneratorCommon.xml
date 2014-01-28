@@ -10,8 +10,6 @@
 
 		<sequential>
 
-			<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task" classpathref="@{pathRefId}" />
-
 			<property name="gen.temp.bin.dir" value="${build.gen.dir}" />
 			<property name="gen.temp.src.dir" value="${src.gen.dir}" />
 
