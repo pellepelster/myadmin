@@ -2,4 +2,8 @@
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 	
+	<path id="jar.files.extra">
+		<path refid="source.jar.files" />
+	</path>
+
 </project>

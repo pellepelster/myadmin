@@ -2,6 +2,10 @@
 
 	<import file="../de.pellepelster.myadmin.build/ant/MyAdminCommon.xml"/>
 
+	<path id="jar.files.extra">
+		<path refid="source.jar.files" />
+	</path>
+	
 	<target name="compile.gwt">
 
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
