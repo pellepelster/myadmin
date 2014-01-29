@@ -19,7 +19,7 @@
 
 	<dependencies>
 
-		<dependency name="server-base" rev="latest.integration" conf="*->@" />
+		<dependency name="server-base" rev="latest.integration" conf="compile,runtime->@" />
 
 		<dependency name="client-core" rev="latest.integration" conf="*->@" />
 

@@ -8,7 +8,7 @@
 		<conf name="generated.client.mobile" />
 		<conf name="generated.client.base" />
 		<conf name="generated.xml" />
-		<conf name="generated.server" extends="master, generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
+		<conf name="generated.server" extends="generated.client.web, generated.client.base, generated.xml, generated.client.mobile" />
 		<conf name="master" />
 		<conf name="runtime" />
 		<conf name="sources" />
@@ -26,7 +26,7 @@
 		<artifact name="myadmin-xml-gen" type="jar" ext="jar" conf="generated.xml" />
 	</publications>
 
-	<dependencies defaultconf="master,runtime,sources,compile,default,test->@">
+	<dependencies defaultconf="generated.server,generated.client.web,generated.client.mobile,generated.client.base,generated.xml->runtime;%->@">
 
 		<dependency name="dsl-generator" rev="latest.integration" />
 
