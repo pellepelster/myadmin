@@ -1,6 +1,7 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="test.suite.name" value="@organisation.name@.@project.name@.server.test.@project.name.camelcase@Testsuite" />
+	<property name="ivy.conf" value="test" />
 	
 	<property file="build.properties" />
 

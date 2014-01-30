@@ -1,6 +1,7 @@
 <project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant"  default="test">
 
 	<property name="client.test.suite.name" value="@project.package@.@project.name.camelcase@ClientTestSuite" />
+	<property name="ivy.conf" value="test" />
 
 	<import file="@ant.common.file@" />
 	<import file="../${build.project}/ant/myadmin/BaseClientTest.xml" />
