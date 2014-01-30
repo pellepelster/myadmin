@@ -3,6 +3,7 @@
 	<dirname property="de.pellepelster.myadmin.demo.server.test.basedir" file="${ant.file.de.pellepelster.myadmin.demo.server.test}" />
 
 	<property name="test.suite.name" value="de.pellepelster.myadmin.demo.server.test.DemoTestsuite" />
+	<property name="ivy.conf" value="test,sources" />
 
 	<property file="${de.pellepelster.myadmin.demo.server.test.basedir}/build.properties" />
 

@@ -21,10 +21,16 @@
 
 		<dependency name="server-base" rev="latest.integration" conf="compile,runtime->@" />
 
-		<dependency name="client-core" rev="latest.integration" conf="*->@" />
-
-		<dependency name="client-base" rev="latest.integration" conf="*->@" />
-				
+		<dependency name="client-core" rev="latest.integration" conf="*->@">
+			<exclude name="gwt-user" />
+			<exclude name="gwt-dev" />
+		</dependency>
+		
+		<dependency name="client-base" rev="latest.integration" conf="*->@">
+			<exclude name="gwt-user" />
+			<exclude name="gwt-dev" />
+		</dependency>
+		
 	</dependencies>
 
 </ivy-module>

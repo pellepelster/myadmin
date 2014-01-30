@@ -30,7 +30,7 @@
 
 		<dependency name="dsl-generator" rev="latest.integration" />
 
-		<dependency name="client-base" rev="latest.integration" />
+		<dependency name="client-base" rev="latest.integration" transitive="false" />
 
 		<dependency name="server-base" rev="latest.integration" />
 

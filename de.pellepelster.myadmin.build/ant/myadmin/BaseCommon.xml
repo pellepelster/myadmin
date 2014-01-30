@@ -39,25 +39,27 @@
 			<available file="${src.dir}" type="dir" />
 		</not>
 	</condition>
-	
+
 	<!-- defaults for compile/jaring -->
-	<path id="jar.files">
-		<fileset dir="${classes.dir}" />
+	<path id="common.files">
 		<fileset dir="${src.dir}" includes="**/*.xml" />
 		<fileset dir="${src.dir}" includes="**/*.xsl" />
 		<fileset dir="${src.dir}" includes="**/*.properties" />
 		<fileset dir="${src.dir}" includes="**/*.css" />
+		<fileset dir="${src.dir}" includes="**/*.png" />
 		<fileset dir="${src.dir}" includes="**/*.msl" />
 	</path>
 
+	<path id="jar.files">
+		<fileset dir="${classes.dir}" />
+		<path refid="common.files" />
+	</path>
+
+	<path id="jar.files.extra" />
+
 	<path id="source.jar.files">
 		<fileset dir="${src.dir}" includes="**/*.java" />
-		<fileset dir="${src.dir}" includes="**/*.xml" />
-		<fileset dir="${src.dir}" includes="**/*.xsl" />
-		<fileset dir="${src.dir}" includes="**/*.png" />
-		<fileset dir="${src.dir}" includes="**/*.properties" />
-		<fileset dir="${src.dir}" includes="**/*.css" />
-		<fileset dir="${src.dir}" includes="**/*.msl" />
+		<path refid="common.files" />
 	</path>
 
 	<target name="build.info">
@@ -152,6 +154,7 @@
 
 		<jar destfile="${jar.file}">
 			<path refid="jar.files" />
+			<path refid="jar.files.extra" />
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Build-Version" value="${version}" />

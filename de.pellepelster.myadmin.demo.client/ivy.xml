@@ -21,15 +21,7 @@
 
 		<dependency name="demo.generator" rev="latest.integration" conf="*->generated.client.web" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->@,sources" />
-
-		<dependency org="commons-httpclient" name="commons-httpclient" rev="3.1">
-			<artifact name="commons-httpclient" type="jar" />
-		</dependency>
-
-		<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2.2">
-			<artifact name="commons-fileupload" type="jar" />
-		</dependency>
+		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 

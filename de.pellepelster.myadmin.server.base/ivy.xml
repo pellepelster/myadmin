@@ -19,8 +19,11 @@
 
 	<dependencies>
 
-		<dependency name="db" rev="latest.integration" conf="*->@" />
-
+		<dependency name="db" rev="latest.integration" conf="*->@">
+			<exclude name="gwt-user" />
+			<exclude name="gwt-dev" />
+		</dependency>
+		
 		<dependency name="server-lib" rev="latest.integration" conf="*->@" />
 
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.9.8" conf="*->default" />

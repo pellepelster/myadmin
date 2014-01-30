@@ -53,6 +53,10 @@
 			<artifact name="spring-expression" type="jar" />
 		</dependency>
 
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
+			<artifact name="spring-jdbc" type="jar" />
+		</dependency>
+
 		<dependency org="org.springframework" name="spring-aop" rev="3.1.0.RELEASE" transitive="false" conf="*->default">
 			<artifact name="spring-aop" type="jar" />
 		</dependency>
