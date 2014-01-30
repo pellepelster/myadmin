@@ -18,13 +18,17 @@
 
 	<dependencies>
 
- 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="compile->generated.server" />
-
- 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="compile->compile" />
-
-		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->default" />
-
-		<dependency org="de.pellepelster.myadmin" name="generator" rev="latest.integration" conf="*->generated.server"/>
+ 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.server">
+			<exclude name="gwt-user" />
+			<exclude name="gwt-dev" />
+		</dependency>
+		
+ 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="*->@">
+			<exclude name="gwt-user" />
+			<exclude name="gwt-dev" />
+		</dependency>
+		
+		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->@" />
 
 	</dependencies>
 
