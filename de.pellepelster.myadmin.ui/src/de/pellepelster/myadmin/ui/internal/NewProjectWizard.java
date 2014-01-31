@@ -59,6 +59,8 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
+import com.google.common.collect.Lists;
+
 import de.pellepelster.myadmin.ui.Constants;
 import de.pellepelster.myadmin.ui.Constants.PROJECT_NAME_POSTFIXES;
 import de.pellepelster.myadmin.ui.Messages;
@@ -290,6 +292,9 @@ public class NewProjectWizard extends Wizard implements INewWizard
 						IvyClasspathContainerConfiguration conf = new IvyClasspathContainerConfiguration(javaProject, "ivy.xml", true);
 						switch (projectNamePostfix)
 						{
+							case CLIENT:
+								conf.setConfs(Lists.asList("default", new String[] { "test" }));
+								break;
 							case CLIENT_TEST:
 							case SERVER_TEST:
 								conf.setConfs(Collections.singletonList("test"));
