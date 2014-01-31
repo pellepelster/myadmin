@@ -203,7 +203,7 @@ body {
     cursor: default;
 }
 .gwt-MenuBar .gwt-MenuItem-selected {
-    background: none repeat scroll 0 0 #E0EDFE;
+    background: none repeat scroll 0 0 rgb(57, 179, 215);
 }
 .gwt-MenuBar .gwt-MenuItem-disabled {
     color: #C0C0C0;
@@ -270,7 +270,7 @@ body {
     padding-right: 4px;
 }
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-    background: none repeat scroll 0 0 #E0EDFE;
+    background: none repeat scroll 0 0 rgb(57, 179, 215);
 }
 .gwt-MenuBarPopup {
     margin: 0 0 0 3px;
@@ -343,8 +343,9 @@ body {
 }
 .gwt-PopupPanel {
     background: none repeat scroll 0 0 #FFFFFF;
-    border: 3px solid #C3D9FF;
+    border: 3px solid rgb(200, 200, 200);
     padding: 3px;
+    z-index: 99;
 }
 .gwt-DecoratedPopupPanel .popupContent {
 }
@@ -639,7 +640,7 @@ body {
     padding: 2px 6px;
 }
 .gwt-SuggestBoxPopup .item-selected {
-    background: none repeat scroll 0 0 #B7D6F6;
+    background: none repeat scroll 0 0 rgb(57, 179, 215);
 }
 .gwt-SuggestBoxPopup .suggestPopupContent {
     background: none repeat scroll 0 0 #FFFFFF;
