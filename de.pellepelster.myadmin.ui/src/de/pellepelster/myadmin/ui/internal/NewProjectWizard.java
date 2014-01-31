@@ -288,18 +288,6 @@ public class NewProjectWizard extends Wizard implements INewWizard
 						addProjectNature(project, IvyNature.IVY_NATURE, monitor);
 
 						IvyClasspathContainerConfiguration conf = new IvyClasspathContainerConfiguration(javaProject, "ivy.xml", true);
-
-						IPath path = IvyClasspathContainerConfAdapter.getPath(conf);
-						IClasspathAttribute[] atts = conf.getAttributes();
-
-						List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
-						classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
-
-						IClasspathEntry entry = JavaCore.newContainerEntry(path, null, atts, false);
-						classpathEntries.add(entry);
-
-						javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[0]), monitor);
-
 						switch (projectNamePostfix)
 						{
 							case CLIENT_TEST:
@@ -311,6 +299,17 @@ public class NewProjectWizard extends Wizard implements INewWizard
 								conf.setConfs(Collections.singletonList("default"));
 								break;
 						}
+
+						IPath path = IvyClasspathContainerConfAdapter.getPath(conf);
+						IClasspathAttribute[] atts = conf.getAttributes();
+
+						List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
+						classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
+
+						IClasspathEntry entry = JavaCore.newContainerEntry(path, null, atts, false);
+						classpathEntries.add(entry);
+
+						javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[0]), monitor);
 
 						refreshProjects(monitor);
 					}
