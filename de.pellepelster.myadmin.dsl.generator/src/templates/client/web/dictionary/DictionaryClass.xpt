@@ -492,6 +492,37 @@ dictionary controls common
 «DEFINE dictionaryControlClass FOR DictionaryControl»
 «ENDDEFINE»
 
+«DEFINE dictionaryControlLabelSetters(Labels labels) FOR DictionaryControl»
+
+	«IF labels != null»
+		«IF labels.label != null»
+			«dictionaryConstantName(this)».setLabel("«labels.label»");
+		«ENDIF»
+	
+		«IF labels.columnLabel != null»
+			«dictionaryConstantName(this)».setColumnLabel("«labels.columnLabel»");
+		«ENDIF»
+	
+		«IF labels.editorLabel != null»
+			«dictionaryConstantName(this)».setEditorLabel("«labels.editorLabel»");
+		«ENDIF»
+	
+		«IF labels.filterLabel != null»
+			«dictionaryConstantName(this)».setFilterLabel("«labels.filterLabel»");
+		«ENDIF»
+	«ENDIF»
+
+«ENDDEFINE»
+
+«DEFINE dictionaryControlTypeSetters(DictionaryControl dictionaryControl) FOR Type»
+«ENDDEFINE»
+
+«DEFINE dictionaryControlTypeSetters(DictionaryControl dictionaryControl) FOR DatatypeType»
+	«IF this.type.baseDatatype.labels != null»
+		«EXPAND dictionaryControlLabelSetters(this.type.baseDatatype.labels) FOR dictionaryControl»
+	«ENDIF»
+«ENDDEFINE»
+
 «DEFINE dictionaryControlCommonSetters FOR DictionaryControl»
 	«IF this.baseControl != null»
 		«IF this.baseControl.labels != null»
@@ -500,22 +531,14 @@ dictionary controls common
 				«dictionaryConstantName(this)».setMandatory(«baseControl.mandatory.toString().toLowerCase()»);
 			«ENDIF»
 
-			«IF this.baseControl.labels.label != null»
-				«dictionaryConstantName(this)».setLabel("«this.baseControl.labels.label»");
-			«ENDIF»
-		
-			«IF this.baseControl.labels.columnLabel != null»
-				«dictionaryConstantName(this)».setColumnLabel("«this.baseControl.labels.columnLabel»");
-			«ENDIF»
-		
-			«IF this.baseControl.labels.editorLabel != null»
-				«dictionaryConstantName(this)».setEditorLabel("«this.baseControl.labels.editorLabel»");
+			«IF this.baseControl.labels != null»
+				«EXPAND dictionaryControlLabelSetters(this.baseControl.labels)»
 			«ENDIF»
 
-			«IF this.baseControl.labels.filterLabel != null»
-				«dictionaryConstantName(this)».setFilterLabel("«this.baseControl.labels.filterLabel»");
+			«IF this.baseControl.entityattribute != null»
+				«EXPAND dictionaryControlTypeSetters(this) FOR this.baseControl.entityattribute.type»
 			«ENDIF»
-
+		
 			«IF this.baseControl.entityattribute != null»
 				«dictionaryConstantName(this)».setAttributePath("«this.baseControl.entityattribute.name»");
 			«ENDIF»

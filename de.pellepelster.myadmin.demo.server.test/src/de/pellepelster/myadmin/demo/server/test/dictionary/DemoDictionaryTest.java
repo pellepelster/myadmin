@@ -154,6 +154,13 @@ public final class DemoDictionaryTest extends BaseDemoDictionaryTest
 	}
 
 	@Test
+	public void testTextControl2()
+	{
+		ITextControlModel controlModel = DemoDictionaryModel.DICTIONARY2.DICTIONARY2_EDITOR.TEXT_CONTROL2;
+		Assert.assertEquals("TEXTDATATYPE2", controlModel.getLabel());
+	}
+
+	@Test
 	public void testIntegerControl1()
 	{
 		IIntegerControlModel controlModel = DemoDictionaryModel.DICTIONARY1.DICTIONARY1_EDITOR.DICTIONARY1_COMPOSITE3.INTEGER_CONTROL1;

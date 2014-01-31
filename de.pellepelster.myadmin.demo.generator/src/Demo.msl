@@ -4,7 +4,7 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 
 		package inheritance {
 		
-			textdatatype String1 {}
+			textdatatype String1 { }
 
 			textdatatype String2 {}
 
@@ -81,9 +81,16 @@ project Demo schemaUrl "http://www.pellepelster.de/myadmindemo/schema" {
 				datatype MyAdmin.de.pellepelster.myadmin.entities.^dictionary.File fileDatatype1
 				reference Test3 * test3s
 			}
+			
+			textdatatype TextDatatype2 {
+				label "TEXTDATATYPE2"
+				maxLength 32
+			}
+
+			
 
 			entity Test2 {
-				datatype TextDatatype1 textDatatype2
+				datatype TextDatatype2 textDatatype2
 			}
 
 			entity Test3 {
