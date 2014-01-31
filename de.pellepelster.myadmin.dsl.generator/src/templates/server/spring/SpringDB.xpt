@@ -39,7 +39,6 @@
 
 		<property name="jpaProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
 				<prop key="hibernate.hbm2ddl.auto">create</prop>
 				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
 				<prop key="hibernate.connection.autocommit">true</prop>
