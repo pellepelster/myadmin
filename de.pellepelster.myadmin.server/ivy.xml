@@ -29,7 +29,7 @@
 			<exclude name="gwt-dev" />
 		</dependency>
 
-		<dependency name="generator" rev="latest.integration" conf="*->generated.xml,generated.server,generated.client.web" >
+		<dependency name="generator" rev="latest.integration" conf="compile->generated.xml,generated.server,generated.client.web" >
 			<exclude name="gwt-user" />
 			<exclude name="gwt-dev" />
 		</dependency>

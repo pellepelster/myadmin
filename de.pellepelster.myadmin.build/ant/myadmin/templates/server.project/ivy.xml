@@ -18,12 +18,12 @@
 
 	<dependencies>
 
- 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="*->generated.server">
+ 		<dependency org="@organisation.name@" name="@project.name@.generator" rev="latest.integration" conf="compile->generated.server">
 			<exclude name="gwt-user" />
 			<exclude name="gwt-dev" />
 		</dependency>
 		
- 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="*->@">
+ 		<dependency org="@organisation.name@" name="@project.name@.client" rev="latest.integration" conf="compile->@;runtime->runtime">
 			<exclude name="gwt-user" />
 			<exclude name="gwt-dev" />
 		</dependency>

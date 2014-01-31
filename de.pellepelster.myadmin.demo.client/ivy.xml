@@ -19,9 +19,9 @@
 
 	<dependencies>
 
-		<dependency name="demo.generator" rev="latest.integration" conf="*->generated.client.web" />
+		<dependency name="demo.generator" rev="latest.integration" conf="compile->generated.client.web" />
 
-		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="client-gwt" rev="latest.integration" conf="compile->@;runtime->runtime" />
 
 	</dependencies>
 

@@ -1,4 +1,4 @@
-<project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="@ant.project.name@" xmlns:ivy="antlib:org.apache.ivy.ant" default="publish">
 
 	<import file="@ant.common.file@" />
 	<import file="../${build.project}/ant/myadmin/BaseServer.xml" />

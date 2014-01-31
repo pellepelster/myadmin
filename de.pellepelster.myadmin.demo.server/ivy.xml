@@ -18,17 +18,17 @@
 
 	<dependencies>
 
- 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="*->generated.server" >
+ 		<dependency org="de.pellepelster.myadmin" name="demo.generator" rev="latest.integration" conf="compile->generated.server" >
 			<exclude name="gwt-user" />
 			<exclude name="gwt-dev" />
 		</dependency>
 		
- 		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="*->@">
+ 		<dependency org="de.pellepelster.myadmin" name="demo.client" rev="latest.integration" conf="compile->@">
 			<exclude name="gwt-user" />
 			<exclude name="gwt-dev" />
 		</dependency>
 		
-		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="*->@" />
+		<dependency org="de.pellepelster.myadmin" name="server" rev="latest.integration" conf="compile->@;runtime->runtime" />
 
 	</dependencies>
 
