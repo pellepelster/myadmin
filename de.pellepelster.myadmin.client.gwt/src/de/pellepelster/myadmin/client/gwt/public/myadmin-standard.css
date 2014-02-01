@@ -204,6 +204,7 @@ body {
 }
 .gwt-MenuBar .gwt-MenuItem-selected {
     background: none repeat scroll 0 0 rgb(57, 179, 215);
+    color: rgb(255, 255, 255);
 }
 .gwt-MenuBar .gwt-MenuItem-disabled {
     color: #C0C0C0;
