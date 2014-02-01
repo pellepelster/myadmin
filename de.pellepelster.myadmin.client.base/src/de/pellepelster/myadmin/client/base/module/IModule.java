@@ -41,4 +41,6 @@ public interface IModule
 	boolean isSingleton();
 
 	int getOrder();
+
+	String getTitle();
 }

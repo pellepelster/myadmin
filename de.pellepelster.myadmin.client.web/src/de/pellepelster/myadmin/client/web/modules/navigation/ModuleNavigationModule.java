@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
+import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
@@ -63,6 +64,19 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		}
 
 		return null;
+	}
+
+	@Override
+	public String getTitle()
+	{
+		if (hasParameter(MODULE_TITLE_PARAMETER_ID))
+		{
+			return this.parameters.get(MODULE_TITLE_PARAMETER_ID).toString();
+		}
+		else
+		{
+			return MyAdmin.MESSAGES.navigationTitle();
+		}
 	}
 
 	@Override

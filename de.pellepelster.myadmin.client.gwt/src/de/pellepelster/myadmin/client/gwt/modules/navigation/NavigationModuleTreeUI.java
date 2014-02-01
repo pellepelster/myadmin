@@ -28,7 +28,6 @@ import com.google.gwt.view.client.TreeViewModel;
 
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
-import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
@@ -160,7 +159,7 @@ public class NavigationModuleTreeUI extends BaseModuleUI<ModuleNavigationModule>
 	@Override
 	public String getTitle()
 	{
-		return MyAdmin.MESSAGES.navigationTitle();
+		return getModule().getTitle();
 	}
 
 }
