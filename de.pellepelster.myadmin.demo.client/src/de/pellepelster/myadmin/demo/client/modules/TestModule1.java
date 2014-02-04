@@ -12,7 +12,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryMo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 import de.pellepelster.myadmin.demo.client.web.modules.BaseTestModule11Module;
 
@@ -20,9 +19,9 @@ public class TestModule1<VOType extends IBaseVO> extends BaseTestModule11Module
 {
 	private VOType vo;
 
-	public TestModule1(ModuleVO moduleVO, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public TestModule1(String moduleUrl, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(moduleVO, moduleCallback, parameters);
+		super(null, moduleCallback, parameters);
 
 		final IDictionaryModel dictionaryModel = DictionaryModelProvider.getDictionary(getDictionaryName());
 
@@ -45,12 +44,6 @@ public class TestModule1<VOType extends IBaseVO> extends BaseTestModule11Module
 			}
 		});
 
-	}
-
-	@Override
-	public String getModuleId()
-	{
-		return super.getModuleName();
 	}
 
 	public VOType getVo()

@@ -22,13 +22,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleFactoryRegistry;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
-import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
-import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModuleFactory;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModuleFactory;
 
 /**
@@ -99,10 +95,10 @@ public final class MyAdmin implements EntryPoint
 	 */
 	public static void init()
 	{
-		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.MODULE_ID, new DictionarySearchModuleFactory());
-		ModuleFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.MODULE_ID, new DictionaryEditorModuleFactory());
-		ModuleFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.MODULE_ID, new ModuleNavigationModuleFactory());
-		ModuleFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.MODULE_ID, new HierarchicalTreeModuleFactory());
+		ModuleFactoryRegistry.getInstance().addModuleFactory(new DictionarySearchModuleFactory());
+		ModuleFactoryRegistry.getInstance().addModuleFactory(new DictionaryEditorModuleFactory());
+		ModuleFactoryRegistry.getInstance().addModuleFactory(new ModuleNavigationModuleFactory());
+		ModuleFactoryRegistry.getInstance().addModuleFactory(new HierarchicalTreeModuleFactory());
 
 		MyAdminClientConfiguration.registerAll();
 	}
@@ -117,21 +113,21 @@ public final class MyAdmin implements EntryPoint
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
 	}
 
-	public void startModule(String moduleName, String location)
+	public void startModule(String moduleId, String location)
 	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
-		startModule(moduleName, location, parameters);
+		startModule(moduleId, location, parameters);
 	}
 
-	public void startModule(String moduleName, String location, Map<String, Object> parameters)
+	public void startModule(String moduleId, String location, Map<String, Object> parameters)
 	{
-		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
+		ModuleHandler.getInstance().startModule(moduleId, location, parameters);
 	}
 
-	public void startModule(String moduleName, String location, Map<String, Object> parameters, String d)
+	public void startModule(String moduleId, String location, Map<String, Object> parameters, String d)
 	{
-		ModuleHandler.getInstance().startModule(moduleName, location, parameters);
+		ModuleHandler.getInstance().startModule(moduleId, location, parameters);
 	}
 
 }

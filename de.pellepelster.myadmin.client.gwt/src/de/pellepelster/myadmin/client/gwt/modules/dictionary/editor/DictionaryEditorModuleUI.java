@@ -58,7 +58,6 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 		verticalPanel = new VerticalPanel();
 
 		verticalPanel.addStyleName(GwtStyles.DEBUG_BORDER);
-		verticalPanel.ensureDebugId(DictionaryEditorModule.MODULE_ID + "-" + editorModule.getModuleName());
 		verticalPanel.setWidth("100%");
 
 		// - action panel ------------------------------------------------------

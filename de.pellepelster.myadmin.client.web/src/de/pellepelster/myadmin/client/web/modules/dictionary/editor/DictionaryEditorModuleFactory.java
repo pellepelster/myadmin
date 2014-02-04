@@ -17,11 +17,10 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.module.IModuleFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
-public class DictionaryEditorModuleFactory implements IModuleFactory
+public class DictionaryEditorModuleFactory extends BaseModuleFactory
 {
 	public static void openEditor(String dictionaryName, HashMap<String, Object> parameters)
 	{
@@ -59,6 +58,12 @@ public class DictionaryEditorModuleFactory implements IModuleFactory
 
 	}
 
+	@Override
+	public boolean supports(String moduleUrl)
+	{
+		return supports(moduleUrl, DictionaryEditorModule.MODULE_ID);
+	}
+
 	public static void openEditorForId(String dictionaryName, long id)
 	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -70,9 +75,9 @@ public class DictionaryEditorModuleFactory implements IModuleFactory
 	/** {@inheritDoc} */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void getNewInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public void getNewInstance(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		new DictionaryEditorModule(moduleVO, moduleCallback, parameters);
+		new DictionaryEditorModule(moduleUrl, moduleCallback, parameters);
 	}
 
 }

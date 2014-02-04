@@ -16,7 +16,6 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 
 /**
  * Describes a factory for module instantiation
@@ -28,13 +27,8 @@ import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 public interface IModuleFactory
 {
 
-	/**
-	 * Creates a module instance
-	 * 
-	 * @param moduleVO
-	 * @param moduleCallback
-	 * @param parameters
-	 */
-	void getNewInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters);
+	boolean supports(String moduleUrl);
+
+	void getNewInstance(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters);
 
 }

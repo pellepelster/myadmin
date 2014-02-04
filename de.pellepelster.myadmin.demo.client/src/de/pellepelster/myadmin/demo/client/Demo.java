@@ -29,7 +29,7 @@ public class Demo implements EntryPoint
 
 		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
 
-		MyAdmin.getInstance().startModule(DictionarySearchQueryModuleUI.MODULE_LOCATOR, Direction.WEST.toString());
+		MyAdmin.getInstance().startModule(DictionarySearchQueryModuleUI.MODULE_URL, Direction.WEST.toString());
 
 		init();
 	}

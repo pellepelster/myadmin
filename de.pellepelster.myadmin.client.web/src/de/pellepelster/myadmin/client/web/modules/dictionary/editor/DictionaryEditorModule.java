@@ -27,7 +27,7 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
+import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
@@ -56,26 +56,20 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 
 	public DictionaryEditorModule(IDictionaryModel dictionaryModel, long voId, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(new ModuleVO(), moduleCallback, parameters);
+		super(null, moduleCallback, parameters);
 
 		init(dictionaryModel.getName());
 
 	}
 
-	public DictionaryEditorModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public DictionaryEditorModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(moduleVO, moduleCallback, parameters);
+		super(moduleUrl, moduleCallback, parameters);
 
-		init(getEditorDictionaryName());
+		init(BaseModuleFactory.getUrlParameter(moduleUrl, DICTIONARY_PARAMETER_NAME));
 	}
 
-	public DictionaryEditorModule(String dictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
-	{
-		super(new ModuleVO(), moduleCallback, parameters);
-
-		init(dictionaryName);
-	}
-
+	@Override
 	public String getTitle()
 	{
 		return DictionaryUtil.getEditorLabel(this.dictionaryModel, this.dictionaryEditor);
@@ -115,19 +109,6 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	public DictionaryEditor<VOType> getDictionaryEditor()
 	{
 		return this.dictionaryEditor;
-	}
-
-	@Override
-	public String getModuleId()
-	{
-		if (this.dictionaryEditor.getVOWrapper().getVO().isNew())
-		{
-			return getClass().getName() + '#' + this.dictionaryModel.getName();
-		}
-		else
-		{
-			return getClass().getName() + '#' + this.dictionaryModel.getName() + "#" + this.dictionaryEditor.getVOWrapper().getId();
-		}
 	}
 
 	@Override

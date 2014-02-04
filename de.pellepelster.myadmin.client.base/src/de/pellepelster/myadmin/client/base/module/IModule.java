@@ -20,18 +20,10 @@ package de.pellepelster.myadmin.client.base.module;
  */
 public interface IModule
 {
+
 	static final String MODULE_ID_PARAMETER_NAME = "moduleId";
 
-	static final String MODULE_NAME_PARAMETER_NAME = "moduleName";
-
-	String getModuleId();
-
-	/**
-	 * Returns the module name
-	 * 
-	 * @return
-	 */
-	String getModuleName();
+	String getModuleUrl();
 
 	/**
 	 * False if the module can be started multiple times

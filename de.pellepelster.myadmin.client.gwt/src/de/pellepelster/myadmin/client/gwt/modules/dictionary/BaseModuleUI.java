@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
+import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 
@@ -22,6 +23,11 @@ import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
  */
 public abstract class BaseModuleUI<ModuleType extends IModule> implements IGwtModuleUI<ModuleType>
 {
+
+	public static final String getModuleUrl(String moduleId, String uiModuleId)
+	{
+		return IModule.MODULE_ID_PARAMETER_NAME + "=" + moduleId + "&" + IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=" + uiModuleId;
+	}
 
 	private final ModuleType module;
 

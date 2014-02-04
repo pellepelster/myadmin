@@ -21,16 +21,15 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
 
 	public final static Resources RESOURCES = ((Resources) GWT.create(Resources.class));;
 
-	public ModuleNavigationModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public ModuleNavigationModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(moduleVO, moduleCallback, parameters);
+		super(null, moduleCallback, parameters);
 
 		getModuleCallback().onSuccess(this);
 	}
@@ -79,9 +78,4 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		}
 	}
 
-	@Override
-	public String getModuleId()
-	{
-		return getModuleName();
-	}
 }

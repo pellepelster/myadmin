@@ -30,7 +30,6 @@ import de.pellepelster.myadmin.client.base.util.CollectionUtils;
 import de.pellepelster.myadmin.client.base.util.SimpleCallback;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.DictionaryHierarchicalNodeVO;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.modules.BaseModuleHierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.hooks.HierarchicalHookRegistry;
@@ -57,9 +56,9 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 
 	};
 
-	public HierarchicalTreeModule(ModuleVO moduleVO, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public HierarchicalTreeModule(String moduleUrl, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(moduleVO, moduleCallback, parameters);
+		super(null, moduleCallback, parameters);
 
 		final IHierachicalServiceGWTAsync hierachicalService = MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService();
 
@@ -112,12 +111,6 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 	public HierarchicalConfigurationVO getHierarchicalConfiguration()
 	{
 		return this.hierarchicalConfiguration;
-	}
-
-	@Override
-	public String getModuleId()
-	{
-		return this.hierarchicalConfiguration.getId();
 	}
 
 	public SimpleCallback<DictionaryHierarchicalNodeVO> getNodeActivatedHandler()

@@ -12,20 +12,16 @@
 package de.pellepelster.myadmin.client.web.module;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Splitter;
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleDefinitionVO;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
 /**
  * Handler for module loading
@@ -37,9 +33,13 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public final class ModuleHandler
 {
 
+	public static EventBus MODULE_EVENT_BUS = GWT.create(SimpleEventBus.class);
+
 	private int moduleCounter = 0;
 
 	private static ModuleHandler instance;
+
+	private Map<String, IModule> moduleInstances = new HashMap<String, IModule>();
 
 	public static ModuleHandler getInstance()
 	{
@@ -55,124 +55,51 @@ public final class ModuleHandler
 	{
 	}
 
-	private void getModuleInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public void getModuleInstance(String moduleUrl, Map<String, Object> parameters, AsyncCallback<IModule> moduleCallback)
 	{
 		this.moduleCounter++;
-		IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleVO.getModuleDefinition().getName());
+		IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleUrl);
 
 		parameters.put(BaseModule.MODULE_COUNTER_PARAMETER_ID, this.moduleCounter);
 
-		factory.getNewInstance(moduleVO, moduleCallback, parameters);
+		factory.getNewInstance(moduleUrl, moduleCallback, parameters);
 	}
 
-	public void startModule(IModule module, Map<String, Object> parameters)
-	{
-		startModule(module, null, parameters);
-	}
-
-	public void startModule(IModule module, String location, Map<String, Object> parameters)
+	private void startModule(IModule module, String location, Map<String, Object> parameters)
 	{
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, location, parameters);
 	}
 
-	public void startModule(final String moduleLocator, Map<String, Object> parameters)
+	public void startModule(IModule module, Map<String, Object> parameters)
 	{
-		startModule(moduleLocator, null, parameters);
+		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, null, parameters);
 	}
 
-	public void startModule(final String moduleLocator)
+	public void startModule(final String moduleId, Map<String, Object> parameters)
 	{
-		startModule(moduleLocator, null, new HashMap<String, Object>());
+		startModule(moduleId, null, parameters);
 	}
 
-	public void startModule(final String moduleLocator, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
+	public void startModule(final String moduleId)
 	{
-		if (moduleLocator.contains("="))
-		{
-			Map<String, String> locatorSegments = Splitter.on("&").withKeyValueSeparator("=").split(moduleLocator);
-
-			if (locatorSegments.containsKey(IModule.MODULE_NAME_PARAMETER_NAME))
-			{
-				parameters.putAll(locatorSegments);
-
-				startModuleByName(locatorSegments.get(IModule.MODULE_NAME_PARAMETER_NAME), parameters, moduleAsyncCallback);
-			}
-			else if (locatorSegments.containsKey(IModule.MODULE_ID_PARAMETER_NAME))
-			{
-				final String moduleId = locatorSegments.get(IModule.MODULE_ID_PARAMETER_NAME);
-
-				ModuleVO moduleVO = new ModuleVO();
-				moduleVO.setName(moduleLocator);
-				moduleVO.getProperties().putAll(locatorSegments);
-
-				ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
-				moduleDefinitionVO.setName(moduleId);
-
-				moduleVO.setModuleDefinition(moduleDefinitionVO);
-
-				getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
-
-			}
-			else
-			{
-				throw new RuntimeException("unable to find module for locator '" + moduleLocator + "'");
-			}
-
-		}
-		else
-		{
-			startModuleByName(moduleLocator, parameters, moduleAsyncCallback);
-		}
-
+		startModule(moduleId, null, new HashMap<String, Object>());
 	}
 
-	private void startModuleByName(final String moduleName, final Map<String, Object> parameters, final AsyncCallback<IModule> moduleAsyncCallback)
+	public void startModule(final String moduleUrl, final String location)
 	{
-		final GenericFilterVO<ModuleVO> genericFilterVO = ClientGenericFilterBuilder.createGenericFilter(ModuleVO.class)
-				.addCriteria(ModuleVO.FIELD_NAME, moduleName).getGenericFilter();
-		genericFilterVO.addAssociation(ModuleVO.FIELD_PROPERTIES);
-
-		MyAdmin.getInstance().getRemoteServiceLocator().getBaseEntityService().filter(genericFilterVO, new BaseErrorAsyncCallback<List<ModuleVO>>()
-		{
-			/** {@inheritDoc} */
-			@Override
-			public void onSuccess(List<ModuleVO> result)
-			{
-				if (result.size() == 1)
-				{
-					getModuleInstance(result.get(0), moduleAsyncCallback, parameters);
-				}
-				else
-				{
-					ModuleVO moduleVO = new ModuleVO();
-					moduleVO.setName(moduleName);
-
-					ModuleDefinitionVO moduleDefinitionVO = new ModuleDefinitionVO();
-					moduleDefinitionVO.setName(moduleName);
-
-					moduleVO.setModuleDefinition(moduleDefinitionVO);
-
-					getModuleInstance(moduleVO, moduleAsyncCallback, parameters);
-				}
-			}
-		});
+		startModule(moduleUrl, location, new HashMap<String, Object>());
 	}
 
-	public void startModule(final String moduleName, final String location)
+	public void startModule(final String moduleUrl, final String location, final Map<String, Object> parameters)
 	{
-		startModule(moduleName, location, new HashMap<String, Object>());
-	}
-
-	public void startModule(final String moduleName, final String location, final Map<String, Object> parameters)
-	{
-		startModule(moduleName, parameters, new AsyncCallback<IModule>()
+		getModuleInstance(moduleUrl, parameters, new AsyncCallback<IModule>()
 		{
 
 			/** {@inheritDoc} */
 			@Override
 			public void onFailure(Throwable caught)
 			{
-				throw new RuntimeException("error starting module '" + moduleName + "', reason was: ", caught);
+				throw new RuntimeException("error starting module '" + moduleUrl + "', reason was: ", caught);
 			}
 
 			/** {@inheritDoc} */

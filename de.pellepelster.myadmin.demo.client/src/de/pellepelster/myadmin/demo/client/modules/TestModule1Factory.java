@@ -5,17 +5,21 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.module.IModuleFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 
-public class TestModule1Factory implements IModuleFactory
+public class TestModule1Factory extends BaseModuleFactory
 {
 
 	/** {@inheritDoc} */
 	@Override
-	public void getNewInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public void getNewInstance(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		new TestModule1(moduleVO, moduleCallback, parameters);
+		new TestModule1(moduleUrl, moduleCallback, parameters);
 	}
 
+	@Override
+	public boolean supports(String moduleUrl)
+	{
+		return supports(moduleUrl, TestModule1.MODULE_ID);
+	}
 }

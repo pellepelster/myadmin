@@ -16,16 +16,9 @@
 	public abstract class «baseModuleName()» extends de.pellepelster.myadmin.client.base.module.BaseModule {
 	
 		public static final String MODULE_ID = "«name»";
-		private final de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO moduleVO;
-		
-		/**
-		 * Constructor for {@link Base«name.toFirstUpper()»Module}
-		 * 
-		 * @param moduleVO
-		 */
-		public Base«name.toFirstUpper()»Module(de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO moduleVO, com.google.gwt.user.client.rpc.AsyncCallback<de.pellepelster.myadmin.client.base.module.IModule> moduleCallback, java.util.Map<String, Object> parameters) {
-			super(moduleCallback, parameters);
-			this.moduleVO = moduleVO;
+
+		public Base«name.toFirstUpper()»Module(String moduleUrl, com.google.gwt.user.client.rpc.AsyncCallback<de.pellepelster.myadmin.client.base.module.IModule> moduleCallback, java.util.Map<String, Object> parameters) {
+			super(moduleUrl, moduleCallback, parameters);
 		}
 	
 		«FOREACH moduleDefinitionParameters AS moduleDefinitionParameter»
@@ -49,13 +42,12 @@
 			}
 			else
 			{
-				String parameterValue = moduleVO.getProperties().get("«moduleDefinitionParameter.name»");
-				return «EXPAND templates::type::Type::parseSimpleTypeFromString("parameterValue") FOR moduleDefinitionParameter.type»;
+				return null;
 			}
 		}
 		
 		public boolean has«moduleDefinitionParameter.name.toFirstUpper()»() {
-			return (getParameters().containsKey("«moduleDefinitionParameter.name»") || moduleVO.getProperties().containsKey("«moduleDefinitionParameter.name»"));
+			return getParameters().containsKey("«moduleDefinitionParameter.name»");
 		}
 
 		«ENDFOREACH»	
@@ -72,14 +64,9 @@
 		}
 
 		public boolean hasParameter(String parameterName) {
-			return (getParameters().containsKey(parameterName) || moduleVO.getProperties().containsKey(parameterName));
+			return getParameters().containsKey(parameterName);
 		}
 
-		«EXPAND templates::util::Comment::commentInheritedMethodGenerated»
-		public String getModuleName() {
-			return moduleVO.getName();
-		}
-		
 	}
 	«ENDFILE»
 «ENDDEFINE»

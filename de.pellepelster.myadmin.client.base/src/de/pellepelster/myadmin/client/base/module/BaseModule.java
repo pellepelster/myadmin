@@ -14,13 +14,16 @@ public abstract class BaseModule implements IModule
 
 	public static final String MODULE_TITLE_PARAMETER_ID = "moduleTitle";
 
+	private String moduleUrl;
+
 	protected AsyncCallback<IModule> getModuleCallback()
 	{
 		return this.moduleCallback;
 	}
 
-	public BaseModule(AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public BaseModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
+		this.moduleUrl = moduleUrl;
 		this.moduleCallback = moduleCallback;
 		this.parameters = parameters;
 	}
@@ -61,14 +64,8 @@ public abstract class BaseModule implements IModule
 		}
 		else
 		{
-			return getModuleId();
+			return getModuleUrl();
 		}
-	}
-
-	@Override
-	public String getModuleId()
-	{
-		return this.toString();
 	}
 
 	@Override
@@ -84,4 +81,11 @@ public abstract class BaseModule implements IModule
 		}
 
 	}
+
+	@Override
+	public String getModuleUrl()
+	{
+		return this.moduleUrl;
+	}
+
 }

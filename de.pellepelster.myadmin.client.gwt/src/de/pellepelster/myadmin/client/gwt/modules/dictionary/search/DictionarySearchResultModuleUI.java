@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
 import de.pellepelster.myadmin.client.web.entities.dictionary.SearchResultItemVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdateListener;
@@ -34,20 +35,15 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public class DictionarySearchResultModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements
 		ISearchUpdateListener
 {
+	public static final String MODULE_ID = DictionarySearchResultModuleUI.class.getSimpleName();
 
-	public static final String DICTIONARY_SEARCH_RESULT_PANEL_STYLE = "dictionarySearchResultPanel";
+	private static final String DICTIONARY_SEARCH_RESULT_PANEL_STYLE = "dictionarySearchResultPanel";
 
-	public static final String DICTIONARY_SEARCH_RESULT_ITEM_PANEL_STYLE = "dictionarySearchResultItemPanel";
+	private static final String DICTIONARY_SEARCH_RESULT_ITEM_PANEL_STYLE = "dictionarySearchResultItemPanel";
 
-	public static final String DICTIONARY_SEARCH_RESULT_ITEM_TITLE_STYLE = "dictionarySearchResultItemTitle";
+	private static final String DICTIONARY_SEARCH_RESULT_ITEM_TITLE_STYLE = "dictionarySearchResultItemTitle";
 
-	private static final String MODULE_LOCATOR = DictionarySearchModule.MODULE_NAME_PARAMETER_NAME + "=" + DictionarySearchModule.MODULE_ID + "&"
-			+ DictionarySearchModule.QUERY_TEXT_PARAMETER_ID;
-
-	public static String getModuleLocator(String queryText)
-	{
-		return MODULE_LOCATOR + "=" + queryText;
-	}
+	public static final String MODULE_URL = BaseModuleUI.getModuleUrl(DictionarySearchModule.MODULE_ID, MODULE_ID);
 
 	private final VerticalPanel verticalPanel;
 

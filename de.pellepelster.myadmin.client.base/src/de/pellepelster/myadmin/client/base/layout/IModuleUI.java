@@ -20,6 +20,7 @@ package de.pellepelster.myadmin.client.base.layout;
  */
 public interface IModuleUI<ContainerType, ModuleType>
 {
+	static final String UI_MODULE_ID_PARAMETER_NAME = "moduleUIName";
 
 	enum CONTAINER_LAYOUT
 	{

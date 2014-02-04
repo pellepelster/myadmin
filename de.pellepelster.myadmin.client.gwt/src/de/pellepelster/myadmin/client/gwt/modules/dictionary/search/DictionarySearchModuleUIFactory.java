@@ -17,22 +17,22 @@ import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 
-public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> implements IModuleUIFactory<Panel, DictionarySearchModule<VOType>>
+public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> extends BaseModuleUIFactory<Panel, DictionarySearchModule<VOType>>
 {
 
 	@Override
 	public IModuleUI<Panel, DictionarySearchModule<VOType>> getNewInstance(DictionarySearchModule<VOType> module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		if (parameters.containsKey(DictionarySearchModule.SHOW_QUERY_SEARCH_PARAMETER_ID))
+		if (supports(module.getModuleUrl(), DictionarySearchQueryModuleUI.MODULE_ID))
 		{
 			return new DictionarySearchQueryModuleUI<VOType>((DictionarySearchModule) module);
 
 		}
-		else if (parameters.containsKey(DictionarySearchModule.QUERY_TEXT_PARAMETER_ID))
+		else if (supports(module.getModuleUrl(), DictionarySearchResultModuleUI.MODULE_ID))
 		{
 			return new DictionarySearchResultModuleUI<VOType>((DictionarySearchModule) module);
 

@@ -23,8 +23,8 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
 import de.pellepelster.myadmin.client.web.entities.dictionary.SearchResultItemVO;
+import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
@@ -38,8 +38,6 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModu
  */
 public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule implements IBaseDictionaryModule
 {
-	public static final String SHOW_QUERY_SEARCH_PARAMETER_ID = "showQuerySearch";
-
 	public static final String QUERY_TEXT_PARAMETER_ID = "queryText";
 
 	private Optional<IDictionaryModel> dictionaryModel = Optional.absent();
@@ -48,20 +46,12 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 	private String title = MyAdmin.MESSAGES.dictionarySearch();
 
-	public DictionarySearchModule(String dictionaryName, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
-	{
-		super(new ModuleVO(), moduleCallback, parameters);
-
-		init(dictionaryName);
-
-	}
-
-	public DictionarySearchModule(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public DictionarySearchModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
 
-		super(moduleVO, moduleCallback, parameters);
+		super(moduleUrl, moduleCallback, parameters);
 
-		if (hasParameter(this.SEARCHDICTIONARYNAME_PARAMETER_ID))
+		if (BaseModuleFactory.hasUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID))
 		{
 			init(getSearchDictionaryName());
 		}
@@ -108,19 +98,6 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 	public <ElementType> ElementType getElement(BaseModel<ElementType> baseModel)
 	{
 		return DictionaryElementUtil.getElement(this.dictionarySearch.get().getActiveFilter(), baseModel);
-	}
-
-	@Override
-	public String getModuleId()
-	{
-		if (this.dictionaryModel.isPresent())
-		{
-			return this.dictionaryModel.get().getName();
-		}
-		else
-		{
-			return super.getModuleId();
-		}
 	}
 
 	public IDictionaryModel getDictionaryModel()

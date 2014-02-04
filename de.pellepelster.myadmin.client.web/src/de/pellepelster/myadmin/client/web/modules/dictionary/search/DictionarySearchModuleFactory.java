@@ -17,11 +17,10 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.entities.dictionary.ModuleVO;
-import de.pellepelster.myadmin.client.web.module.IModuleFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
-public class DictionarySearchModuleFactory implements IModuleFactory
+public class DictionarySearchModuleFactory extends BaseModuleFactory
 {
 
 	public static void openSearch(String dictionaryName, HashMap<String, Object> parameters)
@@ -62,9 +61,15 @@ public class DictionarySearchModuleFactory implements IModuleFactory
 
 	/** {@inheritDoc} */
 	@Override
-	public void getNewInstance(ModuleVO moduleVO, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
+	public void getNewInstance(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		new DictionarySearchModule(moduleVO, moduleCallback, parameters);
+		new DictionarySearchModule(moduleUrl, moduleCallback, parameters);
+	}
+
+	@Override
+	public boolean supports(String moduleUrl)
+	{
+		return supports(moduleUrl, DictionarySearchModule.MODULE_ID);
 	}
 
 }
