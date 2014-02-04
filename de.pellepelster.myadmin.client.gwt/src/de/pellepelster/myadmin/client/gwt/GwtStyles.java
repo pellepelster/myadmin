@@ -23,15 +23,13 @@ public interface GwtStyles
 
 	String CELL_ERROR_DISPLAY_PADDING = "padding: 3px;";
 
-	String EDITOR_TITLE = "editor-title";
-
 	String DEBUG_BORDER = "ydebug-border";
 
 	String MODULE = "module";
 
 	String CONTROL_ERROR_STYLE = "control-error";
 
-	String SEARCH_TITLE = "search-title";
+	String TITLE = "title";
 
 	String H1_CLASS = "h1";
 

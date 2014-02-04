@@ -16,6 +16,7 @@ import de.pellepelster.myadmin.client.web.ISystemServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IModuleServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.IUserServiceGWTAsync;
+import de.pellepelster.myadmin.client.web.services.search.IDictionarySearchServiceGWTAsync;
 import de.pellepelster.myadmin.client.web.services.vo.IBaseEntityServiceGWTAsync;
 
 public class TestMyAdminRemoteServiceLocator implements IMyAdminGWTRemoteServiceLocator
@@ -61,6 +62,12 @@ public class TestMyAdminRemoteServiceLocator implements IMyAdminGWTRemoteService
 
 	@Override
 	public ISystemServiceGWTAsync getSystemService()
+	{
+		return null;
+	}
+
+	@Override
+	public IDictionarySearchServiceGWTAsync getDictionarySearchService()
 	{
 		return null;
 	}

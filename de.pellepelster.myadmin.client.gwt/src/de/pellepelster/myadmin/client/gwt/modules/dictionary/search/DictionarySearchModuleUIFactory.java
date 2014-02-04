@@ -27,7 +27,20 @@ public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> implements 
 	public IModuleUI<Panel, DictionarySearchModule<VOType>> getNewInstance(DictionarySearchModule<VOType> module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new DictionarySearchModuleUI((DictionarySearchModule) module);
-	}
+		if (parameters.containsKey(DictionarySearchModule.SHOW_QUERY_SEARCH_PARAMETER_ID))
+		{
+			return new DictionarySearchQueryModuleUI<VOType>((DictionarySearchModule) module);
 
+		}
+		else if (parameters.containsKey(DictionarySearchModule.QUERY_TEXT_PARAMETER_ID))
+		{
+			return new DictionarySearchResultModuleUI<VOType>((DictionarySearchModule) module);
+
+		}
+
+		else
+		{
+			return new DictionarySearchModuleUI((DictionarySearchModule) module);
+		}
+	}
 }

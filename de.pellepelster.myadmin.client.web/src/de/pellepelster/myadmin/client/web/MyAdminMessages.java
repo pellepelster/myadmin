@@ -91,6 +91,9 @@ public interface MyAdminMessages extends Messages
 	@DefaultMessage("Search")
 	String searchSearch();
 
+	@DefaultMessage("Search results for \"{0}\"")
+	String dictionarySearchResults(String query);
+
 	@DefaultMessage("Search for {0}")
 	String searchTitle(String dictionaryName);
 
@@ -114,5 +117,8 @@ public interface MyAdminMessages extends Messages
 
 	@DefaultMessage("{0}")
 	String panelTitle(String title);
+
+	@DefaultMessage("Search")
+	String dictionarySearch();
 
 }

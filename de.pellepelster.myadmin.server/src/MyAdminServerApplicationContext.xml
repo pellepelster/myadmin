@@ -22,9 +22,10 @@
 
 	<tx:annotation-driven />
 
+	<bean class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
+
 	<!-- 
 		<context:component-scan base-package="de.pellepelster.myadmin.server" />
-	<bean class="de.pellepelster.myadmin.server.services.dictionary.DictionaryMetaDataService" />
 
 		<tx:advice id="txAdvice" transaction-manager="transactionManager"> <tx:attributes> <tx:method name="get*" read-only="true"/> 
 		<tx:method name="*" propagation="REQUIRED" /> </tx:attributes> </tx:advice> <aop:config> <aop:pointcut id="baseVODAo" expression="execution(* 

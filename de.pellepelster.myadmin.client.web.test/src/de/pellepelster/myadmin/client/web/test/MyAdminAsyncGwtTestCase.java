@@ -120,6 +120,6 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 			}
 		}));
 
-		delayTestFinish(2000);
+		delayTestFinish(10000);
 	}
 }

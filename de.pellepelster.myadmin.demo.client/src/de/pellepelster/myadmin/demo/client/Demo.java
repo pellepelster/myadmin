@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.search.DictionarySearchQueryModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
@@ -27,6 +28,8 @@ public class Demo implements EntryPoint
 				HierarchicalTreeModule.getParameterMap(TestClientHierarchicalConfiguration.ID, false));
 
 		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
+
+		MyAdmin.getInstance().startModule(DictionarySearchQueryModuleUI.MODULE_LOCATOR, Direction.WEST.toString());
 
 		init();
 	}

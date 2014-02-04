@@ -346,10 +346,11 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 					simpletype String ^label
 				}		
 
-				entity SearchIndexItem 
+				entity SearchResultItem 
 				{
-					simpletype String ^type
+					simpletype String ^title
 					simpletype String ^text
+					simpletype String ^moduleUrl
 				}		
 
 
@@ -357,9 +358,20 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 		}
 		
 		package services {
-	
+
 			import de.pellepelster.myadmin.entities.^dictionary.*
 
+			package search {
+			
+				remoteservice DictionarySearchService {
+		
+					remotemethod search returns reference SearchResultItem* {
+						simpletype String query
+					}
+	
+				}
+			}
+	
 			remoteservice HierachicalService {
 	
 				remotemethod getRootNodes returns reference DictionaryHierarchicalNode* {
@@ -387,6 +399,7 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 			}
 	
 			package vo {
+			
 				remoteservice BaseEntityService {
 		
 					remotemethod getNewVO returns myadmintype IBaseVO {
@@ -500,6 +513,9 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 							type String
 						} 
 					}
+				}
+
+				moduledefinition DictionaryQuery {
 				}
 	
 				moduledefinition DictionaryEditor {

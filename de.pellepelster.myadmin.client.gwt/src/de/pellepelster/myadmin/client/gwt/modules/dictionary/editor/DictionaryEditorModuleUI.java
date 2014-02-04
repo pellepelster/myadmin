@@ -67,7 +67,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		// - title -------------------------------------------------------------
 		editorTitle = new HTML(editorModule.getTitle());
-		editorTitle.addStyleName(GwtStyles.EDITOR_TITLE);
+		editorTitle.addStyleName(GwtStyles.TITLE);
 		verticalPanel.add(editorTitle);
 
 		DictionaryEditorPanel<VOType> dictionaryEditorPanel = new DictionaryEditorPanel<VOType>(getModule());

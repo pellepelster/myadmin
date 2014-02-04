@@ -28,6 +28,7 @@ import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.Enume
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.IntegerControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.ReferenceControlTestAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.controls.TextControlTestAsyncHelper;
+import de.pellepelster.myadmin.demo.client.web.DemoClientConfiguration;
 import de.pellepelster.myadmin.demo.client.web.dictionaries.DemoDictionaryModel;
 import de.pellepelster.myadmin.demo.client.web.test1.Test1VO;
 import de.pellepelster.myadmin.demo.client.web.test1.Test3VO;
@@ -44,6 +45,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testEditableTableBase()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		final EditableTableTestAsyncHelper<Test3VO> editableTable = editor
@@ -59,6 +62,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testIntegerControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		IntegerControlTestAsyncHelper integerControl = editor
@@ -70,6 +75,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testReferenceControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		ReferenceControlTestAsyncHelper referenceControl = editor
@@ -81,6 +88,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testEnumerationControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		EnumerationControlTestAsyncHelper enumerationControl = editor
@@ -92,6 +101,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testDateControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		DateControlTestAsyncHelper dateControl = editor
@@ -115,6 +126,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testBooleanControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		BooleanControlTestAsyncHelper booleanControl = editor
@@ -126,6 +139,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testBigDecimalControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		BigDecimalControlTestAsyncHelper bigDecimalControl = editor
@@ -145,6 +160,8 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 	@Test
 	public void testTextControl()
 	{
+		DemoClientConfiguration.registerAll();
+
 		DictionaryEditorModuleTestUIAsyncHelper<Test1VO> editor = openEditor(DemoDictionaryModel.DICTIONARY1);
 
 		// text control

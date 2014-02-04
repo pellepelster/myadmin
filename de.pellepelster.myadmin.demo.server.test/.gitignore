@@ -13,3 +13,4 @@ derby.log
 /build.test.base.xml
 /build.xml
 /ivy.xml
+/data

@@ -93,6 +93,8 @@ public final class ModuleHandler
 
 			if (locatorSegments.containsKey(IModule.MODULE_NAME_PARAMETER_NAME))
 			{
+				parameters.putAll(locatorSegments);
+
 				startModuleByName(locatorSegments.get(IModule.MODULE_NAME_PARAMETER_NAME), parameters, moduleAsyncCallback);
 			}
 			else if (locatorSegments.containsKey(IModule.MODULE_ID_PARAMETER_NAME))

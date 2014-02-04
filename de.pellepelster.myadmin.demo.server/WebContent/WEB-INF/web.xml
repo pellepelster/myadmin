@@ -24,6 +24,7 @@
 			classpath:MyAdminServerApplicationContextServices-gen.xml, 
 			classpath:MyAdminServerApplicationContext.xml, 
 			classpath:MyAdminRestServices-gen.xml, 
+			classpath:DemoServerWebApplicationContext.xml, 
 			classpath:DemoServerApplicationContext.xml, 
 			classpath:DemoServerApplicationContext-gen.xml, 
 			classpath:DemoServerApplicationContextServices-gen.xml, 

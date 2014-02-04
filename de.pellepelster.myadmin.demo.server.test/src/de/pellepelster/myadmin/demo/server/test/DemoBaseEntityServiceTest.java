@@ -96,6 +96,8 @@ public final class DemoBaseEntityServiceTest extends BaseDemoTest
 	@Test
 	public void testInheritanceCreate()
 	{
+		this.baseEntityService.deleteAll(TestEntity1VO.class.getName());
+
 		TestEntity1VO testEntity1VO = new TestEntity1VO();
 		testEntity1VO.setString1("aaa");
 		testEntity1VO.setString2("bbb");

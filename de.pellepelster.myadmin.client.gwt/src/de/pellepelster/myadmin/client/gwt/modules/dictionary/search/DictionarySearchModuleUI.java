@@ -63,7 +63,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 
 		// - title -------------------------------------------------------------
 		searchTitle = new HTML(module.getTitle());
-		searchTitle.addStyleName(GwtStyles.SEARCH_TITLE);
+		searchTitle.addStyleName(GwtStyles.TITLE);
 		verticalPanel.add(searchTitle);
 
 		// searchModel.getResultModel()

@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IAssignmentTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IBaseContainerModel;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.containers.IEditableTableModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.IBaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.search.IFilterModel;
 
@@ -26,7 +28,10 @@ public class DictionaryModelQuery
 
 	private void recurseContainerModels(List<IBaseControlModel> controlModels, IBaseContainerModel baseContainerModel)
 	{
-		controlModels.addAll(baseContainerModel.getControls());
+		if (!(baseContainerModel instanceof IEditableTableModel) && !(baseContainerModel instanceof IAssignmentTableModel))
+		{
+			controlModels.addAll(baseContainerModel.getControls());
+		}
 
 		if (!baseContainerModel.getChildren().isEmpty())
 		{

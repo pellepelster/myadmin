@@ -6,3 +6,4 @@ derby.log
 /test
 /lib
 junit*.properties
+/data
