@@ -2,10 +2,16 @@ package de.pellepelster.myadmin.client.base.module;
 
 import java.util.Map;
 
+import com.google.common.base.Splitter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public abstract class BaseModule implements IModule
 {
+	public static final String getBaseModuleUrl(String moduleId)
+	{
+		return MODULE_ID_PARAMETER_NAME + "=" + moduleId;
+	}
+
 	private final AsyncCallback<IModule> moduleCallback;
 
 	protected final Map<String, Object> parameters;
@@ -26,6 +32,9 @@ public abstract class BaseModule implements IModule
 		this.moduleUrl = moduleUrl;
 		this.moduleCallback = moduleCallback;
 		this.parameters = parameters;
+
+		Map<String, String> urlSegments = Splitter.on("&").withKeyValueSeparator("=").split(moduleUrl);
+		parameters.putAll(urlSegments);
 	}
 
 	/** {@inheritDoc} */

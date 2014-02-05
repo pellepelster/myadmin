@@ -21,6 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
+import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
@@ -37,6 +38,14 @@ import de.pellepelster.myadmin.client.web.services.IHierachicalServiceGWTAsync;
 
 public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 {
+
+	private final static String MODULE_LOCATOR = BaseModule.getBaseModuleUrl(MODULE_ID);
+
+	public final static String getModuleLocator(String hierarchicalTreeId)
+	{
+		return MODULE_LOCATOR + "&" + HIERARCHICALTREEID_PARAMETER_ID + "=" + hierarchicalTreeId;
+	}
+
 	private HierarchicalConfigurationVO hierarchicalConfiguration;
 
 	private final SimpleCallback<DictionaryHierarchicalNodeVO> nodeActivatedHandler = new SimpleCallback<DictionaryHierarchicalNodeVO>()
@@ -58,7 +67,7 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 
 	public HierarchicalTreeModule(String moduleUrl, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(null, moduleCallback, parameters);
+		super(moduleUrl, moduleCallback, parameters);
 
 		final IHierachicalServiceGWTAsync hierachicalService = MyAdmin.getInstance().getRemoteServiceLocator().getHierachicalService();
 

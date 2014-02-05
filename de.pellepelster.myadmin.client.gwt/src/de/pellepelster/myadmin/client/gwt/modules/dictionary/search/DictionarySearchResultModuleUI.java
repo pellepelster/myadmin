@@ -35,7 +35,7 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public class DictionarySearchResultModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements
 		ISearchUpdateListener
 {
-	public static final String MODULE_ID = DictionarySearchResultModuleUI.class.getSimpleName();
+	public static final String MODULE_ID = DictionarySearchResultModuleUI.class.getName();
 
 	private static final String DICTIONARY_SEARCH_RESULT_PANEL_STYLE = "dictionarySearchResultPanel";
 

@@ -36,8 +36,9 @@ public class DictionarySearchModuleFactory extends BaseModuleFactory
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void openSearchInternal(String dictionaryName, final Map<String, Object> parameters)
 	{
+		String moduleUrl = DictionarySearchModule.getModuleUrlForDictionary(dictionaryName);
 
-		new DictionarySearchModule(dictionaryName, new AsyncCallback<IModule>()
+		new DictionarySearchModule(moduleUrl, new AsyncCallback<IModule>()
 		{
 
 			/** {@inheritDoc} */

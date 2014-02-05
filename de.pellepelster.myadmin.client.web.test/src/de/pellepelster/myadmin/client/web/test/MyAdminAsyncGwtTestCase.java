@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -110,6 +111,7 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 	{
 		AsyncTestItem asyncTestItem = this.asyncTestItems.removeFirst();
 
+		GWT.log("runnung async test item '" + asyncTestItem.toString() + "'");
 		asyncTestItem.run(new RecursiveAsyncCallback(this.asyncTestItems, new BaseErrorAsyncCallback<Object>()
 		{
 			@Override

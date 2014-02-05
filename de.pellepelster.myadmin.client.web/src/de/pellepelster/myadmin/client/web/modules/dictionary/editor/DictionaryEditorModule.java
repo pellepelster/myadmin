@@ -43,30 +43,25 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule implements IBaseDictionaryModule
 {
 
+	public static final String getModuleUrlForDictionary(String dictionaryName)
+	{
+		return getBaseModuleUrl(MODULE_ID) + "&" + EDITORDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
+	}
+
 	public enum EditorMode
 	{
 		INSERT, UPDATE;
 	}
 
-	public static final String DICTIONARY_PARAMETER_NAME = "Dictionary";
-
 	private DictionaryEditor<VOType> dictionaryEditor;
 
 	private IDictionaryModel dictionaryModel;
-
-	public DictionaryEditorModule(IDictionaryModel dictionaryModel, long voId, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
-	{
-		super(null, moduleCallback, parameters);
-
-		init(dictionaryModel.getName());
-
-	}
 
 	public DictionaryEditorModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
 		super(moduleUrl, moduleCallback, parameters);
 
-		init(BaseModuleFactory.getUrlParameter(moduleUrl, DICTIONARY_PARAMETER_NAME));
+		init(BaseModuleFactory.getUrlParameter(moduleUrl, EDITORDICTIONARYNAME_PARAMETER_ID));
 	}
 
 	@Override

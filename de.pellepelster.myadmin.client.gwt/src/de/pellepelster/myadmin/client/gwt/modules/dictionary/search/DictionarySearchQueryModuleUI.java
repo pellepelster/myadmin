@@ -36,7 +36,7 @@ public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseD
 		ISearchUpdateListener
 {
 
-	public static final String MODULE_ID = DictionarySearchQueryModuleUI.class.getSimpleName();
+	public static final String MODULE_ID = DictionarySearchQueryModuleUI.class.getName();
 
 	public static final String DICTIONARY_SEARCH_INPUT_PANEL_STYLE = "dictionarySearchInputPanel";
 

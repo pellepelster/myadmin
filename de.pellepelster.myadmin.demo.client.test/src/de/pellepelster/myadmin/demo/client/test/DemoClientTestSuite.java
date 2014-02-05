@@ -24,7 +24,7 @@ public class DemoClientTestSuite extends GWTTestSuite
 
 		suite.addTestSuite(DemoClientCityTest.class);
 		suite.addTestSuite(DemoClientDictionary1Test.class);
-		suite.addTestSuite(DemoClientNavigationTest.class);
+		// suite.addTestSuite(DemoClientNavigationTest.class);
 
 		return suite;
 	}

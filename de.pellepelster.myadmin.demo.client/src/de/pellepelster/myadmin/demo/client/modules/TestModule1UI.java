@@ -32,7 +32,7 @@ public class TestModule1UI extends BaseModuleUI<TestModule1>
 	@Override
 	public String getTitle()
 	{
-		return getModule().getModuleName();
+		return getModule().getTitle();
 	}
 
 }

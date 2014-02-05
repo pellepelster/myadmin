@@ -38,6 +38,12 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModu
  */
 public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule implements IBaseDictionaryModule
 {
+
+	public static final String getModuleUrlForDictionary(String dictionaryName)
+	{
+		return getBaseModuleUrl(MODULE_ID) + "&" + SEARCHDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
+	}
+
 	public static final String QUERY_TEXT_PARAMETER_ID = "queryText";
 
 	private Optional<IDictionaryModel> dictionaryModel = Optional.absent();

@@ -39,9 +39,10 @@ public class MyAdminGwtTest implements EntryPoint
 		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
 		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PCT));
 
-		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_ID, Direction.WEST.toString());
-		MyAdmin.getInstance().startModule(HierarchicalTreeModule.MODULE_ID, Direction.WEST.toString(),
-				HierarchicalTreeModule.getParameterMap(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1, true));
+		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
+		MyAdmin.getInstance().startModule(HierarchicalTreeModule.getModuleLocator(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1),
+				Direction.WEST.toString());
+		;
 
 	}
 

@@ -113,21 +113,21 @@ public final class MyAdmin implements EntryPoint
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
 	}
 
-	public void startModule(String moduleId, String location)
+	public void startModule(String moduleUrl, String location)
 	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
-		startModule(moduleId, location, parameters);
+		startModule(moduleUrl, location, parameters);
 	}
 
-	public void startModule(String moduleId, String location, Map<String, Object> parameters)
+	public void startModule(String moduleUrl, String location, Map<String, Object> parameters)
 	{
-		ModuleHandler.getInstance().startModule(moduleId, location, parameters);
+		ModuleHandler.getInstance().startModule(moduleUrl, location, parameters);
 	}
 
-	public void startModule(String moduleId, String location, Map<String, Object> parameters, String d)
+	public void startModule(String moduleUrl, String location, Map<String, Object> parameters, String d)
 	{
-		ModuleHandler.getInstance().startModule(moduleId, location, parameters);
+		ModuleHandler.getInstance().startModule(moduleUrl, location, parameters);
 	}
 
 }

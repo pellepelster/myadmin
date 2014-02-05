@@ -17,6 +17,7 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
@@ -24,12 +25,13 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
+	public final static String MODULE_LOCATOR = BaseModule.getBaseModuleUrl(MODULE_ID);
 
 	public final static Resources RESOURCES = ((Resources) GWT.create(Resources.class));;
 
 	public ModuleNavigationModule(String moduleUrl, AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)
 	{
-		super(null, moduleCallback, parameters);
+		super(moduleUrl, moduleCallback, parameters);
 
 		getModuleCallback().onSuccess(this);
 	}

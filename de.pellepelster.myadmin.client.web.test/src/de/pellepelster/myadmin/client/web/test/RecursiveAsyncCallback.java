@@ -2,6 +2,7 @@ package de.pellepelster.myadmin.client.web.test;
 
 import java.util.LinkedList;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase.AsyncTestItem;
@@ -31,7 +32,9 @@ public class RecursiveAsyncCallback implements AsyncCallback<Object>
 	{
 		if (!this.asyncTestItems.isEmpty())
 		{
-			this.asyncTestItems.removeFirst().run(new RecursiveAsyncCallback(this.asyncTestItems, this.finalCallback));
+			AsyncTestItem asyncTestItem = this.asyncTestItems.removeFirst();
+			GWT.log("runnung async test item '" + asyncTestItem.toString() + "'");
+			asyncTestItem.run(new RecursiveAsyncCallback(this.asyncTestItems, this.finalCallback));
 		}
 		else
 		{

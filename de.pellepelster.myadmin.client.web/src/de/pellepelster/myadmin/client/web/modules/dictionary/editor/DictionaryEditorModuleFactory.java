@@ -35,8 +35,9 @@ public class DictionaryEditorModuleFactory extends BaseModuleFactory
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void openEditorInternal(String dictionaryName, final Map<String, Object> parameters)
 	{
+		String moduleUrl = DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName);
 
-		new DictionaryEditorModule(dictionaryName, new AsyncCallback<IModule>()
+		new DictionaryEditorModule(moduleUrl, new AsyncCallback<IModule>()
 		{
 
 			/** {@inheritDoc} */

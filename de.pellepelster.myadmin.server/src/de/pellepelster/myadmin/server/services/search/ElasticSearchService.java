@@ -6,6 +6,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -26,6 +27,8 @@ import de.pellepelster.myadmin.db.index.ISearchService;
 
 public class ElasticSearchService implements ISearchService
 {
+	private final static Logger LOG = Logger.getLogger(ElasticSearchService.class);
+
 	private final Client client;
 
 	private static final String INDEX_NAME = "myadmin-dictionary";
@@ -47,9 +50,10 @@ public class ElasticSearchService implements ISearchService
 	@Override
 	public void add(IDictionarySearchElement element)
 	{
+		XContentBuilder contentBuilder = null;
 		try
 		{
-			XContentBuilder contentBuilder = jsonBuilder().startObject();
+			contentBuilder = jsonBuilder().startObject();
 
 			for (Map.Entry<String, Object> fieldEntry : element.getFields().entrySet())
 			{
@@ -57,11 +61,12 @@ public class ElasticSearchService implements ISearchService
 			}
 
 			contentBuilder.endObject();
+
 			IndexResponse response = this.client.prepareIndex(INDEX_NAME, element.getType(), element.getId()).setSource(contentBuilder).execute().actionGet();
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException(e);
+			LOG.error(String.format("error indexing '%s'", contentBuilder), e);
 		}
 	}
 
