@@ -53,6 +53,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getTextControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getTextControlTest(" + controlModel.getName() + ")";
+			}
 		});
 
 		return new TextControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
@@ -69,6 +75,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			{
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getBigDecimalControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getBigDecimalControlTest(" + controlModel.getName() + ")";
 			}
 		});
 
@@ -87,6 +99,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getBooleanControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getBooleanControlTest(" + controlModel.getName() + ")";
+			}
 		});
 
 		return new BooleanControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
@@ -104,6 +122,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getDateControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getDateControlTest(" + controlModel.getName() + ")";
+			}
 		});
 
 		return new DateControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
@@ -120,6 +144,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			{
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getIntegerControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getIntegerControlTest(" + controlModel.getName() + ")";
 			}
 		});
 
@@ -139,13 +169,18 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 						.put(uuid, getAsyncTestItemResult().getEnumerationControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getEnumerationControlTest(" + controlModel.getName() + ")";
+			}
 		});
 
 		return new EnumerationControlTestAsyncHelper(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
 	}
 
-	public <ReferenceVOType extends IBaseVO> ReferenceControlTestAsyncHelper getReferenceControlTest(
-			final ReferenceControlModel<ReferenceVOType> controlModel)
+	public <ReferenceVOType extends IBaseVO> ReferenceControlTestAsyncHelper getReferenceControlTest(final ReferenceControlModel<ReferenceVOType> controlModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -156,6 +191,12 @@ public class BaseDictionaryModuleTestUIAsyncHelper<T extends BaseDictionaryModul
 			{
 				BaseDictionaryModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getReferenceControlTest(controlModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getReferenceControlTest(" + controlModel.getName() + ")";
 			}
 		});
 

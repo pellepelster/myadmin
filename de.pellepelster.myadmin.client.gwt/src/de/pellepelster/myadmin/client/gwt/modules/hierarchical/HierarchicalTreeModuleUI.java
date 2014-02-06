@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.hierarchical;
 
+import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -27,8 +28,8 @@ public class HierarchicalTreeModuleUI extends BaseModuleUI<HierarchicalTreeModul
 
 		verticalPanel = new VerticalPanel();
 
-		HierarchicalTree hierarchicalTree = new HierarchicalTree(module.getHierarchicalConfiguration(), getModule().getShowAddNodes(), getModule()
-				.getNodeActivatedHandler());
+		HierarchicalTree hierarchicalTree = new HierarchicalTree(module.getHierarchicalConfiguration(), Optional.fromNullable(getModule().getShowAddNodes())
+				.or(true), getModule().getNodeActivatedHandler());
 		verticalPanel.add(hierarchicalTree);
 	}
 

@@ -40,7 +40,7 @@ public class DemoClientNavigationTest extends GWTTestCase
 		public void onSuccess(List<NavigationTreeTestElement> result)
 		{
 			// TODO reactivate tests
-			// result.assertChildrenCount(2);
+			assertFalse(result.isEmpty());
 			// result.assertChildNavigationText(0, "Masterdata");
 			// result.assertChildNavigationText(1, "Test");
 			finishTest();
@@ -60,6 +60,8 @@ public class DemoClientNavigationTest extends GWTTestCase
 	@Ignore
 	public void testNavigationTree()
 	{
+		delayTestFinish(10000);
+
 		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, NavigationModuleTestUI.class, Direction.WEST.toString(),
 				new NavigationModuleTest());
 

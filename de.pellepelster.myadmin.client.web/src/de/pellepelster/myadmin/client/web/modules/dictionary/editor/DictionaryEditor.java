@@ -161,6 +161,7 @@ public class DictionaryEditor<VOType extends IBaseVO> extends BaseRootElement<IE
 			}
 			else
 			{
+				// TODO shoudl return clean for junit/UI?
 				// DictionaryEditorModule.this.dataBindingContext.addValidationMessages(result.getValidationMessages());
 			}
 

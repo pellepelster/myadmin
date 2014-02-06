@@ -35,6 +35,12 @@ public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAs
 				});
 
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "add";
+			}
 		});
 	}
 
@@ -55,6 +61,12 @@ public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAs
 				});
 
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "delete";
+			}
 		});
 	}
 
@@ -68,6 +80,13 @@ public class EditableTableTestAsyncHelper<VOTYpe extends IBaseVO> extends BaseAs
 				getAsyncTestItemResult().assertRowCount(expectedRowCount);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertRowCount(" + expectedRowCount + ")";
+			}
+
 		});
 	}
 

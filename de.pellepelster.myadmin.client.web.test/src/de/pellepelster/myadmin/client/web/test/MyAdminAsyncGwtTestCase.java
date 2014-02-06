@@ -25,6 +25,8 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 	public interface AsyncTestItem
 	{
 		void run(AsyncCallback<Object> asyncCallback);
+
+		String getDescription();
 	};
 
 	private LinkedList<AsyncTestItem> asyncTestItems = new LinkedList<AsyncTestItem>();
@@ -52,6 +54,12 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 					}
 				});
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "deleteAllVOs(" + voClass + ")";
+			}
 		});
 
 		return this;
@@ -75,6 +83,12 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 						asyncCallback.onSuccess(result);
 					}
 				});
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "openSearch(" + baseModel.getName() + ")";
 			}
 		});
 
@@ -102,6 +116,12 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 				});
 				DictionaryEditorModuleFactory.openEditor(baseModel.getName());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "openEditor(" + baseModel.getName() + ")";
+			}
 		});
 
 		return new DictionaryEditorModuleTestUIAsyncHelper<VOType>(uuid, this.asyncTestItems, this.asyncTestItemResults);
@@ -120,8 +140,9 @@ public abstract class MyAdminAsyncGwtTestCase<VOType extends IBaseVO> extends GW
 				MyAdminAsyncGwtTestCase.this.asyncTestItemResults.clear();
 				finishTest();
 			}
+
 		}));
 
-		delayTestFinish(10000);
+		delayTestFinish(1000 * 60 * 5);
 	}
 }

@@ -26,6 +26,12 @@ public class DateControlTestAsyncHelper extends BaseControlTestAsyncHelper<DateC
 				getAsyncTestItemResult().assertValueWithoutMillies(expectedValue);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertValueWithoutMillies(" + expectedValue + ")";
+			}
 		});
 	}
 

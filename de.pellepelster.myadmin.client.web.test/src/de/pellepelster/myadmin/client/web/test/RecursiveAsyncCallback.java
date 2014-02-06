@@ -33,7 +33,7 @@ public class RecursiveAsyncCallback implements AsyncCallback<Object>
 		if (!this.asyncTestItems.isEmpty())
 		{
 			AsyncTestItem asyncTestItem = this.asyncTestItems.removeFirst();
-			GWT.log("runnung async test item '" + asyncTestItem.toString() + "'");
+			GWT.log("running async test item '" + asyncTestItem.getDescription() + "'");
 			asyncTestItem.run(new RecursiveAsyncCallback(this.asyncTestItems, this.finalCallback));
 		}
 		else

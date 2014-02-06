@@ -43,6 +43,13 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 				getAsyncTestItemResult().assertTitle(expectedTitle);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertTitle(" + expectedTitle + ")";
+			}
+
 		});
 	}
 
@@ -56,6 +63,13 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 				getAsyncTestItemResult().assertHasNoErrors();
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertHasNoErrors";
+			}
+
 		});
 	}
 
@@ -69,11 +83,17 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 				getAsyncTestItemResult().assertHasErrors(errorCount);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertHasErrors(" + errorCount + ")";
+			}
+
 		});
 	}
 
-	public <TableVOType extends IBaseVO> EditableTableTestAsyncHelper<TableVOType> getEditableTableTest(
-			final EditableTableModel<TableVOType> tableModel)
+	public <TableVOType extends IBaseVO> EditableTableTestAsyncHelper<TableVOType> getEditableTableTest(final EditableTableModel<TableVOType> tableModel)
 	{
 		final String uuid = UUID.uuid();
 
@@ -82,10 +102,16 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 			@Override
 			public void run(AsyncCallback<Object> asyncCallback)
 			{
-				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults()
-						.put(uuid, getAsyncTestItemResult().getEditableTableTest(tableModel));
+				DictionaryEditorModuleTestUIAsyncHelper.this.getAsyncTestItemResults().put(uuid, getAsyncTestItemResult().getEditableTableTest(tableModel));
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "getEditableTableTest";
+			}
+
 		});
 
 		return new EditableTableTestAsyncHelper<TableVOType>(uuid, this.getAsyncTestItems(), this.getAsyncTestItemResults());
@@ -108,6 +134,13 @@ public class DictionaryEditorModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 					}
 				});
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "save";
+			}
+
 		});
 	}
 }

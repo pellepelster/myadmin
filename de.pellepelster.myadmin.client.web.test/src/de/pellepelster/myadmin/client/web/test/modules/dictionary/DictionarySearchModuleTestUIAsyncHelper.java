@@ -39,6 +39,12 @@ public class DictionarySearchModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 				getAsyncTestItemResult().assertTitle(expectedTitle);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertTitle(" + expectedTitle + ")";
+			}
 		});
 	}
 
@@ -51,6 +57,12 @@ public class DictionarySearchModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 			{
 				getAsyncTestItemResult().assertResultCount(expectedResultCount);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertResultCount(" + expectedResultCount + ")";
 			}
 		});
 	}
@@ -70,6 +82,12 @@ public class DictionarySearchModuleTestUIAsyncHelper<VOType extends IBaseVO> ext
 						asyncCallback.onSuccess(getAsyncTestItemResult());
 					}
 				});
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "execute";
 			}
 		});
 	}

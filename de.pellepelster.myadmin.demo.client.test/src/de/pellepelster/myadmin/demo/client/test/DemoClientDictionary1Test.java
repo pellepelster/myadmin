@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
+import de.pellepelster.myadmin.client.base.db.vos.UUID;
 import de.pellepelster.myadmin.client.web.test.MyAdminAsyncGwtTestCase;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIAsyncHelper;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.container.EditableTableTestAsyncHelper;
@@ -177,13 +178,15 @@ public class DemoClientDictionary1Test extends MyAdminAsyncGwtTestCase<Test1VO>
 		textControl.assertHasErrorWithText("Input is needed for field \"TextControl1\"");
 		editor.assertHasErrors(1);
 
-		textControl.setValue("text1");
+		String text = UUID.uuid();
+
+		textControl.setValue(text);
 		textControl.assertHasNoErrors();
 		editor.assertHasErrors(0);
 
 		editor.save();
 
-		editor.assertTitle("Dictionary1 text1");
+		editor.assertTitle("Dictionary1 " + text);
 
 		runAsyncTests();
 	}

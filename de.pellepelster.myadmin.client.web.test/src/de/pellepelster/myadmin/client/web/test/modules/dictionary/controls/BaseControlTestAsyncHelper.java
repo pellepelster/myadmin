@@ -28,6 +28,13 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 				getAsyncTestItemResult().setValue(value);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "setValue(" + value + ")";
+			}
+
 		});
 	}
 
@@ -40,6 +47,12 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 			{
 				getAsyncTestItemResult().assertValue(expectedValue);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertValue(" + expectedValue + ")";
 			}
 		});
 	}
@@ -54,6 +67,12 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 				getAsyncTestItemResult().parse(valueString);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "parse(" + valueString + ")";
+			}
 		});
 	}
 
@@ -67,6 +86,13 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 				getAsyncTestItemResult().assertMandatory();
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertMandatory";
+			}
+
 		});
 	}
 
@@ -80,7 +106,14 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 				getAsyncTestItemResult().assertHasNoErrors();
 				asyncCallback.onSuccess(getAsyncTestItemResult());
 			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertHasNoErrors";
+			}
 		});
+
 	}
 
 	public void assertHasErrorWithText(final String text)
@@ -92,6 +125,12 @@ public abstract class BaseControlTestAsyncHelper<T extends BaseControlTest<? ext
 			{
 				getAsyncTestItemResult().assertHasErrorWithText(text);
 				asyncCallback.onSuccess(getAsyncTestItemResult());
+			}
+
+			@Override
+			public String getDescription()
+			{
+				return "assertHasErrorWithText(" + text + ")";
 			}
 		});
 	}
