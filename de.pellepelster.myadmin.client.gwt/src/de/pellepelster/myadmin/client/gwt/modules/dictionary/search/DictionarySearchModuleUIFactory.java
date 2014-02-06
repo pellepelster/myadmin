@@ -38,9 +38,11 @@ public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> extends Bas
 
 		}
 
-		else
+		else if (supports(module.getModuleUrl(), DictionarySearchModuleUI.MODULE_ID))
 		{
 			return new DictionarySearchModuleUI((DictionarySearchModule) module);
 		}
+
+		return null;
 	}
 }

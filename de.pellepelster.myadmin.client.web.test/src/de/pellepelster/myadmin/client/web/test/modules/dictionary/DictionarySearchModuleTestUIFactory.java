@@ -14,10 +14,10 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 
-public class DictionarySearchModuleTestUIFactory implements IModuleUIFactory<Object, DictionarySearchModule<?>>
+public class DictionarySearchModuleTestUIFactory extends BaseModuleUIFactory<Object, DictionarySearchModule<?>>
 {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -25,7 +25,13 @@ public class DictionarySearchModuleTestUIFactory implements IModuleUIFactory<Obj
 	public IModuleUI<Object, DictionarySearchModule<?>> getNewInstance(DictionarySearchModule<?> module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new DictionarySearchModuleTestUI(module);
+
+		if (supports(module.getModuleUrl(), DictionarySearchModuleTestUI.MODULE_ID))
+		{
+			return new DictionarySearchModuleTestUI(module);
+		}
+
+		return null;
 	}
 
 }

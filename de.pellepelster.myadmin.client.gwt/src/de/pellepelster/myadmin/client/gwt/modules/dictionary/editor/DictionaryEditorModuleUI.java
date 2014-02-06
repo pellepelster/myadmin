@@ -40,6 +40,9 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEd
  */
 public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionaryEditorModule<VOType>> implements IEditorUpdateListener
 {
+
+	public static final String MODULE_ID = "DictionaryEditorModuleUI";
+
 	private final VerticalPanel verticalPanel;
 
 	private static final String DICTIONARY_SAVE_BUTTON_DEBUG_ID = "DictionarySaveButton";
@@ -53,7 +56,7 @@ public class DictionaryEditorModuleUI<VOType extends IBaseVO> extends BaseDictio
 	@SuppressWarnings("rawtypes")
 	public DictionaryEditorModuleUI(DictionaryEditorModule<VOType> editorModule, final IGwtModuleUI previousModuleUI)
 	{
-		super(editorModule);
+		super(editorModule, MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 

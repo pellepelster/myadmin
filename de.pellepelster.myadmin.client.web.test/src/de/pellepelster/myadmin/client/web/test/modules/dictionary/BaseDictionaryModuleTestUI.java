@@ -12,10 +12,12 @@
 package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IBaseControl;
+import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BigDecimalControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BooleanControlModel;
-import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.BaseControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.DateControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.EnumerationControlModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.controls.HierarchicalControlModel;
@@ -43,10 +45,18 @@ public abstract class BaseDictionaryModuleTestUI
 {
 	private IBaseDictionaryModule baseDictionaryModule;
 
-	public BaseDictionaryModuleTestUI(IBaseDictionaryModule baseDictionaryModule)
+	private final String uiModuleId;
+
+	public BaseDictionaryModuleTestUI(IBaseDictionaryModule baseDictionaryModule, String uiModuleId)
 	{
 		super();
 		this.baseDictionaryModule = baseDictionaryModule;
+		this.uiModuleId = uiModuleId;
+	}
+
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return this.uiModuleId.equals(ModuleUtils.getUrlParameter(moduleUrl, IModuleUI.UI_MODULE_ID_PARAMETER_NAME));
 	}
 
 	public <ElementType extends IBaseControl<Value, ?>, Value extends Object> BaseControlTest<ElementType, Value> getBaseControlTestElement(
@@ -90,8 +100,7 @@ public abstract class BaseDictionaryModuleTestUI
 		return new IntegerControlTest(this.baseDictionaryModule.getElement(controlModel));
 	}
 
-	public <ReferenceVOType extends IBaseVO> ReferenceControlTest<ReferenceVOType> getReferenceControlTest(
-			ReferenceControlModel<ReferenceVOType> controlModel)
+	public <ReferenceVOType extends IBaseVO> ReferenceControlTest<ReferenceVOType> getReferenceControlTest(ReferenceControlModel<ReferenceVOType> controlModel)
 	{
 		return new ReferenceControlTest<ReferenceVOType>(this.baseDictionaryModule.getElement(controlModel));
 	}

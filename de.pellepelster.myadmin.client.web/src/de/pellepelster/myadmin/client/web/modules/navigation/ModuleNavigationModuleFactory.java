@@ -16,6 +16,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 
 public class ModuleNavigationModuleFactory extends BaseModuleFactory
@@ -31,7 +32,7 @@ public class ModuleNavigationModuleFactory extends BaseModuleFactory
 	@Override
 	public boolean supports(String moduleUrl)
 	{
-		return supports(moduleUrl, ModuleNavigationModule.MODULE_ID);
+		return ModuleUtils.urlContainsModuleId(moduleUrl, ModuleNavigationModule.MODULE_ID);
 	}
 
 }

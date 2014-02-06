@@ -20,17 +20,11 @@ package de.pellepelster.myadmin.client.base.module;
  */
 public interface IModule
 {
-
 	static final String MODULE_ID_PARAMETER_NAME = "moduleId";
 
 	String getModuleUrl();
 
-	/**
-	 * False if the module can be started multiple times
-	 * 
-	 * @return
-	 */
-	boolean isSingleton();
+	boolean isInstanceOf(String moduleUrl);
 
 	int getOrder();
 

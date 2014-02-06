@@ -15,16 +15,18 @@ import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 
-public class HierarchicalTreeModuleUI extends BaseModuleUI<HierarchicalTreeModule>
+public class HierarchicalTreeModuleUI extends BaseGwtModuleUI<HierarchicalTreeModule>
 {
+	public static final String MODULE_ID = HierarchicalTreeModuleUI.class.getName();
+
 	private final VerticalPanel verticalPanel;
 
 	public HierarchicalTreeModuleUI(HierarchicalTreeModule module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 

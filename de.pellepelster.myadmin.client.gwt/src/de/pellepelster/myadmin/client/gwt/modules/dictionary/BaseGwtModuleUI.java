@@ -11,6 +11,9 @@
  */
 package de.pellepelster.myadmin.client.gwt.modules.dictionary;
 
+import com.google.gwt.user.client.ui.Panel;
+
+import de.pellepelster.myadmin.client.base.layout.BaseModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
 
 /**
@@ -19,10 +22,10 @@ import de.pellepelster.myadmin.client.base.module.IModule;
  * @author pelle
  * 
  */
-public abstract class BaseDictionaryModuleUI<ModuleType extends IModule> extends BaseGwtModuleUI<ModuleType>
+public abstract class BaseGwtModuleUI<ModuleType extends IModule> extends BaseModuleUI<Panel, ModuleType>
 {
 
-	public BaseDictionaryModuleUI(ModuleType module, String uiModuleId)
+	public BaseGwtModuleUI(ModuleType module, String uiModuleId)
 	{
 		super(module, uiModuleId);
 	}

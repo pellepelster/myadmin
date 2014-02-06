@@ -18,18 +18,25 @@ import com.google.gwt.user.client.ui.Panel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
-public class DictionaryEditorModuleUIFactory<VOType extends IBaseVO> implements IModuleUIFactory<Panel, DictionaryEditorModule<VOType>>
+public class DictionaryEditorModuleUIFactory<VOType extends IBaseVO> extends BaseModuleUIFactory<Panel, DictionaryEditorModule<VOType>>
 {
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public IModuleUI<Panel, DictionaryEditorModule<VOType>> getNewInstance(DictionaryEditorModule<VOType> module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new DictionaryEditorModuleUI<VOType>((DictionaryEditorModule<VOType>) module, (IGwtModuleUI) previousModuleUI);
+
+		if (supports(module.getModuleUrl(), DictionaryEditorModuleUI.MODULE_ID))
+		{
+			return new DictionaryEditorModuleUI<VOType>((DictionaryEditorModule<VOType>) module, (IGwtModuleUI) previousModuleUI);
+		}
+
+		return null;
+
 	}
 
 }

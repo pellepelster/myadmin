@@ -16,14 +16,21 @@ import java.util.Map;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 
-public class TestModule1UIFactory implements IModuleUIFactory<Panel, TestModule1>
+public class TestModule1UIFactory extends BaseModuleUIFactory<Panel, TestModule1>
 {
 	/** {@inheritDoc} */
 	@Override
 	public IModuleUI<Panel, TestModule1> getNewInstance(TestModule1 module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
 	{
-		return new TestModule1UI(module);
+
+		if (supports(module.getModuleUrl(), TestModule1UI.MODULE_ID))
+		{
+			return new TestModule1UI(module);
+		}
+
+		return null;
+
 	}
 }

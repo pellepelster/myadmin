@@ -509,7 +509,12 @@ project MyAdmin schemaUrl "http://www.pellepelster.de/myadmin/schema" {
 				moduledefinition DictionarySearch {
 				
 					parameters {
+					
 						parameter SearchDictionaryName {
+							type String
+						}
+						 
+						parameter SearchText {
 							type String
 						} 
 					}

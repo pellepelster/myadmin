@@ -37,13 +37,6 @@ public abstract class BaseModule implements IModule
 		parameters.putAll(urlSegments);
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public boolean isSingleton()
-	{
-		return true;
-	}
-
 	public Map<String, Object> getParameters()
 	{
 		return this.parameters;
@@ -59,9 +52,28 @@ public abstract class BaseModule implements IModule
 		return this.parameters.get(parameterName);
 	}
 
+	public String getStringParameter(String parameterName, String defaultString)
+	{
+		if (hasParameter(parameterName))
+		{
+			return this.parameters.get(parameterName).toString();
+		}
+		else
+		{
+			return defaultString;
+		}
+	}
+
 	public String getStringParameter(String parameterName)
 	{
-		return this.parameters.get(parameterName).toString();
+		if (hasParameter(parameterName))
+		{
+			return this.parameters.get(parameterName).toString();
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.jpql.GenericFilterVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.core.query.ClientGenericFilterBuilder;
@@ -44,6 +45,12 @@ public class TestModule1<VOType extends IBaseVO> extends BaseTestModule11Module
 			}
 		});
 
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return MODULE_ID.equals(ModuleUtils.getModuleId(moduleUrl));
 	}
 
 	public VOType getVo()

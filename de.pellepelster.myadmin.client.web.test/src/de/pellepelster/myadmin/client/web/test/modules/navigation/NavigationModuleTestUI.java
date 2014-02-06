@@ -18,7 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.layout.BaseModuleUI;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
@@ -28,16 +28,16 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigationModule>
+public class NavigationModuleTestUI extends BaseModuleUI<Object, ModuleNavigationModule>
 {
-	private List<NavigationTreeTestElement> navigationTreeRoots;
 
-	private ModuleNavigationModule module;
+	public static final String MODULE_ID = NavigationModuleTestUI.class.getName();
+
+	private List<NavigationTreeTestElement> navigationTreeRoots;
 
 	public NavigationModuleTestUI(ModuleNavigationModule module)
 	{
-		super();
-		this.module = module;
+		super(module, MODULE_ID);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigatio
 
 	public void getRootElements(final AsyncCallback<List<NavigationTreeTestElement>> asyncCallback)
 	{
-		NavigationModuleTestUI.this.navigationTreeRoots = new ArrayList(Collections2.transform(this.module.getNavigationTreeRoots(),
+		NavigationModuleTestUI.this.navigationTreeRoots = new ArrayList(Collections2.transform(this.getModule().getNavigationTreeRoots(),
 				new Function<NavigationTreeElement, NavigationTreeTestElement>()
 				{
 
@@ -75,21 +75,9 @@ public class NavigationModuleTestUI implements IModuleUI<Object, ModuleNavigatio
 	}
 
 	@Override
-	public ModuleNavigationModule getModule()
-	{
-		return this.module;
-	}
-
-	@Override
 	public Object getContainer()
 	{
 		return null;
-	}
-
-	@Override
-	public int getOrder()
-	{
-		return this.module.getOrder();
 	}
 
 }

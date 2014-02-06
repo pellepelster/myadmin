@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdateListener;
@@ -40,7 +40,7 @@ public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseD
 
 	public static final String DICTIONARY_SEARCH_INPUT_PANEL_STYLE = "dictionarySearchInputPanel";
 
-	public static final String MODULE_URL = BaseModuleUI.getModuleUrl(DictionarySearchModule.MODULE_ID, MODULE_ID);
+	public static final String MODULE_URL = BaseGwtModuleUI.getModuleUrl(DictionarySearchModule.MODULE_ID, MODULE_ID);
 
 	private final VerticalPanel verticalPanel;
 
@@ -49,7 +49,7 @@ public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseD
 	 */
 	public DictionarySearchQueryModuleUI(final DictionarySearchModule<VOType> module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 		verticalPanel.addStyleName(DICTIONARY_SEARCH_INPUT_PANEL_STYLE);

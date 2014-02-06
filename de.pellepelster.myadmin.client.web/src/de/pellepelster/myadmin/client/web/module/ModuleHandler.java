@@ -11,9 +11,14 @@
  */
 package de.pellepelster.myadmin.client.web.module;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -39,7 +44,7 @@ public final class ModuleHandler
 
 	private static ModuleHandler instance;
 
-	private Map<String, IModule> moduleInstances = new HashMap<String, IModule>();
+	private List<IModule> moduleInstances = new ArrayList<IModule>();
 
 	public static ModuleHandler getInstance()
 	{
@@ -55,22 +60,38 @@ public final class ModuleHandler
 	{
 	}
 
-	public void getModuleInstance(String moduleUrl, Map<String, Object> parameters, AsyncCallback<IModule> moduleCallback)
+	public void getModuleInstance(final String moduleUrl, Map<String, Object> parameters, AsyncCallback<IModule> moduleCallback)
 	{
-		this.moduleCounter++;
-		IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleUrl);
 
-		parameters.put(BaseModule.MODULE_COUNTER_PARAMETER_ID, this.moduleCounter);
+		Optional<IModule> module = Iterables.tryFind(this.moduleInstances, new Predicate<IModule>()
+		{
 
-		factory.getNewInstance(moduleUrl, moduleCallback, parameters);
+			@Override
+			public boolean apply(IModule input)
+			{
+				return input.isInstanceOf(moduleUrl);
+			}
+		});
+
+		boolean hasUIModule = MyAdmin.getInstance().getLayoutFactory().hasInstanceOf(moduleUrl);
+
+		if (!module.isPresent() && !hasUIModule)
+		{
+			this.moduleCounter++;
+			IModuleFactory factory = ModuleFactoryRegistry.getInstance().getModuleFactory(moduleUrl);
+
+			parameters.put(BaseModule.MODULE_COUNTER_PARAMETER_ID, this.moduleCounter);
+
+			factory.getNewInstance(moduleUrl, moduleCallback, parameters);
+		}
 	}
 
-	private void startModule(IModule module, String location, Map<String, Object> parameters)
+	private void startModuleUI(IModule module, String location, Map<String, Object> parameters)
 	{
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, location, parameters);
 	}
 
-	public void startModule(IModule module, Map<String, Object> parameters)
+	public void startModuleUI(IModule module, Map<String, Object> parameters)
 	{
 		MyAdmin.getInstance().getLayoutFactory().startModuleUI(module, null, parameters);
 	}
@@ -106,7 +127,8 @@ public final class ModuleHandler
 			@Override
 			public void onSuccess(IModule module)
 			{
-				startModule(module, location, parameters);
+				ModuleHandler.this.moduleInstances.add(module);
+				startModuleUI(module, location, parameters);
 			}
 		});
 	}

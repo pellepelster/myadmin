@@ -16,17 +16,25 @@ import java.util.Map;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUI;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 
-public class HierarchicalTreeModuleUIFactory implements IModuleUIFactory<Panel, HierarchicalTreeModule>
+public class HierarchicalTreeModuleUIFactory extends BaseModuleUIFactory<Panel, HierarchicalTreeModule>
 {
 	/** {@inheritDoc} */
 	@Override
 	public IModuleUI<Panel, HierarchicalTreeModule> getNewInstance(HierarchicalTreeModule module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new HierarchicalTreeModuleUI((HierarchicalTreeModule) module);
+
+		if (supports(module.getModuleUrl(), DictionaryEditorModuleUI.MODULE_ID))
+		{
+			return new HierarchicalTreeModuleUI((HierarchicalTreeModule) module);
+		}
+
+		return null;
+
 	}
 
 }

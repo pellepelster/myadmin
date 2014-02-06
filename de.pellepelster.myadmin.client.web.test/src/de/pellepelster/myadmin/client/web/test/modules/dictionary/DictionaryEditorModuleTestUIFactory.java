@@ -14,10 +14,10 @@ package de.pellepelster.myadmin.client.web.test.modules.dictionary;
 import java.util.Map;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
 
-public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Object, DictionaryEditorModule<?>>
+public class DictionaryEditorModuleTestUIFactory extends BaseModuleUIFactory<Object, DictionaryEditorModule<?>>
 {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -25,7 +25,13 @@ public class DictionaryEditorModuleTestUIFactory implements IModuleUIFactory<Obj
 	public IModuleUI<Object, DictionaryEditorModule<?>> getNewInstance(DictionaryEditorModule<?> module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		return new DictionaryEditorModuleTestUI(module);
+		if (supports(module.getModuleUrl(), DictionaryEditorModuleTestUI.MODULE_ID))
+		{
+			return new DictionaryEditorModuleTestUI(module);
+
+		}
+
+		return null;
 	}
 
 }

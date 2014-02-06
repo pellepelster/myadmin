@@ -1,5 +1,6 @@
 package de.pellepelster.myadmin.client.web.test;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModu
 @SuppressWarnings("rawtypes")
 public class JunitLayoutFactory implements ILayoutFactory
 {
+	private List<IModuleUI> moduleUIs = new ArrayList<IModuleUI>();
 
 	private AsyncCallback<IModuleUI<?, ?>> oneTimeCallback;
 
@@ -101,6 +103,8 @@ public class JunitLayoutFactory implements ILayoutFactory
 		IModuleUIFactory moduleUIFactory = ModuleUIFactoryRegistry.getInstance().getModuleFactory(module.getClass());
 		moduleUI = moduleUIFactory.getNewInstance(module, getCurrentModuleUI(direction), parameters);
 
+		this.moduleUIs.add(moduleUI);
+
 		if (this.oneTimeCallback != null)
 		{
 			this.oneTimeCallback.onSuccess(moduleUI);
@@ -110,6 +114,20 @@ public class JunitLayoutFactory implements ILayoutFactory
 	public void setOneTimeCallback(String moduleName, AsyncCallback<IModuleUI<?, ?>> oneTimeCallback)
 	{
 		this.oneTimeCallback = oneTimeCallback;
+	}
+
+	@Override
+	public boolean hasInstanceOf(String moduleUrl)
+	{
+		for (IModuleUI moduleUI : this.moduleUIs)
+		{
+			if (moduleUI.isInstanceOf(moduleUrl))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

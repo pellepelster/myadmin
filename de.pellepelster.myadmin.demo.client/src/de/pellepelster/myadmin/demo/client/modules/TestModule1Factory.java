@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 
 public class TestModule1Factory extends BaseModuleFactory
@@ -20,6 +21,6 @@ public class TestModule1Factory extends BaseModuleFactory
 	@Override
 	public boolean supports(String moduleUrl)
 	{
-		return supports(moduleUrl, TestModule1.MODULE_ID);
+		return ModuleUtils.urlContainsModuleId(moduleUrl, TestModule1.MODULE_ID);
 	}
 }

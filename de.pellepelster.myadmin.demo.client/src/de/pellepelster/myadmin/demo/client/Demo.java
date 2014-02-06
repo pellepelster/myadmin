@@ -21,6 +21,8 @@ public class Demo implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
+		init();
+
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PX);
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
 
@@ -30,7 +32,6 @@ public class Demo implements EntryPoint
 
 		MyAdmin.getInstance().startModule(DictionarySearchQueryModuleUI.MODULE_URL, Direction.WEST.toString());
 
-		init();
 	}
 
 	public void init()

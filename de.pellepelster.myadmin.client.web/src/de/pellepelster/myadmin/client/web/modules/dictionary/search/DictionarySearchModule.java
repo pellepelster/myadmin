@@ -14,17 +14,18 @@ package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.entities.dictionary.SearchResultItemVO;
-import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
@@ -44,8 +45,6 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 		return getBaseModuleUrl(MODULE_ID) + "&" + SEARCHDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
 	}
 
-	public static final String QUERY_TEXT_PARAMETER_ID = "queryText";
-
 	private Optional<IDictionaryModel> dictionaryModel = Optional.absent();
 
 	private Optional<DictionarySearch<VOType>> dictionarySearch = Optional.absent();
@@ -57,7 +56,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 		super(moduleUrl, moduleCallback, parameters);
 
-		if (BaseModuleFactory.hasUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID))
+		if (ModuleUtils.hasUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID))
 		{
 			init(getSearchDictionaryName());
 		}
@@ -98,6 +97,22 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 	public DictionarySearch<VOType> getDictionarySearch()
 	{
 		return this.dictionarySearch.get();
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		if (!MODULE_ID.equals(ModuleUtils.getModuleId(moduleUrl)))
+		{
+			return false;
+		}
+
+		if (hasParameter(SEARCHDICTIONARYNAME_PARAMETER_ID) || ModuleUtils.hasUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID))
+		{
+			return Objects.equal(getSearchDictionaryName(), ModuleUtils.getUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID));
+		}
+
+		return true;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
@@ -37,8 +37,9 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class NavigationModuleTreeUI extends BaseModuleUI<ModuleNavigationModule>
+public class NavigationModuleTreeUI extends BaseGwtModuleUI<ModuleNavigationModule>
 {
+	public static final String MODULE_ID = NavigationModuleTreeUI.class.getName();
 
 	private static class NavigationTreeModel implements TreeViewModel
 	{
@@ -136,7 +137,7 @@ public class NavigationModuleTreeUI extends BaseModuleUI<ModuleNavigationModule>
 	 */
 	public NavigationModuleTreeUI(ModuleNavigationModule module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 		verticalPanel.ensureDebugId(ModuleNavigationModule.MODULE_ID);

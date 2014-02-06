@@ -4,15 +4,18 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 
-public class TestModule1UI extends BaseModuleUI<TestModule1>
+public class TestModule1UI extends BaseGwtModuleUI<TestModule1>
 {
+
+	public static final String MODULE_ID = TestModule1UI.class.getName();
+
 	private VerticalPanel panel = new VerticalPanel();
 
 	public TestModule1UI(TestModule1 module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		HTML html = new HTML("<h1>" + getModule().getVo().getId() + "</h1>");
 		this.panel.add(html);

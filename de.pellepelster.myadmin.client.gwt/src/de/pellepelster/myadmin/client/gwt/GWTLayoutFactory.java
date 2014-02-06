@@ -395,4 +395,21 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 
 		showModule(moduleUI, direction);
 	}
+
+	@Override
+	public boolean hasInstanceOf(String moduleUrl)
+	{
+		for (List<IGwtModuleUI<?>> gwtModuleUIs : currentModules.values())
+		{
+			for (IGwtModuleUI<?> gwtModuleUI : gwtModuleUIs)
+			{
+				if (gwtModuleUI.isInstanceOf(moduleUrl))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }

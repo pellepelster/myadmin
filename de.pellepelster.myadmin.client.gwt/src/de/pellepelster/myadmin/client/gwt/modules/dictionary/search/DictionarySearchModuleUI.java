@@ -36,6 +36,7 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdat
  */
 public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements ISearchUpdateListener
 {
+	public static final String MODULE_ID = "DictionarySearchModuleUI";
 
 	private static final String DICTIONARY_CREATE_BUTTON_DEBUG_ID = "DictionaryCreateButton";
 
@@ -50,7 +51,7 @@ public class DictionarySearchModuleUI<VOType extends IBaseVO> extends BaseDictio
 	 */
 	public DictionarySearchModuleUI(final DictionarySearchModule<VOType> module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 		verticalPanel.addStyleName(GwtStyles.DEBUG_BORDER);

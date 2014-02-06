@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseModuleUI;
+import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
@@ -34,8 +34,10 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  * @author pelle
  * 
  */
-public class NavigationModuleOverviewUI extends BaseModuleUI<ModuleNavigationModule>
+public class NavigationModuleOverviewUI extends BaseGwtModuleUI<ModuleNavigationModule>
 {
+	public static final String MODULE_ID = "NavigationModuleOverviewUI";
+
 	private static final String NAVIGATION_OVERVIEW_STYLE = "navigationOverview";
 
 	private static final String NAVIGATION_OVERVIEW_PANEL_WRAPPER_STYLE = "navigationOverviewPanelWrapper";
@@ -53,7 +55,7 @@ public class NavigationModuleOverviewUI extends BaseModuleUI<ModuleNavigationMod
 	 */
 	public NavigationModuleOverviewUI(ModuleNavigationModule module)
 	{
-		super(module);
+		super(module, MODULE_ID);
 
 		List<NavigationTreeElement> children = module.getChildrenForNavigationElement(module.getNavigationTreeElementName());
 

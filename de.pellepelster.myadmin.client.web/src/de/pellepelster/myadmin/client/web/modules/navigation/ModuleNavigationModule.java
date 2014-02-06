@@ -19,6 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeProvider;
 import de.pellepelster.myadmin.client.web.MyAdmin;
@@ -78,6 +79,12 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 		{
 			return MyAdmin.MESSAGES.navigationTitle();
 		}
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return MODULE_ID.equals(ModuleUtils.getModuleId(moduleUrl));
 	}
 
 }

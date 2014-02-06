@@ -17,6 +17,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
@@ -53,7 +54,7 @@ public class DictionaryEditorModuleFactory extends BaseModuleFactory
 			@Override
 			public void onSuccess(IModule result)
 			{
-				ModuleHandler.getInstance().startModule(result, parameters);
+				ModuleHandler.getInstance().startModuleUI(result, parameters);
 			}
 		}, parameters);
 
@@ -62,7 +63,7 @@ public class DictionaryEditorModuleFactory extends BaseModuleFactory
 	@Override
 	public boolean supports(String moduleUrl)
 	{
-		return supports(moduleUrl, DictionaryEditorModule.MODULE_ID);
+		return ModuleUtils.urlContainsModuleId(moduleUrl, DictionaryEditorModule.MODULE_ID);
 	}
 
 	public static void openEditorForId(String dictionaryName, long id)

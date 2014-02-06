@@ -23,6 +23,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.db.vos.IHierarchicalVO;
 import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHookRegistry;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
@@ -125,6 +126,13 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 	public SimpleCallback<DictionaryHierarchicalNodeVO> getNodeActivatedHandler()
 	{
 		return this.nodeActivatedHandler;
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return MODULE_ID.equals(ModuleUtils.getModuleId(moduleUrl))
+				&& getHierarchicalTreeId().equals(ModuleUtils.getUrlParameter(moduleUrl, HIERARCHICALTREEID_PARAMETER_ID));
 	}
 
 	public static void openModuleForNode(DictionaryHierarchicalNodeVO hierarchicalNodeVO)

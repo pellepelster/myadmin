@@ -26,6 +26,8 @@ public interface ILayoutFactory<ContainerType, WidgetType>
 {
 	public static final int AUTO_WIDTH = -1;
 
+	boolean hasInstanceOf(String moduleUrl);
+
 	/**
 	 * Closes the current module and show the previous one (if there is one)
 	 * 

@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.dictionary.controls.IButton;
 import de.pellepelster.myadmin.client.base.modules.dictionary.editor.IEditorUpdateListener;
 import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.BaseEditorHook;
@@ -27,7 +28,6 @@ import de.pellepelster.myadmin.client.base.modules.dictionary.hooks.DictionaryHo
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.DictionaryModelProvider;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.IDictionaryModel;
-import de.pellepelster.myadmin.client.web.module.BaseModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.DictionaryElementUtil;
 import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModule;
@@ -61,7 +61,7 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 	{
 		super(moduleUrl, moduleCallback, parameters);
 
-		init(BaseModuleFactory.getUrlParameter(moduleUrl, EDITORDICTIONARYNAME_PARAMETER_ID));
+		init(ModuleUtils.getUrlParameter(moduleUrl, EDITORDICTIONARYNAME_PARAMETER_ID));
 	}
 
 	@Override
@@ -134,5 +134,11 @@ public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictiona
 		{
 			return Collections.emptyList();
 		}
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return MODULE_ID.equals(ModuleUtils.getModuleId(moduleUrl));
 	}
 }

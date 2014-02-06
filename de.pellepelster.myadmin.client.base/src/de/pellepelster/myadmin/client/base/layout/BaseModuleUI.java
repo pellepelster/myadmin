@@ -9,11 +9,11 @@
  * Contributors:
  *     Christian Pelster - initial API and implementation
  */
-package de.pellepelster.myadmin.client.gwt.modules.dictionary;
+package de.pellepelster.myadmin.client.base.layout;
 
 import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 
 /**
  * Basic module UI implementation
@@ -21,7 +21,7 @@ import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
  * @author pelle
  * 
  */
-public abstract class BaseModuleUI<ModuleType extends IModule> implements IGwtModuleUI<ModuleType>
+public abstract class BaseModuleUI<ContainerType, ModuleType extends IModule> implements IModuleUI<ContainerType, ModuleType>
 {
 
 	public static final String getModuleUrl(String moduleId, String uiModuleId)
@@ -31,10 +31,13 @@ public abstract class BaseModuleUI<ModuleType extends IModule> implements IGwtMo
 
 	private final ModuleType module;
 
-	public BaseModuleUI(ModuleType module)
+	private final String uiModuleId;
+
+	public BaseModuleUI(ModuleType module, String uiModuleId)
 	{
 		super();
 		this.module = module;
+		this.uiModuleId = uiModuleId;
 	}
 
 	/** {@inheritDoc} */
@@ -54,13 +57,19 @@ public abstract class BaseModuleUI<ModuleType extends IModule> implements IGwtMo
 	@Override
 	public ModuleType getModule()
 	{
-		return module;
+		return this.module;
+	}
+
+	@Override
+	public boolean isInstanceOf(String moduleUrl)
+	{
+		return this.uiModuleId.equals(ModuleUtils.getUrlParameter(moduleUrl, UI_MODULE_ID_PARAMETER_NAME));
 	}
 
 	@Override
 	public int getOrder()
 	{
-		return module.getOrder();
+		return this.module.getOrder();
 	}
 
 }

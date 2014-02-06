@@ -16,23 +16,27 @@ import java.util.Map;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
-public class NavigationModuleUIFactory implements IModuleUIFactory<Panel, ModuleNavigationModule>
+public class NavigationModuleUIFactory extends BaseModuleUIFactory<Panel, ModuleNavigationModule>
 {
 
 	@Override
 	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(ModuleNavigationModule module, IModuleUI<?, ?> previousModuleUI,
 			Map<String, Object> parameters)
 	{
-		if (module.getNavigationTreeElementName() != null)
+
+		if (supports(module.getModuleUrl(), NavigationModuleOverviewUI.MODULE_ID))
 		{
 			return new NavigationModuleOverviewUI(module);
 		}
-		else
+
+		if (supports(module.getModuleUrl(), NavigationModuleTreeUI.MODULE_ID))
 		{
 			return new NavigationModuleTreeUI(module);
 		}
+
+		return null;
 	}
 }
