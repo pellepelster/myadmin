@@ -20,13 +20,12 @@ import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeM
 
 public class HierarchicalTreeModuleUI extends BaseGwtModuleUI<HierarchicalTreeModule>
 {
-	public static final String MODULE_ID = HierarchicalTreeModuleUI.class.getName();
 
 	private final VerticalPanel verticalPanel;
 
 	public HierarchicalTreeModuleUI(HierarchicalTreeModule module)
 	{
-		super(module, MODULE_ID);
+		super(module, HierarchicalTreeModule.MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 

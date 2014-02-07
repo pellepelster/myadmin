@@ -31,6 +31,7 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
 public class NavigationModuleTestUI extends BaseModuleUI<Object, ModuleNavigationModule>
 {
 
+	// TODO should be NavigationModuleTreeUI
 	public static final String MODULE_ID = NavigationModuleTestUI.class.getName();
 
 	private List<NavigationTreeTestElement> navigationTreeRoots;

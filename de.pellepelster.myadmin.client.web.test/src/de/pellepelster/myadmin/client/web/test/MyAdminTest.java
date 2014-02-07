@@ -6,6 +6,7 @@ import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.modules.dictionary.model.BaseModel;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
 import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
@@ -34,10 +35,10 @@ public class MyAdminTest
 		return instance;
 	}
 
-	public <T extends IModuleUI> void startModule(final String moduleName, Class<T> moduleType, final String location, final AsyncCallback<T> asyncCallback)
+	public <T extends IModuleUI> void startModule(final String moduleLocator, Class<T> moduleType, final String location, final AsyncCallback<T> asyncCallback)
 	{
-		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(moduleName, (AsyncCallback<IModuleUI<?, ?>>) asyncCallback);
-		MyAdmin.getInstance().startModule(moduleName, location);
+		MyAdminTest.this.junitLayoutFactory.setOneTimeCallback(moduleLocator, (AsyncCallback<IModuleUI<?, ?>>) asyncCallback);
+		ModuleHandler.getInstance().startUIModule(moduleLocator, location);
 	}
 
 	public void openEditor(BaseModel baseModel, final AsyncCallback asyncCallback)

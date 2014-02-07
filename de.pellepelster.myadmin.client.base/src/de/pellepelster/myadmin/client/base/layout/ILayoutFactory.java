@@ -13,8 +13,6 @@ package de.pellepelster.myadmin.client.base.layout;
 
 import java.util.Map;
 
-import de.pellepelster.myadmin.client.base.module.IModule;
-
 /**
  * Generic layout factory hiding the UI library specifics
  * 
@@ -25,8 +23,6 @@ import de.pellepelster.myadmin.client.base.module.IModule;
 public interface ILayoutFactory<ContainerType, WidgetType>
 {
 	public static final int AUTO_WIDTH = -1;
-
-	boolean hasInstanceOf(String moduleUrl);
 
 	/**
 	 * Closes the current module and show the previous one (if there is one)
@@ -60,6 +56,6 @@ public interface ILayoutFactory<ContainerType, WidgetType>
 	 * @param parameters
 	 *            arbitrary parameters
 	 */
-	void startModuleUI(IModule module, String location, Map<String, Object> parameters);
+	void startModuleUI(IModuleUI<?, ?> moduleUI, String location, Map<String, Object> parameters);
 
 }

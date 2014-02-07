@@ -17,7 +17,6 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.base.modules.navigation.NavigationTreeElement;
@@ -26,7 +25,17 @@ import de.pellepelster.myadmin.client.web.MyAdmin;
 
 public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule
 {
-	public final static String MODULE_LOCATOR = BaseModule.getBaseModuleUrl(MODULE_ID);
+
+	public final static String MODULE_LOCATOR = ModuleUtils.getBaseModuleUrl(MODULE_ID);
+
+	public static final String NAVIGATION_UI_MODULE_ID = MODULE_ID;
+
+	public static final String NAVIGATION_OVERVIEW_UI_MODULE_ID = NAVIGATION_UI_MODULE_ID + "Overview";
+
+	public static final String getNavigationOverviewModuleLocator()
+	{
+		return ModuleUtils.getBaseUIModuleUrl(NAVIGATION_OVERVIEW_UI_MODULE_ID);
+	}
 
 	public final static Resources RESOURCES = ((Resources) GWT.create(Resources.class));;
 

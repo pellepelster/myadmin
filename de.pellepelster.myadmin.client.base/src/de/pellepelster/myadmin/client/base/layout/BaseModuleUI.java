@@ -11,9 +11,7 @@
  */
 package de.pellepelster.myadmin.client.base.layout;
 
-import de.pellepelster.myadmin.client.base.module.BaseModule;
 import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 
 /**
  * Basic module UI implementation
@@ -23,11 +21,6 @@ import de.pellepelster.myadmin.client.base.module.ModuleUtils;
  */
 public abstract class BaseModuleUI<ContainerType, ModuleType extends IModule> implements IModuleUI<ContainerType, ModuleType>
 {
-
-	public static final String getModuleUrl(String moduleId, String uiModuleId)
-	{
-		return BaseModule.getBaseModuleUrl(moduleId) + "&" + UI_MODULE_ID_PARAMETER_NAME + "=" + uiModuleId;
-	}
 
 	private final ModuleType module;
 
@@ -58,12 +51,6 @@ public abstract class BaseModuleUI<ContainerType, ModuleType extends IModule> im
 	public ModuleType getModule()
 	{
 		return this.module;
-	}
-
-	@Override
-	public boolean isInstanceOf(String moduleUrl)
-	{
-		return this.uiModuleId.equals(ModuleUtils.getUrlParameter(moduleUrl, UI_MODULE_ID_PARAMETER_NAME));
 	}
 
 	@Override

@@ -52,4 +52,9 @@ public final class ModuleFactoryRegistry
 
 		throw new RuntimeException("no module factory found for module url '" + moduleUrl + "'");
 	}
+
+	public boolean supports(String moduleUrl)
+	{
+		return getModuleFactory(moduleUrl) != null;
+	}
 }

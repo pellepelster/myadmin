@@ -32,19 +32,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUIFactory;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.search.DictionarySearchModuleUIFactory;
 import de.pellepelster.myadmin.client.gwt.modules.hierarchical.HierarchicalTreeModuleUIFactory;
 import de.pellepelster.myadmin.client.gwt.modules.navigation.NavigationModuleUIFactory;
 import de.pellepelster.myadmin.client.web.MyAdmin;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
-import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 
 /**
  * {@link ILayoutFactory} implementation for GWT
@@ -112,10 +106,10 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 	 */
 	public GWTLayoutFactory(Unit unit)
 	{
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleUIFactory());
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.class, new DictionarySearchModuleUIFactory());
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.class, new DictionaryEditorModuleUIFactory());
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(HierarchicalTreeModule.class, new HierarchicalTreeModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new NavigationModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new DictionarySearchModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new DictionaryEditorModuleUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new HierarchicalTreeModuleUIFactory());
 
 		rootPanel = new DockLayoutPanel(Unit.PCT);
 		rootPanel.setWidth("100%");
@@ -384,32 +378,11 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 	/** {@inheritDoc} */
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public void startModuleUI(IModule module, String location, Map<String, Object> parameters)
+	public void startModuleUI(IModuleUI<?, ?> moduleUI, String location, Map<String, Object> parameters)
 	{
 		DockLayoutPanel.Direction direction = getDirection(location);
 
-		IGwtModuleUI moduleUI = null;
-
-		IModuleUIFactory moduleUIFactory = ModuleUIFactoryRegistry.getInstance().getModuleFactory(module.getClass());
-		moduleUI = (IGwtModuleUI) moduleUIFactory.getNewInstance(module, getCurrentModuleUI(direction), parameters);
-
-		showModule(moduleUI, direction);
+		showModule((IGwtModuleUI<?>) moduleUI, direction);
 	}
 
-	@Override
-	public boolean hasInstanceOf(String moduleUrl)
-	{
-		for (List<IGwtModuleUI<?>> gwtModuleUIs : currentModules.values())
-		{
-			for (IGwtModuleUI<?> gwtModuleUI : gwtModuleUIs)
-			{
-				if (gwtModuleUI.isInstanceOf(moduleUrl))
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
 }

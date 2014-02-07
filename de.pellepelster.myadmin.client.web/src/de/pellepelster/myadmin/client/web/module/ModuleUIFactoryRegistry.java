@@ -11,9 +11,8 @@
  */
 package de.pellepelster.myadmin.client.web.module;
 
-import java.util.HashMap;
-
-import de.pellepelster.myadmin.client.base.module.IModule;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ModuleUIFactoryRegistry
 {
@@ -29,26 +28,32 @@ public final class ModuleUIFactoryRegistry
 		return instance;
 	}
 
-	private final HashMap<Class<? extends IModule>, IModuleUIFactory<?, ?>> moduleFactories = new HashMap<Class<? extends IModule>, IModuleUIFactory<?, ?>>();
+	private final List<IModuleUIFactory<?, ?>> moduleFactories = new ArrayList<IModuleUIFactory<?, ?>>();
 
 	private ModuleUIFactoryRegistry()
 	{
 	}
 
-	public void addModuleFactory(Class<? extends IModule> moduleClass, IModuleUIFactory<?, ?> moduleFactory)
+	public void addModuleFactory(IModuleUIFactory<?, ?> moduleFactory)
 	{
-		this.moduleFactories.put(moduleClass, moduleFactory);
+		this.moduleFactories.add(moduleFactory);
 	}
 
-	public IModuleUIFactory<?, ?> getModuleFactory(Class<? extends IModule> moduleClass)
+	public IModuleUIFactory getModuleFactory(String moduleUrl)
 	{
-		if (this.moduleFactories.containsKey(moduleClass))
+		for (IModuleUIFactory moduleUIFactory : this.moduleFactories)
 		{
-			return this.moduleFactories.get(moduleClass);
+			if (moduleUIFactory.supports(moduleUrl))
+			{
+				return moduleUIFactory;
+			}
 		}
-		else
-		{
-			throw new RuntimeException("unsupported ui module type '" + moduleClass.getName() + "'");
-		}
+
+		throw new RuntimeException("unsupported ui module url '" + moduleUrl + "'");
+	}
+
+	public boolean supports(String moduleUrl)
+	{
+		return getModuleFactory(moduleUrl) != null;
 	}
 }

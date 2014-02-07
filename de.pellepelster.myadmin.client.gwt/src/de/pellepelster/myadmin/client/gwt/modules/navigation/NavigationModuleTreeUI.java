@@ -39,7 +39,6 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  */
 public class NavigationModuleTreeUI extends BaseGwtModuleUI<ModuleNavigationModule>
 {
-	public static final String MODULE_ID = NavigationModuleTreeUI.class.getName();
 
 	private static class NavigationTreeModel implements TreeViewModel
 	{
@@ -59,7 +58,7 @@ public class NavigationModuleTreeUI extends BaseGwtModuleUI<ModuleNavigationModu
 				{
 					if (selectionModel.getSelectedObject() != null && selectionModel.getSelectedObject().hasModuleLocator())
 					{
-						ModuleHandler.getInstance().startModule(selectionModel.getSelectedObject().getModuleLocator());
+						ModuleHandler.getInstance().startUIModule(selectionModel.getSelectedObject().getModuleLocator());
 					}
 
 				}
@@ -137,10 +136,10 @@ public class NavigationModuleTreeUI extends BaseGwtModuleUI<ModuleNavigationModu
 	 */
 	public NavigationModuleTreeUI(ModuleNavigationModule module)
 	{
-		super(module, MODULE_ID);
+		super(module, ModuleNavigationModule.NAVIGATION_UI_MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
-		verticalPanel.ensureDebugId(ModuleNavigationModule.MODULE_ID);
+		verticalPanel.ensureDebugId(ModuleNavigationModule.NAVIGATION_UI_MODULE_ID);
 
 		final NavigationTreeModel navigationTreeModel = new NavigationTreeModel();
 		CellTree cellTree = new CellTree(navigationTreeModel, null);

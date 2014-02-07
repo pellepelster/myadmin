@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.gwt.GwtStyles;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
 import de.pellepelster.myadmin.client.web.entities.dictionary.SearchResultItemVO;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdateListener;
@@ -35,15 +34,11 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public class DictionarySearchResultModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements
 		ISearchUpdateListener
 {
-	public static final String MODULE_ID = DictionarySearchResultModuleUI.class.getName();
-
 	private static final String DICTIONARY_SEARCH_RESULT_PANEL_STYLE = "dictionarySearchResultPanel";
 
 	private static final String DICTIONARY_SEARCH_RESULT_ITEM_PANEL_STYLE = "dictionarySearchResultItemPanel";
 
 	private static final String DICTIONARY_SEARCH_RESULT_ITEM_TITLE_STYLE = "dictionarySearchResultItemTitle";
-
-	public static final String MODULE_URL = BaseGwtModuleUI.getModuleUrl(DictionarySearchModule.MODULE_ID, MODULE_ID);
 
 	private final VerticalPanel verticalPanel;
 
@@ -52,7 +47,7 @@ public class DictionarySearchResultModuleUI<VOType extends IBaseVO> extends Base
 	 */
 	public DictionarySearchResultModuleUI(final DictionarySearchModule<VOType> module)
 	{
-		super(module, MODULE_ID);
+		super(module, DictionarySearchModule.SEARCH_QUERY_RESULT_UI_MODULE_ID);
 
 		String queryString = module.getSearchText();
 

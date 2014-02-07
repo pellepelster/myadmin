@@ -11,9 +11,6 @@
  */
 package de.pellepelster.myadmin.client.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
@@ -21,7 +18,6 @@ import com.google.gwt.event.shared.SimpleEventBus;
 
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleFactoryRegistry;
-import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModuleFactory;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModuleFactory;
@@ -111,23 +107,6 @@ public final class MyAdmin implements EntryPoint
 	public void setMyAdminGWTRemoteServiceLocator(IMyAdminGWTRemoteServiceLocator myAdminGWTRemoteServiceLocator)
 	{
 		this.myAdminGWTRemoteServiceLocator = myAdminGWTRemoteServiceLocator;
-	}
-
-	public void startModule(String moduleUrl, String location)
-	{
-		Map<String, Object> parameters = new HashMap<String, Object>();
-
-		startModule(moduleUrl, location, parameters);
-	}
-
-	public void startModule(String moduleUrl, String location, Map<String, Object> parameters)
-	{
-		ModuleHandler.getInstance().startModule(moduleUrl, location, parameters);
-	}
-
-	public void startModule(String moduleUrl, String location, Map<String, Object> parameters, String d)
-	{
-		ModuleHandler.getInstance().startModule(moduleUrl, location, parameters);
 	}
 
 }

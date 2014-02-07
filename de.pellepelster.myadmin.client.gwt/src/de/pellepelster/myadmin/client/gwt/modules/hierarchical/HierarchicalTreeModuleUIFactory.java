@@ -13,28 +13,38 @@ package de.pellepelster.myadmin.client.gwt.modules.hierarchical;
 
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class HierarchicalTreeModuleUIFactory extends BaseModuleUIFactory<Panel, HierarchicalTreeModule>
+public class HierarchicalTreeModuleUIFactory extends BaseModuleUIFactory<Panel, HierarchicalTreeModuleUI>
 {
-	/** {@inheritDoc} */
-	@Override
-	public IModuleUI<Panel, HierarchicalTreeModule> getNewInstance(HierarchicalTreeModule module, IModuleUI<?, ?> previousModuleUI,
-			Map<String, Object> parameters)
+	public HierarchicalTreeModuleUIFactory()
 	{
+		super(new String[] { DictionaryEditorModuleUI.MODULE_ID });
+	}
 
-		if (supports(module.getModuleUrl(), DictionaryEditorModuleUI.MODULE_ID))
-		{
-			return new HierarchicalTreeModuleUI((HierarchicalTreeModule) module);
-		}
-
-		return null;
-
+	@Override
+	public void getNewInstance(final String moduleUrl, final AsyncCallback<HierarchicalTreeModuleUI> moduleCallback, Map<String, Object> parameters,
+			IModuleUI previousModuleUI)
+	{
+		ModuleHandler.getInstance().startModule(HierarchicalTreeModule.MODULE_LOCATOR, ModuleUtils.getUrlParameters(moduleUrl),
+				new BaseErrorAsyncCallback<IModule>()
+				{
+					@Override
+					public void onSuccess(IModule result)
+					{
+						moduleCallback.onSuccess(new HierarchicalTreeModuleUI((HierarchicalTreeModule) result));
+					}
+				});
 	}
 
 }

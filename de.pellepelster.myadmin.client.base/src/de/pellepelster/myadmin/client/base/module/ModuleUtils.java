@@ -1,11 +1,23 @@
 package de.pellepelster.myadmin.client.base.module;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Splitter;
 
+import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+
 public abstract class ModuleUtils
 {
+	public static final String getBaseModuleUrl(String moduleId)
+	{
+		return IModule.MODULE_ID_PARAMETER_NAME + "=" + moduleId;
+	}
+
+	public static final String getBaseUIModuleUrl(String uiModuleId)
+	{
+		return IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=" + uiModuleId;
+	}
 
 	public static boolean urlContainsModuleId(String moduleUrl, String moduleId)
 	{
@@ -17,14 +29,33 @@ public abstract class ModuleUtils
 		return getUrlParameter(moduleUrl, IModule.MODULE_ID_PARAMETER_NAME);
 	}
 
+	public static String getUIModuleId(String moduleUrl)
+	{
+		return getUrlParameter(moduleUrl, IModuleUI.UI_MODULE_ID_PARAMETER_NAME);
+	}
+
 	public static String getUrlParameter(String moduleUrl, String parameterName)
 	{
-		Map<String, String> urlSegments = Splitter.on("&").withKeyValueSeparator("=").split(moduleUrl);
+		Map<String, String> urlSegments = getUrlParametersInternal(moduleUrl);
 		return urlSegments.get(parameterName);
 	}
 
 	public static boolean hasUrlParameter(String moduleUrl, String parameterName)
 	{
 		return getUrlParameter(moduleUrl, parameterName) != null;
+	}
+
+	private static Map<String, String> getUrlParametersInternal(String moduleUrl)
+	{
+		return Splitter.on("&").withKeyValueSeparator("=").split(moduleUrl);
+	}
+
+	public static Map<String, Object> getUrlParameters(String moduleUrl)
+	{
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		result.putAll(Splitter.on("&").withKeyValueSeparator("=").split(moduleUrl));
+
+		return result;
 	}
 }

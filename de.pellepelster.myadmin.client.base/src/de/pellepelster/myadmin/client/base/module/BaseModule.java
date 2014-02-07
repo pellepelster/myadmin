@@ -7,10 +7,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public abstract class BaseModule implements IModule
 {
-	public static final String getBaseModuleUrl(String moduleId)
-	{
-		return MODULE_ID_PARAMETER_NAME + "=" + moduleId;
-	}
 
 	private final AsyncCallback<IModule> moduleCallback;
 

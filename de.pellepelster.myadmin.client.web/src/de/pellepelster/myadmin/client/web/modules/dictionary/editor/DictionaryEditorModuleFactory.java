@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,42 +22,6 @@ import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
 public class DictionaryEditorModuleFactory extends BaseModuleFactory
 {
-	public static void openEditor(String dictionaryName, HashMap<String, Object> parameters)
-	{
-		openEditorInternal(dictionaryName, parameters);
-	}
-
-	public static void openEditor(String dictionaryName)
-	{
-		openEditorInternal(dictionaryName, new HashMap<String, Object>());
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void openEditorInternal(String dictionaryName, final Map<String, Object> parameters)
-	{
-		String moduleUrl = DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName);
-
-		new DictionaryEditorModule(moduleUrl, new AsyncCallback<IModule>()
-		{
-
-			/** {@inheritDoc} */
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				throw new RuntimeException("error starting DictionaryEditorModule", caught);
-			}
-
-			/**
-			 * @param result
-			 */
-			@Override
-			public void onSuccess(IModule result)
-			{
-				ModuleHandler.getInstance().startModuleUI(result, parameters);
-			}
-		}, parameters);
-
-	}
 
 	@Override
 	public boolean supports(String moduleUrl)
@@ -66,12 +29,19 @@ public class DictionaryEditorModuleFactory extends BaseModuleFactory
 		return ModuleUtils.urlContainsModuleId(moduleUrl, DictionaryEditorModule.MODULE_ID);
 	}
 
-	public static void openEditorForId(String dictionaryName, long id)
+	public static void openEditorForId(String dictionaryName, long voId)
 	{
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(DictionaryEditorModule.ID_PARAMETER_ID, id);
+		ModuleHandler.getInstance().startUIModule(DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName, voId));
+	}
 
-		openEditorInternal(dictionaryName, parameters);
+	public static void openEditor(String dictionaryName)
+	{
+		ModuleHandler.getInstance().startUIModule(DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName));
+	}
+
+	public static void openEditor(String dictionaryName, Map<String, Object> parameters)
+	{
+		ModuleHandler.getInstance().startUIModule(DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName), parameters);
 	}
 
 	/** {@inheritDoc} */

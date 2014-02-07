@@ -11,12 +11,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.base.layout.ILayoutFactory;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.base.module.IModule;
-import de.pellepelster.myadmin.client.web.module.IModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleUIFactoryRegistry;
-import de.pellepelster.myadmin.client.web.modules.dictionary.editor.DictionaryEditorModule;
-import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionaryEditorModuleTestUIFactory;
 import de.pellepelster.myadmin.client.web.test.modules.dictionary.DictionarySearchModuleTestUIFactory;
 import de.pellepelster.myadmin.client.web.test.modules.navigation.NavigationModuleTestUIFactory;
@@ -38,9 +33,9 @@ public class JunitLayoutFactory implements ILayoutFactory
 
 	public JunitLayoutFactory()
 	{
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(ModuleNavigationModule.class, new NavigationModuleTestUIFactory());
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionaryEditorModule.class, new DictionaryEditorModuleTestUIFactory());
-		ModuleUIFactoryRegistry.getInstance().addModuleFactory(DictionarySearchModule.class, new DictionarySearchModuleTestUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new NavigationModuleTestUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new DictionaryEditorModuleTestUIFactory());
+		ModuleUIFactoryRegistry.getInstance().addModuleFactory(new DictionarySearchModuleTestUIFactory());
 	}
 
 	@Override
@@ -94,14 +89,9 @@ public class JunitLayoutFactory implements ILayoutFactory
 	}
 
 	@Override
-	public void startModuleUI(IModule module, String location, Map parameters)
+	public void startModuleUI(IModuleUI moduleUI, String location, Map parameters)
 	{
 		DockLayoutPanel.Direction direction = getDirection(location);
-
-		IModuleUI moduleUI = null;
-
-		IModuleUIFactory moduleUIFactory = ModuleUIFactoryRegistry.getInstance().getModuleFactory(module.getClass());
-		moduleUI = moduleUIFactory.getNewInstance(module, getCurrentModuleUI(direction), parameters);
 
 		this.moduleUIs.add(moduleUI);
 
@@ -114,20 +104,6 @@ public class JunitLayoutFactory implements ILayoutFactory
 	public void setOneTimeCallback(String moduleName, AsyncCallback<IModuleUI<?, ?>> oneTimeCallback)
 	{
 		this.oneTimeCallback = oneTimeCallback;
-	}
-
-	@Override
-	public boolean hasInstanceOf(String moduleUrl)
-	{
-		for (IModuleUI moduleUI : this.moduleUIs)
-		{
-			if (moduleUI.isInstanceOf(moduleUrl))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 }

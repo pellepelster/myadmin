@@ -40,9 +40,24 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.IBaseDictionaryModu
 public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictionarySearchModule implements IBaseDictionaryModule
 {
 
-	public static final String getModuleUrlForDictionary(String dictionaryName)
+	public final static String MODULE_LOCATOR = ModuleUtils.getBaseModuleUrl(MODULE_ID);
+
+	public static final String SEARCH_UI_MODULE_ID = MODULE_ID;
+
+	public static final String SEARCH_QUERY_UI_MODULE_ID = MODULE_ID + "Query";
+
+	public static final String SEARCH_QUERY_UI_MODULE_LOCATOR = ModuleUtils.getBaseUIModuleUrl(SEARCH_QUERY_UI_MODULE_ID);
+
+	public static final String SEARCH_QUERY_RESULT_UI_MODULE_ID = SEARCH_QUERY_UI_MODULE_ID + "Result";
+
+	public static final String geSearchModuleLocator(String dictionaryName)
 	{
-		return getBaseModuleUrl(MODULE_ID) + "&" + SEARCHDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
+		return ModuleUtils.getBaseUIModuleUrl(SEARCH_UI_MODULE_ID) + "&" + SEARCHDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
+	}
+
+	public static final String getSearchQueryResultModuleLocator(String searchText)
+	{
+		return ModuleUtils.getBaseUIModuleUrl(SEARCH_QUERY_RESULT_UI_MODULE_ID) + "&" + SEARCHTEXT_PARAMETER_ID + "=" + searchText;
 	}
 
 	private Optional<IDictionaryModel> dictionaryModel = Optional.absent();

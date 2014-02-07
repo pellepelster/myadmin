@@ -20,9 +20,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
+import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseDictionaryModuleUI;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.BaseGwtModuleUI;
-import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdateListener;
 
@@ -33,14 +33,10 @@ import de.pellepelster.myadmin.client.web.modules.dictionary.search.ISearchUpdat
  * 
  */
 public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseDictionaryModuleUI<DictionarySearchModule<VOType>> implements
-		ISearchUpdateListener
+		ISearchUpdateListener, IGwtModuleUI<DictionarySearchModule<VOType>>
 {
 
-	public static final String MODULE_ID = DictionarySearchQueryModuleUI.class.getName();
-
 	public static final String DICTIONARY_SEARCH_INPUT_PANEL_STYLE = "dictionarySearchInputPanel";
-
-	public static final String MODULE_URL = BaseGwtModuleUI.getModuleUrl(DictionarySearchModule.MODULE_ID, MODULE_ID);
 
 	private final VerticalPanel verticalPanel;
 
@@ -49,7 +45,7 @@ public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseD
 	 */
 	public DictionarySearchQueryModuleUI(final DictionarySearchModule<VOType> module)
 	{
-		super(module, MODULE_ID);
+		super(module, DictionarySearchModule.SEARCH_QUERY_UI_MODULE_ID);
 
 		verticalPanel = new VerticalPanel();
 		verticalPanel.addStyleName(DICTIONARY_SEARCH_INPUT_PANEL_STYLE);
@@ -66,7 +62,8 @@ public class DictionarySearchQueryModuleUI<VOType extends IBaseVO> extends BaseD
 			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
-				MyAdmin.getInstance().startModule(DictionarySearchResultModuleUI.MODULE_URL, Direction.CENTER.toString());
+				ModuleHandler.getInstance().startUIModule(DictionarySearchModule.getSearchQueryResultModuleLocator(searchTextBox.getText()),
+						Direction.CENTER.toString());
 			}
 		});
 

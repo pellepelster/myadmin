@@ -13,23 +13,39 @@ package de.pellepelster.myadmin.client.web.test.modules.navigation;
 
 import java.util.Map;
 
-import de.pellepelster.myadmin.client.base.layout.IModuleUI;
-import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
-import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class NavigationModuleTestUIFactory extends BaseModuleUIFactory<Object, ModuleNavigationModule>
+import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
+import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
+import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
+
+public class NavigationModuleTestUIFactory extends BaseModuleUIFactory<Object, NavigationModuleTestUI>
 {
 
-	@Override
-	public IModuleUI<Object, ModuleNavigationModule> getNewInstance(ModuleNavigationModule module, IModuleUI<?, ?> previousModuleUI,
-			Map<String, Object> parameters)
+	public NavigationModuleTestUIFactory()
 	{
-		if (supports(module.getModuleUrl(), NavigationModuleTestUI.MODULE_ID))
-		{
-			return new NavigationModuleTestUI(module);
-		}
+		super(new String[] { NavigationModuleTestUI.MODULE_ID });
+	}
 
-		return null;
+	@Override
+	public void getNewInstance(final String moduleUrl, final AsyncCallback<NavigationModuleTestUI> moduleCallback, Map<String, Object> parameters,
+			IModuleUI previousModuleUI)
+	{
+		ModuleHandler.getInstance().startModule(HierarchicalTreeModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
+		{
+			@Override
+			public void onSuccess(IModule result)
+			{
+				if (supports(moduleUrl, ModuleNavigationModule.MODULE_ID))
+				{
+					moduleCallback.onSuccess(new NavigationModuleTestUI((ModuleNavigationModule) result));
+				}
+			}
+		});
 	}
 
 }

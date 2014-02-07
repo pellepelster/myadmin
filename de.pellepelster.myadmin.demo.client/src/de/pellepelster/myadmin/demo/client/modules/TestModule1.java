@@ -18,6 +18,9 @@ import de.pellepelster.myadmin.demo.client.web.modules.BaseTestModule11Module;
 
 public class TestModule1<VOType extends IBaseVO> extends BaseTestModule11Module
 {
+
+	public final static String MODULE_LOCATOR = ModuleUtils.getBaseModuleUrl(MODULE_ID);
+
 	private VOType vo;
 
 	public TestModule1(String moduleUrl, final AsyncCallback<IModule> moduleCallback, Map<String, Object> parameters)

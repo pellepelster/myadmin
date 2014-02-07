@@ -13,30 +13,44 @@ package de.pellepelster.myadmin.client.gwt.modules.navigation;
 
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class NavigationModuleUIFactory extends BaseModuleUIFactory<Panel, ModuleNavigationModule>
+public class NavigationModuleUIFactory extends BaseModuleUIFactory<Panel, IGwtModuleUI>
 {
 
-	@Override
-	public IModuleUI<Panel, ModuleNavigationModule> getNewInstance(ModuleNavigationModule module, IModuleUI<?, ?> previousModuleUI,
-			Map<String, Object> parameters)
+	public NavigationModuleUIFactory()
 	{
+		super(new String[] { ModuleNavigationModule.NAVIGATION_UI_MODULE_ID, ModuleNavigationModule.NAVIGATION_OVERVIEW_UI_MODULE_ID });
+	}
 
-		if (supports(module.getModuleUrl(), NavigationModuleOverviewUI.MODULE_ID))
+	@Override
+	public void getNewInstance(final String moduleUrl, final AsyncCallback<IGwtModuleUI> moduleCallback, Map<String, Object> parameters,
+			IModuleUI previousModuleUI)
+	{
+		ModuleHandler.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
 		{
-			return new NavigationModuleOverviewUI(module);
-		}
 
-		if (supports(module.getModuleUrl(), NavigationModuleTreeUI.MODULE_ID))
-		{
-			return new NavigationModuleTreeUI(module);
-		}
-
-		return null;
+			@Override
+			public void onSuccess(IModule result)
+			{
+				if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_UI_MODULE_ID))
+				{
+					moduleCallback.onSuccess(new NavigationModuleOverviewUI((ModuleNavigationModule) result));
+				}
+				else if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_OVERVIEW_UI_MODULE_ID))
+				{
+					moduleCallback.onSuccess(new NavigationModuleTreeUI((ModuleNavigationModule) result));
+				}
+			}
+		});
 	}
 }

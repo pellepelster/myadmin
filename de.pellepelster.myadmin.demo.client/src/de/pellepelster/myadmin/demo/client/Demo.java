@@ -6,8 +6,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.search.DictionarySearchQueryModuleUI;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
+import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.demo.client.web.DemoClientConfiguration;
@@ -26,11 +27,11 @@ public class Demo implements EntryPoint
 		GWTLayoutFactory gwtLayoutFactory = new GWTLayoutFactory(Unit.PX);
 		MyAdmin.getInstance().setLayoutFactory(gwtLayoutFactory);
 
-		MyAdmin.getInstance().startModule(HierarchicalTreeModule.getModuleLocator(TestClientHierarchicalConfiguration.ID), Direction.WEST.toString());
+		ModuleHandler.getInstance().startUIModule(HierarchicalTreeModule.getUIModuleLocator(TestClientHierarchicalConfiguration.ID), Direction.WEST.toString());
 
-		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
+		ModuleHandler.getInstance().startUIModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
 
-		MyAdmin.getInstance().startModule(DictionarySearchQueryModuleUI.MODULE_URL, Direction.WEST.toString());
+		ModuleHandler.getInstance().startUIModule(DictionarySearchModule.SEARCH_QUERY_UI_MODULE_LOCATOR, Direction.WEST.toString());
 
 	}
 

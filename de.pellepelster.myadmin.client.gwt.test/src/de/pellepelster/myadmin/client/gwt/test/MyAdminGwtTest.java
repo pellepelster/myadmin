@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
 
 import de.pellepelster.myadmin.client.gwt.GWTLayoutFactory;
 import de.pellepelster.myadmin.client.web.MyAdmin;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
 import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationModule;
 import de.pellepelster.myadmin.client.web.test.services.TestHierarchicalServiceGWTAsync;
@@ -39,8 +40,8 @@ public class MyAdminGwtTest implements EntryPoint
 		MyAdmin.getInstance().setMyAdminGWTRemoteServiceLocator(new TestMyAdminRemoteServiceLocator());
 		MyAdmin.getInstance().setLayoutFactory(new GWTLayoutFactory(Unit.PCT));
 
-		MyAdmin.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
-		MyAdmin.getInstance().startModule(HierarchicalTreeModule.getModuleLocator(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1),
+		ModuleHandler.getInstance().startUIModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
+		ModuleHandler.getInstance().startUIModule(HierarchicalTreeModule.getUIModuleLocator(TestHierarchicalServiceGWTAsync.HIERARCHICAL_TREE1),
 				Direction.WEST.toString());
 		;
 

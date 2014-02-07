@@ -42,10 +42,18 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
  */
 public class DictionaryEditorModule<VOType extends IBaseVO> extends BaseDictionaryEditorModule implements IBaseDictionaryModule
 {
+	public final static String MODULE_LOCATOR = ModuleUtils.getBaseModuleUrl(MODULE_ID);
+
+	public final static String UI_MODULE_LOCATOR = MODULE_LOCATOR;
+
+	public static final String getModuleUrlForDictionary(String dictionaryName, long voId)
+	{
+		return UI_MODULE_LOCATOR + "&" + EDITORDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName + "&" + ID_PARAMETER_ID + "=" + voId;
+	}
 
 	public static final String getModuleUrlForDictionary(String dictionaryName)
 	{
-		return getBaseModuleUrl(MODULE_ID) + "&" + EDITORDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
+		return UI_MODULE_LOCATOR + "&" + EDITORDICTIONARYNAME_PARAMETER_ID + "=" + dictionaryName;
 	}
 
 	public enum EditorMode

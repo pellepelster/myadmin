@@ -13,24 +13,37 @@ package de.pellepelster.myadmin.demo.client.modules;
 
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class TestModule1UIFactory extends BaseModuleUIFactory<Panel, TestModule1>
+public class TestModule1UIFactory extends BaseModuleUIFactory<Panel, TestModule1UI>
 {
-	/** {@inheritDoc} */
-	@Override
-	public IModuleUI<Panel, TestModule1> getNewInstance(TestModule1 module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters)
+	public TestModule1UIFactory()
 	{
+		super(new String[] { TestModule1UI.MODULE_ID });
+	}
 
-		if (supports(module.getModuleUrl(), TestModule1UI.MODULE_ID))
+	@Override
+	public void getNewInstance(final String moduleUrl, final AsyncCallback<TestModule1UI> moduleCallback, Map<String, Object> parameters,
+			IModuleUI previousModuleUI)
+	{
+		ModuleHandler.getInstance().startModule(TestModule1.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
 		{
-			return new TestModule1UI(module);
-		}
 
-		return null;
-
+			@Override
+			public void onSuccess(IModule result)
+			{
+				if (supports(moduleUrl, TestModule1UI.MODULE_ID))
+				{
+					moduleCallback.onSuccess(new TestModule1UI((TestModule1) result));
+				}
+			}
+		});
 	}
 }

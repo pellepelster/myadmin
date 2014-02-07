@@ -36,8 +36,6 @@ import de.pellepelster.myadmin.client.web.modules.navigation.ModuleNavigationMod
  */
 public class NavigationModuleOverviewUI extends BaseGwtModuleUI<ModuleNavigationModule>
 {
-	public static final String MODULE_ID = "NavigationModuleOverviewUI";
-
 	private static final String NAVIGATION_OVERVIEW_STYLE = "navigationOverview";
 
 	private static final String NAVIGATION_OVERVIEW_PANEL_WRAPPER_STYLE = "navigationOverviewPanelWrapper";
@@ -55,7 +53,7 @@ public class NavigationModuleOverviewUI extends BaseGwtModuleUI<ModuleNavigation
 	 */
 	public NavigationModuleOverviewUI(ModuleNavigationModule module)
 	{
-		super(module, MODULE_ID);
+		super(module, ModuleNavigationModule.NAVIGATION_OVERVIEW_UI_MODULE_ID);
 
 		List<NavigationTreeElement> children = module.getChildrenForNavigationElement(module.getNavigationTreeElementName());
 
@@ -105,7 +103,7 @@ public class NavigationModuleOverviewUI extends BaseGwtModuleUI<ModuleNavigation
 				@Override
 				public void onClick(ClickEvent event)
 				{
-					ModuleHandler.getInstance().startModule(navigationTreeElement.getModuleLocator());
+					ModuleHandler.getInstance().startUIModule(navigationTreeElement.getModuleLocator());
 
 				}
 			}, ClickEvent.getType());

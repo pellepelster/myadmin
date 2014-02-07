@@ -66,6 +66,4 @@ public interface IModuleUI<ContainerType, ModuleType>
 	 */
 	String getTitle();
 
-	boolean isInstanceOf(String moduleUrl);
-
 }

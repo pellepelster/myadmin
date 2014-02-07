@@ -11,7 +11,6 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.search;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,42 +22,9 @@ import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 
 public class DictionarySearchModuleFactory extends BaseModuleFactory
 {
-
-	public static void openSearch(String dictionaryName, HashMap<String, Object> parameters)
-	{
-		openSearchInternal(dictionaryName, parameters);
-	}
-
 	public static void openSearch(String dictionaryName)
 	{
-		openSearchInternal(dictionaryName, new HashMap<String, Object>());
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void openSearchInternal(String dictionaryName, final Map<String, Object> parameters)
-	{
-		String moduleUrl = DictionarySearchModule.getModuleUrlForDictionary(dictionaryName);
-
-		new DictionarySearchModule(moduleUrl, new AsyncCallback<IModule>()
-		{
-
-			/** {@inheritDoc} */
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				throw new RuntimeException("error starting DictionaryEditorModule", caught);
-			}
-
-			/**
-			 * @param result
-			 */
-			@Override
-			public void onSuccess(IModule result)
-			{
-				ModuleHandler.getInstance().startModuleUI(result, parameters);
-			}
-		}, parameters);
-
+		ModuleHandler.getInstance().startUIModule(DictionarySearchModule.geSearchModuleLocator(dictionaryName));
 	}
 
 	/** {@inheritDoc} */

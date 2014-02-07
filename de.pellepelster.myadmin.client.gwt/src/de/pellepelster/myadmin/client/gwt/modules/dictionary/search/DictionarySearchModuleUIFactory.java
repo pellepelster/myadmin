@@ -13,36 +13,50 @@ package de.pellepelster.myadmin.client.gwt.modules.dictionary.search;
 
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
+import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
+import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
+import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 
-public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> extends BaseModuleUIFactory<Panel, DictionarySearchModule<VOType>>
+public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> extends BaseModuleUIFactory<Panel, IGwtModuleUI>
 {
+	public DictionarySearchModuleUIFactory()
+	{
+		super(new String[] { DictionarySearchModule.SEARCH_QUERY_RESULT_UI_MODULE_ID, DictionarySearchModule.SEARCH_QUERY_UI_MODULE_ID,
+				DictionarySearchModule.SEARCH_UI_MODULE_ID });
+	}
 
 	@Override
-	public IModuleUI<Panel, DictionarySearchModule<VOType>> getNewInstance(DictionarySearchModule<VOType> module, IModuleUI<?, ?> previousModuleUI,
-			Map<String, Object> parameters)
+	public void getNewInstance(final String moduleUrl, final AsyncCallback<IGwtModuleUI> moduleCallback, Map<String, Object> parameters,
+			IModuleUI previousModuleUI)
 	{
-		if (supports(module.getModuleUrl(), DictionarySearchQueryModuleUI.MODULE_ID))
+		ModuleHandler.getInstance().startModule(DictionarySearchModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
 		{
-			return new DictionarySearchQueryModuleUI<VOType>((DictionarySearchModule) module);
 
-		}
-		else if (supports(module.getModuleUrl(), DictionarySearchResultModuleUI.MODULE_ID))
-		{
-			return new DictionarySearchResultModuleUI<VOType>((DictionarySearchModule) module);
+			@Override
+			public void onSuccess(IModule result)
+			{
 
-		}
-
-		else if (supports(module.getModuleUrl(), DictionarySearchModuleUI.MODULE_ID))
-		{
-			return new DictionarySearchModuleUI((DictionarySearchModule) module);
-		}
-
-		return null;
+				if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_UI_MODULE_ID))
+				{
+					moduleCallback.onSuccess(new DictionarySearchQueryModuleUI((DictionarySearchModule) result));
+				}
+				else if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_RESULT_UI_MODULE_ID))
+				{
+					moduleCallback.onSuccess(new DictionarySearchResultModuleUI((DictionarySearchModule) result));
+				}
+				else if (supports(moduleUrl, DictionarySearchModule.SEARCH_UI_MODULE_ID))
+				{
+					moduleCallback.onSuccess(new DictionarySearchModuleUI((DictionarySearchModule) result));
+				}
+			}
+		});
 	}
 }

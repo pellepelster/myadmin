@@ -13,9 +13,13 @@ package de.pellepelster.myadmin.client.web.module;
 
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 
 public interface IModuleUIFactory<ContainerType, ModuleType>
 {
-	IModuleUI<ContainerType, ModuleType> getNewInstance(ModuleType module, IModuleUI<?, ?> previousModuleUI, Map<String, Object> parameters);
+	boolean supports(String moduleUrl);
+
+	void getNewInstance(String moduleUrl, AsyncCallback<ModuleType> moduleCallback, Map<String, Object> parameters, IModuleUI previousModuleUI);
 }
