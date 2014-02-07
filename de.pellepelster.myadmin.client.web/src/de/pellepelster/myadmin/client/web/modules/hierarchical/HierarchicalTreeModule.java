@@ -40,7 +40,9 @@ public class HierarchicalTreeModule extends BaseModuleHierarchicalTreeModule
 {
 	public final static String MODULE_LOCATOR = ModuleUtils.getBaseModuleUrl(MODULE_ID);
 
-	private final static String UI_MODULE_LOCATOR = ModuleUtils.getBaseUIModuleUrl(MODULE_ID);
+	public final static String UI_MODULE_ID = MODULE_ID;
+
+	private final static String UI_MODULE_LOCATOR = ModuleUtils.getBaseUIModuleUrl(UI_MODULE_ID);
 
 	public final static String getUIModuleLocator(String hierarchicalTreeId)
 	{

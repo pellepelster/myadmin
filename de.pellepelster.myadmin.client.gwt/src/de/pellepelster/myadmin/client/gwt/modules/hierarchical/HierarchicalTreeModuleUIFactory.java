@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Panel;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
 import de.pellepelster.myadmin.client.base.module.ModuleUtils;
-import de.pellepelster.myadmin.client.gwt.modules.dictionary.editor.DictionaryEditorModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.hierarchical.HierarchicalTreeModule;
@@ -29,7 +28,7 @@ public class HierarchicalTreeModuleUIFactory extends BaseModuleUIFactory<Panel, 
 {
 	public HierarchicalTreeModuleUIFactory()
 	{
-		super(new String[] { DictionaryEditorModuleUI.MODULE_ID });
+		super(new String[] { HierarchicalTreeModule.UI_MODULE_ID });
 	}
 
 	@Override

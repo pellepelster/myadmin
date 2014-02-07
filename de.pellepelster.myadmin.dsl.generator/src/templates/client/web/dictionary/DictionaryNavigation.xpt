@@ -64,11 +64,11 @@
 			«IF this.module != null»
 			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=«this.module.name»");
 			«ELSEIF this.dictionaryEditor != null»
-			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=DictionarySearchModuleUI&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionaryEditor).name»");
+			setModuleLocator(de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=DictionaryEditor&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionaryEditorModule.EDITORDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionaryEditor).name»");
 			«ELSEIF this.dictionarySearch != null»
-			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=DictionaryEditorModuleUI&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionarySearch).name»");
+			setModuleLocator(de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=DictionarySearch&" + de.pellepelster.myadmin.client.web.modules.dictionary.BaseDictionarySearchModule.SEARCHDICTIONARYNAME_PARAMETER_ID + "=«getParentDictionary(this.dictionarySearch).name»");
 			«ELSEIF this.name != null»
-			setModuleLocator(de.pellepelster.myadmin.client.base.module.IModule.MODULE_ID_PARAMETER_NAME + "=" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.MODULE_ID + "&" + de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=NavigationModuleOverviewUI&" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.NAVIGATIONTREEELEMENTNAME_PARAMETER_ID + "=«this.name»");
+			setModuleLocator(de.pellepelster.myadmin.client.base.layout.IModuleUI.UI_MODULE_ID_PARAMETER_NAME + "=ModuleNavigationOverview&" + de.pellepelster.myadmin.client.web.modules.BaseModuleNavigationModule.NAVIGATIONTREEELEMENTNAME_PARAMETER_ID + "=«this.name»");
 			«ENDIF»
 		}
 	

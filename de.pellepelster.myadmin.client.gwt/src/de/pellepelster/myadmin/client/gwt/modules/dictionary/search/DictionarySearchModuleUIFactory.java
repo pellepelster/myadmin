@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Panel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
@@ -37,26 +38,27 @@ public class DictionarySearchModuleUIFactory<VOType extends IBaseVO> extends Bas
 	public void getNewInstance(final String moduleUrl, final AsyncCallback<IGwtModuleUI> moduleCallback, Map<String, Object> parameters,
 			IModuleUI previousModuleUI)
 	{
-		ModuleHandler.getInstance().startModule(DictionarySearchModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
-		{
+		ModuleHandler.getInstance().startModule(ModuleUtils.concatenate(moduleUrl, DictionarySearchModule.MODULE_LOCATOR), parameters,
+				new BaseErrorAsyncCallback<IModule>()
+				{
 
-			@Override
-			public void onSuccess(IModule result)
-			{
+					@Override
+					public void onSuccess(IModule result)
+					{
 
-				if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_UI_MODULE_ID))
-				{
-					moduleCallback.onSuccess(new DictionarySearchQueryModuleUI((DictionarySearchModule) result));
-				}
-				else if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_RESULT_UI_MODULE_ID))
-				{
-					moduleCallback.onSuccess(new DictionarySearchResultModuleUI((DictionarySearchModule) result));
-				}
-				else if (supports(moduleUrl, DictionarySearchModule.SEARCH_UI_MODULE_ID))
-				{
-					moduleCallback.onSuccess(new DictionarySearchModuleUI((DictionarySearchModule) result));
-				}
-			}
-		});
+						if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new DictionarySearchQueryModuleUI((DictionarySearchModule) result));
+						}
+						else if (supports(moduleUrl, DictionarySearchModule.SEARCH_QUERY_RESULT_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new DictionarySearchResultModuleUI((DictionarySearchModule) result));
+						}
+						else if (supports(moduleUrl, DictionarySearchModule.SEARCH_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new DictionarySearchModuleUI((DictionarySearchModule) result));
+						}
+					}
+				});
 	}
 }

@@ -49,7 +49,7 @@ public final class ModuleUIFactoryRegistry
 			}
 		}
 
-		throw new RuntimeException("unsupported ui module url '" + moduleUrl + "'");
+		return null;
 	}
 
 	public boolean supports(String moduleUrl)

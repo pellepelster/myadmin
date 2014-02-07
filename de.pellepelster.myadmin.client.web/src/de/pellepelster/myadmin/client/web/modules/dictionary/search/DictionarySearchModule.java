@@ -71,7 +71,7 @@ public class DictionarySearchModule<VOType extends IBaseVO> extends BaseDictiona
 
 		super(moduleUrl, moduleCallback, parameters);
 
-		if (ModuleUtils.hasUrlParameter(moduleUrl, SEARCHDICTIONARYNAME_PARAMETER_ID))
+		if (hasParameter(SEARCHDICTIONARYNAME_PARAMETER_ID))
 		{
 			init(getSearchDictionaryName());
 		}

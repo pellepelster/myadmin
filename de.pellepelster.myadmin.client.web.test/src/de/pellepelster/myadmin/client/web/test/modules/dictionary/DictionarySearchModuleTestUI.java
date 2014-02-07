@@ -35,13 +35,12 @@ import de.pellepelster.myadmin.client.web.util.BaseErrorAsyncCallback;
 public class DictionarySearchModuleTestUI<VOType extends IBaseVO> extends BaseDictionaryModuleTestUI implements
 		IModuleUI<Object, DictionarySearchModule<VOType>>
 {
-	public static final String MODULE_ID = DictionarySearchModuleTestUI.class.getName();
 
 	private DictionarySearchModule<VOType> module;
 
 	public DictionarySearchModuleTestUI(DictionarySearchModule<VOType> module)
 	{
-		super(module, MODULE_ID);
+		super(module, DictionarySearchModule.SEARCH_UI_MODULE_ID);
 		this.module = module;
 	}
 

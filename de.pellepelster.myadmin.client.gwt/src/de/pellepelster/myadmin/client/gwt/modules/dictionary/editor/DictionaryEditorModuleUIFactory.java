@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Panel;
 import de.pellepelster.myadmin.client.base.db.vos.IBaseVO;
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
@@ -30,25 +31,26 @@ public class DictionaryEditorModuleUIFactory<VOType extends IBaseVO> extends Bas
 
 	public DictionaryEditorModuleUIFactory()
 	{
-		super(new String[] { DictionaryEditorModuleUI.MODULE_ID });
+		super(new String[] { DictionaryEditorModule.UI_MODULE_ID });
 	}
 
 	@Override
 	public void getNewInstance(final String moduleUrl, final AsyncCallback<DictionaryEditorModuleUI> moduleCallback, Map<String, Object> parameters,
 			final IModuleUI previousModuleUI)
 	{
-		ModuleHandler.getInstance().startModule(DictionaryEditorModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
-		{
-
-			@Override
-			public void onSuccess(IModule result)
-			{
-				if (supports(moduleUrl, DictionaryEditorModuleUI.MODULE_ID))
+		ModuleHandler.getInstance().startModule(ModuleUtils.concatenate(moduleUrl, DictionaryEditorModule.MODULE_LOCATOR), parameters,
+				new BaseErrorAsyncCallback<IModule>()
 				{
-					moduleCallback.onSuccess(new DictionaryEditorModuleUI((DictionaryEditorModule) result, (IGwtModuleUI) previousModuleUI));
-				}
-			}
-		});
+
+					@Override
+					public void onSuccess(IModule result)
+					{
+						if (supports(moduleUrl, DictionaryEditorModule.UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new DictionaryEditorModuleUI((DictionaryEditorModule) result, (IGwtModuleUI) previousModuleUI));
+						}
+					}
+				});
 	}
 
 }

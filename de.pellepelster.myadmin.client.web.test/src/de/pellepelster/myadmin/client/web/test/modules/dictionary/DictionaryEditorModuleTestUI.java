@@ -34,13 +34,11 @@ public class DictionaryEditorModuleTestUI<VOType extends IBaseVO> extends BaseDi
 		IModuleUI<Object, DictionaryEditorModule<VOType>>, IEditorUpdateListener
 {
 
-	public static final String MODULE_ID = DictionaryEditorModuleTestUI.class.getName();
-
 	private DictionaryEditorModule<VOType> module;
 
 	public DictionaryEditorModuleTestUI(DictionaryEditorModule<VOType> module)
 	{
-		super(module, MODULE_ID);
+		super(module, DictionaryEditorModule.UI_MODULE_ID);
 		this.module = module;
 		module.addUpdateListener(this);
 	}

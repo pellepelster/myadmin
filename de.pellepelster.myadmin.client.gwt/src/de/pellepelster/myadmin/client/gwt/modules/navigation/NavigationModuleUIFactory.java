@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Panel;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.gwt.modules.IGwtModuleUI;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
@@ -36,21 +37,22 @@ public class NavigationModuleUIFactory extends BaseModuleUIFactory<Panel, IGwtMo
 	public void getNewInstance(final String moduleUrl, final AsyncCallback<IGwtModuleUI> moduleCallback, Map<String, Object> parameters,
 			IModuleUI previousModuleUI)
 	{
-		ModuleHandler.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
-		{
+		ModuleHandler.getInstance().startModule(ModuleUtils.concatenate(moduleUrl, ModuleNavigationModule.MODULE_LOCATOR), parameters,
+				new BaseErrorAsyncCallback<IModule>()
+				{
 
-			@Override
-			public void onSuccess(IModule result)
-			{
-				if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_UI_MODULE_ID))
-				{
-					moduleCallback.onSuccess(new NavigationModuleOverviewUI((ModuleNavigationModule) result));
-				}
-				else if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_OVERVIEW_UI_MODULE_ID))
-				{
-					moduleCallback.onSuccess(new NavigationModuleTreeUI((ModuleNavigationModule) result));
-				}
-			}
-		});
+					@Override
+					public void onSuccess(IModule result)
+					{
+						if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new NavigationModuleTreeUI((ModuleNavigationModule) result));
+						}
+						else if (supports(moduleUrl, ModuleNavigationModule.NAVIGATION_OVERVIEW_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new NavigationModuleOverviewUI((ModuleNavigationModule) result));
+						}
+					}
+				});
 	}
 }

@@ -106,4 +106,10 @@ public class JunitLayoutFactory implements ILayoutFactory
 		this.oneTimeCallback = oneTimeCallback;
 	}
 
+	@Override
+	public IModuleUI getCurrentModule(String location)
+	{
+		return null;
+	}
+
 }

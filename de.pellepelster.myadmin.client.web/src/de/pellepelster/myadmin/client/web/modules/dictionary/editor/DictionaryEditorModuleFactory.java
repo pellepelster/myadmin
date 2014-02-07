@@ -11,6 +11,7 @@
  */
 package de.pellepelster.myadmin.client.web.modules.dictionary.editor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,7 +37,7 @@ public class DictionaryEditorModuleFactory extends BaseModuleFactory
 
 	public static void openEditor(String dictionaryName)
 	{
-		ModuleHandler.getInstance().startUIModule(DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName));
+		ModuleHandler.getInstance().startUIModule(DictionaryEditorModule.getModuleUrlForDictionary(dictionaryName), null, new HashMap<String, Object>());
 	}
 
 	public static void openEditor(String dictionaryName, Map<String, Object> parameters)

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
 import de.pellepelster.myadmin.client.base.module.IModule;
+import de.pellepelster.myadmin.client.base.module.ModuleUtils;
 import de.pellepelster.myadmin.client.web.module.BaseModuleUIFactory;
 import de.pellepelster.myadmin.client.web.module.ModuleHandler;
 import de.pellepelster.myadmin.client.web.modules.dictionary.search.DictionarySearchModule;
@@ -27,25 +28,26 @@ public class DictionarySearchModuleTestUIFactory extends BaseModuleUIFactory<Obj
 
 	public DictionarySearchModuleTestUIFactory()
 	{
-		super(new String[] { DictionarySearchModuleTestUI.MODULE_ID });
+		super(new String[] { DictionarySearchModule.SEARCH_UI_MODULE_ID });
 	}
 
 	@Override
 	public void getNewInstance(final String moduleUrl, final AsyncCallback<DictionarySearchModuleTestUI> moduleCallback, Map<String, Object> parameters,
 			IModuleUI previousModuleUI)
 	{
-		ModuleHandler.getInstance().startModule(DictionarySearchModule.MODULE_LOCATOR, parameters, new BaseErrorAsyncCallback<IModule>()
-		{
-
-			@Override
-			public void onSuccess(IModule result)
-			{
-				if (supports(moduleUrl, DictionarySearchModuleTestUI.MODULE_ID))
+		ModuleHandler.getInstance().startModule(ModuleUtils.concatenate(moduleUrl, DictionarySearchModule.MODULE_LOCATOR), parameters,
+				new BaseErrorAsyncCallback<IModule>()
 				{
-					moduleCallback.onSuccess(new DictionarySearchModuleTestUI((DictionarySearchModule) result));
-				}
-			}
-		});
+
+					@Override
+					public void onSuccess(IModule result)
+					{
+						if (supports(moduleUrl, DictionarySearchModule.SEARCH_UI_MODULE_ID))
+						{
+							moduleCallback.onSuccess(new DictionarySearchModuleTestUI((DictionarySearchModule) result));
+						}
+					}
+				});
 	}
 
 }

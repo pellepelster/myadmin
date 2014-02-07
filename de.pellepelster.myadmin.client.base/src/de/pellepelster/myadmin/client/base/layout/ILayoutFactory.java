@@ -47,6 +47,8 @@ public interface ILayoutFactory<ContainerType, WidgetType>
 	 */
 	void showModuleUI(IModuleUI<?, ?> moduleUI);
 
+	IModuleUI<?, ?> getCurrentModule(String location);
+
 	/**
 	 * Starts the module UI belonging to a module
 	 * 

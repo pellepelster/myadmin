@@ -29,7 +29,7 @@ public class Demo implements EntryPoint
 
 		ModuleHandler.getInstance().startUIModule(HierarchicalTreeModule.getUIModuleLocator(TestClientHierarchicalConfiguration.ID), Direction.WEST.toString());
 
-		ModuleHandler.getInstance().startUIModule(ModuleNavigationModule.MODULE_LOCATOR, Direction.WEST.toString());
+		ModuleHandler.getInstance().startUIModule(ModuleNavigationModule.NAVIGATION_UI_MODULE_LOCATOR, Direction.WEST.toString());
 
 		ModuleHandler.getInstance().startUIModule(DictionarySearchModule.SEARCH_QUERY_UI_MODULE_LOCATOR, Direction.WEST.toString());
 

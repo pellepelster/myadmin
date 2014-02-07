@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Iterables;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel.Direction;
@@ -383,6 +384,21 @@ public class GWTLayoutFactory implements ILayoutFactory<Panel, Widget>
 		DockLayoutPanel.Direction direction = getDirection(location);
 
 		showModule((IGwtModuleUI<?>) moduleUI, direction);
+	}
+
+	@Override
+	public IModuleUI<?, ?> getCurrentModule(String location)
+	{
+		DockLayoutPanel.Direction direction = getDirection(location);
+
+		if (currentModules.containsKey(direction))
+		{
+			return Iterables.getFirst(currentModules.get(direction), null);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

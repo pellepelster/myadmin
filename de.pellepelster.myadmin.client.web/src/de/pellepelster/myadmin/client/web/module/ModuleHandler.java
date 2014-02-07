@@ -12,6 +12,7 @@
 package de.pellepelster.myadmin.client.web.module;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,18 +61,20 @@ public final class ModuleHandler
 
 	public void startUIModule(final String moduleUrl, String location)
 	{
+		startUIModule(moduleUrl, location, new HashMap<String, Object>());
 	}
 
 	public void startUIModule(final String moduleUrl)
 	{
+		startUIModule(moduleUrl, null, new HashMap<String, Object>());
 	}
 
 	public void startUIModule(final String moduleUrl, Map<String, Object> parameters)
 	{
+		startUIModule(moduleUrl, null, parameters);
 	}
 
-	public void startUIModule(final String moduleUrl, final AsyncCallback<IModuleUI> moduleCallback, Map<String, Object> parameters,
-			IModuleUI<?, ?> previousModuleUI)
+	public void startUIModule(final String moduleUrl, final String location, final Map<String, Object> parameters)
 	{
 
 		if (ModuleUIFactoryRegistry.getInstance().supports(moduleUrl))
@@ -82,14 +85,13 @@ public final class ModuleHandler
 				@Override
 				public void onSuccess(IModuleUI moduleUI)
 				{
-					MyAdmin.getInstance().getLayoutFactory().showModuleUI(moduleUI);
-					moduleCallback.onSuccess(moduleUI);
+					MyAdmin.getInstance().getLayoutFactory().startModuleUI(moduleUI, location, parameters);
 				}
-			}, parameters, previousModuleUI);
+			}, parameters, MyAdmin.getInstance().getLayoutFactory().getCurrentModule(location));
 		}
 		else
 		{
-			moduleCallback.onFailure(new RuntimeException("unsupported module url '" + moduleUrl + "'"));
+			throw new RuntimeException("unsupported module url '" + moduleUrl + "'");
 		}
 
 	}

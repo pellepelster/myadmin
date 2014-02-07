@@ -30,6 +30,8 @@ public class ModuleNavigationModule extends de.pellepelster.myadmin.client.web.m
 
 	public static final String NAVIGATION_UI_MODULE_ID = MODULE_ID;
 
+	public static final String NAVIGATION_UI_MODULE_LOCATOR = ModuleUtils.getBaseUIModuleUrl(NAVIGATION_UI_MODULE_ID);
+
 	public static final String NAVIGATION_OVERVIEW_UI_MODULE_ID = NAVIGATION_UI_MODULE_ID + "Overview";
 
 	public static final String getNavigationOverviewModuleLocator()

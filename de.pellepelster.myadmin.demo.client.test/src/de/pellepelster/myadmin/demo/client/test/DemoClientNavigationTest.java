@@ -62,7 +62,7 @@ public class DemoClientNavigationTest extends GWTTestCase
 	{
 		delayTestFinish(10000);
 
-		MyAdminTest.getInstance().startModule(ModuleNavigationModule.MODULE_LOCATOR, NavigationModuleTestUI.class, Direction.WEST.toString(),
+		MyAdminTest.getInstance().startModule(ModuleNavigationModule.NAVIGATION_UI_MODULE_LOCATOR, NavigationModuleTestUI.class, Direction.WEST.toString(),
 				new NavigationModuleTest());
 
 	}

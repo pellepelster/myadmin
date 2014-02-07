@@ -3,6 +3,7 @@ package de.pellepelster.myadmin.client.base.module;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 import de.pellepelster.myadmin.client.base.layout.IModuleUI;
@@ -43,6 +44,11 @@ public abstract class ModuleUtils
 	public static boolean hasUrlParameter(String moduleUrl, String parameterName)
 	{
 		return getUrlParameter(moduleUrl, parameterName) != null;
+	}
+
+	public static String concatenate(String moduleUrl1, String moduleUrl2)
+	{
+		return Joiner.on("&").join(moduleUrl1, moduleUrl2);
 	}
 
 	private static Map<String, String> getUrlParametersInternal(String moduleUrl)

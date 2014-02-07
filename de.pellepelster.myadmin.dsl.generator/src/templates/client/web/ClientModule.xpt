@@ -35,10 +35,14 @@
 				{
 					return («EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type») parameterValue;
 				}
-				else
+				
+				
+				if (parameterValue instanceof java.lang.String)
 				{
-					throw new RuntimeException("parameter value type mismatch, expected '«EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type»' but got '" + parameterValue.getClass().getName() + "'");
+					return «EXPAND templates::type::Type::parseSimpleTypeFromString("parameterValue.toString()") FOR moduleDefinitionParameter.type»;
 				}
+				
+				throw new RuntimeException("parameter value type mismatch, expected '«EXPAND templates::type::Type::webVOType FOR moduleDefinitionParameter.type»' but got '" + parameterValue.getClass().getName() + "'");
 			}
 			else
 			{
